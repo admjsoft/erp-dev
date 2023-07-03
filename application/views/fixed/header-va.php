@@ -1291,6 +1291,10 @@ $('.nav-menu-main').removeClass('is-active');
                         <a href="<?php echo base_url(); ?>employee/departments"><i
                                     class="icon-folder"></i> <?php echo $this->lang->line('Departments'); ?></a>
                     </li>
+  <li class="menu-item">
+                        <a href="<?php echo base_url(); ?>employee/roles"><i
+                                    class="icon-folder"></i> <?php echo $this->lang->line('Roles'); ?></a>
+                    </li>
 
 
 

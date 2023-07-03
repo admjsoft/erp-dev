@@ -44,7 +44,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
           <div class="col-md-6">
             <label>Company</label>
 	<select name="company"  class="form-control" onchange="getEmployee(this.value)">
-			<option>--Select Company--</option>
+			<option value="">--Select Company--</option>
 <?php foreach($clients as $client)
 {
 ?>

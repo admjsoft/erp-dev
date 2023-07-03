@@ -84,7 +84,11 @@ class Filemanager extends CI_Controller
 
         // Root path for file manager
         // use absolute path of directory i.e: '/var/www/folder' or $_SERVER['DOCUMENT_ROOT'].'/folder'
-        $this->root_path = $_SERVER['DOCUMENT_ROOT']."/userfiles/filemanager";
+		/*echo base_url();
+        $this->root_path = base_url()."/userfiles/filemanager";
+die;*/
+         $this->root_path = base_url()."userfiles/filemanager";
+      //  $this->root_path = $_SERVER['DOCUMENT_ROOT']."/userfiles/filemanager";
 
         // Root url for links in file manager.Relative to $http_host. Variants: '', 'path/to/subfolder'
         // Will not working if $root_path will be outside of server document root
@@ -155,11 +159,9 @@ class Filemanager extends CI_Controller
             $wd = fm_clean_path(dirname($_SERVER['PHP_SELF']));
             $this->root_url =  $this->root_url.$wd.DIRECTORY_SEPARATOR.$directories_users[$_SESSION[FM_SESSION_ID]['logged']];
         }
-
                     // clean $root_url
 
         $this->root_url = fm_clean_path($this->root_url);
-
         // abs path for site
         defined('FM_ROOT_URL') || define('FM_ROOT_URL', ($is_https ? 'https' : 'http') . '://' . $this->http_host . (!empty($this->root_url) ? '/' . $this->root_url : ''));
         defined('FM_SELF_URL') || define('FM_SELF_URL', ($is_https ? 'https' : 'http') . '://' . $this->http_host . '/'. $this->root_url );
@@ -167,6 +169,7 @@ class Filemanager extends CI_Controller
         // clean and check $root_path
         $this->root_path = rtrim($this->root_path, '\\/');
         $this->root_path = str_replace('\\', '/', $this->root_path);
+
         if (!@is_dir($this->root_path)) {
             echo "<h1>".lng('Root path')." \"{$this->root_path}\" ".lng('not found!')." </h1>";
             exit;

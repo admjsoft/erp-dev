@@ -256,8 +256,10 @@ class Billing extends CI_Controller
             ini_set('memory_limit', '64M');
 
             if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+			
                 $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
             } else {
+								
                 $html = $this->load->view('print_files/invoice-a4_v' . INVV, $data, true);
             }
 

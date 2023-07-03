@@ -278,8 +278,10 @@ class Quote extends CI_Controller
         // exit;
         ini_set('memory_limit', '64M');
         if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+			die("innn");
             $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
         } else {
+				die("out");
             $html = $this->load->view('print_files/invoice-a4_v' . INVV, $data, true);
         }
         //PDF Rendering
