@@ -13,7 +13,6 @@
                         <?php echo $this->lang->line('Add new') ?>
                     </a>
                 </h3></div>
-
             <p>&nbsp;</p>
             <table id="todotable" class="display" cellspacing="0" width="100%">
                 <thead>
@@ -23,7 +22,6 @@
                     <th><?php echo $this->lang->line('Due Date') ?></th>
                     <th><?php echo $this->lang->line('Added') ?></th>
                     <th><?php echo $this->lang->line('Actions') ?></th>
-
 
                 </tr>
                 </thead>

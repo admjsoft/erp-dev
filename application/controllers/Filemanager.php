@@ -76,7 +76,6 @@ class Filemanager extends CI_Controller
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
         } */
-
         $this->load->model('filemanager_model');
         $this->li_a = 'filemanager';
 		// Remove devJsuite on live url wait

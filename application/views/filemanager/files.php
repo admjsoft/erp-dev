@@ -31,7 +31,6 @@
         color: white;
         text-decoration: none;
     }
-
 </style>
 <div class="app-content content container-fluid">
     <div class="content-wrapper">

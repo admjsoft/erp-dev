@@ -898,6 +898,8 @@ $('.nav-menu-main').removeClass('is-active');
                 </li>
 
             <?php }
+			if($this->aauth->subscribe(3))
+				{
             if ($this->aauth->premission(3)) {
                 ?>
                 <li class="nav-item has-sub <?php if ($this->li_a == "crm") {
@@ -935,7 +937,22 @@ $('.nav-menu-main').removeClass('is-active');
 
                     </ul>
                 </li>
-            <?php }
+				<?php }}
+				else{
+				?>	
+					
+					<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="icon-diamond"></i> <span><?php echo $this->lang->line('CRM') ?></span> &nbsp;
+		   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+				<?php }
+					if($this->aauth->subscribe(29))
+				{
+			
              if ($this->aauth->premission(29)) {
                 ?>
                 <li class="nav-item has-sub <?php if ($this->li_a == "crm") {
@@ -971,7 +988,23 @@ $('.nav-menu-main').removeClass('is-active');
 
                     </ul>
                 </li>
-            <?php }
+				<?php }}
+				else{
+					?>
+					<li class="nav-item"><a href="#"  title="subscripe"><i
+                                class="fa fa-folder-o"></i <span><?php echo $this->lang->line('File Manager') ?></span> &nbsp;
+ <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+					
+					<?php
+			
+				}
+				if($this->aauth->subscribe(4))
+				{
             if ($this->aauth->premission(4)) {
                 ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "project") {
@@ -998,7 +1031,22 @@ $('.nav-menu-main').removeClass('is-active');
 
                     </ul>
                 </li>
-            <?php }
+				<?php }}
+				else{
+				?>
+<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="icon-briefcase"></i <span><?php echo $this->lang->line('Project') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		 
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+<?php				
+					
+					
+				}
             if (!$this->aauth->premission(4) && $this->aauth->premission(7)) {
                 ?>
                 <li class="menu-item has-sub <?php if ($this->li_a == "manager") {
@@ -1024,6 +1072,8 @@ $('.nav-menu-main').removeClass('is-active');
 
 			
 			<?php
+					if($this->aauth->subscribe(5))
+				{
             if ($this->aauth->premission(5)) {
                 ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "accounts") {
@@ -1094,6 +1144,24 @@ $('.nav-menu-main').removeClass('is-active');
                 </li>
 
             <?php }
+			}
+			
+			else{
+				?>
+				<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="icon-calculator"></i <span><?php echo $this->lang->line('Accounts') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+				
+				<?php
+			}
+			if($this->aauth->subscribe(10))
+				{
             if ($this->aauth->premission(10)) {
                 ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "data") {
@@ -1193,11 +1261,24 @@ $('.nav-menu-main').removeClass('is-active');
                     </ul>
                 </li>
             <?php }
+				}
+				else
+			    {		
 			?>
-
+<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="icon-pie-chart"></i <span><?php echo $this->lang->line('Data & Reports') ?></span> &nbsp;
+ <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
 
 			<?php
-
+				}
+					if($this->aauth->subscribe(6))
+				{
             if ($this->aauth->premission(6)) {
                 ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "misc") {
@@ -1221,7 +1302,25 @@ $('.nav-menu-main').removeClass('is-active');
 
                     </ul>
                 </li>
-            <?php }
+				<?php }}
+				
+				else
+				{?>
+			
+			<li class="nav-item"><a href="#" title="subscribe"><i
+                                class="icon-note"></i <span><?php echo $this->lang->line('Miscellaneous') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+			
+				<?php }
+				
+					if($this->aauth->subscribe(30))
+				{
 			            if ($this->aauth->premission(30)) {
 
 			?>
@@ -1240,7 +1339,23 @@ $('.nav-menu-main').removeClass('is-active');
                                  </li>
                              </ul>
                          </li>
-                       <?php } ?>
+				<?php } }
+				else{
+					?>
+					<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="icon-basket"></i <span><?php echo $this->lang->line('invoices') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+					
+					<?php
+					
+				}
+					   
+					   ?>
 
                        <li class="menu-item  has-sub <?php if ($this->li_a == "ecommerce") {
                     echo ' open';
@@ -1262,7 +1377,9 @@ $('.nav-menu-main').removeClass('is-active');
                              </ul>
                          </li>
 
-			<?php
+				<?php
+					if($this->aauth->subscribe(9))
+				{
             if ($this->aauth->premission(9)) {
                 ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
@@ -1315,9 +1432,21 @@ $('.nav-menu-main').removeClass('is-active');
 
 
                 </ul>
-                </li>                <?php } ?>
+			</li>                <?php} } else{?>
+			<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo $this->lang->line('HRM') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
 
-				           <?php if ($this->aauth->premission(32)) 
+			<?php }?>
+				           <?php 
+						   if($this->aauth->subscribe(32))
+				{
+						   if ($this->aauth->premission(32)) 
 						   {
 							   ?>
 
@@ -1342,6 +1471,23 @@ $('.nav-menu-main').removeClass('is-active');
                 </ul>
 			</li><?php
 			}
+				}
+				else{
+					?>
+					<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo $this->lang->line('FWMS') ?></span> &nbsp;
+   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+				
+					<?php
+					
+				}
+					if($this->aauth->subscribe(33))
+				{
 			 if ($this->aauth->premission(33)) 
 			 {
 			?>
@@ -1361,8 +1507,23 @@ $('.nav-menu-main').removeClass('is-active');
 
                 </ul>
                 </li>
-			 <?php }
-			 
+				<?php }}
+				else{
+					
+					?>
+							<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo $this->lang->line('Scheduler') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		  
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+					<?php
+				}
+			 if($this->aauth->subscribe(34))
+				{
 			 if ($this->aauth->premission(34)) 
 			 {
 			 ?>
@@ -1403,10 +1564,22 @@ $('.nav-menu-main').removeClass('is-active');
                                     class=""></i> <?php echo $this->lang->line('Print Barcode'); ?></a>
                     </li>
                 </ul>
-			 </li><?php }?>
-
+			 </li><?php }
+				}
+				else{
+			 ?>
+<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo $this->lang->line('Asset') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
 					           <?php
-
+				}
+								        	if($this->aauth->subscribe(28))
+											{
 						   if ($this->aauth->premission(28)) {
 							   ?>
 							   	<li class="menu-item  has-sub <?php if ($this->li_a == "payroll") {
@@ -1456,10 +1629,27 @@ $('.nav-menu-main').removeClass('is-active');
                 </ul>
                 </li>
 <?php }
-						  
-						   }?>
+	}}
+	else{
+	?>
+	<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo $this->lang->line('Payroll') ?></span> &nbsp;
+  <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+		  
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+	
+	<?php 
+}
+  ?>
 
-            <?php if ($this->aauth->premission(21)) {  ?>
+			<?php
+			if($this->aauth->subscribe(21))
+				{
+			if ($this->aauth->premission(21)) {  ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "expenses") {
                 echo ' open';
             } ?>""><a href="#"><i class="fa fa-money"></i><span><?php echo $this->lang->line('Expenses') ?></span></a>
@@ -1475,8 +1665,23 @@ $('.nav-menu-main').removeClass('is-active');
                         <a href="<?php echo base_url(); ?>expenses/reports"><?php echo "Reports"; // $this->lang->line('Expenses'); ?></a>
                     </li>
                     
-                <?php } ?>
-                <?php if ($this->aauth->premission(22)) {  ?>
+                <?php 
+				} 
+			}
+				}
+				else{
+				?>
+				<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo $this->lang->line('Expenses') ?></span> &nbsp;
+   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
+                <?php }
+				
+				if ($this->aauth->premission(22)) {  ?>
                     <li class="menu-item">
                         <a href="<?php echo base_url(); ?>expenses/createcat"><?= $this->lang->line('Add Category'); ?></a>
                     </li>
@@ -1487,7 +1692,9 @@ $('.nav-menu-main').removeClass('is-active');
             </ul>
             </li>
             <?php } ?>
-                <?php if ($this->aauth->premission(19)) {  ?>
+                <?php 
+				
+				if ($this->aauth->premission(19)) {  ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "settings") {
                     echo ' open';
                 } ?>""><a href="#"><i class="ft-file-text"></i><span><?php echo $this->lang->line('Settings') ?></span></a>
@@ -1500,6 +1707,11 @@ $('.nav-menu-main').removeClass('is-active');
 					 <?php if ($this->aauth->premission(20) && ($this->aauth->get_user()->roleid==5)) {  ?>
                     <li class="menu-item">
                         <a href="<?php echo base_url(); ?>dashboard/settings"><?= $this->lang->line('Dashboard Settings'); ?></a>
+                    </li>
+                    <?php } ?>
+						<?php if ($this->aauth->premission(21) && ($this->aauth->get_user()->roleid==5)) {  ?>
+                    <li class="menu-item">
+                        <a href="<?php echo base_url(); ?>dashboard/subscribe"><?= $this->lang->line('Subscribe Settings'); ?></a>
                     </li>
                     <?php } ?>
                 </ul>

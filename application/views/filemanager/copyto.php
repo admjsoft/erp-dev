@@ -5,7 +5,7 @@
     font-size: 16px;
     margin: 2px;
 }
-  .custom-control-label::after {
+ .custom-control-label::after {
     position: relative;
     }
   </style>

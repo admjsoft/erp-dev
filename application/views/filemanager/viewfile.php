@@ -29,7 +29,6 @@
         </div>
     </div>
 </div>
-
     <!-- Confirm Modal -->
     <div type="text/html" id="js-tpl-confirm">
         <div class="modal modal-alert confirmDailog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog">
