@@ -15,7 +15,7 @@ class Jobsheets extends CI_Controller
         if (!$this->aauth->premission(15)&&!$this->aauth->premission(16)&&!$this->aauth->premission(17)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
-        $this->li_a = 'crm';
+        $this->li_a = 'Jobsheet';
     }
 
     public function index()
@@ -297,6 +297,32 @@ class Jobsheets extends CI_Controller
             $temp.='</span>';
             $row[]=$temp;
 
+
+            if(!empty($jobsheet->completed_time))
+            {
+                $completed_date = date('Y-m-d h:i:s',strtotime($jobsheet->completed_time));
+            }else{
+                $completed_date = date('Y-m-d h:i:s');
+            }
+                
+            $given_hours = $jobsheet->man_days;
+            $completed_date = date('Y-m-d h:i:s',strtotime($completed_date));
+            $job_given_date = date('Y-m-d h:i:s',strtotime($jobsheet->cdate." ".$jobsheet->ctime));
+            $estimated_completed_date = date('d-m-Y h:i:s', strtotime($job_given_date . '+'.$given_hours.' hours'));
+
+            $completed_date = strtotime($completed_date);
+            $job_given_date = strtotime($job_given_date);
+
+             
+            $diffInSeconds = $completed_date - $job_given_date;
+            $hours = floor($diffInSeconds / 3600);
+
+    
+
+            $row[] = $jobsheet->assigned_name;
+            $row[]= $estimated_completed_date;
+          
+
             $temp = '<a href="' . base_url('jobsheets/thread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
             if($jobsheet->status==2 || $jobsheet->status==3){
             $temp .= '<a href="' . base_url('jobsheets/edit/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('Edit') . ' </a>';
@@ -309,22 +335,7 @@ class Jobsheets extends CI_Controller
             }
             $row[]=$temp;
 
-            if(!empty($jobsheet->completed_time))
-            {
-                $completed_date = date('Y-m-d h:i:s',strtotime($jobsheet->completed_time));
-            }else{
-                $completed_date = date('Y-m-d h:i:s');
-            }
-                
-            $given_hours = $jobsheet->man_days;
-            $completed_date = date('Y-m-d h:i:s',strtotime($completed_date));
-            $job_given_date = date('Y-m-d h:i:s',strtotime($jobsheet->cdate." ".$jobsheet->ctime));
-            $completed_date = strtotime($completed_date);
-            $job_given_date = strtotime($job_given_date);
             
-            $diffInSeconds = $completed_date - $job_given_date;
-            $hours = floor($diffInSeconds / 3600);
-
 
             //echo $hours. "=====". $given_hours;
             if($hours > $given_hours)
@@ -333,8 +344,7 @@ class Jobsheets extends CI_Controller
             }else{
                 $row[] = '0';
             }
-               
-    
+                           
             
             $data[] = $row;
         }
@@ -571,7 +581,20 @@ class Jobsheets extends CI_Controller
             $temp.='</span>';
             $row[]=$temp;
 
-            $row[] = '<a href="' . base_url('jobsheets/mythread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
+            $today_date = date('Y-m-d h:i:s');
+            $job_given_date = date('Y-m-d h:i:s',strtotime($jobsheet->cdate." ".$jobsheet->ctime));
+           
+            $today_date = strtotime($today_date);
+            $job_given_date = strtotime($job_given_date);
+             
+            if($job_given_date >= $today_date)
+            {
+                $diable_status = '';
+            }else{
+                $disable_status = 'disabled-link';
+            }
+
+            $row[] = '<a href="' . base_url('jobsheets/mythread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs  '.$disable_status.'"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
 
             if(!empty($jobsheet->completed_time))
             {

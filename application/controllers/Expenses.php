@@ -13,7 +13,7 @@ class Expenses extends CI_Controller
             redirect('/user/', 'refresh');
         }
         $this->load->library("Custom");
-        $this->li_a = 'accounts';
+        $this->li_a = 'expenses';
     }
     // expenses update function
     public function update_i()
@@ -131,7 +131,7 @@ class Expenses extends CI_Controller
     // Category
     public function categories()
     {
-        $this->li_a = 'misc_settings';
+        //$this->li_a = 'misc_settings';
         if (!$this->aauth->premission(22)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
@@ -250,6 +250,21 @@ class Expenses extends CI_Controller
     }
 
 
+    // expenses reports page
+    public function reports()
+    {
+        if (!$this->aauth->premission(21)) {
+
+            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        }
+        $head['title'] = "Expenses";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('expenses/reports');
+        $this->load->view('fixed/footer');
+    }
+
+
     // expenses list
     public function expenseslist()
     {
@@ -257,7 +272,12 @@ class Expenses extends CI_Controller
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $ttype = $this->input->get('type');
-        $list = $this->expenses->get_datatables($ttype);
+        $status = $this->input->post('status');
+        $employee = $this->input->post('employee');
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+
+        $list = $this->expenses->get_datatables($ttype,$status,$employee,$start_date,$end_date);
         $data = array();
         // $no = $_POST['start'];
         $no = $this->input->post('start');
@@ -292,8 +312,8 @@ class Expenses extends CI_Controller
         }
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->expenses->count_all(),
-            "recordsFiltered" => $this->expenses->count_filtered(),
+            "recordsTotal" => $this->expenses->count_all($status,$employee,$start_date,$end_date),
+            "recordsFiltered" => $this->expenses->count_filtered($status,$employee,$start_date,$end_date),
             "data" => $data,
         );
         //output to json format

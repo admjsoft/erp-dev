@@ -433,6 +433,42 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         $time=date('H:i:s');
         if ($emp['clock']) {
 
+
+            // ending all breaks
+            $today = date('Y-m-d');
+            $this->db->select('*');
+            $this->db->where('emp', $id );
+            $this->db->where('status',1);
+            $this->db->where('bdate', $today);
+            $this->db->order_by("clockin","desc");
+            $this->db->from('gtg_attend_break');
+            $query = $this->db->get();
+            $emp_breaks_list = $query->result_array();
+
+            if(!empty($emp_breaks_list)){
+                foreach($emp_breaks_list as $emp_b_list){
+                    $time=date('H:i:s');
+                    // $total_time = time() - $emp['clockin'];
+                    $total_time = strtotime($time) - strtotime($emp_b_list['clockin']);
+                    if ((isset($emp_b_list['status']) && ($emp_b_list['status']))) {
+                            $emp_b_list_data = array(
+                            'status' => 0,
+                            'clockout' => $time,
+                            'duration'=>date('H:i:s',$total_time)
+                        );
+            
+                        $this->db->set($emp_b_list_data);
+                        $this->db->where('id', $emp_b_list['id']);
+            
+                        $this->db->update('gtg_attend_break');
+                        $this->aauth->applog("[Employee ".$emp_b_list['break']." End By System Due to ClockOut]  ID $id", $this->aauth->get_user()->username);
+                    }
+                }
+            }
+
+            
+                
+
             $data = array(
                 'clock' => 0,
                 'clockin' => 0,

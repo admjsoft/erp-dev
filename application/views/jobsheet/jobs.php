@@ -110,8 +110,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <th></th>
                     <th>#</th>
                     <th><?php echo $this->lang->line('Subject') ?></th>
-                    <th><?php echo $this->lang->line('Added') ?></th>
+                    <th><?php echo "Task Created On"; //$this->lang->line('Added') ?></th>
                     <th><?php echo $this->lang->line('Status') ?></th>
+                    <th><?php echo "Assigned To"; //$this->lang->line('Added') ?></th>
+                    <th><?php echo "EndTime"; //$this->lang->line('Added') ?></th>
                     <th><?php echo $this->lang->line('Action') ?></th>
                 </tr>
                 </thead>
@@ -248,7 +250,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 { "data": 2 }, // Assuming the first column is at index 0
                 { "data": 3 },
                 { "data": 4 },
-                { "data": 5 }
+                { "data": 5 },
+                { "data": 6 },
+                { "data": 7 }
                 
             ],
             "order": [[2, "desc"]],

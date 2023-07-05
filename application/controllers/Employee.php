@@ -2459,9 +2459,10 @@ public function updateInternational()
             $table.=  '<td data-sort="'.strtotime( $obj->adate).'" >'.dateformat($obj->adate).'</td>';
             // $table.=  round((strtotime($obj->tto) - strtotime($obj->tfrom)) / 3600, 2);
              $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
-            $table.=  '<td>'.date("H:i",$temptime).'</td>';
+             $table.=  '<td>----</td>';
              $table.=  '<td>'.date("h:i A", strtotime($obj->tfrom)).'</td>';
-             $table.=  '<td>'.date("h:i A", strtotime($obj->tto)).'</td></tr>';
+             $table.=  '<td>'.date("h:i A", strtotime($obj->tto)).'</td>';
+             $table.=  '<td>'.date("H:i",$temptime).'</td></tr>';
         }
         $data['report']=$table;
         $head['usernm'] = $this->aauth->get_user()->username;

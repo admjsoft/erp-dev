@@ -1019,7 +1019,12 @@ function addObject(action, action_url, table_reload='') {
                     $("html, body").scrollTop($("body").offset().top);
                     $("#data_form")[0].reset();
 
-                   
+                   if(data.pos_invoice_pdf != '')
+                   {
+                    $('#current_invoice_print_url').val(data.pos_invoice_pdf);
+                    $('#printFrame').attr('src',data.pos_invoice_pdf);
+                    //alert('sss');
+                   }
 
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);

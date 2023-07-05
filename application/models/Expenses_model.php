@@ -11,7 +11,7 @@ class Expenses_model extends CI_Model
     var $order = array('id' => 'desc');
     var $opt = '';
 
-    private function _get_datatables_query()
+    private function _get_datatables_query($status='',$employee = '',$start_date = '',$end_date = '')
     {
 
         $this->db->select('gtg_expenses.*,gtg_expenses.id as id');
@@ -28,6 +28,27 @@ class Expenses_model extends CI_Model
             case 'expense':
                 $this->db->where('type', 'Expense');
                 break;
+        }
+
+        if (!empty($status)) {
+            $this->db->where('category', $status);
+        }
+
+        
+        if (!empty($employee)) {
+            $this->db->where('eid', $employee);
+        }
+
+        if (!empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+        }else if (!empty($start_date) && empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+
+        }else if (empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
         }
 
       if($this->aauth->premission(21) && !$this->aauth->premission(22)){
@@ -67,13 +88,16 @@ class Expenses_model extends CI_Model
         }
     }
 
-    function get_datatables($opt = 'all')
+    function get_datatables($opt = 'all', $status = '',$employee = '',$start_date = '',$end_date = '')
     {
         $this->opt = $opt;
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($status,$employee,$start_date,$end_date);
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
+
+        // echo $this->db->last_query();
+        // exit;
         return $query->result();
     }
     // get expense by id
@@ -92,22 +116,65 @@ class Expenses_model extends CI_Model
         return $query->result();
     }
     // expenses filtered
-    function count_filtered()
+    function count_filtered($status='',$employee='',$start_date='',$end_date='')
     {
         $this->db->from('gtg_expenses');
         if ($this->aauth->get_user()->loc) {
             $this->db->where('loc', $this->aauth->get_user()->loc);
         }
+        if (!empty($status)) {
+            $this->db->where('category', $status);
+        }
+
+        
+        if (!empty($employee)) {
+            $this->db->where('eid', $employee);
+        }
+
+        if (!empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+        }else if (!empty($start_date) && empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+
+        }else if (empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+        }
+
         $query = $this->db->get();
         return $query->num_rows();
     }
     // expense count function
-    public function count_all()
+    public function count_all($status='',$employee='',$start_date='',$end_date='')
     {
         $this->db->from($this->table);
         if ($this->aauth->get_user()->loc) {
             $this->db->where('loc', $this->aauth->get_user()->loc);
         }
+
+        if (!empty($status)) {
+            $this->db->where('category', $status);
+        }
+
+        
+        if (!empty($employee)) {
+            $this->db->where('eid', $employee);
+        }
+
+        if (!empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+        }else if (!empty($start_date) && empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+
+        }else if (empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+        }
+
         return $this->db->count_all_results();
     }
 // category list

@@ -592,7 +592,8 @@ $('.nav-menu-main').removeClass('is-active');
                             </li>
                         </ul>
                     </li>
-                    <?php  if ($this->aauth->auto_attend()) { ?>
+                    <?php  $user_attendance = 0;
+                        if ($this->aauth->auto_attend()) { ?>
                         <li class="dropdown dropdown-d nav-item">
                             <?php if ($this->aauth->clock()) {
                                 echo ' <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon spinner icon-clock"></i><span class="badge badge-pill badge-default badge-success badge-default badge-up">' . $this->lang->line('On') . '</span></a>';
@@ -608,7 +609,7 @@ $('.nav-menu-main').removeClass('is-active');
                                     echo '<li class="p-1"><a href="' . base_url() . '/dashboard/clock_in" class="btn btn-outline-success  btn-outline-white btn-md" ><span class="icon-toggle-on" aria-hidden="true"></span> ' . $this->lang->line('ClockIn') . ' <i
                                     class="ficon icon-clock spinner"></i></a></li>';
                                 } else {
-
+                                    $user_attendance = 1;
                                     echo '<li class="p-1"><a href="' . base_url() . '/dashboard/clock_out" class="btn btn-outline-danger  btn-outline-white btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> ' . $this->lang->line('ClockOut') . ' </a></li>';
                                      if($this->aauth->check_break()){
                                          $rw=$this->aauth->break_time_all();
@@ -648,8 +649,15 @@ $('.nav-menu-main').removeClass('is-active');
 
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?php echo base_url('user/logout'); ?>"><i
+                           
+                            <?php if($user_attendance){ ?>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#attendance_logout_check"><i
+                            class="ft-power"></i> <?php echo $this->lang->line('Logout') ?></a>     
+                            <?php }else{ ?>
+                                 <a class="dropdown-item" href="<?php echo base_url('user/logout'); ?>"><i
                                         class="ft-power"></i> <?php echo $this->lang->line('Logout') ?></a>
+                            <?php } ?>
+                                      
                         </div>
                     </li>
                 </ul>
@@ -852,6 +860,9 @@ $('.nav-menu-main').removeClass('is-active');
                                 </li>
                                 <li class="menu-item"><a
                                             href="<?php echo base_url(); ?>jobsheets"><?php echo $this->lang->line('View Task'); ?></a>
+                                </li>
+                                <li data-menu=""><a class="dropdown-item" href="<?php echo base_url(); ?>jobsheets/reports"
+                                                    data-toggle="dropdown"><?php echo "Reports"; //echo $this->lang->line('View Task'); ?></a>
                                 </li>
                             </ul>
                         </li>
@@ -1229,22 +1240,27 @@ $('.nav-menu-main').removeClass('is-active');
                                  </li>
                              </ul>
                          </li>
-                       <?php }
-					   			            if ($this->aauth->premission(31)) 
-											{
+                       <?php } ?>
 
-						?>
-
-                         <li class="menu-item"><a href="#"><i
+                       <li class="menu-item  has-sub <?php if ($this->li_a == "ecommerce") {
+                    echo ' open';
+                } ?>"><a href="#"><i
                                          class="icon-basket"></i>E-Commerce<?php //echo $this->lang->line('invoices') ?></a>
                              <ul class="menu-content">
 
+                                 
+                             <li class="menu-item"><a
+                                             href="<?php echo base_url(); ?>ecommerce/analytics"> Analytics<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                 </li>  
                                  <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/analytics">E-Commerce Analytics<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
-                                 </li>
+                                             href="<?php echo base_url(); ?>ecommerce/vendors"> Vendors<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                 </li> 
+                                 <li class="menu-item"><a
+                                             href="<?php echo base_url(); ?>ecommerce/publishing"> Publishing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                 </li>          
+                                 
                              </ul>
                          </li>
-											<?php }?>
 
 			<?php
             if ($this->aauth->premission(9)) {
@@ -1326,7 +1342,7 @@ $('.nav-menu-main').removeClass('is-active');
 			 {
 			?>
 			
-				<li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
+				<li class="menu-item  has-sub <?php if ($this->li_a == "scheduler") {
                     echo ' open';
                 } ?>""><a href="#"><i
                             class="ft-file-text"></i><span><?php echo "Scheduler"; ?></span></a>
@@ -1389,7 +1405,7 @@ $('.nav-menu-main').removeClass('is-active');
 
 						   if ($this->aauth->premission(28)) {
 							   ?>
-							   	<li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
+							   	<li class="menu-item  has-sub <?php if ($this->li_a == "payroll") {
                     echo ' open';
                 } ?>""><a href="#"><i
                             class="ft-file-text"></i><span><?php echo "PayRoll"; ?></span></a>
@@ -1420,7 +1436,7 @@ $('.nav-menu-main').removeClass('is-active');
 						   if ($this->aauth->premission(27)) {
 
 						   ?>
-				    	<li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
+				    	<li class="menu-item  has-sub <?php if ($this->li_a == "payroll") {
                     echo ' open';
                 } ?>""><a href="#"><i
                             class="ft-file-text"></i><span><?php echo "PayRoll"; ?></span></a>
@@ -1440,7 +1456,7 @@ $('.nav-menu-main').removeClass('is-active');
 						   }?>
 
             <?php if ($this->aauth->premission(21)) {  ?>
-            <li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
+            <li class="menu-item  has-sub <?php if ($this->li_a == "expenses") {
                 echo ' open';
             } ?>""><a href="#"><i class="fa fa-money"></i><span><?php echo $this->lang->line('Expenses') ?></span></a>
             <ul class="menu-content">
@@ -1451,6 +1467,10 @@ $('.nav-menu-main').removeClass('is-active');
                     <li class="menu-item">
                         <a href="<?php echo base_url(); ?>expenses"><?= $this->lang->line('Expenses'); ?></a>
                     </li>
+                    <li class="menu-item">
+                        <a href="<?php echo base_url(); ?>expenses/reports"><?php echo "Reports"; // $this->lang->line('Expenses'); ?></a>
+                    </li>
+                    
                 <?php } ?>
                 <?php if ($this->aauth->premission(22)) {  ?>
                     <li class="menu-item">
@@ -1464,7 +1484,7 @@ $('.nav-menu-main').removeClass('is-active');
             </li>
             <?php } ?>
                 <?php if ($this->aauth->premission(19)) {  ?>
-                <li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
+                <li class="menu-item  has-sub <?php if ($this->li_a == "settings") {
                     echo ' open';
                 } ?>""><a href="#"><i class="ft-file-text"></i><span><?php echo $this->lang->line('Settings') ?></span></a>
                 <ul class="menu-content">

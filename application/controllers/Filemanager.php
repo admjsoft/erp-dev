@@ -78,7 +78,7 @@ class Filemanager extends CI_Controller
         } */
 
         $this->load->model('filemanager_model');
-        $this->li_a = 'misc';
+        $this->li_a = 'filemanager';
 		// Remove devJsuite on live url wait
         //$this->load->helper('root_path',$_SERVER['DOCUMENT_ROOT']."/devJsuite/userfiles/filemanager");
 

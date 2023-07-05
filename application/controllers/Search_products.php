@@ -303,6 +303,11 @@ class Search_products extends CI_Controller
     public function v2_pos_search()
     {
 
+        $sql = "SELECT * from merchant_thirdparty_vendors WHERE VendorName='POS'";
+        $query = $this->db->query($sql);
+        $third_party_vendors = $query->result_array();
+        $pos_id = $third_party_vendors[0]['Id'];
+
         $out = '';
         $this->load->model('plugins_model', 'plugins');
         $billing_settings = $this->plugins->universal_api(67);
@@ -339,6 +344,15 @@ class Search_products extends CI_Controller
             $qw .= '(gtg_product_serials.status=0) AND  ';
         }
 
+        if(!empty($pos_id))
+        {
+            $e .= ' ,merchant_items_thirdparty_pricing.Price AS product_price';
+            $join .= ' LEFT JOIN merchant_items_thirdparty_pricing ON merchant_items_thirdparty_pricing.ItemId = gtg_products.pid LEFT JOIN merchant_thirdparty_vendors ON merchant_thirdparty_vendors.Id = merchant_items_thirdparty_pricing.ThirdPartyVenderId';
+            $qw .= ' (merchant_items_thirdparty_pricing.ThirdPartyVenderId = '.$pos_id.') AND  ';
+
+        }
+
+     
         $bar = '';
         $p_class = 'v2_select_pos_item';
         if ($enable_bar == 'true' and is_numeric($name) and strlen($name) > 8) {
@@ -361,6 +375,9 @@ class Search_products extends CI_Controller
         if ($flag_p) {
             $query = $this->db->query($query);
             $result = $query->result_array();
+
+            // echo $this->db->last_query();
+            // exit;
             $i = 0;
             $out = '<div class="row match-height">';
             foreach ($result as $row) {

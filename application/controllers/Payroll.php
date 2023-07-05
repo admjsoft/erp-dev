@@ -16,7 +16,7 @@ class Payroll extends CI_Controller
 
          ///   exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
       //  }
-        $this->li_a = 'emp';
+        $this->li_a = 'payroll';
     }
 
 public function settings()

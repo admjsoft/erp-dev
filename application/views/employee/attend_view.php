@@ -133,8 +133,9 @@
         <div class="col-md-8">
             <select name="activity_filter" id="activity_filter" class="form-control" onchange="getfilteredRecords();">
                     <option value=''>--Select--</option>
-                                        <option value="month">Month</option>
+                                        <option value="day">Day</option>
                                         <option value="week">Weekly</option>
+                                        <option value="month">Month</option>
                 </select>
                 <input type="hidden" name="id" value="<?php echo $emp; ?>" id="id">
                 </br></br>

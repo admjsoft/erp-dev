@@ -93,11 +93,11 @@
                                        aria-controls="tab1" href="#tab1" role="tab"
                                        aria-selected="true"> Sales<?php // echo $this->lang->line('Billing Address') ?></a>
                                 </li>
-                                <!-- <li class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2"
                                        href="#tab2" role="tab"
                                        aria-selected="false"> Products<?php // echo $this->lang->line('Shipping Address') ?></a>
-                                </li> -->
+                                </li>
                                   <!-- <li class="nav-item">
                                     <a class="nav-link" id="base-tab3" data-toggle="tab" aria-controls="tab3"
                                        href="#tab4" role="tab"
@@ -183,31 +183,39 @@
 
                     <div class="col-md-2"><?php echo $this->lang->line('Invoice Date') ?></div>
                     <div class="col-md-2">
-                        <input type="text" name="offline_start_date" id="offline_start_date"
+                        <input type="text" name="products_start_date" id="products_start_date"
                                class="date30 form-control form-control-sm" autocomplete="off"/>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" name="offline_end_date" id="offline_end_date" class="form-control form-control-sm"
+                        <input type="text" name="products_end_date" id="products_end_date" class="form-control form-control-sm"
                                data-toggle="datepicker" autocomplete="off"/>
                     </div>
+                    <div class="col-md-3">
+                        <select id="products_type_filter" name="products_type_filter">
+                            <option value="">Select Type</option>
+                            <option value="1">Online</option>
+                            <option value="0">Offline</option>
+                        </select>
 
+                    </div>
                     <div class="col-md-2">
-                        <input type="button" name="offline_search" id="offline_search" value="Search" class="btn btn-info btn-sm"/>
+                        <input type="button" name="products_search" id="products_search" value="Search" class="btn btn-info btn-sm"/>
                     </div>
 
                 </div>
                 <hr>
-                <table id="offline_invoices" class="table table-striped table-bordered zero-configuration ">
+                <table id="products_invoices" class="table table-striped table-bordered zero-configuration ">
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
                         <th> #Id</th>
-                        <th><?php echo $this->lang->line('Customer') ?></th>
-                        <!-- <th>Sent Date <?php // echo $this->lang->line('Date') ?></th> -->
-                        <th><?php echo $this->lang->line('Amount') ?></th>
-                        <th><?php echo $this->lang->line('Payment') ?></th>
-                        <th><?php echo $this->lang->line('Status') ?></th>
-                        <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
+                        <th>Product Name<?php //echo $this->lang->line('Customer') ?></th>
+                        <!-- <th>Sent Date<?php // echo $this->lang->line('Date') ?></th> -->
+
+                        <th>Type<?php //  echo $this->lang->line('Status') ?></th>
+                        <th>Quantity<?php // echo $this->lang->line('Amount') ?></th>
+                        <th>Price <?php // echo $this->lang->line('Payment') ?></th>
+                        
                     </tr>
                     </thead>
                     <tbody>
@@ -216,13 +224,13 @@
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
                         <th> #Id</th>
-                        <th><?php echo $this->lang->line('Customer') ?></th>
+                        <th>Product Name<?php //echo $this->lang->line('Customer') ?></th>
                         <!-- <th>Sent Date<?php // echo $this->lang->line('Date') ?></th> -->
 
-                        <th><?php echo $this->lang->line('Amount') ?></th>
-                        <th><?php echo $this->lang->line('Payment') ?></th>
-                        <th><?php echo $this->lang->line('Status') ?></th>
-                        <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
+                        <th>Type<?php //  echo $this->lang->line('Status') ?></th>
+                        <th>Quantity<?php // echo $this->lang->line('Amount') ?></th>
+                        <th>Price <?php // echo $this->lang->line('Payment') ?></th>
+                        
 
                     </tr>
                     </tfoot>
@@ -264,8 +272,8 @@
                 'processing': true,
                 'serverSide': true,
                 'stateSave': true,
-                <?php datatable_lang();?>
-                responsive: true,
+                <?php //datatable_lang();?>
+                'responsive': true,
                 'order': [],
                 'ajax': {
                     'url': "<?php echo site_url('ecommerce/sales_invoices_ajax_list')?>",
@@ -307,65 +315,64 @@
                 alert("Date range is Required");
             }
         });
+
+        draw_products_data(start_date = '', end_date = '')
+        
+function draw_products_data(start_date = '', end_date = '') {
+
+  //  alert ('ddd');
+var sale_type = $('#products_type_filter').val();
+
+$('#products_invoices').DataTable({
+    'processing': true,
+    'serverSide': true,
+    'stateSave': true,
+    <?php //datatable_lang();?>
+    'responsive': true,
+    'order': [],
+    'ajax': {
+        'url': "<?php echo site_url('ecommerce/sales_invoices_products_ajax_list')?>",
+        'type': 'POST',
+        'data': {
+            '<?=$this->security->get_csrf_token_name()?>': crsf_hash,
+            start_date: start_date,
+            end_date: end_date,
+            'sale_type': sale_type
+        }
+    },
+    'columnDefs': [
+        {
+            'targets': [0],
+            'orderable': false,
+        },
+    ],
+    dom: 'Blfrtip',
+    buttons: [
+        {
+            extend: 'excelHtml5',
+            footer: true,
+            exportOptions: {
+                columns: [1, 2, 3, 4, 5, 6]
+            }
+        }
+    ],
+});
+};
+
+
+$('#products_search').click(function () {
+            var start_date = $('#products_start_date').val();
+            var end_date = $('#products_end_date').val();
+            
+            if (start_date != '' && end_date != '') {
+                $('#products_invoices').DataTable().destroy();
+                draw_products_data(start_date, end_date);
+            } else {
+                alert("Date range is Required");
+            }
+        });
+      
     });
 
 
 </script>
-
-<script>
-
-    
-
-// $(document).ready(function () {
-//         draw_offline_data();
-
-//         function draw_offline_data(start_date = '', end_date = '') {
-//             $('#offline_invoices').DataTable({
-//                 'processing': true,
-//                 'serverSide': true,
-//                 'stateSave': true,
-//                 <?php datatable_lang();?>
-//                 responsive: true,
-//                 'order': [],
-//                 'ajax': {
-//                     'url': "<?php echo site_url('ecommerce/sales_invoices_ajax_list')?>",
-//                     'type': 'POST',
-//                     'data': {
-//                         '<?=$this->security->get_csrf_token_name()?>': crsf_hash,
-//                         start_date: start_date,
-//                         end_date: end_date,
-//                         'sale_type': 'offline'
-//                     }
-//                 },
-//                 'columnDefs': [
-//                     {
-//                         'targets': [0],
-//                         'orderable': false,
-//                     },
-//                 ],
-//                 dom: 'Blfrtip',
-//                 buttons: [
-//                     {
-//                         extend: 'excelHtml5',
-//                         footer: true,
-//                         exportOptions: {
-//                             columns: [1, 2, 3, 4, 5, 6]
-//                         }
-//                     }
-//                 ],
-//             });
-//         };
-
-//         $('#offline_search').click(function () {
-//             var start_date = $('#offline_start_date').val();
-//             var end_date = $('#offline_end_date').val();
-//             if (start_date != '' && end_date != '') {
-//                 $('#offline_invoices').DataTable().destroy();
-//                 draw_offline_data(start_date, end_date);
-//             } else {
-//                 alert("Date range is Required");
-//             }
-//         });
-//     });
-
-</script>    
