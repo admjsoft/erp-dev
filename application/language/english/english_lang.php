@@ -1226,3 +1226,9 @@ $lang['Email To'] = "Email To";
 $lang['Dashboard Settings'] = "Dashboard Settings";
 $lang['Enable/Disable'] = "Enable/Disable";
 
+$lang['Modules'] = "Modules";
+$lang['Roles'] = "Roles";
+$lang['Access'] = "Access";
+$lang['Add Role'] = "Add Role";
+$lang['Role Name'] = "Role Name";
+

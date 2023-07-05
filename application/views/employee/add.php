@@ -266,12 +266,11 @@ required id="file" data-val="true" data-val-required="The field is required."  n
 
                     <div class="col-sm-5">
                         <select name="roleid" class="form-control margin-bottom">
-                            <option value="4"><?= $this->lang->line('Business Manager') ?></option>
-                            <option value="3"><?= $this->lang->line('Sales Manager') ?></option>
-                            <option value="5"><?= $this->lang->line('Business Owner') ?></option>
-                            <option value="2"><?= $this->lang->line('Sales Person') ?></option>
-                            <option value="1"><?= $this->lang->line('Inventory Manager') ?></option>
-                            <option value="-1"><?= $this->lang->line('Project Manager') ?></option>
+                           <?php foreach($role_list as $role)
+						{
+							?>
+                            <option value="<?php echo $role['role_name'];?>"><?php echo $role['role_name'];?></option>
+						<?php }?>
                         </select>
                     </div>
                 </div>

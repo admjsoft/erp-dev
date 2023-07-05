@@ -1,4 +1,5 @@
 <?php
+
 if(isset($_SESSION['status'])){
  echo '<div class="alert alert-'.$_SESSION['status'].'">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -40,6 +41,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             <table id="trans_table" class="table table-striped table-bordered zero-configuration" cellspacing="0"
                    width="100%">
 				   <input type="hidden" value="ffff" name="frg" id="frg">
+				   <input type="hidden" name="active" value="<?php if(isset($_GET['list'])){echo $_GET['list'];}?>" id="active">
+				  <input type="hidden" name="permit_active" value="<?php if(isset($_GET['permitlist'])){echo $_GET['permitlist'];}?>" id="permit_active">
+				  <input type="hidden" name="passport_expiry" value="<?php if(isset($_GET['passport'])){echo $_GET['passport'];}?>" id="passport_expiry">
+				  <input type="hidden" name="permit_expiry" value="<?php if(isset($_GET['permit'])){echo $_GET['permit'];}?>" id="permit_expiry">
+
                 <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
@@ -195,8 +201,47 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 </form>
 <script type="text/javascript">
     $(document).ready(function () {
+	var activeval=$("#active").val();
+	var permit_active=$("#permit_active").val();
+	var passport_expiry=$("#passport_expiry").val();
+	var permit_expiry=$("#permit_expiry").val();
+
+      if(activeval=="")
+	  {
+		  var activeval="";
+		  
+	  }
+	  else{
+		  activeval=activeval;
+	  }
+	   if(permit_active=="")
+	  {
+		  var permit_active="";
+		  
+	  }
+	  else{
+		  permit_active=permit_active;
+	  }
+	  if(passport_expiry=="")
+	  {
+		  var passport_expiry="";
+		  
+	  }
+	  else{
+		  passport_expiry=passport_expiry;
+	  }
+	  
+	   if(permit_expiry=="")
+	  {
+		  var permit_expiry="";
+		  
+	  }
+	  else{
+		  permit_expiry=permit_expiry;
+	  }
+	  
+	  
         $('#trans_table').removeAttr('width').DataTable( {
-          
             fixedColumns: true,
             "processing": true,
             "serverSide": true,
@@ -206,7 +251,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             "ajax": {
                 "url": "<?php echo site_url('employee/getfwmsEmployees')?>",
                 "type": "POST",
-                'data': {'<?=$this->security->get_csrf_token_name()?>': crsf_hash <?php  echo ",'fdms':true" ?> }
+                'data': {'active':activeval,'permit_active':permit_active,'passport_expiry':passport_expiry,'permit_expiry':permit_expiry,'<?=$this->security->get_csrf_token_name()?>': crsf_hash <?php  echo ",'fdms':true" ?> }
             },
             "columnDefs": [
                 {

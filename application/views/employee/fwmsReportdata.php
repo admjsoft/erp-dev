@@ -140,6 +140,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
     </script>
    <script>
   $(document).ready(function () {
+	  
         $('#trans_table').removeAttr('width').DataTable( {
         
             fixedColumns: true,
@@ -151,7 +152,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             "ajax": {
                 "url": "<?php echo site_url('employee/fwmsReportGenerateAjax')?>",
                 "type": "POST",
-                'data': {'<?=$this->security->get_csrf_token_name()?>': crsf_hash,company:<?php echo $company;?>,employee:<?php echo $employee;?>}
+                'data': {'<?=$this->security->get_csrf_token_name()?>': crsf_hash,company:<?php  if(!empty($company)){ echo $company=$company;}else{ echo"0"; };?>,employee:<?php  if(!empty($employee)){ echo $employee=$employee;}else{ echo"0"; };?>}
             },
             "columnDefs": [
                 {
@@ -168,4 +169,3 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
     });
     </script>
-	

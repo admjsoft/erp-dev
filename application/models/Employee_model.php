@@ -486,6 +486,49 @@ public function list_employee()
         $query = $this->db->get();
         return $query->row_array();
     }
+	
+	public function employee_permissions_modules($role)
+	{
+	
+		$roleuser="r_".$role;
+		$this->db->select('id');
+        $this->db->from('gtg_premissions');
+        $this->db->where($roleuser,1);
+        $query = $this->db->get();
+        return $query->result_array();
+		
+		
+	}
+	
+	public function getRole($id)
+	{
+		
+		$this->db->select('*');
+        $this->db->from('gtg_role');
+        $this->db->where('id',$id);
+        $query = $this->db->get();
+        return $query->row();
+			
+		
+		
+		
+	}
+	
+	
+	
+	
+    public function role_list()
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_role');
+     $this->db->where('delete_status',0);
+
+        $this->db->order_by('id', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+	
+	
 
     public function employee_permissions()
     {
@@ -507,6 +550,36 @@ public function list_employee()
         $data = array('typ' => 2, 'rid' => $loc, 'val1' => $hday, 'val2' => $hdayto, 'val3' => $note);
         return $this->db->insert('gtg_hrm', $data);
     }
+
+    function role_create($role_name)
+	{
+		$data = array('role_name'=>$role_name,'status'=>1);
+        return $this->db->insert('gtg_role', $data);
+	}
+  function role_update($role_name,$role_id,$role_status)
+	{
+		$data = array('role_name'=>$role_name,'status'=>$role_status);
+
+        $this->db->set($data);
+        $this->db->where('id', $role_id);
+        $this->db->update('gtg_role');
+        return true;
+		}
+
+function deleterole($id)
+{
+	
+		$data = array('delete_status'=>1);
+        $this->db->set($data);
+        $this->db->where('id', $id);
+        $this->db->update('gtg_role');
+        return true;
+	
+	
+	
+}
+
+
 
     function deleteholidays($id)
     {
@@ -1272,6 +1345,17 @@ public function getOrganizationDetails()
 	
 }
 
+public function getRoles()
+{
+	
+	 $this->db->select('*');
+	    $this->db->from('gtg_role');
+		  $query = $this->db->get();
+		//print_r($this->db->last_query());
+        return $query->result_array();
+	
+	
+}
 
 
 
@@ -1361,12 +1445,43 @@ public function getpermitExpiryListNinenty()
 
 public function employee_datatables_query()
     {
+				 $currentdate=date("Y-m-d");
 
+            $active = $this->input->post('active');
+		  $permitactive = $this->input->post('permit_active');
+           $passport_expiry = $this->input->post('passport_expiry');
+		              $permit_expiry = $this->input->post('permit_expiry');
+
+		   
         $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,gtg_employees.permit,gtg_employees.delete_status,gtg_customers.name as cname');
 
         $this->db->from('gtg_employees');
 	$this->db->join('gtg_customers', 'gtg_customers.id=gtg_employees.company');
         $this->db->where('employee_type',"foreign");
+if($active)
+{
+	          $this->db->where('passport_expiry>=',$currentdate);
+
+}
+else if($permitactive)
+{
+	          $this->db->where('permit_expiry>=',$currentdate);
+
+	
+}
+else if($passport_expiry)
+{
+$this->db->where('passport_expiry<',$currentdate);
+
+	
+	
+}
+else if($permit_expiry){
+	
+	$this->db->where('permit_expiry<',$currentdate);
+
+	
+}
 
         $i = 0;
 
@@ -1403,6 +1518,7 @@ public function employee_datatables_query()
     {
         $this->employee_datatables_query();
         $query = $this->db->get();
+		//print_r($this->db->last_query());
         return $query->num_rows();
     }
 
@@ -1424,6 +1540,7 @@ public function employee_datatables_query()
         if ($this->input->post('length') != -1)
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
         $query = $this->db->get();
+		
         return $query->result();
    
    }
@@ -1439,21 +1556,21 @@ public function employee_report_datatables_query()
         $this->db->from('gtg_employees');
 		if(!empty($company) && !empty($employee))
 		{
-        $this->db->where('id',$employee);
-		$this->db->where('company',$company);
-		 $this->db->where('employee_type',"foreign");
+        $this->db->where('gtg_employees.id',$employee);
+		$this->db->where('gtg_customers.company',$company);
+		 $this->db->where('gtg_employees.employee_type',"foreign");
 		 		 		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		else if(!empty($company) && empty($employee))
 		{
-		$this->db->where('company',$company);
-        $this->db->where('employee_type',"foreign");
+		$this->db->where('gtg_customers.company',$company);
+        $this->db->where('gtg_employees.employee_type',"foreign");
 		 		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		else{
-		 $this->db->where('employee_type',"foreign");
+		 $this->db->where('gtg_employees.employee_type',"foreign");
 		 		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}

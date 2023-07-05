@@ -167,7 +167,7 @@ class Dashboard_model extends CI_Model
           $this->db->from('gtg_employees');
 		$this->db->where('employee_type',"foreign");
 	  
-          $this->db->where('passport_expiry>',$currentdate);
+          $this->db->where('passport_expiry<',$currentdate);
           $query = $this->db->get();
 
         return $query->num_rows();
@@ -178,7 +178,7 @@ class Dashboard_model extends CI_Model
 		  $currentdate=date("Y-m-d");
 		  $this->db->select('*');
           $this->db->from('gtg_employees');
-          $this->db->where('permit_expiry>',$currentdate);
+          $this->db->where('permit_expiry<',$currentdate);
 		$this->db->where('employee_type',"foreign");
   
           $query = $this->db->get();
@@ -191,7 +191,7 @@ class Dashboard_model extends CI_Model
 		 $currentdate=date("Y-m-d");
 		  $this->db->select('*');
           $this->db->from('gtg_employees');
-          $this->db->where('passport_expiry<=',$currentdate);
+          $this->db->where('passport_expiry>=',$currentdate);
 		 $this->db->where('employee_type',"foreign");
 
           $query = $this->db->get();
@@ -202,7 +202,7 @@ class Dashboard_model extends CI_Model
 		 $currentdate=date("Y-m-d");
 		$this->db->select('*');
         $this->db->from('gtg_employees');
-        $this->db->where('permit_expiry<=',$currentdate);
+        $this->db->where('permit_expiry>=',$currentdate);
 		        $this->db->where('employee_type',"foreign");
 
         $query = $this->db->get();

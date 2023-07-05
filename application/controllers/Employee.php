@@ -73,6 +73,8 @@ class Employee extends CI_Controller
         $head['title'] = 'Add Employee';
         $data['dept'] = $this->employee->department_list(0);
         $data['clients'] = $this->employee->get_client_list();
+	 $data['role_list'] = $this->employee->role_list();
+
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/add', $data);
         $this->load->view('fixed/footer');
@@ -1417,28 +1419,75 @@ JSOFT SOLUTION SDN BHD,</p>
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Employee Permissions';
         $data['permission'] = $this->employee->employee_permissions();
+	  $data['roles'] = $this->employee->getRoles();
+        
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/permissions', $data);
         $this->load->view('fixed/footer');
     }
 
+	public function getPermission()
+	{
+		$value=$this->input->get('val');
+		$_SESSION['moduleid']=$value;
+		
+        $this->db->select('*');
+        $this->db->from('gtg_premissions');
+        $this->db->where('id',$value);
+        $query = $this->db->get();
+        //$values= $query->row();
+		$result= $query->result_array();
+		
+		foreach($result as $res)
+		{
+		echo json_encode($res);
+        }
+		
+		
+		
+	}
+	public function getSelectedPermission()
+	{
+	 $role=$this->input->get('roleid');
+		
+  $checkedvalues = $this->employee->employee_permissions_modules($role);
+    $elements = array();
+
+	foreach($checkedvalues as $check)
+	{
+		//print_r($check);
+	//	echo json_encode($check);
+		  $elements[]=$check['id'];
+	}
+	echo implode(',', $elements);
+
+	
+	
+		
+	}
+	
+	
+	
+	
+	
+	
     public function permissions_update()
     {
-
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Employee Permissions';
         $permission = $this->employee->employee_permissions();
-
+         $role=$this->input->post('role');
+		 $userrole="r_".$role;
         foreach ($permission as $row) {
             $i = $row['id'];
-            $name1 = 'r_' . $i . '_1';
-            $name2 = 'r_' . $i . '_2';
-            $name3 = 'r_' . $i . '_3';
-            $name4 = 'r_' . $i . '_4';
-            $name5 = 'r_' . $i . '_5';
-            $name6 = 'r_' . $i . '_6';
-            $name7 = 'r_' . $i . '_7';
-            $name8 = 'r_' . $i . '_8';
+              $name1 = 'r_' . $i . '_1';
+             $name2 = 'r_' . $i . '_2';
+             $name3 = 'r_' . $i . '_3';
+               $name4 = 'r_' . $i . '_4';
+             $name5 = 'r_' . $i . '_5';
+             $name6 = 'r_' . $i . '_6';
+             $name7 = 'r_' . $i . '_7';
+             $name8 = 'r_' . $i . '_8';
             $val1 = 0;
             $val2 = 0;
             $val3 = 0;
@@ -1456,8 +1505,10 @@ JSOFT SOLUTION SDN BHD,</p>
             if ($this->input->post($name7)) $val7 = 1;
             if ($this->input->post($name8)) $val8 = 1;
             if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
-            $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
-            $this->db->set($data);
+           // $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
+           $data = array($userrole => $val1);
+		  // print_r($data);
+		   $this->db->set($data);
             $this->db->where('id', $i);
             $this->db->update('gtg_premissions');
         }
@@ -1592,6 +1643,93 @@ JSOFT SOLUTION SDN BHD,</p>
         $this->load->view('employee/departments', $data);
         $this->load->view('fixed/footer');
     }
+	
+	   public function roles()
+    {
+
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $data['role_list'] = $this->employee->role_list();
+        $head['title'] = 'Roles';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/roles', $data);
+        $this->load->view('fixed/footer');
+    }
+	
+	   public function role()
+    {
+
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Role';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/role');
+        $this->load->view('fixed/footer');
+    }
+	
+	public function roleedit()
+	{
+		 $role_id = $this->input->get('id');
+		 $head['usernm'] = $this->aauth->get_user()->username;
+        $data['role_list'] = $this->employee->getRole($role_id);
+		
+        $head['title'] = 'Roles';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/roleedit', $data);
+        $this->load->view('fixed/footer');
+		
+		
+		
+	}
+	public function updaterole()
+	{
+				 $role_name = $this->input->post('role_name');
+				 $role_id = $this->input->post('role_id');
+				 $role_status = $this->input->post('role_status');
+
+				$update= $this->employee->role_update($role_name,$role_id,$role_status);
+
+		if(!$update){
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+                    }
+
+					else{
+                    $data['status'] = 'success';
+                    $data['message'] = $this->lang->line('UPDATED');
+}
+	     $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('employee/roles', 'refresh');
+        exit();
+		
+		
+		
+	}
+
+	public function createrole()
+	{
+		 $role_name = $this->input->post('role_name');
+
+		$insert= $this->employee->role_create($role_name);
+        
+	if(!$insert){
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+                    }
+
+					else{
+                    $data['status'] = 'success';
+                    $data['message'] = $this->lang->line('ADDED');
+}
+	     $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('employee/roles', 'refresh');
+        exit();
+		
+	}
 
     public function department()
     {
@@ -1618,6 +1756,20 @@ JSOFT SOLUTION SDN BHD,</p>
             echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('ERROR')));
         }
     }
+
+public function delete_role()
+    {
+        $id = $this->input->post('deleteid');
+
+
+        if ($this->employee->deleterole($id)) {
+            echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('DELETED')));
+        } else {
+            echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('ERROR')));
+        }
+    }
+
+
 
     public function adddep()
     {
@@ -1906,6 +2058,83 @@ public function getfwmsEmployeesforView()
 	
 }
 
+public function active_passport()
+{
+
+	     $this->load->library("Custom");
+        $data['dual'] = $this->custom->api_config(65);
+        $this->load->model('transactions_model', 'transactions');
+        $data['cat'] = $this->transactions->categories();
+        $data['accounts'] = $this->transactions->acc_list();
+        $head['title'] = "Active Passport Employee";
+        $head['usernm'] = $this->aauth->get_user()->username;
+		//$this->load->model('employee_model', 'employee');
+       // $data['payslip']=$this->payroll->getPayslipList();
+         $data['status']="active";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fixed/footer');
+}
+public function expired_passport()
+{
+
+	     $this->load->library("Custom");
+        $data['dual'] = $this->custom->api_config(65);
+        $this->load->model('transactions_model', 'transactions');
+        $data['cat'] = $this->transactions->categories();
+        $data['accounts'] = $this->transactions->acc_list();
+        $head['title'] = "Expired Passport Employee";
+        $head['usernm'] = $this->aauth->get_user()->username;
+		//$this->load->model('employee_model', 'employee');
+       // $data['payslip']=$this->payroll->getPayslipList();
+         $data['passport_expiry']="expiry";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fixed/footer');
+}
+public function expired_permit()
+{
+
+	     $this->load->library("Custom");
+        $data['dual'] = $this->custom->api_config(65);
+        $this->load->model('transactions_model', 'transactions');
+        $data['cat'] = $this->transactions->categories();
+        $data['accounts'] = $this->transactions->acc_list();
+        $head['title'] = "Expired Permit Employee";
+        $head['usernm'] = $this->aauth->get_user()->username;
+		//$this->load->model('employee_model', 'employee');
+       // $data['payslip']=$this->payroll->getPayslipList();
+         $data['permit_expiry']="expiry";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fixed/footer');
+}
+
+
+
+public function active_permit()
+{
+	
+$this->load->library("Custom");
+        $data['dual'] = $this->custom->api_config(65);
+        $this->load->model('transactions_model', 'transactions');
+        $data['cat'] = $this->transactions->categories();
+        $data['accounts'] = $this->transactions->acc_list();
+        $head['title'] = "Active Permit Employee";
+        $head['usernm'] = $this->aauth->get_user()->username;
+		//$this->load->model('employee_model', 'employee');
+       // $data['payslip']=$this->payroll->getPayslipList();
+        $data['permit_status']="active";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fixed/footer');
+	
+	
+	
+}
+
+
+
 
 
 
@@ -1917,6 +2146,8 @@ public function getfwmsEmployees()
          $data = array();
         // $no = $_POST['start'];
         $no = $this->input->post('start');
+		 //$active = $this->input->post('active');
+
         $temp='';
 		$type='';
 	     foreach ($list as $prd) {
@@ -2014,7 +2245,8 @@ public function saveInternational()
             $data = array('upload_data' => $this->upload->data());
             $passport_filename = $data['upload_data']['file_name'];
 		}
-		  
+		  if($attach1)
+		  {
 		  
 		   $data['status'] = 'danger';
         $data['message'] = $this->lang->line('No file error');
@@ -2028,8 +2260,9 @@ public function saveInternational()
             echo json_encode($error);
         } else {
             $data = array('upload_data' => $this->upload->data());
-             $visa_filename = $data['upload_data']['client_name'];
+             $visa_filename = $data['upload_data']['file_name'];
 		}
+		  }
 		  
 		  
 		  

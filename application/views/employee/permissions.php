@@ -1,3 +1,4 @@
+
 <div class="content-body">
     <div class="card">
         <div class="card-header">
@@ -23,23 +24,41 @@
                 <div class="message"></div>
             </div>
             <div class="card-body">
+			
+			                        <span style="color:red;font-weight:500px;" id="err_msg"></span>
 
+			                <form method="post" id="data_form" class="form-horizontal">
 
-                <form method="post" id="data_form" class="form-horizontal">
+                                        <div class="form-group row mt-1">
+										
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Roles') ?> <span style="color:red">*</span></label>
+                                        <div class="col-sm-8">
+                                           <select name="role" id="role" class="form-control" onchange="getValues(this.value);"  style="width:50%" required >
+										   <option value="">--Select Role--</option>
+										   <?php 										
+										   foreach ($roles as $role) {
+
+											   ?>
+											   <option value="<?php echo $role['id'];?>"><?php echo $role['role_name'];?></option>
+											  <?php 
+										   }?>
+										   </select>
+                                        </div>
+                                    </div>
+                              
+						
+									
+									
+									 
                     <table id="" class="table table-striped table-bordered zero-configuration table-responsive"
                            cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th><?php echo $this->lang->line('Name') ?></th>
-                            <th><?php echo $this->lang->line('Inventory Manager') ?></th>
-                            <th><?php echo $this->lang->line('Sales Person') ?></th>
-                            <th><?php echo $this->lang->line('Sales Manager') ?></th>
-                            <th><?php echo $this->lang->line('Business Manager') ?></th>
-                            <th><?php echo $this->lang->line('Business Owner') ?></th>
-                            <th><?php echo $this->lang->line('Project Manager') ?></th>
-                            <th><?php echo $this->lang->line('Developer') ?>Developer</th>
-                            <th><?php echo $this->lang->line('Support') ?>Support</th>
+                            <th><?php echo $this->lang->line('Modules') ?></th>
+                            <th><?php echo $this->lang->line('Access') ?></th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -54,21 +73,7 @@
                     <td>$module</td>"; ?>
 
                             <td><input type="checkbox" name="r_<?= $i ?>_1"
-                                       class="m-1" <?php if ($row['r_1']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_2"
-                                       class="m-1" <?php if ($row['r_2']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_3"
-                                       class="m-1" <?php if ($row['r_3']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_4"
-                                       class="m-1" <?php if ($row['r_4']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_5"
-                                       class="m-1" <?php if ($row['r_5']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_6"
-                                       class="m-1" <?php if ($row['r_6']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_7"
-                                       class="m-1" <?php if ($row['r_7']) echo 'checked="checked"' ?>></td>
-                            <td><input type="checkbox" name="r_<?= $i ?>_8"
-                                       class="m-1" <?php if ($row['r_8']) echo 'checked="checked"' ?>></td>
+                                       class="m-1"  id="r_<?= $i ?>_1"></td>
                             <?php
                             echo "
                     </tr>";
@@ -80,14 +85,7 @@
                         <tr>
                             <th>#</th>
                             <th><?php echo $this->lang->line('Name') ?></th>
-                            <th><?php echo $this->lang->line('Inventory Manager') ?></th>
-                            <th><?php echo $this->lang->line('Sales Person') ?></th>
-                            <th><?php echo $this->lang->line('Sales Manager') ?></th>
-                            <th><?php echo $this->lang->line('Business Manager') ?></th>
-                            <th><?php echo $this->lang->line('Business Owner') ?></th>
-                            <th><?php echo $this->lang->line('Project Manager') ?></th>
-                            <th><?php echo $this->lang->line('Developer') ?>Developer</th>
-                            <th><?php echo $this->lang->line('Support') ?>Support</th>
+                           
                         </tr>
                         </tfoot>
                     </table>
@@ -116,9 +114,18 @@
 
     });
   $("#submit-data1").on("click", function (e) {
+	var role=$("#role").val();
+	   if (role=="") {
+		   $('#err_msg').html("Role Field Is Required");
+		   return false;
+   
+  } 
+	  
+	  
         e.preventDefault();
         var o_data = $("#data_form").serialize();
         var action_url = $('#action-url').val();
+		var role_id=$('#role').val();
         addObject1(o_data, action_url);
 		function addObject1(action, action_url) {
 
@@ -158,6 +165,39 @@
 
     }
     });
+	
+function getValues(val)
+{
+
+ 
+ $.ajax({
+          type: "GET",
+          url: baseurl + 'employee/getSelectedPermission',
+          data : {roleid:val},
+          success: function (data) {
+          // details= JSON.parse(data);
+           //alert(details);
+             ///console.log(data);
+			 const myArray = data.split(",");
+            //  console.log(myArray.length);
+			  for(i=0;i<myArray.length;i++)
+			  {
+				  var x=myArray[i];
+				//  console.log(x);
+				  var id="#r_"+x+"_1";
+				///  console.log(id);
+				  $(id).prop("checked", true);
+
+			  }
+
+          }
+            });
+            
+    
+	
+}
+	
+	
 </script>
 
 

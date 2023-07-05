@@ -26,6 +26,7 @@
             text-align: left;
             border-collapse: collapse;
         }
+ 
 
         .plist tr td {
             line-height: 12pt;
@@ -104,7 +105,6 @@
             background: #515151;
             color: #FFF;
             padding: 6pt;
-
         }
 
         table tr.details td {
@@ -232,17 +232,17 @@
     <table class="plist" cellpadding="0" cellspacing="0">
 
 
-        <tr class="heading">
-            <td>
+        <tr  class="heading">
+            <td style="height:5% !important">
                 <?php echo $this->lang->line('Item') ?>
             </td>
-            <td>
+            <td style="height:5% !important">
                 <?php echo $this->lang->line('HSN') ?>
             </td>
-            <td>
+            <td style="height:5% !important">
                 <?php echo $this->lang->line('Price') ?>
             </td>
-            <td>
+            <td style="height:5% !important">
                 <?php echo $this->lang->line('Qty') ?>
             </td>
             <?php
@@ -257,13 +257,13 @@
             <?php } else {
 
                 ?>
-                <td>
+                <td style="height:5% !important">
                     <?php echo $this->lang->line('IGST') ?>
                 </td>
                 <?php
             }
             ?>
-            <td class="t_center">
+            <td class="t_center" style="height:5% !important">
                 <?php echo $this->lang->line('SubTotal') ?>
             </td>
         </tr>
@@ -287,24 +287,24 @@
 
 
             echo '<tr class="item' . $flag . '">
-                            <td>' . $row['product'] . '</td>
-                            <td style="width:12%;" >' . $row['code'] . '</td>
-							<td style="width:12%;">' . amountExchange($row['price'], $invoice['multi'], $invoice['loc']) . '</td>
-                            <td style="width:12%;" >' . amountFormat_general($row['qty']) . $row['unit'] . '</td>   ';
+                            <td style="width:27%;">' . $row['product'] . '</td>
+                            <td style="width:10%;" >' . $row['code'] . '</td>
+							<td style="width:15%;">' . amountExchange($row['price'], $invoice['multi'], $invoice['loc']) . '</td>
+                            <td style="width:8%;" >' . amountFormat_general($row['qty']) . $row['unit'] . '</td>   ';
             if ($invoice['discount'] > 0) {
                 $cols++;
                 echo ' <td style="width:16%;">' . amountExchange($row['totaldiscount'], $invoice['multi'], $invoice['loc']) . '</td>';
             }
             if ($invoice['taxstatus'] == 'cgst') {
-                echo '<td style="width:16%;">' . amountExchange($gst, $invoice['multi'], $invoice['loc']) . ' <span class="tax">(' . amountFormat_s($rate) . '%)</span></td>';
-                echo '<td style="width:16%;">' . amountExchange($gst, $invoice['multi'], $invoice['loc']) . ' <span class="tax">(' . amountFormat_s($rate) . '%)</span></td>';
+                echo '<td style="width:15%;">' . amountExchange($gst, $invoice['multi'], $invoice['loc']) . ' <span class="tax">(' . amountFormat_s($rate) . '%)</span></td>';
+                echo '<td style="width:15%;">' . amountExchange($gst, $invoice['multi'], $invoice['loc']) . ' <span class="tax">(' . amountFormat_s($rate) . '%)</span></td>';
             } else if ($invoice['taxstatus'] == 'igst') {
-                echo '<td style="width:16%;">' . amountExchange($row['totaltax'], $invoice['multi'], $invoice['loc']) . ' <span class="tax">(' . amountFormat_s($row['tax']) . '%)</span></td>';
+                echo '<td style="width:15%;">' . amountExchange($row['totaltax'], $invoice['multi'], $invoice['loc']) . ' <span class="tax">(' . amountFormat_s($row['tax']) . '%)</span></td>';
             }
 
             $cols++;
 
-            echo '<td class="t_center">' . amountExchange($row['subtotal'], $invoice['multi'], $invoice['loc']) . '</td>
+            echo '<td class="t_center" style="width:15%">' . amountExchange($row['subtotal'], $invoice['multi'], $invoice['loc']) . '</td>
                         </tr>';
             if ($row['product_des']) {
                 $cc = $cols + 1;
