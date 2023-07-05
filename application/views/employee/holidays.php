@@ -41,6 +41,7 @@
                         </tbody>
 
                         <tfoot>
+                            <?php /* ?>
                         <tr>
                             <th>#</th>
                             <th><?php echo $this->lang->line('From') ?></th>
@@ -50,6 +51,7 @@
                             <th><?php echo $this->lang->line('Action') ?></th>
 
                         </tr>
+                        <?php */ ?>
                         </tfoot>
                     </table>
                 </div>

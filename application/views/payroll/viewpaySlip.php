@@ -57,6 +57,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 </tbody>
 
                 <tfoot>
+                    <?php /* ?>
                     <tr>
                          <th><?php echo $this->lang->line('No') ?></th>
                         <th><?php echo $this->lang->line('Staff Name') ?></th>
@@ -68,6 +69,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <th><?php echo $this->lang->line('Year') ?></th>
                         <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
+                    <?php */ ?>
                 </tfoot>
             </table>
         </div>

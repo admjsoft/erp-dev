@@ -88,7 +88,7 @@ class Scheduler extends CI_Controller {
             $row[] = $sccheduleron;
 			$row[] = $prd->days;
 			$row[] = $prd->created_at;
-            $row[] = '<a href="' . base_url('scheduler/edit/?id=' . $pid) . '" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> ' . $this->lang->line('Edit') . '</a>';
+            $row[] = '<a href="' . base_url('scheduler/edit/?id=' . $pid) . '" style="display: inline-block; padding: 6px; margin-left: 1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> ' . $this->lang->line('Edit') . '</a>';
             $data[] = $row;
         }
 

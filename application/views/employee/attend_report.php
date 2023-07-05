@@ -19,13 +19,13 @@
             </div>
             <div class="card-body">
                 <form action="<?php echo base_url('employee/attendreport'); ?>" method="get">
-                    <div class="row">
+                    <div class="row mb-3">
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <select name="employee" class="form-control employee emp-list" >
                                 <option value="0">-- <?php echo $this->lang->line('Select Employee') ?> --</option>
                             </select></div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <?php date('Y'); ?>
                             <select name="year" class="form-control">
                                 <option value="0"> -- Year -- </option>
@@ -37,7 +37,7 @@
                                     <?php } ?>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <select name="month" class="form-control">
                                 <option value="0"> -- Month -- </option>
                                 <?php  for($i=12;$i>0;$i--){
@@ -48,7 +48,8 @@
                                     <?php  } ?>
                             </select>
                           </div>
-                        <div class="col-md-12 py-2"><button class="btn btn-success col-2" type="post">Search</button></div>
+                        <div class="col-md-3 "><button class="btn btn-success col-12" type="post">Search</button></div>
+                    
                     </div>
                 </form>
                 <table id="htable" class="table table-striped table-bordered zero-configuration" cellspacing="0"
@@ -69,6 +70,7 @@
                     </tbody>
 
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
@@ -78,6 +80,7 @@
                         <th><?php echo  "End Time" //$this->lang->line('ClockOut') ?></th>
                         <th>Duration</th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
 

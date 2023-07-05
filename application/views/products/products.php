@@ -58,7 +58,7 @@
         <div class="card-header">
             <h5><?php echo $this->lang->line('Products') ?> <a
                         href="<?php echo base_url('products/add') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>  <a
                         href="<?php echo base_url('products') ?>?group=yes"

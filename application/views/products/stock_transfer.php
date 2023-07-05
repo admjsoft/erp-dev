@@ -44,7 +44,7 @@
                         <label class="col-sm-2 col-form-label"
                                for="pay_cat"><?php echo $this->lang->line('Products') ?></label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <select id="products_l" name="products_l[]" class="form-control required select-box"
                                     multiple="multiple">
 
@@ -58,7 +58,7 @@
                         <label class="col-sm-2 col-form-label"
                                for="pay_cat"><?php echo $this->lang->line('Products') . ' ' . $this->lang->line('Qty') ?></label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <input name="products_qty" class="form-control required" type="text">
 
                             <small>Comma (,) separated</small>

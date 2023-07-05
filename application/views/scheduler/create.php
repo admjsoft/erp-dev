@@ -54,7 +54,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 					<div id="scheduleyes" style="display:block;">
 					 <div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Run Scheduler Alert Before') ?></label>
-                                <div class="col-md3">
+                                <div class="col-md-3">
 								
 						<select name="days" id="days" class="form-control" style="width:200px;">
 						<option value="">--Select Period--</option>
@@ -70,7 +70,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         </div>
 						<div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Module') ?></label>
-                                <div class="col-md3">
+                                <div class="col-md-3">
 								
 		<select class="form-control" name="module" id="module" style="width:200px;"> 
 <option value="">Select Module</option>
@@ -88,7 +88,7 @@ foreach($modules as $module)
 						
 						<div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Email To') ?></label>
-                                <div class="col-md3">
+                                <div class="col-md-3">
 								
 	<select class="form-multi-select form-control" name="email_to[]" id="email_to" multiple data-coreui-search="true" style="width:200px">
   <option value="1">Admin</option>
@@ -101,7 +101,7 @@ foreach($modules as $module)
 						
 						<div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Scheduler For') ?></label>
-                                <div class="col-md3">
+                                <div class="col-md-3">
 <select class="form-multi-select form-control" name="schedule_on[]" id="schedule_on" multiple data-coreui-search="true" style="width:200px">
   <option value="1">passport</option>
   <option value="2">permit</option>

@@ -40,7 +40,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
 
 
-            <hr>
+            <!-- <hr> -->
             <table id="trans_table" class="table table-striped table-bordered zero-configuration" cellspacing="0"
                    width="100%">
                 <thead>
@@ -61,6 +61,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 </tbody>
 
                 <tfoot>
+                    <?php /* ?>
                     <tr>
                         <th><?php echo $this->lang->line('Date') ?></th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
@@ -73,6 +74,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>
                     </tr>
+                    <?php */ ?>
                 </tfoot>
             </table>
         </div>

@@ -51,7 +51,7 @@
                                     <div class="fcol-sm-12">
                                         <h3 class="title">
                                             <?php echo $this->lang->line('Bill To') ?> <a href='#'
-                                                                                          class="btn btn-primary btn-sm round"
+                                                                                          class="btn btn-primary btn-sm round ml-2"
                                                                                           data-toggle="modal"
                                                                                           data-target="#addCustomer">
                                                 <?php echo $this->lang->line('Add Client') ?>
@@ -310,7 +310,7 @@
                                     <strong> <?php echo $this->lang->line('Extra') . ' ' . $this->lang->line('Discount') ?></strong>
                                 </td>
                                 <td align="left" colspan="2"><input type="text"
-                                                                    class="form-control form-control-sm discVal"
+                                                                    class="form-control form-control discVal"
                                                                     onkeypress="return isNumber(event)"
                                                                     placeholder="Value"
                                                                     name="disc_val" autocomplete="off" value="0"
@@ -329,7 +329,7 @@
                                 ?><br>
 
                                     <select name="employee"
-                                            class=" mt-1 col form-control form-control-sm">
+                                            class=" mt-1 col form-control form-control">
 
                                         <?php
 

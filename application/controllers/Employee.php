@@ -2658,7 +2658,7 @@ public function updateInternational()
         <td>$status</td>";
         $attend.= "<td>$clock</td>";
         $attend.= "<td>$state</td>";
-        $attend.= "<td><a href='" . base_url("employee/attendview?id=$aid") . "' class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a></td></tr>";
+        $attend.= "<td><a href='" . base_url("employee/attendview?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;' class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a></td></tr>";
             $i++;
         }
 

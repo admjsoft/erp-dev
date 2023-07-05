@@ -51,7 +51,7 @@
 
                         <label class="col-sm-2 col-form-label" for="qty"><?php echo $this->lang->line('Qty') ?></label>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input type="number" placeholder="Amount"
                                    class="form-control margin-bottom  required" name="qty" value="1">
                         </div>
@@ -62,7 +62,7 @@
                         <label class="col-sm-2 control-label"
                                for="valid"><?php echo $this->lang->line('Valid') ?></label>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control required"
                                    placeholder="Start Date" name="valid"
                                    data-toggle="datepicker" autocomplete="false">
@@ -115,7 +115,7 @@
                         <label class="col-sm-2 control-label"
                                for="note"><?php echo $this->lang->line('Note') ?></label>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-4">
                             <input type="text" placeholder="Short Note"
                                    class="form-control margin-bottom" name="note">
                         </div>

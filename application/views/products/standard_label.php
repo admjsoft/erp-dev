@@ -59,7 +59,7 @@
                 <div class="form-group row">
 
 
-                                 <div class="col-sm-2"><label class="col-form-label"
+                                 <div class="col-sm-4"><label class="col-form-label"
                                                  for="standard_label"><?php echo $this->lang->line('standard_label') ?></label>
                         <select class="form-control" name="standard_label">
                             <option value="eu30019">EU30019 65</option>

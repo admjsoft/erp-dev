@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Attendance') ?> <a href="<?php echo base_url('employee/attendance') ?>"
-                                                                 class="btn btn-primary btn-sm rounded">
+                                                                 class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?></a></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
@@ -39,6 +39,7 @@
                     </tbody>
 
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
@@ -48,6 +49,7 @@
                         <th><?php echo $this->lang->line('ClockOut') ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
             </div>

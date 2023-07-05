@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5 class="title"> <?php echo $this->lang->line('Warehouses') ?> <a
                         href="<?php echo base_url('productcategory/addwarehouse') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h5>
@@ -59,6 +59,7 @@
                     ?>
                     </tbody>
                     <tfoot>
+                    <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
@@ -67,6 +68,7 @@
                         <th><?php echo $this->lang->line('Worth (Sales/Stock)') ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
             </div>

@@ -43,7 +43,7 @@
         <div class="card-header">
             <h5><?php echo $this->lang->line('Accounts') ?> <a
                         href="<?php echo base_url('accounts/add') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?></a></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
@@ -93,12 +93,13 @@
                  
                     <td>$balance</td>
                      <td>$type</td>
-                    <td><a href='" . base_url("accounts/view?id=$aid") . "' class='btn btn-success btn-xs'><i class='fa fa-eye'></i>  " . $this->lang->line('View') . "</a>&nbsp;<a href='" . base_url("accounts/edit?id=$aid") . "' class='btn btn-warning btn-xs'><i class='fa fa-pencil'></i>  " . $this->lang->line('Edit') . "</a>&nbsp;<a href='#' data-object-id='" . $aid . "' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
+                    <td><a href='" . base_url("accounts/view?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;' class='btn btn-success btn-xs'><i class='fa fa-eye'></i>  " . $this->lang->line('View') . "</a>&nbsp;<a href='" . base_url("accounts/edit?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;' class='btn btn-warning btn-xs'><i class='fa fa-pencil'></i>  " . $this->lang->line('Edit') . "</a>&nbsp;<a href='#' data-object-id='" . $aid . "' style='display: inline-block; padding: 6px; margin-left: 1px;' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
                             $i++;
                         }
                         ?>
                         </tbody>
                         <tfoot>
+                            <?php /* ?>
                         <tr>
                             <th>#</th>
                             <th><?php echo $this->lang->line('Account No') ?></th>
@@ -107,6 +108,7 @@
                             <th><?php echo $this->lang->line('Type') ?></th>
                             <th><?php echo $this->lang->line('Actions') ?></th>
                         </tr>
+                        <?php */ ?>
                         </tfoot>
                     </table>
                 </div>

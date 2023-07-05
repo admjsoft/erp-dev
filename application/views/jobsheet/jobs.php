@@ -261,6 +261,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 //alert(data[6]);
                 $(row).css('background-color', '#f7483b'); // Add CSS class to display row in red
             }
+
+            if (data[7]) { // Assuming status value is at index 3
+                //alert(data[6]);
+                $(row).css('white-space','nowrap'); // Add CSS class to display row in red
+            }
             }
 
             });

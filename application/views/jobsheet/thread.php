@@ -21,7 +21,7 @@
         } ?>
 
         <div class="card-body">
-            <h4><?php echo $thread_info['job_name'] ?> <a href="#pop_model" data-toggle="modal" data-remote="false" class="btn btn-sm btn-cyan mb-1" title="Change Status"><span class="icon-tab"></span> <?php echo $this->lang->line('Change Status') ?></a></h4>
+            <h4><?php echo $thread_info['job_name'] ?> <a href="#pop_model" data-toggle="modal" data-remote="false" class="btn btn-sm btn-cyan ml-2" title="Change Status"><span class="icon-tab"></span> <?php echo $this->lang->line('Change Status') ?></a></h4>
             <?php if($thread_info['cinvoice']==1){ ?>
             <h5 style="color:red">
                 <?php echo $this->lang->line('Invoice').' : '.$this->lang->line('Yes'); ?>
@@ -247,7 +247,7 @@
                     <small>(docx, docs, txt, pdf, xls, png, jpg, gif)</small>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row justify-content-center">
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-4">
                     <input type="submit" id="document_add" class="btn btn-success margin-bottom" value="<?php echo $this->lang->line('Update') ?>" data-loading-text="Updating...">
@@ -270,7 +270,7 @@
                 <form id="form_model">
                     <div class="container">
                         <div class="row">
-                            <div class="col-xs-12 mb-1"><label for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
+                            <div class="col-md-12 mb-1"><label for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
                                 <select id="job_task_status" name="status" class="form-control mb-1">
                                     <option value="">Please Select Status</option>
                                     <option value="1" <?php if($thread_info['status']==1){ echo "selected"; } ?>><?php echo $this->lang->line('Completed'); ?></option>
@@ -284,8 +284,8 @@
                             </div>
                         </div>
                         <div class="row" style="<?php if($thread_info['status']==3){ echo 'display:block'; }else{ echo 'display:none'; } ?>" id="remarks_block">
-                            <div class="col-xs-12 mb-1">
-                                <textarea name="remarks" id="remarks" cols="" rows="4" placeholder="Remarks"><?php echo $thread_info['remarks']; ?></textarea>
+                            <div class="col-md-12 mb-1">
+                                <textarea name="remarks" class="form-control" id="remarks" cols="" rows="4" placeholder="Remarks"><?php echo $thread_info['remarks']; ?></textarea>
                             </div>
                         </div>
                     </div>

@@ -10,7 +10,7 @@
         <div class="card-header">
             <h5 class="title">
                 <?php echo $this->lang->line('Employee') ?> <a href="<?php echo base_url('employee/add') ?>"
-                                                               class="btn btn-primary btn-sm rounded">
+                                                               class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h5>
@@ -56,10 +56,10 @@
 
                         if ($status == 1) {
                             $status = 'Deactive';
-                            $btn = "<a href='#' data-object-id='" . $aid . "'  data-object1-id='" . $aid . "'  class='btn btn-blue btn-xs delete-object' title='Enable'><i class='icon-eye-slash'></i> Enable</a>";
+                            $btn = "<a href='#' data-object-id='" . $aid . "'  style='display: inline-block; padding: 6px; margin-left: 1px;' data-object1-id='" . $aid . "'  class='btn btn-blue btn-xs delete-object' title='Enable'><i class='icon-eye-slash'></i> Enable</a>";
                         } else {
                             $status = 'Active';
-                            $btn = "<a href='#' data-object-id='" . $aid . "' class='btn btn-amber btn-xs delete-object' title='Disable'><i class='fa fa-chain-broken'></i> " . $this->lang->line('Disable') . "</a>";
+                            $btn = "<a href='#' data-object-id='" . $aid . "' style='display: inline-block; padding: 6px; margin-left: 1px;'  class='btn btn-amber btn-xs delete-object' title='Disable'><i class='fa fa-chain-broken'></i> " . $this->lang->line('Disable') . "</a>";
                         }
 
                         echo "<tr>
@@ -67,12 +67,13 @@
                     <td><img src='".$picture."' class='profile-icon'>$name</td>
                     <td>$role</td>                 
                     <td>$status</td>
-                    <td><a href='" . base_url("employee/view?id=$aid") . "' class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a>&nbsp;&nbsp;$btn&nbsp;&nbsp;<a href='#pop_model' data-toggle='modal' data-remote='false' data-object-id='" . $aid . "' class='btn btn-danger btn-xs delemp' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
+                    <td><a href='" . base_url("employee/view?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;'  class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a>&nbsp;&nbsp;$btn&nbsp;&nbsp;<a href='#pop_model' style='display: inline-block; padding: 6px; margin-left: 1px;'  data-toggle='modal' data-remote='false' data-object-id='" . $aid . "' class='btn btn-danger btn-xs delemp' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
                         $i++;
                     }
                     ?>
                     </tbody>
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
@@ -80,6 +81,7 @@
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
             </div>

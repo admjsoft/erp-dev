@@ -74,7 +74,7 @@
         <div class="card-header">
             <h3 class="title">
                 <?php echo $this->lang->line('Promo Codes') ?> <a href="<?php echo base_url('promo/create') ?>"
-                                                                  class="btn btn-primary btn-sm rounded">
+                                                                  class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h3>

@@ -79,7 +79,7 @@
                             <label class="col-sm-3 control-label"
                                    for="sdate"><?php echo $this->lang->line('From Date') ?></label>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control required"
                                        placeholder="Start Date" name="sdate" id="sdate"
                                        data-toggle="datepicker" autocomplete="false">
@@ -90,7 +90,7 @@
                             <label class="col-sm-3 control-label"
                                    for="edate"><?php echo $this->lang->line('To Date') ?></label>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <input type="text" class="form-control required"
                                        placeholder="End Date" name="edate"
                                        data-toggle="datepicker" autocomplete="false">

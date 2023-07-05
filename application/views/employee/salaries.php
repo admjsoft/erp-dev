@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5 class="title">
                 <?php echo $this->lang->line('Employee') ?> <a href="<?php echo base_url('employee/add') ?>"
-                                                               class="btn btn-primary btn-sm rounded">
+                                                               class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h5>
@@ -65,12 +65,13 @@
                     <td>$role</td>                 
                     <td>$status</td>
                  
-                    <td><a href='" . base_url("employee/history?id=$aid") . "' class='btn btn-success btn-xs'><i class='fa fa-list-ul'></i> " . $this->lang->line('History') . "</a></td></tr>";
+                    <td><a href='" . base_url("employee/history?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;'class='btn btn-success btn-xs'><i class='fa fa-list-ul'></i> " . $this->lang->line('History') . "</a></td></tr>";
                         $i++;
                     }
                     ?>
                     </tbody>
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
@@ -79,6 +80,7 @@
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
             </div>

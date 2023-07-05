@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5><?php echo $this->lang->line('Supplier') ?> <a
                         href="<?php echo base_url('supplier/create') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
@@ -42,6 +42,7 @@
                     </tbody>
 
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
@@ -52,6 +53,7 @@
 
 
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
             </div>
@@ -88,6 +90,13 @@
                     }
                 }
             ],
+            "rowCallback": function(row, data) {
+
+            if (data[5]) { // Assuming status value is at index 3
+                //alert(data[6]);
+                $(row).css('white-space','nowrap'); // Add CSS class to display row in red
+            }
+}
         });
     });
 </script>

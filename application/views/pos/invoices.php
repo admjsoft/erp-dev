@@ -3,7 +3,7 @@
         <div class="card-header">
             <h4 class="card-title"><?php echo $this->lang->line('Manage POS Invoices') ?> <a
                         href="<?php echo base_url('pos_invoices/create') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
@@ -21,19 +21,19 @@
                 <div class="message"></div>
             </div>
             <div class="card-body">
-                <div class="row">
+                <div class="row justify-content-end">
 
-                    <div class="col-md-2"><?php echo $this->lang->line('Invoice Date') ?></div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 text-right"><?php echo $this->lang->line('Invoice Date') ?></div>
+                    <div class="col-md-2 text-right">
                         <input type="text" name="start_date" id="start_date"
                                class="date30 form-control form-control-sm" autocomplete="off"/>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 text-right">
                         <input type="text" name="end_date" id="end_date" class="form-control form-control-sm"
                                data-toggle="datepicker" autocomplete="off"/>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
                     </div>
 

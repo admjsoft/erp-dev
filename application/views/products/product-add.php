@@ -96,7 +96,10 @@
 
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <span class="input-group-addon"><?php echo $this->config->item('currency') ?></span>
+                        <div class="input-group-prepend">
+                        <span class="input-group-text justify-content-center"><?php echo $this->config->item('currency') ?></span>
+                        </div>
+                            
                             <input type="text" name="product_price" class="form-control required"
                                    placeholder="0.00" aria-describedby="sizing-addon"
                                    onkeypress="return isNumber(event)">
@@ -109,7 +112,9 @@
 
                     <div class="col-sm-6">
                         <div class="input-group">
-                            <span class="input-group-addon"><?php echo $this->config->item('currency') ?></span>
+                        <div class="input-group-prepend">
+                        <span class="input-group-text justify-content-center"><?php echo $this->config->item('currency') ?></span>
+                        </div>
                             <input type="text" name="fproduct_price" class="form-control"
                                    placeholder="0.00" aria-describedby="sizing-addon1"
                                    onkeypress="return isNumber(event)">
@@ -126,8 +131,10 @@
                             <input type="text" name="product_tax" class="form-control"
                                    placeholder="<?php echo $this->lang->line('Default TAX Rate') ?>"
                                    aria-describedby="sizing-addon1"
-                                   onkeypress="return isNumber(event)"><span
-                                    class="input-group-addon">%</span>
+                                   onkeypress="return isNumber(event)">
+                                   <div class="input-group-append">
+                                    <span class="input-group-text justify-content-center">%</span>
+                                   </div>
                         </div>
                     </div>
 
@@ -138,8 +145,10 @@
                             <input type="text" name="product_disc" class="form-control"
                                    placeholder="<?php echo $this->lang->line('Default Discount Rate') ?>"
                                    aria-describedby="sizing-addon1"
-                                   onkeypress="return isNumber(event)"><span
-                                    class="input-group-addon">%</span>
+                                   onkeypress="return isNumber(event)">
+                                   <div class="input-group-append">
+                                    <span class="input-group-text justify-content-center">%</span>
+                                   </div>
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -170,7 +179,7 @@
                     <label class="col-sm-2 col-form-label"
                            for="product_cat"><?php echo $this->lang->line('Measurement Unit') ?>*</label>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <select name="unit" class="form-control">
                             <option value=''>None</option>
                             <?php
@@ -212,7 +221,7 @@
 
                     <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Description') ?></label>
 
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         <textarea placeholder="Description"
                                   class="form-control margin-bottom" name="product_desc"
                         ></textarea>
@@ -224,7 +233,7 @@
                            for="edate"><?php echo $this->lang->line('Valid') . ' (' . $this->lang->line('To Date') ?>
                         )</label>
 
-                    <div class="col-sm-2">
+                    <div class="col-sm-6">
                         <input type="text" class="form-control required"
                                placeholder="Expiry Date" name="wdate"
                                data-toggle="datepicker" autocomplete="false">

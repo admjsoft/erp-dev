@@ -69,6 +69,7 @@ if ($this->input->get('due')) {
                     </tbody>
 
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
@@ -83,6 +84,7 @@ if ($this->input->get('due')) {
 
 
                     </tr>
+                     <?php */ ?>
                     </tfoot>
                 </table>
 

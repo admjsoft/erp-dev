@@ -302,7 +302,7 @@
                                        echo $this->lang->line('Employee')
                                 ?><br>
                                     <select name="employee"
-                                            class=" mt-1 col form-control form-control-sm">
+                                            class=" mt-1 col form-control form-control">
 
                                         <?php foreach ($employee as $row) {
 

@@ -204,12 +204,14 @@ if(isset($_SESSION['status'])){
                                         </div>
                                     </div>
                                 </div>
-                                <div id="mybutton">
+                                <div id="mybutton" style="display: flex; justify-content: center;">
                                     <input type="hidden" value="jobsheets/add_task" id="action-url">
                                     <input type="submit"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                            value="<?php //echo $this->lang->line('Add customer') ?>Create Task"
                                            data-loading-text="Creating...">
+                                
+
                                 </div>
                             </div>
                         </div>

@@ -50,6 +50,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <tbody>
                 </tbody>
                 <tfoot>
+                    <?php /* ?>
                     <tr>
 						<th><?php echo $this->lang->line('Module') ?></th>
                         <th><?php echo $this->lang->line('Scheduler For') ?></th>
@@ -57,6 +58,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 					    <th><?php echo $this->lang->line('Created At') ?></th>
 					<th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
+                    <?php */ ?>
                 </tfoot>
             </table>
         </div>

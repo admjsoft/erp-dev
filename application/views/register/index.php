@@ -40,6 +40,7 @@
 
                     </tbody>
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
@@ -48,6 +49,7 @@
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
             </div>

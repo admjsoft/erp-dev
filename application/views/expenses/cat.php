@@ -9,7 +9,7 @@
             <h5 class="title">
                 <?php echo $this->lang->line('Expenses Categories') ?><a
                         href="<?php echo base_url('expenses/createcat') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h5>

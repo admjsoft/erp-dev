@@ -3,7 +3,7 @@
         <div class="card-header">
             <h5><?php echo $this->lang->line('Customer') . ' ' . $this->lang->line('Stock Return') ?> <a
                         href="<?php echo base_url('stockreturn/create_client') ?>"
-                        class="btn btn-primary btn-sm rounded">
+                        class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
@@ -24,19 +24,19 @@
             <div class="card-body">
 
 
-                <div class="row">
+                <div class="row justify-content-end">
 
-                    <div class="col-md-2"><?php echo $this->lang->line('Invoice Date') ?></div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 text-right"><?php echo $this->lang->line('Invoice Date') ?></div>
+                    <div class="col-md-2 text-right">
                         <input type="text" name="start_date" id="start_date"
                                class="date30 form-control form-control-sm" autocomplete="off"/>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 text-right">
                         <input type="text" name="end_date" id="end_date" class="form-control form-control-sm"
                                data-toggle="datepicker" autocomplete="off"/>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
                     </div>
 
@@ -59,6 +59,7 @@
                     </tbody>
 
                     <tfoot>
+                        <?php /* ?>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
                         <th>Order #</th>
@@ -68,6 +69,7 @@
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
+                    <?php */ ?>
                     </tfoot>
                 </table>
 

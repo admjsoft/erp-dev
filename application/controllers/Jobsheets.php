@@ -281,7 +281,7 @@ class Jobsheets extends CI_Controller
                 $temp.="Pending";
             }
             elseif($jobsheet->status==3){
-               $temp.='<a class="btn btn-danger btn-xs assign-object" href="#" data-object-id="' . $jobsheet->id . '"> <i class="fa fa-pencil-square-o "></i> Assign</a>';
+               $temp.='<a class="btn btn-danger btn-xs assign-object" style="display: inline-block; padding:6px; margin-left:1px;" href="#" data-object-id="' . $jobsheet->id . '"> <i class="fa fa-pencil-square-o "></i> Assign</a>';
                //$temp.="unassigned";
             }elseif($jobsheet->status==4){
                 $temp.="WorkInProgress";
@@ -323,15 +323,21 @@ class Jobsheets extends CI_Controller
             $row[]= $estimated_completed_date;
           
 
-            $temp = '<a href="' . base_url('jobsheets/thread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
+            // $temp = '<a href="' . base_url('jobsheets/thread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
+            $temp = '<a href="' . base_url('jobsheets/thread/?id=' . $jobsheet->id) . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a>';
+
             if($jobsheet->status==2 || $jobsheet->status==3){
-            $temp .= '<a href="' . base_url('jobsheets/edit/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('Edit') . ' </a>';
+            //$temp .= '<a href="' . base_url('jobsheets/edit/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> ' . $this->lang->line('Edit') . ' </a>';
+            $temp .= '<a href="' . base_url('jobsheets/edit/?id=' . $jobsheet->id) . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
+
             }
-            $temp .= '<a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $jobsheet->id . '"> <i class="fa fa-trash "></i> </a>';
+            $temp .= '<a class="btn btn-danger btn-xs delete-object" style="display: inline-block; padding:6px; margin-left:1px;" href="#" data-object-id="' . $jobsheet->id . '"> <i class="fa fa-trash "></i> </a>';
             if ($this->aauth->premission(23)&&($jobsheet->cinvoice==1)) {
                 if($jobsheet->status==1){
-            $temp .='<form action="' . base_url('invoices/create').'" method="post"><a href="' . base_url('invoices/create/?cid=' . $jobsheet->cid) . '" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> ' . $this->lang->line('Create Invoice') . '</a>';
-                }
+            // $temp .='<form action="' . base_url('invoices/create').'" method="post"><a href="' . base_url('invoices/create/?cid=' . $jobsheet->cid) . '" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> ' . $this->lang->line('Create Invoice') . '</a>';
+            $temp .= '<a class="btn btn-success btn-xs delete-object" style="display: inline-block;  padding:6px; margin-left:1px;" href="' . base_url('invoices/create/?cid=' . $jobsheet->cid) . '"> <i class="fa fa-pencil "></i> </a>';
+        
+            }
             }
             $row[]=$temp;
 
@@ -589,12 +595,12 @@ class Jobsheets extends CI_Controller
              
             if($job_given_date >= $today_date)
             {
-                $diable_status = '';
+                $disable_status = '';
             }else{
                 $disable_status = 'disabled-link';
             }
 
-            $row[] = '<a href="' . base_url('jobsheets/mythread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs  '.$disable_status.'"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
+            $row[] = '<a href="' . base_url('jobsheets/mythread/?id=' . $jobsheet->id) . '" class="btn btn-success btn-xs  '.$disable_status.'" style="display: inline-block; padding:6px; margin-left:1px;"><i class="fa fa-eye"></i> ' . $this->lang->line('View') . '</a>';
 
             if(!empty($jobsheet->completed_time))
             {
