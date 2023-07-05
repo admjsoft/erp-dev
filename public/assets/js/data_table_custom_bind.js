@@ -1,7 +1,7 @@
 (function() {
     
     // var base_url = window.location.origin;
-    var base_url = window.location.origin+'/BazaarPortalNew';
+    var base_url = window.location.origin+'/BazaarPortal';
     var promotion_ids = new Array();
     var messaging_team_ids = new Array();
     var messaging_cust_ids = new Array();
@@ -123,9 +123,6 @@
                 }else if (table_id == 'pos_customers_ajax_table'){
 
                     $("#pos_customers_ajax_table tbody").find("tr:first").click();
-                    setTimeout(function() { 
-                        DataTableBind($("#pos_customer_orders_ajax_table"), true);
-                     },1000);
                    
                     
                 }else if (table_id == 'pos_orders_ajax_table'){
@@ -824,9 +821,6 @@
         success: function(data) {
             $(appendDivId).find('.modal-content').html('');
             $(appendDivId).find('.modal-content').html(data.html);
-            $('#employee_id_dp').val(data.runner_details.Id+"_"+data.runner_details.JobRoleId);
-            $('#employee_id_dp').attr("disabled", true); 
-            $('#employee_id').val(data.runner_details.Id+"_"+data.runner_details.JobRoleId);
             $(appendDivId).modal('show');
         }
     });
@@ -2429,16 +2423,16 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
   // employee schedule
 
   
-//   $("body").on("change", "#calendars1", function() {
-//     event.preventDefault();
-//     var schedule_date = $(this).val();
-//     $("#employee_schedule_ajax_table").attr("schedule_date", schedule_date);
-//     $("#nav-home-tab").attr("schedule_date", schedule_date);
-//     DataTableBind($("#employee_schedule_ajax_table"), true);
-//     return;
-//     });
+  $("body").on("change", "#calendars1", function() {
+    event.preventDefault();
+    var schedule_date = $(this).val();
+    $("#employee_schedule_ajax_table").attr("schedule_date", schedule_date);
+    $("#nav-home-tab").attr("schedule_date", schedule_date);
+    DataTableBind($("#employee_schedule_ajax_table"), true);
+    return;
+    });
 
-    $("body").on("change", "#calendars1", function() {
+    $("body").on("change", "#calendars", function() {
         event.preventDefault();
         var schedule_date = $(this).val();
         $("#employee_schedule_detailed_ajax_table").attr("schedule_date", schedule_date);
@@ -2447,12 +2441,12 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         return;
     });
 
-    // $("body").on("change", "#employee_id", function() {
-    //     var emp_id = $(this).val();
-    //     var myArray = emp_id.split("_");
-    //     var job_role_id = myArray[1];
-    //     $('#employee_jobrole_id').val(job_role_id);
-    // });
+    $("body").on("change", "#employee_id", function() {
+        var emp_id = $(this).val();
+        var myArray = emp_id.split("_");
+        var job_role_id = myArray[1];
+        $('#employee_jobrole_id').val(job_role_id);
+    });
     
     $("body").on("click", ".schedule_delete_btn", function() {
         event.preventDefault();
@@ -2555,7 +2549,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                   swal(data.Message, {
                     icon: "success",
                   });
-                  $('#cloneemployee').modal('hide');
                   $('#schedule_start').val('');
                   $('#schedule_end').val('');
                 //   $('#sch_employee_id').val('');
@@ -2578,57 +2571,57 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
 
 
         
-        // $("body").on("change", "#sm_service_id", function(event) {
-        //     event.preventDefault();
-        //     var fetchId = $(this).val();
-        //     var fetchId2 = $(this).attr("fetchId");
-        //     fetchId2 = $('#' + fetchId2).val();
-        //     var fetchurl = $(this).attr("fetchurl");
-        //     var appendDivId = $(this).attr("appendDivId");            
-        //     CallDetailedView(fetchurl, fetchId, appendDivId, fetchId2);
-        //     return;
-        // });
+        $("body").on("change", "#sm_service_id", function(event) {
+            event.preventDefault();
+            var fetchId = $(this).val();
+            var fetchId2 = $(this).attr("fetchId");
+            fetchId2 = $('#' + fetchId2).val();
+            var fetchurl = $(this).attr("fetchurl");
+            var appendDivId = $(this).attr("appendDivId");            
+            CallDetailedView(fetchurl, fetchId, appendDivId, fetchId2);
+            return;
+        });
 
-        // $("body").on("change", "#sm_merchant_id", function(event) {
-        //     event.preventDefault();
-        //     var fetchId = $(this).val();
-        //     var fetchurl = $(this).attr("fetchurl");
-        //     var appendDivId = $(this).attr("appendDivId");
-        //     CallDetailedView(fetchurl, fetchId, appendDivId);
+        $("body").on("change", "#sm_merchant_id", function(event) {
+            event.preventDefault();
+            var fetchId = $(this).val();
+            var fetchurl = $(this).attr("fetchurl");
+            var appendDivId = $(this).attr("appendDivId");
+            CallDetailedView(fetchurl, fetchId, appendDivId);
 
-        //     var fetchurl1 = $(this).attr("fetchurl1");
-        //     var appendDivId1 = $(this).attr("appendDivId1");
-        //     CallDetailedView(fetchurl1, fetchId, appendDivId1);
+            var fetchurl1 = $(this).attr("fetchurl1");
+            var appendDivId1 = $(this).attr("appendDivId1");
+            CallDetailedView(fetchurl1, fetchId, appendDivId1);
 
-        //     // setTimeout(function() {
-        //     //     var owl = $('.browse-cate');
-        //     //     var owl = document.getElementsByClassName("browse-cate");
-        //     //     owl.owlCarousel({
-        //     //         stagePadding: 0,
-        //     //         margin: 10,
-        //     //         nav: true,
-        //     //         loop: true,
-        //     //         autoplay: false,
-        //     //         autoplayTimeout: 900,
-        //     //         dots: false,
-        //     //         responsive: {
-        //     //             0: {
-        //     //                 items: 2
-        //     //             },
-        //     //             600: {
-        //     //                 items: 4
-        //     //             },
-        //     //             1000: {
-        //     //                 items: 4
-        //     //             }
-        //     //         }
-        //     //     })
-        //     // }, 3000);
+            // setTimeout(function() {
+            //     var owl = $('.browse-cate');
+            //     var owl = document.getElementsByClassName("browse-cate");
+            //     owl.owlCarousel({
+            //         stagePadding: 0,
+            //         margin: 10,
+            //         nav: true,
+            //         loop: true,
+            //         autoplay: false,
+            //         autoplayTimeout: 900,
+            //         dots: false,
+            //         responsive: {
+            //             0: {
+            //                 items: 2
+            //             },
+            //             600: {
+            //                 items: 4
+            //             },
+            //             1000: {
+            //                 items: 4
+            //             }
+            //         }
+            //     })
+            // }, 3000);
         
 
             
-        //     return;
-        // });
+            return;
+        });
     
         $("body").on("change", "#sm_location_id", function(event) {
             event.preventDefault();
@@ -2657,8 +2650,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
 
             var merchant_id = $('#sm_merchant_id').val();
             var location_id = $('#sm_location_id').val();
-            var segment_id = $(this).attr('segment_id');
-            $("#sm_segment_id").val(segment_id);
+
             if(merchant_id != '' && location_id != '')
             {
                 $('.pos_item_category').find('.card').removeClass('card-active');
@@ -2666,7 +2658,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                 // var merchant_id = $('#sm_merchant_id').val();
                 // var location_id = $('#sm_location_id').val();
                 var search_key = $('#pos_item_search').val();
-               
+                var segment_id = $(this).attr('segment_id');
                 var fetchurl = $(this).attr('fetchurl');
                 var appendDivId = $(this).attr('appendDivId');
                 $("#"+appendDivId).html('');
@@ -2682,51 +2674,12 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                         $("#"+appendDivId).html( data.html );
                     }
                 });
-
             }else{
                 swal('Please Select Merchant Location', {
                     icon: "error",
                 });
             }
             
-            return;
-        });
-
-
-        $('body').on("click",".pos_item_sub_category",function(){
-
-            var merchant_id = $('#sm_merchant_id').val();
-            var location_id = $('#sm_location_id').val();
-            var segment_id = $('#sm_segment_id').val();
-
-            if(merchant_id != '' && location_id != '' && segment_id != '')
-            {
-                // $('.phone_orders_item_category').find('.card').removeClass('card-active');
-                // $(this).find('.card').addClass('card-active');
-               
-                var search_key = $('#pos_item_search').val();
-                var sub_segment_id = $(this).attr('sub_segment_id');
-                var fetchurl = $(this).attr('fetchurl');
-                var appendDivId = $(this).attr('appendDivId');
-                $("#"+appendDivId).html('');
-                var formData = { "merchant_id": merchant_id, "location_id":location_id, "segment_id": segment_id, "sub_segment_id":sub_segment_id, "sub_segment_id": sub_segment_id, "search_key":search_key};
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                        $("#"+appendDivId).html( data.html );
-                    }
-                });
-                
-            }else{
-                swal('Please Select Merchant Location', {
-                    icon: "error",
-                });
-            }
             return;
         });
 
@@ -2756,7 +2709,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                         cache: false,
                         success: function(data) {
                             $("#"+appendDivId).html( data.html );
-                            
                         }
                     });
                 }
@@ -2775,31 +2727,21 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var fetchId = ele.attr("fetchId");
             var appendDivId = ele.attr("appendDivId");
             CallDetailedView(fetchurl, fetchId, appendDivId);
-            setTimeout(function() { 
-                DataTableBind($("#pos_customer_orders_ajax_table"), true);
-             },1000);
-           
+            DataTableBind($("#pos_customer_orders_ajax_table"), true);
             return;
         });
 
         $("body").on("click", "#pos_orders_ajax_table tr", function(event) {
             event.preventDefault();
             var ele = $(this).find(".fetchDetails");
-            $("#pos_orders_ajax_table").find("tr").removeClass("active");
+            $("#pos_customers_ajax_table").find("tr").removeClass("active");
             $(this).addClass("active");
     
-            var slected_row_index = ($('#pos_orders_ajax_table tbody tr').index(this));
-            $('#selected_row_index').val(slected_row_index);
-            //alert(slected_row_index);
             var fetchurl = ele.attr("fetchurl");
             var fetchId = ele.attr("fetchId");
             var appendDivId = ele.attr("appendDivId");
-            var fetchurl = ele.attr("fetchurl");
-            var fetchId2 = ele.attr("ordereditmode");
-            CallDetailedView(fetchurl, fetchId, appendDivId, fetchId2);
-            setTimeout(function() { 
-                $("#ordered_items_list_table").DataTable({ "bSort": false });
-             },1000);
+            CallDetailedView(fetchurl, fetchId, appendDivId);
+           // DataTableBind($("#pos_customer_orders_ajax_table"), true);
             return;
         });
 
@@ -2827,6 +2769,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                             $("#CustomerMobile").html( '+91 *******' );
                             $("#CustomerEmail").html( '*****@***.***' );
                             $("#SavePhoneNumber").val( mobile_number );
+                            $('#CustomerOtpVerification').val('');
                         }else{
                             CustomerDataAppend(data.customer_data);
                         }
@@ -2845,103 +2788,8 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             $("#CustomerMobile").html( customer_data.CustomerMobile );
             $("#CustomerEmail").html( customer_data.CustomerEmail );
             $("#CustomerId").val( customer_data.CustomerId );
-            $('#CustomerOtpVerification').val(1);
+            $('#CustomerOtpVerification').val('');
         }
-
-
-
-
-        $('body').on("input","#pos_search_customer_mobile_number1",function(e){
-            e.preventDefault();
-            var $that = $(this);
-            var maxlength = 10;
-            if($that.val().length == maxlength) {
-                e.preventDefault();
-                var mobile_number = $that.val();
-                var fetchurl = $(this).attr('fetchurl');
-                var formData = { "mobile_number": mobile_number};
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                        if( data.Status == 500 ){
-                            $("#customer_mobile1").val( mobile_number );
-                            $('#addcustomer1').modal('show');
-                            $("#CustomerName1").html( '******' );
-                            $("#CustomerMobile1").html( '+91 *******' );
-                            $("#CustomerEmail1").html( '*****@***.***' );
-                            $("#SavePhoneNumber").val( mobile_number );
-                        }else{
-                            CustomerDataAppend1(data.customer_data);
-                        }
-                    }
-                });
-                LoadCartItems();
-                return; 
-            }
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        });
-       
-        function CustomerDataAppend1( customer_data ){
-            $("#CustomerName1").html( customer_data.CustomerName );
-            $("#CustomerMobile1").html( customer_data.CustomerMobile );
-            $("#CustomerEmail1").html( customer_data.CustomerEmail );
-            $("#CustomerId1").val( customer_data.CustomerId );
-            $('#CustomerOtpVerification1').val(1);
-        }
-
-
-        $('body').on("input","#pos_search_customer_mobile_number2",function(e){
-            e.preventDefault();
-            var $that = $(this);
-            var maxlength = 10;
-            if($that.val().length == maxlength) {
-                e.preventDefault();
-                var mobile_number = $that.val();
-                var fetchurl = $(this).attr('fetchurl');
-                var formData = { "mobile_number": mobile_number};
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                        if( data.Status == 500 ){
-                            $("#customer_mobile2").val( mobile_number );
-                            $('#addcustomer2').modal('show');
-                            $("#CustomerName2").html( '******' );
-                            $("#CustomerMobile2").html( '+91 *******' );
-                            $("#CustomerEmail2").html( '*****@***.***' );
-                            $("#SavePhoneNumber").val( mobile_number );
-                        }else{
-                            CustomerDataAppend2(data.customer_data);
-                        }
-                    }
-                });
-                LoadCartItems();
-                return; 
-            }
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        });
-       
-        function CustomerDataAppend2( customer_data ){
-            $("#CustomerName2").html( customer_data.CustomerName );
-            $("#CustomerMobile2").html( customer_data.CustomerMobile );
-            $("#CustomerEmail2").html( customer_data.CustomerEmail );
-            $("#CustomerId2").val( customer_data.CustomerId );
-            $('#CustomerOtpVerification2').val(1);
-        }
-
 
         $("body").on("click", ".product_modal_btn", function(e) {
             e.preventDefault();
@@ -2972,23 +2820,12 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             e.preventDefault();
             var ItemId = $(this).attr("itemid");
             var action_url = $(this).attr("data-url");
-            var billing_tab = $('#billing_tab').val();
-            //alert(billing_tab);
-            if(billing_tab != '')
-            {
-                var customer_id = $("#CustomerId"+billing_tab).val();
-                //alert(customer_id);
-            }else{
-                var customer_id = $("#CustomerId").val();
-            }
-            
-            //alert(customer_id);
-            //return false;
+            var customer_id = $("#CustomerId").val();
             if(customer_id != '')
             {
 
                 var pos_cart_item_quantity = $("#pos_cart_item_quantity_"+ItemId ).val();
-                var pos_search_customer_mobile_number = $("#pos_search_customer_mobile_number"+billing_tab).val();
+                var pos_search_customer_mobile_number = $("#pos_search_customer_mobile_number").val();
                 if( pos_search_customer_mobile_number == undefined || pos_search_customer_mobile_number == '' || pos_search_customer_mobile_number.length != 10 ){
                    
                     swal('Please enter valid mobile number', {
@@ -2996,7 +2833,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                     });
 
                     $("#AddItems").modal('hide');
-                    $("#pos_search_customer_mobile_number"+billing_tab).focus();
+                    $("#pos_search_customer_mobile_number").focus();
                     return false;
                 }
                 if( pos_cart_item_quantity <= 0 ){
@@ -3020,27 +2857,11 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
 
             var merchant_id = $('#sm_merchant_id').val();
             var location_id = $('#sm_location_id').val();
-
-            var billing_tab = $('#billing_tab').val();
-            //alert(billing_tab);
-            if(billing_tab != '')
-            {
-                var customer_id = $("#CustomerId"+billing_tab).val();
-                var otp_verification_status = $('#CustomerOtpVerification'+billing_tab).val();
-                var invoice_id = $("#InvoiceId"+billing_tab).val();
-                //alert(customer_id);
-            }else{
-                var customer_id = $("#CustomerId").val();
-                var otp_verification_status = $('#CustomerOtpVerification').val();
-                var invoice_id = $("#InvoiceId").val();
-            }
-            var billing_tab = $('#billing_tab').val();
-            //alert(billing_tab);
-            //var customer_id = $("#CustomerId").val();
-            // var otp_verification_status = $('#CustomerOtpVerification').val();
+            var customer_id = $("#CustomerId").val();
+            var otp_verification_status = $('#CustomerOtpVerification').val();
             if(otp_verification_status)
             {
-            var formData = { "ItemId": ItemId,'ItemQuantity':pos_cart_item_quantity, 'merchant_id': merchant_id, 'location_id':location_id,  'customer_id':customer_id, 'invoice_id':invoice_id};
+            var formData = { "ItemId": ItemId,'ItemQuantity':pos_cart_item_quantity, 'merchant_id': merchant_id, 'location_id':location_id,  'customer_id':customer_id};
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -3073,26 +2894,11 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         function LoadCartItems(){
             var merchant_id = $('#sm_merchant_id').val();
             var location_id = $('#sm_location_id').val();
-
-            var billing_tab = $('#billing_tab').val();
-            //alert("--"+billing_tab+"--");
-            if(billing_tab != '')
-            {
-                var customer_id = $("#CustomerId"+billing_tab).val();
-                var otp_verification_status = $('#CustomerOtpVerification'+billing_tab).val();
-                var invoice_id = $("#InvoiceId"+billing_tab).val();
-                //alert(customer_id);
-            }else{
-                var customer_id = $("#CustomerId").val();
-                var otp_verification_status = $('#CustomerOtpVerification').val();
-                var invoice_id = $("#InvoiceId"+billing_tab).val();
-            }
-
-            // var customer_id = $("#CustomerId").val();
-            // var otp_verification_status = $('#CustomerOtpVerification').val();
+            var customer_id = $("#CustomerId").val();
+            var otp_verification_status = $('#CustomerOtpVerification').val();
             if(otp_verification_status)
             {
-            var formData = { "ItemId": '', "merchant_id": merchant_id, "location_id":location_id, "customer_id":customer_id, "invoice_id":invoice_id};
+            var formData = { "ItemId": '', "merchant_id": merchant_id, "location_id":location_id, "customer_id":customer_id};
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -3102,28 +2908,27 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                 cache: false,
                 success: function(data) {
                     if( data.status ){
-                        // alert(billing_tab);
-                        $("#pos_cart_items"+billing_tab).html(data.html);
-                        $("#pos_cart_items_count"+billing_tab).html(data.cart_items_count);
-                        $("#pos_cart_items_total_amount"+billing_tab).html(data.cart_total_amount);
+                        $("#pos_cart_items").html(data.html);
+                        $("#pos_cart_items_count").html(data.cart_items_count);
+                        $('#pos_cart_items_total_amount').html(data.cart_total_amount);
 
-                        $("#pos_cart_items_sub_total"+billing_tab).html(data.cart_items_total_amount);
-                        $("#pos_cart_items_tax_amount"+billing_tab).html(data.tax);
-                        $("#pos_cart_items_fee_amount"+billing_tab).html(data.fee);
-                        $("#pos_cart_items_discount_amount"+billing_tab).html(data.discount);
-                        $("#pos_cart_items_total_amount_last"+billing_tab).html(data.cart_total_amount);
+                        $("#pos_cart_items_sub_total").html(data.cart_items_total_amount);
+                        $('#pos_cart_items_tax_amount').html(data.tax);
+                        $('#pos_cart_items_fee_amount').html(data.fee);
+                        $("#pos_cart_items_discount_amount").html(data.discount);
+                        $('#pos_cart_items_total_amount1').html(data.cart_total_amount);
 
                     }else{
 
-                        $("#pos_cart_items"+billing_tab).html('');
-                        $("#pos_cart_items_count"+billing_tab).html('0');
-                        $("#pos_cart_items_total_amount"+billing_tab).html('0.00');
+                        $("#pos_cart_items").html('');
+                        $("#pos_cart_items_count").html('0');
+                        $('#pos_cart_items_total_amount').html('0.00');
 
-                        $("#pos_cart_items_sub_total"+billing_tab).html('0.00');
-                        $("#pos_cart_items_tax_amount"+billing_tab).html('0.00');
-                        $("#pos_cart_items_fee_amount"+billing_tab).html('0.00');
-                        $("#pos_cart_items_discount_amount"+billing_tab).html('0.00');
-                        $("#pos_cart_items_total_amount_last"+billing_tab).html('0.00');
+                        $("#pos_cart_items_sub_total").html('0.00');
+                        $('#pos_cart_items_tax_amount').html('0.00');
+                        $('#pos_cart_items_fee_amount').html('0.00');
+                        $("#pos_cart_items_discount_amount").html('0.00');
+                        $('#pos_cart_items_total_amount1').html('0.00');
                         
 
                     }
@@ -3131,15 +2936,15 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             });
 
         }else{
-            $("#pos_cart_items"+billing_tab).html('');
-            $("#pos_cart_items_count"+billing_tab).html('0');
-            $("#pos_cart_items_total_amount"+billing_tab).html('0.00');
+            $("#pos_cart_items").html('');
+            $("#pos_cart_items_count").html('0');
+            $('#pos_cart_items_total_amount').html('0.00');
 
-            $("#pos_cart_items_sub_total"+billing_tab).html('0.00');
-            $("#pos_cart_items_tax_amount"+billing_tab).html('0.00');
-            $("#pos_cart_items_fee_amount"+billing_tab).html('0.00');
-            $("#pos_cart_items_discount_amount"+billing_tab).html('0.00');
-            $("#pos_cart_items_total_amount_last"+billing_tab).html('0.00');
+            $("#pos_cart_items_sub_total").html('0.00');
+            $('#pos_cart_items_tax_amount').html('0.00');
+            $('#pos_cart_items_fee_amount').html('0.00');
+            $("#pos_cart_items_discount_amount").html('0.00');
+            $('#pos_cart_items_total_amount1').html('0.00');
             
         }
         }
@@ -3158,20 +2963,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
 
             var merchant_id = $('#sm_merchant_id').val();
             var location_id = $('#sm_location_id').val();
-
-            var billing_tab = $('#billing_tab').val();
-            //alert(billing_tab);
-            if(billing_tab != '')
-            {
-                var customer_id = $("#CustomerId"+billing_tab).val();
-                
-            }else{
-                var customer_id = $("#CustomerId").val();
-                
-            }
-
-
-            //var customer_id = $("#CustomerId").val();
+            var customer_id = $("#CustomerId").val();
 
             var formData = { "ItemId":ItemId,'CartType':CartType, 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id': customer_id  };
             $.ajax({
@@ -3190,29 +2982,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                 }
             });
             return;
-        }
-
-        function ClearBillingModule(){
-            var billing_tab = $('#billing_tab').val();
-
-            $("#CustomerName"+billing_tab).html( '******' );
-            $("#CustomerMobile"+billing_tab).html( '+91 *******' );
-            $("#CustomerEmail"+billing_tab).html( '*****@***.***' );
-            $("#pos_search_customer_mobile_number"+billing_tab).val('');
-            $("#SavePhoneNumber").val('');            
-            $('#CustomerOtpVerification'+billing_tab).val('');
-            $("#PrintInvoiceBtn").removeClass('d-none'); 
-        }
-
-        function PhoneOrdersClearBillingModule(){
-           
-            $("#CustomerName").html( '******' );
-            $("#CustomerMobile").html( '+91 *******' );
-            $("#CustomerEmail").html( '*****@***.***' );
-            $("#phone_orders_search_customer_mobile_number").val('');
-            $("#SavePhoneNumber").val('');            
-            $('#CustomerOtpVerification').val('');
-            $("#PrintInvoiceBtn").removeClass('d-none'); 
         }
 
         function incrementValue1(e) {
@@ -3275,18 +3044,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
 
              var merchant_id = $('#sm_merchant_id').val();
              var location_id = $('#sm_location_id').val();
-
-             var billing_tab = $('#billing_tab').val();
-             if(billing_tab != '')
-             {
-                 var customer_id = $("#CustomerId"+billing_tab).val();
-                
-             }else{
-                 var customer_id = $("#CustomerId").val();
-                 
-             }
-
-             //var customer_id = $('#CustomerId').val();
+             var customer_id = $('#CustomerId').val();
 
              if(merchant_id != '' && location_id != '')
              {
@@ -3456,43 +3214,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var address = $('#SaveAddress').val();
             var latitude = $('#SaveLatitude').val();
             var longitude = $('#SaveLongitude').val();
-
-            if(customer_name){
-                if (customer_name.length<5)
-                         {
-                            var alert_message = "Please Enter Customer Business Name with atleast 5 characters...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                            
-            }
-            
-
-            if(email_id){
-                if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)))
-                         {
-                            var alert_message = "Please Enter Valid Email ID...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                           
-            }
-            if(phone_no){
-                if (phone_no.length!=10)
-                         {
-                            var alert_message = "Please Enter Valid Mobile Number...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                            
-            }
-
  
             var formData = { 'customer_name':customer_name, 'phone_no':phone_no, 'email_id' : email_id, 'address' : address,
                               'latitude': latitude, 'longitude': longitude };
@@ -3516,9 +3237,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                             $('#pos_search_customer_mobile_number').val(phone_no).trigger("input");
                             LoadCartItems();
                         }else{
-                            swal(data.Message, {
-                                icon: "error",
-                            });
+
                         }
                     }
                 });
@@ -3538,28 +3257,15 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
              
              var merchant_id = $('#sm_merchant_id').val();
              var location_id = $('#sm_location_id').val();
-             var billing_tab = $('#billing_tab').val();
-             if(billing_tab != '')
-             {
-                 var customer_id = $("#CustomerId"+billing_tab).val();
-                 var customer_verification = $('#CustomerOtpVerification'+billing_tab).val();
-                 var invoice_id = $('#InvoiceId'+billing_tab).val();
-                 //alert(customer_id);
-             }else{
-                 var customer_id = $("#CustomerId").val();
-                 var customer_verification = $('#CustomerOtpVerification').val();
-                 var invoice_id = $('#InvoiceId'+billing_tab).val();
-             }
-
-            //  var customer_id = $('#CustomerId').val();
-            //  var customer_verification = $('#CustomerOtpVerification').val();
+             var customer_id = $('#CustomerId').val();
+             var customer_verification = $('#CustomerOtpVerification').val();
              var delivery_type = $('#DeliveryType').val();
              //alert(delivery_type);
              if(customer_verification)
              {
                 if(delivery_type)
                 {
-                    var formData = { 'customer_id':customer_id, 'merchant_id':merchant_id, 'location_id':location_id, 'invoice_id':invoice_id  };
+                    var formData = { 'customer_id':customer_id, 'merchant_id':merchant_id, 'location_id':location_id  };
                     $("#pos_detailed_display_modal_body").html('');
                     $.ajax({
                         type: "POST",
@@ -3573,9 +3279,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                                 $("#pos_detailed_display_modal_body").html(data.html);
                                 $(modal_id).modal('show');
                             }else{
-                                swal(data.Message, {
-                                    icon: "error",
-                                });
+
                             }
                         }
                     });
@@ -3599,348 +3303,40 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         $("body").on("click", "#pos_place_order", function(e) {
             e.preventDefault();
 
-            //var customer_id = $("#CustomerId").val();
-            var billing_tab = $('#billing_tab').val();
-            if(billing_tab != '')
-            {
-                var customer_id = $("#CustomerId"+billing_tab).val();
-                var payment_mode = $("#PaymentMode"+billing_tab).val();
-                var invoice_id = $("#InvoiceId"+billing_tab).val();
-            }else{
-                var customer_id = $("#CustomerId").val();
-                var payment_mode = $("#PaymentMode").val();
-                var invoice_id = $("#InvoiceId").val();
-            }
-
+            var customer_id = $("#CustomerId").val();
             var fetchurl = $(this).attr('fetchurl');
             var merchant_id = $('#sm_merchant_id').val();
             var location_id = $('#sm_location_id').val();
             var city_id = $('#sm_city_id').val();
-
-            if(payment_mode != '')
-            {
-            // var payment_mode = $("#PaymentMode").val();
-
-            if(payment_mode == 'credit')
-            {   
-                var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id' : customer_id, 'city_id':city_id, 'payment_mode' : payment_mode, 'invoice_id':invoice_id  };
-
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                        if( data.Status == '200' ){
-                            
-                           
-
-                            $('#payment_scucces_details').removeClass('d-none');
-                            $('#payment_options_details').addClass('d-none');
-                            $('#PrintInvoiceBtn').removeClass('d-none');
-                            // $('#payinfo').modal('hide');
-                            ClearCart('all',false);
-                            ClearBillingModule();
-
-                            if(billing_tab != '')
-                            {
-                                $("#InvoiceId"+billing_tab).val(data.InvoiceId);
-                                $("#InvoiceIdStr"+billing_tab).val(data.InvoiceId);
-                            }else{
-                                $("#InvoiceId").val(data.InvoiceId);
-                                $("#InvoiceIdStr").val(data.InvoiceId);
-                            }
-
-                            swal(data.Message, {
-                                icon: "success",
-                            });
-                            // location.href = 'https://bazaarportal-cms-dev.azurewebsites.net/purchase_orders';
-                        }else{
-                            swal(data.Message, {
-                                icon: "error",
-                            });
-                            //$('#payinfo').modal('hide');
-                        }
-                    }
-                });
-                return;
-            }else{
-                  // Send an AJAX request to retrieve the order ID from the server
-                  var formData1 = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id' : customer_id  };
+ 
+            var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id' : customer_id, 'city_id':city_id  };
 
             $.ajax({
-                
-                url: base_url+'/pos_billing/get_razorpay_order_id',
                 type: "POST",
                 dataType: "json",
-                data: formData1,
-                success: function(response) {
-                // Load the payment popup with the order ID
-                var options = {
-                    "key": response.RazorPayKeyId,
-                    "amount": response.RazorPayAmount,
-                    "currency": "INR",
-                    "name": "Bazaar Portal",
-                    "description": "POS Order",
-                    "order_id": response.RazorPayOrderId,
-                    "handler": function(rp_response) {
-
-                        //console.log(rp_response);
-                        //return false;
-                        var razorpay_payment_id = rp_response.razorpay_payment_id;
-                        var razorpay_order_id = rp_response.razorpay_order_id;
-                        var razorpay_signature = rp_response.razorpay_signature;
+                url: fetchurl,
+                data: formData,
+                async: false,
+                cache: false,
+                success: function(data) {
+                    if( data.Status == '200' ){
                         
-                        var formData2 = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id' : customer_id, 'city_id':city_id, 'payment_mode' : payment_mode, 'razorpay_payment_id':razorpay_payment_id, 'razorpay_order_id':razorpay_order_id, 'razorpay_signature':razorpay_signature, 'invoice_id':invoice_id  };
-
-                        $.ajax({
-                            type: "POST",
-                            dataType: "json",
-                            url: fetchurl,
-                            data: formData2,
-                            async: false,
-                            cache: false,
-                            success: function(data) {
-                                if( data.Status == '200' ){
-                                 
-                                    $('#payment_scucces_details').removeClass('d-none');
-                                    $('#payment_options_details').addClass('d-none');
-                                    $('#PrintInvoiceBtn').removeClass('d-none');
-                                    
-                                    //$('#payinfo').modal('hide');
-                                    ClearCart('all',false);
-                                    ClearBillingModule();
-                                    if(billing_tab != '')
-                                    {
-                                        $("#InvoiceId"+billing_tab).val(data.InvoiceId);
-                                        $("#InvoiceIdStr"+billing_tab).val(data.InvoiceId);
-                                        
-                                    }else{
-                                        $("#InvoiceId").val(data.InvoiceId);
-                                        $("#InvoiceIdStr").val(data.InvoiceId);
-                                    }
-                                    swal(data.Message, {
-                                        icon: "success",
-                                    });
-        
-                                    //location.href = 'https://bazaarportal-cms-dev.azurewebsites.net/purchase_orders';
-                                }else{
-                                    swal(data.Message, {
-                                        icon: "error",
-                                    });
-                                    //$('#payinfo').modal('hide');
-                                }
-                            }
+                        swal(data.Message, {
+                            icon: "success",
                         });
-                        return;
 
-                    },
-                    "prefill": {
-                    "name": response.RetailerName,
-                    "email": response.RetailerEmailId,
-                    "contact": response.RetailerPhoneNo
-                    },
-                    "notes": {
-                    "address": "Intelmor Pvt Ltd"
-                    },
-                    "theme": {
-                    "color": "#9568ff"
-                    }
-                };
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
-                }
-            });
-            }
-        }else{
-            swal('Please Select Payment Option', {
-                icon: "error",
-            });
-            //$('#payinfo').modal('hide');
-        }
-           
-        });
-
-
-
-
-
-        $("body").on("click", "#pos_update_order", function(e) {
-            e.preventDefault();
-            var update_payment_option_trigger = $("#update_payment_option_trigger").val();
-            //alert(update_payment_option_trigger);
-            var payment_mode = $("#PaymentMode").val();
-            var refund_payment_mode = $("#RefundPaymentMode").val();
-
-            if(update_payment_option_trigger == '0'){
-                var payment_mode = 'no_due';
-
-
-                if(refund_payment_mode == '')
-                {
-                     
-                    swal("Please Select Refund Payment Type", {
-                        icon: "error",
-                    });
-                    return;
-                }
-            }else if(update_payment_option_trigger == '2'){
-                var payment_mode = 'no_due';
-                var refund_payment_mode = 'no_refund';
-
-
-                if(refund_payment_mode == '')
-                {
-                     
-                    swal("Please Select Refund Payment Type", {
-                        icon: "error",
-                    });
-                    return;
-                }
-            }
-
-
-            var customer_id = $("#customer_id").val();
-            var order_id = $("#order_id").val();
-            
-            var fetchurl = $(this).attr('fetchurl');
-            // var payment_mode = $("#PaymentMode").val();
-            if(payment_mode != '')
-            {
-            if(payment_mode == 'credit' || payment_mode == 'no_due' )
-            {   
-                var formData = { 'order_id':order_id, 'customer_id' : customer_id, 'payment_mode' : payment_mode, 'refund_payment_mode':refund_payment_mode  };
-                
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                        if( data.Status == '200' ){                            
-                           
-                            if(update_payment_option_trigger != '0'){
-                            $('#payment_scucces_details').removeClass('d-none');
-                            }
-                            $('#payment_options_details').addClass('d-none');
-                            $('#payment_options_details1').addClass('d-none');
-                            $('#PrintInvoiceBtn').removeClass('d-none');
-
-                             $('#pos_updated_cart_payinfo').modal('hide');
-                             $('#edit-items-list').modal('hide');
-                             var selected_row_index = $('#selected_row_index').val();
-                             $("#pos_orders_ajax_table tbody").find("tr:eq("+selected_row_index+")").click();
-                             var selected_row_index = selected_row_index -1;
-                             $("#purchase_orders_table tbody").find("tr:eq("+selected_row_index+")").click();
-                             $('#viewmore').modal('hide');
-
-                            swal(data.Message, {
-                                icon: "success",
-                            });
-                            // location.href = 'https://bazaarportal-cms-dev.azurewebsites.net/purchase_orders';
-                        }else{
-                            swal(data.Message, {
-                                icon: "error",
-                            });
-                            //$('#payinfo').modal('hide');
-                        }
-                    }
-                });
-                return;
-            }else{
-                  // Send an AJAX request to retrieve the order ID from the server
-                  var formData1 = { 'order_id':order_id, 'customer_id' : customer_id, 'payment_mode' : payment_mode   };
-
-            $.ajax({
-                
-                url: base_url+'/pos_billing/get_update_razorpay_order_id',
-                type: "POST",
-                dataType: "json",
-                data: formData1,
-                success: function(response) {
-                // Load the payment popup with the order ID
-                var options = {
-                    "key": response.RazorPayKeyId,
-                    "amount": response.RazorPayAmount,
-                    "currency": "INR",
-                    "name": "Bazaar Portal",
-                    "description": "POS Order",
-                    "order_id": response.RazorPayOrderId,
-                    "handler": function(rp_response) {
-
-                        //console.log(rp_response);
-                        //return false;
-                        var razorpay_payment_id = rp_response.razorpay_payment_id;
-                        var razorpay_order_id = rp_response.razorpay_order_id;
-                        var razorpay_signature = rp_response.razorpay_signature;
-                        
-                        var formData2 = { 'order_id':order_id, 'customer_id' : customer_id, 'payment_mode' : payment_mode, 'payment_mode' : payment_mode, 'razorpay_payment_id':razorpay_payment_id, 'razorpay_order_id':razorpay_order_id, 'razorpay_signature':razorpay_signature  };
-
-                        $.ajax({
-                            type: "POST",
-                            dataType: "json",
-                            url: fetchurl,
-                            data: formData2,
-                            async: false,
-                            cache: false,
-                            success: function(data) {
-                                if( data.Status == '200' ){
-                                 
-                                    $('#payment_scucces_details').removeClass('d-none');
-                                    $('#payment_options_details').addClass('d-none');
-                                    ('#payment_options_details1').addClass('d-none');
-                                    $('#PrintInvoiceBtn').removeClass('d-none');
-                                    //$('#payinfo').modal('hide');
-                                    $('#pos_updated_cart_payinfo').modal('hide');
-                                    $('#edit-items-list').modal('hide');
-                                    
-                                  var selected_row_index = $('#selected_row_index').val();
-                                  $("#pos_orders_ajax_table tbody").find("tr:eq("+selected_row_index+")").click();
-
-                                       
-                                    swal(data.Message, {
-                                        icon: "success",
-                                    });
-        
-                                    //location.href = 'https://bazaarportal-cms-dev.azurewebsites.net/purchase_orders';
-                                }else{
-                                    swal(data.Message, {
-                                        icon: "error",
-                                    });
-                                    //$('#payinfo').modal('hide');
-                                }
-                            }
+                        $('#payinfo').modal('hide');
+                        ClearCart('all',false);
+                        location.href = 'http://bazaar-portal.deliverease.in/purchase_orders';
+                    }else{
+                        swal(data.Message, {
+                            icon: "error",
                         });
-                        return;
-
-                    },
-                    "prefill": {
-                    "name": response.RetailerName,
-                    "email": response.RetailerEmailId,
-                    "contact": response.RetailerPhoneNo
-                    },
-                    "notes": {
-                    "address": "Intelmor Pvt Ltd"
-                    },
-                    "theme": {
-                    "color": "#9568ff"
+                        //$('#payinfo').modal('hide');
                     }
-                };
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
                 }
             });
-            }
-        }else{
-            swal('Please Select payment Option', {
-                icon: "error",
-            });
-        }
-           
+            return;
         });
 
 
@@ -4166,16 +3562,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         CallDetailedView(fetchurl, fetchId, appendDivId);
         })
      
-        
-    $("#add_product_history_modal_trigger").click(function(event){
-
-        $('.form-control').removeAttr("disabled");
-        $('.form-select').removeAttr("disabled");
-        $('button').removeAttr("disabled");
-        $('.w-25').removeAttr("disabled");
-        $('.show-for-sr').removeAttr("disabled");
-        
-        });   
+     
      $("#btnEdit-field").click(function(event){
     
       $('.form-control').removeAttr("disabled");
@@ -5064,7 +4451,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
        $("body").on("change", "#pr_source_type", function() {
         event.preventDefault();
         var fetchType = $(this).val();
-        //alert(fetchType);
         $("#add_source_btn").attr("source_type", fetchType);
         if (fetchType == 'category') {
             var pr_source_type_txt = 'Categories';
@@ -5073,7 +4459,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var pr_source_type_txt = 'Customers';
             $('#spst_cols').html('<th class="px-2 " scope="col">Name</th><th class="px-2 cust_ex_col" scope="col" >Contact No</th><th class="px-2 cust_ex_col" scope="col" >Location</th><th class="px-2 cust_ex_col" scope="col"></th>');
         } else {
-            var pr_source_type_txt = 'Retailers';
+            var pr_source_type_txt = 'Merchants';
             $('.cust_ex_col').remove();
         }
 
@@ -5217,9 +4603,9 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
     $("body").on("click", ".get_schedule_map", function() {
         event.preventDefault();
         var fetchUrl = $(this).attr("fetchUrl");
-       // var appendDivId = $(this).attr("href");
-        var appendDivId = $(this).attr("appendDivId");
-        var formData = {  "schedule_date": "", "fetchId": '', "city": 6 };
+        var appendDivId = $(this).attr("href");
+        //var appendDivId = $(this).attr("appendDivId");
+        var formData = { "fetchId": '', "city": 6 };
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -5227,43 +4613,43 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             data: formData,
             cache: false,
             success: function(data) {
-                load_runner_map(data,appendDivId);
+                load_runner_map(data);
             }
         });
         return;
     });
 
-    // function load_runner_map(data) {
+    function load_runner_map(data) {
 
-    //     var locations = data.Locations;
-    //     //var locations = JSON.parse(data.Locations);
+        var locations = data.Locations;
+        //var locations = JSON.parse(data.Locations);
 
-    //     var map = new google.maps.Map(document.getElementById('map'), {
-    //         zoom: 13,
-    //         center: new google.maps.LatLng(data.Latitude, data.Longitude),
-    //         mapTypeId: google.maps.MapTypeId.ROADMAP
-    //     });
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: new google.maps.LatLng(data.Latitude, data.Longitude),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
 
-    //     var infowindow = new google.maps.InfoWindow();
+        var infowindow = new google.maps.InfoWindow();
 
-    //     var marker, i;
+        var marker, i;
 
-    //     for (i = 0; i < locations.length; i++) {
-    //         marker = new google.maps.Marker({
-    //             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-    //             map: map
-    //         });
+        for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map
+            });
 
-    //         google.maps.event.addListener(marker, 'click', (function(marker, i) {
-    //             return function() {
-    //                 infowindow.setContent(locations[i][0]);
-    //                 infowindow.open(map, marker);
-    //             }
-    //         })(marker, i));
-    //     }
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(locations[i][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
 
 
-    // }
+    }
 
     window.load_order_table = function load_order_table(order_status_filter, page_load) {
         //alert(page_load);
@@ -5865,7 +5251,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                 var segment_id = $(this).attr('segment_id');
                 var fetchurl = $(this).attr('fetchurl');
                 var appendDivId = $(this).attr('appendDivId');
-                $('#phone_sm_segment_id').val(segment_id);
                 $("#"+appendDivId).html('');
                 var formData = { "merchant_id": merchant_id, "location_id":location_id, "segment_id": segment_id, "search_key":search_key};
                 $.ajax({
@@ -5879,44 +5264,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                         $("#"+appendDivId).html( data.html );
                     }
                 });
-            }else{
-                swal('Please Select Merchant Location', {
-                    icon: "error",
-                });
-            }
-            return;
-        });
-
-
-        $('body').on("click",".phone_orders_item_sub_category",function(){
-
-            var merchant_id = $('#phone_sm_merchant_id').val();
-            var location_id = $('#phone_sm_location_id').val();
-            var segment_id = $('#phone_sm_segment_id').val();
-
-            if(merchant_id != '' && location_id != '' && segment_id != '')
-            {
-                // $('.phone_orders_item_category').find('.card').removeClass('card-active');
-                // $(this).find('.card').addClass('card-active');
-               
-                var search_key = $('#phone_orders_item_search').val();
-                var sub_segment_id = $(this).attr('sub_segment_id');
-                var fetchurl = $(this).attr('fetchurl');
-                var appendDivId = $(this).attr('appendDivId');
-                $("#"+appendDivId).html('');
-                var formData = { "merchant_id": merchant_id, "location_id":location_id, "segment_id": segment_id, "sub_segment_id": sub_segment_id, "search_key":search_key};
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                        $("#"+appendDivId).html( data.html );
-                    }
-                });
-                
             }else{
                 swal('Please Select Merchant Location', {
                     icon: "error",
@@ -6010,7 +5357,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                             $("#CustomerMobile").html( '+91 *******' );
                             $("#CustomerEmail").html( '*****@***.***' );
                             $("#SavePhoneNumber").val( mobile_number );
-                            
+                            $('#CustomerOtpVerification').val('');
                         }else{
                             PhoneOrdersCustomerDataAppend(data.customer_data);
                         }
@@ -6033,7 +5380,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             $("#CustomerMobile").html( customer_data.CustomerMobile );
             $("#CustomerEmail").html( customer_data.CustomerEmail );
             $("#CustomerId").val( customer_data.CustomerId );
-            $('#CustomerOtpVerification').val(1);
+            $('#CustomerOtpVerification').val('');
         }
 
 
@@ -6042,8 +5389,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var ItemId = $(this).attr("itemid");
             var action_url = $(this).attr("data-url");
             var customer_id = $("#CustomerId").val();
-            //var invoice_id = $("#InvoiceId").val();
-
             if(customer_id != '')
             {
                 var phone_orders_cart_item_quantity = $("#phone_orders_cart_item_quantity_"+ItemId ).val();
@@ -6083,13 +5428,12 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var merchant_id = $('#phone_sm_merchant_id').val();
             var location_id = $('#phone_sm_location_id').val();
             var customer_id = $('#CustomerId').val();
-            var invoice_id = $("#InvoiceId").val();
 
             var otp_verification_status = $('#CustomerOtpVerification').val();
             if(otp_verification_status)
             {
 
-            var formData = { "ItemId": ItemId,'ItemQuantity':pos_cart_item_quantity, 'merchant_id': merchant_id, 'location_id':location_id, 'customer_id':customer_id, 'invoice_id':invoice_id};
+            var formData = { "ItemId": ItemId,'ItemQuantity':pos_cart_item_quantity, 'merchant_id': merchant_id, 'location_id':location_id, 'customer_id':customer_id};
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -6122,11 +5466,10 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var location_id = $('#phone_sm_location_id').val();
             var customer_id = $('#CustomerId').val();
             var otp_verification_status = $('#CustomerOtpVerification').val();
-            var invoice_id = $("#InvoiceId").val();
             if(otp_verification_status)
             {
 
-            var formData = { "ItemId": '', "merchant_id": merchant_id, "location_id":location_id, "customer_id":customer_id, "invoice_id":invoice_id};
+            var formData = { "ItemId": '', "merchant_id": merchant_id, "location_id":location_id, "customer_id":customer_id};
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -6224,14 +5567,13 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
              var location_id = $('#phone_sm_location_id').val();
              var customer_id = $('#CustomerId').val();
              var delivery_type = $('#DeliveryType').val();
-             var invoice_id = $('#InvoiceId').val();
 
              var customer_verification = $('#CustomerOtpVerification').val();
              if(customer_verification)
              {
                 if(delivery_type)
                 {
-                    var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id':customer_id, 'invoice_id':invoice_id };
+                    var formData = { 'merchant_id':merchant_id, 'location_id':location_id , 'customer_id':customer_id };
                     $("#phone_orders_detailed_display_modal_body").html('');
                     $.ajax({
                         type: "POST",
@@ -6245,9 +5587,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                                 $("#phone_orders_detailed_display_modal_body").html(data.html);
                                 $(modal_id).modal('show');
                             }else{
-                                swal(data.Message, {
-                                    icon: "error",
-                                });
+
                             }
                         }
                     });
@@ -6456,128 +5796,33 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var merchant_id = $('#phone_sm_merchant_id').val();
             var location_id = $('#phone_sm_location_id').val();
             var city_id = $('#phone_sm_city_id').val();
-            var payment_mode = $("#PaymentMode").val();
-            var invoice_id = $("#InvoiceId").val();
-            
-            if(payment_mode == 'credit')
-            {
-                var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id':customer_id, 'city_id':city_id, 'payment_mode':payment_mode, 'invoice_id':invoice_id  };
-
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: fetchurl,
-                    data: formData,
-                    async: false,
-                    cache: false,
-                    success: function(data) {
-                       
-                            //$('#payinfo').modal('hide');
-                            $('#payment_scucces_details').removeClass('d-none');
-                            $('#payment_options_details').addClass('d-none');
-                            $('#PrintInvoiceBtn').removeClass('d-none');
-                            $('.pospickup').removeClass('active');
-                            PhoneOrdersClearCart('all',false);
-                            PhoneOrdersClearBillingModule();
-                            $("#InvoiceId").val(data.InvoiceId);
-                            $("#InvoiceIdStr").val(data.InvoiceId);
-                            if( data.Status == '200' ){
-                                swal(data.Message, {
-                                    icon: "success",
-                                });
-                            //location.href = 'https://bazaarportal-cms-dev.azurewebsites.net/purchase_orders';
-                        }else{
-                            swal(data.Message, {
-                                icon: "error",
-                            });
-                            //$('#payinfo').modal('hide');
-                        }
-                    }
-                });
-                return;
-            }else{
-                  // Send an AJAX request to retrieve the order ID from the server
-                  var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id' : customer_id  };
+ 
+            var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id':customer_id, 'city_id':city_id  };
 
             $.ajax({
-                url: base_url+'/pos_billing/get_razorpay_order_id',
                 type: "POST",
                 dataType: "json",
+                url: fetchurl,
                 data: formData,
                 async: false,
                 cache: false,
-                success: function(response) {
-                // Load the payment popup with the order ID
-                var options = {
-                    "key": response.RazorPayKeyId,
-                    "amount": response.RazorPayAmount,
-                    "currency": "INR",
-                    "name": "Bazaar Portal",
-                    "description": "POS Order",
-                    "order_id": response.OrderId,
-                    "order_id": response.OrderId,
-                    "handler": function(rp_response) {
-                    // Handle the payment response
-
-                    var razorpay_payment_id = rp_response.razorpay_payment_id;
-                    var razorpay_order_id = rp_response.razorpay_order_id;
-                    var razorpay_signature = rp_response.razorpay_signature;
-                    
-                    var formData = { 'merchant_id':merchant_id, 'location_id':location_id, 'customer_id' : customer_id, 'city_id':city_id, 'payment_mode' : payment_mode, 'razorpay_payment_id':razorpay_payment_id, 'razorpay_order_id':razorpay_order_id, 'razorpay_signature':razorpay_signature, 'invoice_id':invoice_id  };
-
-                    $.ajax({
-                        type: "POST",
-                        dataType: "json",
-                        url: fetchurl,
-                        data: formData,
-                        async: false,
-                        cache: false,
-                        success: function(data) {
-                            if( data.Status == '200' ){
-                                
-                                //$('#payinfo').modal('hide');
-                                $('#payment_scucces_details').removeClass('d-none');
-                                $('#payment_options_details').addClass('d-none');
-                                $('#PrintInvoiceBtn').removeClass('d-none');
-                                $('.pospickup').removeClass('active');
-                                PhoneOrdersClearCart('all',false);
-                                PhoneOrdersClearBillingModule();
-                                $("#InvoiceId").val(data.InvoiceId);
-                                $("#InvoiceIdStr").val(data.InvoiceId);
-                                swal(data.Message, {
-                                    icon: "success",
-                                });
-                                //location.href = 'https://bazaarportal-cms-dev.azurewebsites.net/purchase_orders';
-                            }else{
-                                swal(data.Message, {
-                                    icon: "error",
-                                });
-                                //$('#payinfo').modal('hide');
-                            }
-                        }
-                    });
-                    return;
-
-                    },
-                    "prefill": {
-                    "name": response.RetailerName,
-                    "email": response.RetailerEmailId,
-                    "contact": response.RetailerPhoneNo
-                    },
-                    "notes": {
-                    "address": "Intelmor Pvt Ltd"
-                    },
-                    "theme": {
-                    "color": "#9568ff"
+                success: function(data) {
+                    if( data.Status == '200' ){
+                        swal(data.Message, {
+                            icon: "success",
+                        });
+                        $('#payinfo').modal('hide');
+                        PhoneOrdersClearCart('all',false);
+                        location.href = 'http://bazaar-portal.deliverease.in/purchase_orders';
+                    }else{
+                        swal(data.Message, {
+                            icon: "error",
+                        });
+                        //$('#payinfo').modal('hide');
                     }
-                };
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
                 }
             });
-            }
-
-         
+            return;
         });
 
 
@@ -6645,46 +5890,6 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var pin_code = $('#SavePinCode').val();
             var latitude = $('#SaveLatitude').val();
             var longitude = $('#SaveLongitude').val();
-
-
-            if(customer_name){
-                if (customer_name.length<5)
-                         {
-                            var alert_message = "Please Enter Customer Business Name with atleast 5 characters...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                            
-            }
-            
-
-            if(email_id){
-                if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)))
-                         {
-                            var alert_message = "Please Enter Valid Email ID...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                           
-            }
-            if(phone_no){
-                if (phone_no.length!=10)
-                         {
-                            var alert_message = "Please Enter Valid Mobile Number...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                            
-            }
-
- 
-            
             
             if(customer_name != '' && phone_no != '' && email_id != '' && address != '' && city != '' && state != '' && pin_code != '' )
             {
@@ -7245,7 +6450,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             var CityId = $(this).val();
             var element = $(this).find('option:selected'); 
             var citywiseservice = element.attr("CityWiseService")
-            var html = '<option value="">Select Business Service Name</option>';
+            var html = '<option value="">Select Merchant Type</option>';
             if( CityId != '' && citywiseservice != '' ){
                 citywiseservice = citywiseservice.split("::");
                 $.each( citywiseservice, function( index, ServiceData ) {
@@ -7256,9 +6461,9 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             $("#ServiceId").html( html );
         });
 
-        //  $(document).ready(function(){
-        //  $('#closed_days').select2();
-        //  });
+         $(document).ready(function(){
+         $('#closed_days').select2();
+         });
 
         //admin module end
 
@@ -7340,12 +6545,8 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             cache: false,
             success: function(data) {
                 $(appendDivId).find('.modal-content').html(data.html);
-                load_google_places('Address1');
             }
         });
-
-
-        
         return;
 
     });
@@ -7503,720 +6704,41 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
 
         $("body").on("click", "#add_product_modal_open_btn", function(event) {
             event.preventDefault();
-        //    / $('#editproduct').modal('show');
 
-            var fields = ["LocationId","Name","Brand","Description","Instructions","Specifications","Segment","SubSegment","Metric","UnitOfMeasurement","NoUOMType"];
-            var fields_labels = ["Location","Item Name","Item Brand","Description","Instructions","Specifications","Segment","SubSegment","Metric","Unit Of Measurement","No UOM Type"];
+            var fields = ["Name","ItemType","ItemQuantity","Description","Instructions","Specifications","Segment","Metric","UnitOfMeasurement","NoUOMType"];
 
             var i, l = fields.length;
             var fieldname;
-
             for (i = 0; i < l; i++) {
                 fieldname = fields[i];
                 if (document.forms["add_inventory_item_form"][fieldname].value === "") {
-                field_label_name = fields_labels[i]; 
-                    if(fieldname == 'LocationId' || fieldname == 'Segment' || fieldname == 'SubSegment' || fieldname == 'Metric' || fieldname == 'UnitOfMeasurement' )
-                    {
-                        var alert_message = "Please Select "+field_label_name+" ";
-                    }else{
-                        var alert_message = "Please Enter "+field_label_name+" ";
-                    }
-                    
-                    swal(alert_message, {
-                            icon: "error",
-                        });
-            
+                alert(fieldname + " can not be empty");
                 return false;
-                }                
-               
+                }
             }
-
-            if($('#IdleStock').prop('checked') || $('#IdleStockNoOfDays').val() != '')
-            {
-                if(!$('#IdleStock').prop('checked')) {
-                    var alert_message = "Please Select Idle Stock Option";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#IdleStockNoOfDays').val() == '') {
-                    var alert_message = "Please Enter Idle Stock No Of Days";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-            }
-
-            if($('#LowStock').prop('checked') || $('#LowStockNoOfItems').val() != '')
-            {
-                if(!$('#LowStock').prop('checked')) {
-                    var alert_message = "Please Select Low Stock Option";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#LowStockNoOfItems').val() == '') {
-                    var alert_message = "Please Enter Low Stock Threshold Limit";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-            }
-
-
-
-            if ($('#Name').val().length < 3 ){
-
-                var alert_message = "Please Enter Item Name atleast of 3 characters";
-                swal(alert_message, {
-                    icon: "error",
-                });
-                return false;
-            }
-
-            if ($("#Segment option:selected").text().length < 3 ){
-
-                var alert_message = "Please Select Segment atleast of 3 characters";
-                swal(alert_message, {
-                    icon: "error",
-                });
-                return false;
-            }
-
-            if ($("#SubSegment option:selected").text().length < 3 ){
-
-                var alert_message = "Please Select SubSegment atleast of 3 characters";
-                swal(alert_message, {
-                    icon: "error",
-                });
-                return false;
-            }
-
-            if ($('#Brand').val().length < 3 ){
-
-                var alert_message = "Please Enter Brand Atleast of 3 characters";
-                swal(alert_message, {
-                    icon: "error",
-                });
-                return false;
-            }
-
-            
-            $('#editproduct').modal('show');           
-          
-            
-            if($('#Perishable').prop('checked')) {
-                $('#BatchPerishable').prop('checked', true); 
-                
-            } 
-
-
-
-            var master_sku_id_header = '';
-
-            var result = $("#Segment option:selected").text();
-            var result = result.replace(/\s+/g, "");
-            master_sku_id_header += (result.substring(0,3)).toUpperCase();
-            
-    
-            var result1 = $("#SubSegment option:selected").text();
-            var result1 = result1.replace(/\s+/g, "");
-            master_sku_id_header += (result1.substring(0,2)).toUpperCase();
-            
-        
-    
-            var result2 = $('#Brand').val();
-            var result2 = result2.replace(/\s+/g, "");
-            master_sku_id_header += (result2.substring(0,3)).toUpperCase();
-            
-    
-            var result3 = $('#Name').val();
-            var result3 = result3.replace(/\s+/g, "");
-            master_sku_id_header += (result3.substring(0,3)).toUpperCase();
-            
-            var uom = $('#UnitOfMeasurement').val(); 
-            var uom_valu = $('#NoUOMType').val();
-            var result4 = uom_valu+uom;
-            var result4 = result4.replace(/\s+/g, "");
-            master_sku_id_header += (result4.substring(0,4)).toUpperCase();
-            
-            $('#master_sku_id_header').html('');
-            $('#master_sku_id_header').html(master_sku_id_header);   
-            var demo_complete_sku_id_header  =   master_sku_id_header+"-XXX";   
-            $('#CompleteSkuId').val(demo_complete_sku_id_header);
-            $('#ItemId').val(master_sku_id_header);
-            $('#ItemId1').val(master_sku_id_header);
-            $('#MasterSkuId').val(master_sku_id_header);
-
-
-
-         
-        });
-
-        $("#LowStock").change(function() {
-            if(!$('#LowStock').prop('checked')) {
-            
-        
-                if($('#LowStockNoOfItems').val() != '') {
-                   $('#LowStockNoOfItems').val('');
-                } 
-    
-            }  
-        });
-        
-        $("#IdleStock").change(function() {
-        if(!$('#IdleStock').prop('checked')) {
-            
-        
-            if($('#IdleStockNoOfDays').val() != '') {
-               $('#IdleStockNoOfDays').val('');
-            } 
-
-        } 
-        });
-
-        $("#BatchPerishable").change(function() {
-
-        if(!$('#BatchPerishable').prop('checked')) {
-            $('#Perishable').prop('checked', false); 
-            $('#PerishableExpiryDate').val('');
-            $('#PerishableExpireReminderDays').val('');
-            
-        }else{
-            $('#Perishable').prop('checked', true); 
-            
-        } 
+           
+            $('#editproduct').modal('show');
         });
 
 
-
-        // $("#profile_gst_toggle").change(function() {
-        $("body").delegate("#profile_gst_toggle", "click", function(e){
-            //alert('sssss');
-
-            if(!$('#profile_gst_toggle').prop('checked')) {
-                
-                $('#profile_gst_content').addClass('d-none');
-                
-            }else{
-                $('#profile_gst_content').removeClass('d-none');
-            } 
-            });
-            
-            // $("body").on('change', '#profile_gst_toggle', function (e) {
-            //     //alert('sssss');
-            // });
         $("body").on("click", "#add_product_modal_submit_btn", function(event) {
             event.preventDefault();
 
-            var fields = ["ItemId","MerchantName","Quantity","DeliveryDate","PoNumber","PoDate","SoldQuantity","Remarks","BatchPerishable","PerishableExpiryDate","PerishableExpireReminderDays","MsrPrice","CostPrice","SalePrice","ProductHistoryStatus","ScanSkuId","GeneratedSkuId","MasterSkuId"];
-            var fields_labels = ["Sku Id","Vendor Name","Quantity","Delivery Date","Po Number","Po Date","Sold Quantity","Remarks","Perishable","Perishable Expiry Date","Perishable Expire ReminderDays","Msr Price","Cost Price","Sale Price","ProductHistoryStatus","ScanSkuId","GeneratedSkuId","MasterSkuId"];
+            var fields = ["ItemId","MerchantName","Quantity","Date","Description1","MsrPrice","CostPrice","SalePrice","ProductHistoryStatus"];
 
             var i, l = fields.length;
             var fieldname;
             for (i = 0; i < l; i++) {
                 fieldname = fields[i];
-                field_label_name = fields_labels[i]; 
-                if(fieldname != 'Remarks' && fieldname != 'BatchPerishable'  && fieldname != 'PerishableExpiryDate'  && fieldname != 'PerishableExpireReminderDays' && fieldname != 'ScanSkuId' && fieldname != 'GeneratedSkuId' && fieldname != 'MasterSkuId' && fieldname != 'SoldQuantity')
-                {    if (document.forms["add_inventory_item_form1"][fieldname].value === "") {
-                    
-                        var alert_message = field_label_name + " can not be empty";
-                        swal(alert_message, {
-                            icon: "error",
-                        });
-                        return false;
-                    }else{
-                        if(fieldname != 'ItemId')
-                        {
-                            $('#'+fieldname+"1").val(document.forms["add_inventory_item_form1"][fieldname].value);
-                        }
-                    }
-                }else{
-                    
-                        $('#'+fieldname+"1").val(document.forms["add_inventory_item_form1"][fieldname].value);
-                    
-                    
-                }
-            }
-
-
-            if($('#BatchPerishable').prop('checked') || $('#PerishableExpiryDate').val() != '' || $('#PerishableExpireReminderDays').val() != '')
-            {
-                if(!$('#BatchPerishable').prop('checked')) {
-                    var alert_message = "Please Select Perishable Option";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#PerishableExpiryDate').val() == '') {
-                    var alert_message = "Please Select Perishable Expiry Date";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#PerishableExpireReminderDays').val() == '') {
-                    var alert_message = "Please Enter Perishable Expiry Reminder Days";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-            }
-
-            var po_date = new Date($('#PoDate').val()).getTime();
-            var delivery_date = new Date( $('#DeliveryDate').val()).getTime();
-
-            if(delivery_date < po_date)
-            {
-                swal('Please Enter Delivery Date Greater than Purchase Order Date', {
-                    icon: "error",
-                });
-                return false;
-            }
-
-
-            //var po_date = $('#PoDate').val();
-            var start = new Date().getTime();
-            var expire_date = $('#PerishableExpiryDate').val();
-            var perishable_days = $('#PerishableExpireReminderDays').val();
-            if(expire_date != ''){
-                //var start = new Date( $('#PoDate').val() ).getTime();
-                var end = new Date( $('#PerishableExpiryDate').val() ).getTime();
-                if(end > start)
-                {
-                    //var diff = new Date(expire_date - po_date);
-
-                  
-                    var days = Math.round((end-start) / (1000 * 60 * 60 * 24));
-                   
-                    if(perishable_days != days){
-                        swal('Please Enter Expiry Correct Perishablel Expiry Days', {
-                            icon: "error",
-                        });
-                        return false;
-                    }
-                }else{
-                    swal('Please Enter Expiry Date Greater than Purchase Order Date', {
-                        icon: "error",
-                    });
-                    return false;
-                }
+                if (document.forms["add_inventory_item_form1"][fieldname].value === "") {
                 
-
-            }
-
-            var msr_price = parseInt($('#MsrPrice').val());
-            var sale_price = parseInt($('#SalePrice').val());
-            var cost_price = parseInt($('#CostPrice').val());
-
-            // alert(cost_price);
-            // alert(sale_price);
-            // alert(msr_price);
-
-            if(cost_price <= sale_price && cost_price <= msr_price){
-                
-                if(sale_price <= msr_price){
-                    
-                }else{
-                    swal('Sale price Should be less than or Equal to Msr Price', {
-                        icon: "error",
-                    });
-                    return false;
-                }
-            }else{
-                swal('Cost price Should be less than Msr Price & Sale Price', {
-                    icon: "error",
-                });
+                alert(fieldname + " can not be empty");
                 return false;
+                }else{
+                    $('#'+fieldname).val(document.forms["add_inventory_item_form1"][fieldname].value);
+                }
             }
-
             $('#add_inventory_item_form').submit();
-            //$('#editproduct').modal('show');
-        });
-
-        $("body").on("change", "#SoldQuantity", function(event) {
-            
-            var sold_qty = parseInt($('#SoldQuantity').val());
-            var batch_qty = parseInt($('#BatchQuantity').val());
-
-            // alert(batch_qty);
-            // alert(sold_qty);
-            if(sold_qty != "" && sold_qty > 0)
-            {
-                if(sold_qty >= batch_qty)
-                {
-                    swal('Sold Quantity Should be Less than Quantity ', {
-                        icon: "error",
-                    });
-                    $('#SoldQuantity').val('');
-                   // return false;
-                }
-            }
-            
-        });
-
-        $("body").on("change", "#BatchQuantity", function(event) {
-            var sold_qty = parseInt($('#SoldQuantity').val());
-            var batch_qty = parseInt($('#BatchQuantity').val());
-           
-            $('#add_item_quantity_label').html("");
-            $('#add_item_quantity_label').html(batch_qty);
-
-            if(batch_qty > 0)
-            {
-                if(batch_qty <= sold_qty)
-                {
-                    swal('Batch Quantity Should be Greater than Quantity ', {
-                        icon: "error",
-                    });
-                    $('#BatchQuantity').val();
-                    //return false;
-                }
-            }else{
-                swal('Quantity Should be Greater than 0 ', {
-                    icon: "error",
-                });
-                $('#BatchQuantity').val();
-               // return false;
-            }
-            
-        });
-
-
-
-        
-        $("body").on("change", "#SoldQuantity2", function(event) {
-
-            var sold_qty = parseInt($('#SoldQuantity2').val());
-            var batch_qty = parseInt($('#BatchQuantity2').val());
-
-            // alert(batch_qty);
-            // alert(sold_qty);
-            if(sold_qty != "" && sold_qty > 0)
-            {
-                if(sold_qty >= batch_qty)
-                {
-                    swal('Sold Quantity Should be Less than Quantity ', {
-                        icon: "error",
-                    });
-                    $('#SoldQuantity2').val('');
-                   // return false;
-                }
-            }
-            
-        });
-
-        $("body").on("change", "#BatchQuantity2", function(event) {
-            var sold_qty = parseInt($('#SoldQuantity2').val());
-            var batch_qty = parseInt($('#BatchQuantity2').val());
-           
-            // $('#add_item_quantity_label').html("");
-            // $('#add_item_quantity_label').html(batch_qty);
-
-            if(batch_qty > 0)
-            {
-                if(batch_qty <= sold_qty)
-                {
-                    swal('Batch Quantity Should be Greater than Quantity ', {
-                        icon: "error",
-                    });
-                    $('#BatchQuantity2').val();
-                    //return false;
-                }
-            }else{
-                swal('Quantity Should be Greater than 0 ', {
-                    icon: "error",
-                });
-                $('#BatchQuantity2').val();
-               // return false;
-            }
-            
-        });
-        
-        $("body").on("click", "#edit_product_modal_submit_btn", function(event) {
-            event.preventDefault();
-
-            var fields = ["ItemId","MerchantName","Quantity","DeliveryDate","PoNumber","PoDate","SoldQuantity","Remarks","BatchPerishable","PerishableExpiryDate","PerishableExpireReminderDays","MsrPrice","CostPrice","SalePrice","ProductHistoryStatus","ScanSkuId","GeneratedSkuId"];
-            var fields_labels = ["Sku Id","Vendor Name","Quantity","Delivery Date","Po Number","Po Date","Sold Quantity","Remarks","Perishable","Perishable Expiry Date","Perishable Expire ReminderDays","Msr Price","Cost Price","Sale Price","ProductHistoryStatus","ScanSkuId","GeneratedSkuId"];
-
-            var i, l = fields.length;
-            var fieldname;
-            for (i = 0; i < l; i++) {
-                fieldname = fields[i];
-                field_label_name = fields_labels[i]; 
-                if(fieldname != 'Remarks' && fieldname != 'BatchPerishable'  && fieldname != 'PerishableExpiryDate'  && fieldname != 'PerishableExpireReminderDays' && fieldname != 'ScanSkuId' && fieldname != 'GeneratedSkuId' && fieldname != 'SoldQuantity')
-                {    
-                    if ($('#'+fieldname).val() == "") {                    
-                        var alert_message = field_label_name + " can not be empty";
-                        swal(alert_message, {
-                            icon: "error",
-                        });
-                        return false;
-                    }else{
-                        
-                    }
-                }else{
-                    
-                       
-                    
-                }
-            }
-
-
-            if($('#BatchPerishable').prop('checked') || $('#PerishableExpiryDate').val() != '' || $('#PerishableExpireReminderDays').val() != '')
-            {
-                if(!$('#BatchPerishable').prop('checked')) {
-                    var alert_message = "Please Select Perishable Option";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#PerishableExpiryDate').val() == '') {
-                    var alert_message = "Please Select Perishable Expiry Date";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#PerishableExpireReminderDays').val() == '') {
-                    var alert_message = "Please Enter Perishable Expiry Reminder Days";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-            }
-
-
-
-            //var po_date = $('#PoDate').val();
-            var start = new Date().getTime();
-            var expire_date = $('#PerishableExpiryDate').val();
-            var perishable_days = $('#PerishableExpireReminderDays').val();
-            if(expire_date != ''){
-                //var start = new Date( $('#PoDate').val() ).getTime();
-                var end = new Date( $('#PerishableExpiryDate').val() ).getTime();
-                if(end > start)
-                {
-                    //var diff = new Date(expire_date - po_date);
-
-                  
-                    var days = Math.round((end-start) / (1000 * 60 * 60 * 24));
-                   
-                    if(perishable_days != days){
-                        swal('Please Enter Expiry Correct Perishablel Expiry Days', {
-                            icon: "error",
-                        });
-                        return false;
-                    }
-                }else{
-                    swal('Please Enter Expiry Date Greater than Purchase Order Date', {
-                        icon: "error",
-                    });
-                    return false;
-                }
-                
-
-            }
-
-            var msr_price = parseInt($('#MsrPrice').val());
-            var sale_price = parseInt($('#SalePrice').val());
-            var cost_price = parseInt($('#CostPrice').val());
-
-            // alert(cost_price);
-            // alert(sale_price);
-            // alert(msr_price);
-
-            if(cost_price <= sale_price && cost_price <= msr_price){
-                
-                if(sale_price <= msr_price){
-                    
-                }else{
-                    swal('Sale price Should be less than or Equal to Msr Price', {
-                        icon: "error",
-                    });
-                    return false;
-                }
-            }else{
-                swal('Cost price Should be less than Msr Price & Sale Price', {
-                    icon: "error",
-                });
-                return false;
-            }
-
-            $('#edit_inventory_item_form1').submit();
-            //$('#editproduct').modal('show');
-        });
-
-
-        $("body").on("click", "#edit_product_modal_submit_btn2", function(event) {
-            event.preventDefault();
-
-            var fields = ["ItemId","MerchantName","Quantity","DeliveryDate","PoNumber","PoDate","SoldQuantity","Remarks","BatchPerishable","PerishableExpiryDate","PerishableExpireReminderDays","MsrPrice","CostPrice","SalePrice","ProductHistoryStatus","ScanSkuId","GeneratedSkuId"];
-            var fields_labels = ["Sku Id","Vendor Name","Quantity","Delivery Date","Po Number","Po Date","Sold Quantity","Remarks","Perishable","Perishable Expiry Date","Perishable Expire ReminderDays","Msr Price","Cost Price","Sale Price","ProductHistoryStatus","ScanSkuId","GeneratedSkuId"];
-
-            var i, l = fields.length;
-            var fieldname;
-            for (i = 0; i < l; i++) {
-                fieldname = fields[i];
-                field_label_name = fields_labels[i]; 
-                if(fieldname != 'Remarks' && fieldname != 'BatchPerishable'  && fieldname != 'PerishableExpiryDate'  && fieldname != 'PerishableExpireReminderDays' && fieldname != 'ScanSkuId' && fieldname != 'GeneratedSkuId' && fieldname != 'SoldQuantity')
-                {    
-                    if ($('#'+fieldname+"2").val() == "") {                    
-                        var alert_message = field_label_name + " can not be empty";
-                        swal(alert_message, {
-                            icon: "error",
-                        });
-                        return false;
-                    }else{
-                        
-                    }
-                }else{
-                    
-                       
-                    
-                }
-            }
-
-
-            if($('#BatchPerishable2').prop('checked') || $('#PerishableExpiryDate2').val() != '' || $('#PerishableExpireReminderDays2').val() != '')
-            {
-                if(!$('#BatchPerishable2').prop('checked')) {
-                    var alert_message = "Please Select Perishable Option";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#PerishableExpiryDate2').val() == '') {
-                    var alert_message = "Please Select Perishable Expiry Date";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-
-                if($('#PerishableExpireReminderDays2').val() == '') {
-                    var alert_message = "Please Enter Perishable Expiry Reminder Days";
-                    swal(alert_message, {
-                        icon: "error",
-                    }); 
-                    return false;
-                } 
-            }
-
-
-            var po_date = new Date($('#PoDate2').val()).getTime();
-            var delivery_date = new Date( $('#DeliveryDate2').val()).getTime();
-
-            if(delivery_date < po_date)
-            {
-                swal('Please Enter Delivery Date Greater than Purchase Order Date', {
-                    icon: "error",
-                });
-                return false;
-            }
-
-
-           //var po_date = $('#PoDate').val();
-           var start = new Date().getTime();
-           var expire_date = $('#PerishableExpiryDate2').val();
-           var perishable_days = $('#PerishableExpireReminderDays2').val();
-           if(expire_date != ''){
-               //var start = new Date( $('#PoDate').val() ).getTime();
-               var end = new Date( $('#PerishableExpiryDate2').val() ).getTime();
-               if(end > start)
-               {
-                   //var diff = new Date(expire_date - po_date);
-
-                 
-                   var days = Math.round((end-start) / (1000 * 60 * 60 * 24));
-                  
-                   if(perishable_days != days){
-                       swal('Please Enter Expiry Correct Perishablel Expiry Days', {
-                           icon: "error",
-                       });
-                       return false;
-                   }
-               }else{
-                   swal('Please Enter Expiry Date Greater than Purchase Order Date', {
-                       icon: "error",
-                   });
-                   return false;
-               }
-               
-
-           }
-
-            // var po_date = $('#PoDate2').val();
-            // var expire_date = $('#PerishableExpiryDate2').val();
-            // var perishable_days = $('#PerishableExpireReminderDays2').val();
-            // if(expire_date != ''){
-
-            //     if(expire_date > po_date)
-            //     {
-            //         //var diff = new Date(expire_date - po_date);
-
-            //         var start = new Date( $('#PoDate2').val() ).getTime();
-            //         var end = new Date( $('#PerishableExpiryDate2').val() ).getTime();
-            //         var days = Math.round((end-start) / (1000 * 60 * 60 * 24));
-                   
-            //         if(perishable_days != days){
-            //             swal('Please Enter Expiry Correct Perishablel Expiry Days', {
-            //                 icon: "error",
-            //             });
-            //             return false;
-            //         }
-            //     }else{
-            //         swal('Please Enter Expiry Date Greater than Purchase Order Date', {
-            //             icon: "error",
-            //         });
-            //         return false;
-            //     }
-                
-
-            // }
-
-            var msr_price = parseInt($('#MsrPrice2').val());
-            var sale_price = parseInt($('#SalePrice2').val());
-            var cost_price = parseInt($('#CostPrice2').val());
-
-            // alert(cost_price);
-            // alert(sale_price);
-            // alert(msr_price);
-
-            if(cost_price <= sale_price && cost_price <= msr_price){
-                
-                if(sale_price <= msr_price){
-                    
-                }else{
-                    swal('Sale price Should be less than or Equal to Msr Price', {
-                        icon: "error",
-                    });
-                    return false;
-                }
-            }else{
-                swal('Cost price Should be less than Msr Price & Sale Price', {
-                    icon: "error",
-                });
-                return false;
-            }
-
-            $('#edit_inventory_item_form2').submit();
             //$('#editproduct').modal('show');
         });
 
@@ -8340,7 +6862,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                         $('#pos_cart_items_tax_amount').html(data.tax);
                         $('#pos_cart_items_fee_amount').html(data.fee);
                         $("#pos_cart_items_discount_amount").html(data.discount);
-                        $('#pos_cart_items_total_amount_last').html(data.cart_total_amount);
+                        $('#pos_cart_items_total_amount1').html(data.cart_total_amount);
 
                     }else{
 
@@ -8352,7 +6874,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                         $('#pos_cart_items_tax_amount').html('0.00');
                         $('#pos_cart_items_fee_amount').html('0.00');
                         $("#pos_cart_items_discount_amount").html('0.00');
-                        $('#pos_cart_items_total_amount_last').html('0.00');
+                        $('#pos_cart_items_total_amount1').html('0.00');
                         
 
                     }
@@ -8368,7 +6890,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             $('#pos_cart_items_tax_amount').html('0.00');
             $('#pos_cart_items_fee_amount').html('0.00');
             $("#pos_cart_items_discount_amount").html('0.00');
-            $('#pos_cart_items_total_amount_last').html('0.00');
+            $('#pos_cart_items_total_amount1').html('0.00');
             
         }
         }
@@ -8485,19 +7007,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         
             if($('#DoorName').val() != '' && $('#DoorDateTime').val() != '' && $('#Address').val() != '')
             {
-                
-
-                var start = new Date().getTime();
-                var end = new Date( $('#DoorDateTime').val() ).getTime();           
-    
-                   if(end >= start){
-                    $('#door_delivery_form').submit();
-                   }else{
-                    swal('Please Enter Date greater than Current Time', {
-                        icon: "error",
-                    });
-                   }
-
+                $('#door_delivery_form').submit();
             }else{
                 swal('Please Enter All Fields', {
                     icon: "error",
@@ -8515,18 +7025,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         
             if($('#DoorName').val() != '' && $('#DoorDateTime').val() != '' && $('#Address').val() != '')
             {
-                var start = new Date().getTime();
-                var end = new Date( $('#DoorDateTime').val() ).getTime();           
-    
-                   if(end >= start){
-                    $('#door_delivery_phone_orders_form').submit();
-                   }else{
-                    swal('Please Enter Date greater than Current Time', {
-                        icon: "error",
-                    });
-                   }
-
-                
+                $('#door_delivery_phone_orders_form').submit();
             }else{
                 swal('Please Enter All Fields', {
                     icon: "error",
@@ -8540,18 +7039,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         
             if($('#Name').val() != '' && $('#DateTime').val() != '' && $('#PhoneNumber').val() != '')
             {
-                var start = new Date().getTime();
-                var end = new Date( $('#DateTime').val() ).getTime();           
-    
-                   if(end >= start){
-                    $('#phone_orders_curb_slide_pickup_form').submit();
-                   }else{
-                    swal('Please Enter Date greater than Current Time', {
-                        icon: "error",
-                    });
-                   }
-
-                
+                $('#phone_orders_curb_slide_pickup_form').submit();
             }else{
                 swal('Please Enter All Fields', {
                     icon: "error",
@@ -8565,18 +7053,7 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         
             if($('#StoreName').val() != '' && $('#StoreDateTime').val() != '' && $('#StorePhoneNumber').val() != '')
             {
-                var start = new Date().getTime();
-                var end = new Date( $('#StoreDateTime').val() ).getTime();           
-    
-                   if(end >= start){
-                    $('#phone_orders_store_pickup_form').submit();
-                   }else{
-                    swal('Please Enter Date greater than Current Time', {
-                        icon: "error",
-                    });
-                   }
-
-               
+                $('#phone_orders_store_pickup_form').submit();
             }else{
                 swal('Please Enter All Fields', {
                     icon: "error",
@@ -8606,21 +7083,13 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
                     cache: false,
                     success: function(data) {
                         //alert(data.Message);
-                        if(data.Status == '200')
-                        {
-                            swal(data.Message, {
-                                icon: "success",
-                              });
-    
-                            $('#current_pwd').val('');
-                            $('#new_pwd').val('');
-                            $('#new_cnf_pwd').val('');
-                        }else{
-                            swal(data.Message, {
-                                icon: "error",
-                              });
-                        }
-                     
+                        swal(data.Message, {
+                            icon: "success",
+                          });
+
+                        $('#current_pwd').val('');
+                        $('#new_pwd').val('');
+                        $('#new_cnf_pwd').val('');
                     }
                 });
 
@@ -8650,267 +7119,53 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
         var IfscCode = $('#ProfileIfscCode').val();
         var AccountNo = $('#ProfileAccountNo').val();
         var AccountHolderName = $('#ProfileAccountHolderName').val();
-        //var PaymentDays = $('#ProfilePaymentDays').val();
-        //var CommissionType = $('#ProfileCommissionType').val();
-        //var PaymentPercentage = $('#ProfilePaymentPercentage').val();
-        //var ConvenienceFee = $('#ProfileConvenienceFee').val();
+        var PaymentDays = $('#ProfilePaymentDays').val();
+        var CommissionType = $('#ProfileCommissionType').val();
+        var PaymentPercentage = $('#ProfilePaymentPercentage').val();
+        var ConvenienceFee = $('#ProfileConvenienceFee').val();
         var PaytmNo = $('#ProfilePaytmNo').val();
         var GooglepayNo = $('#ProfileGooglepayNo').val();
         var PhonepeNo = $('#ProfilePhonepeNo').val();
-        var UPIIds = $('#ProfileUPIIds').val();
-
         var fetch_id = $(this).attr('fetchid');
         var fetchurl = $(this).attr('fetchurl');
-     
-     
-    //     var fields = ["ProfileBankName","ProfileBankBranch","ProfileIfscCode","ProfileAccountNo","ProfileAccountHolderName","ProfilePaytmNo","ProfileGooglepayNo","ProfilePhonepeNo","ProfileUPIIds"];
-    //     var fields_labels = ["Bank Name","Bank Branch","Ifsc Code","Account Number","AccountHolder Name","Paytm Number","Googlepay Number","Phonepe Number","UPI Ids"];
-    //     //alert($('#LegalId').val());
-    //     var i, l = fields.length;
-    //     var fieldname;
+        if ($('#BankName').val() != '' && $('#BankBranch').val() != '' && $('#IfscCode').val() != '') {
+                var formData = {"fetch_id": fetch_id,  "BankName": BankName, "BankBranch": BankBranch, "IfscCode": IfscCode, "AccountNo": AccountNo , "AccountHolderName": AccountHolderName, "PaymentDays": PaymentDays, "CommissionType": CommissionType, "PaymentPercentage": PaymentPercentage, "ConvenienceFee": ConvenienceFee, "PaytmNo": PaytmNo, "GooglepayNo": GooglepayNo, "PhonepeNo": PhonepeNo};
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: fetchurl,
+                    data: formData,
+                    cache: false,
+                    success: function(data) {
+                        //alert(data.Message);
+                        swal(data.Message, {
+                            icon: "success",
+                          });
 
-    //     for (i = 0; i < l; i++) {
-    //         fieldname = fields[i];
-           
-    //        //if (document.forms["add_merchant_form"][fieldname].value === "") {
-    //         if ($('#'+fieldname).val() == "") {
-    //             // alert($('#'+fieldname).val());
-    //             field_label_name = fields_labels[i]; 
-    //             var alert_message = "Please Enter "+field_label_name+" ";
-               
-    //             swal(alert_message, {
-    //                     icon: "error",
-    //                 });
-        
-    //         return false;
-    //         }
-
-          
-    //         if( fieldname == 'ProfilePaytmNo' ||fieldname == 'ProfileGooglepayNo' || fieldname == 'ProfilePhonepeNo' ){
-               
-    //             if(fieldname == 'ProfilePaytmNo'){
-    //                 var alert_message = "Please Enter Valid Paytm Number";
-    //             }else if(fieldname == 'ProfilePhonepeNo'){
-    //                 var alert_message = "Please Enter Valid Phonepe Number";
-    //             }else if(fieldname == 'ProfileGooglepayNo'){
-    //                 var alert_message = "Please Enter Valid Googlepay Number";
-    //             }
-    //             if ($('#'+fieldname).val().length!=10)
-    //                      {
-    //                         swal(alert_message, {
-    //                     icon: "error",
-    //                 });
-    //                  return false;
-    //                         }
-                            
-    //         }
-        
-    //     if(fieldname == 'ProfileUPIIds'){
-    //         var upi_ids = $('#'+fieldname).val();
-    //         var upi_ids = upi_ids.split(",");
-    //         let regex = new RegExp(/^[\w.-]+@[\w.-]+$/);
-    //         for (let kk = 0; kk < upi_ids.length; kk++) {
-    //             // /alert(upi_ids[kk]);
-    //             if (regex.test(upi_ids[kk]) == true)
-    //             {
-                   
-    //             }else{
-    //                 var alert_message = alert_message = "Please Enter Proper Formatted UPI Ids ";
-    //                 swal(alert_message, {
-    //                 icon: "error",
-    //                 });
-    //                 return false;
-    //             }
-    //           } 
-
-           
-                       
-    //     }
-    // }
-
-
-    // /"BankName","BankBranch","IfscCode","AccountNo","AccountHolderName"
-    var retailer_bank_status = false; 
-    if(BankName != '' || BankBranch != '' || IfscCode != '' || AccountNo != '' || AccountHolderName != '')
-    {
-        if(BankName == '') {
-            var alert_message = "Please Enter Bank Name";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if(BankBranch == '') {
-            var alert_message = "Please Enter Bank Branch";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        }
-        if(IfscCode == '') {
-            var alert_message = "Please Enter Ifsc Code";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if(AccountNo == '') {
-            var alert_message = "Please Enter Account No";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if(AccountHolderName == '') {
-            var alert_message = "Please Enter Account HolderName";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        var retailer_bank_status = true;
-    }
-
-    var retailer_upi_status = false; 
-    if(PaytmNo != '' || PhonepeNo != '' || GooglepayNo != '' || UPIIds != '')
-    {
-        if(!retailer_upi_status)
-        {
-            if(PaytmNo != '') {
-                if (PaytmNo.length!=10)
-                {   var alert_message = "Please Enter Valid Paytm Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            } 
-        }
-      
-        if(!retailer_upi_status)
-        {
-            if(PhonepeNo != '') {
-                if (PhonepeNo.length!=10)
-                {   var alert_message = "Please Enter Valid Phonepe Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            }
-        }
-
-        if(!retailer_upi_status)
-        {
-            if(GooglepayNo.val() != '') {
-                if (GooglepayNo.val().length!=10)
-                {   var alert_message = "Please Enter Valid Google Pay Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            } 
-        }
-
-        if(!retailer_upi_status)
-        {
-            if(UPIIds != ''){
-                var upi_ids = UPIIds;
-                var upi_ids = upi_ids.split(",");
-                let regex = new RegExp(/^[\w.-]+@[\w.-]+$/);
-                for (let kk = 0; kk < upi_ids.length; kk++) {
-                    // /alert(upi_ids[kk]);
-                    if (regex.test(upi_ids[kk]) == true)
-                    {   
-                        var retailer_upi_status = true;
-                    }else{
-                        var alert_message = alert_message = "Please Enter Proper Formatted UPI Ids ";
-                        swal(alert_message, {
-                        icon: "error",
-                        });
-                        var retailer_upi_status = false;
-                        return false;
+                        
                     }
-                } 
-
-                }
-                       
-        }
-
-     
-    }
-
-    if(retailer_upi_status == false && retailer_bank_status == false){
-        var alert_message = "Please Enter Bank Details or Atleast One UPI No";
-        swal(alert_message, {
-        icon: "error",
-        });
-        return false;
-    }else{
-        
-        var formData = {"fetch_id": fetch_id,  "BankName": BankName, "BankBranch": BankBranch, "IfscCode": IfscCode, "AccountNo": AccountNo , "AccountHolderName": AccountHolderName, "PaytmNo": PaytmNo, "GooglepayNo": GooglepayNo, "PhonepeNo": PhonepeNo, "UPIIds":UPIIds};
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: fetchurl,
-            data: formData,
-            cache: false,
-            success: function(data) {
-                //alert(data.Message);
-                swal(data.Message, {
-                    icon: "success",
                 });
 
-                
-            }
-        });
-            return;
-    }
+            
 
-       
+        } else {
 
-     
+            //alert('all fields were mandatory');
+            swal('All Fields Are Mandatory', {
+                icon: "error",
+              });
+        }
+
+        return;
     });
 
-        //$("body").on("click", ".profile_merchant_details_btn", function() {
-    //     $("body").delegate(".profile_merchant_details_btn", "click", function(){
-    //     event.preventDefault();
-    //     var fetchId = $(this).attr("fetchId");
-    //     var fetchUrl = $(this).attr("fetchUrl");
-    //     var appendDivId = $(this).attr("appendDivId");
-    //     //alert(appendDivId);
-        
-    //     var formData = { "fetchId": fetchId };
-    //     $.ajax({
-    //         type: "POST",
-    //         dataType: "json",
-    //         url: fetchUrl,
-    //         data: formData,
-    //         async: false,
-    //         cache: false,
-    //         success: function(data) {
-    //             $("#"+appendDivId).html(data.html);
-    //         }
-    //     });
-    //     return;
-    // });
-
-    $("body").on("click", ".merchant_city_details", function() {
+        $("body").on("click", ".profile_merchant_details_btn", function() {
         event.preventDefault();
         var fetchId = $(this).attr("fetchId");
         var fetchUrl = $(this).attr("fetchUrl");
         var appendDivId = $(this).attr("appendDivId");
+        //alert(appendDivId);
+        
         var formData = { "fetchId": fetchId };
         $.ajax({
             type: "POST",
@@ -8920,9 +7175,26 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
             async: false,
             cache: false,
             success: function(data) {
-                //$("#profile_city_name").html(data.html);
                 $("#"+appendDivId).html(data.html);
-                // /alert(appendDivId);
+            }
+        });
+        return;
+    });
+
+         $("body").on("click", ".merchant_city_details", function() {
+        event.preventDefault();
+        var fetchId = $(this).attr("fetchId");
+        var fetchUrl = $(this).attr("fetchUrl");
+        var formData = { "fetchId": fetchId };
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: fetchUrl,
+            data: formData,
+            async: false,
+            cache: false,
+            success: function(data) {
+                $("#profile_city_name").html(data.html);
             }
         });
         return;
@@ -9607,2037 +7879,10 @@ $("body").on("change", ".retailer_transactioion_channel_option", function() {
     });
 
     
-    $("body").on("click", ".instore_trigger_block", function() {
+    $("body").on("click", "#instore_trigger_block", function() {
 
-        var billing_tab = $('#billing_tab').val();        
         var fetchurl = $(this).attr("fetchurl");
         var formData = { "fetchId": "0" };
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: fetchurl,
-            data: formData,
-            cache: false,            
-            context: this,
-            success: function(data) {
-                if(data.Status == '200')
-                {
-                    $("#delivery_type_block"+billing_tab).find('.pospickup').removeClass('active');
-                    $(this).find('.pospickup').addClass('active');
-                    $('#DeliveryType').val('1');
-                
-                }
-                
-            }
-        });
-
-        
-    });
-
-    $("body").on("click", "#pofile_page_btn", function() {
-
-        var fetchurl = $(this).attr("fetchurl");
-        window.location.href = fetchurl;
-    });
-    
-
-    
-
-
-
-
-    //   var input = document.getElementById('MerchantLocationAddress');
-    //   var autocomplete = new google.maps.places.Autocomplete(input);
-    //   google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    //       var place = autocomplete.getPlace();
-      
-    //       var lat = place.geometry.location.lat();
-    //       var long = place.geometry.location.lng();
-    //     //   $('#CustAddressLatitude').val(lat);
-    //     //   $('#CustAddressLongitude').val(long);
-    //     alert(lat);
-    //     alert(long);
-    //   });
-    $('body').on("input","#PaytmNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#GooglepayNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#PhonepeNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#PhoneNumber",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-
-
-    
-    $('body').on("input","#ProfilePaytmNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#ProfileGooglepayNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#ProfilePhonepeNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#ContactNumber",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#EditContactNumber",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#RegSPhoneNumber",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-
-    $('body').on("input","#RegSPaytmNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-
-    $('body').on("input","#RegSGooglepayNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-
-    $('body').on("input","#RegSPhonepeNo",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-    $('body').on("input","#StorePhoneNumber",function(e){
-        e.preventDefault();
-        var $that = $(this);
-        var maxlength = 10;
-        if($that.val().length != maxlength) {
-            $that.val($that.val().substr(0, maxlength));
-            e.preventDefault();
-            return; 
-        }
-       
-    });
-
-
-    
-    
-    // $('body').on("click","#add_merchant_location_form_submit_btn",function(e){
-    //     e.preventDefault();
-    //     $('#add_merchant_location_form').submit();
-       
-    // });
-
-    // $('body').on("click","#add_merchant_location_form_submit_btn1",function(e){
-    //     e.preventDefault();
-    //     $('#add_merchant_location_form1').submit();
-       
-    // });
-
-    $('body').on("change","#Metric",function(e){
-        e.preventDefault();
-        var metrics = $(this).val();
-        var metrics = metrics.split("##");
-        var measurements_str = metrics[1];
-        var measurements = measurements_str.split(",");
-        //alert(measurements);
-        var html_code = '<option value="">Please Select</option>';
-        for (let i = 0; i < measurements.length; i++) {
-            html_code += '<option value="'+measurements[i]+'">'+measurements[i]+'</option>';
-          } 
-          $('#UnitOfMeasurement').html('');
-          $('#UnitOfMeasurement').html(html_code);
-       
-    });
-
-    $('body').on("change","#UnitOfMeasurement",function(e){
-        e.preventDefault();
-          var measurement = $(this).val()+"s";        
-          $('#UOM_type').html('');
-          $('#UOM_type').html(measurement);
-       
-    });
-
-    // /$('body').on("click","#merchant_update_form_submit_btn",function(e){
-        $("body").delegate("#merchant_update_form_submit_btn", "click", function(e){
-        e.preventDefault();
-
-            var fields = ["Name","ServiceId","CityId","AdminEmailId","PhoneNumber"];
-            var fields_labels = ["Business Name","Service","City","Email Id","Phone Number"];
-            //alert($('#LegalId').val());
-            var i, l = fields.length;
-            var fieldname;
-
-            for (i = 0; i < l; i++) {
-                fieldname = fields[i];
-               
-               //if (document.forms["add_merchant_form"][fieldname].value === "") {
-                if ($('#'+fieldname).val() == "") {
-                    // alert($('#'+fieldname).val());
-                    field_label_name = fields_labels[i]; 
-                    if(fieldname == 'ServiceId' || fieldname == 'CityId')
-                    {
-                        var alert_message = "Please Select "+field_label_name+" ";
-                    }else{
-                        var alert_message = "Please Enter "+field_label_name+" ";
-                    }
-                    
-                    swal(alert_message, {
-                            icon: "error",
-                        });
-            
-                return false;
-                }
-
-                if(fieldname == 'AdminEmailId' ){
-                    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($('#'+fieldname).val())))
-                             {
-                                var alert_message = "Please Enter Valid Email ID...!!!";
-                                swal(alert_message, {
-                            icon: "error",
-                        });
-                         return false;
-                                }
-                               
-                }
-                if(fieldname == 'PhoneNumber' ){
-                   
-                    var alert_message = "Please Enter Valid Phone Number";
-                    
-                    if ($('#'+fieldname).val().length!=10)
-                             {
-                                swal(alert_message, {
-                            icon: "error",
-                        });
-                         return false;
-                                }
-                                
-                }
-            
-            
-
-
-            if(fieldname == 'Name' ){
-                if ($('#'+fieldname).val().length < 5)
-                         {
-                            var alert_message = "Please Enter Business Name with atleast 5 characters...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                            
-            }
-        }
-
-        //if()
-        //"LegalId","LegalIdTaxRate"
-
-        if($('#profile_gst_toggle').prop('checked'))
-        {
-            if($('#LegalId').val() == '') {
-                var alert_message = "Please Enter GST Number";
-                swal(alert_message, {
-                    icon: "error",
-                }); 
-                return false;
-            } 
-
-            if($('#LegalIdTaxRate').val() == '') {
-                var alert_message = "Please Enter GST Percentage";
-                swal(alert_message, {
-                    icon: "error",
-                }); 
-                return false;
-            } 
-        }
-
-
-             // /"BankName","BankBranch","IfscCode","AccountNo","AccountHolderName"
-    var retailer_bank_status = false; 
-    if($('#BankName').val() != '' || $('#BankBranch').val() != '' || $('#IfscCode').val() != '' || $('#AccountNo').val() != '' || $('#AccountHolderName').val() != '')
-    {
-        if($('#BankName').val() == '') {
-            var alert_message = "Please Enter Bank Name";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if($('#BankBranch').val() == '') {
-            var alert_message = "Please Enter Bank Branch";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        }
-        if($('#IfscCode').val() == '') {
-            var alert_message = "Please Enter Ifsc Code";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if($('#AccountNo').val() == '') {
-            var alert_message = "Please Enter Account No";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if($('#AccountHolderName').val() == '') {
-            var alert_message = "Please Enter Account HolderName";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        var retailer_bank_status = true;
-    }
-
-    var retailer_upi_status = false; 
-    if($('#PaytmNo').val() != '' || $('#PhonepeNo').val() != '' || $('#GooglepayNo').val() != '' || $('#UPIIds').val() != '')
-    {
-        if(!retailer_upi_status)
-        {
-            if($('#PaytmNo').val() != '') {
-                if ($('#PaytmNo').val().length!=10)
-                {   var alert_message = "Please Enter Valid Paytm Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            } 
-        }
-      
-        if(!retailer_upi_status)
-        {
-            if($('#PhonepeNo').val() != '') {
-                if ($('#PhonepeNo').val().length!=10)
-                {   var alert_message = "Please Enter Valid Phonepe Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            }
-        }
-
-        if(!retailer_upi_status)
-        {
-            if($('#GooglepayNo').val() != '') {
-                if ($('#GooglepayNo').val().length!=10)
-                {   var alert_message = "Please Enter Valid Google Pay Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            } 
-        }
-
-        if(!retailer_upi_status)
-        {
-            if($('#UPIIds').val() != ''){
-                var upi_ids = $('#UPIIds').val();
-                var upi_ids = upi_ids.split(",");
-                let regex = new RegExp(/^[\w.-]+@[\w.-]+$/);
-                for (let kk = 0; kk < upi_ids.length; kk++) {
-                    // /alert(upi_ids[kk]);
-                    if (regex.test(upi_ids[kk]) == true)
-                    {   
-                        var retailer_upi_status = true;
-                    }else{
-                        var alert_message = alert_message = "Please Enter Proper Formatted UPI Ids ";
-                        swal(alert_message, {
-                        icon: "error",
-                        });
-                        var retailer_upi_status = false;
-                        return false;
-                    }
-                } 
-
-                }
-                       
-        }
-
-     
-    }
-
-    if(retailer_upi_status == false && retailer_bank_status == false){
-        var alert_message = "Please Enter Bank Details or Atleast One UPI No";
-        swal(alert_message, {
-        icon: "error",
-        });
-        return false;
-    }
-            
-
-        $('#add_merchant_form').submit();
-       
-    });
-
-    //$("body").delegate("#IdleStockNoOfDays", "change", function(e){
-        $("#IdleStockNoOfDays").bind("keyup", function(e){
-        e.preventDefault();
-
-        var result = $('#IdleStockNoOfDays').val();
-        $('#idle_stock_no_of_days').html('');
-        if(result != '')
-        {
-            
-            $('#idle_stock_no_of_days').html($('#IdleStockNoOfDays').val());
-        }else{
-            $('#idle_stock_no_of_days').html('___');
-        }
-
-        
-    });
-
-    //$("body").delegate("#LowStockNoOfItems", "change", function(e){
-        $("#LowStockNoOfItems").bind("keyup", function(e){
-        e.preventDefault();
-        var result = $('#LowStockNoOfItems').val();
-        $('#low_stock_no_of_count').html('');
-        if(result != '')
-        {
-            
-            $('#low_stock_no_of_count').html($('#LowStockNoOfItems').val());
-        }else{
-            $('#low_stock_no_of_count').html('___');
-        }
-        
-    });
-
-    
-    
-    $("body").delegate("#add_inventory_item_form_submit_btn", "click", function(e){
-        e.preventDefault();
-
-        var fields = ["LocationId","Name","Brand","ItemQuantity","Description","Instructions","Specifications","Segment","SubSegment","Metric","UnitOfMeasurement","NoUOMType"];
-            var fields_labels = ["Location","Item Name","Item Brand","Item Quantity","Description","Instructions","Specifications","Segment","SubSegment","Metric","Unit Of Measurement","No UOM Type"];
-
-            var i, l = fields.length;
-            var fieldname;
-
-            for (i = 0; i < l; i++) {
-                fieldname = fields[i];
-                if (document.forms["add_inventory_item_form"][fieldname].value === "") {
-                field_label_name = fields_labels[i]; 
-                    if(fieldname == 'LocationId' || fieldname == 'Segment' || fieldname == 'SubSegment' || fieldname == 'Metric' || fieldname == 'UnitOfMeasurement' )
-                    {
-                        var alert_message = "Please Select "+field_label_name+" ";
-                    }else{
-                        var alert_message = "Please Enter "+field_label_name+" ";
-                    }
-                    
-                    swal(alert_message, {
-                            icon: "error",
-                        });
-            
-                return false;
-                }
-
-
-                
-               
-            }
-            
-            
-           
-            
-           $('#add_inventory_item_form').submit();
-
-    });
-    
-    $("body").delegate("#add_merchant_location_form_submit_btn", "click", function(e){
-        e.preventDefault();
-
-            var fields = ["EditContactPerson","EditContactNumber","EditAddress","EditMerchantName","EditPackingCharges","EditCityId","EditServiceId","Latitude1","Longitude1","Locality1","SubLocality1","Route1","PostalCode1","EditOpeningTime","EditClosingTime","EditOpeningTime2","EditClosingTime2","EditOrderDayLapse"];
-            var fields_labels = ["Manager Name","Manager Number","Address","Merchant Name","Packing Charges","City","Service","Latitude","Longitude","Locality","Sub Locality","Route","PostalCode","Opening Time","Closing Time","Opening Time2","Closing Time2","Order Day Lapse"];
-
-            var i, l = fields.length;
-            var fieldname;
-
-            for (i = 0; i < l; i++) {
-                fieldname = fields[i];
-                if ($('#'+fieldname).val() == "") {
-                field_label_name = fields_labels[i]; 
-                    if(fieldname == 'CityId' || fieldname == 'ServiceId' || fieldname == 'OrderDayLapse' )
-                    {
-                        var alert_message = "Please Select "+field_label_name+" ";
-                    }else{
-                        var alert_message = "Please Enter "+field_label_name+" ";
-                    }
-                    
-                    swal(alert_message, {
-                            icon: "error",
-                        });
-            
-                return false;
-                }
-               
-
-                if(fieldname == 'EditContactNumber' ){
-                   
-                 
-                    var alert_message = "Please Enter Valid Manager Number";
-                  
-                    if ($('#'+fieldname).val().length!=10)
-                             {
-                                swal(alert_message, {
-                            icon: "error",
-                        });
-                         return false;
-                                }
-                                
-                }
-
-            }
-            
-            
-           
-            
-           $('#add_merchant_location_form').submit();
-
-    });
-    
-
-      
-    $("body").delegate("#add_merchant_location_form_submit_btn1", "click", function(e){
-        e.preventDefault();
-
-            var fields = ["ContactPerson","ContactNumber","Address","MerchantName","PackingCharges","CityId","ServiceId","Latitude","Longitude","Locality","SubLocality","Route","PostalCode","OpeningTime","ClosingTime","OpeningTime2","ClosingTime2","OrderDayLapse"];
-            var fields_labels = ["Manager Name","Manager Number","Address","Merchant Name","Packing Charges","City","Service","Latitude","Longitude","Locality","Sub Locality","Route","PostalCode","Opening Time","Closing Time","Opening Time2","Closing Time2","Order Day Lapse"];
-
-            var i, l = fields.length;
-            var fieldname;
-
-            for (i = 0; i < l; i++) {
-                fieldname = fields[i];
-                if (document.forms["add_merchant_location_form1"][fieldname].value === "") {
-                field_label_name = fields_labels[i]; 
-                    if(fieldname == 'CityId' || fieldname == 'ServiceId' || fieldname == 'OrderDayLapse' )
-                    {
-                        var alert_message = "Please Select "+field_label_name+" ";
-                    }else{
-                        var alert_message = "Please Enter "+field_label_name+" ";
-                    }
-                    
-                    swal(alert_message, {
-                            icon: "error",
-                        });
-            
-                return false;
-                }
-                if(fieldname == 'ContactNumber' ){
-                   
-                 
-                    var alert_message = "Please Enter Valid Manager Number";
-                  
-                    if (document.forms["add_merchant_location_form1"][fieldname].value.length!=10)
-                             {
-                                swal(alert_message, {
-                            icon: "error",
-                        });
-                         return false;
-                                }
-                                
-                }
-            }
-            
-            
-           
-            
-           $('#add_merchant_location_form1').submit();
-
-    });
-
-
-    $("#Name").bind("keyup", function(){
-        var result = $('#Name').val();
-        var result = result.replace(/\s+/g, "");
-        var result = (result.substring(0,3)).toUpperCase();
-        $('#item_name_sku_part').html('');
-        $('#item_name_sku_part').html(result);
-      });
-
-      $("#Segment").bind("change", function(){
-        var result = $("#Segment option:selected").text();
-        var result = result.replace(/\s+/g, "");
-        var result = (result.substring(0,3)).toUpperCase();
-        $('#segment_sku_part').html('');
-        $('#segment_sku_part').html(result);
-      });
-
-      $("#SubSegment").bind("change", function(){
-        var result = $("#SubSegment option:selected").text();
-        var result = result.replace(/\s+/g, "");
-        var result = (result.substring(0,2)).toUpperCase();
-        $('#sub_segment_sku_part').html('');
-        $('#sub_segment_sku_part').html(result);
-      });
-
-      $("#Brand").bind("keyup", function(){
-        var result = $('#Brand').val();
-        var result = result.replace(/\s+/g, "");
-        var result = (result.substring(0,3)).toUpperCase();
-        $('#brand_sku_part').html('');
-        $('#brand_sku_part').html(result);
-      });
-
-      $("#NoUOMType").bind("keyup", function(){
-
-        var uom = $('#UnitOfMeasurement').val(); 
-        var uom_valu = $('#NoUOMType').val();
-        var result = uom_valu+uom;
-        var result = result.replace(/\s+/g, "");
-        var result = (result.substring(0,4)).toUpperCase();
-        $('#size_sku_part').html('');
-        $('#size_sku_part').html(result);
-      });
-
-
-        $('body').delegate("#PerishableExpiryDate", "change", function(e){
-        
-             var start = new Date().getTime();
-             var end = new Date( $('#PerishableExpiryDate').val() ).getTime();           
-
-            //  alert(start);
-            //  alert(end);
-                if(end > start)
-                {
-              
-                    var days = Math.round((end-start) / (1000 * 60 * 60 * 24));
-
-                    if(days >= 1)
-                    {
-                        $('#PerishableExpireReminderDays').val(days);
-                    }else{
-                        swal('Please Enter Expiry Date Greater than Today Date', {
-                            icon: "error",
-                        });
-                    }
-                    
-                }else{
-                    swal('Please Enter Expiry Date Greater than Today Date', {
-                        icon: "error",
-                    });
-                    $('#PerishableExpireReminderDays').val('');
-                    $('#PerishableExpiryDate').val('');
-                }
-        });
-
-
-        $('body').delegate("#PerishableExpiryDate2", "change", function(e){
-        
-            var start = new Date().getTime();
-            var end = new Date( $('#PerishableExpiryDate2').val() ).getTime();           
-
-               if(end > start)
-               {    
-                
-                    var days = Math.round((end-start) / (1000 * 60 * 60 * 24));
-                    if(days >= 1)
-                    {
-                        $('#PerishableExpireReminderDays2').val(days);
-                    }else{
-                        swal('Please Enter Expiry Date Greater than Today Date', {
-                            icon: "error",
-                        });
-                    }
-                   
-                   //$('#PerishableExpireReminderDays2').val(days+1);
-               }else{
-                   swal('Please Enter Expiry Date Greater than Today Date', {
-                       icon: "error",
-                   });
-                   $('#PerishableExpireReminderDays2').val('');
-                   $('#PerishableExpiryDate2').val('');
-               }
-       });
-
-        
-        $('body').delegate("#PoDate", "change", function(e){
-        
-            var po_date = $('#PoDate').val();
-            var delivery_date = $('#DeliveryDate').val();
-            if(delivery_date != ''){
-                if(po_date != ''){
-
-                    var start = new Date( $('#PoDate').val() ).getTime();           
-                    var end = new Date( $('#DeliveryDate').val() ).getTime();           
-
-                    if(end >= start)
-                    {
-                        
-                    }else{
-                        swal('Please Enter Purchase Order Date Greater than Delivery Date', {
-                            icon: "error",
-                        });
-                    }
-                }
-              
-
-           }else{
-           
-           }
-       });
-
-
-       $('body').delegate("#DeliveryDate", "change", function(e){
-        
-        var po_date = $('#PoDate').val();
-        var delivery_date = $('#DeliveryDate').val();
-       if(po_date != ''){
-        var start = new Date( $('#PoDate').val() ).getTime();           
-        var end = new Date( $('#DeliveryDate').val() ).getTime();        
-            if(end >= start)
-           {
-           
-           }else{
-               swal('Please Enter Delivery Date Greater than Purchase Order Date', {
-                   icon: "error",
-               });
-           }
-          
-
-       }else{
-        swal('Please Enter Purchase Order Date', {
-            icon: "error",
-        });
-       }
-   });
-
-   
-   $('body').delegate(".get_item_order_details", "click", function(e){
-    e.preventDefault();
-   var fetchurl = $(this).attr("fetchurl");
-   var fetchId = $(this).attr("fetchId");
-   var appendDivId = $(this).attr("appendDivId");
-   var formData = { "fetchId": fetchId  };
-   $.ajax({
-       type: "POST",
-       dataType: "json",
-       url: fetchurl,
-       data: formData,
-       cache: false,
-       success: function(data) {
-           if(data.status)
-           {
-
-            $("#"+appendDivId).find('.modal-content').html('');
-            $("#"+appendDivId).find('.modal-content').html(data.html);
-            $("#"+appendDivId).modal('show');
-                 
-           }else{
-            //    swal(data.Message, {
-            //        icon: "error",
-            //      });
-
-
-           }
-
-        
-       }
-   });
-});
-
-
-$('body').delegate(".get_item_order_removed_details", "click", function(e){
-   e.preventDefault();
-   var fetchId = $(this).attr("fetchId");
-   var appendDivId = $(this).attr("appendDivId");
-   $('#store_management_removed_item_orders_ajax_table').attr('fetchId',fetchId);
-   $('#BatchId').val(fetchId);
-   DataTableBind($("#store_management_removed_item_orders_ajax_table"), true);
-   $("#"+appendDivId).modal('show');
-   
-});
-
-
-$("body").delegate("#remove_product_history_submit_btn", "click", function(e){
-    e.preventDefault();
-
-        var fields = ["Quantity","ReversedDate","Reason"];
-        var fields_labels = ["Quantity","Date","Reason"];
-
-        var i, l = fields.length;
-        var fieldname;
-
-        for (i = 0; i < l; i++) {
-            fieldname = fields[i];
-            if (document.forms["remove_product_history_form"][fieldname].value === "") {
-            field_label_name = fields_labels[i]; 
-                if(fieldname == 'ReversedDate')
-                {
-                    var alert_message = "Please Select "+field_label_name+" ";
-                }else{
-                    var alert_message = "Please Enter "+field_label_name+" ";
-                }
-                
-                swal(alert_message, {
-                        icon: "error",
-                    });
-        
-            return false;
-            }
-            
-        }
-        
-        
-       
-        
-       $('#remove_product_history_form').submit();
-
-});
-
-$("body").delegate("#retialers_edit_submit_btn", "click", function(e){
-    e.preventDefault();
-    var fields = ["Name","PhoneNumber","Address","CreditLimit","PaymentDays"];
-    var fields_labels = ["Retailer Name","Phone Number","Address","Credit Limit","Payment Terms"];
-    //alert($('#LegalId').val());
-    var i, l = fields.length;
-    var fieldname;
-
-    for (i = 0; i < l; i++) {
-        fieldname = fields[i];
-       
-       if (document.forms["add_retailer_form"][fieldname].value === "") {
-        // if ($('#'+fieldname).val() == "") {
-            // alert($('#'+fieldname).val());
-            field_label_name = fields_labels[i]; 
-            // if(fieldname == 'ServiceId' || fieldname == 'CityId')
-            // {
-            //     var alert_message = "Please Select "+field_label_name+" ";
-            // }else{
-                var alert_message = "Please Enter "+field_label_name+" ";
-            //}
-            
-            swal(alert_message, {
-                    icon: "error",
-                });
-    
-        return false;
-        }
-
-        // /"BankName","BankBranch","IfscCode","AccountNo","AccountHolderName"
-        //"PaytmNo","GooglepayNo","PhonepeNo"
-
-        if(fieldname == 'Name' ){
-            if (document.forms["add_retailer_form"][fieldname].value.length < 5)
-                    {
-                        var alert_message = "Please Enter Retailer Name with atleast 5 characters...!!!";
-                        swal(alert_message, {
-                    icon: "error",
-                });
-                return false;
-                        }
-                        
-        }
-
-        if(fieldname == 'PhoneNumber'){
-            
-            var alert_message = "Please Enter Valid Phone Number";
-           
-            if (document.forms["add_retailer_form"][fieldname].value.length!=10)
-                    {
-                        swal(alert_message, {
-                    icon: "error",
-                });
-                return false;
-                        }
-                        
-        } 
-
-    }
-     // /"BankName","BankBranch","IfscCode","AccountNo","AccountHolderName"
-    var retailer_bank_status = false; 
-    if($('#BankName').val() != '' || $('#BankBranch').val() != '' || $('#IfscCode').val() != '' || $('#AccountNo').val() != '' || $('#AccountHolderName').val() != '')
-    {
-        if($('#BankName').val() == '') {
-            var alert_message = "Please Enter Bank Name";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if($('#BankBranch').val() == '') {
-            var alert_message = "Please Enter Bank Branch";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        }
-        if($('#IfscCode').val() == '') {
-            var alert_message = "Please Enter Ifsc Code";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if($('#AccountNo').val() == '') {
-            var alert_message = "Please Enter Account No";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        if($('#AccountHolderName').val() == '') {
-            var alert_message = "Please Enter Account HolderName";
-            swal(alert_message, {
-                icon: "error",
-            }); 
-            return false;
-        } 
-
-        var retailer_bank_status = true;
-    }
-
-    var retailer_upi_status = false; 
-    if($('#PaytmNo').val() != '' || $('#PhonepeNo').val() != '' || $('#GooglepayNo').val() != '' || $('#UPIIds').val() != '')
-    {
-        if(!retailer_upi_status)
-        {
-            if($('#PaytmNo').val() != '') {
-                if ($('#PaytmNo').val().length!=10)
-                {   var alert_message = "Please Enter Valid Paytm Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            } 
-        }
-      
-        if(!retailer_upi_status)
-        {
-            if($('#PhonepeNo').val() != '') {
-                if ($('#PhonepeNo').val().length!=10)
-                {   var alert_message = "Please Enter Valid Phonepe Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            }
-        }
-
-        if(!retailer_upi_status)
-        {
-            if($('#GooglepayNo').val() != '') {
-                if ($('#GooglepayNo').val().length!=10)
-                {   var alert_message = "Please Enter Valid Google Pay Number";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    return false;
-                }else{
-                    var retailer_upi_status = true; 
-                }
-            } 
-        }
-
-        if(!retailer_upi_status)
-        {
-            if($('#UPIIds').val() != ''){
-                var upi_ids = $('#UPIIds').val();
-                var upi_ids = upi_ids.split(",");
-                let regex = new RegExp(/^[\w.-]+@[\w.-]+$/);
-                for (let kk = 0; kk < upi_ids.length; kk++) {
-                    // /alert(upi_ids[kk]);
-                    if (regex.test(upi_ids[kk]) == true)
-                    {   
-                        var retailer_upi_status = true;
-                    }else{
-                        var alert_message = alert_message = "Please Enter Proper Formatted UPI Ids ";
-                        swal(alert_message, {
-                        icon: "error",
-                        });
-                        var retailer_upi_status = false;
-                        return false;
-                    }
-                } 
-
-                }
-                       
-        }
-
-     
-    }
-
-    if(retailer_upi_status == false && retailer_bank_status == false){
-        var alert_message = "Please Enter Bank Details or Atleast One UPI No";
-        swal(alert_message, {
-        icon: "error",
-        });
-        return false;
-    }
-
-       
-       
-        
-       $('#add_retailer_form').submit();
-
-});
-
-
-
-$("body").delegate("#add_item_bar_code_scanner_btn", "click", function(e){
-
-    $('#add_item_scanner_modal').modal('show');
-   
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-    "qr-reader", {
-        fps: 10,
-        qrbox: 250
-    });
-    html5QrcodeScanner.render(onAddItemSuccessscanning);
-});
-
-function onAddItemSuccessscanning(decoded) {
-    
-    if(decoded != '')
-    {
-        // decoded = decode+'-XXX';
-        $('#CompleteSkuId').val(decoded);
-        $('#ItemId1').val(decoded);
-        $('#ScanSkuId').val(decoded);
-        $('#add_item_scanner_modal').modal('hide');
-    }else{
-
-    }
-}
-
-
-$("body").delegate("#add_item_bar_code_generator_btn", "click", function(e){
-    let result = '';
-    const characters = '123456789123456789123456789123456789123456789123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 15) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    $('#GeneratedSkuId').val(result);
-    $('#ItemId1').val(result);
-    result = result+'-XXX';
-    $('#CompleteSkuId').val(result);
-    
-});
-$("body").delegate(".update_cart_numeric_class","keypress", function(evt){
-//document.querySelector(".numeric_class").addEventListener("keypress", function (evt) {
-    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
-    {
-        evt.preventDefault();
-    }
-    
-});
-
-$("body").delegate(".verify_customer_profle_fullfillments","click", function(evt){
-    evt.preventDefault();
-    redirect_url = $(this).attr('href');
-    var fetchurl = base_url+'/product_catalogue/get_profile_fullfillments';
-    var formData = { "fetchId": 1 };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        
-        success: function(data) {
-            if(data.Status){
-                swal(data.Message, {
-                    icon: "error",
-                    });
-            }else{
-                window.location.href = redirect_url;
-            }
-            
-        }
-    });
-    return;
-});
-
-$("body").on("click", ".delete_merchant_item_image", function(event) {
-    event.preventDefault();
-
-
-    swal({
-        title: "Are you sure?",
-        text: "You want to delete an image?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-        })
-        .then((result) => {
-        
-        if (result) {
-            
-            var fetchurl = $(this).attr("fetchurl");
-            var fetchId = $(this).attr("fetchId");   
-            var formData = { "fetchId": fetchId };
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: fetchurl,
-                data: formData,
-                cache: false,
-                success: function(data) {
-                    if(data.Status)
-                    {
-                        $("#merchant_image_block_"+fetchId).remove();
-                        swal(data.Message, {
-                            icon: "error",
-                            });
-                        $("#merchant_image_block_"+fetchId).remove();
-                        var mi_length = $('.merchant_image_block').length;  
-                        //alert(mi_length);
-                        if(mi_length <= 0 )
-                        {
-                            $('#MultipleDefault').removeClass('d-none');
-                        }  
-                    }else{
-        
-                        swal(data.Message, {
-                            icon: "error",
-                            });
-                    }
-                    
-                   
-                }
-            });
-            return;
-          
-
-
-        }
-
-
-        });
-
- 
-});
-
-
-$("body").on("keyup", "#MiSegmentName", function() {
-
-      
-   var key = $(this).val();
-   var fetchurl = $(this).attr("fetchurl");
-   var formData = {
-       "key": key
-   };
-
-   $.ajax({
-       type: "POST",
-       dataType: "json",
-       url: fetchurl,
-       data: formData,
-       // async: false,
-       cache: false,
-       success: function(data) {
-           if(data.status)
-           {
-               $("#MiSegmentNameList").html(''); 
-               $("#MiSegmentNameList").html(data.html);
-               
-           }else{
-
-               
-           }
-           
-       }
-   });
-
-});
-
-$("body").on("keyup", "#MiSubSegmentName", function() {
-
-      
-    var key = $(this).val();
-    var fetchurl = $(this).attr("fetchurl");
-    var formData = {
-        "key": key
-    };
- 
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        // async: false,
-        cache: false,
-        success: function(data) {
-            if(data.status)
-            {
-                $("#MiSubSegmentNameList").html(''); 
-                $("#MiSubSegmentNameList").html(data.html);
-                
-            }else{
- 
-                
-            }
-            
-        }
-    });
- 
- });
-
-
- $("body").delegate("#register_supplier_submit_btn", "click", function(e){
-    e.preventDefault();
-
-        var fields = ["Name","CityId","ServiceId","AdminEmailId","PhoneNumber"];
-        var fields_labels = ["Business Name","City","Service","Email Id","Phone Number"];
-        //alert($('#LegalId').val());
-        var i, l = fields.length;
-        var fieldname;
-
-        for (i = 0; i < l; i++) {
-            fieldname = fields[i];
-           
-           if (document.forms["register_supplier_submit_form"][fieldname].value === "") {
-            
-                // alert($('#'+fieldname).val());
-                field_label_name = fields_labels[i]; 
-                if(fieldname == 'ServiceId' || fieldname == 'CityId')
-                {
-                    var alert_message = "Please Select "+field_label_name+" ";
-                }else{
-                    var alert_message = "Please Enter "+field_label_name+" ";
-                }
-                
-                swal(alert_message, {
-                        icon: "error",
-                    });
-        
-            return false;
-            }
-
-            if($('#RegSAdminEmailId').val() != '' ){
-                if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($('#RegSAdminEmailId').val())))
-                         {
-                            var alert_message = "Please Enter Valid Email ID...!!!";
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                           
-            }
-            if($('#RegSPhoneNumber').val() != '' ){
-               
-                var alert_message = "Please Enter Valid Phone Number";
-                
-                if ($('#RegSPhoneNumber').val().length!=10)
-                         {
-                            swal(alert_message, {
-                        icon: "error",
-                    });
-                     return false;
-                            }
-                            
-            }
-        
-        
-
-
-        if($('#RegSName').val() != '' ){
-            if ($('#RegSName').val().length < 5)
-                     {
-                        var alert_message = "Please Enter Business Name with atleast 5 characters...!!!";
-                        swal(alert_message, {
-                    icon: "error",
-                });
-                 return false;
-                        }
-                        
-        }
-    }
-
-
-
-         // /"BankName","BankBranch","IfscCode","AccountNo","AccountHolderName"
-var retailer_bank_status = false; 
-if($('#RegSBankName').val() != '' || $('#RegSBankBranch').val() != '' || $('#RegSIfscCode').val() != '' || $('#RegSAccountNo').val() != '' || $('#RegSAccountHolderName').val() != '')
-{
-    if($('#RegSBankName').val() == '') {
-        var alert_message = "Please Enter Bank Name";
-        swal(alert_message, {
-            icon: "error",
-        }); 
-        return false;
-    } 
-
-    if($('#RegSBankBranch').val() == '') {
-        var alert_message = "Please Enter Bank Branch";
-        swal(alert_message, {
-            icon: "error",
-        }); 
-        return false;
-    }
-    if($('#RegSIfscCode').val() == '') {
-        var alert_message = "Please Enter Ifsc Code";
-        swal(alert_message, {
-            icon: "error",
-        }); 
-        return false;
-    } 
-
-    if($('#RegSAccountNo').val() == '') {
-        var alert_message = "Please Enter Account No";
-        swal(alert_message, {
-            icon: "error",
-        }); 
-        return false;
-    } 
-
-    if($('#RegSAccountHolderName').val() == '') {
-        var alert_message = "Please Enter Account HolderName";
-        swal(alert_message, {
-            icon: "error",
-        }); 
-        return false;
-    } 
-
-    var retailer_bank_status = true;
-}
-
-var retailer_upi_status = false; 
-if($('#RegSPaytmNo').val() != '' || $('#RegSPhonepeNo').val() != '' || $('#RegSGooglepayNo').val() != '' || $('#RegSUPIIds').val() != '')
-{
-    if(!retailer_upi_status)
-    {
-        if($('#RegSPaytmNo').val() != '') {
-            if ($('#RegSPaytmNo').val().length!=10)
-            {   var alert_message = "Please Enter Valid Paytm Number";
-                swal(alert_message, {
-                icon: "error",
-                });
-                return false;
-            }else{
-                var retailer_upi_status = true; 
-            }
-        } 
-    }
-  
-    if(!retailer_upi_status)
-    {
-        if($('#RegSPhonepeNo').val() != '') {
-            if ($('#RegSPhonepeNo').val().length!=10)
-            {   var alert_message = "Please Enter Valid Phonepe Number";
-                swal(alert_message, {
-                icon: "error",
-                });
-                return false;
-            }else{
-                var retailer_upi_status = true; 
-            }
-        }
-    }
-
-    if(!retailer_upi_status)
-    {
-        if($('#RegSGooglepayNo').val() != '') {
-            if ($('#RegSGooglepayNo').val().length!=10)
-            {   var alert_message = "Please Enter Valid Google Pay Number";
-                swal(alert_message, {
-                icon: "error",
-                });
-                return false;
-            }else{
-                var retailer_upi_status = true; 
-            }
-        } 
-    }
-
-    if(!retailer_upi_status)
-    {
-        if($('#RegSUPIIds').val() != ''){
-            var upi_ids = $('#RegSUPIIds').val();
-            var upi_ids = upi_ids.split(",");
-            let regex = new RegExp(/^[\w.-]+@[\w.-]+$/);
-            for (let kk = 0; kk < upi_ids.length; kk++) {
-                // /alert(upi_ids[kk]);
-                if (regex.test(upi_ids[kk]) == true)
-                {   
-                    var retailer_upi_status = true;
-                }else{
-                    var alert_message = alert_message = "Please Enter Proper Formatted UPI Ids ";
-                    swal(alert_message, {
-                    icon: "error",
-                    });
-                    var retailer_upi_status = false;
-                    return false;
-                }
-            } 
-
-            }
-                   
-    }
-
- 
-}
-
-if(retailer_upi_status == false && retailer_bank_status == false){
-    var alert_message = "Please Enter Bank Details or Atleast One UPI No";
-    swal(alert_message, {
-    icon: "error",
-    });
-    return false;
-}
-        
-
-    $('#register_supplier_submit_form').submit();
-   
-});
-
-
-$("body").on("change", "#change_to_supplier_view", function(event) {
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).val();
-    var formData = { "fetchId": fetchId };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-
-              if(data.Status)
-              {
-                swal(data.Message, {
-                    icon: "success",
-                  }).then(function(){ 
-                    location.reload();
-                    });
-              }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-              }
-           
-        }
-    });
-    return;
-});
-
-
-
-$("body").on("change", "#InvSegmentId", function(event) {
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).val();
-    var appendDivId = $(this).attr("appendDivId");
-    var formData = { "fetchId": fetchId };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-
-              if(data.Status)
-              {
-                $('#'+appendDivId).val(data.Result.Isle);
-              }
-        }
-    });
-    return;
-});
-
-$("body").on("change", "#SubSegment", function(event) {
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).val();
-    var appendDivId = $(this).attr("appendDivId");
-    var appendDivId1 = $(this).attr("appendDivId1");
-    var formData = { "fetchId": fetchId };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-
-              if(data.Status)
-              {
-                // var result = JSON.parse(data.Result);
-                // alert(data.Result);
-                // alert(result);
-                $('#'+appendDivId).val(data.Result.Isle);
-                $('#'+appendDivId1).val(data.Result.Rows);
-              }
-        }
-    });
-    return;
-});
-
-
-$("body").on("click", ".pos_payment_option_btn", function(event) {
-    event.preventDefault();
-    $('.pos_payment_option').addClass('d-none');
-    var payment_mode = $(this).attr("payment_mode");
-    var billing_amount = $("#billing_amount").val();
-    
-
-    var billing_tab = $('#billing_tab').val();
-            //alert(billing_tab);
-    if(billing_tab != '')
-    {
-        var customer_id = $("#CustomerId"+billing_tab).val();
-        $('#PaymentMode'+billing_tab).val(payment_mode);
-        //alert(customer_id);
-    }else{
-        var customer_id = $("#CustomerId").val();
-        $('#PaymentMode').val(payment_mode);
-    }
-
-    if(payment_mode == 'credit'){
-    var fetchId = customer_id;    
-    var fetchurl = $(this).attr("fetchurl");
-    var appendDivId = $(this).attr("appendDivId");
-    var formData = { "fetchId": fetchId, "billing_amount" : billing_amount };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        context: this,
-        success: function(data) {
-
-              if(data.Status)
-              {
-                $(this).find('.pos_payment_option').removeClass('d-none');
-                $('#creditlimitdetails').removeClass('d-none');
-
-                $('#CustomerCreditLimit').html('');
-                $('#CustomerAvailableLimit').html();
-                $('#CustomerBillingAmount').html('');
-                $('#CustomerCreditLimit').html(data.credit_details.CreditLimit);
-                $('#CustomerAvailableLimit').html(data.credit_details.AvailableLimit);
-                $('#CustomerBillingAmount').html(data.credit_details.BillingAmount);
-                
-              }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-              }
-        }
-    });
-    }else{
-        $('#creditlimitdetails').addClass('d-none');
-        $(this).find('.pos_payment_option').removeClass('d-none');    
-    }
-   
-    return;
-});
-
-
-
-$("body").on("click", ".pos_refund_payment_option_btn", function(event) {
-    event.preventDefault();
-    $('.pos_refund_payment_option').addClass('d-none');
-    var refund_payment_mode = $(this).attr("refund_payment_mode");
-    $('#RefundPaymentMode').val(refund_payment_mode);
-    $(this).find('.pos_refund_payment_option').removeClass('d-none');
-    return;
-});
-
-
-$('.pos_billing_tab').click(function(){
-    var tab_count = $(this).attr('tab-count');
-    $('#billing_tab').val(tab_count);
-});
-
-$('.doordelivery_trigger').click(function(){
-    var billing_tab = $('#billing_tab').val();
-    if(billing_tab != '')
-    {
-        var customer_id = $("#CustomerId"+billing_tab).val();
-    }else{
-        var customer_id = $("#CustomerId").val();
-    }
-
-    if(customer_id != '')
-    {
-        $('#doordelivery').modal('show');
-        $('#door_delivery_form').find('#form_id').val(customer_id);
-
-    }else{
-
-        swal('Please Enter Valid Customer Details', {
-            icon: "error",
-        });
-    }
-
-   
-});
-
-
-$("body").on("click", ".phone_orders_payment_option_btn", function(event) {
-    event.preventDefault();
-    $('.phone_orders_payment_option').addClass('d-none');
-    var payment_mode = $(this).attr("payment_mode");
-    var billing_amount = $("#billing_amount").val();
-    var customer_id = $("#CustomerId").val();
-    $('#PaymentMode').val(payment_mode);
-
-    if(payment_mode == 'credit'){
-    var fetchId = customer_id;    
-    var fetchurl = $(this).attr("fetchurl");
-    var appendDivId = $(this).attr("appendDivId");
-    var formData = { "fetchId": fetchId, "billing_amount" : billing_amount };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        context: this,
-        success: function(data) {
-
-              if(data.Status)
-              {
-                $(this).find('.phone_orders_payment_option').removeClass('d-none');
-                $('#creditlimitdetails').removeClass('d-none');
-
-                $('#CustomerCreditLimit').html('');
-                $('#CustomerAvailableLimit').html();
-                $('#CustomerBillingAmount').html('');
-                $('#CustomerCreditLimit').html(data.credit_details.CreditLimit);
-                $('#CustomerAvailableLimit').html(data.credit_details.AvailableLimit);
-                $('#CustomerBillingAmount').html(data.credit_details.BillingAmount);
-                
-              }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-              }
-        }
-    });
-    }else{
-        $('#creditlimitdetails').addClass('d-none');
-        $(this).find('.phone_orders_payment_option').removeClass('d-none');    
-    }
-   
-    return;
-});
-
-$("body").delegate("#pos_order_edit_button", "click", function(){
-    $('.pos_order_options').removeClass('d-none');
-    $(this).addClass('d-none');    
-    $('#pos_order_edit_submit_button').removeClass('d-none');
-});
-
-$("body").on("click", "#pos_order-details-row-addbtn", function(e) {
-    // $('.add_sku_item').val('');
-    var order_edit_mode = $(this).attr("fetchid");
-    if(order_edit_mode == '1')
-    {
-        swal("Please Submit Previous Changes ", {
-            icon: "error",
-          });
-    }else{
-
-        $(".sku-row").show();
-    }
-
-
-});
-
-$("body").on("click", "#pos_order_details_print_invoice", function(e) {
-    // $('.add_sku_item').val('');
-    var order_edit_mode = $(this).attr("fetchid");
-    if(order_edit_mode == '1')
-    {
-        swal("Please Submit Previous Changes ", {
-            icon: "error",
-          });
-    }else{
-        swal("Print Invoice Disabled ", {
-            icon: "error",
-          });
-       
-    }
-
-
-});
-
-$("body").on("click", "#pos_order-details-row-cancelbtn", function(e) {
-
-    $(".sku-row").hide();
-
-});
-
-$("body").on("click", ".pos_order-details-row-editbtn", function(event) {
-
-    event.preventDefault();            
-    var fetchId = $(this).attr("fetchId");
-    $('.pos_sku_editale_'+fetchId).removeClass('hide');
-    $('.pos_sku_label_editale_'+fetchId).addClass('hide');
-
-});   
-
-
-$("body").on("click", ".pos_order-details-row-edit_cancelbtn", function(event) {
-
-    event.preventDefault();            
-    var fetchId = $(this).attr("fetchId");
-    $('.pos_sku_editale_'+fetchId).addClass('hide');
-    $('.pos_sku_label_editale_'+fetchId).removeClass('hide');
-
-});   
-
-$("body").on("click", ".pos_order-details-row-deletebtn", function(event) {
-
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var order_id = $(this).attr("order_id");
-    var fetchId = $(this).attr("fetchId");
-
-    swal({
-        title: "Are you sure?",
-        text: "You Want To Delete This Item?",
-        icon: "warning",
-        buttons: [
-          'No, cancel it!',
-          'Yes, Delete!'
-        ],
-        dangerMode: true,
-      }).then(function(isConfirm) {
-        if (isConfirm) {
-          
-           
-        
-            var formData = { "fetchId": fetchId };
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: fetchurl,
-                data: formData,
-                cache: false,
-                success: function(data) {
-                    if(data.Status == '200')
-                    {
-                        $('#item_row_'+fetchId).remove();
-                        GetPosOrderedItemsList(order_id);
-                        
-                    }
-                   
-                }
-            });
-          
-
-        } else {
-          
-        }
-      });
-  });
-
-
-$("body").delegate("#pos_order-details-row-addsubmitbtn", "click", function(event){
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).attr("fetchId");
-    var quantity = $('#item_quantity_'+fetchId).val();
-    var item_name = $('#item_name_'+fetchId).val();
-    var price = $('#item_price_'+fetchId).val();
-    var item_id = $('#item_id_'+fetchId).val();
-    var order_id = $('#order_item_id_'+fetchId).val();
-    
-    var formData = { "fetchId": fetchId, "quantity" : quantity, "item_name" : item_name, "price" : price, "item_id" : item_id };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-            if(data.Status == '200')
-            {
-                GetPosOrderedItemsList(order_id);
-            }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-            }
-           
-        }
-    });
-    return;
-
-});
-
-$("body").on("click", ".pos_order-details-row-updatebtn", function(event) {
-
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).attr("fetchId");
-    var quantity = $('#item_quantity_'+fetchId).val();
-    var item_name = $('#item_name_'+fetchId).val();
-    var price = $('#item_price_'+fetchId).val();
-    var item_id = $('#item_id_'+fetchId).val();
-    var order_id = $('#item_update_order_item_id_'+fetchId).val();
-
-    var formData = { "fetchId": fetchId, "quantity" : quantity, "item_name" : item_name, "price" : price, "item_id" : item_id, "order_id":order_id };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-            if(data.Status == '200')
-            {
-               // $('.order_view_more').click();
-               GetPosOrderedItemsList(order_id);
-                
-            }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-            }
-           
-        }
-    });
-    return;
-
-});
-
-function GetPosOrderedItemsList(order_id){
-
-    var fetchurl = base_url+'/pos_billing/get_ordered_items_list';
-    var formData = { "order_id": order_id };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-            if(data.status)
-            {
-               $('#pos_ordered_items_list').html('');
-               $('#pos_ordered_items_list').html(data.html);
-               $('#pos_order_edit_submit_button').removeClass('d-none');
-               $('#pos_order_edit_button').addClass('d-none');
-               $("#ordered_items_list_table").DataTable({ "bSort": false });
-            }
-           
-        }
-    });
-    return;
-    
-}
-
-$("body").on("click", "#pos_order_edit_submit_button", function(event) {
-    event.preventDefault();
-    var fetchurl = $(this).attr("fetchurl");
-    var appendDivId = $(this).attr("data-bs-target");
-    var fetchId = $(this).attr("fetchId");
-   
-    var formData = { "fetchId": fetchId };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-            if(data.status)
-            {
-                $(appendDivId).find('.modal-content').html('');
-                $(appendDivId).find('.modal-content').html(data.html);
-                $(appendDivId).modal('show');
-            }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-            }
-        }
-    });
-    return;
-});
-
-// $("body").on("click", "#pos_order_edit_submit_button", function(event) {
-//     event.preventDefault();
-//     var fetchurl = $(this).attr("fetchurl");
-//     var appendDivId = $(this).attr("data-bs-target");
-//     var fetchId = $(this).attr("fetchId");
-   
-//     var formData = { "fetchId": fetchId };
-//     $.ajax({
-//         type: "POST",
-//         dataType: "json",
-//         url: fetchurl,
-//         data: formData,
-//         cache: false,
-//         success: function(data) {
-//             if(data.status)
-//             {
-//                 $(appendDivId).find('.modal-content').html('');
-//                 $(appendDivId).find('.modal-content').html(data.html);
-//                 $(appendDivId).modal('show');
-//             }else{
-//                 swal(data.Message, {
-//                     icon: "error",
-//                   });
-//             }
-           
-//         }
-//     });
-//     return;
-// });
-
-
-$("body").on("click", "#order_items_update_submit_btn", function(event) {
-
-    if($('#OrderUpdateAdminPassword').val() != '')
-    {
-        var secret_key = $('#OrderUpdateAdminPassword').val(); 
-        event.preventDefault();
-        var fetchurl = $(this).attr("fetchurl");
-        var fetchId = $(this).attr("fetchId");
-       
-        var formData = { "fetchId": fetchId, "secret_key": secret_key };
         $.ajax({
             type: "POST",
             dataType: "json",
@@ -11647,391 +7892,20 @@ $("body").on("click", "#order_items_update_submit_btn", function(event) {
             success: function(data) {
                 if(data.Status == '200')
                 {
-                    // swal(data.Message, {
-                    //     icon: "success",
-                    //   }).then(function(){ 
-                        
-
-                    // });
-
-                    // /$('#edit-items-list').modal('hide');
-                    open_updated_cart_payment_screen(fetchId);
-                    
-                     
-                      
-                }else{
-                    swal(data.Message, {
-                        icon: "error",
-                      });
-    
+                    $('.pospickup').removeClass('active');
+                    $('#instore_trigger').addClass('active');
+                    $('#DeliveryType').val('1');
+                
                 }
+                
             }
         });
-        return;
-    }else{
-        swal('Please Enter Admin Password', {
-            icon: "error",
-          });
 
-    }
-   
-});
-
-function open_updated_cart_payment_screen(order_id){
-
-    var formData = { 'order_id':order_id };
-    $("#pos_updated_cart_detailed_display_modal_body").html('');
-    var fetchurl = base_url+"/pos_billing/get_updated_cart_detailed_display";
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        async: false,
-        cache: false,
-        success: function(data) {
-            if( data.status ){
-                $("#pos_updated_cart_detailed_display_modal_body").html(data.html);
-                $("#pos_updated_cart_payinfo").modal('show');
-            }else{
-                swal(data.Message, {
-                    icon: "error",
-                });
-            }
-        }
-    });
-    return;
-
-}
-// /http://localhost/BazaarPortalNew/pos_billing/get_cart_detailed_display
-
-$("body").on("change", ".add_sku_item_qty", function(event) {
-    event.preventDefault();
-    var id = $(this).attr('fetchId');
-    var qty =  parseInt($('#item_quantity_'+id).val());
-    var price = $('#item_price_'+id).val();
-   
-    if(qty != '' && price != '')
-    {
-        var total_price = qty * price;
-        $('#item_total_price_'+id).val(total_price);
-    }
-});
-
-$("body").on("change", ".add_sku_item_price", function(event) {
-    event.preventDefault();
-    var id = $(this).attr('fetchId');
-    var qty =  parseInt($('#item_quantity_'+id).val());
-    var price = $('#item_price_'+id).val();
-   
-    if(qty != '' && price != '')
-    {
-        var total_price = qty * price;
-        $('#item_total_price_'+id).val(total_price);
-    }
-});
-
-
-
-$("body").on("click", ".pos_update_payment_option_btn", function(event) {
-    event.preventDefault();
-    $('.pos_update_payment_option').addClass('d-none');
-    var payment_mode = $(this).attr("payment_mode");
-    var billing_amount = $("#billing_amount").val();
-    var customer_id = $("#customer_id").val();
-    $('#PaymentMode').val(payment_mode);
-
-    if(payment_mode == 'credit'){
-    var fetchId = customer_id;    
-    var fetchurl = $(this).attr("fetchurl");
-    var appendDivId = $(this).attr("appendDivId");
-    var formData = { "fetchId": fetchId, "billing_amount" : billing_amount };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        context: this,
-        success: function(data) {
-
-              if(data.Status)
-              {
-                $(this).find('.pos_update_payment_option').removeClass('d-none');
-                $('#creditlimitdetails').removeClass('d-none');
-
-                $('#CustomerCreditLimit').html('');
-                $('#CustomerAvailableLimit').html();
-                $('#CustomerBillingAmount').html('');
-                $('#CustomerCreditLimit').html(data.credit_details.CreditLimit);
-                $('#CustomerAvailableLimit').html(data.credit_details.AvailableLimit);
-                $('#CustomerBillingAmount').html(data.credit_details.BillingAmount);
-                
-              }else{
-                swal(data.Message, {
-                    icon: "error",
-                  });
-              }
-        }
-    });
-    }else{
-        $('#creditlimitdetails').addClass('d-none');
-        $(this).find('.pos_update_payment_option').removeClass('d-none');    
-    }
-   
-    return;
-});
-
-
-
-$("body").on("keyup", ".get_sku_ids_list_txt", function() {
-
-      
-    var key = $(this).val();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).attr("fetchId");
-    var formData = {
-        "key": key,
-        "fetchId":fetchId
-    };
- 
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        // async: false,
-        cache: false,
-        success: function(data) {
-            if(data.status)
-            {
-                $("#MiItemSkuIdsList_"+fetchId).html(''); 
-                $("#MiItemSkuIdsList_"+fetchId).html(data.html);
-                
-            }else{
- 
-                
-            }
-            
-        }
-    });
- 
- });
-
-
- $("body").on("change", ".get_sku_ids_list_txt", function() {
-
-      
-    var key = $(this).val();
-    var fetchurl  = base_url+"/pos_orders/get_sku_details_by_id";
-    var fetchId = $(this).attr("fetchId");
-    var formData = {
-        "key": key,
-        "fetchId":fetchId
-    };
- 
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        // async: false,
-        cache: false,
-        success: function(data) {
-            if(data.status)
-            {
-                $("#item_name_"+fetchId).val(data.sku_details.Name); 
-                $("#item_price_"+fetchId).val(data.sku_details.Price); 
-                
-            }else{
- 
-                $("#item_name_"+fetchId).val(''); 
-                $("#item_price_"+fetchId).val(''); 
-            }
-            
-        }
-    });
- 
- });
-
- $("body").on("keyup", ".get_sku_names_list_txt", function() {
-
-      
-    var key = $(this).val();
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).attr("fetchId");
-    var formData = {
-        "key": key,
-        "fetchId":fetchId
-    };
- 
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        // async: false,
-        cache: false,
-        success: function(data) {
-            if(data.status)
-            {
-                $("#MiItemNamesList_"+fetchId).html(''); 
-                $("#MiItemNamesList_"+fetchId).html(data.html);
-                var item_name = "item_name_"+fetchId;
-                var item_id_name = "item_id_"+fetchId;
-                // $("#MiItemNamesList_"+fetchId).find('option[value="' + val + '"]').each(function() {
-                // $(this).parent().siblings('input[name="'+item_name+'"]').val($(this).data('display-text'));
-                // });
-
-                const input = document.querySelector('input[name='+item_name+']');
-                const datalist = document.querySelector('#MiItemNamesList_'+fetchId);
-
-              
-                input.addEventListener('input',  () => {
-                    const selectedOption = datalist.querySelector(`option[value="${input.value}"]`);
-                    if (selectedOption) {
-                        // console.log(selectedOption);
-                    input.value = selectedOption.dataset.displayText;
-                    var item_id = selectedOption.dataset.itemId;
-
-                    var fetchurl  = base_url+"/pos_orders/get_sku_ids_list_by_item_id";
-                   
-                    var formData = {
-                        
-                        "item_id":item_id, "order_id":fetchId
-                    };
-                 
-                    $.ajax({
-                        type: "POST",
-                        dataType: "json",
-                        url: fetchurl,
-                        data: formData,
-                        // async: false,
-                        cache: false,
-                        success: function(data) {
-                            if(data.status)
-                            {  
-                                $('input[name='+item_id_name+']').val('');
-                                $("#MiItemSkuIdsList_"+fetchId).html(''); 
-                                $("#MiItemSkuIdsList_"+fetchId).html(data.html);                                
-                                $('input[name='+item_id_name+']').focus();
-                                
-                            }else{
-                 
-                                
-                            }
-                            
-                        }
-                    });
-
-                    //selectedOption.value = selectedOption.dataset.displayText;
-                    }
-                  });
-              
-                // input.addEventListener('blur', () => {
-                //   const selectedOption = datalist.querySelector(`option[data-value-text="${input.value}"]`);
-                //   if (selectedOption) {
-                //     input.value = selectedOption.dataset.valueText;
-                //     selectedOption.value = selectedOption.dataset.valueText;
-                //   }
-                // });
-
-                
-            }else{
- 
-                
-            }
-            
-        }
-    });
- 
- });
-
-
- $("body").delegate("#retailercr-my-button", "click", function(){
-    
-
-    $('.first-div').toggleClass('edit-field');
-    $('.second-div').toggleClass('edit-field');
-
-});
-
-$("body").on("click", "#retailer_approved_limit_change", function() {
-    event.preventDefault();
-   //alert('ddddd');
-    var fetchurl = $(this).attr("fetchurl");
-    var fetchId = $(this).attr("fetchId");
-    var approvedLimit = $("#retailer_approved_limit").val();
-    var formData = { "fetchId": fetchId, "approvedLimit": approvedLimit };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-            if(data.Status)
-            {
-                $('.first-div').toggleClass('edit-field');
-                $('.second-div').toggleClass('edit-field');
-                $('#retailer_cr_limit_str').html(data.ApprovedLimit);
-                $('#retailer_approved_limit').val(ApprovedLimit);
-                
-            }
-            
-        }
-    });
-    return;
-});
-
-
-$("body").delegate("#EmployeeDisableType", "change", function(){
-           
-    if($(this).val() == 'Temporary'){
-        $('.TemporaryDetailsBlock').removeClass('d-none');
-        $('#ReActivationDate').attr("required","");
-        $('#Reason').attr("required","");
-    }else{
-        $('.TemporaryDetailsBlock').addClass('d-none');
-        $('#ReActivationDate').removeAttr("required");
-        $('#Reason').removeAttr("required");
-    }
-    
-});
-
-$("body").on("click", ".fe_transport_service_change", function() {
-    var fetchurl = $(this).attr("fetchurl");
-    var appendDivId = $(this).attr("data-bs-target");
-    var fetchId = $(this).attr("fetchId");
-    var formData = { "fetchId": fetchId };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        cache: false,
-        success: function(data) {
-            $(appendDivId).find(".modal-content").html('');
-            $(appendDivId).find(".modal-content").html(data.html);
-            $(appendDivId).modal("show");
-
-        }
-    });
-    return;
-});
-
-$('#DataTables_Table_0').DataTable({ "bSort": false });
-  
-$(document).ready(function() {
-         var owl = $('.browse-cate');
-        // var owl_length = owl.length;
-        // if(owl_length > 4)
-        // {
-        //     loop_count = 4;
-        // }else{
-        //     loop_count = owl_length;
-        // }
         
+    });
+    
+    $(document).ready(function() {
+        var owl = $('.browse-cate');
         owl.owlCarousel({
             stagePadding: 0,
             margin: 10,
@@ -12042,7 +7916,7 @@ $(document).ready(function() {
             dots: false,
             responsive: {
                 0: {
-                    items: 4
+                    items: 2
                 },
                 600: {
                     items: 4
@@ -12053,43 +7927,5 @@ $(document).ready(function() {
             }
         })
       });
-      
-function load_google_places(address)
-{
-    var input = document.getElementById(address);
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var place = autocomplete.getPlace();
-
-        var lat = place.geometry.location.lat();
-        var long = place.geometry.location.lng();
-        // alert(lat);
-        // alert(long);
-        //alert(place.address_components[0]['sublocality']);
-
-        var components = place.address_components;
-    
-        components.forEach(addressComponent => { 
-
-        const addressType = addressComponent.types[0];
-
-            if(addressType == 'sublocality_level_1'){
-                sublocality = addressComponent.long_name;
-            }
-            if(addressType == 'locality'){
-                locality = addressComponent.long_name;
-            }
-            
-            
-            });
-
-                $('#Latitude1').val(lat);
-                $('#Longitude1').val(long);
-                $('#Locality1').val(locality);
-                $('#SubLocality1').val(sublocality);
-        
-
-    });
-}
 
 }());

@@ -1,0 +1,54 @@
+.btn {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.4rem;
+  &.btn-outline {
+    border: 1px solid $body-clr ;
+  }
+}
+button:focus {
+  outline: dotted 0px;
+}
+.btn-primery {
+  background: #fff;
+  color: #99ABBA;  
+  outline: 0;
+  border: 0px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.7rem;
+  &.active{
+    background: #ff0861;
+    color: #fff;
+  }
+}
+.btn-primery:hover{
+  background: #ff0861;
+  color: #fff;
+}
+
+._btn-outline {
+  border: 1px solid #ff0861;
+  color: #000;
+  &:hover {
+    color: #fff;
+    background: #ff0861;
+  }
+}
+
+
+.selct-location {
+  background: #ffffff;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  color: #606060;
+  font-size: 0.9rem;
+  height: 3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

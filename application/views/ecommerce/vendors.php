@@ -23,8 +23,8 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo $this->lang->line('Vendor Name') ?></th>
-                        <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
+                        <th><?php echo "Vendor Name"; // $this->lang->line('Vendor Name') ?></th>
+                        <!-- <th class="no-sort"><?php // echo $this->lang->line('Settings') ?></th> -->
                     </tr>
                     </thead>
                     <tbody>
@@ -33,18 +33,13 @@
                             <tr>
                             <td><?php echo $c;  ?></td>
                             <td><?php echo $vendor['VendorName']; ?></td>
-                            <td class="no-sort"><?php echo $this->lang->line('Settings') ?></td>
+                            <!-- <td class="no-sort"><?php // echo $this->lang->line('Settings') ?></td> -->
                             </tr> 
                         <?php $c++; }} ?>   
                           
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo $this->lang->line('Vendor Name') ?></th>
-                        <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
-
-                    </tr>
+                     
                     </tfoot>
                 </table>
             </div>

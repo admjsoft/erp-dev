@@ -2152,8 +2152,27 @@ public function getfwmsEmployees()
 		$type='';
 	     foreach ($list as $prd) {
             $no++;
+
+            
+                  if(file_exists(FCPATH."userfiles/passport/".$prd->passport_document))
+			{
 			$ps='<a href="../userfiles/passport/'.$prd->passport_document.'" target=_blank>'.$prd->passport.'</a>';
+				
+			}
+			else{
+				
+             $ps=$prd->passport;				
+			}
+                  if(file_exists(FCPATH."userfiles/passport/".$prd->visa_document))
+			{
 			$vs='<a href="../userfiles/passport/'.$prd->visa_document.'" target=_blank>'.$prd->permit.'</a>';
+				
+			}
+			else{
+             $vs=$prd->permit;				
+			}
+			
+			
             $row = array();
 		    if($prd->delete_status==1)
 			{

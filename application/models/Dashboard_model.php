@@ -591,4 +591,16 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         exit();
     }
 
+
+ public function subscribe_permissions()
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_subscription');
+        $this->db->order_by('id', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
+
 }

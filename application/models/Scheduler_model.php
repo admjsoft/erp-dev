@@ -12,15 +12,12 @@ class Scheduler_model extends CI_Model
 
     private function _get_datatables_query()
     {
-
+$this->db->select('scheduler.id,scheduler.run_scheduler_expiry_date,scheduler.module,scheduler.scheduler_on,
+scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_new.name as name');
         $this->db->from('scheduler');
-
         //$this->db->where('eid', $this->eid);
-
         $this->db->join('modules_new', 'modules_new.id=scheduler.module');
-
         $i = 0;
-
         foreach ($this->tcolumn_search as $item) // loop column
         {
             if ($this->input->post('search')['value']) // if datatable send POST for search
@@ -104,5 +101,18 @@ class Scheduler_model extends CI_Model
     return $this->db->insert('scheduler', $data);
 	 
  }	 
+ 
+ public function get_schedule($id)
+ {
+	 $this->db->from('scheduler');
+    $this->db->where('id', $id);
+	$query = $this->db->get();
+	return $query->row();
+	 
+	 
+ }
+ 
+ 
+ 
  
 }

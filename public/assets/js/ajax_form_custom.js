@@ -1,30 +1,23 @@
 $(function() {
 
-      // var base_url = window.location.origin;
-      var base_url = window.location.origin+'/BazaarPortalNew';
+      //var base_url = window.location.origin;
+       var base_url = window.location.origin+'/Bazaarportal';
     
     function DoAfterSaveAction(form_id, after_save_action, data,table_reload='') {
         //alert(table_reload);
         if (after_save_action == 'redirect_to') {
-            swal(data.Message, {
-                icon: "success",
-              }).then(function(){ 
-                document.location = data.redirect_to;
-                });
-            
+            document.location = data.redirect_to;
         } else if (after_save_action == 'reload') {
-            
-            swal(data.Message, {
-                icon: "success",
-              }).then(function(){ 
-                location.reload();
-                });
+            // swal(data.Message, {
+            //     icon: "success",
+            //   });
+            location.reload();
         } else if (after_save_action == 'modal_close') {
            // alert(data.Message);
 
-            swal(data.Message, {
-                icon: "success",
-              });
+            // swal(data.Message, {
+            //     icon: "success",
+            //   });
 
              //alert(form_id);
             //alert($("#" + form_id).closest(".modal"));
@@ -45,11 +38,11 @@ $(function() {
 
         } else {
             //alert(data.Message);
-            swal(data.Message, {
-                icon: "success",
-              });
+            // swal(data.Message, {
+            //     icon: "success",
+            //   });
         }
-        //$('#'+form_id)[0].reset();
+
     //  /   $("#"+form_id)[0].reset();
         //setTimeout(function() { 
         //alert(table_reload);
@@ -210,33 +203,12 @@ $(function() {
             }
         
 
-        }else if(form_id == 'door_delivery_form' || form_id == 'curb_slide_pickup_form' || form_id == 'store_pickup_form' ){
-            var billing_tab = $('#billing_tab').val();     
-            //alert(billing_tab);
-            //if(billing_tab)
-            var trigger = $('#'+form_id).find('#form_trigger').val();
-            $("#delivery_type_block"+billing_tab).find('.pospickup').removeClass('active');
-            $("#delivery_type_block"+billing_tab).find('.'+trigger).addClass('active');
-            $('#DeliveryType').val('1');
-        
-        }else if(form_id == 'door_delivery_phone_orders_form' || form_id == 'phone_orders_curb_slide_pickup_form' || form_id == 'phone_orders_store_pickup_form'){
-            
+        }else if(form_id == 'door_delivery_form' || form_id == 'curb_slide_pickup_form' || form_id == 'store_pickup_form' || form_id == 'door_delivery_phone_orders_form' || form_id == 'phone_orders_curb_slide_pickup_form' || form_id == 'phone_orders_store_pickup_form' ){
+
             var trigger = $('#'+form_id).find('#form_trigger').val();
             $('.pospickup').removeClass('active');
             $('#'+trigger).addClass('active');
             $('#DeliveryType').val('1');
-            
-
-        }else if(form_id == 'segment_form' || form_id == 'sub_segment_form' || form_id == 'add_merchant_location_form1'  ){
-
-            load_profile_score();
-        }else if(form_id == 'edit_inventory_item_form1' || form_id == 'edit_inventory_item_form2' || form_id == 'remove_product_history_form'  ){
-           if(form_id == 'remove_product_history_form'){
-            var item_id = $('#'+form_id).find('#InventoryItemId').val();
-           }else{
-            var item_id = $('#'+form_id).find('#inventory_item_id').val();
-           }
-            load_item_quantity(item_id);
         }
         
 
@@ -300,16 +272,16 @@ $(function() {
             success: function(data) {
                 if (data.Status == 200) {
                     //alert(after_save_action);
-                   
+                    $('#'+form_id)[0].reset();
                     $("#"+form_id).find(':input[type=submit]').prop('disabled', false);
                     DoAfterSaveAction(form_id, after_save_action, data, table_reload);
                     
                 } else if (data.Status == 500) {
                     //alert(data.Message);
                     $("#"+form_id).find(':input[type=submit]').prop('disabled', false);
-                    swal(data.Message, {
-                        icon: "error",
-                      });
+                    // swal(data.Message, {
+                    //     icon: "error",
+                    //   });
                 }
             }
         });
@@ -502,45 +474,5 @@ function CallDetailedView1(fetchurl, fetchId, appendDivId, fetchId2 = '') {
     });
     return;
 }
-
-function load_profile_score() {
-
-    var fetchurl = base_url+'/product_catalogue/get_profile_score';
-    var formData = { "fetchId": 1 };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        
-        success: function(data) {
-            $("#profile_score_header").html(data.html);
-        }
-    });
-    return;
-
-    
-}
-
-function load_item_quantity(item_id) {
-
-    var fetchurl = base_url+'/product_catalogue/get_item_quantity';
-    var formData = { "item_id": item_id };
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: fetchurl,
-        data: formData,
-        
-        success: function(data) {
-            $("#add_item_quantity_label").html(data.Quantity);
-        }
-    });
-    return;
-
-    
-}
-
-
 
 });

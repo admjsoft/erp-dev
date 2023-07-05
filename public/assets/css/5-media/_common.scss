@@ -1,0 +1,21 @@
+/* Using SCSS variables to store breakpoints */
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 600px;
+@media (min-width: $breakpoint-tablet) {
+  body{
+    padding: 1rem;
+  }
+  .container {
+    max-width: 768px;
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+}
+
+@media (max-width: $breakpoint-mobile) {
+  body{
+    padding: 0.5rem;
+  }
+
+}

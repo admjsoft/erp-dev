@@ -2,7 +2,11 @@
     <style>
         form .form-group {
         margin-bottom: 0rem !important;
-} </style>
+} 
+.empty {
+border: 1px solid red !important; 
+}
+</style>
     <div class="card">
         <div class="card-header">
             <h4><?php echo $this->lang->line('Add Schedule') ?></h4>
@@ -35,7 +39,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 		</div>
             </div>
             <div class="card-body">
-                <form method="post" id="data_form" enctype="multipart/form-data" action="<?php echo base_url("scheduler/create") ?>" >
+                <form method="post" id="form" enctype="multipart/form-data" action="<?php echo base_url("scheduler/create") ?>" >
                     <?php if ($this->aauth->premission(22)) { ?>
                         <div class="row mb-1 ml-1">
                           <!--  <label for="cst" class="col-md-4"><?php //echo $this->lang->line('Run Scheduler on expiry date') ?></label>-->
@@ -86,7 +90,7 @@ foreach($modules as $module)
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Email To') ?></label>
                                 <div class="col-md3">
 								
-	<select class="form-multi-select form-control" name="email_to[]" id="ms1" multiple data-coreui-search="true" style="width:200px">
+	<select class="form-multi-select form-control" name="email_to[]" id="email_to" multiple data-coreui-search="true" style="width:200px">
   <option value="1">Admin</option>
   <option value="2">Client</option>
   <option value="3">Employee</option>
@@ -96,9 +100,9 @@ foreach($modules as $module)
                         </div>
 						
 						<div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Email To') ?></label>
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Scheduler For') ?></label>
                                 <div class="col-md3">
-<select class="form-multi-select form-control" name="schedule_on[]" id="ms1" multiple data-coreui-search="true" style="width:200px">
+<select class="form-multi-select form-control" name="schedule_on[]" id="schedule_on" multiple data-coreui-search="true" style="width:200px">
   <option value="1">passport</option>
   <option value="2">permit</option>
 </select>
@@ -118,7 +122,7 @@ foreach($modules as $module)
 						               
                     <div class="form-group row mt-2" >
                         <div class="col-sm-4">
-                               <input type="submit" class="btn btn-success btn-lg margin-bottom"
+                               <input type="submit" id="submit" class="btn btn-success btn-lg margin-bottom"
                                    value="<?php echo $this->lang->line('Add Schdeule') ?>"
                                    data-loading-text="Adding...">
                         </div>
@@ -167,4 +171,38 @@ foreach($modules as $module)
 			
 			
         </script>
+		
         <?php } ?>
+ <script type="text/javascript">
+ $(document).ready(function() {
+    $('#submit').click(function(event){
+        var days = $('#days').val();
+	    var module = $('#module').val();
+		var email_to = $('#email_to').val();
+		var schedule_on = $('#schedule_on').val();
+        if(days=="") {
+		$("#days").addClass("empty");
+         event.preventDefault();
+        }
+
+		else if(module=="")	
+		{
+		$("#module").addClass("empty");
+         event.preventDefault();
+		
+		}
+		else if(email_to=="")	
+		{
+		$("#email_to").addClass("empty");
+         event.preventDefault();
+		
+		}else if(schedule_on=="")	
+		{
+			$("#schedule_on").addClass("empty");
+         event.preventDefault();
+		
+		}
+		
+    });
+});
+</script>
