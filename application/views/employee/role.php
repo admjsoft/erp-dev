@@ -1,7 +1,11 @@
+
 <div class="content-body">
     <style>
         form .form-group {
         margin-bottom: 0rem !important;
+}
+.empty {
+border: 1.5px solid red !important; 
 } </style>
     <div class="card">
         <div class="card-header">
@@ -35,7 +39,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 		</div>
             </div>
             <div class="card-body">
-                <form method="post" id="data_form" enctype="multipart/form-data" action="<?php echo base_url("employee/createrole") ?>" >
+                <form method="post" id="form" enctype="multipart/form-data" action="<?php echo base_url("employee/createrole") ?>" >
                     <?php if ($this->aauth->premission(22)) { ?>
                         <div class="row mb-1 ml-1">
                           <!--  <label for="cst" class="col-md-4"><?php //echo $this->lang->line('Run Scheduler on expiry date') ?></label>-->
@@ -47,20 +51,17 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                         </div>
                     <?php } ?>
-					
 						
 						<div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Role Name') ?></label>
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Role Name') ?> <span style="color:red">*</span></label>
                                 <div class="col-md3">
-								<input type="text" name="role_name" id="role_name" class="form-control" placeholder="Enter Role">
-
+								<input type="text" name="role_name" id="role_name" class="form-control"  
+								onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                             </div>
-
                         </div>
-
                     <div class="form-group row mt-2" >
                         <div class="col-sm-4">
-                               <input type="submit" class="btn btn-success btn-lg margin-bottom"
+                               <input type="submit" id="submit" class="btn btn-success btn-lg margin-bottom"
                                    value="<?php echo $this->lang->line('Add Role') ?>"
                                    data-loading-text="Adding...">
                         </div>
@@ -68,4 +69,16 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 </form>
             </div>
         </div>
-      
+              <script type="text/javascript">
+ $(document).ready(function() {
+    $('#submit').click(function(event){
+        var data = $('#role_name').val();
+        var length = data.length;
+        if(length < 1) {
+			    $("#form input[type=text]").addClass("empty");
+
+            event.preventDefault();
+        }
+    });
+});
+</script>

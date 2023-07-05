@@ -40,25 +40,22 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                    width="100%">
                 <thead>
                     <tr>
-                        <th><?php echo $this->lang->line('Expiry Scheduler') ?></th>
 						<th><?php echo $this->lang->line('Module') ?></th>
-                        <th><?php echo $this->lang->line('Scheduler On') ?></th>
+                        <th><?php echo $this->lang->line('Scheduler For') ?></th>
 						   <th><?php echo $this->lang->line('Days') ?></th>
-
 					    <th><?php echo $this->lang->line('Created At') ?></th>
+					  <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
-
                 <tfoot>
                     <tr>
-                       <th><?php echo $this->lang->line('Expiry Scheduler') ?></th>
 						<th><?php echo $this->lang->line('Module') ?></th>
-                        <th><?php echo $this->lang->line('Scheduler On') ?></th>
+                        <th><?php echo $this->lang->line('Scheduler For') ?></th>
 						    <th><?php echo $this->lang->line('Days') ?></th>
-
 					    <th><?php echo $this->lang->line('Created At') ?></th>
+					<th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
                 </tfoot>
             </table>

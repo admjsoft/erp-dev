@@ -11,7 +11,7 @@
 <div class="content-body">
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Payroll Report') ?></h5>
+            <h5><?php echo $this->lang->line('FWMS Report') ?></h5>
             <hr>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">

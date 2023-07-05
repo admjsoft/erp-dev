@@ -933,7 +933,18 @@ class Aauth
         $out = $query->row_array();
         return $out[$role];
     }
-
+ public function subscribe($module_id)
+    {
+       // $role = $this->CI->session->userdata('s_role');
+       // if ($role == 'r_-1') $role = 'r_6';
+	  // $role=5;
+	     $role="r_1";
+        $this->aauth_db->select($role);
+        $this->aauth_db->where('id', $module_id);
+        $query = $this->aauth_db->get('gtg_subscription');
+        $out = $query->row_array();
+        return $out[$role];
+    }
     /**
      * Verify user
      * Activates user account based on verification code

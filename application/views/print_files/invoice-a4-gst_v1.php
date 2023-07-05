@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 <head>
@@ -233,16 +234,16 @@
 
 
         <tr  class="heading">
-            <td style="height:5% !important">
+            <td>
                 <?php echo $this->lang->line('Item') ?>
             </td>
-            <td style="height:5% !important">
+            <td>
                 <?php echo $this->lang->line('HSN') ?>
             </td>
-            <td style="height:5% !important">
+            <td>
                 <?php echo $this->lang->line('Price') ?>
             </td>
-            <td style="height:5% !important">
+            <td>
                 <?php echo $this->lang->line('Qty') ?>
             </td>
             <?php

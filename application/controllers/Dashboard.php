@@ -154,6 +154,41 @@ class Dashboard extends CI_Controller
         $this->load->view('DashboardSettings', $data);
         $this->load->view('fixed/footer');
     }
+	  public function subscribe()
+    {
+
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Subscribe Settings';
+        $data['permission'] = $this->dashboard_model->subscribe_permissions();
+        $this->load->view('fixed/header', $head);
+        $this->load->view('subscribeSettings', $data);
+        $this->load->view('fixed/footer');
+    }
+	
+	public function updatesubscription()
+	{
+		
+		$head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'subscribe Settings';
+        $permission = $this->dashboard_model->subscribe_permissions();
+        foreach ($permission as $row) {
+            $i = $row['id'];
+           $name1 = 'r_' . $i . '_1';
+             
+            $val1 = 0;
+          
+            if ($this->input->post($name1)) $val1 = 1;
+           
+           $data = array('r_1' => $val1);
+		   //print_r($data);
+		     $this->db->set($data);
+             $this->db->where('id', $i);
+             $this->db->update('gtg_subscription');
+			// print_r($this->db->last_query());
+	}
+	  echo json_encode(array('status' => 'Success', 'message' =>
+        $this->lang->line('UPDATED')));
+	}
 	
 	
 	public function dashboardOptions()

@@ -1,15 +1,18 @@
+<?php
+$email_to= $schedule->email_to;
+$emailexp=explode(",",$email_to);
+
+$scheduler_on= $schedule->scheduler_on;
+$scheduleexp=explode(",",$scheduler_on);
+?>
 <div class="content-body">
     <style>
         form .form-group {
         margin-bottom: 0rem !important;
-} 
-.empty {
-border: 1px solid red !important; 
-}
-</style>
+} </style>
     <div class="card">
         <div class="card-header">
-            <h4><?php echo $this->lang->line('Add Schedule') ?></h4>
+            <h4><?php echo $this->lang->line('Edit Schedule') ?></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -22,6 +25,7 @@ border: 1px solid red !important;
         <hr>
         <div class="card-content">
 				  <?php
+				
 if(isset($_SESSION['status'])){
  echo '<div class="alert alert-'.$_SESSION['status'].'">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -39,7 +43,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 		</div>
             </div>
             <div class="card-body">
-                <form method="post" id="form" enctype="multipart/form-data" action="<?php echo base_url("scheduler/create") ?>" >
+                <form method="post" id="data_form" enctype="multipart/form-data" action="<?php echo base_url("scheduler/update") ?>" >
                     <?php if ($this->aauth->premission(22)) { ?>
                         <div class="row mb-1 ml-1">
                           <!--  <label for="cst" class="col-md-4"><?php //echo $this->lang->line('Run Scheduler on expiry date') ?></label>-->
@@ -58,11 +62,20 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 								
 						<select name="days" id="days" class="form-control" style="width:200px;">
 						<option value="">--Select Period--</option>
-						<option value="30">30 						<?php echo $this->lang->line("Days");?>
+						<option value="30" <?php if($schedule->days==30){
+                         echo"selected";
+						}
+							?>>30 						<?php echo $this->lang->line("Days");?>
 </option>
-					<option value="60">60 						<?php echo $this->lang->line("Days");?>
+					<option value="60" <?php if($schedule->days==60){
+                         echo"selected";
+						}
+							?>>60 						<?php echo $this->lang->line("Days");?>
 </option>
-						<option value="90">90 						<?php echo $this->lang->line("Days");?>
+						<option value="90" <?php if($schedule->days==90){
+                         echo"selected";
+						}
+							?>>90 						<?php echo $this->lang->line("Days");?>
 </option>
 </select>
                             </div>
@@ -78,7 +91,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 foreach($modules as $module)
 {
 ?>
-<option value="<?php echo $module['id'];?>"><?php echo $module['name'];?></option>
+<option value="<?php echo $module['id'];?>" <?php if($module['id']==$schedule->module)
+{
+                         echo"selected";
+						}
+							?>><?php echo $module['name'];?></option>
 <?php
 }?>
 </select>
@@ -90,19 +107,38 @@ foreach($modules as $module)
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Email To') ?></label>
                                 <div class="col-md3">
 								
-	<select class="form-multi-select form-control" name="email_to[]" id="email_to" multiple data-coreui-search="true" style="width:200px">
-  <option value="1">Admin</option>
-  <option value="2">Client</option>
-  <option value="3">Employee</option>
+	<select class="form-multi-select form-control" name="email_to[]" id="ms1" multiple data-coreui-search="true" style="width:200px">
+	<?php for($i=0;$i<count($emailexp);$i++)
+{
+	if($emailexp[$i]==1)
+	{
+		$val=1;
+	}
+		if($emailexp[$i]==2)
+	{
+		$val1=2;
+	}
+		if($emailexp[$i]==3)
+	{
+		$val2=3;
+	}
+	
+}?>
+  <option value="1" <?php if(!empty($val)==1){echo"selected";}?> >Admin</option>
+  <option value="2" <?php if(!empty($val1)==2){echo"selected";}?>>Client</option>
+  <option value="3" <?php if(!empty($val2)==3){echo"selected";}?>>Employee</option>
 </select>
                             </div>
 
                         </div>
-						
+						<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+  Tooltip on top
+</button>
 						<div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Scheduler For') ?></label>
                                 <div class="col-md3">
-<select class="form-multi-select form-control" name="schedule_on[]" id="schedule_on" multiple data-coreui-search="true" style="width:200px">
+								<?php scheduleexp
+<select class="form-multi-select form-control" name="schedule_on[]" id="ms1" multiple data-coreui-search="true" style="width:200px">
   <option value="1">passport</option>
   <option value="2">permit</option>
 </select>
@@ -122,8 +158,8 @@ foreach($modules as $module)
 						               
                     <div class="form-group row mt-2" >
                         <div class="col-sm-4">
-                               <input type="submit" id="submit" class="btn btn-success btn-lg margin-bottom"
-                                   value="<?php echo $this->lang->line('Add Schdeule') ?>"
+                               <input type="submit" class="btn btn-success btn-lg margin-bottom"
+                                   value="<?php echo $this->lang->line('Update Schdeule') ?>"
                                    data-loading-text="Adding...">
                         </div>
                     </div>
@@ -171,38 +207,7 @@ foreach($modules as $module)
 			
 			
         </script>
-		
         <?php } ?>
- <script type="text/javascript">
- $(document).ready(function() {
-    $('#submit').click(function(event){
-        var days = $('#days').val();
-	    var module = $('#module').val();
-		var email_to = $('#email_to').val();
-		var schedule_on = $('#schedule_on').val();
-        if(days=="") {
-		$("#days").addClass("empty");
-         event.preventDefault();
-        }
-
-		else if(module=="")	
-		{
-		$("#module").addClass("empty");
-         event.preventDefault();
-		
-		}
-		else if(email_to=="")	
-		{
-		$("#email_to").addClass("empty");
-         event.preventDefault();
-		
-		}else if(schedule_on=="")	
-		{
-			$("#schedule_on").addClass("empty");
-         event.preventDefault();
-		
-		}
-		
-    });
-});
-</script>
+<script>$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})</script>

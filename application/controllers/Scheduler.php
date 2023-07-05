@@ -37,20 +37,53 @@ class Scheduler extends CI_Controller {
         $this->load->view('fixed/footer');
 		
 	}
+	
+	public function edit()
+	{
+		$id = $this->input->get('id');
+		$head['title'] = "Schedule Edit";
+        $head['usernm'] = $this->aauth->get_user()->username;
+		$data['schedule']=$this->scheduler_model->get_schedule($id);
+				$data['modules']=$this->scheduler_model->get_all_modules();
+
+        $this->load->view('fixed/header', $head);
+		//$data['modules']=$this->scheduler_model->get_all_modules();
+        $this->load->view('scheduler/edit',$data);
+        $this->load->view('fixed/footer');
+		
+		
+		
+		
+	}
+	
+	
 	public function getSchedulelist()
 	{
-			     $ttype = $this->input->get('type');
-
+	 $ttype = $this->input->get('type');
         $list = $this->scheduler_model->get_datatables($ttype);
         $data = array();
         $no = $this->input->post('start');
         foreach ($list as $prd) {
+			//print_r($prd);
+			//die;
             $no++;
 			$scheduler=explode(",",$prd->scheduler_on);
-		    $sccheduleron="passport-permit";
+			//print_r($prd->scheduler_on);
+			if($prd->scheduler_on=="1,2")
+			{
+			 $sccheduleron="Passport-Permit";
+			}
+			else if($prd->scheduler_on==1)
+			{
+             $sccheduleron="Passport";
+			}
+			else 
+			{
+             $sccheduleron="Permit";
+			}
+			
             $row = array();
             $pid = $prd->id;
-		    $row[] = "yes";
             $row[] = $prd->name;
             $row[] = $sccheduleron;
 			$row[] = $prd->days;
