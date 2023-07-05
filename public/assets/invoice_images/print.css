@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;500;600&display=swap");
+html,
+body {
+  font-size: 12px !important;
+}
+
+.invoice-print *,
+.invoice-print *::before,
+.invoice-print *::after {
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.invoice-print img {
+  width: 100%;
+  max-width: 100%;
+}
+
+.invoice-print .text-left {
+  text-align: left;
+}
+
+.invoice-print .text-right {
+  text-align: right;
+}
+
+.invoice-print .text-center {
+  text-align: center;
+}
+
+.invoice-print .fw-bold {
+  font-weight: 600;
+}
+
+.invoice-print .clr-blue {
+  color: #272E79 !important;
+}
+
+.invoice-print .bg-clr-blue {
+  background-color: #013C8A;
+}
+
+.invoice-print .text-uppercase {
+  text-transform: uppercase;
+}
+
+.invoice-print .pt-3 {
+  padding-top: 1rem !important;
+}
+
+.invoice-print .pb-3 {
+  padding-bottom: 1rem !important;
+}
+
+.invoice-print .p-3 {
+  padding: 1rem !important;
+}
+
+.invoice-print .p-0 {
+  padding: 0 !important;
+}
+
+.invoice-print h4 {
+  font-size: 1.5rem;
+}
+
+.invoice-print .table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoice-print .table tr th, .invoice-print .table tr td {
+  padding: 0.75rem 0.5rem;
+}
+
+.invoice-print .table tr th {
+  text-align: center;
+  font-weight: 600;
+}
+
+.invoice-print .table tr.bg-blue {
+  background-color: #013C8A;
+  color: #fff;
+}
+
+.invoice-print .table.table-bordered {
+  border: 1px solid #333;
+}
+
+.invoice-print .table .border-top {
+  border-top: 1px solid #333;
+}
+
+.invoice-print .table .border-bottom {
+  border-bottom: 1px solid #333;
+}
+
+.invoice-print .table tr.border-top td {
+  border-top: 1px solid #333;
+}
+
+.invoice-print .table .border-bottom > th {
+  border-bottom: 1px solid #333;
+}
+
+.invoice-print .table.bill-details th, .invoice-print .table.bill-details td {
+  padding: 1rem 1rem;
+}
+
+.invoice-print .table.bill-details tr:nth-child(odd) {
+  background-color: #E8E8E8;
+}
+
+.invoice-print .table.bill-details tr.bg-blue {
+  background-color: #013C8A;
+  color: #fff;
+}
+
+.invoice-print .table.bill-details tfoot tr th {
+  background-color: #E8E0EB !important;
+  border-top: 1px solid #333 !important;
+  border-bottom: 1px solid #333  !important;
+}
+
+.invoice-print .table .page-footer {
+  background-color: #1F2060;
+  color: #fff;
+}
+
+.invoice-print .table a {
+  color: #fff;
+}
+
+.invoice-print .table .social-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1rem;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+.invoice-print .table .social-icons img {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+/* @media print {
+  head, foot {
+    display: none;
+  }
+  @page {
+    size: A4;
+    margin: 0.5mm;
+  }
+} */
+/*# sourceMappingURL=print.css.map */

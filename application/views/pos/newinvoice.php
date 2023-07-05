@@ -932,6 +932,36 @@
 
     </div>
 </div>
+
+
+<div class="modal fade" id="basicPayPrintStatement" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            
+                <!-- Modal Header -->
+                <div class="modal-header">
+
+                    <h4 class="modal-title"><?php echo "Statement"; //echo $this->lang->line('Make Payment') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only"><?php echo $this->lang->line('Close') ?></span>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                  <iframe id="printFrame" src="" width="100%" height="500px"></iframe>
+
+
+                </div>
+                <!-- Modal Footer -->
+                <input type="hidden" id="current_invoice_print_url" value="" />
+                <!-- <iframe id="printFrame" src="" style="display: none;"></iframe> -->
+                <button  class="m-2 btn btn-primary" onclick="openPrintWindow()"> Print </button>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var wait = true;
     $.ajax({
@@ -1053,6 +1083,8 @@
             function () {
                 update_register();
             }, 3000);
+        $('#basicPay').modal('toggle');
+        $('#basicPayPrintStatement').modal('show');        
     });
     var file_id;
     $(document.body).on('click', '.print_image', function (e) {
@@ -1278,4 +1310,34 @@
             }
         });
     });
+
+    function openPrintWindow() {
+      //var pdfUrl = "http://example.com/path/to/your/pdf";
+      var pdfUrl = $('#current_invoice_print_url').val();
+    //  alert(pdfUrl);
+    //   var printWindow = window.open(pdfUrl, "_blank");
+      
+    //   printWindow.onload = function() {
+    //     var printIndicator = printWindow.document.createElement('p');
+    //     printIndicator.innerHTML = 'Click <span class="print-indicator" onclick="window.print()">here</span> to print the PDF.';
+    //     printWindow.document.body.appendChild(printIndicator);
+    //   };
+    // var printWindow = window.open('', '_blank');
+    //     printWindow.document.write('<html><head><title>Print</title></head><body><iframe src="https://localhost/erp-dev/pos_invoices/thermal_pdf?id=50"></iframe></body></html>');
+    //     printWindow.document.close();
+    //     printWindow.onload = function() {
+    //         printWindow.print();
+    //     };
+    // $('#basicPayPrintStatement').modal('hide');
+    // window.print('<html><head><title>Print</title></head><body><iframe src="https://localhost/erp-dev/pos_invoices/thermal_pdf?id=50"></iframe></body></html>');
+
+
+
+        var printFrame = document.getElementById('printFrame');
+        printFrame.src = pdfUrl;
+        printFrame.onload = function() {
+            printFrame.contentWindow.print();
+        };
+    }
+
 </script>

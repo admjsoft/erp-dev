@@ -190,6 +190,15 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     "targets": [0],
                     "orderable": false,
                 },
+            ], 
+            "columns": [
+                 // Assuming the first column is at index 0
+                { "data": 1 },
+                { "data": 2 }, // Assuming the first column is at index 0
+                { "data": 3 },
+                { "data": 4 },
+                { "data": 7 }
+                
             ],
             dom: 'Blfrtip',
                 buttons: [

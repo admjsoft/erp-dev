@@ -1,7 +1,7 @@
 <div class="content-body">
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Attendance') ?></h5>
+            <h5><?php echo "Attendance Report";//$this->lang->line('Attendance') ?></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -58,9 +58,10 @@
                         <th>#</th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
                         <th><?php echo $this->lang->line('Date') ?></th>
-                        <th>Login Hours</th>
-                        <th><?php echo $this->lang->line('ClockIn') ?></th>
-                        <th><?php echo $this->lang->line('ClockOut') ?></th>
+                        <th>Activity</th>
+                        <th><?php echo "Start Time"; //$this->lang->line('ClockIn') ?></th>
+                        <th><?php echo  "End Time" //$this->lang->line('ClockOut') ?></th>
+                        <th>Duration</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,9 +73,10 @@
                         <th>#</th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
                         <th><?php echo $this->lang->line('Date') ?></th>
-                        <th>Login Hours</th>
-                        <th><?php echo $this->lang->line('ClockIn') ?></th>
-                        <th><?php echo $this->lang->line('ClockOut') ?></th>
+                        <th>Activity</th>
+                        <th><?php echo "Start Time"; //$this->lang->line('ClockIn') ?></th>
+                        <th><?php echo  "End Time" //$this->lang->line('ClockOut') ?></th>
+                        <th>Duration</th>
                     </tr>
                     </tfoot>
                 </table>

@@ -134,6 +134,16 @@
                    
             </div>
 
+            <div class="row">
+            <?php if(!empty($thread_info['remarks'])) { ?>
+                    <div class="col-md-12">
+                        <!-- Content for the first column -->
+                        <h4>Remarks</h4>
+                        <p><span ><?php echo $thread_info['remarks']; ?></span></p>
+                    </div>
+                <?php } ?>
+            </div>
+
                 <?php 
                 // <p><strong>Created on</strong>sdfsdfsd<p>
                 //echo '<strong>Created on</strong> ' .

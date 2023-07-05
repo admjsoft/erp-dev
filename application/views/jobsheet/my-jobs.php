@@ -1,3 +1,10 @@
+<style>
+    .disabled-link {
+        color: #999;
+        cursor: not-allowed;
+        text-decoration: none;
+    }
+</style>    
 <article class="content-body">
 <div class="row">
 <div class="col-12">

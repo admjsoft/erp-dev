@@ -929,6 +929,9 @@ function deleterole($id)
         $today=date('Y-m-d');
         $this->db->select('*');
         $this->db->where('emp', $id );
+        if(strcasecmp($interval,'day')==0){
+            $this->db->where('bdate > now() - INTERVAL 1 DAY');
+           }
         if(strcasecmp($interval,'week')==0){
          $this->db->where('bdate > now() - INTERVAL 7 DAY');
         }

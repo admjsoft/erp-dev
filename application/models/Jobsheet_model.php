@@ -111,7 +111,10 @@ class Jobsheet_model extends CI_Model
     private function jobsheet_datatables_query($filt,$status='',$employee = '',$start_date = '',$end_date = '')
     {
 
+        $this->db->select('gtg_job.*,gtg_employees.name as assigned_name');
         $this->db->from('gtg_job');
+        $this->db->join('gtg_employees','gtg_job.userid = gtg_employees.id', 'left');
+       
         if ($filt == 'Assign') {
             $this->db->where('status=', '3');
         }else if($filt == 'Pending') {
@@ -130,11 +133,17 @@ class Jobsheet_model extends CI_Model
         }
 
         if (!empty($employee)) {
-            $this->db->where('userid', '3');
+            $this->db->where('userid', $employee);
         }
 
         if (!empty($start_date) && !empty($end_date) ) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+            $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+        }else if (!empty($start_date) && empty($end_date) ) {
+            $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+
+        }else if (empty($start_date) && !empty($end_date) ) {
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
         }
@@ -348,7 +357,8 @@ class Jobsheet_model extends CI_Model
                 $jobdata = array(
                 'userid'  =>  $empid,
                 'status' => $st,
-                'updated_at' =>  $created_at
+                'updated_at' =>  $created_at,
+                'remarks' => ''
                 );
                 $this->db->where('id', $jobid);
                 $result=$this->db->update('gtg_job', $jobdata);

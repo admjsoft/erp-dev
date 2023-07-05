@@ -522,12 +522,15 @@
                             </li>
                         </ul>
                     </li>
-                    <?php if ($this->aauth->auto_attend()) { ?>
+                    <?php 
+                        $user_attendance = 0;
+                    if ($this->aauth->auto_attend()) { ?>
                         <li class="dropdown dropdown-d nav-item">
 
 
                             <?php if ($this->aauth->clock()) {
-                                    
+                                
+                                $user_attendance = 1;
                                 if(!$this->aauth->check_break() && !empty($break_details)) { 
                                     $c_user_activity = $break_details[0]['activity'];
                                     echo ' <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon spinner icon-clock"></i><span class="badge badge-pill badge-default badge-success badge-default badge-up">' . $c_user_activity  . '</span></a>';
@@ -585,8 +588,14 @@
                             <a href="<?php echo base_url(); ?>user/holidays" class="dropdown-item"><i class="fa fa-hotel"></i><?php echo $this->lang->line('Holidays') ?></a>
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?php echo base_url('user/logout'); ?>"><i
+                            
+                            <?php if($user_attendance){ ?>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#attendance_logout_check"><i
+                            class="ft-power"></i> <?php echo $this->lang->line('Logout') ?></a>     
+                            <?php }else{ ?>
+                                 <a class="dropdown-item" href="<?php echo base_url('user/logout'); ?>"><i
                                         class="ft-power"></i> <?php echo $this->lang->line('Logout') ?></a>
+                            <?php } ?>           
                         </div>
                     </li>
                 </ul>
@@ -794,6 +803,9 @@
                                 </li>
                                 <li data-menu=""><a class="dropdown-item" href="<?php echo base_url(); ?>jobsheets"
                                                     data-toggle="dropdown"><?php echo $this->lang->line('View Task'); ?></a>
+                                </li>
+                                <li data-menu=""><a class="dropdown-item" href="<?php echo base_url(); ?>jobsheets/reports"
+                                                    data-toggle="dropdown"><?php echo "Reports"; //echo $this->lang->line('View Task'); ?></a>
                                 </li>
                             </ul>
                         </li>
@@ -1234,6 +1246,9 @@
                             </li>
                             <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
                                 <a class="dropdown-item" href="<?php echo base_url(); ?>expenses" data-toggle="dropdown"><?= $this->lang->line('Expenses'); ?></a>
+                            </li>
+                            <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+                                <a class="dropdown-item" href="<?php echo base_url(); ?>expenses/reports" data-toggle="dropdown"><?php echo "Reports"; //$this->lang->line('Expenses'); ?></a>
                             </li>
                         <?php } ?>
                         <?php  if ($this->aauth->premission(22)) {  ?>

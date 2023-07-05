@@ -28,7 +28,7 @@ class Invoices extends CI_Controller
             $this->limited = $this->aauth->get_user()->id;
         }
         $this->load->library("Custom");
-        $this->li_a = 'sales';
+        $this->li_a = 'invoices';
     }
 
     //create invoice

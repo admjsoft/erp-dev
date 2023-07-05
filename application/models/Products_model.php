@@ -209,6 +209,29 @@ class Products_model extends CI_Model
                     $pid = $this->db->insert_id();
                     $this->movers(1, $pid, $product_qty, 0, 'Stock Initialized');
                     $this->aauth->applog("[New Product] -$product_name  -Qty-$product_qty ID " . $pid, $this->aauth->get_user()->username);
+                   
+                    
+                    $thirdparty_vendors = $this->db->select('Id, VendorName, Status')->get('merchant_thirdparty_vendors')->result_array();
+                
+                    if (!empty($thirdparty_vendors)) {
+                        foreach ($thirdparty_vendors as $th_vendor) {
+                            $th_data = array(
+                                "ItemId" => $pid,
+                                "ThirdPartyVenderId" => $th_vendor['Id'],
+                                "MerchantId" => '',
+                                "CityId" => '',
+                                "LocationId" => '',
+                                "SegmentId" => $catid,
+                                "SubSegmentId" => $sub_cat,
+                                "Price" => $product_price,
+                                "CrDate" => date('Y-m-d h:i:s', time()),
+                            );
+                            $th_f_data[] = $th_data;
+                        }
+                    }
+                
+                    $this->db->insert_batch('merchant_items_thirdparty_pricing', $th_f_data);
+                
                     echo json_encode(array('status' => 'Success', 'message' =>
                     $this->lang->line('ADDED') . "  <a href='add' class='btn btn-blue btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span>  </a> <a href='" . base_url('products') . "' class='btn btn-grey-blue btn-lg'><span class='fa fa-list-alt' aria-hidden='true'></span>  </a>"));
                 } else {
@@ -315,6 +338,28 @@ class Products_model extends CI_Model
                 $pid = $this->db->insert_id();
                 $this->movers(1, $pid, $product_qty, 0, 'Stock Initialized');
                 $this->aauth->applog("[New Product] -$product_name  -Qty-$product_qty ID " . $pid, $this->aauth->get_user()->username);
+                  
+                $thirdparty_vendors = $this->db->select('Id, VendorName, Status')->get('merchant_thirdparty_vendors')->result_array();
+                
+                if (!empty($thirdparty_vendors)) {
+                    foreach ($thirdparty_vendors as $th_vendor) {
+                        $th_data = array(
+                            "ItemId" => $pid,
+                            "ThirdPartyVenderId" => $th_vendor['Id'],
+                            "MerchantId" => '',
+                            "CityId" => '',
+                            "LocationId" => '',
+                            "SegmentId" => $catid,
+                            "SubSegmentId" => $sub_cat,
+                            "Price" => $product_price,
+                            "CrDate" => date('Y-m-d h:i:s', time()),
+                        );
+                        $th_f_data[] = $th_data;
+                    }
+                }
+            
+                $this->db->insert_batch('merchant_items_thirdparty_pricing', $th_f_data);
+       
                 echo json_encode(array('status' => 'Success', 'message' =>
                 $this->lang->line('ADDED') . "  <a href='add' class='btn btn-blue btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span>  </a> <a href='" . base_url('products') . "' class='btn btn-grey-blue btn-lg'><span class='fa fa-list-alt' aria-hidden='true'></span>  </a>"));
             } else {

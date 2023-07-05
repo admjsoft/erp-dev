@@ -1,6 +1,48 @@
 </div>
 </div>
 </div>
+
+
+<div class="modal fade" id="attendance_logout_check" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo "Logout"; ?></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php echo $this->lang->line('Close') ?></span>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-12 mb-2">
+                    <h5>Kindly Check Your Attendance Status before Logout</h5>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <a href="<?= base_url() ?>/user/logout" class="btn btn-primary btn-lg btn-block"
+                           type="submit"
+                        ><i class="icon icon-arrow-circle-o-right"></i> <?php echo $this->lang->line('Yes') ?></a>
+                    </div>
+                    <div class="col-4">
+                    <a href="#" class="btn btn-danger btn-lg btn-block" data-dismiss="modal">
+                        <i class="icon icon-arrow-circle-o-right"></i> <?php echo "Cancel"//$this->lang->line('Yes') ?></a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Modal Footer -->
+
+
+        </div>
+    </div>
+</div>
 <!-- BEGIN VENDOR JS-->
 <script type="text/javascript">
     $('[data-toggle="datepicker"]').datepicker({
