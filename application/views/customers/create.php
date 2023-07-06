@@ -97,7 +97,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <label class="col-sm-2 col-form-label"
                                                for="currency"><?php echo $this->lang->line('customer_login') ?></label>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <select name="c_login" class="form-control b_input">
 
                                                 <option value="1"><?php echo $this->lang->line('Yes') ?></option>
@@ -111,7 +111,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <label class="col-sm-2 col-form-label"
                                                for="password_c"><?php echo $this->lang->line('New Password') ?></label>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <input type="text" placeholder="Leave blank for auto generation"
                                                    class="form-control margin-bottom b_input" name="password_c"
                                                    id="password_c">
@@ -121,7 +121,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <label class="col-sm-2 col-form-label"
                                                for="currency">Language</label>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <select name="language" class="form-control b_input">
 
                                                 <?php
@@ -261,7 +261,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <label class="col-sm-2 col-form-label"
                                                for="postbox"><?php echo $this->lang->line('PostBox') ?></label>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <input type="text" placeholder="PostBox"
                                                    class="form-control margin-bottom b_input" name="postbox"
                                                    id="postbox">
@@ -369,7 +369,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <label class="col-sm-2 col-form-label"
                                                for="postbox"><?php echo $this->lang->line('PostBox') ?></label>
 
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <input type="text" placeholder="PostBox"
                                                    class="form-control margin-bottom b_input" name="postbox_s"
                                                    id="postbox_s">

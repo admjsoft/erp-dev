@@ -52,47 +52,41 @@
                               </tr>
                             </thead>
                             <tbody class="align-middle">
-                            <?php
-                              if(!empty($item_details)) {
-                              $k=1;
-                              foreach($item_details as $item) {
-                                $string = substr($item['PricesVendors'], 0, -2);
-                                $explode = explode("##",$string);
-
-                                
-                              ?>
-                              <tr>
-                                <td class="text-center py-9rem"><?php echo $k; ?>.</td>                       
-                                <td class="py-9rem"><?php echo $item['product_name']; ?> </td>
-                                <td class="py-9rem"><?php echo $item['product_price']; ?></td> 
-                            
-                                <?php
-                                for ($x = 0; $x < count($explode); $x++) {
-                                  if($x!=0) {
-                                    $vendors_price = substr($explode[$x],1);
-                                  } else {
-                                    $vendors_price = $explode[$x];
-                                  }
-                                  $split_price= explode(',',$vendors_price);
-                                ?>
-                                <td class="py-2">
-                                  <div class="row">
-                                    <div class="form-check form-switch col-md-5 pt-2 ms-3 pe-0">
-                                      <input class="form-check-input merchant_items_thirdparty_update_status" type="checkbox" id="flexSwitchCheckDefault" fetchid="<?php echo $tvendors['Id']; ?>" ItemId="<?php echo $item['pid']; ?>" fetchurl="<?php echo base_url('ecommerce/UpdateThirdPartyVendorsPricesStatus'); ?>" appendDivId="third_party_vendors_status">
-                                      <label class="form-check-label" for="flexSwitchCheckDefault"></label>                          
-                                  </div>
-                                  <div class="col-md-6 p-0">
-                                    <input type="text" value="<?php echo $split_price[1]; ?>" id="VendorPrice_<?php echo $item['pid']; ?>_<?php echo $tvendors['Id']; ?>" class="form-control rounded merchant_items_thirdparty_update_price" placeholder="Price" value="" fetchid="<?php echo $tvendors['Id']; ?>" ItemId="<?php echo $item['pid']; ?>" fetchurl="<?php echo base_url('ecommerce/UpdateThirdPartyVendorsPrices'); ?>" appendDivId="third_party_vendors_prices">
-                                  </div>     
-                                  </div>
-                                  
-                                </td>
-                                <?php } ?>
-                               
-                              </tr>
-                              
-                               <?php $k++; } } ?>    
-                            </tbody>
+          <?php
+        $k=1;
+        foreach($item_details as $item) {
+        ?>
+        <tr>
+          <td class="text-center py-9rem"><?php echo $k; ?>.</td>                       
+          <td class="py-9rem"><?php echo $item['product_name']; ?> </td>
+          <td class="py-9rem"><?php echo $item['product_price']; ?></td> 
+      
+            <?php
+            $price_vendors = $item['PricesVendors'].",";
+            $price_vendors = explode('##,',$price_vendors);
+            if(!empty($price_vendors))
+            {
+            foreach($price_vendors as $price_vendor) {
+              if(!empty($price_vendor)){
+              $pricing_details = explode(',',$price_vendor);
+          ?>
+          <td class="py-2">
+            <div class="row">
+              <div class="form-check form-switch col-md-5 pt-2 ms-3 pe-0">
+                <input class="form-check-input merchant_items_thirdparty_update_status" type="checkbox" id="flexSwitchCheckDefault" <?php if($pricing_details[1]){ echo "checked"; } ?> fetchid="<?php echo $pricing_details[0]; ?>" ItemId="<?php echo $item['pid']; ?>" fetchurl="<?php echo base_url('ecommerce/UpdateThirdPartyVendorsPricesStatus'); ?>" appendDivId="third_party_vendors_status">
+                <label class="form-check-label" for="flexSwitchCheckDefault"></label>                          
+            </div>
+            <div class="col-md-6 p-0">
+              <input type="text" id="VendorPrice_<?php echo $item['pid']; ?>_<?php echo $pricing_details[0]; ?>" class="form-control rounded merchant_items_thirdparty_update_price" placeholder="Price" value="<?php echo $pricing_details[2]; ?>" fetchid="<?php echo $pricing_details[0]; ?>" ItemId="<?php echo $item['pid']; ?>" fetchurl="<?php echo base_url('ecommerce/UpdateThirdPartyVendorsPrices'); ?>" appendDivId="third_party_vendors_prices">
+            </div>     
+            </div>
+            
+          </td>
+          <?php } } }?>
+        </tr>
+          <?php $k++; } ?>
+        
+      </tbody>
                           </table>
                           
                         </div>

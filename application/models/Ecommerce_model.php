@@ -257,8 +257,9 @@ class Ecommerce_model extends CI_Model
         $item_details = [];
         if( !empty( $sub_segments_details ) ){
         $SubSegmentId=$sub_segments_details[0]['id'];
-        $sql_sub = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdVendorId,mtv.Price as ThirdVendorPrice,GROUP_CONCAT(mtv.ThirdPartyVenderId,',',mtv.Price,'##' ORDER BY mtv.ThirdPartyVenderId ASC) as PricesVendors FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVenderId = mt.Id WHERE mi.pcat ={$SegmentId} and mi.sub_id ={$SubSegmentId} group by mtv.ItemId"; 
-
+        //$sql_sub = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdVendorId,mtv.Price as ThirdVendorPrice,GROUP_CONCAT(mtv.ThirdPartyVenderId,',',mtv.Price,'##' ORDER BY mtv.ThirdPartyVenderId ASC) as PricesVendors FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVenderId = mt.Id WHERE mi.pcat ={$SegmentId} and mi.sub_id ={$SubSegmentId} group by mtv.ItemId"; 
+        $sql_sub = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdVendorId,mtv.Price as ThirdVendorPrice,GROUP_CONCAT(mtv.Id,',',mtv.ItemStatus,',',mtv.Price,'##' ORDER BY mtv.ThirdPartyVenderId ASC) as PricesVendors FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVenderId = mt.Id WHERE mi.pcat ={$SegmentId} and mi.sub_id ={$SubSegmentId} group by mtv.ItemId"; 
+ 
     
         $query_sub = $this->db->query($sql_sub);
         $item_details =$query_sub->result_array();
@@ -428,9 +429,12 @@ class Ecommerce_model extends CI_Model
             "Price"=>$post['Price'],
         );
 
-        //$m_item_price_data = $this->db->table('merchant_items_thirdparty_pricing')->where("ItemId",$ItemId)->where("ThirdPartyVenderId",$ThirdPartyVenderId)->where("MerchantId",$MerchantId)->where("CityId",$CityId)->where("LocationId",$LocationId)->get()->getRowArray();
-        $m_item_price_data = $this->db->where("Id",$ThirdPartyVenderId)->get('merchant_items_thirdparty_pricing')->result_array();
-       
+        // $m_item_price_data = $this->db->select('*')->from('merchant_items_thirdparty_pricing')->where("ItemId",$ItemId)->where("ThirdPartyVenderId",$ThirdPartyVenderId)->where("MerchantId",$MerchantId)->where("CityId",$CityId)->where("LocationId",$LocationId)->get()->result_array();
+        // echo $this->db->last_query();
+        // exit;
+        $m_item_price_data = $this->db->where("ItemId",$ItemId)->where("Id",$ThirdPartyVenderId)->get('merchant_items_thirdparty_pricing')->result_array();
+        // echo $this->db->last_query();
+        // exit;
         if( empty($m_item_price_data) ){
              //$this->db->table('merchant_items_thirdparty_pricing')->insert($data);
                //$query = $this->db->getLastQuery();
@@ -458,11 +462,12 @@ class Ecommerce_model extends CI_Model
         }
         
         else {
-            $old_price = $m_item_price_data['Price'];
+            
+            $old_price = $m_item_price_data[0]['Price'];
             //$this->db->table('merchant_items_thirdparty_pricing')->where("ItemId",$ItemId)->where("ThirdPartyVenderId",$ThirdPartyVenderId)->where("MerchantId",$MerchantId)->where("CityId",$CityId)->where("LocationId",$LocationId)->update($data1);
                 //$query = $this->db->getLastQuery();
                 //$query = "UPDATE `merchant_items_thirdparty_pricing` SET `Price` = $Price WHERE `ItemId` = $ItemId AND `ThirdPartyVenderId` = $ThirdPartyVenderId AND `MerchantId` = $MerchantId AND `CityId` = $CityId AND `LocationId` = $LocationId";
-                $query = "UPDATE `merchant_items_thirdparty_pricing` SET `Price` = $Price WHERE `Id` = $ThirdPartyVenderId";
+                $query = "UPDATE `merchant_items_thirdparty_pricing` SET `Price` = $Price WHERE `Id` = $ThirdPartyVenderId AND `ItemId` = $ItemId";
 
                  $data3 = array(
             "SessionId"=>$publishingSessionId,
@@ -503,6 +508,9 @@ class Ecommerce_model extends CI_Model
 
         try {
             $user_activities = $this->db->where('SessionId', $publishingSessionId)->get('publishing_activity')->result_array();
+
+            // echo "<pre>"; print_r($user_activities); echo "</pre>";
+            // exit;
 
             foreach ($user_activities as $p_activity) {
                 $explode = explode('BazaaRPortal', $p_activity['Query']);

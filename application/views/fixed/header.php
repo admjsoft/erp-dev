@@ -41,7 +41,7 @@
           href="<?= assets_url() ?>app-assets/vendors/css/forms/selects/select2.min.css">
     <!-- END Page Level CSS-->
 
-       <?php if ($this->li_a == "ecommerce") { ?> 
+       <?php if ($this->li_a == "ecommerce_publishing") { ?> 
       <link href="<?php echo base_url('public/assets/css'); ?>/bootstrap.min.css" rel="stylesheet" />
       <link rel="stylesheet" href="<?php  echo base_url('public/assets/css'); ?>/main.css" rel="stylesheet" />
       <!-- <script type="text/javascript" src="<?php // echo base_url('public/assets/js'); ?>/jquery.min.js"></script> -->

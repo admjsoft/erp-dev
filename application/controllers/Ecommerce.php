@@ -131,6 +131,7 @@ class Ecommerce extends CI_Controller
 
     public function publishing()
     {
+        $this->li_a = 'ecommerce_publishing';
         $this->SetPublishingSessionId();
         // $MerchantId = $this->session->get('user_id');
         // $data['merchant_id'] = $MerchantId;

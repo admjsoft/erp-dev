@@ -517,10 +517,10 @@
             }
 
         } else {
-            //alert(data.Message);
-            swal(data.Message, {
-                icon: "success",
-              });
+            alert(data.Message);
+            // swal(data.Message, {
+            //     icon: "success",
+            //   });
         }
   
       }

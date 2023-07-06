@@ -112,8 +112,8 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                     </div>
                     <div class="p-1 bg-gradient-x-primary1 white media-body">
 					<a href="<?php echo base_url("employee/active_passport?list=active") ?>">
-                        <h5><?php echo $this->lang->line('Active Passport') ?></h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-plus"></i> <?= $active_passport ?></h5>
+                        <h5 class="white"><?php echo $this->lang->line('Active Passport') ?></h5>
+                        <h5 class="text-bold-400 mb-0 white"><i class="ft-plus"></i> <?= $active_passport ?></h5>
                         </a>
                     </div>
                 </div>
@@ -129,8 +129,8 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                     </div>
                     <div class="p-1 bg-gradient-x-primary1 white media-body">
 						<a href="<?php echo base_url("employee/active_permit?permitlist=active") ?>">
-                        <h5><?= $this->lang->line('Active Permit') ?></h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-arrow-up"></i><?= $active_permit ?></h5>
+                        <h5 class="white"><?= $this->lang->line('Active Permit') ?></h5>
+                        <h5 class="text-bold-400 mb-0 white"><i class="ft-arrow-up"></i><?= $active_permit ?></h5>
 						</a>
                     </div>
                 </div>
@@ -147,8 +147,8 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                     <div class="p-1 bg-gradient-x-primary1  white media-body">
 											<a href="<?php echo base_url("employee/expired_passport?passport=expiry") ?>">
 
-                        <h5><?= $this->lang->line('Expired Passport') ?></h5>
-                        <h5 class="text-bold-400 mb-0"><i
+                        <h5 class="white"><?= $this->lang->line('Expired Passport') ?></h5>
+                        <h5 class="text-bold-400 mb-0 white"><i
                                     class="ft-arrow-up"></i><?=$expiry_passport ?>
                         </h5></a>
                     </div>
@@ -166,8 +166,8 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                     <div class="p-1 bg-gradient-x-primary1  white media-body">
             <a href="<?php echo base_url("employee/expired_permit?permit=expiry") ?>">
 
-                        <h5><?php echo $this->lang->line('Expired Permit') ?></h5>
-                        <h5 class="text-bold-400 mb-0"><i
+                        <h5 class="white"><?php echo $this->lang->line('Expired Permit') ?></h5>
+                        <h5 class="text-bold-400 mb-0 white"><i
                                     class="ft-arrow-up"></i> <?= $expiry_permit; ?>
                         </h5></a>
                     </div>
@@ -179,7 +179,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 
   <div class="card-content" style="background:white">
 
-                <div class="table-responsive">
+                <div class="table-responsive mb-2">
                     <table id="recent-orders" class="table table-hover mb-1">
                         <thead>
                         <tr>
