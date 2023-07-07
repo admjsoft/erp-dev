@@ -250,6 +250,7 @@ class Quote extends CI_Controller
         $data['products'] = $this->quote->quote_products($tid);
         $data['attach'] = $this->quote->attach($tid);
         $data['employee'] = $this->quote->employee($data['invoice']['eid']);
+
         $head['title'] = "Quote #" . $data['invoice']['tid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -278,10 +279,8 @@ class Quote extends CI_Controller
         // exit;
         ini_set('memory_limit', '64M');
         if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
-			die("innn");
             $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
         } else {
-				die("out");
             $html = $this->load->view('print_files/invoice-a4_v' . INVV, $data, true);
         }
         //PDF Rendering

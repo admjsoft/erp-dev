@@ -195,6 +195,7 @@ class Quote_model extends CI_Model
 
     public function employee($id)
     {
+	
         $this->db->select('gtg_employees.name,gtg_employees.sign,gtg_users.roleid');
         $this->db->from('gtg_employees');
         $this->db->where('gtg_employees.id', $id);

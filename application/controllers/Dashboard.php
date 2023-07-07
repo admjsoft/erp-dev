@@ -154,6 +154,19 @@ class Dashboard extends CI_Controller
         $this->load->view('DashboardSettings', $data);
         $this->load->view('fixed/footer');
     }
+	
+	 public function subscribeAlert()
+	 {
+		 $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Dashboard Permissions';
+       // $data['permission'] = $this->employee->employee_permissions();
+	    $data['permission'] = $this->dashboard_model->dashboard_permissions();
+        $this->load->view('fixed/header', $head);
+        $this->load->view('subscribAlert', $data);
+        $this->load->view('fixed/footer');
+		 
+	 }
+	 
 	  public function subscribe()
     {
 

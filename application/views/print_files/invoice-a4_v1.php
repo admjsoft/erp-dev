@@ -1,4 +1,3 @@
-<?php die("inn");?>
 <!doctype html>
 <html>
 <head>
