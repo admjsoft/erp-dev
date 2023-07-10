@@ -137,7 +137,7 @@
                                     <div class="dropdown-divider"></div>
                                     <?php */ ?>
                                     <a class="dropdown-item"
-                                       href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=customer">Share to Customer EmailId ( <?php echo $invoice['email'] ?> )</a>
+                                       href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=customer">Send to Peppol Customer EmailId ( <?php echo $invoice['email'] ?> )</a>
 
                                 </div>
                             </div>

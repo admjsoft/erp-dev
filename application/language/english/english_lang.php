@@ -1231,7 +1231,7 @@ $lang['Update Schdeule'] = "Update Schdeule";
 $lang['FWMS'] = "FWMS";
 $lang['Scheduler'] = "Scheduler";
 $lang['Asset'] = "Asset";
-$lang['pos invoices'] = "pos invoices";
+$lang['pos invoices'] = "Pos invoices";
 
 $lang['Modules'] = "Modules";
 $lang['Roles'] = "Roles";
@@ -1243,3 +1243,7 @@ $lang['Subscribe'] = "Subscribe";
 $lang['UnSubscribe'] = "UnSubscribe";
 $lang['Subscribe/UnSubscribe'] = "Subscribe/UnSubscribe";
 $lang['Subscriber Message'] = "Subscriber Message";
+
+
+$lang['New Pos Invoice'] = "New Pos Invoice";
+$lang['Manage Pos Invoices'] = "Manage Pos Invoices";

@@ -1,5 +1,8 @@
 
-function selectCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 0) {
+function selectCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 0, company = '') {
+
+    // alert(company);
+    // alert('srm');
     if ($("#customer_id").length) {
         $('#customer_id').val(cid);
     }
@@ -18,6 +21,10 @@ function selectCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 0) {
     }
     if ($("#customer_phone").length) {
         $('#customer_phone').html('Phone: <strong>' + ph + '</strong><br>Email: <strong>' + email + '</strong>');
+    }
+
+    if ($("#customer_company_name").length) {
+        $('#customer_company_name').html('<strong>' + company + '</strong>');
     }
     $("#customer-box").val();
     $("#customer-box-result").hide();

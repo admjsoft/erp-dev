@@ -71,10 +71,14 @@
                                     <div class="clientinfo">
                                         <?php echo $this->lang->line('Client Details'); ?>
                                         <hr>
+                                        <div id="customer_company_name"><?php echo is_array($cust_details)?'<strong>'.$cust_details['company'].'</strong>':'';?></div>
+                                    </div>
 
+                                    <div class="clientinfo">
                                         <input type="hidden" name="customer_id" id="customer_id" value="<?php echo is_array($cust_details)?$cust_details['id']:'0';?>">
                                         <div id="customer_name"><?php echo is_array($cust_details)?'<strong>'.$cust_details['name'].'</strong>':'';?></div>
-                                    </div>
+
+                                    </div>    
                                     <div class="clientinfo">
                                         <div id="customer_address1"><?php echo is_array($cust_details)?'<strong>'.$cust_details['address'].'<br>'.$cust_details['city'].'</strong>':'';?></div>
                                     </div>
