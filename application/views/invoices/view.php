@@ -129,13 +129,15 @@
                                             class="fa fa-print"></i> Share in Peppol
                                 </button>
                                 <div class="dropdown-menu">
+                                    <?php /* ?>
                                     <a class="dropdown-item"
                                        href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=self">Share to self(sprasad96@gmail.com)</a>
                                        <a class="dropdown-item"
                                        href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=reciever">Share to mr.s.sprasad96@gmail.com</a>
                                     <div class="dropdown-divider"></div>
+                                    <?php */ ?>
                                     <a class="dropdown-item"
-                                       href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=customer">Share to Customer EmailId</a>
+                                       href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=customer">Share to Customer EmailId ( <?php echo $invoice['email'] ?> )</a>
 
                                 </div>
                             </div>
