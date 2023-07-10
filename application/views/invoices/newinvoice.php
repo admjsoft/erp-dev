@@ -226,7 +226,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td><input type="text" class="form-control" name="product_name[]"
+                                <td><input type="text" maxlength="60" class="form-control" name="product_name[]"
                                            placeholder="<?php echo $this->lang->line('Enter Product name') ?>"
                                            id='productname-0'>
                                 </td>
@@ -262,7 +262,7 @@
                                     <?php /*<textarea id="dpid-0" class="form-control" name="product_description[]"
                                                           placeholder="<?php echo $this->lang->line('Enter Product description'); ?> (Optional)"
                                                           autocomplete="off"></textarea>*/ ?>
-                                    <textarea id="dpid-0" class="form-control" name="product_description[]"
+                                    <textarea id="dpid-0" maxlength="110"  class="form-control" name="product_description[]"
                                                           placeholder="<?php echo $this->lang->line('Enter Product description'); ?> (Optional)"
                                                           autocomplete="off"></textarea>
                                     <br></td>

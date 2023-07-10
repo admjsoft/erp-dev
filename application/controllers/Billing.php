@@ -208,6 +208,9 @@ class Billing extends CI_Controller
                 //    $html=str_replace("strong","span",$html);
                 //     $html=str_replace("<h","<span",$html);
             }
+
+            // echo $html;
+            // exit;
             //PDF Rendering
             $this->load->library('pdf');
             if (INVV == 1) {

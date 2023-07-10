@@ -186,6 +186,50 @@ function amountExchange($number, $id = 0, $loc = 0)
 }
 
 
+function amountExchangeInvoice($number, $id = 0, $loc = 0)
+{
+    $ci = &get_instance();
+    $ci->load->database();
+    if ($loc > 0 && $id == 0) {
+        $query = $ci->db->query("SELECT cur FROM gtg_locations WHERE id='$loc' LIMIT 1");
+        $row = $query->row_array();
+        $id = $row['cur'];
+    }
+    if ($id > 0) {
+        $query = $ci->db->query("SELECT * FROM gtg_currencies WHERE id='$id' LIMIT 1");
+        $row = $query->row_array();
+        $currency = $row['symbol'];
+        $rate = $row['rate'];
+        $thosand = $row['thous'];
+        $dec_point = $row['dpoint'];
+        $decimal_after = $row['decim'];
+        $totalamount = $rate * $number;
+        //get data from database
+        //Format money as per country
+        if ($row['cpos'] == 0) {
+            return @number_format($totalamount, $decimal_after, $dec_point, $thosand);
+        } else {
+            return @number_format($totalamount, $decimal_after, $dec_point, $thosand) . ' ' . $currency;
+        }
+    } else {
+
+        $query = $ci->db->query("SELECT currency FROM gtg_system WHERE id=1 LIMIT 1");
+        $row = $query->row_array();
+        $currency = $row['currency'];
+
+        //get data from database
+        $query2 = $ci->db->query("SELECT * FROM univarsal_api WHERE id=4 LIMIT 1");
+        $row = $query2->row_array();
+        //Format money as per country
+        if ($row['method'] == 'l') {
+            return @number_format($number, $row['url'], $row['key1'], $row['key2']);
+        } else {
+            return @number_format($number, $row['url'], $row['key1'], $row['key2']) . ' ' . $currency;
+        }
+    }
+}
+
+
 
 function location($number = 0)
 {
