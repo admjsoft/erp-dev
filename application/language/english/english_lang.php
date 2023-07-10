@@ -1231,6 +1231,7 @@ $lang['Update Schdeule'] = "Update Schdeule";
 $lang['FWMS'] = "FWMS";
 $lang['Scheduler'] = "Scheduler";
 $lang['Asset'] = "Asset";
+$lang['pos invoices'] = "pos invoices";
 
 $lang['Modules'] = "Modules";
 $lang['Roles'] = "Roles";
