@@ -365,12 +365,14 @@ class Search_products extends CI_Controller
             $flag_p = true;
             if ($billing_settings['key1'] == 2) {
 
-                $query = "SELECT gtg_products.*,gtg_product_serials.serial FROM gtg_product_serials  LEFT JOIN gtg_products  ON gtg_products.pid=gtg_product_serials.product_id $join WHERE " . $qw . "gtg_product_serials.serial LIKE '" . strtoupper($name) . "%'  AND (gtg_products.qty>0) LIMIT 18";
+                $query = "SELECT gtg_products.*,gtg_product_serials.serial FROM gtg_product_serials  LEFT JOIN gtg_products  ON gtg_products.pid=gtg_product_serials.product_id $join WHERE " . $qw . "gtg_product_serials.serial LIKE '" . strtoupper($name) . "%'  AND (gtg_products.qty>0) group by gtg_products.pid LIMIT 18";
             } else {
 
-                $query = "SELECT gtg_products.* $e FROM gtg_products $join WHERE " . $qw . "(UPPER(gtg_products.product_name) LIKE '%" . strtoupper($name) . "%' $bar OR gtg_products.product_code LIKE '" . strtoupper($name) . "%') AND (gtg_products.qty>0) ORDER BY gtg_products.product_name LIMIT 18";
+                $query = "SELECT gtg_products.* $e FROM gtg_products $join WHERE " . $qw . "(UPPER(gtg_products.product_name) LIKE '%" . strtoupper($name) . "%' $bar OR gtg_products.product_code LIKE '" . strtoupper($name) . "%') AND (gtg_products.qty>0)  group by gtg_products.pid ORDER BY gtg_products.product_name LIMIT 18";
             }
         }
+
+       
 
         if ($flag_p) {
             $query = $this->db->query($query);

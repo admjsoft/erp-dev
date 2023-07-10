@@ -475,9 +475,10 @@
                 } else if (data.Status == 500) {
                     //alert(data.Message);
                     $("#"+form_id).find(':input[type=submit]').prop('disabled', false);
-                    swal(data.Message, {
-                        icon: "error",
-                      });
+                    // swal(data.Message, {
+                    //     icon: "error",
+                    //   });
+                    alert(data.Message);
                 }
             }
         });
@@ -488,33 +489,35 @@
         if (after_save_action == 'redirect_to') {
             document.location = data.redirect_to;
         } else if (after_save_action == 'reload') {
-            swal(data.Message, {
-                icon: "success",
-              });
+            // swal(data.Message, {
+            //     icon: "success",
+            //   });
+            alert(data.Message);
             location.reload();
         } else if (after_save_action == 'modal_close') {
            // alert(data.Message);
 
-            swal(data.Message, {
-                icon: "success",
-              });
+            // swal(data.Message, {
+            //     icon: "success",
+            //   });
 
+            alert(data.Message);
              //alert(form_id);
             //alert($("#" + form_id).closest(".modal"));
 
-             if(form_id == 'add_employee_bonus_details_form')
-            {
-                $('#bonus').modal('hide');
-            }
+            //  if(form_id == 'add_employee_bonus_details_form')
+            // {
+            //     $('#bonus').modal('hide');
+            // }
            
             $("#" + form_id).closest(".modal").find(".btn-close").click();
 
             
 
-            if(form_id == 'add_employee_details_form' || form_id =='edit_employee_details_form')
-            {
-                $('#runnerprofile').modal('hide');
-            }
+            // if(form_id == 'add_employee_details_form' || form_id =='edit_employee_details_form')
+            // {
+            //     $('#runnerprofile').modal('hide');
+            // }
 
         } else {
             alert(data.Message);
