@@ -116,7 +116,7 @@ class Search_products extends CI_Controller
             $whr = ' (loc=0) AND ';
         }
         if ($name) {
-            $query = $this->db->query("SELECT id,name,address,city,phone,email,discount_c FROM gtg_customers WHERE $whr (UPPER(name)  LIKE '%" . strtoupper($name) . "%' OR UPPER(phone)  LIKE '" . strtoupper($name) . "%') LIMIT 6");
+            $query = $this->db->query("SELECT id,name,address,city,phone,email,discount_c,company FROM gtg_customers WHERE $whr (UPPER(name)  LIKE '%" . strtoupper($name) . "%' OR UPPER(phone)  LIKE '" . strtoupper($name) . "%' OR UPPER(company)  LIKE '" . strtoupper($name) . "%') LIMIT 6");
             $result = $query->result_array();
             echo '<ol>';
             $i = 1;
@@ -124,7 +124,7 @@ class Search_products extends CI_Controller
 
                 //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><span>$i</span><p>" . $row['name'] . " &nbsp; &nbsp  " . $row['phone'] . "</p></li>";
                 //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><div class='row'><div class='col-md-4'>$i</div><div class='col-md-4'>" . $row['name'] . "</div><div class='col-md-4'>" . $row['phone'] . "</div></div></li>";
-                echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><div class='row'><div class='col-md-2' style='color: #333333;'>$i</div><div class='col-md-6' style='color: #333333;'>" . $row['name'] . "</div><div class='col-md-4' style='color: #333333;'>" . $row['phone'] . "</div></div></li>";
+                echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "','" . $row['company'] . "')\"><div class='row'><div class='col-md-1' style='color: #333333;'>$i</div><div class='col-md-4' style='color: #333333;'>" . $row['company'] . "</div><div class='col-md-4' style='color: #333333;'>" . $row['name'] . "</div><div class='col-md-3' style='color: #333333;'>" . $row['phone'] . "</div></div></li>";
 
                 $i++;
             }

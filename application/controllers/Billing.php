@@ -208,6 +208,9 @@ class Billing extends CI_Controller
                 //    $html=str_replace("strong","span",$html);
                 //     $html=str_replace("<h","<span",$html);
             }
+
+            // echo $html;
+            // exit;
             //PDF Rendering
             $this->load->library('pdf');
             if (INVV == 1) {
@@ -1575,4 +1578,154 @@ class Billing extends CI_Controller
         }
     }
 
+    public function sharepeppolinvoice()
+    {
+
+        $tid = $this->input->get('id');
+        $type = $this->input->get('type');
+        $data['id'] = $tid;
+        $this->limited = '';
+        $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
+        $data['c_custom_fields'] = $this->customers->mydetails($data['invoice']['cid']);
+        $invoice_status = $data['invoice']['status'];
+        // if($invoice_status == 'due')
+        // {
+
+        if($type != 'canceled')
+        {
+            $email = 'sprasad96@gmail.com';
+
+            $c_data = [
+                "emails" => [$email],
+                "eIdentifiers" => [["scheme" => "NL:KVK", "id" => "60881119"],
+                ["scheme" => "NL:VAT", "id" => "NL123456789B45"]],
+            ];
+
+        }else if($type == 'reciever'){
+            $email = 'mr.s.sivaprasad@gmail.com';
+            $c_data = [
+                "emails" => [$email],
+                "eIdentifiers" => [],
+            ];
+
+        }else if($type == 'customer'){
+            $email = $data['c_custom_fields']['email'];
+            //$email = 'sivaprasadsunkara@live.com';
+            $c_data = [
+                "emails" => [$email],
+                "eIdentifiers" => []
+            ];
+
+        }
+        
+        $arrayVar = [
+            "legalEntityId" => 215184,
+            "routing" => $c_data,
+            "document" => [
+                "documentType" => "invoice",
+                "invoice" => [
+                    "invoiceNumber" => "202112007",
+                    "issueDate" => "2021-12-07",
+                    "documentCurrencyCode" => "EUR",
+                    "taxSystem" => "tax_line_percentages",
+                    "accountingCustomerParty" => [
+                        "party" => [
+                            "companyName" => "ManyMarkets Inc.",
+                            "address" => [
+                                "street1" => "Street 123",
+                                "zip" => "1111AA",
+                                "city" => "Here",
+                                "country" => "NL",
+                            ],
+                        ],
+                        "publicIdentifiers" => [
+                            ["scheme" => "NL:KVK", "id" => "60881119"],
+                            ["scheme" => "NL:VAT", "id" => "NL123456789B45"],
+                        ],
+                    ],
+                    "invoiceLines" => [
+                        [
+                            "description" => "The things you purchased",
+                            "amountExcludingVat" => 10,
+                            "tax" => [
+                                "percentage" => 0,
+                                "category" => "reverse_charge",
+                                "country" => "NL",
+                            ],
+                        ],
+                    ],
+                    "taxSubtotals" => [
+                        [
+                            "percentage" => 0,
+                            "category" => "reverse_charge",
+                            "country" => "NL",
+                            "taxableAmount" => 10,
+                            "taxAmount" => 0,
+                        ],
+                    ],
+                    "paymentMeansArray" => [
+                        [
+                            "account" => "NL50ABNA0552321249",
+                            "holder" => "Storecove",
+                            "code" => "credit_transfer",
+                        ],
+                    ],
+                    "amountIncludingVat" => 10,
+                ],
+            ],
+        ];
+
+        $jsonArray = json_encode($arrayVar,TRUE);
+       // echo $jsonArray;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.storecove.com/api/v2/document_submissions',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>$jsonArray,
+        CURLOPT_HTTPHEADER => array(
+            'Accept: application/json',
+            'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
+            'Content-Type: application/json'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $errors = curl_error($curl);
+        curl_close($curl);
+
+        // print_r($errors);
+        // exit;
+        if(empty($errors))
+        {
+            $p_invoice_id = $data['invoice']['id'];
+            $p_invoice_sent_date = date('Y-m-d');
+            $p_invoice_json = $jsonArray;
+
+            $data = array('invoice_id' => $p_invoice_id, 'invoice_sent_date' => $p_invoice_sent_date, 'invoice_json' => $p_invoice_json);
+            if($this->db->insert('gtg_peppol_invoices', $data)){
+                
+                $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
+            }else{
+
+                $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
+            }
+
+        }else{
+            
+            $this->session->set_flashdata('messagePr', 'Invoice Sent Failed');
+        }
+    // }else{
+    //         $this->session->set_flashdata('messagePr', 'Invoice Can\'t be Sent, Invoice status is '.$invoice_status);
+    // }
+        redirect(base_url() . 'invoices/view?id='.$tid, 'refresh');
+    }
+        
 }

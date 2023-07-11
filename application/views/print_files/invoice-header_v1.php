@@ -11,7 +11,7 @@
         <td class="myw">
             <table class="top_sum">
                 <tr>
-                    <td colspan="1" class="t_center"><h2><?= $general['title'] ?></h2><br><br></td>
+                    <td colspan="2" class="t_center" ><h2><?= $general['title'] ?></h2><br><br></td>
                 </tr>
                 <tr>
                     <td><?= $general['title'] ?></td>
@@ -37,4 +37,3 @@
         </td>
     </tr>
 </table>
-<br>

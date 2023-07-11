@@ -1,6 +1,6 @@
-function selectCustomer(cid, cname, cadd1, cadd2, ph, email) {
+function selectCustomer(cid, cname, cadd1, cadd2, ph, email,company ='') {
 
-
+    
     $('#customer_id').val(cid);
     $('#customer_name').html('<strong>'+cname+'</strong>');
     $('#customer_name').val(cname);

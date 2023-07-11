@@ -71,10 +71,14 @@
                                     <div class="clientinfo">
                                         <?php echo $this->lang->line('Client Details'); ?>
                                         <hr>
+                                        <div id="customer_company_name"><?php echo is_array($cust_details)?'<strong>'.$cust_details['company'].'</strong>':'';?></div>
+                                    </div>
 
+                                    <div class="clientinfo">
                                         <input type="hidden" name="customer_id" id="customer_id" value="<?php echo is_array($cust_details)?$cust_details['id']:'0';?>">
                                         <div id="customer_name"><?php echo is_array($cust_details)?'<strong>'.$cust_details['name'].'</strong>':'';?></div>
-                                    </div>
+
+                                    </div>    
                                     <div class="clientinfo">
                                         <div id="customer_address1"><?php echo is_array($cust_details)?'<strong>'.$cust_details['address'].'<br>'.$cust_details['city'].'</strong>':'';?></div>
                                     </div>
@@ -222,7 +226,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td><input type="text" class="form-control" name="product_name[]"
+                                <td><input type="text" maxlength="60" class="form-control" name="product_name[]"
                                            placeholder="<?php echo $this->lang->line('Enter Product name') ?>"
                                            id='productname-0'>
                                 </td>
@@ -258,7 +262,7 @@
                                     <?php /*<textarea id="dpid-0" class="form-control" name="product_description[]"
                                                           placeholder="<?php echo $this->lang->line('Enter Product description'); ?> (Optional)"
                                                           autocomplete="off"></textarea>*/ ?>
-                                    <textarea id="dpid-0" class="form-control" name="product_description[]"
+                                    <textarea id="dpid-0" maxlength="110"  class="form-control" name="product_description[]"
                                                           placeholder="<?php echo $this->lang->line('Enter Product description'); ?> (Optional)"
                                                           autocomplete="off"></textarea>
                                     <br></td>
