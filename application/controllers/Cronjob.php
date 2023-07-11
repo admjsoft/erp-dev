@@ -136,7 +136,7 @@ public function reminder()
 	        $exppassportlist = $this->employee->getpassportExpiryList();
 			//print_r($exppassportlist);
 			$exppassportlistsixty = $this->employee->getpassportExpiryListSixty();
-	        $exppassportlistninenty = $this->employee->getpassportExpiryListNinenty();
+	       /// $exppassportlistninenty = $this->employee->getpassportExpiryListNinenty();
            
 		    $exppermitlist = $this->employee->getpermitExpiryList();
 			$exppermitlistsixty = $this->employee->getpermitExpiryListSixty();
@@ -196,7 +196,7 @@ $remainingdate= $interval->format('%R%a days');
 	 $content='';
 	$mailto=$adminemail;
 	    $mailtotitle="";
-		$subject="List of Employee Expiry Between 30 days";
+		$subject="List of Employee Expiry Between 16 months";
 		 $message.='
 		<tr><td>'.$name.'</td><td>'.$cus_name.'</td><td>'.$passport.'</td><td>'.$passport_expiry.'</td><td>'.$remainingdate.'</td></tr>';
 		
@@ -259,7 +259,7 @@ $remainingdate= $interval->format('%R%a days');
 	 $content='';
 	$mailto=$adminemail;
 	    $mailtotitle="";
-		$subject="List of Employee Expiry Between 31-60 days";
+		$subject="List of Employee Expiry Between 17-19 months";
 		 $message.='
 		<tr><td>'.$name.'</td><td>'.$cus_name.'</td><td>'.$passport.'</td><td>'.$passport_expiry.'</td><td>'.$remainingdate.'</td></tr>';
 		
@@ -296,7 +296,7 @@ foreach($exppassportlistsixty as $exppassportsixty) {
 		}
 	}
 	}
-	
+	/*
 			if(!empty($exppassportlistninenty))
 	{
 		$message='<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
@@ -359,7 +359,7 @@ $attachmenttrue="true";
 		}
 	}
 	}
-	
+	*/
 	
 	
 	}

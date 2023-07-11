@@ -20,7 +20,7 @@
                            for="pay_cat"><?php echo $this->lang->line('Employees') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="employee[]" class="form-control required select-box" multiple="multiple">
+                        <select name="employee[]" class="form-control required select-box" multiple="multiple" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                             <?php
                             foreach ($emp as $row) {
                                 $cid = $row['id'];
@@ -74,8 +74,8 @@
                     <label class="col-sm-3 col-form-label" for="note"><?php echo $this->lang->line('Note') ?></label>
 
                     <div class="col-sm-8">
-                        <input type="text" placeholder="Note"
-                               class="form-control margin-bottom b_input" name="note">
+					<textarea name="note" placeholder="Note" class="form-control"></textarea>
+                     
                     </div>
                 </div>
 

@@ -1172,8 +1172,8 @@ public function getpassportExpiryListSixty()
          $value= $query->row();
 		 $days=$value->days;
 		 
-		$thirtydays=date('Y-m-d',strtotime('+30 days'));
-		$sixtydays=date('Y-m-d',strtotime('+60 days'));
+		$thirtydays=date('Y-m-d',strtotime('+487 days'));
+		$sixtydays=date('Y-m-d',strtotime('+579 days'));
 
         /**$this->db->select('days');
 	    $this->db->from('scheduler');
@@ -1253,9 +1253,9 @@ public function getpassportExpiryList()
 		 $days=$value->days;
 		 		 $current_date=date('Y-m-d');
 
-		$thirtydays=date('Y-m-d',strtotime('+30 days'));
-		$sixtydays=date('Y-m-d',strtotime('+60 days'));
-		$ninentydays=date('Y-m-d',strtotime('+80 days'));
+		$thirtydays=date('Y-m-d',strtotime('+487 days'));
+		//$sixtydays=date('Y-m-d',strtotime('+60 days'));
+		//$ninentydays=date('Y-m-d',strtotime('+80 days'));
 
       
 

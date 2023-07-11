@@ -1243,3 +1243,4 @@ $lang['Subscribe'] = "Subscribe";
 $lang['UnSubscribe'] = "UnSubscribe";
 $lang['Subscribe/UnSubscribe'] = "Subscribe/UnSubscribe";
 $lang['Subscriber Message'] = "Subscriber Message";
+$lang['Client'] = "Client";

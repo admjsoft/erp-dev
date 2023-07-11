@@ -44,7 +44,6 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <th><?php echo $this->lang->line('Scheduler For') ?></th>
 						   <th><?php echo $this->lang->line('Days') ?></th>
 					    <th><?php echo $this->lang->line('Created At') ?></th>
-					  <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
                 </thead>
                 <tbody>

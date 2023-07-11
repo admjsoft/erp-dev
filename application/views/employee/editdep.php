@@ -1,35 +1,59 @@
-<article class="content">
-    <div class="card card-block">
-        <div id="notify" class="alert alert-success" style="display:none;">
+
+<div class="content-body">
+    <style>
+        form .form-group {
+        margin-bottom: 0rem !important;
+}
+.empty {
+border: 1.5px solid red !important; 
+} </style>
+    <div class="card">
+        <div class="card-header">
+                <h5><?php echo $this->lang->line('Edit') . ' ' . $this->lang->line('Department') ?></h5>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+            <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="card-content">
+				  <?php
+if(isset($_SESSION['status'])){
+ echo '<div class="alert alert-'.$_SESSION['status'].'">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
 
-            <div class="message"></div>
-        </div>
-        <div class="card card-block">
+            <div class="message">' .$_SESSION['message']. '</div>
+        </div>';
+unset($_SESSION['status']);unset($_SESSION['message']);
+} ?>
+		
+           <div id="notify" class="alert alert-success" style="display:none;">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
 
+                <div class="message">
 
+		</div>
+            </div>
+            <div class="card-body">
             <form method="post" id="data_form" class="form-horizontal">
-
-                <h5><?php echo $this->lang->line('Edit') . ' ' . $this->lang->line('Department') ?></h5>
-                <hr>
-
-                <input type="hidden"
+                        <input type="hidden"
                        name="did"
                        value="<?php echo $department['id'] ?>">
 
-
-                <div class="form-group row">
-
-                    <label class="col-sm-3 col-form-label" for="note"><?php echo $this->lang->line('Name') ?></label>
-
-                    <div class="col-sm-8">
-                        <input type="text" placeholder="Department Name"
-                               class="form-control margin-bottom b_input required" name="name"
-                               value="<?php echo $department['val1'] ?>">
-                    </div>
-                </div>
-
-
+						<div class="row mb-1 ml-1">
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
+                                <div class="col-md3">
+								
+								
+								<input type="text" name="name" id="name" class="form-control"  placeholder="Department Name" value="<?php echo $department['val1']; ?>"
+								onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
+                            </div>
+                        </div>
+                  
                 <div class="form-group row">
 
                     <label class="col-sm-3 col-form-label"></label>
@@ -40,9 +64,19 @@
                         <input type="hidden" value="employee/editdep" id="action-url">
                     </div>
                 </div>
-
-
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-</article>
+              <script type="text/javascript">
+ $(document).ready(function() {
+    $('#submit').click(function(event){
+        var data = $('#name').val();
+        var length = data.length;
+        if(length < 1) {
+			    $("#form input[type=text]").addClass("empty");
+
+            event.preventDefault();
+        }
+    });
+});
+</script>

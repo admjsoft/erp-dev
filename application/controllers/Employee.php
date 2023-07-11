@@ -213,7 +213,7 @@ public function reminder()
 	        $exppassportlist = $this->employee->getpassportExpiryList();
 			//print_r($exppassportlist);
 			$exppassportlistsixty = $this->employee->getpassportExpiryListSixty();
-	        $exppassportlistninenty = $this->employee->getpassportExpiryListNinenty();
+	      //  $exppassportlistninenty = $this->employee->getpassportExpiryListNinenty();
 
 		    $exppermitlist = $this->employee->getpermitExpiryList();
 			$exppermitlistsixty = $this->employee->getpermitExpiryListSixty();
@@ -272,7 +272,7 @@ $remainingdate= $interval->format('%R%a days');
 	 $content='';
 	$mailto=$adminemail;
 	    $mailtotitle="";
-		$subject="List of Employee Expiry Between 30 days";
+		$subject="List of Employee Expiry Between 16 month";
 		 $message.='
 		<tr><td>'.$name.'</td><td>'.$cus_name.'</td><td>'.$passport.'</td><td>'.$passport_expiry.'</td><td>'.$remainingdate.'</td></tr>';
 		
@@ -335,7 +335,7 @@ $remainingdate= $interval->format('%R%a days');
 	 $content='';
 	$mailto=$adminemail;
 	    $mailtotitle="";
-		$subject="List of Employee Expiry Between 31-60 days";
+		$subject="List of Employee Expiry Between 19 month";
 		 $message.='
 		<tr><td>'.$name.'</td><td>'.$cus_name.'</td><td>'.$passport.'</td><td>'.$passport_expiry.'</td><td>'.$remainingdate.'</td></tr>';
 		
@@ -372,7 +372,7 @@ foreach($exppassportlistsixty as $exppassportsixty) {
 		}
 	}
 	}
-	
+	/*
 			if(!empty($exppassportlistninenty))
 	{
 		$message='<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
@@ -436,7 +436,7 @@ $attachmenttrue="true";
 	}
 	}
 	
-	
+	*/
 	
 	}
 	$content1='';
@@ -1902,25 +1902,7 @@ public function fwmsemplyeeedit()
 
 
 }	
-	public function fwmsemployees()
-{
-	    $this->load->library("Custom");
-        $data['dual'] = $this->custom->api_config(65);
-        $this->load->model('transactions_model', 'transactions');
-        $data['cat'] = $this->transactions->categories();
-        $data['accounts'] = $this->transactions->acc_list();
-        $head['title'] = "Fwmsemployees";
-        $head['usernm'] = $this->aauth->get_user()->username;
-		//$this->load->model('employee_model', 'employee');
-       // $data['payslip']=$this->payroll->getPayslipList();
 
-        $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
-        $this->load->view('fixed/footer');
-
-
-
-}
 public function getcompanyEmployee()
 {
 	$companyid=$this->input->post('companyid');
@@ -1956,8 +1938,7 @@ public function fwmsReportGenerateAjax()
             $row = array();
             $row[] = $no;
             $row[] = $obj->name;
-			//$row[] = $obj->client;
-			
+			$row[] = $obj->client;
             $row[] = $obj->country;
             $row[] = $obj->passport;
 			$row[] = $obj->passport_expiry;
@@ -1998,25 +1979,7 @@ public function fwmsreportGenerate()
         $this->load->view('fixed/footer');
 
 }
-public function fwmsreport()
-{
 
-	    $this->load->library("Custom");
-        $data['dual'] = $this->custom->api_config(65);
-        $this->load->model('transactions_model', 'transactions');
-        $data['cat'] = $this->transactions->categories();
-        $data['accounts'] = $this->transactions->acc_list();
-        $head['title'] = "Fws Report";
-        $head['usernm'] = $this->aauth->get_user()->username;
-        $data['clients'] = $this->employee->get_client_list();
-
-        $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsReport', $data);
-        $this->load->view('fixed/footer');
-
-
-
-}
 public function editEmployeeFwms()
 {
 	 $id=$this->input->get('id');
@@ -2556,6 +2519,7 @@ public function updateInternational()
             $clockout='';
             $count=1;
             $attend='';
+			$nn_data='';
             foreach($bdata as $temp){
                 $duration=strtotime($temp['clockout']) - strtotime($temp['clockin']);
                 $duration=strtotime('00:00:00')+$duration;
@@ -2586,10 +2550,15 @@ public function updateInternational()
             $head['title'] = 'Attendance Status';
 
             // Extract the values of the specified key for sorting
+			if(!empty($nn_data))
+			{
             $sortValues = array_column($nn_data, "clockin_seconds");
-
+			}
             // Sort the array based on the sort values in descending order
-            array_multisort($sortValues, SORT_DESC, $nn_data);
+          if(!empty($nn_data))
+			{
+		  array_multisort($sortValues, SORT_DESC, $nn_data);
+			}
             $data['break_details'] = $nn_data;
             $head['break_details'] = $nn_data;
             

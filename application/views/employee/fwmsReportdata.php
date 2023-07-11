@@ -24,7 +24,7 @@
         </div>
         <div class="card-content">
 			<div class="options">
-         <a href="<?php echo site_url('employee/fwmsreport')?>" class="btn btn-primary btn-block"><i class=""></i>Back                                                </a>
+         <a href="<?php echo site_url('fwms/fwmsreport')?>" class="btn btn-primary btn-block"><i class=""></i>Back                                                </a>
              </div>
             <div id="notify" class="alert alert-success" style="display:none;">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -51,6 +51,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                  <tr>
                          <th><?php echo $this->lang->line('No') ?></th>
                         <th><?php echo $this->lang->line('Name') ?></th>
+					 <th><?php echo $this->lang->line('Client') ?></th>
                         <th><?php echo $this->lang->line('Country') ?></th>
 					     <th><?php echo $this->lang->line('Passport Number') ?></th>
 					   <th><?php echo $this->lang->line('Passport Expiry') ?></th>
@@ -68,6 +69,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                    <tr>
                          <th><?php echo $this->lang->line('No') ?></th>
                         <th><?php echo $this->lang->line('Name') ?></th>
+						  <th><?php echo $this->lang->line('Client') ?></th>
                         <th><?php echo $this->lang->line('Country') ?></th>
 					     <th><?php echo $this->lang->line('Passport Number') ?></th>
 					   <th><?php echo $this->lang->line('Passport Expiry') ?></th>
