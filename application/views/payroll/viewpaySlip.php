@@ -16,6 +16,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
     }
 </style>
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Pay Slips') ?></h5>

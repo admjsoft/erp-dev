@@ -1878,12 +1878,13 @@ $('.nav-menu-main').removeClass('is-active');
     </div>
   </div>
 </div>
-<div id="c_body"></div>
+<div id="c_body_old"></div>
 <div class="app-content content">
     <div class="content-wrapper">
         <div class="content-header row">
         </div>
         <div class="content-body">
+<div id="c_body"></div>
 <script>
 function subscribemessage(val)
 {

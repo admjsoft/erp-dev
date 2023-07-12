@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Transaction Details') ?> </h5><?php echo '<a href="' . base_url() . 'transactions/print_t?id=' . $trans['id'] . '" class="btn btn-info btn-xs"  title="Print"><span class="fa fa-print"></span></a>'; ?>

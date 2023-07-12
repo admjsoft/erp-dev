@@ -82,7 +82,7 @@ class Customers extends CI_Controller
                 $row[] = $customers->phone;
 			if($customers->customer_type=="foreign")
 				{
-					$customer_type="foreign";
+					$customer_type="International";
 				}
 				
 				else

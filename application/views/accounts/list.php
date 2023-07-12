@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="row">
         <div class="col-xl-6 col-md-12">
             <div class="card overflow-hidden">

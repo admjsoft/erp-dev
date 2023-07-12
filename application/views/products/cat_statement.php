@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h4><?php echo $product['title'] . ' ';
@@ -22,6 +23,7 @@
             <div class="card-body">
 
                 <div class="content-body">
+<div id="c_body"></div>
                     <div class="content">
                         <div class="row ">
                             <div class="col">

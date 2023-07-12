@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Payroll') . ' ' . $this->lang->line('Transactions') ?> <a
@@ -23,6 +24,7 @@
             <div class="card-body">
 
                 <div class="content-body">
+<div id="c_body"></div>
 
 
                     <table id="ptranstable" class="table table-striped table-bordered zero-configuration"

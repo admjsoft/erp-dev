@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
 <style>
 .sla-option {
     list-style-type: none;
@@ -126,62 +127,91 @@ if(isset($_SESSION['status'])){
                                                for="phone"><?php echo $this->lang->line('SLA Time Frame') ?></label>
                                         <div class="col-sm-8">
                                             <ul class="sla-option">
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a2" name="timeFrame" value="2" <?php if($job_details['man_days'] == "2"){ echo "checked"; } ?>>
                                                     <label for="a2"> 2hrs</label>
                                                 </li>
+                                                
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a4" name="timeFrame" value="4" <?php if($job_details['man_days'] == "4"){ echo "checked"; } ?>>
                                                     <label for="a4"> 4hrs</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a6" name="timeFrame" value="6" <?php if($job_details['man_days'] == "6"){ echo "checked"; } ?>>
                                                     <label for="a6"> 6hrs</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a8" name="timeFrame" value="8" <?php if($job_details['man_days'] == "8"){ echo "checked"; } ?>>
                                                     <label for="a8"> 8hrs</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a12" name="timeFrame" value="12" <?php if($job_details['man_days'] == "12"){ echo "checked"; } ?>>
                                                     <label for="a12"> 12hrs</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a24" name="timeFrame" value="24" <?php if($job_details['man_days'] == "24"){ echo "checked"; } ?>>
                                                     <label for="a24"> 24hrs</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a72" name="timeFrame" value="72" <?php if($job_details['man_days'] == "72"){ echo "checked"; } ?>>
                                                     <label for="a72"> 72hrs</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a1d" name="timeFrame" value="24" <?php if($job_details['man_days'] == "24"){ echo "checked"; } ?>>
                                                     <label for="a1d"> 1 Day</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a2d" name="timeFrame" value="48" <?php if($job_details['man_days'] == "48"){ echo "checked"; } ?>>
                                                     <label for="a2d"> 2 Days</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a3d" name="timeFrame" value="72" <?php if($job_details['man_days'] == "72"){ echo "checked"; } ?>>
                                                     <label for="a3d"> 3 Days</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a1w" name="timeFrame" value="168" <?php if($job_details['man_days'] == "168"){ echo "checked"; } ?>>
                                                     <label for="a1w"> 1 Week</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a2w" name="timeFrame" value="336" <?php if($job_details['man_days'] == "336"){ echo "checked"; } ?>>
                                                     <label for="a2w"> 2 Weeks</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                     <li>
                                                     <input type="radio" id="a3w" name="timeFrame" value="504" <?php if($job_details['man_days'] == "504"){ echo "checked"; } ?>>
                                                     <label for="a3w">3 Weeks</label>
                                                 </li>
+                                                </div>
+                                                <div class="col-sm-3">
                                                 <li>
                                                     <input type="radio" id="a4w" name="timeFrame" value="672" <?php if($job_details['man_days'] == "672"){ echo "checked"; } ?>>
                                                     <label for="a4w"> 4 Weeks</label>
                                                 </li>
+                                                </div>
                                             </ul>
                                         </div>
                                     </div>

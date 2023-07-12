@@ -101,6 +101,7 @@ color:#fff !important;
         <div class="content-header row">
         </div>
         <div class="content-body">
+<div id="c_body"></div>
             <section class="flexbox-container">
                 <div class="col-12 d-flex align-items-center justify-content-center">
 

@@ -3,6 +3,7 @@
 
 
         <div class="content-body">
+<div id="c_body"></div>
             <section class="card">
                 <div class="card-block">
 <h2 class="text-xs-center">Current Balance is <?= amountFormat($balance) ?></h2>

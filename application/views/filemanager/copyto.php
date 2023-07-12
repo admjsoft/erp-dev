@@ -10,6 +10,7 @@
     }
   </style>
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-content">
             <div id="notify" class="alert alert-success" style="display:none;">

@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card card-body">
         <div class="">
             <h4><?php echo $product['title'] . ' ';

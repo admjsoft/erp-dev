@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h4 class="card-title"><?php echo $this->lang->line('Add New Customer') ?></h4>
@@ -13,163 +14,163 @@
             </div>
         </div>
         <div class="card-body">
-		  <?php
-if(isset($_SESSION['status'])){
- echo '<div class="alert alert-'.$_SESSION['status'].'">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <?php
+                if(isset($_SESSION['status'])){
+                echo '<div class="alert alert-'.$_SESSION['status'].'">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
 
-            <div class="message">' .$_SESSION['message']. '</div>
-        </div>';
-unset($_SESSION['status']);unset($_SESSION['message']);
-} ?>
-		
-                <div class="card">
+                            <div class="message">' .$_SESSION['message']. '</div>
+                        </div>';
+                unset($_SESSION['status']);unset($_SESSION['message']);
+            } ?>
 
-                    <div class="card-content"><input type="radio" value="foreign" name="chooseradio"
- onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('International') ?>
-		<input type="radio" value="domestic" checked name="chooseradio" onclick="getpassportDetails('domestic');">&nbsp;<?php echo $this->lang->line('Domestic') ?>
+            <div class="card">
 
-					<div id="foreign_content" style="display:none">
-					            <form method="post" id="" action="<?php echo base_url();?>/customers/saveInternational" class="form-horizontal">
+                <div class="card-content"><input type="radio" value="foreign" name="chooseradio"
+                        onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('International') ?>
+                    <input type="radio" value="domestic" checked name="chooseradio"
+                        onclick="getpassportDetails('domestic');">&nbsp;<?php echo $this->lang->line('Domestic') ?>
 
- <div class="form-group row">
+                    <div id="foreign_content" style="display:none">
+                        
+                            <form method="post" id="data_form1" class="form-horizontal">
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Company Name') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="name"><?php echo $this->lang->line('Company Name') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Company"
-                                                   class="form-control margin-bottom b_input" name="company_name">
-                                        </div>
-                                    </div>
-									<div class="form-group row">
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Company" class="form-control margin-bottom b_input required"
+                                        name="company_name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Address') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="name"><?php echo $this->lang->line('Address') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="address"
-                                                   class="form-control margin-bottom b_input" id="international_c_address" name="address">
-                                        </div>
-                                    </div>
-<div class="form-group row">
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="address" class="form-control margin-bottom b_input"
+                                        id="international_c_address" name="address">
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Roc Number') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="name"><?php echo $this->lang->line('Roc Number') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Roc Number"
-                                                   class="form-control margin-bottom b_input" name="roc">
-                                        </div>
-                                    </div>
-<div class="form-group row">
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Roc Number"
+                                        class="form-control margin-bottom b_input" name="roc">
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Email') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="name"><?php echo $this->lang->line('Email') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Email"
-                                                   class="form-control margin-bottom b_input" name="email">
-                                        </div>
-                                    </div>
-									<div class="form-group row">
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Email" class="form-control margin-bottom b_input required"
+                                        name="email" id="international_email_id">
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Contact Number') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="name"><?php echo $this->lang->line('Contact Number') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Contact"
-                                                   class="form-control margin-bottom b_input" name="contact">
-                                        </div>
-                                    </div>
-<div class="form-group row">
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Contact" class="form-control margin-bottom b_input"
+                                        name="contact">
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Incharge Person') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="name"><?php echo $this->lang->line('Incharge Person') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="incharge"
-                                                   class="form-control margin-bottom b_input" name="incharge">
-                                        </div>
-                                    </div>
-									<?php     if ($this->aauth->premission(39)) {
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="incharge" class="form-control margin-bottom b_input"
+                                        name="incharge">
+                                </div>
+                            </div>
+                            <?php     if ($this->aauth->premission(39)) {
 										?>
-									  <div class="form-group row">
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="currency"><?php echo $this->lang->line('customer_login') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="currency"><?php echo $this->lang->line('customer_login') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <select name="c_login" class="form-control b_input">
+                                <div class="col-sm-8">
+                                    <select name="c_login" class="form-control b_input">
 
-                                                <option value="1"><?php echo $this->lang->line('Yes') ?></option>
-                                                <option value="0"><?php echo $this->lang->line('No') ?></option>
+                                        <option value="1"><?php echo $this->lang->line('Yes') ?></option>
+                                        <option value="0"><?php echo $this->lang->line('No') ?></option>
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="password_c"><?php echo $this->lang->line('New Password') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="password_c"><?php echo $this->lang->line('New Password') ?></label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="Leave blank for auto generation"
-                                                   class="form-control margin-bottom b_input" name="password_c"
-                                                   id="password_c">
-                                        </div>
-                                    </div>      
-									<?php
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Leave blank for auto generation"
+                                        class="form-control margin-bottom b_input" name="password_c" id="password_c">
+                                </div>
+                            </div>
+                            <?php
 									}
 									?>
-									<div class="form-group row">
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="currency">Language</label>
+                                <label class="col-sm-2 col-form-label" for="currency">Language</label>
 
-                                        <div class="col-sm-8">
-                                            <select name="language" class="form-control b_input">
+                                <div class="col-sm-8">
+                                    <select name="language" class="form-control b_input">
 
-                                                <?php
+                                        <?php
 
                                                 echo $langs;
                                                 ?>
 
-                                            </select>
-                                        </div>
-                                    </div>
-									  <div id="mybutton">
-                                    <input type="submit" id=""
-                                           class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php echo $this->lang->line('Add customer') ?>"
-                                           data-loading-text="Adding...">
+                                    </select>
                                 </div>
-</form>
-									</div>
-									            <form method="post" id="data_form" class="form-horizontal">
+                            </div>
+                            <div id="mybutton">
+                                <input type="submit" id="submit-data1"
+                                    class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
+                                    value="<?php echo $this->lang->line('Add customer') ?>"
+                                    data-loading-text="Adding...">
+                            </div>
+                            <input type="hidden" value="customers/saveInternational" id="action-url1">
+                        </form>
+                    </div>
+                    <form method="post" id="data_form" class="form-horizontal">
 
                         <div class="card-body" id="card-body">
-						
+
                             <ul class="nav nav-tabs" role="tablist" id="tab_list">
                                 <li class="nav-item">
                                     <a class="nav-link active show" id="base-tab1" data-toggle="tab"
-                                       aria-controls="tab1" href="#tab1" role="tab"
-                                       aria-selected="true"><?php echo $this->lang->line('Billing Address') ?></a>
+                                        aria-controls="tab1" href="#tab1" role="tab"
+                                        aria-selected="true"><?php echo $this->lang->line('Billing Address') ?></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2"
-                                       href="#tab2" role="tab"
-                                       aria-selected="false"><?php echo $this->lang->line('Shipping Address') ?></a>
-                                </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link" id="base-tab3" data-toggle="tab" aria-controls="tab3"
-                                       href="#tab4" role="tab"
-                                       aria-selected="false"><?php echo $this->lang->line('CustomFields') ?></a>
+                                        href="#tab2" role="tab"
+                                        aria-selected="false"><?php echo $this->lang->line('Shipping Address') ?></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="base-tab3" data-toggle="tab" aria-controls="tab3"
-                                       href="#tab3" role="tab"
-                                       aria-selected="false"><?php echo $this->lang->line('Other') . ' ' . $this->lang->line('Settings') ?></a>
+                                        href="#tab4" role="tab"
+                                        aria-selected="false"><?php echo $this->lang->line('CustomFields') ?></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="base-tab3" data-toggle="tab" aria-controls="tab3"
+                                        href="#tab3" role="tab"
+                                        aria-selected="false"><?php echo $this->lang->line('Other') . ' ' . $this->lang->line('Settings') ?></a>
                                 </li>
 
                             </ul>
@@ -178,34 +179,34 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Name') ?></label>
+                                            for="name"><?php echo $this->lang->line('Name') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Name"
-                                                   class="form-control margin-bottom b_input required" name="name"
-                                                   id="mcustomer_name">
+                                                class="form-control margin-bottom b_input required" name="name"
+                                                id="mcustomer_name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Company') ?></label>
+                                            for="name"><?php echo $this->lang->line('Company') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Company"
-                                                   class="form-control margin-bottom b_input" name="company">
+                                                class="form-control margin-bottom b_input" name="company">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="phone"><?php echo $this->lang->line('Phone') ?></label>
+                                            for="phone"><?php echo $this->lang->line('Phone') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="phone"
-                                                   class="form-control margin-bottom required b_input" name="phone"
-                                                   id="mcustomer_phone">
+                                                class="form-control margin-bottom required b_input" name="phone"
+                                                id="mcustomer_phone">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -214,63 +215,61 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="email"
-                                                   class="form-control margin-bottom required b_input" name="email"
-                                                   id="mcustomer_email">
+                                                class="form-control margin-bottom required b_input" name="email"
+                                                id="mcustomer_email">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="address"><?php echo $this->lang->line('Address') ?></label>
+                                            for="address"><?php echo $this->lang->line('Address') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="address"
-                                                   class="form-control margin-bottom b_input" name="address"
-                                                   id="mcustomer_address1">
+                                                class="form-control margin-bottom b_input" name="address"
+                                                id="mcustomer_address1">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="city"><?php echo $this->lang->line('City') ?></label>
+                                            for="city"><?php echo $this->lang->line('City') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="city"
-                                                   class="form-control margin-bottom b_input" name="city"
-                                                   id="mcustomer_city">
+                                                class="form-control margin-bottom b_input" name="city"
+                                                id="mcustomer_city">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="region"><?php echo $this->lang->line('Region') ?></label>
+                                            for="region"><?php echo $this->lang->line('Region') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Region"
-                                                   class="form-control margin-bottom b_input" name="region"
-                                                   id="region">
+                                                class="form-control margin-bottom b_input" name="region" id="region">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="country"><?php echo $this->lang->line('Country') ?></label>
+                                            for="country"><?php echo $this->lang->line('Country') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Country"
-                                                   class="form-control margin-bottom b_input" name="country"
-                                                   id="mcustomer_country">
+                                                class="form-control margin-bottom b_input" name="country"
+                                                id="mcustomer_country">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="postbox"><?php echo $this->lang->line('PostBox') ?></label>
+                                            for="postbox"><?php echo $this->lang->line('PostBox') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="PostBox"
-                                                   class="form-control margin-bottom b_input" name="postbox"
-                                                   id="postbox">
+                                                class="form-control margin-bottom b_input" name="postbox" id="postbox">
                                         </div>
                                     </div>
                                 </div>
@@ -280,9 +279,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="input-group mt-1">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="customer1"
-                                                       id="copy_address">
+                                                    id="copy_address">
                                                 <label class="custom-control-label"
-                                                       for="copy_address"><?php echo $this->lang->line('Same As Billing') ?></label>
+                                                    for="copy_address"><?php echo $this->lang->line('Same As Billing') ?></label>
                                             </div>
 
                                         </div>
@@ -295,12 +294,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name_s"><?php echo $this->lang->line('Name') ?></label>
+                                            for="name_s"><?php echo $this->lang->line('Name') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Name"
-                                                   class="form-control margin-bottom b_input" name="name_s"
-                                                   id="mcustomer_name_s">
+                                                class="form-control margin-bottom b_input" name="name_s"
+                                                id="mcustomer_name_s">
                                         </div>
                                     </div>
 
@@ -308,12 +307,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="phone_s"><?php echo $this->lang->line('Phone') ?></label>
+                                            for="phone_s"><?php echo $this->lang->line('Phone') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="phone"
-                                                   class="form-control margin-bottom b_input" name="phone_s"
-                                                   id="mcustomer_phone_s">
+                                                class="form-control margin-bottom b_input" name="phone_s"
+                                                id="mcustomer_phone_s">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -322,99 +321,99 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="email"
-                                                   class="form-control margin-bottom b_input" name="email_s"
-                                                   id="mcustomer_email_s">
+                                                class="form-control margin-bottom b_input" name="email_s"
+                                                id="mcustomer_email_s">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="address"><?php echo $this->lang->line('Address') ?></label>
+                                            for="address"><?php echo $this->lang->line('Address') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="address"
-                                                   class="form-control margin-bottom b_input" name="address_s"
-                                                   id="mcustomer_address1_s">
+                                                class="form-control margin-bottom b_input" name="address_s"
+                                                id="mcustomer_address1_s">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="city_s"><?php echo $this->lang->line('City') ?></label>
+                                            for="city_s"><?php echo $this->lang->line('City') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="city"
-                                                   class="form-control margin-bottom b_input" name="city_s"
-                                                   id="mcustomer_city_s">
+                                                class="form-control margin-bottom b_input" name="city_s"
+                                                id="mcustomer_city_s">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="region_s"><?php echo $this->lang->line('Region') ?></label>
+                                            for="region_s"><?php echo $this->lang->line('Region') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Region"
-                                                   class="form-control margin-bottom b_input" name="region_s"
-                                                   id="region_s">
+                                                class="form-control margin-bottom b_input" name="region_s"
+                                                id="region_s">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="country_s"><?php echo $this->lang->line('Country') ?></label>
+                                            for="country_s"><?php echo $this->lang->line('Country') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Country"
-                                                   class="form-control margin-bottom b_input" name="country_s"
-                                                   id="mcustomer_country_s">
+                                                class="form-control margin-bottom b_input" name="country_s"
+                                                id="mcustomer_country_s">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="postbox"><?php echo $this->lang->line('PostBox') ?></label>
+                                            for="postbox"><?php echo $this->lang->line('PostBox') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="PostBox"
-                                                   class="form-control margin-bottom b_input" name="postbox_s"
-                                                   id="postbox_s">
+                                                class="form-control margin-bottom b_input" name="postbox_s"
+                                                id="postbox_s">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="base-tab3">
                                     <div class="form-group row"><label class="col-sm-2 col-form-label"
-                                                                       for="Discount"><?php echo $this->lang->line('Discount') ?> </label>
+                                            for="Discount"><?php echo $this->lang->line('Discount') ?> </label>
                                         <div class="col-sm-6">
                                             <input type="text" placeholder="Custom Discount"
-                                                   class="form-control margin-bottom b_input" name="discount">
+                                                class="form-control margin-bottom b_input" name="discount">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="taxid"><?php echo $this->lang->line('TAX') ?> ID</label>
+                                            for="taxid"><?php echo $this->lang->line('TAX') ?> ID</label>
 
                                         <div class="col-sm-6">
                                             <input type="text" placeholder="TAX ID"
-                                                   class="form-control margin-bottom b_input" name="taxid">
+                                                class="form-control margin-bottom b_input" name="taxid">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="docid"><?php echo $this->lang->line('Document') ?> ID</label>
+                                            for="docid"><?php echo $this->lang->line('Document') ?> ID</label>
 
                                         <div class="col-sm-6">
                                             <input type="text" placeholder="Document ID"
-                                                   class="form-control margin-bottom b_input" name="docid">
+                                                class="form-control margin-bottom b_input" name="docid">
                                         </div>
                                     </div>
                                     <div class="form-group row"><label class="col-sm-2 col-form-label"
-                                                                       for="c_field"><?php echo $this->lang->line('Extra') ?> </label>
+                                            for="c_field"><?php echo $this->lang->line('Extra') ?> </label>
                                         <div class="col-sm-6">
                                             <input type="text" placeholder="Custom Field"
-                                                   class="form-control margin-bottom b_input" name="c_field">
+                                                class="form-control margin-bottom b_input" name="c_field">
                                         </div>
                                     </div>
 
@@ -423,7 +422,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="customergroup"><?php echo $this->lang->line('Customer group') ?></label>
+                                            for="customergroup"><?php echo $this->lang->line('Customer group') ?></label>
 
                                         <div class="col-sm-6">
                                             <select name="customergroup" class="form-control b_input">
@@ -443,8 +442,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                     <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="currency">Language</label>
+                                        <label class="col-sm-2 col-form-label" for="currency">Language</label>
 
                                         <div class="col-sm-6">
                                             <select name="language" class="form-control b_input">
@@ -457,12 +455,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                             </select>
                                         </div>
                                     </div>
-									<?php     if ($this->aauth->premission(39)) {
+                                    <?php     if ($this->aauth->premission(39)) {
 										?>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="currency"><?php echo $this->lang->line('customer_login') ?></label>
+                                            for="currency"><?php echo $this->lang->line('customer_login') ?></label>
 
                                         <div class="col-sm-6">
                                             <select name="c_login" class="form-control b_input">
@@ -476,86 +474,80 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="password_c"><?php echo $this->lang->line('New Password') ?></label>
+                                            for="password_c"><?php echo $this->lang->line('New Password') ?></label>
 
                                         <div class="col-sm-6">
                                             <input type="text" placeholder="Leave blank for auto generation"
-                                                   class="form-control margin-bottom b_input" name="password_c"
-                                                   id="password_c">
+                                                class="form-control margin-bottom b_input" name="password_c"
+                                                id="password_c">
                                         </div>
                                     </div>
-									<?php } ?>
+                                    <?php } ?>
 
                                 </div>
                                 <div class="tab-pane show" id="tab4" role="tabpanel" aria-labelledby="base-tab4">
 
-                                 <?php
+                                    <?php
                                     foreach ($custom_fields as $row) {
                                         if ($row['f_type'] == 'text') { ?>
-                                            <div class="form-group row">
+                                    <div class="form-group row">
 
-                                                <label class="col-sm-2 col-form-label"
-                                                       for="docid"><?= $row['name'] ?></label>
+                                        <label class="col-sm-2 col-form-label" for="docid"><?= $row['name'] ?></label>
 
-                                                <div class="col-sm-8">
-                                                    <input type="text" placeholder="<?= $row['placeholder'] ?>"
-                                                           class="form-control margin-bottom b_input <?= $row['other'] ?>"
-                                                           name="custom[<?= $row['id'] ?>]">
-                                                </div>
-                                            </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="<?= $row['placeholder'] ?>"
+                                                class="form-control margin-bottom b_input <?= $row['other'] ?>"
+                                                name="custom[<?= $row['id'] ?>]">
+                                        </div>
+                                    </div>
 
 
-                                        <?php }
+                                    <?php }
                                     }
                                     ?>
 
                                 </div>
-								
+
                                 <div id="mybutton">
                                     <input type="submit" id="submit-data"
-                                           class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php echo $this->lang->line('Add customer') ?>"
-                                           data-loading-text="Adding...">
+                                        class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
+                                        value="<?php echo $this->lang->line('Add customer') ?>"
+                                        data-loading-text="Adding...">
                                 </div>
                             </div>
-							</div>
                         </div>
-                    </div>
                 </div>
-               <input type="hidden" value="customers/addcustomer" id="action-url">
-            </form>
+            </div>
         </div>
+        <input type="hidden" value="customers/addcustomer" id="action-url">
+        </form>
     </div>
+</div>
 </div>
 
 <script>
- function getpassportDetails(val)
-{
-	if(val=="foreign")
-	{
-		$("#foreign_content").show();
-		//$("#card_body").hide();
+function getpassportDetails(val) {
+    if (val == "foreign") {
+        $("#foreign_content").show();
+        //$("#card_body").hide();
         $("#tab_content").hide();
         $("#tab_list").hide();
 
-            }
-            else{
-                $("#foreign_content").hide();
-                //$("#card_body").hide();
+    } else {
+        $("#foreign_content").hide();
+        //$("#card_body").hide();
         $("#tab_content").show();
         $("#tab_list").show();
-            }
-	//alert(val);
+    }
+    //alert(val);
 }
-
 </script>
 
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMWSr2YSC6925JdAvbRyfjaiRsF8rPxA4&libraries=places"></script>
+<script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMWSr2YSC6925JdAvbRyfjaiRsF8rPxA4&libraries=places"></script>
 
 <script>
-
-
 var input = document.getElementById('mcustomer_address1');
 var autocomplete = new google.maps.places.Autocomplete(input);
 google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -568,52 +560,44 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
     // Iterate over the address components to extract desired parameters
     for (var i = 0; i < addressComponents.length; i++) {
-      var component = addressComponents[i];
-      var componentType = component.types[0];
+        var component = addressComponents[i];
+        var componentType = component.types[0];
 
-      // Check for the desired parameters (city, region, country, postbox)
-      if (componentType === 'locality') {
-        city = component.long_name;
-      }
-      if (componentType === 'administrative_area_level_1') {
-        region = component.long_name;
-      }
-      if (componentType === 'country') {
-        country = component.long_name;
-      }
-      if (componentType === 'postal_code' || componentType === 'postal_code_prefix' || componentType === 'postal_code_suffix') {
-        postalCode = component.long_name;
-      }
+        // Check for the desired parameters (city, region, country, postbox)
+        if (componentType === 'locality') {
+            city = component.long_name;
+        }
+        if (componentType === 'administrative_area_level_1') {
+            region = component.long_name;
+        }
+        if (componentType === 'country') {
+            country = component.long_name;
+        }
+        if (componentType === 'postal_code' || componentType === 'postal_code_prefix' || componentType ===
+            'postal_code_suffix') {
+            postalCode = component.long_name;
+        }
     }
 
-    if(city != '' && city != 'undefined'){
+    if (city != '' && city != 'undefined') {
         $('#mcustomer_city').val(city)
     }
 
-    if(region != '' && region != 'undefined'){
+    if (region != '' && region != 'undefined') {
         $('#region').val(region)
     }
-    if(country != '' && country != 'undefined'){
+    if (country != '' && country != 'undefined') {
         $('#mcustomer_country').val(country)
     }
-    if(postalCode != '' && postalCode != 'undefined'){
+    if (postalCode != '' && postalCode != 'undefined') {
         $('#postbox').val(postalCode)
     }
-        
+
 
 });
-
-
-
-
-
-
-   
 </script>
 
 <script>
-
-
 var input1 = document.getElementById('mcustomer_address1_s');
 var autocomplete1 = new google.maps.places.Autocomplete(input1);
 google.maps.event.addListener(autocomplete1, 'place_changed', function() {
@@ -626,38 +610,39 @@ google.maps.event.addListener(autocomplete1, 'place_changed', function() {
 
     // Iterate over the address components to extract desired parameters
     for (var i = 0; i < addressComponents1.length; i++) {
-      var component1 = addressComponents1[i];
-      var componentType1 = component1.types[0];
+        var component1 = addressComponents1[i];
+        var componentType1 = component1.types[0];
 
-      // Check for the desired parameters (city, region, country, postbox)
-      if (componentType1 === 'locality') {
-        city1 = component1.long_name;
-      }
-      if (componentType1 === 'administrative_area_level_1') {
-        region1 = component1.long_name;
-      }
-      if (componentType1 === 'country') {
-        country1 = component1.long_name;
-      }
-      if (componentType1 === 'postal_code' || componentType1 === 'postal_code_prefix' || componentType1 === 'postal_code_suffix') {
-        postalCode1 = component1.long_name;
-      }
+        // Check for the desired parameters (city, region, country, postbox)
+        if (componentType1 === 'locality') {
+            city1 = component1.long_name;
+        }
+        if (componentType1 === 'administrative_area_level_1') {
+            region1 = component1.long_name;
+        }
+        if (componentType1 === 'country') {
+            country1 = component1.long_name;
+        }
+        if (componentType1 === 'postal_code' || componentType1 === 'postal_code_prefix' || componentType1 ===
+            'postal_code_suffix') {
+            postalCode1 = component1.long_name;
+        }
     }
 
-    if(city1 != '' && city1 != 'undefined'){
+    if (city1 != '' && city1 != 'undefined') {
         $('#mcustomer_city_s').val(city1)
     }
 
-    if(region1 != '' && region1 != 'undefined'){
+    if (region1 != '' && region1 != 'undefined') {
         $('#region_s').val(region1)
     }
-    if(country1 != '' && country1 != 'undefined'){
+    if (country1 != '' && country1 != 'undefined') {
         $('#mcustomer_country_s').val(country1)
     }
-    if(postalCode1 != '' && postalCode1 != 'undefined'){
+    if (postalCode1 != '' && postalCode1 != 'undefined') {
         $('#postbox_s').val(postalCode1)
     }
-        
+
 
 });
 
@@ -667,58 +652,80 @@ google.maps.event.addListener(autocomplete1, 'place_changed', function() {
 
 var input2 = document.getElementById('international_c_address');
 var autocomplete2 = new google.maps.places.Autocomplete(input2);
-
-
 </script>
 
 <script>
+$("body").on("change", "#mcustomer_email", function(e) {
+    e.preventDefault();
+
+    var email_id = $(this).val();
+    if (email_id) {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id))) {
+            $(this).parent().addClass("has-error");
+            $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
+            $("#notify").removeClass("alert-success").addClass("alert-warning").fadeIn();
+            $("#notify .message").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
+            $("html, body").scrollTop($("body").offset().top);
+            $(this).focus();
+        } else {
+            $(this).parent().removeClass("has-error");
+            $("#notify").fadeOut();
+            $("#notify .message").html("");
+
+        }
+
+    }
+
+});
+
+$("body").on("change", "#mcustomer_email_s", function(e) {
+    e.preventDefault();
+
+    var email_id = $(this).val();
+    if (email_id) {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id))) {
+            $(this).parent().addClass("has-error");
+            $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
+            $("#notify").removeClass("alert-success").addClass("alert-warning").fadeIn();
+            $("#notify .message").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
+            $("html, body").scrollTop($("body").offset().top);
+            $(this).focus();
+        } else {
+            $(this).parent().removeClass("has-error");
+            $("#notify").fadeOut();
+            $("#notify .message").html("");
+
+        }
 
 
-// $("body").on("change", "#mcustomer_email", function(e) {
-//     e.preventDefault();
+    }
 
-//     var email_id = $(this).val();
-//     if(email_id){
-//         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)))
-//         {
-//             $(this).parent().addClass("has-error");
-//             $("#statusMsg").removeClass("alert-success").addClass("alert-warning").fadeIn();
-//             $("#statusMsg").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
-//             $("html, body").animate({scrollTop: $('#statusMsg').offset().top}, 1000);
-//             $(this).focus();
-//         }else{
-//             $(this).parent().removeClass("has-error");
-//             $("#statusMsg").fadeOut();
-//             $("#statusMsg").html("");
-
-//         }
-                    
-//     }
-
-// });
-
-// $("body").on("change", "#mcustomer_email_s", function(e) {
-//     e.preventDefault();
-
-//     var email_id = $(this).val();
-//     if(email_id){
-//         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)))
-//         {
-//             $(this).parent().addClass("has-error");
-//             $("#statusMsg").removeClass("alert-success").addClass("alert-warning").fadeIn();
-//             $("#statusMsg").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
-//             $("html, body").animate({scrollTop: $('#statusMsg').offset().top}, 1000);
-//             $(this).focus();
-//         }else{
-//             $(this).parent().removeClass("has-error");
-//             $("#statusMsg").fadeOut();
-//             $("#statusMsg").html("");
-
-//         }
-                    
-//     }
-
-// });
+});
 
 
-</script>    
+$("body").on("change", "#international_email_id", function(e) {
+    e.preventDefault();
+
+    var email_id = $(this).val();
+    if (email_id) {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id))) {
+            $(this).parent().addClass("has-error");
+            $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
+            $("#notify").removeClass("alert-success").addClass("alert-warning").fadeIn();
+            $("#notify .message").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
+            $("html, body").scrollTop($("body").offset().top);
+            $(this).focus();
+        } else {
+            $(this).parent().removeClass("has-error");
+            $("#notify").fadeOut();
+            $("#notify .message").html("");
+
+        }
+
+
+    }
+
+});
+
+
+</script>

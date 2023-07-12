@@ -987,6 +987,17 @@ $("#submit-data").on("click", function (e) {
     addObject(o_data, action_url);
     setTimeout(function(){  $("#submit-data").show(); }, 1000);
 });
+
+
+$("#submit-data1").on("click", function(e) {
+    e.preventDefault();
+    $(this).hide();
+    var o_data = $("#data_form1").find(':input').not('.no-serialize').serialize();
+    var action_url = $('#action-url1').val();
+    addObject(o_data, action_url);
+    setTimeout(function(){  $("#submit-data1").show(); }, 1000);
+});
+
 $("#submit-update").on("click", function (e) {
     e.preventDefault();
     $(this).hide();

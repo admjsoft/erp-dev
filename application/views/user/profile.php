@@ -4,6 +4,7 @@ if(!empty($employee))
 {
 	?>
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php
@@ -209,6 +210,7 @@ else
 ?>
 
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php

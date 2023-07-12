@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
 
     <div class="row">
         <div class="col-md-8">

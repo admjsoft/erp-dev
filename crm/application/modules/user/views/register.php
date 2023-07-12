@@ -6,6 +6,7 @@
         <div class="content-header row">
         </div>
         <div class="content-body">
+<div id="c_body"></div>
             <section class="flexbox-container">
 
                 <div class="col-md-12  box-shadow-2 p-1">
