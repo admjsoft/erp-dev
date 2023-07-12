@@ -111,7 +111,7 @@ if(isset($_SESSION['status'])){
                                                for="Location"><?php echo $this->lang->line('Date') ?></label>
                                         <div class="col-sm-3">
                                             <input type="date" placeholder="date" id="date"
-                                                   class="form-control" name="date">
+                                                   class="form-control" min="<?php echo date("Y-m-d"); ?>" name="date">
                                         </div>
                                          <label class="col-sm-2 col-form-label"
                                                for="Location"><?php echo $this->lang->line('Time') ?></label>
