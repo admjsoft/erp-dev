@@ -6,7 +6,20 @@
 </style>
 
 <div class="content-body">
-
+    <div class="card">
+	<div class="card-header">
+            <h5 class="title">
+                <?php echo $this->lang->line('Employee Details') ?>
+            </h5>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+            <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                </ul>
+            </div>
+        </div>
     <div class="card card-block bg-white">
 	<?php
 if(isset($_SESSION['status'])){
@@ -23,7 +36,6 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             <div class="message">			   </div>
         </div>
 
-            <h4 class="card-title"><?php echo $this->lang->line('Employee Details') ?></h4>
 
 		
       <form method="post"  class="form-horizontal" enctype="multipart/form-data" action="<?php echo base_url("employee/saveInternational") ?>" >
@@ -34,18 +46,18 @@ unset($_SESSION['status']);unset($_SESSION['message']);
  onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('Foreign Worker') ?>
 		<input type="radio" value="domestic" name="chooseradio" checked onclick="getpassportDetails('domestic');">&nbsp;<?php echo $this->lang->line('Domestic') ?>
       </div>
-			<div id="foreign_content" style="display: none;padding-left:50px;">
+			<div id="foreign_content" style="display: none;padding:30px;">
 
                                       <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Name') ?></label>
+                                               for="name"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 															<span class="name_error"></span>
 
                                             <input type="text" placeholder="Name"
-                                                   class="form-control margin-bottom b_input" name="emp_name" id="emp_name" required>
+                                                   class="form-control margin-bottom b_input" name="emp_name" id="emp_name">
                                         </div>
                                     </div>
 									       <?php     if ($this->aauth->premission(38)) {
@@ -60,7 +72,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 															<span class="username_error"></span>								
                                              <input type="text"
                            class="form-control margin-bottom " name="user_name" id="user_name"
-                           placeholder="user_name" required>
+                           placeholder="user_name">
                                         </div>
                                     </div>
 									<div class="form-group row">
@@ -73,7 +85,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                           <input type="email" placeholder="email"
                            class="form-control margin-bottom" name="user_email" id="user_email"
-                           placeholder="email" required>
+                           placeholder="email">
                                         </div>
                                     </div>
 									<div class="form-group row">
@@ -86,19 +98,21 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                           <input type="text" placeholder="Password" id="user_password"
                            class="form-control margin-bottom" name="user_password"
-                           placeholder="password" required>                    <small class="error">(Use Only a-z0-9)</small>
+                           placeholder="password">                    <small class="error">(Use Only a-z0-9)</small>
 
                                         </div>
                                     </div>
 										   <?php }?>
 									 <?php if ($this->aauth->get_user()->roleid >= 0) { ?>
                 <div class="form-group row">
-
                     <label class="col-sm-2 col-form-label"
-                           for="name"><?php echo $this->lang->line('UserRole') ?></label>
+                           for="name"><?php echo $this->lang->line('UserRole') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-8">
-                             <select name="roleid" class="form-control margin-bottom">
+						<span class="role_error"></span>
+
+                             <select name="roleid" id="roleid" class="form-control margin-bottom">
+							 <option value="">--Select Role--</option>
                            <?php foreach($role_list as $role)
 						{
 							?>
@@ -113,7 +127,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Passport Number') ?></label>
+                                               for="name"><?php echo $this->lang->line('Passport Number') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 										<span class="passport_error"></span>
@@ -125,7 +139,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Passport Expiry Date') ?></label>
+                                               for="name"><?php echo $this->lang->line('Passport Expiry Date') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 						<span class="passport_expiry_error"></span>
@@ -137,7 +151,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Permit Number') ?></label>
+                                               for="name"><?php echo $this->lang->line('Permit Number') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 												<span class="permit_error"></span>
@@ -148,7 +162,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     </div><div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Permit Expiry Date') ?></label>
+                                               for="name"><?php echo $this->lang->line('Permit Expiry Date') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 														<span class="permit_expiry_error"></span>
@@ -161,11 +175,16 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Country') ?></label>
+                                               for="name"><?php echo $this->lang->line('Country') ?> <span style="color:red">*</span></label>
                                         <div class="col-sm-8">
 										<span class="country_error"></span>
-                                            <input type="text" placeholder="country"
-                                                   class="form-control margin-bottom b_input" name="country" id="country">
+												 <select name="country" class="form-control margin-bottom b_input" id="country">
+                                              <option value="">--Select Country--</option>												 
+												 <?php foreach($country as $cntry)
+												 {
+?>												 <option value="<?php echo $cntry->id;?>"><?php echo $cntry->country_name;?></option>
+												 <?php }
+												 ?></select>
                                         </div>
                                     </div>
 									<div class="form-group row">
@@ -175,7 +194,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
  
 									 ?>
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Company') ?></label>
+                                               for="name"><?php echo $this->lang->line('Company') ?> <span style="color:red">*</span></label>
                                         <div class="col-sm-8">
 												<span class="company_error"></span>
                                                <select name="company" id="company" required class="form-control">
@@ -194,7 +213,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 												<span class="upload_error"></span>
                                     <input type="file"
-required id="file" data-val="true" data-val-required="The ImageURLDetails field is required."  name='passportfile' >
+ id="file" data-val="true" data-val-required="The ImageURLDetails field is required."  name='passportfile' >
    (jpg,JPEG,png,pdf)
                                         </div>
                                     </div>
@@ -205,7 +224,7 @@ required id="file" data-val="true" data-val-required="The ImageURLDetails field 
                                         <div class="col-sm-8">
 												<span class="upload_error"></span>
                                     <input type="file"
-required id="file" data-val="true" data-val-required="The field is required."  name='visafile' >
+ id="file" data-val="true" data-val-required="The field is required."  name='visafile' >
 (jpg,JPEG,png,pdf)
                                         </div>
                                     </div>
@@ -222,57 +241,117 @@ required id="file" data-val="true" data-val-required="The field is required."  n
 			
 	   <div id="domestic">
 <?php     if ($this->aauth->premission(38)) {
-											   ?>
-		   <div class="form-group row">
-    
-                <label class="col-sm-6 col-form-label"
+				
+				?>
+				      <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
                        for="name"><?php echo $this->lang->line('UserName') ?>
-                    <small class="error">(Use Only a-z0-9)</small>
-                </label>
+                    <small class="error">(Use Only a-z0-9)</small></label>
 
                 <div class="col-sm-10">
-                    <input type="text"
-                           class="form-control margin-bottom required" name="username"
+                          <input type="text"
+                           class="form-control margin-bottom" name="username"
                            placeholder="username">
                 </div>
             </div>
+		   <div class="form-group row">
 
-            <div class="form-group row">
-
-                <label class="col-sm-6 col-form-label" for="email">Email</label>
-
+                <label class="col-sm-2 col-form-label"
+                       for="name"><?php echo $this->lang->line('Email') ?></label>
                 <div class="col-sm-10">
-                    <input type="email" placeholder="email"
-                           class="form-control margin-bottom required" name="email"
+                           <input type="email" placeholder="email"
+                           class="form-control margin-bottom" name="email"
                            placeholder="email">
                 </div>
             </div>
-            <div class="form-group row">
+<div class="form-group row">
 
-                <label class="col-sm-6 col-form-label"
-                       for="password"><?php echo $this->lang->line('Password') ?>
-                    <small>(min length 6 | max length 20 | a-zA-Z 0-9 @ $)</small>
-                </label>
-
+                <label class="col-sm-2 col-form-label"
+                       for="name"><?php echo $this->lang->line('Password') ?>
+					   <small>(min length 6|max length 20|a-zA-Z0-9@$)</small>
+</label>
                 <div class="col-sm-10">
-                    <input type="text" placeholder="Password"
-                           class="form-control margin-bottom required" name="password"
+                           <input type="text" placeholder="Password"
+                           class="form-control margin-bottom" name="password"
                            placeholder="password">
                 </div>
             </div>
+         
 <?php }?>
-            <?php if ($this->aauth->get_user()->roleid >= 0) { ?>
+      
+
+
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                       for="name"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
+
+                <div class="col-sm-10">
+                    <input type="text" placeholder="Name"
+                           class="form-control margin-bottom required" name="name"
+                           placeholder="Full name">
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                       for="address"><?php echo $this->lang->line('Address') ?> <span style="color:red">*</span></label>
+
+                <div class="col-sm-10">
+                    <input type="text" placeholder="address"
+                           class="form-control margin-bottom required" name="address">
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                       for="city"><?php echo $this->lang->line('City') ?> <span style="color:red">*</span></label>
+
+                <div class="col-sm-10">
+                    <input type="text" placeholder="City"
+                           class="form-control margin-bottom required" name="city">
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                       for="city"><?php echo $this->lang->line('Region') ?> <span style="color:red">*</span></label>
+
+                <div class="col-sm-10">
+                    <input type="text" placeholder="Region"
+                           class="form-control margin-bottom required" name="region">
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                       for="country"><?php echo $this->lang->line('Country') ?> <span style="color:red">*</span></label>
+
+                <div class="col-sm-10">
+                   <select name="country" class="form-control margin-bottom b_input required" id="country">  
+				   <option value="">--Select Country--</option>												 
+
+						 <?php foreach($country as $cntry)
+												 {
+?>												 <option value="<?php echo $cntry->id;?>"><?php echo $cntry->country_name;?></option>
+												 <?php }
+												 ?></select>
+                </div>
+            </div>
+      <?php if ($this->aauth->get_user()->roleid >= 0) { ?>
                 <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label"
-                           for="name"><?php echo $this->lang->line('UserRole') ?></label>
+                           for="name"><?php echo $this->lang->line('UserRole') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-5">
-                        <select name="roleid" class="form-control margin-bottom">
+                        <select name="roleid" class="form-control margin-bottom required">
+						<option value="">--Select Role--</option>
                            <?php foreach($role_list as $role)
 						{
 							?>
-                            <option value="<?php echo $role['role_name'];?>"><?php echo $role['role_name'];?></option>
+                            <option value="<?php echo $role['id'];?>"><?php echo $role['role_name'];?></option>
 						<?php }?>
                         </select>
                     </div>
@@ -299,61 +378,6 @@ required id="file" data-val="true" data-val-required="The field is required."  n
                     </select>
                 </div>
             </div>
-
-            <hr>
-
-            <div class="form-group row">
-
-                <label class="col-sm-2 col-form-label"
-                       for="name"><?php echo $this->lang->line('Name') ?></label>
-
-                <div class="col-sm-10">
-                    <input type="text" placeholder="Name"
-                           class="form-control margin-bottom required" name="name"
-                           placeholder="Full name">
-                </div>
-            </div>
-            <div class="form-group row">
-
-                <label class="col-sm-2 col-form-label"
-                       for="address"><?php echo $this->lang->line('Address') ?></label>
-
-                <div class="col-sm-10">
-                    <input type="text" placeholder="address"
-                           class="form-control margin-bottom" name="address">
-                </div>
-            </div>
-            <div class="form-group row">
-
-                <label class="col-sm-2 col-form-label"
-                       for="city"><?php echo $this->lang->line('City') ?></label>
-
-                <div class="col-sm-10">
-                    <input type="text" placeholder="City"
-                           class="form-control margin-bottom" name="city">
-                </div>
-            </div>
-            <div class="form-group row">
-
-                <label class="col-sm-2 col-form-label"
-                       for="city"><?php echo $this->lang->line('Region') ?></label>
-
-                <div class="col-sm-10">
-                    <input type="text" placeholder="Region"
-                           class="form-control margin-bottom" name="region">
-                </div>
-            </div>
-            <div class="form-group row">
-
-                <label class="col-sm-2 col-form-label"
-                       for="country"><?php echo $this->lang->line('Country') ?></label>
-
-                <div class="col-sm-10">
-                    <input type="text" placeholder="Country"
-                           class="form-control margin-bottom" name="country">
-                </div>
-            </div>
-
             <div class="form-group row">
 
                 <label class="col-sm-2 col-form-label"
@@ -367,11 +391,11 @@ required id="file" data-val="true" data-val-required="The field is required."  n
             <div class="form-group row">
 
                 <label class="col-sm-2 col-form-label"
-                       for="phone"><?php echo $this->lang->line('Phone') ?></label>
+                       for="phone"><?php echo $this->lang->line('Phone') ?> <span style="color:red">*</span></label>
 
                 <div class="col-sm-10">
                     <input type="text" placeholder="phone"
-                           class="form-control margin-bottom" name="phone">
+                           class="form-control margin-bottom required" name="phone">
                 </div>
             </div>
             <div class="form-group row">
@@ -403,10 +427,10 @@ required id="file" data-val="true" data-val-required="The field is required."  n
             <div class="form-group row">
 
                 <label class="col-sm-2 col-form-label"
-                       for="name"><?php echo $this->lang->line('Department') ?></label>
+                       for="name"><?php echo $this->lang->line('Department') ?> <span style="color:red">*</span></label>
 
                 <div class="col-sm-5">
-                    <select name="department" class="form-control margin-bottom">
+                    <select name="department" class="form-control margin-bottom required">
 
                         <option value="0"><?php echo $this->lang->line('Default') . ' - ' . $this->lang->line('No') ?></option>
                         <?php
@@ -437,7 +461,7 @@ required id="file" data-val="true" data-val-required="The field is required."  n
     </div>
 
 </div>
-
+</div>
 <script type="text/javascript">
     $("#profile_add").click(function (e) {
         e.preventDefault();
@@ -500,7 +524,7 @@ $("#domestic").show();
 
 function validate()
 {
-	$("#name").focusout(function() { 
+	$("#emp_name").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".name_error").text("this field is required");
@@ -512,10 +536,10 @@ function validate()
                     $(this).css('border', 'solid 2px green');    
                 }    
             }) .trigger("focusout");
-	$("#username").focusout(function() { 
+$("#roleid").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
-					$(".username_error").text("this field is required");
+					$(".role_error").text("this field is required");
 					return false;
                 }
                 else {
@@ -524,34 +548,7 @@ function validate()
                     $(this).css('border', 'solid 2px green');    
                 }    
             }) .trigger("focusout");	
-
-$("#email").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".email_error").text("this field is required");
-					return false;
-                }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-                }    
-            }) .trigger("focusout");	
-
-		
-$("#password").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".pswd_error").text("this field is required");
-					return false;
-                }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-                }    
-            }) .trigger("focusout");	
-			
+				
 $("#passport").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
@@ -628,19 +625,7 @@ $("#passport").focusout(function() {
                 }    
             }) .trigger("focusout");
 			
-			$("#file").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".upload_error").text("this field is required");
-					return false;
-                }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-                }    
-            }) .trigger("focusout");
-			
+		
 		
 }
 

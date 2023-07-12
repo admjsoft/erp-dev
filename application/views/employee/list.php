@@ -51,7 +51,8 @@
                         $username = $row['username'];
                         $name = $row['name'];
                         $picture = base_url('userfiles/employee/'.$row['picture']);
-                        $role = user_role($row['roleid']);
+                        //$role = user_role($row['roleid']);
+						$role = $row['role_name'];
                         $status = $row['banned'];
 
                         if ($status == 1) {

@@ -55,7 +55,7 @@
                         <div class="row m-t-lg">
                             <div class="col-md-12">
                                 <strong><?php echo $this->lang->line('Country') ?>
-                                    : </strong><?php echo $employee['country'] ?>
+                                    : </strong><?php echo $employee['country_name'] ?>
                             </div>
 
                         </div>

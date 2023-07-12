@@ -8,8 +8,9 @@ class Employee_model extends CI_Model
     
 public function list_employee()
     {
-        $this->db->select('gtg_employees.*,gtg_users.banned,gtg_users.roleid,gtg_users.loc');
+        $this->db->select('gtg_employees.*,gtg_users.banned,gtg_users.roleid,gtg_users.loc,gtg_role.role_name');
         $this->db->from('gtg_employees');
+        $this->db->join('gtg_role', 'gtg_role.id = gtg_employees.degis', 'left');
 
       //  $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
         $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
@@ -105,9 +106,11 @@ public function list_employee()
 
     public function employee_details($id)
     {
-        $this->db->select('gtg_employees.*,gtg_users.email,gtg_users.loc,gtg_users.roleid,');
+        $this->db->select('gtg_employees.*,gtg_users.email,gtg_users.loc,gtg_users.roleid,gtg_countries.country_name');
         $this->db->from('gtg_employees');
         $this->db->where('gtg_employees.id', $id);
+	 $this->db->join('gtg_countries', 'gtg_countries.id = gtg_employees.country', 'left');
+
         $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
         $query = $this->db->get();
         return $query->row_array();
@@ -153,8 +156,7 @@ public function list_employee()
         $this->db->where('id', $id);
         $query = $this->db->get();
         $role = $query->row_array();
-
-
+ 
         $data = array(
             'name' => $name,
             'phone' => $phone,
@@ -175,6 +177,7 @@ public function list_employee()
                 'address' => $address,
                 'city' => $city,
                 'region' => $region,
+				'degis' => $roleid,
                 'country' => $country,
                 'postbox' => $postbox,
                 'salary' => $salary,
@@ -189,13 +192,15 @@ public function list_employee()
           
 
         if ($this->db->update('gtg_employees')) {
-
+                if(!empty($role))
+				{
             if ($roleid && $role['roleid'] != 5) {
                 $this->db->set('loc', $location);
                 $this->db->set('roleid', $roleid);
                 $this->db->where('id', $id);
                 $this->db->update('gtg_users');
             }
+				}
             if (($salary != $sal['salary']) and ($salary > 0.00)) {
                 $data1 = array(
                     'typ' => 1,
@@ -415,9 +420,41 @@ public function list_employee()
         $this->db->where('eid', $this->eid);
         return $this->db->count_all_results();
     }
+    public function add_employee_new($username,$email,$name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0,$user_role)
+	{
+		$data = array(
+		    'username' => $username,
+			'email' => $email,
+            'name' => $name,
+            'address' => $address,
+            'city' => $city,
+            'region' => $region,
+            'country' => $country,
+            'postbox' => $postbox,
+            'phone' => $phone,
+            'dept' => $department,
+            'salary' => $salary,
+			'degis' => $user_role,
+            'c_rate' => $commission
+        );
+	
+		if($this->db->insert('gtg_employees', $data))
+		{
+		echo json_encode(array('status' => 'Success', 'message' =>
+            $this->lang->line('ADDED')));
+        } else {
+            echo json_encode(array('status' => 'Error', 'message' =>
+            $this->lang->line('ERROR')));
+        }	
+			
+			
+		
+		
+		
+	}
 
-
-    public function add_employee($id, $username, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $email, $password)
+    public function add_employee($id, $username, $name, $roleid, $phone, $address, $city, $region, 
+	$country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $email, $password,$user_role)
     {
         $data = array(
             'id' => $id,
@@ -430,6 +467,7 @@ public function list_employee()
             'postbox' => $postbox,
             'phone' => $phone,
             'dept' => $department,
+			'degis' => $user_role,
             'salary' => $salary,
             'c_rate' => $commission
         );
@@ -458,6 +496,8 @@ public function list_employee()
             echo json_encode(array('status' => 'Error', 'message' =>
             $this->lang->line('ERROR')));
         }
+		
+		
     }
 
     public function employee_validate($email)
@@ -578,6 +618,25 @@ function deleterole($id)
 	
 	
 }
+private function send_email($mailto, $mailtotitle, $subject, $message, $attachmenttrue = false, $attachment = '')
+    {
+        $this->load->library('ultimatemailer');
+        $this->db->select('host,port,auth,auth_type,username,password,sender');
+        $this->db->from('gtg_smtp');
+        $query = $this->db->get();
+        $smtpresult = $query->row_array();
+        $host = $smtpresult['host'];
+        $port = $smtpresult['port'];
+        $auth = $smtpresult['auth'];
+        $auth_type = $smtpresult['auth_type'];
+        $username = $smtpresult['username'];;
+        $password = $smtpresult['password'];
+        $mailfrom = $smtpresult['sender'];
+        $mailfromtilte = $this->config->item('ctitle');
+
+        $this->ultimatemailer->bin_send($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
+    }
+
 
 
 
@@ -1031,7 +1090,7 @@ $query = $this->db->get();
 
 
 
-public function addInternational($emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename)
+public function addInternational($emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id)
 {
 	 $data = array(
                 'username' => $emp_name,
@@ -1043,9 +1102,10 @@ public function addInternational($emp_name,$email,$passport,$permit,$country,$co
                 'permit' => $permit,
 				'permit_expiry'=>$permit_expiry,
 				'passport_expiry'=>$passport_expiry,
-				'employee_type'=>$type,
+				'employee_type'=>'foreign',
 			    'passport_document'=>$passport_filename,
 				'visa_document'=>$visa_filename,
+				'degis'=>$role_id,
 
 				);
 	            $this->db->insert('gtg_employees', $data);
@@ -1453,10 +1513,10 @@ public function employee_datatables_query()
 		              $permit_expiry = $this->input->post('permit_expiry');
 
 		   
-        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,gtg_employees.permit,gtg_employees.delete_status,gtg_customers.name as cname');
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,gtg_employees.permit,gtg_employees.delete_status,gtg_system.cname as cname');
 
         $this->db->from('gtg_employees');
-	$this->db->join('gtg_customers', 'gtg_customers.id=gtg_employees.company');
+	$this->db->join('gtg_system', 'gtg_system.id=gtg_employees.company','left');
         $this->db->where('employee_type',"foreign");
 if($active)
 {
@@ -1621,7 +1681,18 @@ public function employee_report_datatables_query()
     }
 
 
-
+public function country_list()
+{
+	
+	$this->db->select('*');
+    $this->db->from('gtg_countries');
+	$query = $this->db->get();
+		
+        return $query->result();
+	
+	
+	
+}
 
 
 
