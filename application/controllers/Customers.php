@@ -20,6 +20,7 @@ class Customers extends CI_Controller
         }
         $this->load->library("Custom");
         $this->li_a = 'crm';
+		$this->li_a == "fwms";
     }
 
     public function index()
@@ -131,25 +132,7 @@ class Customers extends CI_Controller
         //output to json format
         echo json_encode($output);
     }
-public function fwmsclients()
-{
-	   $this->load->library("Custom");
-        $data['dual'] = $this->custom->api_config(65);
-        $this->load->model('transactions_model', 'transactions');
-        $data['cat'] = $this->transactions->categories();
-        $data['accounts'] = $this->transactions->acc_list();
-        $head['title'] = "Fwmsclients";
-        $head['usernm'] = $this->aauth->get_user()->username;
-		//$this->load->model('employee_model', 'employee');
-       // $data['payslip']=$this->payroll->getPayslipList();
-	    
-        $this->load->view('fixed/header', $head);
-        $this->load->view('customers/fwmsclients', $data);
-        $this->load->view('fixed/footer');	
-	
-	
-	
-}
+
 public function fwmseditcustomer()
 {
 	

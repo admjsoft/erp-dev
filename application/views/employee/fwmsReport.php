@@ -45,15 +45,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             <label>Company</label>
 	<select name="company"  class="form-control" onchange="getEmployee(this.value)">
 			<option value="">--Select Company--</option>
-<?php foreach($clients as $client)
-{
-?>
-<option value="<?php echo $client['id']; ?>"><?php echo $client['name'];  ?></option>
 
-<?php
-	
-}	
-	?>
+<option value="<?php echo $organization->id; ?>"><?php echo $organization->cname;  ?></option>
+
+
 			 
                                 </select>
 			

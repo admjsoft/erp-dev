@@ -12,7 +12,7 @@ class Asset extends CI_Controller {
         if (!$this->aauth->premission(9)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
-        $this->li_a = 'emp';
+        $this->li_a = 'asset';
     }
     public function assetlist() {
         $this->load->library("Custom");

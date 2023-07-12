@@ -1172,8 +1172,8 @@ public function getpassportExpiryListSixty()
          $value= $query->row();
 		 $days=$value->days;
 		 
-		$thirtydays=date('Y-m-d',strtotime('+30 days'));
-		$sixtydays=date('Y-m-d',strtotime('+60 days'));
+		$thirtydays=date('Y-m-d',strtotime('+487 days'));
+		$sixtydays=date('Y-m-d',strtotime('+579 days'));
 
         /**$this->db->select('days');
 	    $this->db->from('scheduler');
@@ -1253,9 +1253,9 @@ public function getpassportExpiryList()
 		 $days=$value->days;
 		 		 $current_date=date('Y-m-d');
 
-		$thirtydays=date('Y-m-d',strtotime('+30 days'));
-		$sixtydays=date('Y-m-d',strtotime('+60 days'));
-		$ninentydays=date('Y-m-d',strtotime('+80 days'));
+		$thirtydays=date('Y-m-d',strtotime('+487 days'));
+		//$sixtydays=date('Y-m-d',strtotime('+60 days'));
+		//$ninentydays=date('Y-m-d',strtotime('+80 days'));
 
       
 
@@ -1336,7 +1336,7 @@ public function getpermitExpiryList()
 public function getOrganizationDetails()
 {
 	
-	 $this->db->select('email');
+	 $this->db->select('*');
 	    $this->db->from('gtg_system');
 		  $query = $this->db->get();
 		//print_r($this->db->last_query());
@@ -1552,26 +1552,26 @@ public function employee_report_datatables_query()
        $company = $this->input->post('company');
        $employee = $this->input->post('employee');
         $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.country,gtg_employees.passport,
-		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_customers.name as client');
+		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_system.cname as client');
         $this->db->from('gtg_employees');
 		if(!empty($company) && !empty($employee))
 		{
         $this->db->where('gtg_employees.id',$employee);
-		$this->db->where('gtg_customers.company',$company);
+		$this->db->where('gtg_system.id',$company);
 		 $this->db->where('gtg_employees.employee_type',"foreign");
-		 		 		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
+		 $this->db->join('gtg_system', 'gtg_system.id = gtg_employees.company');
 
 		}
 		else if(!empty($company) && empty($employee))
 		{
-		$this->db->where('gtg_customers.company',$company);
+		$this->db->where('gtg_system.id',$company);
         $this->db->where('gtg_employees.employee_type',"foreign");
-		 		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
+		 $this->db->join('gtg_system', 'gtg_system.id = gtg_employees.company');
 
 		}
 		else{
 		 $this->db->where('gtg_employees.employee_type',"foreign");
-		 		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
+		 $this->db->join('gtg_system', 'gtg_system.id = gtg_employees.company');
 
 		}
 		
