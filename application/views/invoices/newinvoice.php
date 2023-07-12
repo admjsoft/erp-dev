@@ -469,8 +469,8 @@
                                        for="phone"><?php echo $this->lang->line('Phone') ?></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" placeholder="Phone"
-                                           class="form-control margin-bottom" name="phone" id="mcustomer_phone">
+                                    <input type="number" placeholder="Phone"
+                                           class="form-control margin-bottom" pattern="[0-9]*" inputmode="numeric" name="phone" id="mcustomer_phone">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -592,7 +592,7 @@
                                        for="phone_s"><?php echo $this->lang->line('Phone') ?></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" placeholder="Phone"
+                                    <input type="number" placeholder="Phone"  pattern="[0-9]*" inputmode="numeric" 
                                            class="form-control margin-bottom" name="phone_s" id="mcustomer_phone_s">
                                 </div>
                             </div>

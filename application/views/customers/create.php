@@ -80,7 +80,7 @@
                                     for="name"><?php echo $this->lang->line('Contact Number') ?></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" placeholder="Contact" class="form-control margin-bottom b_input"
+                                    <input type="number"  pattern="[0-9]*" inputmode="numeric"  placeholder="Contact" class="form-control margin-bottom b_input"
                                         name="contact">
                                 </div>
                             </div>
@@ -204,7 +204,7 @@
                                             for="phone"><?php echo $this->lang->line('Phone') ?></label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="phone"
+                                            <input type="number"  pattern="[0-9]*" inputmode="numeric"  placeholder="phone"
                                                 class="form-control margin-bottom required b_input" name="phone"
                                                 id="mcustomer_phone">
                                         </div>
@@ -310,7 +310,7 @@
                                             for="phone_s"><?php echo $this->lang->line('Phone') ?></label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="phone"
+                                            <input type="number"  pattern="[0-9]*" inputmode="numeric"  placeholder="phone"
                                                 class="form-control margin-bottom b_input" name="phone_s"
                                                 id="mcustomer_phone_s">
                                         </div>
