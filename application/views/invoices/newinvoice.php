@@ -494,12 +494,12 @@
                             </div>
                             <div class="form-group row">
 
-
-                                <div class="col-sm-6">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="City"
                                            class="form-control margin-bottom" name="city" id="mcustomer_city">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="Region" id="region"
                                            class="form-control margin-bottom" name="region">
                                 </div>
@@ -508,25 +508,25 @@
 
                             <div class="form-group row">
 
-
-                                <div class="col-sm-6">
+                            <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="Country"
                                            class="form-control margin-bottom" name="country" id="mcustomer_country">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="PostBox" id="postbox"
                                            class="form-control margin-bottom" name="postbox">
                                 </div>
                             </div>
 
                             <div class="form-group row">
-
-                                <div class="col-sm-6">
+                            <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="Company"
                                            class="form-control margin-bottom" name="company">
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="TAX ID"
                                            class="form-control margin-bottom" name="taxid" id="mcustomer_city">
                                 </div>
@@ -540,7 +540,7 @@
                                        for="customergroup"><?php echo $this->lang->line('Group') ?></label>
 
                                 <div class="col-sm-10">
-                                    <select name="customergroup" class="form-control form-control-sm">
+                                    <select name="customergroup" class="form-control form-control">
                                         <?php
                                         foreach ($customergrouplist as $row) {
                                             $cid = $row['id'];
@@ -619,12 +619,12 @@
                             </div>
                             <div class="form-group row">
 
-
-                                <div class="col-sm-6">
+                            <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="City"
                                            class="form-control margin-bottom" name="city_s" id="mcustomer_city_s">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="Region" id="region_s"
                                            class="form-control margin-bottom" name="region_s">
                                 </div>
@@ -633,12 +633,12 @@
 
                             <div class="form-group row">
 
-
-                                <div class="col-sm-6">
+                            <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="Country"
                                            class="form-control margin-bottom" name="country_s" id="mcustomer_country_s">
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-5">
                                     <input type="text" placeholder="PostBox" id="postbox_s"
                                            class="form-control margin-bottom" name="postbox_s">
                                 </div>
@@ -680,3 +680,170 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMWSr2YSC6925JdAvbRyfjaiRsF8rPxA4&libraries=places"></script>
+
+<script>
+
+
+var input = document.getElementById('mcustomer_address1');
+var autocomplete = new google.maps.places.Autocomplete(input);
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    var place = autocomplete.getPlace();
+    // Access the address components
+    var addressComponents = place.address_components;
+
+    // Initialize variables to store the address details
+    var city, region, country, postalCode = '';
+
+    // Iterate over the address components to extract desired parameters
+    for (var i = 0; i < addressComponents.length; i++) {
+      var component = addressComponents[i];
+      var componentType = component.types[0];
+
+      // Check for the desired parameters (city, region, country, postbox)
+      if (componentType === 'locality') {
+        city = component.long_name;
+      }
+      if (componentType === 'administrative_area_level_1') {
+        region = component.long_name;
+      }
+      if (componentType === 'country') {
+        country = component.long_name;
+      }
+      if (componentType === 'postal_code' || componentType === 'postal_code_prefix' || componentType === 'postal_code_suffix') {
+        postalCode = component.long_name;
+      }
+    }
+
+    if(city != '' && city != 'undefined'){
+        $('#mcustomer_city').val(city)
+    }
+
+    if(region != '' && region != 'undefined'){
+        $('#region').val(region)
+    }
+    if(country != '' && country != 'undefined'){
+        $('#mcustomer_country').val(country)
+    }
+    if(postalCode != '' && postalCode != 'undefined'){
+        $('#postbox').val(postalCode)
+    }
+        
+
+});
+
+
+
+
+
+
+   
+</script>
+
+<script>
+
+
+var input = document.getElementById('mcustomer_address1_s');
+var autocomplete1 = new google.maps.places.Autocomplete(input);
+google.maps.event.addListener(autocomplete1, 'place_changed', function() {
+    var place1 = autocomplete1.getPlace();
+    // Access the address components
+    var addressComponents1 = place1.address_components;
+
+    // Initialize variables to store the address details
+    var city1, region1, country1, postalCode1 = '';
+
+    // Iterate over the address components to extract desired parameters
+    for (var i = 0; i < addressComponents1.length; i++) {
+      var component1 = addressComponents1[i];
+      var componentType1 = component1.types[0];
+
+      // Check for the desired parameters (city, region, country, postbox)
+      if (componentType1 === 'locality') {
+        city1 = component1.long_name;
+      }
+      if (componentType1 === 'administrative_area_level_1') {
+        region1 = component1.long_name;
+      }
+      if (componentType1 === 'country') {
+        country1 = component1.long_name;
+      }
+      if (componentType1 === 'postal_code' || componentType1 === 'postal_code_prefix' || componentType1 === 'postal_code_suffix') {
+        postalCode1 = component1.long_name;
+      }
+    }
+
+    if(city1 != '' && city1 != 'undefined'){
+        $('#mcustomer_city_s').val(city1)
+    }
+
+    if(region1 != '' && region1 != 'undefined'){
+        $('#region_s').val(region1)
+    }
+    if(country1 != '' && country1 != 'undefined'){
+        $('#mcustomer_country_s').val(country1)
+    }
+    if(postalCode1 != '' && postalCode1 != 'undefined'){
+        $('#postbox_s').val(postalCode1)
+    }
+        
+
+});
+
+
+
+</script>
+
+<script>
+
+
+$("body").on("change", "#mcustomer_email", function(e) {
+    e.preventDefault();
+
+    var email_id = $(this).val();
+    if(email_id){
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)))
+        {
+            $(this).parent().addClass("has-error");
+            $("#statusMsg").removeClass("alert-success").addClass("alert-warning").fadeIn();
+            $("#statusMsg").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
+            $("html, body").animate({scrollTop: $('#statusMsg').offset().top}, 1000);
+            $(this).focus();
+        }else{
+            $(this).parent().removeClass("has-error");
+            $("#statusMsg").fadeOut();
+            $("#statusMsg").html("");
+
+        }
+                    
+    }
+
+});
+
+$("body").on("change", "#mcustomer_email_s", function(e) {
+    e.preventDefault();
+
+    var email_id = $(this).val();
+    if(email_id){
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email_id)))
+        {
+            $(this).parent().addClass("has-error");
+            $("#statusMsg").removeClass("alert-success").addClass("alert-warning").fadeIn();
+            $("#statusMsg").html("<strong>Error</strong>: Please Enter Valid Email Id...!!!");
+            $("html, body").animate({scrollTop: $('#statusMsg').offset().top}, 1000);
+            $(this).focus();
+        }else{
+            $(this).parent().removeClass("has-error");
+            $("#statusMsg").fadeOut();
+            $("#statusMsg").html("");
+
+        }
+                    
+    }
+
+});
+
+
+</script>    
+

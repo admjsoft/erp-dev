@@ -415,10 +415,14 @@ function searchCS(actionurl) {
             success: function (data) {
                 $("#statusMsg").html("<strong>" + data.status + "</strong>: " + data.message);
                 $("#statusMsg").removeClass("alert-warning").addClass("alert-success").fadeIn();
-
-
                 $("html, body").animate({scrollTop: $('html, body').offset().top}, 200);
+                
+                setTimeout(function() { 
 
+                $("#statusMsg").fadeOut();     
+                $("#statusMsg").html("");           
+            
+                },3000);
 
 
                 $('#customer_id').val(data.cid);

@@ -625,3 +625,6 @@ text-transform: capitalize;
 .select2{
         min-width: 14rem;
 }
+.pac-container { 
+    z-index: 9999 !important;
+}

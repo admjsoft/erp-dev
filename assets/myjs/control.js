@@ -834,6 +834,12 @@ function searchCS(actionurl) {
                     $("#statusMsg").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#statusMsg").removeClass("alert-warning").addClass("alert-success").fadeIn();
                     $("html, body").animate({scrollTop: $('html, body').offset().top}, 200);
+                    setTimeout(function() { 
+
+                        $("#statusMsg").fadeOut();     
+                        $("#statusMsg").html("");           
+                    
+                        },3000);
                     $('#customer_id').val(data.cid);
                     $('#customer_name').html('<strong>' + $('#mcustomer_name').val() + '</strong>');
                     $('#customer_address1').html('<strong>' + $('#mcustomer_address1').val() + '<br>' + $('#mcustomer_city').val() + ',' + $('#mcustomer_country').val() + '</strong>');
