@@ -83,7 +83,8 @@
 <script src="<?php echo assets_url('assets/myjs/custom.js') . APPVER; ?>"></script>
 <script src="<?php echo assets_url('assets/myjs/basic.js') . APPVER; ?>"></script>
 <script src="<?php echo assets_url('assets/myjs/control.js') . APPVER; ?>"></script>
-
+<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMWSr2YSC6925JdAvbRyfjaiRsF8rPxA4&libraries=places"></script>
+ -->
 
 <script type="text/javascript">
     $.ajax({
