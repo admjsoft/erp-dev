@@ -29,7 +29,10 @@ class Projects extends CI_Controller
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Project List';
         $data['totalt'] = $this->projects->project_count_all();
+		if(!empty($this->input->get('eid')))
+		{
         $data['eid'] = intval($this->input->get('eid'));
+		}
         $this->load->view('fixed/header', $head);
         $this->load->view('projects/index', $data);
         $this->load->view('fixed/footer');

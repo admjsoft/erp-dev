@@ -19,6 +19,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="content-body">
     <div class="card">
         <div class="card-header">
+		<h5 class="title">
+                <?php echo $this->lang->line('Employee') ?> <a href="<?php echo base_url('employee/add') ?>"
+                                                               class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo $this->lang->line('Add new') ?>
+                </a>
+            </h5>
             <h5><?php echo $this->lang->line('Foreign Employees') ?></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
@@ -98,13 +104,15 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <p><?php echo $this->lang->line('delete this Employee') ?>Are you sure you want to delete this Employee?</p>
+                <p><?php echo $this->lang->line('delete this Employee') ?><?php echo $this->lang->line('This Will Make The Following Employee Inactive?') ?>
+				
+				</p>
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="object-id" value="">
                 <input type="hidden" id="action-url" value="employee/deleteFwmsEmployee">
                 <button type="button" data-dismiss="modal" class="btn btn-primary"
-                        id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
+                        id="delete-confirm"><?php echo $this->lang->line('Continue') ?></button>
                 <button type="button" data-dismiss="modal"
                         class="btn"><?php echo $this->lang->line('Cancel') ?></button>
             </div>

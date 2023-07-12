@@ -1244,3 +1244,8 @@ $lang['Subscriber Message'] = "Subscriber Message";
 $lang['Client'] = "Client";
 $lang['New Pos Invoice'] = "New Pos Invoice";
 $lang['Manage Pos Invoices'] = "Manage Pos Invoices";
+$lang['E-Commerce'] = "E-Commerce";
+$lang['Foreign Worker'] = "Foreign Worker";
+$lang['This Will Make The Following Employee Inactive?'] = "This Will Make The Following Employee Inactive?";
+$lang['Continue'] = "Continue";
+

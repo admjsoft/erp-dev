@@ -31,7 +31,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             <hr>    
          <div id="radio-button" style="Padding-left:28px">
 				<input type="radio" value="foreign" name="chooseradio"
- onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('International') ?>
+ onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('Foreign Worker') ?>
 		<input type="radio" value="domestic" name="chooseradio" checked onclick="getpassportDetails('domestic');">&nbsp;<?php echo $this->lang->line('Domestic') ?>
       </div>
 			<div id="foreign_content" style="display: none;padding-left:50px;">
@@ -48,6 +48,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                    class="form-control margin-bottom b_input" name="emp_name" id="emp_name" required>
                                         </div>
                                     </div>
+									       <?php     if ($this->aauth->premission(38)) {
+											   ?>
+
 									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
@@ -87,6 +90,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                         </div>
                                     </div>
+										   <?php }?>
 									 <?php if ($this->aauth->get_user()->roleid >= 0) { ?>
                 <div class="form-group row">
 
@@ -94,13 +98,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                            for="name"><?php echo $this->lang->line('UserRole') ?></label>
 
                     <div class="col-sm-8">
-                        <select name="roleid" class="form-control margin-bottom">
-                            <option value="4"><?= $this->lang->line('Business Manager') ?></option>
-                            <option value="3"><?= $this->lang->line('Sales Manager') ?></option>
-                            <option value="5"><?= $this->lang->line('Business Owner') ?></option>
-                            <option value="2"><?= $this->lang->line('Sales Person') ?></option>
-                            <option value="1"><?= $this->lang->line('Inventory Manager') ?></option>
-                            <option value="-1"><?= $this->lang->line('Project Manager') ?></option>
+                             <select name="roleid" class="form-control margin-bottom">
+                           <?php foreach($role_list as $role)
+						{
+							?>
+                            <option value="<?php echo $role['role_name'];?>"><?php echo $role['role_name'];?></option>
+						<?php }?>
                         </select>
                     </div>
                 </div>
@@ -177,12 +180,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 												<span class="company_error"></span>
                                                <select name="company" id="company" required class="form-control">
 											    <option value="">--Select--</option>
-										         <?php 
-											 foreach($clients as $client)	
-												{
-?>                                               <option value="<?php echo $client['id']; ?>"><?php echo $client['name'];?></option>
-
-												 <?php }?>												 
+										         <option value="<?php echo $organization->id;?>"><?php echo $organization->cname;?></option>
 											   </select>
 											  
                                         </div>
@@ -192,10 +190,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                                         <label class="col-sm-2 col-form-label"
                                                for="name"><?php echo $this->lang->line('Upload Passport Document') ?></label>
+											
                                         <div class="col-sm-8">
 												<span class="upload_error"></span>
                                     <input type="file"
 required id="file" data-val="true" data-val-required="The ImageURLDetails field is required."  name='passportfile' >
+   (jpg,JPEG,png,pdf)
                                         </div>
                                     </div>
 									<div class="form-group row">
@@ -206,6 +206,7 @@ required id="file" data-val="true" data-val-required="The ImageURLDetails field 
 												<span class="upload_error"></span>
                                     <input type="file"
 required id="file" data-val="true" data-val-required="The field is required."  name='visafile' >
+(jpg,JPEG,png,pdf)
                                         </div>
                                     </div>
 									  <div class="col-sm-4">
@@ -220,7 +221,8 @@ required id="file" data-val="true" data-val-required="The field is required."  n
                    <form method="post" id="data_form" class="card-body">
 			
 	   <div id="domestic">
-
+<?php     if ($this->aauth->premission(38)) {
+											   ?>
 		   <div class="form-group row">
     
                 <label class="col-sm-6 col-form-label"
@@ -258,6 +260,7 @@ required id="file" data-val="true" data-val-required="The field is required."  n
                            placeholder="password">
                 </div>
             </div>
+<?php }?>
             <?php if ($this->aauth->get_user()->roleid >= 0) { ?>
                 <div class="form-group row">
 

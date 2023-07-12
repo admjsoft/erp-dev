@@ -140,7 +140,7 @@ public function reminder()
            
 		    $exppermitlist = $this->employee->getpermitExpiryList();
 			$exppermitlistsixty = $this->employee->getpermitExpiryListSixty();
-	        $exppermitlistninenty = $this->employee->getpermitExpiryListNinenty();
+	       /// $exppermitlistninenty = $this->employee->getpermitExpiryListNinenty();
 			
 			
 		    $schedulefor = $this->employee->getschedulerList();
@@ -411,7 +411,7 @@ $this->load->library('ultimatemailer');
 		$mailtotitle="";
 
 		$attachmenttrue="true";
-	    $mailto1=$permitemail;
+	    $mailto1=$adminemail;
 		$subject1="Permit Reminder";
        $mailer1= $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
 
@@ -441,7 +441,7 @@ foreach($exppermitlistsixty as $exppermitsixty) {
     $cus_name =  $exppermitsixty['cus_name'];
 
 	    $permit =  $exppermitsixty['permit'];
-        $permit_expiry =  $exppermit['permit_expiry'];
+        $permit_expiry =  $exppermitsixty['permit_expiry'];
 		$currentdate=date("Y-m-d");
 $datetime1 = date_create($currentdate);
 $datetime2 = date_create($permit_expiry);
@@ -473,7 +473,7 @@ $this->load->library('ultimatemailer');
 		$mailtotitle="";
 
 		$attachmenttrue="true";
-	    $mailto1=$permitemail;
+	    $mailto1=$adminemail;
 		$subject1="Permit Reminder";
        $mailer1= $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
 
@@ -497,15 +497,15 @@ $this->load->library('ultimatemailer');
 	{
 				$permitmessage='<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
 
-foreach($exppermitlistsixty as $exppermitsixty) {
+foreach($exppermitlistninenty as $expninenty) {
     //do something
-    $permitemail =  $exppermitsixty['email'];
-	 $id =  $exppermitsixty['id'];
-    $permitname =  $exppermitsixty['name'];
-    $cus_name =  $exppermitsixty['cus_name'];
+    $permitemail =  $expninenty['email'];
+	 $id =  $expninenty['id'];
+    $permitname =  $expninenty['name'];
+    $cus_name =  $expninenty['cus_name'];
 
-	    $permit =  $exppermitsixty['permit'];
-        $permit_expiry =  $exppermit['permit_expiry'];
+	    $permit =  $expninenty['permit'];
+        $permit_expiry =  $expninenty['permit_expiry'];
 		$currentdate=date("Y-m-d");
 $datetime1 = date_create($currentdate);
 $datetime2 = date_create($permit_expiry);
@@ -537,19 +537,19 @@ $this->load->library('ultimatemailer');
 		$mailtotitle="";
 
 		$attachmenttrue="true";
-	    $mailto1=$permitemail;
+	    $mailto1=$adminemail;
 		$subject1="Permit Reminder";
        $mailer1= $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
 
 	if($mailer1)
 	{
-		foreach($exppermitlistsixty as $exppermitsixty) 
+foreach($exppermitlistninenty as $expninenty) {
 		{
 		$data = array(
                 'permit_email_sent' =>1
             );
 		   $this->db->set($data);
-           $this->db->where('id', $exppermitsixty['id']);
+           $this->db->where('id', $expninenty['id']);
            $this->db->update('gtg_employees');
 		}
 	}
@@ -560,7 +560,7 @@ $this->load->library('ultimatemailer');
 }
 
 }
-
+}
 if (in_array("2",$explodevariable))
 {
 $clientlist = $this->employee->getclient();
@@ -993,7 +993,7 @@ JSOFT SOLUTION SDN BHD,</p>
 <p>Email : support@jsoftsolution.com.my</p>';
 	$mailto=$passportemail;
 	    $mailtotitle="";
-		$subject="30 Days Passport Reminder";
+		$subject="Passport Renewal Reminder";
 		$message=$content;
 		$attachmenttrue="true";
         $this->load->library('ultimatemailer');
@@ -1055,7 +1055,7 @@ JSOFT SOLUTION SDN BHD,</p>
 <p>Email : support@jsoftsolution.com.my</p>';
 	$mailto=$passportemail;
 	    $mailtotitle="";
-		$subject="60 Days  Passport Reminder";
+		$subject="Passport Renewal Reminder";
 		$message=$content;
 		$attachmenttrue="true";
         $this->load->library('ultimatemailer');
@@ -1088,7 +1088,7 @@ JSOFT SOLUTION SDN BHD,</p>
 
 	
 	}
-	
+	/*
 			if(!empty($exppassportlistninenty))
 	{
 		$message='<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
@@ -1149,7 +1149,7 @@ JSOFT SOLUTION SDN BHD,</p>
 }
 
 	}
-	
+	*/
 	
 	
 	
@@ -1197,7 +1197,7 @@ JSOFT SOLUTION SDN BHD,</p>
 		
 		$attachmenttrue="true";
 	  $mailto1=$permitemail;
-		$subject1="Permit Reminder";
+		$subject1="Permit Renewal Reminder";
 		 $message1=$content1;
        $mailer1= $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $message1, $attachmenttrue, '');
 
@@ -1211,12 +1211,128 @@ JSOFT SOLUTION SDN BHD,</p>
            $this->db->update('gtg_employees');
 	}
 }
-
-	}
 }
 	
+	if(!empty($exppermitlistsixty))
+	{
+foreach($exppermitlistsixty as $exppermitsixty) {
+    //do something
+    $permitemail =  $exppermitsixty['email'];
+	 $id =  $exppermitsixty['id'];
+    $permitname =  $exppermitsixty['name'];
+    $cus_name =  $exppermitsixty['cus_name'];
+
+	    $permit =  $exppermitsixty['permit'];
+        $permit_expiry =  $exppermitsixty['permit_expiry'];
+$this->load->library('ultimatemailer');
+        $this->db->select('host,port,auth,auth_type,username,password,sender');
+        $this->db->from('gtg_smtp');
+        $query = $this->db->get();
+        $smtpresult = $query->row_array();
+        $host = $smtpresult['host'];
+        $port = $smtpresult['port'];
+        $auth = $smtpresult['auth'];
+        $auth_type = $smtpresult['auth_type'];
+        $username = $smtpresult['username'];;
+        $password = $smtpresult['password'];
+        $mailfrom = $smtpresult['sender'];
+        $mailfromtilte = $this->config->item('ctitle');
+	 $content1='<p>Dear Employee '.$permitname.'</p>
+	<p>We are reaching out you in regard to the expiry of your permit with the permit No '.$permit.' on '.$permit_expiry.'</p>
+	<p>Kindly proceed for the renewal process. </p></br>
+	</br>
+
+Thank you and regards.
+
+<p>
+JSOFT SOLUTION SDN BHD,</p>
+<p>16-03-C</br></p>
+<p>Phone : +0374956282</p>
+<p>Email : support@jsoftsolution.com.my</p>';
+		    $mailtotitle="";
+		
+		$attachmenttrue="true";
+	  $mailto1=$permitemail;
+		$subject1="Permit Renewal Reminder";
+		 $message1=$content1;
+       $mailer1= $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $message1, $attachmenttrue, '');
+
+	if($mailer1)
+	{
+		$data = array(
+                'permit_email_sent' =>1
+            );
+		   $this->db->set($data);
+           $this->db->where('id', $id);
+           $this->db->update('gtg_employees');
+	}
+}
+	}
+
+if(!empty($exppermitlistninenty))
+{
+foreach($exppermitlistninenty as $expninenty) {
+    //do something
+    $permitemail =  $expninenty['email'];
+	 $id =  $expninenty['id'];
+    $permitname =  $expninenty['name'];
+    $cus_name =  $expninenty['cus_name'];
+
+	    $permit =  $expninenty['permit'];
+        $permit_expiry =  $expninenty['permit_expiry'];
+		$currentdate=date("Y-m-d");
+$this->load->library('ultimatemailer');
+        $this->db->select('host,port,auth,auth_type,username,password,sender');
+        $this->db->from('gtg_smtp');
+        $query = $this->db->get();
+        $smtpresult = $query->row_array();
+        $host = $smtpresult['host'];
+        $port = $smtpresult['port'];
+        $auth = $smtpresult['auth'];
+        $auth_type = $smtpresult['auth_type'];
+        $username = $smtpresult['username'];;
+        $password = $smtpresult['password'];
+        $mailfrom = $smtpresult['sender'];
+        $mailfromtilte = $this->config->item('ctitle');
+	 $content1='<p>Dear Employee '.$permitname.'</p>
+	<p>We are reaching out you in regard to the expiry of your permit with the permit No '.$permit.' on '.$permit_expiry.'</p>
+	<p>Kindly proceed for the renewal process. </p></br>
+	</br>
+
+Thank you and regards.
+
+<p>
+JSOFT SOLUTION SDN BHD,</p>
+<p>16-03-C</br></p>
+<p>Phone : +0374956282</p>
+<p>Email : support@jsoftsolution.com.my</p>';
+		    $mailtotitle="";
+		
+		$attachmenttrue="true";
+	  $mailto1=$permitemail;
+		$subject1="Permit Renewal Reminder";
+		 $message1=$content1;
+       $mailer1= $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $message1, $attachmenttrue, '');
+
+	if($mailer1)
+	{
+		$data = array(
+                'permit_email_sent' =>1
+            );
+		   $this->db->set($data);
+           $this->db->where('id', $id);
+           $this->db->update('gtg_employees');
+	}
+}
+}
+
+
+
+
 	
-	
+
+
+	}
 	
 	
 }

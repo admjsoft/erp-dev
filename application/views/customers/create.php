@@ -92,6 +92,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                    class="form-control margin-bottom b_input" name="incharge">
                                         </div>
                                     </div>
+									<?php     if ($this->aauth->premission(39)) {
+										?>
 									  <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
@@ -116,7 +118,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                    class="form-control margin-bottom b_input" name="password_c"
                                                    id="password_c">
                                         </div>
-                                    </div>                                    <div class="form-group row">
+                                    </div>      
+									<?php
+									}
+									?>
+									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
                                                for="currency">Language</label>
@@ -451,6 +457,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                             </select>
                                         </div>
                                     </div>
+									<?php     if ($this->aauth->premission(39)) {
+										?>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
@@ -476,7 +484,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                    id="password_c">
                                         </div>
                                     </div>
-
+									<?php } ?>
 
                                 </div>
                                 <div class="tab-pane show" id="tab4" role="tabpanel" aria-labelledby="base-tab4">

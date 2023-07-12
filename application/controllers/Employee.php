@@ -74,6 +74,9 @@ class Employee extends CI_Controller
         $data['dept'] = $this->employee->department_list(0);
         $data['clients'] = $this->employee->get_client_list();
 	 $data['role_list'] = $this->employee->role_list();
+ $orgId = $_SESSION['loggedin'];
+	// $this->load->model('payroll_model', 'payroll');
+     $data['organization'] =$this->employee->getOrganizationDetails($orgId);
 
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/add', $data);
@@ -240,7 +243,7 @@ public function reminder()
 if (in_array("1",$explodevariable))
 {
 
-	// $orgId = $_SESSION['loggedin'];
+	 $orgId = $_SESSION['loggedin'];
 	// $this->load->model('payroll_model', 'payroll');
     $organization =$this->employee->getOrganizationDetails($orgId);
 	$adminemail=$organization->email;

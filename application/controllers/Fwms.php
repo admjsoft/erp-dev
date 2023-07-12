@@ -73,7 +73,9 @@ public function fwmsreport()
         $head['usernm'] = $this->aauth->get_user()->username;
 		$this->load->model('employee_model', 'employee');
         $data['clients'] = $this->employee->get_client_list();
-
+$orgId = $_SESSION['loggedin'];
+	// $this->load->model('payroll_model', 'payroll');
+     $data['organization'] =$this->employee->getOrganizationDetails($orgId);
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/fwmsReport', $data);
         $this->load->view('fixed/footer');
