@@ -63,7 +63,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" placeholder="address"
-                                       class="form-control margin-bottom" name="address"
+                                       class="form-control margin-bottom required" name="address"
                                        value="<?php echo $user['address'] ?>">
                             </div>
                         </div>
@@ -84,9 +84,14 @@
                                    for="country"><?php echo $this->lang->line('Country') ?></label>
 
                             <div class="col-sm-10">
-                                <input type="text" placeholder="Country"
-                                       class="form-control margin-bottom" name="country"
-                                       value="<?php echo $user['country'] ?>">
+                             
+									    <select name="country" class="form-control margin-bottom b_input required" id="country">
+                                              <option value="">--Select Country--</option>												 
+												 <?php foreach($country as $cntry)
+												 {
+?>												 <option value="<?php echo $cntry->id;?>" <?php if($cntry->id==$user['country']){ echo"selected";}?>><?php echo $cntry->country_name;?></option>
+												 <?php }
+												 ?></select>
                             </div>
                         </div>
 
@@ -108,7 +113,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" placeholder="phone"
-                                       class="form-control margin-bottom" name="phone"
+                                       class="form-control margin-bottom required" name="phone"
                                        value="<?php echo $user['phone'] ?>">
                             </div>
                         </div>
@@ -130,7 +135,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" placeholder="email"
-                                       class="form-control margin-bottom  required" name="email"
+                                       class="form-control margin-bottom" name="email"
                                        value="<?php echo $user['email'] ?>" disabled>
                             </div>
                         </div>
@@ -161,17 +166,13 @@
 
                                 <div class="col-sm-5">
                                     <select name="roleid"
-                                            class="form-control margin-bottom" <?php if ($user['roleid'] == 5) echo 'disabled' ?>>
-                                        <option value="<?= $user['roleid'] ?>">--<?= user_role($user['roleid']) ?>--
-                                        </option>
-                                        <option value="4"><?= $this->lang->line('Business Manager') ?></option>
-                                        <option value="3"><?= $this->lang->line('Sales Manager') ?></option>
-                                        <option value="5"><?= $this->lang->line('Business Owner') ?></option>
-                                        <option value="2"><?= $this->lang->line('Sales Person') ?></option>
-                                        <option value="1"><?= $this->lang->line('Inventory Manager') ?></option>
-                                        <option value="-1"><?= $this->lang->line('Project Manager') ?></option>
-                                      <!--  <option value="7"><?= $this->lang->line('Developer') ?>Developer</option>
-                                        <option value="8"><?= $this->lang->line('Support') ?>Support</option>-->
+                                            class="form-control margin-bottom required" <?php if ($user['roleid'] == 5) echo 'disabled' ?>>
+                                        <option value="">--Select Role--</option>
+                           <?php foreach($role_list as $role)
+						{
+							?>
+                            <option value="<?php echo $role['id'];?>" <?php if($role['id']==$user['degis']){ echo"selected";}?> /><?php echo $role['role_name'];?></option>
+						<?php }?>
                                     </select>
                                 </div>
                             </div>
@@ -183,15 +184,18 @@
                                    for="name"><?php echo $this->lang->line('Department') ?></label>
 
                             <div class="col-sm-5">
-                                <select name="department" class="form-control margin-bottom">
+                                <select name="department" class="form-control margin-bottom required">
                                     <option value="<?php echo $user['dept'] ?>"><?php echo $this->lang->line('Do not change') ?></option>
                                     <option value="0"><?php echo $this->lang->line('Default') . ' - ' . $this->lang->line('No') ?></option>
                                     <?php
 
                                     foreach ($dept as $row) {
-                                        echo ' <option value="' . $row['id'] . '"> ' . $row['val1'] . '</option>';
-                                    }
+										?>
+		 <option value="<?php echo $row['id'] ;?>" <?php if($row['id']==$user['dept']){ echo"selected";}?> /><?php echo $row['val1'];?></option>
 
+										<?php
+									}
+                                        
                                     ?>
                                 </select>
                             </div>

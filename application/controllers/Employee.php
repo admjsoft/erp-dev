@@ -74,6 +74,8 @@ class Employee extends CI_Controller
         $data['dept'] = $this->employee->department_list(0);
         $data['clients'] = $this->employee->get_client_list();
 	 $data['role_list'] = $this->employee->role_list();
+	 	 $data['country'] = $this->employee->country_list();
+          
  $orgId = $_SESSION['loggedin'];
 	// $this->load->model('payroll_model', 'payroll');
      $data['organization'] =$this->employee->getOrganizationDetails($orgId);
@@ -85,6 +87,7 @@ class Employee extends CI_Controller
 
     public function submit_user()
     {
+
         if ($this->aauth->get_user()->roleid < 4) {
             redirect('/dashboard/', 'refresh');
         }
@@ -92,21 +95,24 @@ class Employee extends CI_Controller
         $username = $this->input->post('username', true);
 
         $password = $this->input->post('password', true);
-        $roleid = 3;
-        if ($this->input->post('roleid')) {
+      //  $roleid = 3;
+      //  if ($this->input->post('roleid')) {
             $roleid = $this->input->post('roleid');
-        }
-
-        if ($roleid > 3) {
-            if ($this->aauth->get_user()->roleid < 5) {
-                die('No! Permission');
-            }
-        }
- 
-
+        //}
+	
+        //if ($roleid > 3) {
+          //  if ($this->aauth->get_user()->roleid < 5) {
+           //     die('No! Permission');
+           // }
+      //  }
+       
+              
+         $user_role=$this->input->post('roleid', true);
+		
         $location = $this->input->post('location', true);
         $name = $this->input->post('name', true);
-        $phone = $this->input->post('phone', true);
+         $phone = $this->input->post('phone', true);
+	   
         $email = $this->input->post('email', true);
         $address = $this->input->post('address', true);
         $city = $this->input->post('city', true);
@@ -116,22 +122,33 @@ class Employee extends CI_Controller
         $salary = numberClean($this->input->post('salary', true));
         $commission = $this->input->post('commission', true);
         $department = $this->input->post('department', true);
+         if(!empty($email)&&!empty($password)&&!empty($username))
+		 {
+         $a = $this->aauth->create_user($email, $password, $username);
 
-
-        $a = $this->aauth->create_user($email, $password, $username);
-
-        if ((string)$this->aauth->get_user($a)->id != $this->aauth->get_user()->id) {
-            $nuid = (string)$this->aauth->get_user($a)->id;
-              
+       if ((string)$this->aauth->get_user($a)->id != $this->aauth->get_user()->id) {
+             $nuid = (string)$this->aauth->get_user($a)->id;
+    
             if ($nuid > 0) {
-
-                $this->employee->add_employee($nuid, (string)$this->aauth->get_user($a)->username, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department);
+                $this->employee->add_employee($nuid, (string)$this->aauth->get_user($a)->username, $name, $roleid, $phone, $address, $city, 
+				$region, $country, $postbox, $location, $salary, $commission,$department,$email, $password,$user_role);
             }
         } else {
 
             echo json_encode(array('status' => 'Error', 'message' =>
             'There has been an error, please try again.'));
         }
+		 }
+		 
+		 else{
+		  $this->employee->add_employee_new($username,$email,$name,$roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department,$user_role);
+
+			 
+			 
+		 }
+		
+		
+		
     }
 
     public function invoices()
@@ -1330,14 +1347,15 @@ JSOFT SOLUTION SDN BHD,</p>
             $roleid = $this->input->post('roleid', true);
             $this->employee->update_employee($eid, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary, $department, $commission, $roleid);
         } else {
-            $head['usernm'] = $this->aauth->get_user($id)->username;
-            $head['title'] = $head['usernm'] . ' Profile';
+            //$head['usernm'] = $this->aauth->get_user($id)->username;
+           // $head['title'] = $head['usernm'] . ' Profile';
 
-
+	 	      $data['country'] = $this->employee->country_list();
             $data['user'] = $this->employee->employee_details($id);
             $data['dept'] = $this->employee->department_list($id, $this->aauth->get_user()->loc);
+		     $data['role_list'] = $this->employee->role_list();
             $data['eid'] = intval($id);
-            $this->load->view('fixed/header', $head);
+            $this->load->view('fixed/header');
             $this->load->view('employee/edit', $data);
             $this->load->view('fixed/footer');
         }
@@ -1895,9 +1913,15 @@ public function fwmsemplyeeedit()
 		        $id = $this->input->get('id');
         $data['clients'] = $this->employee->get_client_list();
 	    $data['employee'] = $this->employee->employee_foreign_details($id);
-
+		//print_r($data['employee']);
+ $data['role_list'] = $this->employee->role_list();
+	 	 $data['country'] = $this->employee->country_list();
 		//$this->load->model('employee_model', 'employee');
        // $data['payslip']=$this->payroll->getPayslipList();
+        
+ $orgId = $_SESSION['loggedin'];
+	// $this->load->model('payroll_model', 'payroll');
+     $data['organization'] =$this->employee->getOrganizationDetails($orgId);
 
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/fwmsemployeeedit', $data);
@@ -2154,9 +2178,23 @@ public function getfwmsEmployees()
 			$row[]= $no;
             $row[] = $prd->name;
             $row[] = $prd->cname;
+			if(!empty($prd->passport_document))
+			{
             $row[] = $ps;
+			}
+			else{
+				            $row[] = $prd->passport;
+
+			}
 			$row[] = '<b style="color:red">'.$prd->passport_expiry.'</b>';
+			if(!empty($prd->visa_document))
+			{
             $row[] = $vs;
+			}
+			else{
+				$row[] = $prd->permit;
+
+			}
 			$row[] = '<b style="color:red">'.$prd->permit_expiry.'';
 			$row[]=$status;
 
@@ -2190,9 +2228,12 @@ public function saveInternational()
 	$company= $this->input->post('company');
 	$passport_expiry= $this->input->post('passport_expiry');
 	$permit_expiry= $this->input->post('permit_expiry');
+	
     $username = $this->input->post('user_name', true);
    // $attach = $_FILES['image']['name'];
 	$email= $this->input->post('user_email');
+		$role_id= $this->input->post('roleid');
+
 
         $password = $this->input->post('user_password', true);
         $roleid = 3;
@@ -2224,15 +2265,15 @@ public function saveInternational()
         $config['encrypt_name'] = FALSE;
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('passportfile')) {
-            $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            echo json_encode($error);
-        } else {
+           // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+           // echo json_encode($error);
+                    $passport_filename ='';
+
+		} else {
             $data = array('upload_data' => $this->upload->data());
             $passport_filename = $data['upload_data']['file_name'];
 		}
-		  if($attach1)
-		  {
-		  
+		
 		   $data['status'] = 'danger';
         $data['message'] = $this->lang->line('No file error');
         $config['upload_path'] = './userfiles/passport/';
@@ -2241,17 +2282,18 @@ public function saveInternational()
         $config['file_name'] = time() . str_replace(' ', '_', $attach1);
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('visafile')) {
-            $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            echo json_encode($error);
+          //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+           // echo json_encode($error);
+		   $visa_filename='';
         } else {
             $data = array('upload_data' => $this->upload->data());
              $visa_filename = $data['upload_data']['file_name'];
 		}
-		  }
 		  
 		  
 		  
-	$insert=$this->employee->addInternational($emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename);
+		  
+	$insert=$this->employee->addInternational($emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id);
 
 		  
    

@@ -76,12 +76,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                     <div class="col-sm-5">
                         <select name="roleid" class="form-control margin-bottom">
-                            <option value="4"><?= $this->lang->line('Business Manager') ?></option>
-                            <option value="3"><?= $this->lang->line('Sales Manager') ?></option>
-                            <option value="5"><?= $this->lang->line('Business Owner') ?></option>
-                            <option value="2"><?= $this->lang->line('Sales Person') ?></option>
-                            <option value="1"><?= $this->lang->line('Inventory Manager') ?></option>
-                            <option value="-1"><?= $this->lang->line('Project Manager') ?></option>
+                                            <option value="">--Select Role--</option>
+                           <?php foreach($role_list as $role)
+						{
+							?>
+                            <option value="<?php echo $role['id'];?>" <?php if($role['id']==$employee->degis){ echo"selected";}?> /><?php echo $role['role_name'];?></option>
+						<?php }?>
                         </select>
                     </div>
                 </div>
@@ -142,9 +142,13 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                for="name"><?php echo $this->lang->line('Country') ?></label>
                                         <div class="col-sm-8">
 										<span class="country_error"></span>
-                                            <input type="text" placeholder="country"
-                                                   class="form-control margin-bottom b_input" value="<?php echo $employee->country;?>" name="country" id="country">
-                                        </div>
+                                            <select name="country" class="form-control margin-bottom b_input required" id="country">
+                                              <option value="">--Select Country--</option>												 
+												 <?php foreach($country as $cntry)
+												 {
+?>												 <option value="<?php echo $cntry->id;?>" <?php if($cntry->id==$employee->country){ echo"selected";}?>><?php echo $cntry->country_name;?></option>
+												 <?php }
+												 ?></select>  </div>
                                     </div>
 									<div class="form-group row">
                                      <?php 
@@ -156,17 +160,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                for="name"><?php echo $this->lang->line('Company') ?></label>
                                         <div class="col-sm-8">
 												<span class="company_error"></span>
-                                               <select name="company" id="company" class="form-control"required>
+                                            
+										    <select name="company" id="company" required class="form-control">
 											    <option value="">--Select--</option>
-										         <?php 
-											 foreach($clients as $client)	
-												{
-                                                  
-												   ?>                                              
-                                <option value="<?php echo $client['id']; ?>" <?php
-								if($client['id']==$employee->company){echo"selected";}?>><?php echo $client['name'];?></option>
-
-												 <?php }?>												 
+										      <option value="<?php echo $organization->id;?>" <?php if($organization->id==$employee->company){
+												  echo"selected";}?>><?php echo $organization->cname;?></option>
+											   </select>							 
 											   </select>
 											  
                                         </div>
