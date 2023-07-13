@@ -35,11 +35,22 @@ unset($_SESSION['status']);unset($_SESSION['message']);
  <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Company Name') ?></label>
+                                               for="name"><?php echo $this->lang->line('Name') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Company"
                                                    class="form-control margin-bottom b_input" name="company_name">
+                                        </div>
+                                    </div>
+									
+                                       <div class="form-group row">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Company') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="Company"
+                                                   class="form-control margin-bottom b_input" name="company">
                                         </div>
                                     </div>
 									<div class="form-group row">

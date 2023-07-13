@@ -1538,12 +1538,31 @@ $('.nav-menu-main').removeClass('is-active');
 				{
 						   if ($this->aauth->premission(32)) 
 						   {
+						if ($this->aauth->get_user()->roleid == 2) {
 							   ?>
 
 				 <li class="menu-item  has-sub <?php if ($this->li_a == "fwms") {
                     echo ' open';
                 } ?>""><a href="#"><i
                             class="ft-file-text"></i><span><?php echo "FWMS"; ?></span></a>
+							
+                <ul class="menu-content">
+
+                    <li class="menu-item">
+                        <a href="<?php echo base_url(); ?>fwms/fwmsemployees"><i
+                                    class=""></i> <?php echo $this->lang->line('Employees'); ?></a>
+                    </li>
+                     
+                </ul>
+			</li><?php
+						}
+						else{
+						?>	
+						<li class="menu-item  has-sub <?php if ($this->li_a == "fwms") {
+                    echo ' open';
+                } ?>""><a href="#"><i
+                            class="ft-file-text"></i><span><?php echo "FWMS"; ?></span></a>
+							
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>fwms/fwmsclients"><i
                                     class=""></i> <?php echo $this->lang->line('Clients') ?></a>
@@ -1559,7 +1578,12 @@ $('.nav-menu-main').removeClass('is-active');
 
 
                 </ul>
-			</li><?php
+			</li>	
+					<?php		
+							
+							
+						}
+						
 			}
 				}
 				else{

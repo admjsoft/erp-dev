@@ -187,11 +187,11 @@ class Customers_model extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
-public function addInternational($company_name,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type)
+public function addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type)
 {
 	            $data = array(
                 'name' => $company_name,
-                'company' => $company_name,
+                'company' => $company,
                 'phone' => $contact,
                 'email' => $email,
                 'address' => $address,
@@ -237,12 +237,13 @@ public function addInternational($company_name,$address,$roc,$email,$contact,$in
             } 
 			
 }
-public function updateInternational($update_id,$company_name,$address,$roc,$email,$contact,$incharge,$type)
+public function updateInternational($update_id,$company_name,$company,$address,$roc,$email,$contact,$incharge,$type)
 {
 	$type="foreign";
 	 $data = array(
                 'name' => $company_name,
                 'company' => $company_name,
+				 'company' => $company,
                 'phone' => $contact,
                 'email' => $email,
                 'address' => $address,

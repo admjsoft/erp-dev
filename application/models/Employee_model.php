@@ -539,6 +539,20 @@ public function list_employee()
 		
 		
 	}
+	public function client_list()
+	{
+		$this->db->select('id,company');
+        $this->db->from('gtg_customers');
+        $this->db->where('customer_type',"foreign");
+        $query = $this->db->get();
+        return $query->result_array();
+		
+		
+		
+	}
+	
+	
+	
 	
 	public function getRole($id)
 	{
@@ -1086,11 +1100,35 @@ $query = $this->db->get();
         return $query->result_array();
 	
 }
+public function addInternational_new(
+			$emp_name,$roleid,$passport,$permit,
+			$country,$company,$type,$passport_expiry,$permit_expiry,
+			$passport_filename,$visa_filename,$role_id)
+			{
+				
+					 $data = array(
+                'name' => $emp_name,
+                'country' => $country,
+                'company' => $company,
+                'passport' => $passport,
+                'permit' => $permit,
+				'permit_expiry'=>$permit_expiry,
+				'passport_expiry'=>$passport_expiry,
+				'employee_type'=>'foreign',
+			    'passport_document'=>$passport_filename,
+				'visa_document'=>$visa_filename,
+				'degis'=>$role_id,
+
+				);
+	            $this->db->insert('gtg_employees', $data);
+				
+				
+				
+			}
 
 
-
-
-public function addInternational($emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id)
+public function addInternational($id,$username,$emp_name,$email,$roleid,$passport,$permit,
+$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id)
 {
 	 $data = array(
                 'username' => $emp_name,
@@ -1110,7 +1148,14 @@ public function addInternational($emp_name,$email,$passport,$permit,$country,$co
 				);
 	            $this->db->insert('gtg_employees', $data);
 				$insert_id = $this->db->insert_id();
+            $data1 = array(
+                'roleid' => $roleid
+            );
+          
+            $this->db->set($data1);
+            $this->db->where('id', $id);
 
+            $this->db->update('gtg_users');
    return  $insert_id;
 
 }
@@ -1505,19 +1550,25 @@ public function getpermitExpiryListNinenty()
 
 public function employee_datatables_query()
     {
-				 $currentdate=date("Y-m-d");
+		$empid=$_SESSION['id'];
+		
+		$currentdate=date("Y-m-d");
 
             $active = $this->input->post('active');
 		  $permitactive = $this->input->post('permit_active');
            $passport_expiry = $this->input->post('passport_expiry');
-		              $permit_expiry = $this->input->post('permit_expiry');
+		   $permit_expiry = $this->input->post('permit_expiry');
 
 		   
-        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,gtg_employees.permit,gtg_employees.delete_status,gtg_system.cname as cname');
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,gtg_employees.permit,gtg_employees.delete_status,gtg_customers.company as cname');
 
         $this->db->from('gtg_employees');
-	$this->db->join('gtg_system', 'gtg_system.id=gtg_employees.company','left');
-        $this->db->where('employee_type',"foreign");
+	    $this->db->join('gtg_customers', 'gtg_customers.id=gtg_employees.company','left');
+        $this->db->where('gtg_employees.employee_type',"foreign");
+		if($this->aauth->get_user()->roleid == 2)
+		{
+	      $this->db->where('gtg_employees.id',$empid);
+		}
 if($active)
 {
 	          $this->db->where('passport_expiry>=',$currentdate);
@@ -1612,26 +1663,26 @@ public function employee_report_datatables_query()
        $company = $this->input->post('company');
        $employee = $this->input->post('employee');
         $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.country,gtg_employees.passport,
-		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_system.cname as client');
+		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_customers.company as client');
         $this->db->from('gtg_employees');
 		if(!empty($company) && !empty($employee))
 		{
         $this->db->where('gtg_employees.id',$employee);
-		$this->db->where('gtg_system.id',$company);
+		$this->db->where('gtg_customers.id',$company);
 		 $this->db->where('gtg_employees.employee_type',"foreign");
-		 $this->db->join('gtg_system', 'gtg_system.id = gtg_employees.company');
+		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		else if(!empty($company) && empty($employee))
 		{
-		$this->db->where('gtg_system.id',$company);
+		$this->db->where('gtg_customers.id',$company);
         $this->db->where('gtg_employees.employee_type',"foreign");
-		 $this->db->join('gtg_system', 'gtg_system.id = gtg_employees.company');
+		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		else{
 		 $this->db->where('gtg_employees.employee_type',"foreign");
-		 $this->db->join('gtg_system', 'gtg_system.id = gtg_employees.company');
+		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		

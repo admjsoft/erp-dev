@@ -199,7 +199,13 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 												<span class="company_error"></span>
                                                <select name="company" id="company" required class="form-control">
 											    <option value="">--Select--</option>
-										         <option value="<?php echo $organization->id;?>"><?php echo $organization->cname;?></option>
+										         <?php foreach($client_list as $client)
+												 {
+													?>
+													<option value="<?php echo $client['id'];?>"><?php echo $client['company'];?></option>
+                                             <?php													
+												 }
+												 ?>
 											   </select>
 											  
                                         </div>

@@ -160,13 +160,17 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                                for="name"><?php echo $this->lang->line('Company') ?></label>
                                         <div class="col-sm-8">
 												<span class="company_error"></span>
-                                            
-										    <select name="company" id="company" required class="form-control">
-											    <option value="">--Select--</option>
-										      <option value="<?php echo $organization->id;?>" <?php if($organization->id==$employee->company){
-												  echo"selected";}?>><?php echo $organization->cname;?></option>
-											   </select>							 
-											   </select>
+                                            										    <select name="company" id="company" required class="form-control">
+
+                                             <?php foreach($client_list as $client)
+												 {
+													?>
+													<option value="<?php echo $client['id'];?>" <?php if($client['id']==$employee->company){ echo"selected";}?>
+												><?php echo $client['company'];?></option>
+                                             <?php													
+												 }
+												 ?>
+												 </select>
 											  
                                         </div>
                                     </div>

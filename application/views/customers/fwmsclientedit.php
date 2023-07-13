@@ -39,7 +39,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <div class="tab-pane active show" id="tab1" role="tabpanel" aria-labelledby="base-tab1">
                                     <div class="form-group row mt-1">
                                          <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Company Name') ?></label>
+                                               for="name"><?php echo $this->lang->line('Name') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Company"
@@ -47,6 +47,17 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 												   value="<?php echo $client->name;?>"
 												   
 												   required>
+                                        </div>
+                                    </div>
+									
+									 <div class="form-group row">
+
+                                         <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Company') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" 
+                                                   class="form-control margin-bottom b_input" name="company"  value="<?php echo $client->company;?>" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">

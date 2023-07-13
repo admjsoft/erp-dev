@@ -24,8 +24,11 @@ class Employee_model extends CI_Model
 
 public function employee_datatables_query()
     {
+		
             $cid = $this->input->post('cid');
-        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport,gtg_employees.permit,gtg_customers.name as cname');
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,
+		gtg_employees.delete_status,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,gtg_employees.permit_expiry,
+		gtg_employees.permit,gtg_customers.company as cname');
         $this->db->from('gtg_employees');
 	$this->db->join('gtg_customers', 'gtg_customers.id=gtg_employees.company');
         $this->db->where('employee_type',"foreign");
@@ -159,8 +162,10 @@ public function employee_report_datatables_query()
 	   $company = $this->input->post('company');
        $expiry = $this->input->post('expiry');
        $employee = $this->input->post('employee');
-        $this->db->select('*');
+        $this->db->select('gtg_employees.*,gtg_countries.country_name');
         $this->db->from('gtg_employees');
+        $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.company', 'left');
+
 		if(empty($expiry) && !empty($employee))
 		{
         $this->db->where('id',$employee);
@@ -209,6 +214,7 @@ public function employee_report_datatables_query()
 		}
 		else{
 		 $this->db->where('employee_type',"foreign");
+		$this->db->where('company',$company);
 
 		}
 		
@@ -257,7 +263,22 @@ public function employee_report_datatables_query()
         return $query->num_rows();
     }
 
+  public function details_by_username($username)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_employees');
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+	
+public function demo()
+{
+	echo"check";
+	
+	
+	
 
-
+}
 
 }

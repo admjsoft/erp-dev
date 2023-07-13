@@ -697,7 +697,6 @@ class Aauth
     public function create_user($email, $pass, $username = FALSE)
     {
 
-
         $valid = TRUE;
 
         if ($this->config_vars['login_with_name'] == TRUE) {
@@ -707,25 +706,29 @@ class Aauth
             }
         }
         if ($this->user_exist_by_username($username) && $username != FALSE) {
+
             $this->error($this->CI->lang->line('aauth_error_username_exists'),true);
             $valid = FALSE;
         }
 
         if ($this->user_exist_by_email($email)) {
+
             $this->error($this->CI->lang->line('aauth_error_email_exists'),true);
             $valid = FALSE;
         }
         $valid_email = (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!$valid_email) {
+
             $this->error($this->CI->lang->line('aauth_error_email_invalid'),true);
             $valid = FALSE;
         }
         if (strlen($pass) < $this->config_vars['min'] or strlen($pass) > $this->config_vars['max']) {
+
             $this->error($this->CI->lang->line('aauth_error_password_invalid'),true);
             $valid = FALSE;
         }
         if ($username != FALSE && !ctype_alnum(str_replace($this->config_vars['additional_valid_chars'], '', $username))) {
-            $this->error($this->CI->lang->line('aauth_error_username_invalid'),true);
+			$this->error($this->CI->lang->line('aauth_error_username_invalid'),true);
             $valid = FALSE;
         }
         if (!$valid) {
@@ -742,11 +745,9 @@ class Aauth
 
 
 
-
         if ($this->aauth_db->insert($this->config_vars['users'], $data)) {
 
-            $user_id = $this->aauth_db->insert_id();
-
+             $user_id = $this->aauth_db->insert_id();
             // set default group
             //  $this->add_member($user_id, $this->config_vars['default_group']);
 

@@ -29,7 +29,9 @@ class Dashboard extends CI_Controller
         $today = date("Y-m-d");
         $month = date("m");
         $year = date("Y");
+		
         if ($this->aauth->get_user()->roleid > 3) {
+
             $data['todayin'] = $this->dashboard_model->todayInvoice($today);
             $data['todayprofit'] = $this->dashboard_model->todayProfit($today);
             $data['incomechart'] = $this->dashboard_model->incomeChart($today, $month, $year);
@@ -62,6 +64,7 @@ class Dashboard extends CI_Controller
             $this->load->view('dashboard', $data);
             $this->load->view('fixed/footer');
         } else if ($this->aauth->premission(4)) {
+
             $this->load->model('projects_model', 'projects');
             $head['usernm'] = $this->aauth->get_user()->username;
             $head['title'] = 'Project List';
@@ -71,12 +74,14 @@ class Dashboard extends CI_Controller
             $this->load->view('projects/index', $data);
             $this->load->view('fixed/footer');
         } else if ($this->aauth->get_user()->roleid == 1) {
+
             $head['title'] = "Products";
             $head['usernm'] = $this->aauth->get_user()->username;
             $this->load->view('fixed/header', $head);
             $this->load->view('products/products');
             $this->load->view('fixed/footer');
         } else {
+
             $head['title'] = "Manage Invoices";
             $head['usernm'] = $this->aauth->get_user()->username;
             $this->load->view('fixed/header', $head);

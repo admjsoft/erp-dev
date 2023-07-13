@@ -205,6 +205,8 @@ public function getfwmsClients()
 public function saveInternational()
 {
 	$company_name= $this->input->post('company_name');
+		$company= $this->input->post('company');
+
 		$type= 'foreign';
 
     $address= $this->input->post('address');
@@ -216,7 +218,7 @@ public function saveInternational()
         $password = $this->input->post('password_c', true);
 	$language= $this->input->post('language');
 
-    $insert=$this->customers->addInternational($company_name,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type);
+    $insert=$this->customers->addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type);
 	//print_r($insert);
 	//die;
 	if(!$insert){
@@ -239,6 +241,8 @@ public function updateInternational()
 {
 	
 	$company_name= $this->input->post('company_name');
+   $company= $this->input->post('company');
+
 	$type= 'foreign';
     $address= $this->input->post('address');
 	$roc= $this->input->post('roc');
@@ -250,7 +254,7 @@ public function updateInternational()
 	$language= $this->input->post('language');
 	$update_id= $this->input->post('update_id');
 
-    $update=$this->customers->updateInternational($update_id,$company_name,$address,$roc,$email,$contact,$incharge,$type);
+    $update=$this->customers->updateInternational($update_id,$company_name,$company,$address,$roc,$email,$contact,$incharge,$type);
 	//print_r($insert);
 	if(!$update){
                     $data['status'] = 'danger';
@@ -265,7 +269,7 @@ public function updateInternational()
         $_SESSION['message']=$data['message'];
         $this->session->mark_as_flash('status');
         $this->session->mark_as_flash('message');
-		 redirect('customers/fwmsclients', 'refresh');
+		 redirect('fwms/fwmsclients', 'refresh');
         exit();
 	
 	
