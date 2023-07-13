@@ -6,6 +6,7 @@
         <div class="content-header row">
         </div>
         <div class="content-body">
+<div id="c_body"></div>
             <section class="flexbox-container">
                 <div class="col-md-4 offset-md-4 col-xs-10 offset-xs-1 box-shadow-2 p-0">
                     <div class="card border-grey border-lighten-3 px-2 py-2 m-0">

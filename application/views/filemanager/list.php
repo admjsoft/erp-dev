@@ -10,6 +10,7 @@
     }
   </style>
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-content">
             <nav class="navbar navbar-expand-lg  navbar-light bg-white main-nav" style="">

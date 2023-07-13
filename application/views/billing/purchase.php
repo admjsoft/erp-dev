@@ -7,6 +7,7 @@
         </div>
 
         <div class="content-body">
+<div id="c_body"></div>
             <section class="card">
                 <div id="invoice-template" class="card-body">
                     <div class="row wrapper white-bg page-heading">

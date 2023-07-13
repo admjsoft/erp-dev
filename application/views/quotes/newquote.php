@@ -32,6 +32,7 @@
 
             </script>
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-content">
             <div id="notify" class="alert alert-success" style="display:none;">
@@ -414,7 +415,7 @@
                                        for="phone"><?php echo $this->lang->line('Phone') ?></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" placeholder="Phone"
+                                    <input type="number"  pattern="[0-9]*" inputmode="numeric" placeholder="Phone"
                                            class="form-control margin-bottom" name="phone" id="mcustomer_phone">
                                 </div>
                             </div>
@@ -538,7 +539,7 @@
                                        for="phone_s"><?php echo $this->lang->line('Phone') ?></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" placeholder="Phone"
+                                    <input type="number"  pattern="[0-9]*" inputmode="numeric" placeholder="Phone"
                                            class="form-control margin-bottom" name="phone_s" id="mcustomer_phone_s">
                                 </div>
                             </div>

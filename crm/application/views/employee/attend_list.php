@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <style>
         .profile-icon{
             width: 60px;

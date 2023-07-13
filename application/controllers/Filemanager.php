@@ -221,6 +221,8 @@ die;*/
             $path .= '/' . FM_PATH;
         }
 
+       
+
         // check path
         if (!is_dir($path)) {
             fm_redirect(FM_SELF_URL . '?p=');

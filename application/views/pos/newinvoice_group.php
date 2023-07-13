@@ -318,6 +318,7 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
+<div id="c_body"></div>
                 <section class="chat-app-window">
                     <div class="row ">
 

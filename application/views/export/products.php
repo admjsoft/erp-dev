@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5 class="title">
@@ -25,6 +26,7 @@
             <div class="card-body">
 
                 <div class="content-body">
+<div id="c_body"></div>
                     <div class="card">
                         <div class="card-header">
                             <h5><?php echo $this->lang->line('Export Products') ?></h5>

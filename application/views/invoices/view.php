@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-content">
         <?php if ($this->session->flashdata("messagePr")) { ?>

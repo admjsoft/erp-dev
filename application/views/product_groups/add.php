@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header pb-0">
             <h5><?php echo $this->lang->line('CreateProductGroup') ?></h5>

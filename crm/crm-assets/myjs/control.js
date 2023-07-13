@@ -557,9 +557,10 @@ $("#submit-data").on("click", function(e) {
     addObject(o_data,action_url);
 });
 
+
 function addObject(action,action_url) {
 
-console.log(action);
+    console.log(action);
     var errorNum = farmCheck();
     var $btn;
     if (errorNum > 0) {

@@ -18,6 +18,7 @@ $message = $this->session->flashdata('item');
 
 ?>
         <div class="content-body">
+<div id="c_body"></div>
             <section class="card">
                 <div id="invoice-template" class="card-block">
                     <div class="row wrapper white-bg page-heading">

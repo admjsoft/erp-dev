@@ -1,4 +1,5 @@
 <div class="content-body">
+<div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h4><?php echo $this->lang->line('Expense Statement') ?></h4>
