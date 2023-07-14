@@ -31,14 +31,14 @@ if(isset($_SESSION['status'])){
 unset($_SESSION['status']);unset($_SESSION['message']);
 } ?>
 
-                <form method="post" id="data_form" class="form-horizontal" enctype="multipart/form-data" action="<?php echo base_url("payroll/save_settings") ?>" >
+                <form method="post" id="data_form" class="form-horizontal" onSubmit="return validate(event);" enctype="multipart/form-data" action="<?php echo base_url("payroll/save_settings") ?>" >
 
                     <hr>
                     
                     <div class="form-group row">
 
                         <label class="col-sm-2 col-form-label"
-                               for="pay_cat"><?php echo $this->lang->line('Staff') ?></label>
+                               for="pay_cat"><?php echo $this->lang->line('Staff') ?><span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 								<span class="staff_error"></span>
@@ -59,7 +59,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                     <div class="form-group row">
                         <label for="cst"
-                               class="caption col-sm-2 col-form-label"><?php echo $this->lang->line('Basic Salary') ?>
+                               class="caption col-sm-2 col-form-label"><?php echo $this->lang->line('Basic Salary') ?><span style="color:red">*</span>
                         </label>
                         <div class="col-6">
 														<span class="basic_error"></span>
@@ -75,12 +75,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div id="customerpanel" class="form-group row">
                         <label for="toBizName"
-                               class="caption col-sm-2 col-form-label"><?php echo $this->lang->line('EPF Employer') ?> % </label>
+                               class="caption col-sm-2 col-form-label"><?php echo $this->lang->line('EPF Employer') ?> %  <span style="color:red">*</span></label>
                         <div class="col-sm-6">
                         <span class="epf_percent_error"></span>
 
                          <select onchange="calculateEpf()" name="epf"  id="epf" class="form-control">
-              <option  value="" selected disabled >--Select %--</option>
+              <option  value="" >--Select %--</option>
               <option value="9">9%</option>
                 <option value="11">11%</option>
               <option value="13">13%</option>
@@ -91,12 +91,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"
-                               for="date"><?php echo $this->lang->line('EPF Employee') ?> %</label>
+                               for="date"><?php echo $this->lang->line('EPF Employee') ?> % <span style="color:red">*</span></label>
                         <div class="col-sm-6">
 				                        <span class="epfEmployee_percent_error"></span>
 
                  <select onchange="calculateEpf()" name="epfEmployee"  id="epfEmployee" class="form-control">
-              <option  value="" selected disabled >--Select %--</option>
+              <option  value="" >--Select %--</option>
               <option value="9">9%</option>
               <option value="11">11%</option>
             </select>
@@ -105,7 +105,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <div class="form-group row">
 
                         <label class="col-sm-2 col-form-label"
-                               for="amount"><?php echo $this->lang->line('EPF Employee') ?></label>
+                               for="amount"><?php echo $this->lang->line('EPF Employee') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 										                        <span class="epf_employee_error"></span>
@@ -117,7 +117,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <div class="form-group row">
 
                         <label class="col-sm-2 control-label"
-                               for="product_price"><?php echo $this->lang->line('EPF Employer') ?></label>
+                               for="product_price"><?php echo $this->lang->line('EPF Employer') ?> <span style="color:red">*</span></label>
                         <div class="col-sm-6">
 	                     <span class="epfEmpyr_error"></span>
 
@@ -132,7 +132,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
 <div class="form-group row">
 
-                             <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> %</label>
+                             <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> % <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 							                     <span class="soscoempyr_percent_error"></span>
@@ -140,7 +140,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <div class="input-group">
                      
                  <select onchange="calculateTotalSocsoEmpPer()" name="socsoEmployerPer"  id="socsoEmployerPer" class="form-control">
-              <option  value="" selected disabled >--Select %--</option>
+              <option  value="" >--Select %--</option>
               <option value="1.25">1.25%</option>
               <option value="1.75">1.75%</option>
             </select>
@@ -149,7 +149,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                          <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> %</label>
+                          <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> % <span style="color:red">*</span></label>
 
 
                         <div class="col-sm-6">
@@ -157,7 +157,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 			
                             <div class="input-group">
 					<select onchange="calculateTotalSocsoEmpPer()" name="socsoEmpPer"  id="socsoEmpPer" class="form-control">
-              <option  value="" selected disabled >--Select %--</option>
+              <option  value="" >--Select %--</option>
               <option value="0.5">0.5%</option>
             </select>		
                             </div>
@@ -165,39 +165,39 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
              <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 						<span class="soscoemployee_error"></span>
 
                             <input type="text" placeholder=""
-                                   class="form-control"  autocomplete="off" name="socso" id="socso"  required="required">
+                                   class="form-control"  autocomplete="off" name="socso" id="socso" >
                         </div>
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 			               						<span class="socsoEmp_error"></span>
 			
-                            <input type="text" placeholder=""  class="form-control" name="socsoEmp"  id="socsoEmp" autocomplete="off"  required="required">
+                            <input type="text" placeholder=""  class="form-control" name="socsoEmp"  id="socsoEmp" autocomplete="off" >
                         </div>
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('PCB') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('PCB') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 									               						<span class="pcb_error"></span>
 
                             <input type="text" placeholder=""
-                                   class="form-control" name="pcb" id="pcb" autocomplete="off"  required="required">
+                                   class="form-control" name="pcb" id="pcb" autocomplete="off" >
                         </div>
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('EIS Employee') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('EIS Employee') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 			                <span class="eis_error"></span>			
@@ -207,7 +207,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Bank Name') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Bank Name') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 									                <span class="bankName_error"></span>			
@@ -218,7 +218,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Bank Account No') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Bank Account No') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 						  <span class="bankAcc_error"></span>			
@@ -229,7 +229,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Nationality') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Nationality') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 						<span class="nationality_error"></span>			
@@ -242,7 +242,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Tax Number') ?></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Tax Number') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-6">
 						<span class="tax_error"></span>	
@@ -258,7 +258,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"></label>
                        
                         <div class="col-sm-4">
-                            <input type="submit" id="submit" class="btn btn-success margin-bottom" onclick="validate()"
+                            <input type="submit" id="submit" class="btn btn-success margin-bottom" 
                                    value="<?php echo $this->lang->line('Save') ?>"
                                    data-loading-text="Adding...">
                         </div>
@@ -291,13 +291,16 @@ $("#eis").val(Eis);
 
 
    }
-function validate()
+function validate(e)
 {
+	var nationality=$("#nationality").val();
+   if(nationality==1)
+   {
 	$("#staff").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".staff_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -309,7 +312,7 @@ function validate()
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".basic_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -322,7 +325,7 @@ $("#epf").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".epf_percent_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -336,7 +339,7 @@ $("#epfEmployee").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".epfEmployee_percent_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -349,7 +352,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".epf_employee_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -362,7 +365,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".epfEmpyr_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -371,11 +374,11 @@ $("#epfEmp").focusout(function() {
                 }    
             }) .trigger("focusout");	
 			
-		$("#soscoempyr_percent_error").focusout(function() { 
+		$("#socsoEmployerPer").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
-					$(".socsoEmployerPer").text("this field is required");
-					return false;
+					$(".soscoempyr_percent_error").text("this field is required");
+					        e.preventDefault();
                 }
                 else {
                       
@@ -388,7 +391,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".soscoemployee_percent_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -400,7 +403,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".soscoemployee_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -412,7 +415,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".socsoEmp_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -425,7 +428,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".pcb_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -438,7 +441,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".eis_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -452,7 +455,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".bankName_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -465,7 +468,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".bankAcc_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -477,7 +480,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".nationality_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -489,7 +492,7 @@ $("#epfEmp").focusout(function() {
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".tax_error").text("this field is required");
-					return false;
+					        e.preventDefault();
                 }
                 else {
                       
@@ -497,6 +500,87 @@ $("#epfEmp").focusout(function() {
                     $(this).css('border', 'solid 2px green');    
                 }    
             }) .trigger("focusout");
+   }
+   else{
+	   $("#staff").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".staff_error").text("this field is required");
+					        e.preventDefault();
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");
+	$("#basic").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".basic_error").text("this field is required");
+					        e.preventDefault();
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");	
+
+	   $("#bankName").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".bankName_error").text("this field is required");
+					        e.preventDefault();
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");
+			
+			$("#bankAcc").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".bankAcc_error").text("this field is required");
+					        e.preventDefault();
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");
+	   $("#nationality").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".nationality_error").text("this field is required");
+					        e.preventDefault();
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");
+	   $("#taxId").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".tax_error").text("this field is required");
+					        e.preventDefault();
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");
+	   
+   }
+   
+   
+   
 }
 
     

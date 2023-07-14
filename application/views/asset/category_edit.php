@@ -31,11 +31,13 @@
                 <div class="form-group row">
 
                      <label class="col-sm-2 col-form-label"
-                                       for="name"><?php echo $this->lang->line('Name') ?></label>
+                                       for="name"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-6">
+													<span class="name_error"></span>
+
                      <input type="text" placeholder="Name"
-                                           class="form-control margin-bottom" id="name" name="name"   value="<?php echo $categorie->name;?>" required>
+                                           class="form-control margin-bottom required" id="name" name="name"   value="<?php echo $categorie->name;?>" >
                     </div>
                 </div>categorie
 
@@ -43,11 +45,12 @@
                 <div class="form-group row">
 
                    <label class="col-sm-2 col-form-label"
-                                       for="phone"><?php echo $this->lang->line('Description') ?></label>
+                                       for="phone"><?php echo $this->lang->line('Description') ?><span style="color:red">*</span></label>
                     <div class="col-sm-6">
+																			<span class="desc_error"></span>
 
  <input type="text" placeholder="Description"
-                                           class="form-control margin-bottom" name="description" id="description" value="<?php echo $categorie->description;?>">
+                                           class="form-control margin-bottom required" name="description" id="description" value="<?php echo $categorie->description;?>">
                     </div>
 
                 </div>
@@ -73,3 +76,45 @@
     </div>
 </div>
 
+<script>
+
+
+  function  validateForm(e){
+     
+		 $("#name").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".name_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+		 $("#description").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".desc_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+	  }
+	 
+</script>

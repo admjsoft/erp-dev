@@ -43,7 +43,7 @@
                                         <div class="col-sm-8">
 											<span class="company_name_error"></span>
 
-                                            <input type="text" placeholder="Company"
+                                            <input type="text" placeholder="Company" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                    class="form-control margin-bottom required" name="company_name" id="company_name"  >
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Address') ?></label>
+                                    for="name"><?php echo $this->lang->line('Address') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
 																	<span class="address_error"></span>
@@ -76,7 +76,7 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Roc Number') ?></label>
+                                    for="name"><?php echo $this->lang->line('Roc Number') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
 									<span class="roc_error"></span>
@@ -88,7 +88,7 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Email') ?></label>
+                                    for="name"><?php echo $this->lang->line('Email') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
 									<span class="email_error"></span>
@@ -99,7 +99,7 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Contact Number') ?></label>
+                                    for="name"><?php echo $this->lang->line('Contact Number') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
 																<span class="contact_error"></span>
@@ -149,7 +149,7 @@
 									?>
                             <div class="form-group row">
 
-                                <label class="col-sm-2 col-form-label" for="currency">Language</label>
+                                <label class="col-sm-2 col-form-label" for="currency">Language<span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
 																								<span class="language_error"></span>
@@ -172,7 +172,8 @@
                             </div>
                         </form>
                     </div>
-      <form method="post"  class="form-horizontal" enctype="multipart/form-data" action="<?php echo base_url("customers/addcustomer") ?>" onSubmit="return validateFormForDomestic(event);" >
+      <form method="post"  class="form-horizontal" enctype="multipart/form-data" action="<?php echo base_url("customers/addcustomer") ?>"
+	  onSubmit="return validateFormForDomestic(event);" >
 
                         <div class="card-body" id="card-body">
 
@@ -204,7 +205,7 @@
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo $this->lang->line('Name') ?></label>
+                                            for="name"><?php echo $this->lang->line('Name') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 												<span class="domestic_name_error"></span>
@@ -217,7 +218,7 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo $this->lang->line('Company') ?></label>
+                                            for="name"><?php echo $this->lang->line('Company') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 											<span class="domestic_comapny_error"></span>
@@ -229,7 +230,7 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="phone"><?php echo $this->lang->line('Phone') ?></label>
+                                            for="phone"><?php echo $this->lang->line('Phone') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 									<span class="domestic_phone_error"></span>
@@ -241,7 +242,7 @@
                                     </div>
                                     <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label" for="email">Email</label>
+                                        <label class="col-sm-2 col-form-label" for="email">Email<span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 											<span class="domestic_email_error"></span>
@@ -253,7 +254,7 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="address"><?php echo $this->lang->line('Address') ?></label>
+                                            for="address"><?php echo $this->lang->line('Address') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 											<span class="domestic_address_error"></span>
@@ -265,38 +266,38 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="city"><?php echo $this->lang->line('City') ?></label>
+                                            for="city"><?php echo $this->lang->line('City') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 												<span class="domestic_city_error"></span>
 
                                             <input type="text" placeholder="city"
-                                                class="form-control margin-bottom b_input" name="city"
+                                                class="form-control margin-bottom b_input" name="city" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_city">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="region"><?php echo $this->lang->line('Region') ?></label>
+                                            for="region"><?php echo $this->lang->line('Region') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 																					<span class="domestic_region_error"></span>
 
                                             <input type="text" placeholder="Region"
-                                                class="form-control margin-bottom b_input" name="region" id="region">
+                                                class="form-control margin-bottom b_input" name="region" id="region" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="country"><?php echo $this->lang->line('Country') ?></label>
+                                            for="country"><?php echo $this->lang->line('Country') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 												<span class="domestic_country_error"></span>
 
                                             <input type="text" placeholder="Country"
-                                                class="form-control margin-bottom b_input" name="country"
+                                                class="form-control margin-bottom b_input" name="country" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_country">
                                         </div>
                                     </div>
@@ -336,7 +337,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Name"
-                                                class="form-control margin-bottom b_input" name="name_s"
+                                                class="form-control margin-bottom b_input" name="name_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_name_s">
                                         </div>
                                     </div>
@@ -381,7 +382,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="city"
-                                                class="form-control margin-bottom b_input" name="city_s"
+                                                class="form-control margin-bottom b_input" name="city_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_city_s">
                                         </div>
                                     </div>
@@ -392,7 +393,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Region"
-                                                class="form-control margin-bottom b_input" name="region_s"
+                                                class="form-control margin-bottom b_input" name="region_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="region_s">
                                         </div>
                                     </div>
@@ -403,7 +404,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Country"
-                                                class="form-control margin-bottom b_input" name="country_s"
+                                                class="form-control margin-bottom b_input" name="country_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_country_s">
                                         </div>
                                     </div>

@@ -58,7 +58,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 															<span class="name_error"></span>
 
                                             <input type="text" placeholder="Name"
-                                                   class="form-control margin-bottom b_input" name="emp_name" id="emp_name">
+                                                   class="form-control margin-bottom b_input" name="emp_name" id="emp_name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                                         </div>
                                     </div>
 									       <?php     if ($this->aauth->premission(38)) {
@@ -133,7 +133,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 										<span class="passport_error"></span>
 
-                                            <input type="text" placeholder="Passport Number"
+                                            <input type="number" placeholder="Passport Number"
                                                    class="form-control margin-bottom b_input" name="passport" id="passport" required>
                                         </div>
                                     </div>
@@ -157,7 +157,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 												<span class="permit_error"></span>
 	
-                                            <input type="text" placeholder="Permit Number"
+                                            <input type="number" placeholder="Permit Number"
                                                    class="form-control margin-bottom b_input" name="permit" id="permit" required>
                                         </div>
                                     </div><div class="form-group row">
@@ -296,7 +296,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <div class="col-sm-10">
                     <input type="text" placeholder="Name"
-                           class="form-control margin-bottom required" name="name"
+                           class="form-control margin-bottom required" name="name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                            placeholder="Full name">
                 </div>
             </div>
@@ -317,7 +317,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <div class="col-sm-10">
                     <input type="text" placeholder="City"
-                           class="form-control margin-bottom required" name="city">
+                           class="form-control margin-bottom required" name="city" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                 </div>
             </div>
             <div class="form-group row">
@@ -327,7 +327,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <div class="col-sm-10">
                     <input type="text" placeholder="Region"
-                           class="form-control margin-bottom required" name="region">
+                           class="form-control margin-bottom required" name="region" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                 </div>
             </div>
             <div class="form-group row">
@@ -401,7 +401,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                        for="phone"><?php echo $this->lang->line('Phone') ?> <span style="color:red">*</span></label>
 
                 <div class="col-sm-10">
-                    <input type="text" placeholder="phone"
+                    <input type="number"  pattern="[0-9]*" inputmode="numeric"  placeholder="phone" placeholder="phone"
                            class="form-control margin-bottom required" name="phone">
                 </div>
             </div>

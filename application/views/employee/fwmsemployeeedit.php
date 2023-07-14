@@ -34,13 +34,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                       <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Name') ?></label>
+                                               for="name"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 															<span class="name_error"></span>
 
                                             <input type="text" placeholder="Name"
-                                                   class="form-control margin-bottom b_input" value="<?php echo $employee->name;?>" name="emp_name" id="emp_name" required>
+                                                   class="form-control margin-bottom b_input" 	 onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
+value="<?php echo $employee->name;?>" name="emp_name" id="emp_name" required>
                                         </div>
                                     </div>
 									<div class="form-group row">
@@ -58,7 +59,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Email') ?></label>
+                                               for="name"><?php echo $this->lang->line('Email') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 														<span class="email_error"></span>
@@ -73,10 +74,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label"
-                           for="name"><?php echo $this->lang->line('UserRole') ?></label>
+                           for="name"><?php echo $this->lang->line('UserRole') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-5">
-                        <select name="roleid" class="form-control margin-bottom">
+								<span class="role_error"></span>
+
+                        <select name="roleid" class="form-control margin-bottom" id="roleid">
                                             <option value="">--Select Role--</option>
                            <?php foreach($role_list as $role)
 						{
@@ -92,19 +95,19 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Passport Number') ?></label>
+                                               for="name"><?php echo $this->lang->line('Passport Number') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 										<span class="passport_error"></span>
 
-                                            <input type="text" placeholder="Passport Number"
+                                            <input type="number" placeholder="Passport Number"
                                                    class="form-control margin-bottom b_input" name="passport" value="<?php echo $employee->passport;?>" id="passport" required>
                                         </div>
                                     </div>
 									<div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Passport Expiry') ?></label>
+                                               for="name"><?php echo $this->lang->line('Passport Expiry') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 						<span class="passport_expiry_error"></span>
@@ -116,18 +119,18 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Permit Number') ?></label>
+                                               for="name"><?php echo $this->lang->line('Permit Number') ?> <span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 												<span class="permit_error"></span>
 	
-                                         <input type="text" placeholder="Permit Number" value="<?php echo $employee->permit;?>"
+                                         <input type="number" placeholder="Permit Number" value="<?php echo $employee->permit;?>"
                                                    class="form-control margin-bottom b_input" name="permit" id="permit" permitrequired>
                                         </div>
                                     </div><div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Permit Expiry') ?></label>
+                                               for="name"><?php echo $this->lang->line('Permit Expiry') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
 														<span class="permit_expiry_error"></span>
@@ -140,7 +143,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Country') ?></label>
+                                               for="name"><?php echo $this->lang->line('Country') ?> <span style="color:red">*</span></label>
                                         <div class="col-sm-8">
 										<span class="country_error"></span>
                                             <select name="country" class="form-control margin-bottom b_input required" id="country">
@@ -158,7 +161,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
  
 									 ?>
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo $this->lang->line('Company') ?></label>
+                                               for="name"><?php echo $this->lang->line('Company') ?> <span style="color:red">*</span></label>
                                         <div class="col-sm-8">
 												<span class="company_error"></span>
                                             										    <select name="company" id="company" required class="form-control">
@@ -253,7 +256,7 @@ $("#domestic").show();
 
 function validate()
 {
-	$("#name").focusout(function() { 
+	$("#emp_name").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".name_error").text("this field is required");
@@ -265,7 +268,7 @@ function validate()
                     $(this).css('border', 'solid 2px green');    
                 }    
             }) .trigger("focusout");
-	$("#username").focusout(function() { 
+	$("#user_name").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".username_error").text("this field is required");
@@ -278,10 +281,23 @@ function validate()
                 }    
             }) .trigger("focusout");	
 
-$("#email").focusout(function() { 
+$("#user_email").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
 					$(".email_error").text("this field is required");
+					return false;
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+                }    
+            }) .trigger("focusout");	
+
+$("#role").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".role_error").text("this field is required");
 					return false;
                 }
                 else {
@@ -381,18 +397,7 @@ $("#passport").focusout(function() {
                 }    
             }) .trigger("focusout");
 			
-			$("#file").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".upload_error").text("this field is required");
-					return false;
-                }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-                }    
-            }) .trigger("focusout");
+		
 			
 		
 }

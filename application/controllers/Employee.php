@@ -2063,7 +2063,7 @@ public function active_passport()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['status']="active";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 public function expired_passport()
@@ -2080,7 +2080,7 @@ public function expired_passport()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['passport_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 public function expired_permit()
@@ -2097,7 +2097,7 @@ public function expired_permit()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['permit_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 
@@ -2117,7 +2117,7 @@ $this->load->library("Custom");
        // $data['payslip']=$this->payroll->getPayslipList();
         $data['permit_status']="active";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 	
 	
@@ -2420,7 +2420,7 @@ public function updateInternational()
         $_SESSION['message']=$data['message'];
         $this->session->mark_as_flash('status');
         $this->session->mark_as_flash('message');
-		redirect('employee/fwmsemployees', 'refresh');
+		redirect('fwms/fwmsemployees', 'refresh');
         exit();
 
 

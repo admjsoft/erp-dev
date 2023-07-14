@@ -50,7 +50,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <div class="col-md3">
 								
 								
-								<input type="text" name="name" id="name" class="form-control"  placeholder="Department Name" value="<?php echo $department['val1']; ?>"
+								<input type="text" name="name" id="name" class="form-control required"  placeholder="Department Name" value="<?php echo $department['val1']; ?>"
 								onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                             </div>
                         </div>

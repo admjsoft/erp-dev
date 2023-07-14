@@ -51,7 +51,7 @@ echo form_open('', $attributes);
 
                     <div class="col-sm-6">
                      <input type="text" placeholder="Name"
-                                           class="form-control margin-bottom" id="name" name="name"   value="<?php echo $sub_category->name; ?>" required>
+                                           class="form-control margin-bottom required" id="name" name="name"   value="<?php echo $sub_category->name; ?>" >
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@ echo form_open('', $attributes);
                     <div class="col-sm-6">
 
  <input type="text" placeholder="Description"
-                                           class="form-control margin-bottom" name="description" id="description" value="<?php echo $sub_category->description; ?>">
+                                           class="form-control margin-bottom required" name="description" id="description" value="<?php echo $sub_category->description; ?>">
                     </div>
 
                 </div>
