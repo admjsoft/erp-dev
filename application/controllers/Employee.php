@@ -142,7 +142,7 @@ class Employee extends CI_Controller
 		 }
 		 
 		 else{
-		  $this->employee->add_employee_new($username,$email,$name,$roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department,$user_role);
+		  $this->employee->add_employee_new($name,$roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department,$user_role);
 
 			 
 			 
@@ -1529,7 +1529,6 @@ JSOFT SOLUTION SDN BHD,</p>
             if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
            // $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
            $data = array($userrole => $val1);
-		  // print_r($data);
 		   $this->db->set($data);
             $this->db->where('id', $i);
             $this->db->update('gtg_premissions');
@@ -2311,11 +2310,11 @@ public function saveInternational()
             echo json_encode(array('status' => 'Error', 'message' =>
             'There has been an error, please try again.'));
         }
-			  }
+			 }
 
 else{
-	$insert=$this->employee->addInternational(
-			$emp_name,$email,$roleid,$passport,$permit,
+	$insert=$this->employee->addInternational_new(
+			$emp_name,$roleid,$passport,$permit,
 			$country,$company,$type,$passport_expiry,$permit_expiry,
 			$passport_filename,$visa_filename,$role_id);
 	

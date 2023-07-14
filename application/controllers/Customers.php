@@ -217,8 +217,46 @@ public function saveInternational()
 	        $create_login = $this->input->post('c_login', true);
         $password = $this->input->post('password_c', true);
 	$language= $this->input->post('language');
+			  $emailcheck=$this->customers->email_exists($email);
+				if($emailcheck){
+				 $data['status'] = 'danger';
+                $data['message'] = $this->lang->line('Duplicate Email');	
+					$_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('customers/create', 'refresh');
+        exit();
 
-    $insert=$this->customers->addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type);
+				}
+	
+     if(!empty($create_login)&&!empty($password))
+	 {
+    $insert1=$this->customers->addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type);
+	                //echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . $p_string . '&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>', 'cid' => $cid, 'pass' => $temp_password, 'discount' => amountFormat_general($discount)));
+	//$html='&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
+   // echo $data['message']=$this->lang->line('ADDED') . $p_string .$insert1; 
+	if(!$insert1){
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('Customer Add error');
+                    }
+					
+					else{
+                    $data['status'] = 'success';
+                    $data['message'] = $insert1;
+}
+	   $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		 redirect('customers/create', 'refresh');
+        exit();
+	}
+	 else{
+		 
+	   $insert=$this->customers->addInternational_new($company_name,$company,$address,$roc,$email,$contact,$incharge,$language,$type);
+ 
+	 }
 	//print_r($insert);
 	//die;
 	if(!$insert){
@@ -342,7 +380,62 @@ public function deleteFwmsClient()
         $docid = $this->input->post('docid', true);
         $custom = $this->input->post('c_field', true);
         $discount = $this->input->post('discount', true);
-        $this->customers->add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language, $create_login, $password, $docid, $custom, $discount);
+		  $emailcheck=$this->customers->email_exists($email);
+				if($emailcheck){
+				 $data['status'] = 'danger';
+                $data['message'] = $this->lang->line('Duplicate Email');	
+					$_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('customers/create', 'refresh');
+        exit();
+
+				}
+		if(!empty($create_login)&&!empty($password ))
+		{
+        $insert1=$this->customers->add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language, $create_login, $password, $docid, $custom, $discount);
+	if(!$insert1){
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('Customer Add error');
+                    }
+					
+					else{
+                    $data['status'] = 'success';
+                    $data['message'] = $insert1;
+}
+	   $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		 redirect('customers/create', 'refresh');
+        exit();	
+		}
+		else{
+
+		$insert= $this->customers->add_new($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, 
+		$phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language,$docid, $custom, $discount);
+
+			
+		}
+		 if($insert){  
+			 $data['status'] = 'success';
+                    $data['message'] = $this->lang->line('ADDED');
+                    }
+           
+					else{
+                     $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+}
+ 
+
+	     $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('customers/create', 'refresh');
+        exit();
+
 
 
     }

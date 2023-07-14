@@ -420,11 +420,9 @@ public function list_employee()
         $this->db->where('eid', $this->eid);
         return $this->db->count_all_results();
     }
-    public function add_employee_new($username,$email,$name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0,$user_role)
+    public function add_employee_new($name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0,$user_role)
 	{
 		$data = array(
-		    'username' => $username,
-			'email' => $email,
             'name' => $name,
             'address' => $address,
             'city' => $city,
@@ -1120,7 +1118,9 @@ public function addInternational_new(
 				'degis'=>$role_id,
 
 				);
-	            $this->db->insert('gtg_employees', $data);
+				
+				
+	        return    $this->db->insert('gtg_employees', $data);
 				
 				
 				

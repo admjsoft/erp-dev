@@ -198,7 +198,6 @@ public function addInternational($company_name,$company,$address,$roc,$email,$co
                 'roc' => $roc,
                 'incharge' => $incharge,'customer_type' => $type);
 	
-	
             if ($this->db->insert('gtg_customers', $data)) {
                 $cid = $this->db->insert_id();
                 $p_string = '';
@@ -226,15 +225,37 @@ public function addInternational($company_name,$company,$address,$roc,$email,$co
                     );
 
                     $this->db->insert('users', $data);
-                    $p_string = ' Temporary Password is ' . $temp_password . ' ';
+                     $p_string = ' Temporary Password is ' . $temp_password . ' ';
                // }
-                $this->aauth->applog("[Client Added] $company_name ID " . $cid, $this->aauth->get_user()->username);
+          $this->aauth->applog("[Client Added] $company_name ID " . $cid, $this->aauth->get_user()->username);
                 //echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . $p_string . '&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>', 'cid' => $cid, 'pass' => $temp_password, 'discount' => amountFormat_general($discount)));
+                              $this->custom->save_fields_data($cid, 1);
 
-                $this->custom->save_fields_data($cid, 1);
-                 return $p_string;
-              
+			  $msg=$this->lang->line('ADDED') . $p_string;
+				 $html='&nbsp;
+<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
+
+return $msg.$html;              
             } 
+			
+}
+public function addInternational_new($company_name,$company,$address,$roc,$email,$contact,$incharge,$language,$type)
+{
+	            $data = array(
+                'name' => $company_name,
+                'company' => $company,
+                'phone' => $contact,
+                'email' => $email,
+                'address' => $address,
+                'roc' => $roc,
+                'incharge' => $incharge,'customer_type' => $type);
+	
+	
+           return $this->db->insert('gtg_customers', $data);
+                
+              
+              
+            
 			
 }
 public function updateInternational($update_id,$company_name,$company,$address,$roc,$email,$contact,$incharge,$type)
@@ -263,12 +284,7 @@ public function updateInternational($update_id,$company_name,$company,$address,$
     public function add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, 
 	$email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language = '', $create_login = true, $password = '', $docid = '', $custom = '', $discount = 0)
     {
-        $this->db->select('email');
-        $this->db->from('gtg_customers');
-        $this->db->where('email', $email);
-        $query = $this->db->get();
-        $valid = $query->row_array();
-        if (!isset($valid)) {
+        
             if (!$discount) {
                 $this->db->select('disc_rate');
                 $this->db->from('gtg_cust_group');
@@ -338,7 +354,7 @@ public function updateInternational($update_id,$company_name,$company,$address,$
                     $p_string = ' Temporary Password is ' . $temp_password . ' ';
                // }
                 $this->aauth->applog("[Client Added] $name ID " . $cid, $this->aauth->get_user()->username);
-                echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . $p_string . '&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>', 'cid' => $cid, 'pass' => $temp_password, 'discount' => amountFormat_general($discount)));
+              //  echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . $p_string . '&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>', 'cid' => $cid, 'pass' => $temp_password, 'discount' => amountFormat_general($discount)));
 
                 $this->custom->save_fields_data($cid, 1);
 
@@ -359,11 +375,76 @@ public function updateInternational($update_id,$company_name,$company,$address,$
                 echo json_encode(array('status' => 'Error', 'message' =>
                 $this->lang->line('ERROR')));
             }
-        } else {
-            echo json_encode(array('status' => 'Error', 'message' =>
-            'Duplicate Email'));
-        }
+       		  $msg=$this->lang->line('ADDED') . $p_string;
+				 $html='&nbsp;
+<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
+
+return $msg.$html; 
     }
+	public function email_exists($email)
+	{
+		        $this->db->select('email');
+        $this->db->from('gtg_customers');
+        $this->db->where('email', $email);
+        $query = $this->db->get();
+        $valid = $query->row_array();
+		return $valid;
+		
+	}
+  public function add_new($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, 
+	$email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language = '', $docid = '', $custom = '', $discount = 0)
+    {
+        $this->db->select('email');
+        $this->db->from('gtg_customers');
+        $this->db->where('email', $email);
+        $query = $this->db->get();
+        $valid = $query->row_array();
+            if (!$discount) {
+                $this->db->select('disc_rate');
+                $this->db->from('gtg_cust_group');
+                $this->db->where('id', $customergroup);
+                $query = $this->db->get();
+                $result = $query->row_array();
+                $discount = $result['disc_rate'];
+            }
+
+            $data = array(
+                'name' => $name,
+                'company' => $company,
+                'phone' => $phone,
+                'email' => $email,
+                'address' => $address,
+                'city' => $city,
+                'region' => $region,
+                'country' => $country,
+                'postbox' => $postbox,
+                'gid' => $customergroup,
+                'taxid' => $taxid,
+                'name_s' => $name_s,
+                'phone_s' => $phone_s,
+                'email_s' => $email_s,
+                'address_s' => $address_s,
+                'city_s' => $city_s,
+                'region_s' => $region_s,
+                'country_s' => $country_s,
+                'postbox_s' => $postbox_s,
+                'docid' => $docid,
+                'custom1' => $custom,
+                'discount_c' => $discount
+            );
+
+
+            if ($this->aauth->get_user()->loc) {
+                $data['loc'] = $this->aauth->get_user()->loc;
+            }
+        return $this->db->insert('gtg_customers', $data);
+          
+       
+		
+    }
+
+
+
 
 
     public function edit($id, $name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $docid = '', $custom = '', $language = '', $discount = 0)

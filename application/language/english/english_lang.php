@@ -1249,4 +1249,5 @@ $lang['Foreign Worker'] = "Foreign Worker";
 $lang['This Will Make The Following Employee Inactive?'] = "This Will Make The Following Employee Inactive?";
 $lang['Continue'] = "Continue";
 $lang['Postbox'] = "Postbox";
+$lang['Duplicate Email'] = "Duplicate Email";
 
