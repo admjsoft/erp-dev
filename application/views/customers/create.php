@@ -33,54 +33,78 @@
 
                     <div id="foreign_content" style="display:none">
                         
-                            <form method="post" id="data_form1" class="form-horizontal">
+      <form method="post"  class="form-horizontal" enctype="multipart/form-data" id="myform" 
+	  action="<?php echo base_url("customers/saveInternational") ?>" onSubmit="return validateForm(event);">
+                            <div class="form-group row">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Name') ?>  <span style="color:red">*</span></label>
+
+                                        <div class="col-sm-8">
+											<span class="company_name_error"></span>
+
+                                            <input type="text" placeholder="Company" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
+                                                   class="form-control margin-bottom required" name="company_name" id="company_name"  >
+                                        </div>
+                                    </div>
+									
+                                       <div class="form-group row">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Company') ?>  <span style="color:red">*</span></label>
+
+                                        <div class="col-sm-8">
+									<span class="company_error"></span>
+
+                                            <input type="text" placeholder="Company"
+                                                   class="form-control margin-bottom required" name="company" id="company">
+                                        </div>
+                                    </div>
+									
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Company Name') ?></label>
+                                    for="name"><?php echo $this->lang->line('Address') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" placeholder="Company" class="form-control margin-bottom b_input required"
-                                        name="company_name">
-                                </div>
-                            </div>
-                            <div class="form-group row">
+																	<span class="address_error"></span>
 
-                                <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Address') ?></label>
-
-                                <div class="col-sm-8">
-                                    <input type="text" placeholder="address" class="form-control margin-bottom b_input"
+                                    <input type="text" placeholder="address" class="form-control margin-bottom required"
                                         id="international_c_address" name="address">
                                 </div>
                             </div>
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Roc Number') ?></label>
+                                    for="name"><?php echo $this->lang->line('Roc Number') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
+									<span class="roc_error"></span>
+
                                     <input type="text" placeholder="Roc Number"
-                                        class="form-control margin-bottom b_input" name="roc">
+                                        class="form-control form-control margin-bottom required" name="roc" id="roc">
                                 </div>
                             </div>
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Email') ?></label>
+                                    for="name"><?php echo $this->lang->line('Email') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" placeholder="Email" class="form-control margin-bottom b_input required"
+									<span class="email_error"></span>
+                                    <input type="text" placeholder="Email" class="form-control form-control margin-bottom required"
                                         name="email" id="international_email_id">
                                 </div>
                             </div>
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Contact Number') ?></label>
+                                    for="name"><?php echo $this->lang->line('Contact Number') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <input type="number"  pattern="[0-9]*" inputmode="numeric"  placeholder="Contact" class="form-control margin-bottom b_input"
+																<span class="contact_error"></span>
+
+                                    <input type="number"  id="contact" pattern="[0-9]*" inputmode="numeric"  placeholder="Contact" class="form-control margin-bottom required"
                                         name="contact">
                                 </div>
                             </div>
@@ -125,10 +149,12 @@
 									?>
                             <div class="form-group row">
 
-                                <label class="col-sm-2 col-form-label" for="currency">Language</label>
+                                <label class="col-sm-2 col-form-label" for="currency">Language<span style="color:red">*</span></label>
 
                                 <div class="col-sm-8">
-                                    <select name="language" class="form-control b_input">
+																								<span class="language_error"></span>
+
+                                    <select name="language" id="language" class="form-control margin-bottom required">
 
                                         <?php
 
@@ -139,15 +165,15 @@
                                 </div>
                             </div>
                             <div id="mybutton">
-                                <input type="submit" id="submit-data-new"
+                                <input type="submit" id="submitadd" 
                                     class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                     value="<?php echo $this->lang->line('Add customer') ?>"
                                     data-loading-text="Adding...">
                             </div>
-                            <input type="hidden" value="customers/saveInternational" id="action-url1">
                         </form>
                     </div>
-                    <form method="post" id="data_form" class="form-horizontal">
+      <form method="post"  class="form-horizontal" enctype="multipart/form-data" action="<?php echo base_url("customers/addcustomer") ?>"
+	  onSubmit="return validateFormForDomestic(event);" >
 
                         <div class="card-body" id="card-body">
 
@@ -179,9 +205,11 @@
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo $this->lang->line('Name') ?></label>
+                                            for="name"><?php echo $this->lang->line('Name') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+												<span class="domestic_name_error"></span>
+
                                             <input type="text" placeholder="Name"
                                                 class="form-control margin-bottom b_input required" name="name"
                                                 id="mcustomer_name">
@@ -190,20 +218,23 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo $this->lang->line('Company') ?></label>
+                                            for="name"><?php echo $this->lang->line('Company') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+											<span class="domestic_comapny_error"></span>
                                             <input type="text" placeholder="Company"
-                                                class="form-control margin-bottom b_input" name="company">
+                                                class="form-control margin-bottom b_input" name="company" id="domestic_company">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="phone"><?php echo $this->lang->line('Phone') ?></label>
+                                            for="phone"><?php echo $this->lang->line('Phone') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+									<span class="domestic_phone_error"></span>
+
                                             <input type="number"  pattern="[0-9]*" inputmode="numeric"  placeholder="phone"
                                                 class="form-control margin-bottom required b_input" name="phone"
                                                 id="mcustomer_phone">
@@ -211,9 +242,10 @@
                                     </div>
                                     <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label" for="email">Email</label>
+                                        <label class="col-sm-2 col-form-label" for="email">Email<span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+											<span class="domestic_email_error"></span>
                                             <input type="text" placeholder="email"
                                                 class="form-control margin-bottom required b_input" name="email"
                                                 id="mcustomer_email">
@@ -222,9 +254,10 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="address"><?php echo $this->lang->line('Address') ?></label>
+                                            for="address"><?php echo $this->lang->line('Address') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+											<span class="domestic_address_error"></span>
                                             <input type="text" placeholder="address"
                                                 class="form-control margin-bottom b_input" name="address"
                                                 id="mcustomer_address1">
@@ -233,32 +266,38 @@
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="city"><?php echo $this->lang->line('City') ?></label>
+                                            for="city"><?php echo $this->lang->line('City') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+												<span class="domestic_city_error"></span>
+
                                             <input type="text" placeholder="city"
-                                                class="form-control margin-bottom b_input" name="city"
+                                                class="form-control margin-bottom b_input" name="city" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_city">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="region"><?php echo $this->lang->line('Region') ?></label>
+                                            for="region"><?php echo $this->lang->line('Region') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+																					<span class="domestic_region_error"></span>
+
                                             <input type="text" placeholder="Region"
-                                                class="form-control margin-bottom b_input" name="region" id="region">
+                                                class="form-control margin-bottom b_input" name="region" id="region" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                                         </div>
                                     </div>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="country"><?php echo $this->lang->line('Country') ?></label>
+                                            for="country"><?php echo $this->lang->line('Country') ?><span style="color:red">*</span></label>
 
                                         <div class="col-sm-8">
+												<span class="domestic_country_error"></span>
+
                                             <input type="text" placeholder="Country"
-                                                class="form-control margin-bottom b_input" name="country"
+                                                class="form-control margin-bottom b_input" name="country" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_country">
                                         </div>
                                     </div>
@@ -298,7 +337,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Name"
-                                                class="form-control margin-bottom b_input" name="name_s"
+                                                class="form-control margin-bottom b_input" name="name_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_name_s">
                                         </div>
                                     </div>
@@ -343,7 +382,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="city"
-                                                class="form-control margin-bottom b_input" name="city_s"
+                                                class="form-control margin-bottom b_input" name="city_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_city_s">
                                         </div>
                                     </div>
@@ -354,7 +393,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Region"
-                                                class="form-control margin-bottom b_input" name="region_s"
+                                                class="form-control margin-bottom b_input" name="region_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="region_s">
                                         </div>
                                     </div>
@@ -365,7 +404,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Country"
-                                                class="form-control margin-bottom b_input" name="country_s"
+                                                class="form-control margin-bottom b_input" name="country_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_country_s">
                                         </div>
                                     </div>
@@ -457,34 +496,37 @@
                                     </div>
                                     <?php     if ($this->aauth->premission(39)) {
 										?>
-                                    <div class="form-group row">
+										
+                            <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                            for="currency"><?php echo $this->lang->line('customer_login') ?></label>
+                                <label class="col-sm-2 col-form-label"
+                                    for="currency"><?php echo $this->lang->line('customer_login') ?></label>
 
-                                        <div class="col-sm-6">
-                                            <select name="c_login" class="form-control b_input">
+                                <div class="col-sm-8">
+                                    <select name="c_login" class="form-control b_input">
 
-                                                <option value="1"><?php echo $this->lang->line('Yes') ?></option>
-                                                <option value="0"><?php echo $this->lang->line('No') ?></option>
+                                        <option value="1"><?php echo $this->lang->line('Yes') ?></option>
+                                        <option value="0"><?php echo $this->lang->line('No') ?></option>
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-
-                                        <label class="col-sm-2 col-form-label"
-                                            for="password_c"><?php echo $this->lang->line('New Password') ?></label>
-
-                                        <div class="col-sm-6">
-                                            <input type="text" placeholder="Leave blank for auto generation"
-                                                class="form-control margin-bottom b_input" name="password_c"
-                                                id="password_c">
-                                        </div>
-                                    </div>
-                                    <?php } ?>
-
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <label class="col-sm-2 col-form-label"
+                                    for="password_c"><?php echo $this->lang->line('New Password') ?></label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Leave blank for auto generation"
+                                        class="form-control margin-bottom b_input" name="password_c" id="password_c">
+                                </div>
+                            </div>                                </div>
+
+                            <?php
+																	
+}
+									?>
+
                                 <div class="tab-pane show" id="tab4" role="tabpanel" aria-labelledby="base-tab4">
 
                                     <?php
@@ -496,7 +538,7 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="<?= $row['placeholder'] ?>"
-                                                class="form-control margin-bottom b_input <?= $row['other'] ?>"
+                                                class="form-control margin-bottom  <?= $row['other'] ?>"
                                                 name="custom[<?= $row['id'] ?>]">
                                         </div>
                                     </div>
@@ -509,7 +551,7 @@
                                 </div>
 
                                 <div id="mybutton">
-                                    <input type="submit" id="submit-data"
+                                    <input type="submit" id=""
                                         class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                         value="<?php echo $this->lang->line('Add customer') ?>"
                                         data-loading-text="Adding...">
@@ -726,6 +768,311 @@ $("body").on("change", "#international_email_id", function(e) {
     }
 
 });
+
+   // $('#submitadd').click(function() {
+	   function  validateForm(e){
+        var company_name = document.getElementById('company_name').value;
+		 var company = document.getElementById('company').value;
+		 $("#company_name").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".company_name_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#company").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".company_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#international_c_address").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".address_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#international_c_address").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".address_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#roc").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".roc_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#international_email_id").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".email_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#contact").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".contact_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#language").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".language_error").text("this field is required");
+					$('input:radio[name=chooseradio]').val(['foreign']);
+$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+
+
+	   }
+		 function  validateFormForDomestic(e){
+        var company_name = document.getElementById('company_name').value;
+		 var company = document.getElementById('company').value;
+		 $("#mcustomer_name").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_name_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+		 $("#domestic_company").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_comapny_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+$("#mcustomer_phone").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_phone_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+$("#mcustomer_email").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_email_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#mcustomer_address1").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_address_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#mcustomer_city").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_city_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			
+$("#region").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_region_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			
+			
+$("#mcustomer_country").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_country_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			
+			
+			
+			
+			
+
+
+	   }
+		
 
 
 </script>

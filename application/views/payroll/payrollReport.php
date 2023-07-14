@@ -43,7 +43,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                    <div class="form-group row">
 
                         <label class="col-sm-1 col-form-label"
-                               for="pay_cat"><?php echo $this->lang->line('Staff') ?></label>
+                               for="pay_cat"><?php echo $this->lang->line('Staff') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-5">
                             <select name="orgStaffId" class="form-control"  id="orgStaffId">
@@ -65,7 +65,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     
       <div class="form-group row">
           <div class="col-md-8">
-            <label>Report Format</label>
+            <label>Report Format <span style="color:red">*</span></label>
             <select  class="form-control" onchange="changeInputType()" name="timeCategory" id="timeCategory">
 			<option>--Select Report Format--</option>
               <option value="0">Monthly</option>
@@ -75,12 +75,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
           <div class="col-md-4">
             <div id="inputMonth">
-              <label id="label">By Month</label>
+              <label id="label">By Month <span style="color:red">*</span></label>
               <input id="inputMonthForm" class="form-control" type="month" name="dateMonth" id="dateMonth" required>
             </div>
             <div id="inputYear" style="display:none">
               <div class="form-group row">
-                <label id="label">By Year</label>
+                <label id="label">By Year <span style="color:red">*</span></label>
                 <select id="inputYearForm" class="form-control" name="dateYear" id="dateYear">
                   <option id="year1"></option>
                   <option id="year2"></option>

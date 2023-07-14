@@ -87,10 +87,37 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         </div>
     </div>
 </div>
+ <form>
+<div id="delete_model" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p><?php echo $this->lang->line('delete this asset') ?>no Are you sure you want to delete this asset?</p>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="object-id" value="">
+                <input type="hidden" id="action-url" value="asset/deleteCategory">
+                <button type="button" data-dismiss="modal" class="btn btn-primary"
+                        id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
+                <button type="button" data-dismiss="modal"
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+
 <div class="modal fade" id="addSubCategory" role="dialog">
     <div class="modal-dialog modal-xl">
         <div class="modal-content ">
-            <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/save_asset_sub_category") ?>">
+            <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/save_asset_sub_category") ?>"onSubmit="return validateForm(event);">
                 <!-- Modal Header -->
                 
 
@@ -101,12 +128,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <div class="col">
 						 <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"
-                                       for="name"><?php echo $this->lang->line('Asset Category') ?></label>
+                                       for="name"><?php echo $this->lang->line('Asset Category') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
+																											<span class="category_error"></span>
+
                                  <select id="Category" class="form-control" style="width:100%;" 
 										   data-val="true" data-val-required="The Category field is required." name="Category">
-                                                    <option disabled="" selected="">--- SELECT ---</option>
+                                                    <option value="">--- SELECT ---</option>
                                               <?php foreach($subcat as $value)
                                         {
 ?>	
@@ -120,20 +149,24 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"
-                                       for="name"><?php echo $this->lang->line('Name') ?></label>
+                                       for="name"><?php echo $this->lang->line('Name') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
+											<span class="name_error"></span>
+
                                     <input type="text" placeholder="Name"
-                                           class="form-control margin-bottom" id="name" name="name" required>
+                                           class="form-control margin-bottom" id="name" name="name" >
                                 </div>
                             </div>
 
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                       for="phone"><?php echo $this->lang->line('Description') ?></label>
+                                       for="phone"><?php echo $this->lang->line('Description') ?><span style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
+																<span class="desc_error"></span>
+
                                     <input type="text" placeholder="Description"
                                            class="form-control margin-bottom" name="description" id="description">
                                 </div>
@@ -164,6 +197,63 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <?php // print_r($this->aauth->get_user()->username); ?>
 
 <script type="text/javascript">
+ function  validateForm(e){
+     
+		 $("#Category").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".category_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			 $("#name").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".name_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+		 $("#description").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".desc_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+	  }
+	 
+
+
     $(document).ready(function () {
         $('#trans_table').removeAttr('width').DataTable( {
             "processing": true,
@@ -188,6 +278,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
 
     });
+	
+	
+	
+	
      $(document).on('click', ".update-object", function (e) {
             e.preventDefault();
             var id = $(this).attr('data-object-id');

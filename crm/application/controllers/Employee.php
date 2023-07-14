@@ -263,6 +263,7 @@ public function fwmsReportGenerateAjax()
 
 	      $ttype = $this->input->get('type');
         $list = $this->employee->employee_report_datatables();
+	
          $data = array();
         // $no = $_POST['start'];
         $temp='';
@@ -274,12 +275,13 @@ public function fwmsReportGenerateAjax()
 			$pid= $obj->id;
             $row[] = $no;
             $row[] = $obj->name;
-            $row[] = $obj->country;
+		    $row[] = $obj->address;
+            $row[] = $obj->country_name;
             $row[] = $obj->passport;
 			$row[] = $obj->passport_expiry;
             $row[] = $obj->permit;
             $row[] = $obj->permit_expiry;
-		 $row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeview?id=' . $pid . '" class="btn btn-success btn-sm" title="view"><i class="fa fa-view">view</i></a>';
+		// $row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeview?id=' . $pid . '" class="btn btn-success btn-sm" title="view"><i class="fa fa-view">view</i></a>';
 
             $data[] = $row;
         }

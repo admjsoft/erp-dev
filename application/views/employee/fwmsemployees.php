@@ -21,10 +21,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
     <div class="card">
         <div class="card-header">
 		<h5 class="title">
-                <?php echo $this->lang->line('Employee') ?> <a href="<?php echo base_url('employee/add') ?>"
+                <?php echo $this->lang->line('Employee') ?> 
+										<?php if ($this->aauth->get_user()->roleid!= 2) {
+?>
+				
+				<a href="<?php echo base_url('employee/add') ?>"
                                                                class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
-                </a>
+										</a><?php }?>
             </h5>
             <h5><?php echo $this->lang->line('Foreign Employees') ?></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>

@@ -54,7 +54,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <?php } ?>
 					<div id="scheduleyes" style="display:block;">
 					 <div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Run Scheduler Alert Before') ?></label>
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Run Scheduler Alert Before') ?><span style="color:red">*</span></label>
                                 <div class="col-md-3">
 								
 						<select name="days" id="days" class="form-control" style="width:200px;">
@@ -70,7 +70,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                         </div>
 						<div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Module') ?></label>
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Module') ?><span style="color:red">*</span></label>
                                 <div class="col-md-3">
 								
 		<select class="form-control" name="module" id="module" style="width:200px;"> 
@@ -88,7 +88,7 @@ foreach($modules as $module)
                         </div>
 						
 						<div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Email To') ?></label>
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Email To') ?><span style="color:red">*</span></label>
                                 <div class="col-md-3">
 								
 	<select class="form-multi-select form-control" name="email_to[]" id="email_to" multiple data-coreui-search="true" style="width:200px">
@@ -101,7 +101,7 @@ foreach($modules as $module)
                         </div>
 						
 						<div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Scheduler For') ?></label>
+                            <label for="cst" class="col-md-3"><?php echo $this->lang->line('Scheduler For') ?><span style="color:red">*</span></label>
                                 <div class="col-md-3">
 <select class="form-multi-select form-control" name="schedule_on[]" id="schedule_on" multiple data-coreui-search="true" style="width:200px">
   <option value="1">passport</option>

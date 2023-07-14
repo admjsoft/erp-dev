@@ -75,10 +75,11 @@ class Employee extends CI_Controller
         $data['clients'] = $this->employee->get_client_list();
 	 $data['role_list'] = $this->employee->role_list();
 	 	 $data['country'] = $this->employee->country_list();
-          
+         $data['client_list'] = $this->employee->client_list();
+        
  $orgId = $_SESSION['loggedin'];
 	// $this->load->model('payroll_model', 'payroll');
-     $data['organization'] =$this->employee->getOrganizationDetails($orgId);
+    // $data['organization'] =$this->employee->getOrganizationDetails($orgId);
 
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/add', $data);
@@ -95,16 +96,16 @@ class Employee extends CI_Controller
         $username = $this->input->post('username', true);
 
         $password = $this->input->post('password', true);
-      //  $roleid = 3;
-      //  if ($this->input->post('roleid')) {
+        $roleid = 3;
+       if ($this->input->post('roleid')) {
             $roleid = $this->input->post('roleid');
-        //}
+        }
 	
-        //if ($roleid > 3) {
-          //  if ($this->aauth->get_user()->roleid < 5) {
-           //     die('No! Permission');
-           // }
-      //  }
+       if ($roleid > 3) {
+            if ($this->aauth->get_user()->roleid < 5) {
+                die('No! Permission');
+           }
+      }
        
               
          $user_role=$this->input->post('roleid', true);
@@ -141,7 +142,7 @@ class Employee extends CI_Controller
 		 }
 		 
 		 else{
-		  $this->employee->add_employee_new($username,$email,$name,$roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department,$user_role);
+		  $this->employee->add_employee_new($name,$roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department,$user_role);
 
 			 
 			 
@@ -1528,7 +1529,6 @@ JSOFT SOLUTION SDN BHD,</p>
             if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
            // $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
            $data = array($userrole => $val1);
-		  // print_r($data);
 		   $this->db->set($data);
             $this->db->where('id', $i);
             $this->db->update('gtg_premissions');
@@ -1922,6 +1922,7 @@ public function fwmsemplyeeedit()
  $orgId = $_SESSION['loggedin'];
 	// $this->load->model('payroll_model', 'payroll');
      $data['organization'] =$this->employee->getOrganizationDetails($orgId);
+         $data['client_list'] = $this->employee->client_list();
 
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/fwmsemployeeedit', $data);
@@ -2062,7 +2063,7 @@ public function active_passport()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['status']="active";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 public function expired_passport()
@@ -2079,7 +2080,7 @@ public function expired_passport()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['passport_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 public function expired_permit()
@@ -2096,7 +2097,7 @@ public function expired_permit()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['permit_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 
@@ -2116,7 +2117,7 @@ $this->load->library("Custom");
        // $data['payslip']=$this->payroll->getPayslipList();
         $data['permit_status']="active";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('fwms/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 	
 	
@@ -2142,7 +2143,6 @@ public function getfwmsEmployees()
 		$type='';
 	     foreach ($list as $prd) {
             $no++;
-
             
                   if(file_exists(FCPATH."userfiles/passport/".$prd->passport_document))
 			{
@@ -2289,12 +2289,36 @@ public function saveInternational()
             $data = array('upload_data' => $this->upload->data());
              $visa_filename = $data['upload_data']['file_name'];
 		}
+		  if(!empty($username)&&!empty($password)&&!empty($email))
+			  
+			  {
 		  
-		  
-		  
-		  
-	$insert=$this->employee->addInternational($emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id);
+		  if ((string)$this->aauth->get_user($a)->id != $this->aauth->get_user()->id) {
+             $nuid = (string)$this->aauth->get_user($a)->id;
+    
+            if ($nuid > 0) {
+				$insert=$this->employee->addInternational($nuid, 
+			(string)$this->aauth->get_user($a)->username,
+			$emp_name,$email,$roleid,$passport,$permit,
+			$country,$company,$type,$passport_expiry,$permit_expiry,
+			$passport_filename,$visa_filename,$role_id);
+				
 
+            }
+        } else {
+
+            echo json_encode(array('status' => 'Error', 'message' =>
+            'There has been an error, please try again.'));
+        }
+			 }
+
+else{
+	$insert=$this->employee->addInternational_new(
+			$emp_name,$roleid,$passport,$permit,
+			$country,$company,$type,$passport_expiry,$permit_expiry,
+			$passport_filename,$visa_filename,$role_id);
+	
+}
 		  
    
 	if(!$insert){
@@ -2396,7 +2420,7 @@ public function updateInternational()
         $_SESSION['message']=$data['message'];
         $this->session->mark_as_flash('status');
         $this->session->mark_as_flash('message');
-		redirect('employee/fwmsemployees', 'refresh');
+		redirect('fwms/fwmsemployees', 'refresh');
         exit();
 
 

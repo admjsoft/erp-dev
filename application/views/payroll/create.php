@@ -61,7 +61,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
     <input type="hidden" name="current_year" id="current_year"  value="<?php echo date('Y'); ?>">
 
                         <label class="col-sm-1 col-form-label"
-                               for="pay_cat"><?php echo $this->lang->line('Staff') ?></label>
+                               for="pay_cat"><?php echo $this->lang->line('Staff') ?> <span style="color:red">*</span></label>
 
                         <div class="col-sm-5">
                             <select name="staff" class="form-control" onchange="showStaffInfo()" id="orgStaffId">
@@ -173,7 +173,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
               <div class="form-group row">
                   <!-- PAYEE -->
       <label class="col-sm-2 col-form-label"
-                               for="pay_cat"><?php echo $this->lang->line('Payee') ?></label>
+                               for="pay_cat"><?php echo $this->lang->line('Payee') ?> <span style="color:red">*</span></label>
                   <div class="col-sm-10"   >
                       <input oninput="showStaffInfo()" onclick="document.getElementById('payeeMessage').style.display = 'block'" id="payee" class="form-control" type="text" name="payee">
                       <small id="payeeMessage" style="display:none;">(person to whom money is to be paid)</small>
@@ -186,7 +186,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
               <div class="form-group row">
                   <!-- DATE PAYMENT VOUCHER -->
                   <label class="col-sm-2 col-form-label"
-                               for="pay_cat"><?php echo $this->lang->line('Payment Date') ?></label>
+                               for="pay_cat"><?php echo $this->lang->line('Payment Date') ?> <span style="color:red">*</span></label>
                   <div class="col-sm-10">
                       <input oninput="showStaffInfo()" id="datePaymentVoucher" class="form-control" type="date">
                       <div class="invalid-feedback">
@@ -198,7 +198,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
               <div class="form-group row">
                   <!-- AMOUNT PAYMENT VOUCHER -->
 				       <label class="col-sm-2 col-form-label"
-                               for="pay_cat"><?php echo $this->lang->line('Amount(RM)') ?></label>
+                               for="pay_cat"><?php echo $this->lang->line('Amount(RM)') ?> <span style="color:red">*</span></label>
                   <div class="col-sm-10">
                       <input oninput="showStaffInfo()" onchange="checkValue(this)" id="amountPaymentVoucher" class="form-control" type="number" min="0.01" step="0.01" >
                       <div class="invalid-feedback">
@@ -210,7 +210,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
               <div class="form-group row">
                   <!-- METHOD OF PAYMENT -->
 				   <label class="col-sm-2 col-form-label"
-                               for="methodOfPayment"><?php echo $this->lang->line('Method of Payment') ?></label>
+                               for="methodOfPayment"><?php echo $this->lang->line('Method of Payment') ?> <span style="color:red">*</span></label>
                   <div class="col-sm-10"   >
                       <select onchange="showStaffInfo()" id="methodOfPayment" class="form-control">
                           <option value="0">Cash</option>
@@ -225,7 +225,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
               <div class="form-group row">
                   <!-- THE SUM OF -->
-			<label for="theSumOf" class="col-sm-2 col-form-label"><?php echo $this->lang->line('Payment for') ?></label>
+			<label for="theSumOf" class="col-sm-2 col-form-label"><?php echo $this->lang->line('Payment for') ?> <span style="color:red">*</span></label>
                     <div class="col-sm-10"   >
                       <input oninput="showStaffInfo()" id="theSumOf" class="form-control" type="text" name="theSumOf">
                       <div class="invalid-feedback">
@@ -236,7 +236,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
               <div class="form-group row">
                   <!-- BEING -->
-				 <label for="being" class="col-sm-2 col-form-label"><?php echo $this->lang->line('Remarks') ?></label>
+				 <label for="being" class="col-sm-2 col-form-label"><?php echo $this->lang->line('Remarks') ?> <span style="color:red">*</span></label>
                   <div class="col-sm-10"   >
                       <input oninput="showStaffInfo()" id="being" class="form-control" type="text" name="being">
                       <div class="invalid-feedback">
@@ -248,7 +248,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
             <div class="form-group row" style="display:none">
                 <!-- DATE PAYMENT -->
-			 <label for="datePayment" class="col-sm-2 col-form-label"><?php echo $this->lang->line('Date Payment') ?></label>
+			 <label for="datePayment" class="col-sm-2 col-form-label"><?php echo $this->lang->line('Date Payment') ?> <span style="color:red">*</span></label>
                 <div class="col-sm-5"   >
                 <input oninput="showStaffInfo()" class="form-control" type="date" id="datePayment" name="datePayment" value="<?php echo date("Y-m-d") ?>" required>
                 <div class="invalid-feedback">
@@ -431,7 +431,6 @@ unset($_SESSION['status']);unset($_SESSION['message']);
               data : {paymentVoucherPreview:true,methodOfPayment:methodOfPayment,theSumOf:theSumOf,being:being,payee:payee,datePayment:datePayment,staffId:staffId,datePaymentVoucher:datePaymentVoucher,amountPaymentVoucher:amountPaymentVoucher},
               success: function (data) {
 				     details= JSON.parse(data);
-					 console.log(details);
               document.getElementById('pVoucher').innerHTML = details;
 			  document.getElementById("card-body").style.display = "none";
 			  document.getElementById("form-preview").style.display = "block";

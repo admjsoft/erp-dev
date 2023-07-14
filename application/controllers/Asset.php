@@ -447,7 +447,7 @@ class Asset extends CI_Controller {
         $id = $this->input->post('deleteid');
         $delete = $this->asset->deleteCategory($id);
         echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('DELETED')));
-        echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('Error In Delete')));
+       // echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('Error In Delete')));
     }
     public function deleteSubCategory() {
         $id = $this->input->post('deleteid');
@@ -640,7 +640,7 @@ $html='';
                                 <div class="row">
                                     <div class="col-6 col-sm-6">
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="AssetId">Asset Id</label>
+                                            <label class="col-sm-3 col-form-label" for="AssetId">Asset Id </label>
                                             <div class="col-sm-5">
                                                 <input class="form-control" id="AssetId" type="text" data-val="true" data-val-required="The Asset Id field is required."
 												name="AssetId" id="AssetId" value="'.$asset['asset_id'].'" readonly>
@@ -654,35 +654,35 @@ $html='';
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="AssetModelNo">Asset Model No</label>
+                                            <label class="col-sm-3 col-form-label" for="AssetModelNo">Asset Model No <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="AssetModelNo" type="text" name="AssetModelNo" id="AssetModelNo" value="'.$asset['asset_modelno'].'">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="AssetModelNo" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Name">Name</label>
+                                            <label class="col-sm-3 col-form-label" for="Name">Name <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="Name" type="text" data-val="true" data-val-required="The Name field is required." name="Name" value="'.$asset['name'].'">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Description">Description</label>
+                                            <label class="col-sm-3 col-form-label" for="Description">Description <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="Description" type="text" name="Description" value="'.$asset['description'].'">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="UnitPrice">Unit Price</label>
+                                            <label class="col-sm-3 col-form-label" for="UnitPrice">Unit Price <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="UnitPrice" type="number" data-val="true" data-val-number="The field Unit Price must be a number." name="UnitPrice" value="'.$asset['unit_price'].'">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="UnitPrice" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="AssetStatus">Asset Status</label>
+                                            <label class="col-sm-3 col-form-label" for="AssetStatus">Asset Status <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                            <select id="AssetStatus" class="form-control" style="width:100%;" data-val="true" 
 										   data-val-required="The Asset Status field is required." name="AssetStatus">
@@ -719,7 +719,7 @@ $html='';
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Category">Category</label>
+                                            <label class="col-sm-3 col-form-label" for="Category">Category <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <select id="Category" class="form-control" style="width:100%;" data-val="true" data-val-required="The Category field is required." name="Category">
                                                     <option disabled="" selected="">--- SELECT ---</option>
@@ -763,7 +763,7 @@ $html='';
                                         </div>
                                        
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Department">Department</label>
+                                            <label class="col-sm-3 col-form-label" for="Department">Department <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <select id="Department" class="form-control" style="width:100%;" data-val="true" data-val-required="The Department field is required." name="Department">
                                                     <option disabled="" selected="">--- SELECT ---</option>';
@@ -1068,35 +1068,35 @@ $html='';
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="AssetModelNo">Asset Model No</label>
+                                            <label class="col-sm-3 col-form-label" for="AssetModelNo">Asset Model No <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="AssetModelNo" type="text" name="AssetModelNo" id="AssetModelNo" value="">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="AssetModelNo" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Name">Name</label>
+                                            <label class="col-sm-3 col-form-label" for="Name">Name <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="Name" type="text" data-val="true" data-val-required="The Name field is required." name="Name" value="">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Description">Description</label>
+                                            <label class="col-sm-3 col-form-label" for="Description">Description <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="Description" type="text" name="Description" value="">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="UnitPrice">Unit Price</label>
+                                            <label class="col-sm-3 col-form-label" for="UnitPrice">Unit Price <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" id="UnitPrice" type="number" data-val="true" data-val-number="The field Unit Price must be a number." name="UnitPrice" value="">
                                                 <span class="text-danger field-validation-valid" data-valmsg-for="UnitPrice" data-valmsg-replace="true"></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="AssetStatus">Asset Status</label>
+                                            <label class="col-sm-3 col-form-label" for="AssetStatus">Asset Status <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <select id="AssetStatus" class="form-control" style="width:100%;" data-val="true" data-val-required="The Asset Status field is required." name="AssetStatus">
                                                 ';
@@ -1129,7 +1129,7 @@ $html='';
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Category">Category</label>
+                                            <label class="col-sm-3 col-form-label" for="Category">Category <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <select id="Category" class="form-control" style="width:100%;" data-val="true" data-val-required="The Category field is required." name="Category">
                                                     <option disabled="" selected="">--- SELECT ---</option>
@@ -1163,7 +1163,7 @@ $html='';
                                         </div>
                                        
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label" for="Department">Department</label>
+                                            <label class="col-sm-3 col-form-label" for="Department">Department <span style="color:red">*</span></label>
                                             <div class="col-sm-9">
                                                 <select id="Department" class="form-control" style="width:100%;" data-val="true" data-val-required="The Department field is required." name="Department">
                                                     <option disabled="" selected="">--- SELECT ---</option>';
@@ -1460,14 +1460,14 @@ $html.='<div class="tab-pane fade" id="divAssetHistory" role="tabpanel" aria-lab
             <form id="frmAssetStatus" novalidate="novalidate">
                 <input type="hidden" data-val="true" data-val-required="The SL field is required." id="Id" name="Id" value="'.$status->id.'">
                 <div class="form-group">
-                    <label class="control-label" for="Name">Name</label>
+                    <label class="control-label" for="Name">Name <span style="color:red">*</span></label>
                     <input class="form-control valid" type="text" data-val="true" data-val-required="The Name field is required." id="Name" name="Name" value="'.$status->name.'" aria-describedby="Name-error" aria-invalid="false">
                     <span class="text-danger field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="Description">Description</label>
-                    <input class="form-control" type="text" data-val="true" data-val-required="The Description field is required." id="Description" name="Description" value="'.$status->description.'">
-                    <span class="text-danger field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true"></span>
+                    <label class="control-label" for="Description">Description <span style="color:red">*</span></label>
+                    <input class="form-control valid" type="text" data-val="true" data-val-required="The Description field is required." id="Description" name="Description" value="'.$status->description.'">
+                    <span class="text-danger1 field-validation-valid" data-valmsg-for="Description" data-valmsg-replace="true" style="color:red"></span>
                 </div>
                 <div class="form-group">
                     <input type="button" id="btnSave" value="Save" onclick="Save()" class="btn btn-info">
@@ -1669,6 +1669,7 @@ echo json_encode($html);
     public function barcodeList() {
         $ttype = $this->input->get('type');
         $list = $this->asset->get_datatables($ttype);
+		
         $data = array();
         // $no = $_POST['start'];
         $no = $this->input->post('start');

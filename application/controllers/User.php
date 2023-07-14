@@ -47,10 +47,11 @@ class User extends CI_Controller
         }
 
         if ($this->aauth->login($user, $password, $rem, $this->captcha)) {
+			
             $this->aauth->applog("[Logged In] $user");
-            $id=$this->aauth->get_user()->username;
-            $data=$this->user_employee->details_by_username($id);
-
+             $id=$this->aauth->get_user()->username;
+            $data=$this->details_by_username($id);
+          
             if(isset($data)){
                   $data1 = array(
                 'login_status' =>1);
@@ -69,13 +70,22 @@ class User extends CI_Controller
 
                 $this->session->set_userdata('login_name', $id);
             }
+
             redirect('/dashboard/', 'refresh');
         } else {
 
             redirect('/user/?e=eyxde', 'refresh');
         }
     }
-
+  public function details_by_username($username)
+    {
+		
+        $this->db->select('*');
+        $this->db->from('gtg_employees');
+        $this->db->where('username', $username);
+        $query = $this->db->get();
+		return $query->row_array();
+    }
     public function profile()
     {
         if (!$this->aauth->is_loggedin()) {

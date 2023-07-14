@@ -46,8 +46,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
                                 <div class="col-md3">
 								
-								
-								<input type="text" name="name" id="name" class="form-control"  placeholder="Department Name"
+								<input type="text" name="name" id="name" class="form-control required"  placeholder="Department Name" 
 								onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
                             </div>
                         </div>
@@ -67,9 +66,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         </div>
               <script type="text/javascript">
  $(document).ready(function() {
-    $('#submit').click(function(event){
+    $('#submit-data"').click(function(event){
         var data = $('#name').val();
         var length = data.length;
+		alert(length);
         if(length < 1) {
 			    $("#form input[type=text]").addClass("empty");
 

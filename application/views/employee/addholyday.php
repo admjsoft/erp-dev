@@ -59,7 +59,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                  <div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Note') ?> <span style="color:red">*</span></label>
                                 <div class="col-md3">
-								<textarea name="note" placeholder="Note Title" class="form-control"></textarea>
+								<textarea name="note" placeholder="Note Title" class="form-control required"></textarea>
 						 
                         </div>
                  

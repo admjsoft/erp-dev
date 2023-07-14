@@ -13,11 +13,11 @@ class Fwms extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(3)) {
+       /*( if (!$this->aauth->premission(3)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        }*/
         $this->load->library("Custom");
 		$this->li_a == "fwms";
     }
@@ -75,6 +75,8 @@ public function fwmsreport()
         $data['clients'] = $this->employee->get_client_list();
 $orgId = $_SESSION['loggedin'];
 	// $this->load->model('payroll_model', 'payroll');
+	         $data['client_list'] = $this->employee->client_list();
+
      $data['organization'] =$this->employee->getOrganizationDetails($orgId);
         $this->load->view('fixed/header', $head);
         $this->load->view('employee/fwmsReport', $data);

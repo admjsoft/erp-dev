@@ -115,7 +115,7 @@ if (isset($_SESSION['status'])) {
 <div class="modal fade" id="addCategory" role="dialog">
     <div class="modal-dialog modal-xl">
         <div class="modal-content ">
-            <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/save_asset_category") ?>">
+            <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/save_asset_category") ?>" onSubmit="return validateForm(event);">
                 <!-- Modal Header -->
                 
 
@@ -126,20 +126,24 @@ if (isset($_SESSION['status'])) {
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"
-                                       for="name"><?php echo $this->lang->line('Name') ?></label>
+                                       for="name"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
+								<span class="name_error"></span>
+
                                     <input type="text" placeholder="Name"
-                                           class="form-control margin-bottom" id="name" name="name" required>
+                                           class="form-control margin-bottom" id="name" name="name">
                                 </div>
                             </div>
 
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                       for="phone"><?php echo $this->lang->line('Description') ?></label>
+                                       for="phone"><?php echo $this->lang->line('Description') ?>  <span style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
+																			<span class="desc_error"></span>
+
                                     <input type="text" placeholder="Description"
                                            class="form-control margin-bottom" name="description" id="description">
                                 </div>
@@ -195,4 +199,42 @@ if (isset($_SESSION['status'])) {
 
     });
      
+	  function  validateForm(e){
+     
+		 $("#name").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".name_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+		 $("#description").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".desc_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+	  }
+	 
 </script>

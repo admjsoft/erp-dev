@@ -6,7 +6,9 @@ class Asset_model extends CI_Model {
     var $order = array('asset_management.id' => 'desc');
     var $opt = '';
     private function _get_datatables_query() {
-        $this->db->select('asset_management.id,gtg_employees.id as empid,asset_management.image_url,asset_management.name,asset_management.asset_id,asset_management.asset_modelno,gtg_employees.name as employee,asset_management.unit_price,asset_management.date_of_purchase');
+        $this->db->select('asset_management.id,asset_management.barcode,gtg_employees.id as empid,asset_management.image_url,
+		asset_management.name,asset_management.asset_id,asset_management.asset_modelno,gtg_employees.name as employee,
+		asset_management.unit_price,asset_management.date_of_purchase');
         $this->db->from('asset_management');
         $this->db->join('gtg_employees', 'gtg_employees.id = asset_management.assign_employee','left');
         if ($this->aauth->get_user()->loc) {
