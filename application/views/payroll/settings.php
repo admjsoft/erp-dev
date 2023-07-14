@@ -75,7 +75,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div id="customerpanel" class="form-group row">
                         <label for="toBizName"
-                               class="caption col-sm-2 col-form-label"><?php echo $this->lang->line('EPF Employer') ?> %  <span style="color:red">*</span></label>
+                               class="caption col-sm-2 col-form-label"><?php echo $this->lang->line('EPF Employer') ?> % <span style="color:red" id="err1">*</span></label>
                         <div class="col-sm-6">
                         <span class="epf_percent_error"></span>
 
@@ -91,7 +91,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"
-                               for="date"><?php echo $this->lang->line('EPF Employee') ?> % <span style="color:red">*</span></label>
+                               for="date"><?php echo $this->lang->line('EPF Employee') ?> % <span style="color:red" id="err2">*</span></label>
                         <div class="col-sm-6">
 				                        <span class="epfEmployee_percent_error"></span>
 
@@ -105,7 +105,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <div class="form-group row">
 
                         <label class="col-sm-2 col-form-label"
-                               for="amount"><?php echo $this->lang->line('EPF Employee') ?> <span style="color:red">*</span></label>
+                               for="amount"><?php echo $this->lang->line('EPF Employee') ?> <span style="color:red" id="err3">*</span></label>
 
                         <div class="col-sm-6">
 										                        <span class="epf_employee_error"></span>
@@ -117,7 +117,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <div class="form-group row">
 
                         <label class="col-sm-2 control-label"
-                               for="product_price"><?php echo $this->lang->line('EPF Employer') ?> <span style="color:red">*</span></label>
+                               for="product_price"><?php echo $this->lang->line('EPF Employer') ?> <span style="color:red" id="err4">*</span></label>
                         <div class="col-sm-6">
 	                     <span class="epfEmpyr_error"></span>
 
@@ -132,7 +132,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
 <div class="form-group row">
 
-                             <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> % <span style="color:red">*</span></label>
+                             <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> % <span style="color:red" id="err5">*</span></label>
 
                         <div class="col-sm-6">
 							                     <span class="soscoempyr_percent_error"></span>
@@ -149,7 +149,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                          <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> % <span style="color:red">*</span></label>
+                          <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> % <span style="color:red" id="err6">*</span></label>
 
 
                         <div class="col-sm-6">
@@ -165,7 +165,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
              <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> <span style="color:red">*</span></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOSCO Employer') ?> <span style="color:red" id="err7">*</span></label>
 
                         <div class="col-sm-6">
 						<span class="soscoemployee_error"></span>
@@ -176,7 +176,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> <span style="color:red">*</span></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('SOCSO Employee') ?> <span style="color:red" id="err8">*</span></label>
 
                         <div class="col-sm-6">
 			               						<span class="socsoEmp_error"></span>
@@ -186,7 +186,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('PCB') ?> <span style="color:red">*</span></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('PCB') ?> <span style="color:red"id="err9">*</span></label>
 
                         <div class="col-sm-6">
 									               						<span class="pcb_error"></span>
@@ -197,7 +197,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('EIS Employee') ?> <span style="color:red">*</span></label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('EIS Employee') ?> <span style="color:red" id="err10">*</span></label>
 
                         <div class="col-sm-6">
 			                <span class="eis_error"></span>			
@@ -502,6 +502,17 @@ $("#epfEmp").focusout(function() {
             }) .trigger("focusout");
    }
    else{
+	   $("#err1").html('');
+	   	   $("#err2").html('');
+	   $("#err3").html('');
+	   $("#err4").html('');
+	   $("#err5").html('');
+	   $("#err6").html('');
+	   $("#err7").html('');
+	   $("#err8").html('');
+	   $("#err9").html('');
+	   $("#err10").html('');
+
 	   $("#staff").focusout(function() { 
                 if($(this).val()=='') { 
                     $(this).css('border', 'solid 2px red'); 
