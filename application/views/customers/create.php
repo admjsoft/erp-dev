@@ -139,7 +139,7 @@
                                 </div>
                             </div>
                             <div id="mybutton">
-                                <input type="submit" id="submit-data1"
+                                <input type="submit" id="submit-data-new"
                                     class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                     value="<?php echo $this->lang->line('Add customer') ?>"
                                     data-loading-text="Adding...">

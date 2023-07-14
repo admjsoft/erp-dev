@@ -219,3 +219,25 @@ function farmCheck2() {
 
     return errorNum;
 }
+
+function farmCheckNew() {
+
+    var errorNum = 0;
+
+    $("#data_form1 .required").each(function (i, obj) {
+
+        if ($(this).val() === '') {
+            $(this).parent().addClass("has-error");
+            errorNum++;
+        } else {
+            $(this).parent().removeClass("has-error");
+        }
+
+
+    });
+
+
+    return errorNum;
+}
+
+

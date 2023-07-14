@@ -75,7 +75,8 @@ class Customers extends CI_Controller
                 $no++;
                 $row = array();
                 $row[] = $no . ' <input type="checkbox" name="cust[]" class="checkbox" value="' . $customers->id . '"> ';
-                $row[] = '<span class="avatar-sm align-baseline"><img class="rounded-circle" src="' . base_url() . 'userfiles/customers/' . $customers->picture . '" width="50px" height="50px"></span> &nbsp;<a href="customers/view?id=' . $customers->id . '">' . $customers->name . '</a>';
+                //$row[] = '<div style="display: flex; flex-direction: column; align-items: center;"><span class="avatar-sm align-baseline" ><img class="rounded-circle" src="' . base_url() . 'userfiles/customers/' . $customers->picture . '" width="50px" height="50px"></span> &nbsp;<a href="customers/view?id=' . $customers->id . '">' . $customers->name . '</a></div>';
+                $row[] = '<td style="text-align: center;"><span class="avatar-sm align-baseline"><img class="rounded-circle" src="' . base_url() . 'userfiles/customers/' . $customers->picture . '" width="50px" height="50px"></span><br/><a href="customers/view?id=' . $customers->id . '">' . $customers->name . '</a></td>';
                 $row[] = amountExchange($customers->total - $customers->pamnt, 0, $this->aauth->get_user()->loc);
                 $row[] = $customers->address . ',' . $customers->city . ',' . $customers->country;
                 $row[] = $customers->email;
@@ -101,7 +102,8 @@ class Customers extends CI_Controller
                 $no++;
                 $row = array();
                 $row[] = $no . ' <input type="checkbox" name="cust[]" class="checkbox" value="' . $customers->id . '"> ';
-                $row[] = '<span class="avatar-sm align-baseline"><img class="rounded-circle" src="' . base_url() . 'userfiles/customers/' . $customers->picture . '" width="50px" height="50px" ></span> &nbsp;<a href="customers/view?id=' . $customers->id . '">' . $customers->name . '</a>';
+                //$row[] = '<span class="avatar-sm align-baseline"><img class="rounded-circle" src="' . base_url() . 'userfiles/customers/' . $customers->picture . '" width="50px" height="50px" ></span> &nbsp;<a href="customers/view?id=' . $customers->id . '">' . $customers->name . '</a>';
+                $row[] = '<td style="text-align: center;"><span class="avatar-sm align-baseline"><img class="rounded-circle" src="' . base_url() . 'userfiles/customers/' . $customers->picture . '" width="50px" height="50px"></span><br/><a href="customers/view?id=' . $customers->id . '">' . $customers->name . '</a></td>';
                 $row[] = $customers->address . ',' . $customers->city . ',' . $customers->country;
                 $row[] = $customers->email;
                 $row[] = $customers->phone;
