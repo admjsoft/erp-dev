@@ -488,7 +488,7 @@
 
                         <div class="col-md-7 col-sm-12">
 
-                            <h6><?php echo $this->lang->line('Terms & Condition') ?></h6>
+                            <h6><?php //echo $this->lang->line('Terms & Condition') ?></h6>
                             <p> <?php
 
                                 echo '<strong>' . $invoice['termtit'] . '</strong><br>' . $invoice['terms'];

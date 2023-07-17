@@ -235,7 +235,7 @@ if (isset($_GET['succ'])) {
             "columnDefs": [
                 {
                     "targets": [0],
-                    "orderable": true,
+                    "orderable": false,
                 },
             ],
                       dom: 'Blfrtip'

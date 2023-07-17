@@ -4,8 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Payroll_model extends CI_Model
 {
-	var $column_order = array('id', 'staffName', 'salaryMonth', 'netPay','monthText');
-    var $column_search = array('id', 'staffName', 'salaryMonth', 'netPay','monthText');
+	var $column_order = array('id', 'staffName', 'salaryMonth', 'netPay','monthText','year');
+    var $column_search = array('id', 'staffName', 'salaryMonth', 'netPay','monthText','year');
     var $order = array('id' => 'desc');
     var $opt = '';
 
@@ -56,6 +56,10 @@ class Payroll_model extends CI_Model
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
+	
+	var $rcolumn_order = array('gtg_payslip.id', 'gtg_payslip.staffName', 'gtg_payslip.salaryMonth', 'gtg_payslip.netPay');
+    var $rcolumn_search =array('gtg_payslip.id', 'gtg_payslip.staffName', 'gtg_payslip.salaryMonth', 'gtg_payslip.netPay');
+    var $rorder = array('gtg_payslip.id' => 'desc');
 		  private function _get_datatables_query_new($staffid,$salary,$allowance,$commissions,$claims,$bonus,$ot,$epf,$socso,$pcb)
     {
 	    $conditions="staffName".$salary.$allowance.$commissions.$claims.$bonus.$ot.$epf.$socso.$pcb.","."netPay";
@@ -68,7 +72,7 @@ class Payroll_model extends CI_Model
 
         $i = 0;
 
-        foreach ($this->column_search as $item) // loop column
+        foreach ($this->rcolumn_search as $item) // loop column
         {
 			if(isset($this->input->post('search')['value']))
 			{
@@ -88,7 +92,7 @@ class Payroll_model extends CI_Model
                     $this->db->or_like($item, $this->input->post('search')['value']);
                 }
 
-                if (count($this->column_search) - 1 == $i) //last loop
+                if (count($this->rcolumn_search) - 1 == $i) //last loop
                     $this->db->group_end(); //close bracket
             }
             $i++;
@@ -96,9 +100,9 @@ class Payroll_model extends CI_Model
 
         if (isset($_POST['order'])) // here order processing
         {
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
+            $this->db->order_by($this->rcolumn_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->rorder)) {
+            $order = $this->rorder;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
@@ -272,7 +276,7 @@ $this->db->where('month', $month);
         if ($length!= -1)
         $this->db->limit($length, $start);
         $query = $this->db->get();
-//	print_r($this->db->last_query());
+          //print_r($this->db->last_query());
         return $query->result();
     }
   

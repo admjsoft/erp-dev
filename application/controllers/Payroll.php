@@ -976,32 +976,50 @@ public function payrollReportData()
 
 public function payrollReportGenerate()
 {
-	
-	
-	
 	$timeCategory = $this->input->post('timeCategory');
+  	$data['timeCategory']=$timeCategory;
 
-    $datesearch="";
+	//	$data['datesearch']=$datesearch;
 
-    $salary="";
+    $staffid=$this->input->post('orgStaffId');
+$data['staffid']=$staffid;
+$data['salary']=$this->input->post('salary');
+$data['allowance']=$this->input->post('allowance');
+$data['commissions']=$this->input->post('commissions');
+$data['claims']=$this->input->post('claims');
+$data['bonus']=$this->input->post('bonus');
+$data['ot']=$this->input->post('ot');
+$data['epf']=$this->input->post('epf');
+$data['socso']=$this->input->post('socso');
+$data['pcb']=$this->input->post('pcb');
+$data['dateYear']=$this->input->post('dateYear');
+$data['dateMonth']=$this->input->post('dateMonth');
+//$no=$this->lang->line('No');
+$html="<tr><th>".$this->lang->line('No')."</th></tr>";
+$data['html']=$html;
 
-    $allowance="";
+        $this->load->library("Custom");
+        $data['dual'] = $this->custom->api_config(65);
+        $this->load->model('transactions_model', 'transactions');
+        $data['cat'] = $this->transactions->categories();
+        $data['accounts'] = $this->transactions->acc_list();
+        $head['title'] = "payroll Report";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('payroll/payrollReportData', $data);
+        $this->load->view('fixed/footer');
+        //output to json format
+       // echo json_encode($output);
 
-    $commissions="";
+}
 
-    $claims="";
 
-    $bonus="";
-
-    $ot="";
-
-    $epf="";
-
-    $socso="";
-
-    $pcb="";
-
-    if($timeCategory){
+public function payrollReportGenerateAjax()
+{
+	
+	  /// print_r($this->input->post());
+			//$datesearch=$this->input->post('datesearch');
+			 if($this->input->post('timeCategory')){
 		$datesearch=$this->input->post('dateYear');
         
        $year= $this->input->post('dateYear');
@@ -1012,60 +1030,76 @@ public function payrollReportGenerate()
 		$datesearch=$this->input->post('dateMonth');
 		$year='';
 		}
-
-    $staffid=$this->input->post('orgStaffId');
-
-    if(!empty($this->input->post('salary'))){
+			$staffid=$this->input->post('staffid');
+if(!empty($this->input->post('salary'))){
 
     $salary=",salaryMonth";}
+	else{
+		$salary='';
+	}
 
     if(!empty($this->input->post('allowance'))){
 
     $allowance=",allowance";}
+else{
+		$allowance='';
+	}
 
     if(!empty($this->input->post('commissions'))){
 
     $commissions=",commissions";}
+else{
+		$commissions='';
+	}
 
     if(!empty($this->input->post('claims'))){
 
     $claims=",claims";}
+else{
+		$claims='';
+	}
 
     if(!empty($this->input->post('bonus'))){
 
         $bonus=",bonus";
-		}
+		}else{
+		$bonus='';
+	}
+
 
     if(!empty($this->input->post('ot')))
 	{
 
-    $ot=",ot";}
+    $ot=",ot";}else{
+		$ot='';
+	}
 
     if(!empty($this->input->post('epf'))){
 
         $epf=",epf";}
+else{
+		$epf='';
+	}
 
     if(!empty($this->input->post('socso')))
 	{
             $socso=",socso";
       }
+else{
+		$socso='';
+	}
 
      
     if(!empty($this->input->post('pcb'))){
 
                 $pcb=",pcb";
 				
-				}
-  $ttype = $this->input->get('type');
+				}else{
+		$pcb='';
+	}
 
- // $this->input->post('search')['value']='';
- //$start=0;
- // $this->input->post('length')=10;
-
-       $list = $this->payroll->get_datatables_new($staffid,$salary,$allowance,$commissions,$claims,$bonus,$ot,$epf,$socso,$pcb,$datesearch,$year);
-		
-     
-		$data = array();
+ $list = $this->payroll->get_datatables_new($staffid,$salary,$allowance,$commissions,$claims,$bonus,$ot,$epf,$socso,$pcb,$datesearch,$year);
+$data = array();
         // $no = $_POST['start'];
         $no = $this->input->post('start');
         $temp='';
@@ -1133,40 +1167,15 @@ $no = $this->input->post('start');
             $data[] = $row;
 			
         }
-		$_POST['draw']=1;
+		
             $output = array(
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->payroll->count_all(),
             "recordsFiltered" => $this->payroll->count_filtered(),
             "data" => $data,
-        );
-		$_SESSION['payrollReportData']=$output;
-	    $value['dateYear']=$this->input->post('dateYear');
-	    $value['dateMonth']=$this->input->post('dateMonth');
-        $this->load->library("Custom");
-        $data['dual'] = $this->custom->api_config(65);
-        $this->load->model('transactions_model', 'transactions');
-        $data['cat'] = $this->transactions->categories();
-        $data['accounts'] = $this->transactions->acc_list();
-        $head['title'] = "payroll Report";
-        $head['usernm'] = $this->aauth->get_user()->username;
-	    $this->load->model('employee_model', 'employee');
-		$data['employee'] = $this->employee->list_employee();
-
-        $this->load->view('fixed/header', $head);
-        $this->load->view('payroll/payrollReportData', $value);
-        $this->load->view('fixed/footer');
-        //output to json format
-       // echo json_encode($output);
-
-}
-
-public function payrollReportGenerateAjax()
-{
-	
-	       echo json_encode($_SESSION['payrollReportData']);
-        unset($_SESSION['payrollReportData']);
-	
+        );	
+echo json_encode($output);		
+				
 }
 
 

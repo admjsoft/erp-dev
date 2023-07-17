@@ -208,8 +208,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             },
             "columnDefs": [
                 {
-                    "targets": [0],
-                    "orderable": true,
+                    "targets": [4,5,6],
+                    "orderable": false,
                 },
             ],
            

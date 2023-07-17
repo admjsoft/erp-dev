@@ -59,17 +59,18 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <thead>
                     <tr>
-                        <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo $this->lang->line('Name') ?></th>
+                    <th><?php echo $this->lang->line('No') ?></th>
+					  <th><?php echo $this->lang->line('Name') ?></th>
 						<th><?php echo $this->lang->line('Company') ?></th>
                         <th><?php echo $this->lang->line('Passport') ?></th>
 						 <th><?php echo $this->lang->line('Passport Expiry') ?></th>
 					     <th><?php echo $this->lang->line('Permit') ?></th>
 			            <th><?php echo $this->lang->line('Permit Expiry') ?></th>
-			            <th><?php echo $this->lang->line('Status')?></th>
+			            <th><?php echo $this->lang->line('Passport Status')?></th>
+			            <th><?php echo $this->lang->line('Permit Status')?></th>
+				<th><?php echo $this->lang->line('Actions') ?></th>
 
-					  <th><?php echo $this->lang->line('Actions') ?></th>
-
+					
                     </tr>
                 </thead>
                 <tbody>
@@ -257,12 +258,21 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 	  
 	  
         $('#trans_table').removeAttr('width').DataTable( {
+			       scrollY:        "300px",
+            scrollX:        true,
+            scrollCollapse: true,
+            columnDefs: [
+                { width: 200, targets: 0 }
+            ],
             fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
+
             //responsive: true,
             <?php datatable_lang();?>
+			                'order': [],
+
             "ajax": {
                 "url": "<?php echo site_url('employee/getfwmsEmployees')?>",
                 "type": "POST",
@@ -270,8 +280,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             },
             "columnDefs": [
                 {
-                    "targets": [0],
-                    "orderable": true,
+                    "targets": [0,5,6,7,8],
+                    "orderable": false,
                 },
             ],
            

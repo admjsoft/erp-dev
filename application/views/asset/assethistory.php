@@ -102,7 +102,7 @@
                             "Assign Employee"
                         ); ?></th>
 						<th><?php echo $this->lang->line("Action"); ?></th>
-			 		          <th>              <?php echo $this->lang->line("Create At"); ?></th>
+			 		          <th><?php echo $this->lang->line("Created At"); ?></th>
 
 
                     </tr>
@@ -154,6 +154,8 @@
             "stateSave": true,
             responsive: true,
             <?php datatable_lang(); ?>
+			                'order': [],
+
             "ajax": {
                 "url": "<?php echo site_url("asset/getAssetHistory"); ?>",
                 "type": "POST",
@@ -162,7 +164,7 @@
             "columnDefs": [
                 {
                     "targets": [0],
-                    "orderable": true,
+                    "orderable": false,
                 },
             ],
            

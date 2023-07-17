@@ -1250,6 +1250,7 @@ $this->db->where('id', $id);
         $this->employee_datatables_query();
         if ($this->input->post('length') != -1)
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
+		
         $query = $this->db->get();
         return $query->result();
     }
@@ -1547,6 +1548,11 @@ public function getpermitExpiryListNinenty()
 	
 }
 
+  var $ecolumn_order = array(null, 'gtg_employees.name','gtg_customers.company','gtg_employees.passport',
+	'gtg_employees.passport_expiry',null,null);
+    var $ecolumn_search = array('gtg_employees.name','gtg_customers.company','gtg_employees.passport',
+	'gtg_employees.passport_expiry','gtg_employees.permit','gtg_employees.permit_expiry');
+	    var $eorder = array('gtg_employees.id' => 'desc');
 
 public function employee_datatables_query()
     {
@@ -1560,7 +1566,9 @@ public function employee_datatables_query()
 		   $permit_expiry = $this->input->post('permit_expiry');
 
 		   
-        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,gtg_employees.permit,gtg_employees.delete_status,gtg_customers.company as cname');
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,
+		gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,
+		gtg_employees.permit,gtg_employees.delete_status,gtg_customers.company as cname');
 
         $this->db->from('gtg_employees');
 	    $this->db->join('gtg_customers', 'gtg_customers.id=gtg_employees.company','left');
@@ -1571,39 +1579,42 @@ public function employee_datatables_query()
 		}
 if($active)
 {
-	          $this->db->where('passport_expiry>=',$currentdate);
+	          $this->db->where('gtg_employees.passport_expiry>=',$currentdate);
 
 }
 else if($permitactive)
 {
-	          $this->db->where('permit_expiry>=',$currentdate);
+	          $this->db->where('gtg_employees.permit_expiry>=',$currentdate);
 
 	
 }
 else if($passport_expiry)
 {
-$this->db->where('passport_expiry<',$currentdate);
+$this->db->where('gtg_employees.passport_expiry<',$currentdate);
 
 	
 	
 }
 else if($permit_expiry){
 	
-	$this->db->where('permit_expiry<',$currentdate);
+	$this->db->where('gtg_employees.permit_expiry<',$currentdate);
 
 	
 }
+       //$this->db->order_by('gtg_employees.id', 'DESC');
 
         $i = 0;
 
-        foreach ($this->acolumn_search as $item) // loop column
+        foreach ($this->ecolumn_search as $item) // loop column
         {
+			//echo"<pre>";
+			//print_r($item);
             $search = $this->input->post('search');
             if($search){
             $value = $search['value'];
             }else{$value = 0;}
             if ($value) {
-
+                  
                 if ($i === 0) {
                     $this->db->group_start();
                     $this->db->like($item, $value);
@@ -1618,9 +1629,11 @@ else if($permit_expiry){
         }
         $search = $this->input->post('order');
         if ($search) {
-            $this->db->order_by($this->acolumn_order[$search['0']['column']], $search['0']['dir']);
-        } else if (isset($this->acolumn_order)) {
-            $order = $this->acolumn_order;
+			  //print_r($search);
+             $this->db->order_by($this->ecolumn_order[$search['0']['column']], $search['0']['dir']);
+        } else if (isset($this->eorder)) {
+			
+            $order = $this->eorder;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
@@ -1628,8 +1641,9 @@ else if($permit_expiry){
   public  function employee_count_filtered()
     {
         $this->employee_datatables_query();
+
         $query = $this->db->get();
-		//print_r($this->db->last_query());
+		//echo $this->db->last_query();
         return $query->num_rows();
     }
 
@@ -1651,25 +1665,31 @@ else if($permit_expiry){
         if ($this->input->post('length') != -1)
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
         $query = $this->db->get();
-		
         return $query->result();
    
    }
 
 
-
+var $rcolumn_order = array(null, 'gtg_employees.name','tg_customers.company','gtg_countries.country_name',
+	'gtg_employees.passport','gtg_employees.passport_expiry','gtg_employees.permit','gtg_employees.permit_expiry');
+    var $rcolumn_search = array('gtg_employees.name','gtg_customers.company','gtg_countries.country_name',
+	'gtg_employees.passport','gtg_employees.passport_expiry','gtg_employees.permit','gtg_employees.permit_expiry');
+	    var $rorder = array('gtg_employees.id' => 'desc');
 public function employee_report_datatables_query()
     {
        $company = $this->input->post('company');
        $employee = $this->input->post('employee');
-        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.country,gtg_employees.passport,
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_countries.country_name,gtg_employees.passport,
 		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_customers.company as client');
         $this->db->from('gtg_employees');
+
 		if(!empty($company) && !empty($employee))
 		{
         $this->db->where('gtg_employees.id',$employee);
 		$this->db->where('gtg_customers.id',$company);
 		 $this->db->where('gtg_employees.employee_type',"foreign");
+		 		 $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country');
+
 		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
@@ -1677,18 +1697,22 @@ public function employee_report_datatables_query()
 		{
 		$this->db->where('gtg_customers.id',$company);
         $this->db->where('gtg_employees.employee_type',"foreign");
+				 $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country');
+
 		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		else{
 		 $this->db->where('gtg_employees.employee_type',"foreign");
+		 		 $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country');
+
 		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
 
 		}
 		
         $i = 0;
 
-        foreach ($this->acolumn_search as $item) // loop column
+        foreach ($this->rcolumn_search as $item) // loop column
         {
             $search = $this->input->post('search');
             if($search){
@@ -1703,16 +1727,16 @@ public function employee_report_datatables_query()
                     $this->db->or_like($item, $value);
                 }
 
-                if (count($this->acolumn_search) - 1 == $i) //last loop
+                if (count($this->rcolumn_search) - 1 == $i) //last loop
                     $this->db->group_end(); //close bracket
             }
             $i++;
         }
         $search = $this->input->post('order');
         if ($search) {
-            $this->db->order_by($this->acolumn_order[$search['0']['column']], $search['0']['dir']);
-        } else if (isset($this->acolumn_order)) {
-            $order = $this->acolumn_order;
+            $this->db->order_by($this->rcolumn_order[$search['0']['column']], $search['0']['dir']);
+        } else if (isset($this->rcolumn_order)) {
+            $order = $this->rcolumn_order;
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
@@ -1728,6 +1752,7 @@ public function employee_report_datatables_query()
     {
         $this->employee_report_datatables_query();
         $query = $this->db->get();
+		//echo $this->db->last_query();
         return $query->num_rows();
     }
 

@@ -1967,7 +1967,7 @@ public function fwmsReportGenerateAjax()
             $row[] = $no;
             $row[] = $obj->name;
 			$row[] = $obj->client;
-            $row[] = $obj->country;
+            $row[] = $obj->country_name;
             $row[] = $obj->passport;
 			$row[] = $obj->passport_expiry;
             $row[] = $obj->permit;
@@ -2062,8 +2062,9 @@ public function active_passport()
 		//$this->load->model('employee_model', 'employee');
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['status']="active";
+          
         $this->load->view('fixed/header', $head);
-        $this->load->view('fwms/fwmsemployees', $data);
+        $this->load->view('employee/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 public function expired_passport()
@@ -2080,7 +2081,7 @@ public function expired_passport()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['passport_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('fwms/fwmsemployees', $data);
+        $this->load->view('employee/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 public function expired_permit()
@@ -2097,7 +2098,7 @@ public function expired_permit()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['permit_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('fwms/fwmsemployees', $data);
+        $this->load->view('employee/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 }
 
@@ -2117,7 +2118,7 @@ $this->load->library("Custom");
        // $data['payslip']=$this->payroll->getPayslipList();
         $data['permit_status']="active";
         $this->load->view('fixed/header', $head);
-        $this->load->view('fwms/fwmsemployees', $data);
+        $this->load->view('employee/fwmsemployees', $data);
         $this->load->view('fixed/footer');
 	
 	
@@ -2138,9 +2139,13 @@ public function getfwmsEmployees()
         // $no = $_POST['start'];
         $no = $this->input->post('start');
 		 //$active = $this->input->post('active');
-
+$active = $this->input->post('active');
+		  $permitactive = $this->input->post('permit_active');
+           $passport_expiry = $this->input->post('passport_expiry');
+		   $permit_expiry = $this->input->post('permit_expiry');
         $temp='';
 		$type='';
+		 $current_date=date('Y-m-d');
 	     foreach ($list as $prd) {
             $no++;
             
@@ -2161,18 +2166,34 @@ public function getfwmsEmployees()
 			else{
              $vs=$prd->permit;				
 			}
-			
-			
             $row = array();
-		    if($prd->delete_status==1)
+			/*$status='';
+		    if($active =="active" || $permitactive=="active")
 			{
-			$status="In Active";
+			$status="Active";
+			}
+			else if($passport_expiry=="expiry" ||  $permit_expiry=="expiry")
+			{
+			$status="Expired";
+
+			}*/
+			
+			$status1='';
+			 if($prd->passport_expiry<$current_date)
+			{
+			$status="Expired";
 			}
 			else{
-			$status="Active";
-
+				$status="Active";
 			}
-		
+			 if($prd->permit_expiry<$current_date)
+			{
+			$status1="Expired";
+			}
+			else{
+				$status1="Active";
+			}
+            
             $pid = $prd->id;
             //$row[] = dateformat($prd->created_at);
 			$row[]= $no;
@@ -2196,7 +2217,17 @@ public function getfwmsEmployees()
 
 			}
 			$row[] = '<b style="color:red">'.$prd->permit_expiry.'';
+						$row[]=$status;
+						$row[]=$status1;
+
+			/*if(!empty($status))
+			{
 			$row[]=$status;
+			}
+			else{
+							$row[]=$status1;
+
+			}*/
 
 
 		$row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeedit?id=' . $pid . '" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;

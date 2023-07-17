@@ -1251,3 +1251,5 @@ $lang['Continue'] = "Continue";
 $lang['Postbox'] = "Postbox";
 $lang['Duplicate Email'] = "Duplicate Email";
 
+$lang['Passport Status'] = "Passport Status";
+$lang['Permit Status'] = "Permit Status";

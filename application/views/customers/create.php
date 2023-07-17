@@ -337,7 +337,8 @@
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Name"
-                                                class="form-control margin-bottom b_input" name="name_s" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
+                                                class="form-control margin-bottom b_input" name="name_s" 
+						onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
                                                 id="mcustomer_name_s">
                                         </div>
                                     </div>
@@ -494,10 +495,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <?php     if ($this->aauth->premission(39)) {
+									<?php if($this->aauth->premission(39)){
 										?>
-										
-                            <div class="form-group row">
+									<div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
                                     for="currency"><?php echo $this->lang->line('customer_login') ?></label>
@@ -511,7 +511,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
+									<div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
                                     for="password_c"><?php echo $this->lang->line('New Password') ?></label>
@@ -520,12 +520,9 @@
                                     <input type="text" placeholder="Leave blank for auto generation"
                                         class="form-control margin-bottom b_input" name="password_c" id="password_c">
                                 </div>
-                            </div>                                </div>
-
-                            <?php
-																	
-}
-									?>
+									</div>      <?php }?>                        
+									
+									</div>
 
                                 <div class="tab-pane show" id="tab4" role="tabpanel" aria-labelledby="base-tab4">
 

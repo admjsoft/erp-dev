@@ -164,13 +164,13 @@ public function employee_report_datatables_query()
        $employee = $this->input->post('employee');
         $this->db->select('gtg_employees.*,gtg_countries.country_name');
         $this->db->from('gtg_employees');
-        $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.company', 'left');
+        $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country', 'left');
 
 		if(empty($expiry) && !empty($employee))
 		{
-        $this->db->where('id',$employee);
-		$this->db->where('employee_type',"foreign");
-		$this->db->where('company',$company);
+        $this->db->where('gtg_employees.id',$employee);
+		$this->db->where('gtg_employees.employee_type',"foreign");
+		$this->db->where('gtg_employees.company',$company);
 
 		}
 		else if(!empty($expiry) && !empty($employee))
@@ -178,43 +178,43 @@ public function employee_report_datatables_query()
 			if($expiry==1)
 			{
 				$thirtydays=date('Y-m-d',strtotime('+30 days'));
-        $this->db->where('id',$employee);
-		$this->db->where('company',$company);
+        $this->db->where('gtg_employees.id',$employee);
+		$this->db->where('gtg_employees.company',$company);
 
-				    $this->db->where('passport_expiry',$thirtydays);
-				$this->db->where('permit_expiry',$thirtydays);
+				    $this->db->where('gtg_employees.passport_expiry',$thirtydays);
+				$this->db->where('gtg_employees.permit_expiry',$thirtydays);
 
-		$this->db->where('employee_type',"foreign");
+		$this->db->where('gtg_employees.employee_type',"foreign");
 				
 			}
 			
 			else if($expiry==2)
 			{
 				$sixtydays=date('Y-m-d',strtotime('+60 days'));
-   $this->db->where('id',$employee);
-		$this->db->where('company',$company);
-				    $this->db->where('passport_expiry',$sixtydays);
-									$this->db->where('permit_expiry',$sixtydays);
+   $this->db->where('gtg_employees.id',$employee);
+		$this->db->where('gtg_employees.company',$company);
+				    $this->db->where('gtg_employees.passport_expiry',$sixtydays);
+									$this->db->where('gtg_employees.permit_expiry',$sixtydays);
 
-		$this->db->where('employee_type',"foreign");
+		$this->db->where('gtg_employees.employee_type',"foreign");
 				
 			}
 			else{
 				
 				$ninentydays=date('Y-m-d',strtotime('+90 days'));
-   $this->db->where('id',$employee);
-		$this->db->where('company',$company);
-				    $this->db->where('passport_expiry',$ninentydays);
-		$this->db->where('employee_type',"foreign");
-			$this->db->where('permit_expiry',$ninentydays);
+   $this->db->where('gtg_employees.id',$employee);
+		$this->db->where('gtg_employees.company',$company);
+				    $this->db->where('gtg_employees.passport_expiry',$ninentydays);
+		$this->db->where('gtg_employees.employee_type',"foreign");
+			$this->db->where('gtg_employees.permit_expiry',$ninentydays);
 
 			}
 		
 
 		}
 		else{
-		 $this->db->where('employee_type',"foreign");
-		$this->db->where('company',$company);
+		 $this->db->where('employee_type',"gtg_employees.foreign");
+		$this->db->where('gtg_employees.company',$company);
 
 		}
 		

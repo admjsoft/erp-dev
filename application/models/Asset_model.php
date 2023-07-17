@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 class Asset_model extends CI_Model {
-    var $column_order = array('id', 'image', 'asset_id', 'asset_modelno', 'asset_name', 'assign_employee', 'unit_price');
-    var $column_search = array('id', 'image', 'asset_id', 'asset_modelno', 'asset_name', 'assign_employee', 'unit_price');
+    var $column_order = array(null,'asset_management.asset_id', 'asset_management.asset_modelno', 
+	'gtg_employees.name', 'asset_management.unit_price', 'asset_management.date_of_purchase');
+    var $column_search =array('asset_management.asset_id', 'asset_management.asset_modelno', 
+	'gtg_employees.name', 'asset_management.unit_price', 'asset_management.date_of_purchase');
     var $order = array('asset_management.id' => 'desc');
     var $opt = '';
     private function _get_datatables_query() {
