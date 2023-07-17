@@ -228,7 +228,9 @@
                 ?>
                 </ul>
             </td>
-        </tr><?php if (@$invoice['name_s']) { ?>
+        </tr><?php if (@$invoice['name_s']) {
+             if($invoice['name_s'] != $invoice['name'] &&  $invoice['address_s'] != $invoice['address'] &&  $invoice['country_s'] != $invoice['country'] && 
+             $invoice['postbox_s'] != $invoice['postbox'] &&  $invoice['phone_s'] != $invoice['phone'] &&  $invoice['email_s'] != $invoice['email']  ){ ?>
             <tr>
                 <td>
                     <?php echo '<strong>' . $this->lang->line('Shipping Address') . '</strong>:<br>';
@@ -242,7 +244,7 @@
                     ?>
                 </td>
             </tr>
-        <?php } ?>
+        <?php } } ?>
         </tbody>
     </table>
     <br>
@@ -415,12 +417,12 @@
     {
         echo '</strong></td>
 		</tr>
-		</table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="' . FCPATH . 'userfiles/employee_sign/' . $employee['sign'] . '" width="160" height="100" border="0" alt=""><img src="'.$sign_logo.'" width="100" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><strong>' . $this->lang->line('Terms') . ':</strong><br>';
+		</table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="' . FCPATH . 'userfiles/employee_sign/' . $employee['sign'] . '" width="160" height="100" border="0" alt=""><img src="'.$sign_logo.'" width="100" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><br>';
 
     }else{
         echo '</strong></td>
 		</tr>
-		</table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="'.$sign_logo.'" width="100" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><strong>' . $this->lang->line('Terms') . ':</strong><br>';
+		</table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="'.$sign_logo.'" width="100" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><br>';
 
     }
    
