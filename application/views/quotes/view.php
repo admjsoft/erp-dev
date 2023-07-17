@@ -71,7 +71,7 @@
                                             class="fa fa-print"></i> <?php echo $this->lang->line('Print Quote') ?>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item"
+                                    <a class="dropdown-item" target=”_blank” 
                                        href="<?= base_url('billing/printquote?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>"><?php echo $this->lang->line('Print') ?></a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item"
