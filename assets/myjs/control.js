@@ -539,6 +539,10 @@ function payInvoice(pyurl) {
                     $('#paymade').text(data.ttlpaid);
                     $('#paydue').text(data.amt);
 
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -665,6 +669,11 @@ function sendSms(message) {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").scrollTop($("body").offset().top);
+
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -699,6 +708,11 @@ function sendBill(message) {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").scrollTop($("body").offset().top);
+
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -743,6 +757,11 @@ function cancelBill(acturl) {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").scrollTop($("body").offset().top);
+
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -963,6 +982,9 @@ function removeObject(action, action_url) {
                 $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                 $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                 $("html, body").scrollTop($("body").offset().top);
+                setTimeout(function () {
+                    $("#notify").fadeOut();
+                }, 3000);
             } else {
                 $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                 $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -989,13 +1011,13 @@ $("#submit-data").on("click", function (e) {
 });
 
 
-$("#submit-data1").on("click", function(e) {
+$("#submit-data-new").on("click", function(e) {
     e.preventDefault();
     $(this).hide();
     var o_data = $("#data_form1").find(':input').not('.no-serialize').serialize();
     var action_url = $('#action-url1').val();
-    addObject(o_data, action_url);
-    setTimeout(function(){  $("#submit-data1").show(); }, 1000);
+    addObjectNew(o_data, action_url);
+    setTimeout(function(){  $("#submit-data-new").show(); }, 1000);
 });
 
 $("#submit-update").on("click", function (e) {
@@ -1043,6 +1065,10 @@ function addObject(action, action_url, table_reload='') {
                     $("html, body").scrollTop($("body").offset().top);
                     $("#data_form")[0].reset();
 
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
                    if(data.pos_invoice_pdf != '')
                    {
                     $('#current_invoice_print_url').val(data.pos_invoice_pdf);
@@ -1076,6 +1102,69 @@ function addObject(action, action_url, table_reload='') {
     
 }
 
+
+
+function addObjectNew(action, action_url, table_reload='') {
+    //alert(table_reload);
+    var errorNum = farmCheckNew();
+    var $btn;
+    if ($("#notify").length == 0) {
+        $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
+    }
+    if (errorNum > 0) {
+        $("#notify").removeClass("alert-success").addClass("alert-warning").fadeIn();
+        $("#notify .message").html("<strong>Error</strong>: It appears you have forgotten to complete something!");
+        $("html, body").scrollTop($("body").offset().top);
+    } else {
+        jQuery.ajax({
+            url: baseurl + action_url,
+            type: 'POST',
+            data: action + '&' + crsf_token + '=' + crsf_hash,
+            dataType: 'json',
+            success: function (data) {
+
+                if (data.status == "Success") {
+                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
+                    $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
+                    $("html, body").scrollTop($("body").offset().top);
+                    $("#data_form")[0].reset();
+
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
+                   if(data.pos_invoice_pdf != '')
+                   {
+                    $('#current_invoice_print_url').val(data.pos_invoice_pdf);
+                    $('#printFrame').attr('src',data.pos_invoice_pdf);
+                    //alert('sss');
+                   }
+
+                } else {
+                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
+                    $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
+                    $("html, body").scrollTop($("body").offset().top);
+                }
+            },
+            error: function (data) {
+                $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
+                $("#notify").removeClass("alert-success").addClass("alert-warning").fadeIn();
+                $("html, body").scrollTop($("body").offset().top);
+            }
+        });
+    }
+
+
+
+    if(table_reload != '')
+    {
+    //alert('sss');
+    load_trans_table();
+   // location.reload();
+    //$('#'+table_reload).DataTable();
+    }
+    
+}
 //
 function actionProduct(actionurl) {
     var errorNum = farmCheck();
@@ -1179,6 +1268,11 @@ function sendMail_g(o_data, action_url) {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").animate({scrollTop: $('#notify').offset().top}, 1000);
+
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
+
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -1239,6 +1333,9 @@ function saveMData(o_data, action_url) {
                     $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").scrollTop($("body").offset().top);
                     $('#pstatus').html(data.pstatus);
+                    setTimeout(function () {
+                        $("#notify").fadeOut();
+                    }, 3000);
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
@@ -1309,6 +1406,9 @@ function removeObject_c(action, action_url) {
                 $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                 $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                 $("html, body").scrollTop($("body").offset().top);
+                setTimeout(function () {
+                    $("#notify").fadeOut();
+                }, 3000);
             } else {
                 $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                 $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
