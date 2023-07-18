@@ -5,6 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
+use GuzzleHttp\Client;
 
 class Ecommerce extends CI_Controller
 {
@@ -291,6 +292,139 @@ class Ecommerce extends CI_Controller
         $this->load->view('ecommerce/vendors',$data);
         $this->load->view('fixed/footer');
     }
+
+
+    public function products_list()
+    {
+        // WooCommerce API endpoint for listing products
+        $url = 'https://jstore.my/wp-json/wc/v3/products';
+
+        // API authentication credentials
+        $consumerKey = 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de';
+        $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
+
+        // Initialize Guzzle HTTP client
+        $client = new Client();
+
+        // Send GET request to retrieve products
+        $response = $client->request('GET', $url, [
+            'auth' => [$consumerKey, $consumerSecret]
+        ]);
+
+        // Check if the request was successful
+        if ($response->getStatusCode() === 200) {
+            $products = json_decode($response->getBody());
+
+            // Process the list of products
+            foreach ($products as $product) {
+                // Access product details
+                $productId = $product->id;
+                $productName = $product->name;
+                $productPrice = $product->price;
+
+                // Do something with the product information (e.g., display it on the page)
+                echo "Product ID: $productId<br>";
+                echo "Product Name: $productName<br>";
+                echo "Product Price: $productPrice<br><br>";
+            }
+        } else {
+            // Request failed, show an error message
+            echo "Error retrieving products";
+        }
+    }
+
+    public function poducts_new_list()
+    {
+        // WooCommerce API endpoint for listing products
+        $url = 'https://jstore.my/wp-json/wc/v3/products';
+
+        // API authentication credentials
+        $consumerKey = 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de';
+        $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
+
+        // Initialize cURL session
+        $ch = curl_init();
+    
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+        ));
+    
+        // Execute cURL request
+        $response = curl_exec($ch);
+    
+         echo "<pre>"; print_r($response); echo "</pre>";
+        // exit;
+        // Check if the request was successful
+        if ($response !== false) {
+            $products = json_decode($response);
+    
+            // Process the list of products
+            foreach ($products as $product) {
+                // Access product details
+                $productId = $product->id;
+                $productName = $product->name;
+                $productPrice = $product->price;
+    
+                // Do something with the product information (e.g., display it on the page)
+                echo "Product ID: $productId<br>";
+                echo "Product Name: $productName<br>";
+                echo "Product Price: $productPrice<br><br>";
+            }
+        } else {
+            // Request failed, show an error message
+            echo "Error retrieving products";
+        }
+    
+        // Close cURL session
+        curl_close($ch);
+    }
+    
+    public function get_product($product_id)
+{
+    // WooCommerce API endpoint for fetching a single product
+    $url = 'https://your-domain.com/wp-json/wc/v3/products/' . $product_id;
+
+    // API authentication credentials
+    $consumerKey = 'your_consumer_key';
+    $consumerSecret = 'your_consumer_secret';
+
+    // Initialize cURL session
+    $ch = curl_init();
+
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+    ));
+
+    // Execute cURL request
+    $response = curl_exec($ch);
+
+    // Check if the request was successful
+    if ($response !== false) {
+        $product = json_decode($response);
+
+        // Access product details
+        $productId = $product->id;
+        $productName = $product->name;
+        $productPrice = $product->price;
+
+        // Do something with the product information (e.g., display it on the page)
+        echo "Product ID: $productId<br>";
+        echo "Product Name: $productName<br>";
+        echo "Product Price: $productPrice<br>";
+    } else {
+        // Request failed, show an error message
+        echo "Error retrieving product";
+    }
+
+    // Close cURL session
+    curl_close($ch);
+}
 
 
 }
