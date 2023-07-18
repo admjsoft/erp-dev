@@ -2064,10 +2064,10 @@ public function active_passport()
          $data['status']="active";
           
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('employee/activepassport', $data);
         $this->load->view('fixed/footer');
 }
-public function expired_passport()
+public function expiredPassport()
 {
 
 	     $this->load->library("Custom");
@@ -2081,10 +2081,10 @@ public function expired_passport()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['passport_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('employee/expiredpassport', $data);
         $this->load->view('fixed/footer');
 }
-public function expired_permit()
+public function expiredPermit()
 {
 
 	     $this->load->library("Custom");
@@ -2098,13 +2098,13 @@ public function expired_permit()
        // $data['payslip']=$this->payroll->getPayslipList();
          $data['permit_expiry']="expiry";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('employee/expiredpermit', $data);
         $this->load->view('fixed/footer');
 }
 
 
 
-public function active_permit()
+public function activepermit()
 {
 	
 $this->load->library("Custom");
@@ -2118,14 +2118,386 @@ $this->load->library("Custom");
        // $data['payslip']=$this->payroll->getPayslipList();
         $data['permit_status']="active";
         $this->load->view('fixed/header', $head);
-        $this->load->view('employee/fwmsemployees', $data);
+        $this->load->view('employee/activepermit', $data);
         $this->load->view('fixed/footer');
 	
 	
 	
 }
+public function getfwmsEmployeesPassportActive()
+{
+
+	       $ttype = $this->input->get('type');
+           $list = $this->employee->employee_datatables();
+           $data = array();
+        // $no = $_POST['start'];
+          $no = $this->input->post('start');
+		 //$active = $this->input->post('active');
+            $active = $this->input->post('active');
+		  $permitactive = $this->input->post('permit_active');
+           $passport_expiry = $this->input->post('passport_expiry');
+		   $permit_expiry = $this->input->post('permit_expiry');
+        $temp='';
+		$type='';
+		 $current_date=date('Y-m-d');
+	     foreach ($list as $prd) {
+            $no++;
+                  if(file_exists(FCPATH."userfiles/passport/".$prd->passport_document))
+			{
+			$ps='<a href="../userfiles/passport/'.$prd->passport_document.'" target=_blank>'.$prd->passport.'</a>';
+				
+			}
+			else{
+				
+             $ps=$prd->passport;				
+			}
+                  
+            $row = array();
+			/*$status='';
+		    if($active =="active" || $permitactive=="active")
+			{
+			$status="Active";
+			}
+			else if($passport_expiry=="expiry" ||  $permit_expiry=="expiry")
+			{
+			$status="Expired";
+
+			}*/
+			
+			$status1='';
+			 if($prd->passport_expiry<$current_date)
+			{
+			$status="Expired";
+			}
+			else{
+				$status="Active";
+			}
+			 
+            $pid = $prd->id;
+            //$row[] = dateformat($prd->created_at);
+			$row[]= $no;
+            $row[] = $prd->name;
+            $row[] = $prd->cname;
+			if(!empty($prd->passport_document))
+			{
+            $row[] = $ps;
+			}
+			else{
+				            $row[] = $prd->passport;
+
+			}
+			$row[] = '<b style="color:red">'.$prd->passport_expiry.'</b>';
+			
+						$row[]=$status;
+
+			/*if(!empty($status))
+			{
+			$row[]=$status;
+			}
+			else{
+							$row[]=$status1;
+
+			}*/
 
 
+		$row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeedit?id=' . $pid . '" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+			<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            //$row[] =$temp;
+            /*
+              $row[] = '<a href="' . base_url() . 'expenses/view?id=' . $pid . '" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span>  ' . $this->lang->line('View') . '</a> <a href="' . base_url() . 'expenses/print_t?id=' . $pid . '" class="btn btn-info btn-sm"  title="Print"><span class="fa fa-print"></span></a>&nbsp; &nbsp;<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+              */
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" =>$this->employee->employee_count_all(),
+            "recordsFiltered" =>$this->employee->employee_count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+}
+
+public function getfwmsEmployeesPassportExpired()
+{
+
+	       $ttype = $this->input->get('type');
+           $list = $this->employee->employee_datatables();
+           $data = array();
+        // $no = $_POST['start'];
+          $no = $this->input->post('start');
+		 //$active = $this->input->post('active');
+            $active = $this->input->post('active');
+		  $permitactive = $this->input->post('permit_active');
+           $passport_expiry = $this->input->post('passport_expiry');
+		   $permit_expiry = $this->input->post('permit_expiry');
+        $temp='';
+		$type='';
+		 $current_date=date('Y-m-d');
+	     foreach ($list as $prd) {
+            $no++;
+                  if(file_exists(FCPATH."userfiles/passport/".$prd->passport_document))
+			{
+			$ps='<a href="../userfiles/passport/'.$prd->passport_document.'" target=_blank>'.$prd->passport.'</a>';
+				
+			}
+			else{
+				
+             $ps=$prd->passport;				
+			}
+                  
+            $row = array();
+			/*$status='';
+		    if($active =="active" || $permitactive=="active")
+			{
+			$status="Active";
+			}
+			else if($passport_expiry=="expiry" ||  $permit_expiry=="expiry")
+			{
+			$status="Expired";
+
+			}*/
+			
+			$status1='';
+			 if($prd->passport_expiry<$current_date)
+			{
+			$status="Expired";
+			}
+			else{
+				$status="Active";
+			}
+			 
+            $pid = $prd->id;
+            //$row[] = dateformat($prd->created_at);
+			$row[]= $no;
+            $row[] = $prd->name;
+            $row[] = $prd->cname;
+			if(!empty($prd->passport_document))
+			{
+            $row[] = $ps;
+			}
+			else{
+				            $row[] = $prd->passport;
+
+			}
+			$row[] = '<b style="color:red">'.$prd->passport_expiry.'</b>';
+			
+						$row[]=$status;
+
+			/*if(!empty($status))
+			{
+			$row[]=$status;
+			}
+			else{
+							$row[]=$status1;
+
+			}*/
+
+
+		$row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeedit?id=' . $pid . '" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+			<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            //$row[] =$temp;
+            /*
+              $row[] = '<a href="' . base_url() . 'expenses/view?id=' . $pid . '" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span>  ' . $this->lang->line('View') . '</a> <a href="' . base_url() . 'expenses/print_t?id=' . $pid . '" class="btn btn-info btn-sm"  title="Print"><span class="fa fa-print"></span></a>&nbsp; &nbsp;<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+              */
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" =>$this->employee->employee_count_all(),
+            "recordsFiltered" =>$this->employee->employee_count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+}
+
+public function getfwmsEmployeesPermitActive()
+{
+
+	       $ttype = $this->input->get('type');
+           $list = $this->employee->employee_datatables();
+           $data = array();
+        // $no = $_POST['start'];
+          $no = $this->input->post('start');
+		 //$active = $this->input->post('active');
+            $active = $this->input->post('active');
+		  $permitactive = $this->input->post('permit_active');
+           $passport_expiry = $this->input->post('passport_expiry');
+		   $permit_expiry = $this->input->post('permit_expiry');
+        $temp='';
+		$type='';
+		 $current_date=date('Y-m-d');
+	     foreach ($list as $prd) {
+            $no++;
+                  if(file_exists(FCPATH."userfiles/passport/".$prd->visa_document))
+			{
+			$vs='<a href="../userfiles/passport/'.$prd->visa_document.'" target=_blank>'.$prd->permit.'</a>';
+				
+			}
+			else{
+             $vs=$prd->permit;				
+			}
+                  
+            $row = array();
+			/*$status='';
+		    if($active =="active" || $permitactive=="active")
+			{
+			$status="Active";
+			}
+			else if($passport_expiry=="expiry" ||  $permit_expiry=="expiry")
+			{
+			$status="Expired";
+
+			}*/
+			
+			$status1='';
+			  if($prd->permit_expiry<$current_date)
+			{
+			$status="Expired";
+			}
+			else{
+				$status="Active";
+			}
+            
+            $pid = $prd->id;
+            //$row[] = dateformat($prd->created_at);
+			$row[]= $no;
+            $row[] = $prd->name;
+            $row[] = $prd->cname;
+			if(!empty($prd->visa_document))
+			{
+            $row[] = $vs;
+			}
+			else{
+				$row[] = $prd->permit;
+
+			}
+			$row[] = '<b style="color:red">'.$prd->permit_expiry.'</b>';
+			
+						$row[]=$status;
+
+			/*if(!empty($status))
+			{
+			$row[]=$status;
+			}
+			else{
+							$row[]=$status1;
+
+			}*/
+
+
+		$row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeedit?id=' . $pid . '" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+			<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            //$row[] =$temp;
+            /*
+              $row[] = '<a href="' . base_url() . 'expenses/view?id=' . $pid . '" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span>  ' . $this->lang->line('View') . '</a> <a href="' . base_url() . 'expenses/print_t?id=' . $pid . '" class="btn btn-info btn-sm"  title="Print"><span class="fa fa-print"></span></a>&nbsp; &nbsp;<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+              */
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" =>$this->employee->employee_count_all(),
+            "recordsFiltered" =>$this->employee->employee_count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+}
+
+
+public function getfwmsEmployeesPermitExpired()
+{
+
+	       $ttype = $this->input->get('type');
+           $list = $this->employee->employee_datatables();
+           $data = array();
+        // $no = $_POST['start'];
+          $no = $this->input->post('start');
+		 //$active = $this->input->post('active');
+            $active = $this->input->post('active');
+		  $permitactive = $this->input->post('permit_active');
+           $passport_expiry = $this->input->post('passport_expiry');
+		   $permit_expiry = $this->input->post('permit_expiry');
+        $temp='';
+		$type='';
+		 $current_date=date('Y-m-d');
+	     foreach ($list as $prd) {
+            $no++;
+                  if(file_exists(FCPATH."userfiles/passport/".$prd->visa_document))
+			{
+			$vs='<a href="../userfiles/passport/'.$prd->visa_document.'" target=_blank>'.$prd->permit.'</a>';
+				
+			}
+			else{
+             $vs=$prd->permit;				
+			}
+                  
+            $row = array();
+			/*$status='';
+		    if($active =="active" || $permitactive=="active")
+			{
+			$status="Active";
+			}
+			else if($passport_expiry=="expiry" ||  $permit_expiry=="expiry")
+			{
+			$status="Expired";
+
+			}*/
+			
+			$status1='';
+			  if($prd->permit_expiry<$current_date)
+			{
+			$status="Expired";
+			}
+			else{
+				$status="Active";
+			}
+            
+            $pid = $prd->id;
+            //$row[] = dateformat($prd->created_at);
+			$row[]= $no;
+            $row[] = $prd->name;
+            $row[] = $prd->cname;
+			if(!empty($prd->visa_document))
+			{
+            $row[] = $vs;
+			}
+			else{
+				$row[] = $prd->permit;
+
+			}
+			$row[] = '<b style="color:red">'.$prd->permit_expiry.'</b>';
+			
+						$row[]=$status;
+
+			/*if(!empty($status))
+			{
+			$row[]=$status;
+			}
+			else{
+							$row[]=$status1;
+
+			}*/
+
+
+		$row[] = '<a href="' . base_url() . 'employee/fwmsemplyeeedit?id=' . $pid . '" class="btn btn-success btn-sm" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+			<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            //$row[] =$temp;
+            /*
+              $row[] = '<a href="' . base_url() . 'expenses/view?id=' . $pid . '" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span>  ' . $this->lang->line('View') . '</a> <a href="' . base_url() . 'expenses/print_t?id=' . $pid . '" class="btn btn-info btn-sm"  title="Print"><span class="fa fa-print"></span></a>&nbsp; &nbsp;<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+              */
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" =>$this->employee->employee_count_all(),
+            "recordsFiltered" =>$this->employee->employee_count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+}
 
 
 
@@ -2133,13 +2505,13 @@ $this->load->library("Custom");
 public function getfwmsEmployees()
 {
 
-	    $ttype = $this->input->get('type');
-        $list = $this->employee->employee_datatables();
-         $data = array();
+	       $ttype = $this->input->get('type');
+           $list = $this->employee->employee_datatables();
+           $data = array();
         // $no = $_POST['start'];
-        $no = $this->input->post('start');
+          $no = $this->input->post('start');
 		 //$active = $this->input->post('active');
-$active = $this->input->post('active');
+            $active = $this->input->post('active');
 		  $permitactive = $this->input->post('permit_active');
            $passport_expiry = $this->input->post('passport_expiry');
 		   $permit_expiry = $this->input->post('permit_expiry');

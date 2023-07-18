@@ -111,7 +111,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="fa fa-file-text-o text-bold-200  font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-primary1 white media-body">
-					<a href="<?php echo base_url("employee/active_passport?list=active") ?>">
+					<a href="<?php echo base_url("employee/active_passport") ?>">
                         <h5 class="white"><?php echo $this->lang->line('Active Passport') ?></h5>
                         <h5 class="text-bold-400 mb-0 white"><i class="ft-plus"></i> <?= $active_passport ?></h5>
                         </a>
@@ -128,7 +128,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="icon-notebook font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-primary1 white media-body">
-						<a href="<?php echo base_url("employee/active_permit?permitlist=active") ?>">
+						<a href="<?php echo base_url("employee/activepermit") ?>">
                         <h5 class="white"><?= $this->lang->line('Active Permit') ?></h5>
                         <h5 class="text-bold-400 mb-0 white"><i class="ft-arrow-up"></i><?= $active_permit ?></h5>
 						</a>
@@ -145,7 +145,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="icon-basket-loaded font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-primary1  white media-body">
-											<a href="<?php echo base_url("employee/expired_passport?passport=expiry") ?>">
+											<a href="<?php echo base_url("employee/expiredPassport") ?>">
 
                         <h5 class="white"><?= $this->lang->line('Expired Passport') ?></h5>
                         <h5 class="text-bold-400 mb-0 white"><i
@@ -164,7 +164,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="icon-wallet font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-primary1  white media-body">
-            <a href="<?php echo base_url("employee/expired_permit?permit=expiry") ?>">
+            <a href="<?php echo base_url("employee/expiredPermit") ?>">
 
                         <h5 class="white"><?php echo $this->lang->line('Expired Permit') ?></h5>
                         <h5 class="text-bold-400 mb-0 white"><i
