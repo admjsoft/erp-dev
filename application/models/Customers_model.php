@@ -13,7 +13,7 @@ class Customers_model extends CI_Model
     var $trans_column_search = array('id', 'date');
     var $inv_column_order = array(null, 'tid', 'name', 'invoicedate', 'total', 'status', null);
     var $inv_column_search = array('tid', 'name', 'invoicedate', 'total');
-    var $order = array('id' => 'desc');
+    var $order = array('gtg_customers.id' => 'desc');
     var $inv_order = array('gtg_invoices.tid' => 'desc');
     var $qto_order = array('gtg_quotes.tid' => 'desc');
     var $notecolumn_order = array(null, 'title', 'cdate', null);
@@ -51,6 +51,7 @@ class Customers_model extends CI_Model
 		{
 			    $this->db->from($this->table);
                $this->db->where('customer_type', "foreign");
+            $this->db->order_by('gtg_customers.id', 'desc');
 
 			
 		}

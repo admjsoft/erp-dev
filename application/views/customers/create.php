@@ -76,7 +76,7 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                    for="name"><?php echo $this->lang->line('Roc Number') ?><span style="color:red">*</span></label>
+                                    for="name"><?php echo $this->lang->line('Roc Number') ?></label>
 
                                 <div class="col-sm-8">
 									<span class="roc_error"></span>
@@ -842,23 +842,7 @@ $("#foreign_content").css("display", "block");
                 }    
             }) .trigger("focusout");
 
-$("#roc").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".roc_error").text("this field is required");
-					$('input:radio[name=chooseradio]').val(['foreign']);
-$("#foreign_content").css("display", "block");
-					        e.preventDefault();
 
-                }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-								
-
-                }    
-            }) .trigger("focusout");
 
 $("#international_email_id").focusout(function() { 
                 if($(this).val()=='') { 
