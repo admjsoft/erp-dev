@@ -2,7 +2,10 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">E-commerce Vendors<?php // echo $this->lang->line('Peppol Invoices') ?></h4>
+            <h4 class="card-title">E-commerce Vendors<?php // echo $this->lang->line('Peppol Invoices') ?><a
+                        href="<?php echo base_url('ecommerce/vendor_create') ?>"
+                        class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo "Add New Vendor"//$this->lang->line('Add new') ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -25,7 +28,7 @@
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
                         <th><?php echo "Vendor Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <!-- <th class="no-sort"><?php // echo $this->lang->line('Settings') ?></th> -->
+                        <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,7 +37,8 @@
                             <tr>
                             <td><?php echo $c;  ?></td>
                             <td><?php echo $vendor['VendorName']; ?></td>
-                            <!-- <td class="no-sort"><?php // echo $this->lang->line('Settings') ?></td> -->
+                            <td class="no-sort"><a href="<?php echo base_url('ecommerce/vendor_edit/?' . http_build_query(array('id' => $vendor['Id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a vendor_id="<?php echo $vendor['Id']; ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs vendor_delete"><i class="fa fa-trash"></i></a></td>
                             </tr> 
                         <?php $c++; }} ?>   
                           
@@ -75,7 +79,36 @@
 <script type="text/javascript">
     $(document).ready(function () {
         
-            $('#th_vendors').DataTable();
+        $('#th_vendors').DataTable();
+
+        
+        $(document).on('click', ".vendor_delete", function (e) {
+        e.preventDefault();
+       var vendor_id = $(this).attr('vendor_id');
+       
+
+        $.ajax({
+
+        url: "<?php echo site_url('ecommerce/vendor_delete') ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            vendor_id: vendor_id
+        },
+        success: function (data) {
+            alert(data.message);
+        },
+        error: function(data) {
+        //console.log(data);
+        alert(data.message);
+        }
+
+
+    });
+
+    
+});
+
     });
 
     /*

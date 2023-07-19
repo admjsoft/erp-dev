@@ -1421,10 +1421,10 @@ $('.nav-menu-main').removeClass('is-active');
 					   
 					   ?>
 <?php 
-					if($this->aauth->subscribe(37))
-					{
- if ($this->aauth->premission(37)) 
-			{
+// 					if($this->aauth->subscribe(37))
+// 					{
+//  if ($this->aauth->premission(37)) 
+// 			{
 				?>
                        <li class="menu-item  has-sub <?php if ($this->li_a == "ecommerce") {
                     echo ' open';
@@ -1445,9 +1445,10 @@ $('.nav-menu-main').removeClass('is-active');
                                  
                              </ul>
                          </li>
-			<?php }
-					}
-					else{
+			<?php 
+            // }
+			// 		}
+			// 		else{
 			?>
 			<li class="nav-item"><a href="#" title="subscripe"><i
                                 class="icon-diamond"></i> <span><?php echo $this->lang->line('E-Commerce') ?></span> &nbsp;
@@ -1458,7 +1459,7 @@ $('.nav-menu-main').removeClass('is-active');
 </ul>
 					</li>
 				<?php
-					}
+					// }
 					if($this->aauth->subscribe(9))
 				{
 
