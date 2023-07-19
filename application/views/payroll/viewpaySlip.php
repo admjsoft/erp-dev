@@ -201,6 +201,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             "stateSave": true,
             //responsive: true,
             <?php datatable_lang();?>
+			   'order': [],
             "ajax": {
                 "url": "<?php echo site_url('payroll/paysliplist')?>",
                 "type": "POST",

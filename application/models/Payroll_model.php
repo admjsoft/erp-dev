@@ -52,7 +52,8 @@ class Payroll_model extends CI_Model
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } else if (isset($this->order)) {
-            $order = $this->order;
+             $order = $this->order;
+			
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
@@ -237,7 +238,7 @@ public function updatesettings($staff,$basic,$epf,$epfEmployee,$epfEmp,$epfEmpyr
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
-
+   //print_r($this->db->last_query());
         return $query->result();
     }
     function get_datatables_new($staffid,$salary,$allowance,$commissions,$claims,$bonus,$ot,$epf,$socso,$pcb,$datesearch,$year)

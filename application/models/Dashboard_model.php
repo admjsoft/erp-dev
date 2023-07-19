@@ -601,6 +601,36 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         return $query->result_array();
     }
 
+ function fetch_year()
+ {
+  $this->db->select('year');
+  $this->db->from('chart_data');
+  $this->db->group_by('year');
+  $this->db->order_by('year', 'DESC');
+  return $this->db->get();
+ }
+
+ function fetch_chart_data($year)
+ {
+	 
+	  $this->db->select('sum(netPay) as amount,monthText');
+  $this->db->from('gtg_payslip');
+  $this->db->where('year', $year);
+  $this->db->group_by('monthText'); 
+  $this->db->order_by('year', 'DESC');
+
+
+   $query=$this->db->get();
+          return $query->result_array();
+
+  //$this->db->where('year', $year);
+ // $this->db->order_by('year', 'ASC');
+ // return $this->db->get('gtg_payslip');
+ }
+
+	
+
+
 
 
 }
