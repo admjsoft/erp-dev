@@ -30,7 +30,7 @@ public function settings()
         $head['usernm'] = $this->aauth->get_user()->username;
 		 $this->load->model('employee_model', 'employee');
 
-		$data['employee'] = $this->employee->list_employee();
+		$data['employee'] = $this->employee->list_all_employee();
 
 		
         $this->load->view('fixed/header', $head);

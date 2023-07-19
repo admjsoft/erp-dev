@@ -175,12 +175,13 @@ if (isset($_SESSION['status'])) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#trans_table').removeAttr('width').DataTable( {
-       
+              fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
+            responsive: true,
             <?php datatable_lang(); ?>
+			 'order': [],
             "ajax": {
                 "url": "<?php echo site_url('asset/getassetcategories') ?>",
                 "type": "POST",

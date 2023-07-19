@@ -204,10 +204,98 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 
                         </tbody>
                     </table>
+					    
+							  
                 </div>
             </div>
 
 <?php }?>
+<?php if ($this->aauth->premission(41))
+{
+	?>
+	<h3>JobSheet</h3>
+
+<div class="row">
+<hr>
+
+</hr>
+
+        <div class="col-xl-3 col-lg-6 col-xs-6">
+            <div class="card status_block" status="Assign">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                               <a href="<?php echo base_url("dashboard/jobsheet?filter=Assign") ?>"> <h3 class="pink"><?php echo $assign ?></h3>
+                                <span><?php echo $this->lang->line('Waiting') ?></span></a>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-clock-o pink font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-xs-6">
+            <div class="card status_block" status="Pending">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+							 <a href="<?php echo base_url("dashboard/jobsheet?filter=Pending") ?>">
+                                <h3 class="blue"><?php echo $pending ?></h3>
+                                <span><?php echo $this->lang->line('Pending') ?></span></a>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-refresh blue font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-xs-6">
+            <div class="card status_block" status="Completed">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+				 <a href="<?php echo base_url("dashboard/jobsheet?filter=Completed") ?>">
+
+                                <h3 class="success"><?php echo $completed ?></h3>
+                                <span><?php echo $this->lang->line('Completed') ?></span></a>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-check-circle success font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-xs-6">
+            <div class="card status_block" status="All">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+										 <a href="<?php echo base_url("dashboard/jobsheet?filter=All") ?>">
+
+                                <h3 class="cyan"><?php echo $totalt ?></h3>
+                                <span><?php echo $this->lang->line('Total') ?></span></a>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-pie-chart cyan font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php }?>
+
 <?php if ($this->aauth->premission(35))
 {
 ?>
@@ -563,58 +651,44 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                 </div>
             </div>
         </div>
+		
     </div>
-    <?php /* temprary hide
+    <?php ?>
+	<?php if ($this->aauth->premission(40))
+{
+?>
     <div class="col-xl-5 col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title"><?php echo $this->lang->line('task_manager') . ' ' ?> <a
-                            href="<?php echo base_url() ?>manager/todo"><i
-                                class="icon-arrow-right deep-orange"></i></a></h4>
+                <h4 class="card-title"><?php echo $this->lang->line('Month Wise Expense For Payroll Data') ?>
+				</h4>
             </div>
 
             <div class="card-content">
-                <div id="daily-activity">
-                    <table class="table table-striped table-bordered base-style table-responsive" >
-                        <thead>
-                        <tr>
-                            <th>
+                  <div class="col-md-3">
+                        <select name="year" id="year" class="form-control" style="width:200px;">
+                            <option value="">Select Year</option>
+                        <option value="2021">2021</option>
+                              <option value="2022">2022</option>
+                              <option value="2023" selected>2023</option>
+                              <option value="2024">2024</option>
+                              <option value="2025">2025</option>
+                              <option value="2026">2026</option>
+                              <option value="2027">2027</option>
+                              <option value="2028">2028</option>
+                              <option value="2029">2029</option>
 
-                            </th>
-
-                            <th><?php echo $this->lang->line('Tasks') ?></th>
-                            <th><?php echo $this->lang->line('Status') ?></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        $t = 0;
-                        foreach ($tasks as $row) {
-                            $name = '<a class="check text-default" data-id="' . $row['id'] . '" data-stat="Due"> <i class="fa fa-check"></i> </a><a href="#" data-id="' . $row['id'] . '" class="view_task"></a>';
-                            if ($row['status'] == 'Done') {
-                                $name = '<a class="check text-success" data-id="' . $row['id'] . '" data-stat="Done"> <i class="fa fa-check"></i> </a><a href="#" data-id="' . $row['id'] . '" class="view_task"></a>';
-                            }
-
-                            echo ' <tr>
-                                <td class="text-truncate">
-                                   ' . $name . '
-                                </td>
-                            
-                                <td class="text-truncate">' . $row['name'] . '</td>
-                                <td class="text-truncate"><span id="st' . $t . '" class="badge badge-default task_' . $row['status'] . '">' . $row['status'] . '</span></td>
-                            </tr>';
-
-
-                            $t++;
-                        }
-                        ?>
-
-                        </tbody>
-                    </table>
-                </div>
+                        </select>
+                    </div>
+					 <div class="panel-body">
+                <div id="chart_area" style="width:100%; height: 400px;"></div>
+            </div>
             </div>
         </div>
-    </div> */?>
+    </div> 
+<?php }?>
+	
+	
 </div><?php }?>
 <?php if ($this->aauth->premission(35))
 {
@@ -740,6 +814,34 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 
     });
 </script>
+<script>
+
+   $(document).ready(function () {
+	var passport_expiry="passport_expiry";
+        $('#jobsheet').removeAttr('width').DataTable( {
+			
+           
+          
+
+            //responsive: true,
+            <?php datatable_lang();?>
+			  'order': []
+
+          /*  "ajax": {
+                "url": "<?php echo site_url('employee/getfwmsEmployeesPassportExpired')?>",
+                "type": "POST",
+                'data': {'passport_expiry':passport_expiry,'<?=$this->security->get_csrf_token_name()?>': crsf_hash }
+            },*/
+          
+           
+        });
+
+
+
+    });
+	</script>
+
+
 <script type="text/javascript">
     function drawIncomeChart(dataVisits) {
         $('#dashboard-income-chart').empty();
@@ -821,7 +923,85 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
     $('a[data-toggle=tab').on('shown.bs.tab', function (e) {
         window.dispatchEvent(new Event('resize'));
     });
+	
+	
 </script>
 <?php
 }
 ?>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {packages:['corechart', 'bar']});
+google.charts.setOnLoadCallback();
+
+function load_monthwise_data(year, title)
+{
+    var temp_title = title + ' ' + year;
+    $.ajax({
+        url:"<?php echo base_url(); ?>dashboard/fetch_data",
+        method:"POST",
+        data:{year:year},
+        dataType:"JSON",
+        success:function(data)
+        {
+            drawMonthwiseChart(data, temp_title);
+        }
+    })
+}
+
+function drawMonthwiseChart(chart_data, chart_main_title)
+{
+    var jsonData = chart_data;
+	
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Month');
+    data.addColumn('number', 'Expense');
+
+    $.each(jsonData, function(i, jsonData){
+        var month = jsonData.month;
+        var expense = parseFloat($.trim(jsonData.expense));
+		
+        data.addRows([[month, expense]]);
+    });
+
+    var options = {
+        title:"Month Wise Expense For Payroll Data",
+        hAxis: {
+            title: "Months"
+        },
+        vAxis: {
+            title: 'Expense'
+        },
+        chartArea:{width:'80%',height:'85%'}
+    }
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_area'));
+
+    chart.draw(data, options);
+}
+
+</script>
+
+<script>
+    
+$(document).ready(function(){
+    $('#year').change(function(){
+        var year = $(this).val();
+        if(year != '')
+        {
+            load_monthwise_data(year, 'Month Wise Expense Data For');
+        }
+    });
+});
+
+    
+$(document).ready(function(){
+        var year = $("#year").val();
+        if(year != '')
+        {
+            load_monthwise_data(year, 'Month Wise Expense Data For');
+        }
+   
+});
+</script>

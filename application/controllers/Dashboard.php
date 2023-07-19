@@ -23,7 +23,45 @@ class Dashboard extends CI_Controller
 
     }
 
+        public function jobsheet()
+          {
+			          $this->load->model('jobsheet_model', 'jobsheet');
 
+	         $status=$this->input->get('status');
+			
+              if($status=="Assign")
+			  {
+				          $data['assign']= $this->jobsheet->jobsheet_count_filtered('Assign');
+
+			  }
+             else if($status=="Pending")
+			  {
+				          $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
+
+			  }
+			      else if($status=="Completed")
+			  {
+				          $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
+
+			  }
+			  else{
+				  	     $data['totalt'] = $this->jobsheet->jobsheet_count_filtered('');
+
+				  
+			  }
+			  
+	     // $data['totalt'] = $this->jobsheet->jobsheet_count_filtered('');
+      //  $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
+      //  $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
+        $head['title'] = 'Jobsheet';
+
+       // print_r($data);
+          $this->load->view('fixed/header', $head);
+          $this->load->view('jobs', $data);
+          $this->load->view('fixed/footer');
+	
+	
+         }
     public function index()
     {
         $today = date("Y-m-d");
@@ -53,12 +91,26 @@ class Dashboard extends CI_Controller
 			$data['active_permit'] = $this->dashboard_model->getActivePermit();
 			$data['passport_expiry_thirthy'] = $this->dashboard_model->getthirtyDaysExpiryPassport();
 			$data['passport_expiry_sixty'] = $this->dashboard_model->getsixtyDaysExpiryPassport();
-			
+							          $this->load->model('jobsheet_model', 'jobsheet');
+
+			      $data['totalt'] = $this->jobsheet->jobsheet_count_filtered('');
+
+        $data['assign']= $this->jobsheet->jobsheet_count_filtered('Assign');
+        $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
+        $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
 			$data['passport_expiry_ninety'] = $this->dashboard_model->getninetydaysDaysExpiryPassport();
 			$data['permit_expiry_thirthy'] = $this->dashboard_model->getthirtyDaysExpiryPermit();
 			$data['permit_expiry_sixty'] = $this->dashboard_model->getsixtyDaysExpiryPermit();
 			$data['permit_expiry_ninety'] = $this->dashboard_model->getninetydaysDaysExpiryPermit();
             $head['usernm'] = $this->aauth->get_user()->username;
+			$data['year_list'] = $this->dashboard_model->fetch_year();
+		//$this->load->model('jobsheet_model', 'jobsheet');
+        //$data['pendingList'] = $this->dashboard_model->jobsheet_Pending();
+		
+       // $data['closeList'] = $this->dashboard_model->jobsheet_Close();
+        //$data['completedList'] = $this->dashboard_model->jobsheet_Completed();
+        //$data['inprogressList'] = $this->dashboard_model->jobsheet_Inprogress();
+
             $head['title'] = 'Dashboard';
             $this->load->view('fixed/header', $head);
             $this->load->view('dashboard', $data);
@@ -89,7 +141,32 @@ class Dashboard extends CI_Controller
             $this->load->view('fixed/footer');
         }
     }
-
+function fetch_data()
+ {
+  if($this->input->post('year'))
+  {
+   $chart_data = $this->dashboard_model->fetch_chart_data($this->input->post('year'));
+  // print_r($chart_data);
+ if(!empty( $chart_data))
+ {
+   foreach($chart_data as $row)
+   {
+    $output[] = array(
+     'month'  => $row["monthText"],
+     'expense' => floatval($row["amount"])
+    );
+   }
+ }
+ else{
+	$output[] = array(
+     'month'  => '',
+     'expense' => ''
+    );
+	 
+ }
+   echo json_encode($output);
+  }
+ }
     public function clock_in()
     {
 
@@ -214,7 +291,12 @@ class Dashboard extends CI_Controller
 		
 		
 		        $selectoption = $this->input->post('dashboardsettings_35');
-			   $selectoption1= $this->input->post('dashboardsettings_36');//	foreach($selectoption as $select)
+			   $selectoption1= $this->input->post('dashboardsettings_36');
+			   $selectoption2= $this->input->post('dashboardsettings_40');//	foreach($selectoption as $select)
+			   $selectoption3= $this->input->post('dashboardsettings_41');//	foreach($selectoption as $select)
+
+			   
+			   //	foreach($selectoption as $select)
 	//{
 	//	print_r($select);
 	if(isset($selectoption) && empty($selectoption1))
@@ -291,6 +373,86 @@ class Dashboard extends CI_Controller
 		
 		
 	}
+	
+	
+	if(isset($selectoption2) && empty($selectoption3))
+	{	
+
+		$data = array(
+                'r_5' => 1
+            );
+           // $this->db->set($data);
+            $this->db->where('id',$selectoption2);
+            $this->db->update('gtg_premissions',$data); 
+				$data = array(
+                'r_5' => 0
+            );
+           // $this->db->set($data);
+            $this->db->where('id',41);
+            $this->db->update('gtg_premissions',$data); 
+
+	}
+	else if(isset($selectoption3) && empty($selectoption2))
+	{		
+
+			$data = array(
+                'r_5' => 1
+            );
+           // $this->db->set($data);
+            $this->db->where('id',$selectoption3);
+            $this->db->update('gtg_premissions',$data); 
+		$data = array(
+                'r_5' => 0
+            );
+           // $this->db->set($data);
+            $this->db->where('id',40);
+            $this->db->update('gtg_premissions',$data); 
+		
+		
+		
+	}
+	
+	 	else if(isset($selectoption3) && isset($selectoption2))
+{
+		$data = array(
+                'r_5' => 1
+            );
+           // $this->db->set($data);
+            $this->db->where('id',$selectoption3);
+            $this->db->update('gtg_premissions',$data); 
+		$data = array(
+                'r_5' => 1
+            );
+           // $this->db->set($data);
+            $this->db->where('id',$selectoption2);
+            $this->db->update('gtg_premissions',$data); 
+		
+		
+		
+		
+	}
+	
+	else{
+		
+		
+	$data = array(
+                'r_5' => 0
+            );
+           // $this->db->set($data);
+            $this->db->where('id',40);
+            $this->db->update('gtg_premissions',$data); 
+		$data = array(
+                'r_5' => 0
+            );
+           // $this->db->set($data);
+            $this->db->where('id',41);
+            $this->db->update('gtg_premissions',$data); 
+			
+		
+		
+	}
+	
+	
 	
 	
 	

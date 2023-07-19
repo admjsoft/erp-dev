@@ -150,7 +150,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
+            responsive: true,
             <?php datatable_lang();?>
             "ajax": {
                 "url": "<?php echo site_url('employee/fwmsReportGenerateAjax')?>",

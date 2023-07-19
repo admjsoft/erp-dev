@@ -200,18 +200,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <script type="text/javascript">
     $(document).ready(function () {
         $('#trans_table').removeAttr('width').DataTable( {
-            scrollY:        "300px",
-            scrollX:        true,
-            scrollCollapse: true,
-            columnDefs: [
-                { width: 200, targets: 0 }
-            ],
+         
             fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
+            responsive: true,
             <?php datatable_lang();?>
+			                'order': [],
             "ajax": {
                 "url": "<?php echo site_url('expenses/expenseslist')?>",
                 "type": "POST",

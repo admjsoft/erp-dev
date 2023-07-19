@@ -6,6 +6,25 @@ class Employee_model extends CI_Model
 {
 
     
+public function list_all_employee()
+{
+
+
+$this->db->select('gtg_employees.*,gtg_users.banned,gtg_users.roleid,gtg_users.loc,gtg_role.role_name');
+        $this->db->from('gtg_employees');
+        $this->db->join('gtg_role', 'gtg_role.id = gtg_employees.degis', 'left');
+      //  $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
+        $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
+        
+        $this->db->order_by('gtg_users.roleid', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+
+
+}	
+	
+	
+	
 public function list_employee()
     {
         $this->db->select('gtg_employees.*,gtg_users.banned,gtg_users.roleid,gtg_users.loc,gtg_role.role_name');
