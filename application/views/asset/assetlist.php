@@ -215,18 +215,12 @@ if (isset($_GET['succ'])) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#trans_table').removeAttr('width').DataTable( {
-            scrollY:        "300px",
-            scrollX:        true,
-            scrollCollapse: true,
-            columnDefs: [
-                { width: 200, targets: 0 }
-            ],
-            fixedColumns: true,
+             fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
-            <?php datatable_lang(); ?>
+            responsive: true,
+            <?php datatable_lang();?>
             "ajax": {
                 "url": "<?php echo site_url('asset/assetllistAjax') ?>",
                 "type": "POST",

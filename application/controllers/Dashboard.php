@@ -146,7 +146,9 @@ function fetch_data()
   if($this->input->post('year'))
   {
    $chart_data = $this->dashboard_model->fetch_chart_data($this->input->post('year'));
- 
+  // print_r($chart_data);
+ if(!empty( $chart_data))
+ {
    foreach($chart_data as $row)
    {
     $output[] = array(
@@ -154,6 +156,14 @@ function fetch_data()
      'expense' => floatval($row["amount"])
     );
    }
+ }
+ else{
+	$output[] = array(
+     'month'  => '',
+     'expense' => ''
+    );
+	 
+ }
    echo json_encode($output);
   }
  }

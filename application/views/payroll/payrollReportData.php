@@ -159,18 +159,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 						
         $('#trans_table').removeAttr('width').DataTable( {
 
-            scrollY:        "300px",
-            scrollX:        true,
-           // scrollCollapse: true,
-            columnDefs: [
-                { width: 200, targets: 0 }
-            ],
             fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
+            responsive: true,
             <?php datatable_lang();?>
+			                'order': [],
+							
             "ajax": {
 				  complete: function (data) {
                         //console.log(data.responseJSON);

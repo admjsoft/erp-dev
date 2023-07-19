@@ -1,3 +1,5 @@
+
+
 <div class="content-body">
 <div id="c_body"></div>
     <div class="card">
@@ -26,10 +28,33 @@
 
             <div class="card">
 
-                <div class="card-content"><input type="radio" value="foreign" name="chooseradio"
+                <div class="card-content">
+				<?php if($this->input->get('tag')!='')
+				{
+					?>
+				<input type="radio" value="foreign" checked name="chooseradio"
                         onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('International') ?>
-                    <input type="radio" value="domestic" checked name="chooseradio"
+						 <input type="radio" value="domestic"  name="chooseradio"
                         onclick="getpassportDetails('domestic');">&nbsp;<?php echo $this->lang->line('Domestic') ?>
+						<script>$(document).ready(function(){
+ 						$("#foreign_content").show();
+        //$("#card_body").hide();
+        $("#tab_content").hide();
+        $("#tab_list").hide();
+
+});
+						
+</script>
+				<?php }
+				else{
+				?>
+				<input type="radio" value="foreign" name="chooseradio"
+                        onclick="getpassportDetails('foreign');">&nbsp;<?php echo $this->lang->line('International') ?>
+						 <input type="radio" value="domestic" checked name="chooseradio"
+                        onclick="getpassportDetails('domestic');">&nbsp;<?php echo $this->lang->line('Domestic') ?>
+				<?php }
+			?>
+                   
 
                     <div id="foreign_content" style="display:none">
                         

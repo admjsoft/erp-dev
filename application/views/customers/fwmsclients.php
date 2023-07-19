@@ -20,7 +20,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Foreign Clients') ?></h5>
-            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+           <a href="<?php echo base_url('customers/create?tag=foreign') ?>"
+                                                               class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo $this->lang->line('Add new') ?>
+                </a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
                     <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
@@ -200,7 +203,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
+            responsive: true,
             <?php datatable_lang();?>
             "ajax": {
                 "url": "<?php echo site_url('customers/getfwmsClients')?>",

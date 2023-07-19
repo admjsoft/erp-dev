@@ -256,11 +256,13 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
     $(document).ready(function () {
         $('#trans_table').removeAttr('width').DataTable( {
+                fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
-            //responsive: true,
-            <?php datatable_lang();?>
+            responsive: true,
+            <?php datatable_lang(); ?>
+			 'order': [],
             "ajax": {
                 "url": "<?php echo site_url('asset/getassetsubcategories')?>",
                 "type": "POST",

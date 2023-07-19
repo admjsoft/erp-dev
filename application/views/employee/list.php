@@ -94,7 +94,12 @@
 
             //datatables
             $('#emptable').DataTable({
-                responsive: true, <?php datatable_lang();?> dom: 'Blfrtip',
+				            fixedColumns: true,
+
+                responsive: true,
+				<?php datatable_lang();?>
+
+				dom: 'Blfrtip',
                 buttons: [
                     {
                         extend: 'excelHtml5',

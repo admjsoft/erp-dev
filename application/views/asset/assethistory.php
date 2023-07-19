@@ -148,14 +148,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#trans_table').removeAttr('width').DataTable( {
-            
+                fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
             responsive: true,
             <?php datatable_lang(); ?>
-			                'order': [],
-
+			 'order': [],
             "ajax": {
                 "url": "<?php echo site_url("asset/getAssetHistory"); ?>",
                 "type": "POST",

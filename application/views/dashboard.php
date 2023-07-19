@@ -660,7 +660,8 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
     <div class="col-xl-5 col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title"><?php echo "Month Wise Expense Data";?></h4>
+                <h4 class="card-title"><?php echo $this->lang->line('Month Wise Expense For Payroll Data') ?>
+				</h4>
             </div>
 
             <div class="card-content">
@@ -965,7 +966,7 @@ function drawMonthwiseChart(chart_data, chart_main_title)
     });
 
     var options = {
-        title:chart_main_title,
+        title:"Month Wise Expense For Payroll Data",
         hAxis: {
             title: "Months"
         },
