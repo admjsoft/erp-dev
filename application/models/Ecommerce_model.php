@@ -617,15 +617,30 @@ public function GetThirdPartyCategories($vendor_details)
     $consumerKey = $consumer_key;
     $consumerSecret = $consumer_secret;
 
+    $params = array(
+        'parent' => 0, // Set to 0 to get parent categories only
+    );
+
     // Set cURL options
+    // $options = array(
+    //     CURLOPT_URL => $url,
+    //     CURLOPT_RETURNTRANSFER => true,
+    //     CURLOPT_HTTPHEADER => array(
+    //         'Content-Type: application/json',
+    //         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+    //     )
+    //     //CURLOPT_POSTFIELDS => http_build_query($params)
+    // );
     $options = array(
-        CURLOPT_URL => $url,
+        CURLOPT_URL => $url . '?' . http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
         )
+        //CURLOPT_POSTFIELDS => http_build_query($params)
     );
+
 
     // Initialize cURL
     $curl = curl_init();
@@ -634,6 +649,8 @@ public function GetThirdPartyCategories($vendor_details)
     // Send the cURL request
     $response = curl_exec($curl);
 
+    // echo $response;
+    // exit;
     // Check if the request was successful
     if ($response !== false) {
         $categories = json_decode($response);
@@ -676,8 +693,9 @@ public function GetThirdPartyCategories($vendor_details)
 
 public function GetThirdPartySubCategories($vendor_details,$category_id)
 {
-    // print_r($vendor_details);
-    $website_url = $vendor_details[0]['WebSiteUrl'];
+    //  print_r($vendor_details);
+    // echo $category_id;
+     $website_url = $vendor_details[0]['WebSiteUrl'];
     $consumer_key = $vendor_details[0]['ConsumerKey'];
     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
 
@@ -694,14 +712,23 @@ public function GetThirdPartySubCategories($vendor_details,$category_id)
     );
 
     // Set cURL options
+    // $options = array(
+    //     CURLOPT_URL => $url,
+    //     CURLOPT_RETURNTRANSFER => true,
+    //     CURLOPT_HTTPHEADER => array(
+    //         'Content-Type: application/json',
+    //         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+    //     ),
+    //     CURLOPT_POSTFIELDS => http_build_query($params)
+    // );
+
     $options = array(
-        CURLOPT_URL => $url,
+        CURLOPT_URL => $url . '?' . http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
         ),
-        CURLOPT_POSTFIELDS => http_build_query($params)
     );
 
     // Initialize cURL
@@ -711,6 +738,8 @@ public function GetThirdPartySubCategories($vendor_details,$category_id)
     // Send the cURL request
     $response = curl_exec($curl);
 
+    // echo $response;
+    // exit;
     // Check if the request was successful
     if ($response !== false) {
         $subcategories = json_decode($response);
@@ -770,15 +799,16 @@ public function GetPosProductsList($vendor,$category,$sub_category){
     // exit;
     // return array("item_details"=>$item_details,"thirdparty_vendors"=>$this->GetThirdPartyVendors()); 
 }
+    
+public function GetThirdPartyProductsList($vendor_details,$category,$sub_category){
 
-public function GetThirdPartyProductsList($vendor,$category,$sub_category){
-
+    //echo "<pre>"; print_r($vendor_details); echo "</pre>";
     $website_url = $vendor_details[0]['WebSiteUrl'];
     $consumer_key = $vendor_details[0]['ConsumerKey'];
     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
 
-    // WooCommerce API endpoint for retrieving categories
-    $url = $website_url.'/wp-json/wc/v3/products/categories';
+    // WooCommerce API endpoint for retrieving products
+    $url = $website_url.'/wp-json/wc/v3/products';
 
     // API authentication credentials
     $consumerKey = $consumer_key;
@@ -795,15 +825,16 @@ public function GetThirdPartyProductsList($vendor,$category,$sub_category){
     }
 
     // Set cURL options
-    $options = array(
-        CURLOPT_URL => $url,
+     // Set cURL options
+     $options = array(
+        CURLOPT_URL => $url . '?' . http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
-        ),
-        CURLOPT_POSTFIELDS => http_build_query($params)
+        )
     );
+    
 
     // Initialize cURL
     $curl = curl_init();
@@ -812,9 +843,11 @@ public function GetThirdPartyProductsList($vendor,$category,$sub_category){
     // Send the cURL request
     $response = curl_exec($curl);
 
+    // echo $response;
+    // exit;
     // Check if the request was successful
     if ($response !== false) {
-        $products = json_decode($response);
+        $products = json_decode($response,true);
         return $products;
         // Process the list of products
         // foreach ($products as $product) {
@@ -1218,7 +1251,7 @@ public function get_third_party_product_details($vendor_details,$product_id)
 
     // Check if the request was successful
     if ($response !== false) {
-        $product = json_decode($response);
+        $product = json_decode($response,true);
         return $product;
     } else {
         // Request failed, show an error message

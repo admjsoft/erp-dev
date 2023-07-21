@@ -56,7 +56,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="title"
-                                                   id="name" value="<?php // echo $product_details['name']; ?>">
+                                                   id="name" value="<?php  echo $product_details['name']; ?>">
                                             
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="title"
-                                                   id="regular_price" value="<?php // echo $product_details['regular_price']; ?>">
+                                                   id="regular_price" value="<?php  echo $product_details['regular_price']; ?>">
                                              
                                         </div>
                                     </div>
@@ -81,7 +81,7 @@ if(isset($_SESSION['status'])){
                                             <!-- <input type="text" placeholder="Description"
                                                    class="form-control margin-bottom b_input" name="description"> -->
                                             <textarea  placeholder="Description"
-                                                   class="form-control margin-bottom b_input" id="description" name="description"><?php // echo $product_details['description']; ?></textarea>        
+                                                   class="form-control margin-bottom b_input" id="description" name="description"><?php  echo $product_details['description']; ?></textarea>        
                                         </div>
                                     </div>
                                     
@@ -89,9 +89,9 @@ if(isset($_SESSION['status'])){
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="jobsheets/edit_task" id="action-url">
-                                    <input type="hidden" name="product_id" value="<?php // echo $product_details['id']; ?>" id="product_id">
-                                    <input type="hidden" name="vendor_id" value="<?php // echo $vendor_details['id']; ?>" id="vendor_id">
-                                    <input type="hidden" name="vendor_pricing_id" value="<?php // echo $vendor_details['id']; ?>" id="vendor_pricing_id">
+                                    <input type="hidden" name="product_id" value="<?php  echo $product_details['id']; ?>" id="product_id">
+                                    <input type="hidden" name="vendor_id" value="<?php  echo $vendor_id; ?>" id="vendor_id">
+                                    <input type="hidden" name="vendor_pricing_id" value="<?php  echo $vendor_pricing_id; ?>" id="vendor_pricing_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                            value="<?php //echo $this->lang->line('Add customer') ?>Update Product"

@@ -423,11 +423,12 @@ class Ecommerce extends CI_Controller
         }else{
 
             $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
-            $thid_party_products =  $array2 = $this->ecommerce->GetThirdPartyProductsList($vendor,$category,$sub_category);
+            $thid_party_products =  $array2 = $this->ecommerce->GetThirdPartyProductsList($vendor_details,$category,$sub_category);
             $system_products = $array1 = $this->ecommerce->GetAllProductsList($vendor);
 
             // echo "<pre>"; print_r($thid_party_products); echo "</pre>";
             // echo "<pre>"; print_r($system_products); echo "</pre>";
+            // exit;
             $mergedArray = [];
         foreach ($array1 as $item1) {
             $matched = false;
@@ -596,6 +597,7 @@ class Ecommerce extends CI_Controller
         $data['vendor_details'] = $vendor_details;
         $data['product_details'] = $this->ecommerce->get_third_party_product_details($vendor_details,$product_id);
         $data['vendor_pricing_id'] = $vendor_pricing_id;
+        $data['vendor_id'] = $vendor;
 
         $this->load->view('fixed/header', $head);
         $this->load->view('ecommerce/third_party_product_edit',$data);
