@@ -352,6 +352,8 @@ public function updateInternational($update_id,$company_name,$company,$address,$
                     );
 
                     $this->db->insert('users', $data);
+					//print_r($this->db->last_query());
+					///die;
                     $p_string = ' Temporary Password is ' . $temp_password . ' ';
                // }
                 $this->aauth->applog("[Client Added] $name ID " . $cid, $this->aauth->get_user()->username);

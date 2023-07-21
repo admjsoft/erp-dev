@@ -12,6 +12,9 @@
                 </ul>
             </div>
         </div>
+		<div class="row">                    <div class="col-md-6">    </div>         
+       <div class="col-md-6">
+<h3>Receipt</h3></div></div>
         <div class="card-content">
             <hr>
             <div class="card-body">

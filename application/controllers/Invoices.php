@@ -365,8 +365,86 @@ class Invoices extends CI_Controller
             $this->custom->save_fields_data($invocieno, 2);
         }
     }
+     public function invoice_today()
+	 {
+		 
+        $head['title'] = "Manage Invoices";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('invoices/invoices_today');
+        $this->load->view('fixed/footer');
+		 
+		 
+	 }
+	 public function invoice_month()
+	 {
+		 
+        $head['title'] = "Manage Invoices";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('invoices/invoices_month');
+        $this->load->view('fixed/footer');
+		 
+		 
+	 }
+ public function ajax_today_list()
+    {
+        $list = $this->invocies->get_today_datatables();
+		
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $invoices) {
+            $no++;
+            $row = array();
+            $row[] = $no;
 
+            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '">&nbsp; ' . $invoices->tid . '</a>';
+            $row[] = $invoices->name;
+            $row[] = dateformat($invoices->invoicedate);
+            $row[] = amountExchange($invoices->total, 0, $this->aauth->get_user()->loc);
+            $row[] = amountExchange($invoices->pamnt, 0, $this->aauth->get_user()->loc);
+            $row[] = '<span class="st-' . $invoices->status . '">' . $this->lang->line(ucwords($invoices->status)) . '</span>';
+            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-sm" title="View"><i class="fa fa-eye"></i></a>&nbsp;<a href="' . base_url("invoices/printinvoice?id=$invoices->id") . '&d=1" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a> <a href="#" data-object-id="' . $invoices->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->invocies->count_today_all($this->limited),
+            "recordsFiltered" => $this->invocies->count_today_filtered($this->limited),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
+	 public function ajax_month_list()
+    {
+        $list = $this->invocies->get_month_datatables();
+		
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $invoices) {
+            $no++;
+            $row = array();
+            $row[] = $no;
 
+            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '">&nbsp; ' . $invoices->tid . '</a>';
+            $row[] = $invoices->name;
+            $row[] = dateformat($invoices->invoicedate);
+            $row[] = amountExchange($invoices->total, 0, $this->aauth->get_user()->loc);
+            $row[] = amountExchange($invoices->pamnt, 0, $this->aauth->get_user()->loc);
+            $row[] = '<span class="st-' . $invoices->status . '">' . $this->lang->line(ucwords($invoices->status)) . '</span>';
+            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-sm" title="View"><i class="fa fa-eye"></i></a>&nbsp;<a href="' . base_url("invoices/printinvoice?id=$invoices->id") . '&d=1" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a> <a href="#" data-object-id="' . $invoices->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->invocies->count_month_all($this->limited),
+            "recordsFiltered" => $this->invocies->count_month_filtered($this->limited),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+    }
     public function ajax_list()
     {
         $list = $this->invocies->get_datatables($this->limited);
@@ -661,8 +739,61 @@ class Invoices extends CI_Controller
     public function update_status()
     {
         $tid = $this->input->post('tid');
+	 $pmethod = $this->input->post('pmethod');
+	 	 $note = $this->input->post('note');
+	 	 $amount = $this->input->post('amount');
+
+	// echo"innn";
+	
+     $attach = $_FILES['userfile']['name'];
+
+	 $data['status'] = 'danger';
+        $data['message'] = $this->lang->line('No file error');
+        $config['upload_path'] = './userfiles/documents/';
+        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+        $config['encrypt_name'] = TRUE;
+        $config['max_size'] = 2669881;
+        $config['file_name'] = time() . str_replace(' ', '_', $attach);
+        $config['file_ext_tolower'] = TRUE;
+        $config['encrypt_name'] = FALSE;
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('userfile')) {
+           $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+            echo json_encode($error);
+                    $filename ='';
+
+		} else {
+            $data = array('upload_data' => $this->upload->data());
+            $filename = $data['upload_data']['file_name'];
+		}
+		$date=date("Y-m-d");
+			 $data = array(
+                'acid' =>1,
+				'account' =>"Sales Account",
+                'type' =>"income",
+                'cat' => "Sales",
+                'debit' =>'',
+                'credit' => $amount,
+                'payer' =>"admin",
+				'payerid'=>'',
+				'method'=>$pmethod,
+				'date'=>$date,
+			    'tid'=>$tid,
+				'eid'=>'',
+				'note'=>$note ,
+				'payment_proof'=>$filename
+				);
+			
+	            $this->db->insert('gtg_transactions', $data);
+		
+			
         $status = $this->input->post('status');
-        $this->db->set('status', $status);
+		  $data1 = array(
+                'status' => $status,
+			  'pmethod' => $pmethod,
+
+            );
+            $this->db->set($data1);
         $this->db->where('id', $tid);
         $this->db->update('gtg_invoices');
 

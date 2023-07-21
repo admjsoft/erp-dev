@@ -127,7 +127,6 @@ class Customers_model extends CI_Model
 
     public function mydetails($custid)
     {
-        echo $custid;
         $this->db->select('*');
         $this->db->from('gtg_customers');
         $this->db->where('id', $custid);
@@ -249,7 +248,7 @@ class Customers_model extends CI_Model
                         'cid' => $cid,
                         'lang' => $language
                     );
-
+                      
                     $this->db->insert('users', $data);
                     $p_string = ' Temporary Password is ' . $temp_password . ' ';
                 }

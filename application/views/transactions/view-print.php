@@ -25,7 +25,9 @@
 
 </head>
 <body style="font-family: Helvetica;" dir="<?= LTR ?>">
-
+<div class="row">                    <div class="col-md-6">    </div>         
+       <div class="col-md-6">
+<h3 style="text-align:center">Receipt</h3></div></div>
 <h5><?php echo $this->lang->line('Transaction Details') . ' ID : ' . prefix(5) . $trans['id'] ?></h5>
 
 <table>

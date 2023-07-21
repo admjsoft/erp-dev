@@ -128,6 +128,7 @@ class Invoices_model extends CI_Model
 
     public function invoice_transactions($id)
     {
+		
         $this->db->select('*');
         $this->db->from('gtg_transactions');
         $this->db->where('tid', $id);
@@ -342,6 +343,197 @@ class Invoices_model extends CI_Model
         return $this->db->count_all_results();
     }
     
+
+
+
+    private function _get_today_datatables_query()
+    {
+		        $today = date("Y-m-d");
+
+		        $where = "DATE(invoicedate) ='$today'";
+
+        $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_customers.name,gtg_invoices.pamnt');
+        $this->db->from($this->table);
+        $this->db->where('gtg_invoices.i_class', 0);
+       
+        
+        $this->db->join('gtg_customers', 'gtg_invoices.csd=gtg_customers.id', 'left');
+        $this->db->where($where);
+
+        $i = 0;
+
+        foreach ($this->column_search as $item) // loop column
+        {
+            if ($this->input->post('search')['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+
+                if (count($this->column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_today_datatables($opt = '')
+    {
+        $this->_get_today_datatables_query($opt);
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        $this->db->where('gtg_invoices.i_class', 0);
+        if ($this->aauth->get_user()->loc) {
+            $this->db->where('gtg_invoices.loc', $this->aauth->get_user()->loc);
+        } elseif (!BDATA) {
+            $this->db->where('gtg_invoices.loc', 0);
+        }
+
+        return $query->result();
+    }
+
+    function count_today_filtered($opt = '')
+    {		        $today = date("Y-m-d");
+
+	$where = "DATE(invoicedate) ='$today'";
+
+        $this->_get_today_datatables_query($opt);
+                $this->db->where($where);
+
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+  public function count_today_all($opt = '')
+    {		       
+	        $today = date("Y-m-d");
+
+	$where = "DATE(invoicedate) ='$today'";
+
+        $this->db->select('gtg_invoices.id');
+        $this->db->from($this->table);
+        $this->db->where('gtg_invoices.i_class', 0);
+		                $this->db->where($where);
+
+     
+        return $this->db->count_all_results();
+    }
+
+
+ private function _get_month_datatables_query()
+    {
+		     $month = date("m");
+        $year = date("Y");
+		         $today = date('Y-m-d');
+        $days = date("t", strtotime($today));
+        $where = "DATE(invoicedate) BETWEEN '$year-$month-01' AND '$year-$month-$days'";
+		   
+		
+        $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_customers.name,gtg_invoices.pamnt');
+        $this->db->from($this->table);
+        $this->db->where('gtg_invoices.i_class', 0);
+       
+        
+        $this->db->join('gtg_customers', 'gtg_invoices.csd=gtg_customers.id', 'left');
+        $this->db->where($where);
+
+        $i = 0;
+
+        foreach ($this->column_search as $item) // loop column
+        {
+            if ($this->input->post('search')['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+
+                if (count($this->column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_month_datatables($opt = '')
+    {
+        $this->_get_month_datatables_query($opt);
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+
+        $this->db->where('gtg_invoices.i_class', 0);
+        if ($this->aauth->get_user()->loc) {
+            $this->db->where('gtg_invoices.loc', $this->aauth->get_user()->loc);
+        } elseif (!BDATA) {
+            $this->db->where('gtg_invoices.loc', 0);
+        }
+
+     
+        return $query->result();
+    }
+
+    function count_month_filtered($opt = '')
+	{
+	     $month = date("m");
+        $year = date("Y");
+    $today = date('Y-m-d');
+        $days = date("t", strtotime($today));
+        $where = "DATE(invoicedate) BETWEEN '$year-$month-01' AND '$year-$month-$days'";
+		     $month = date("m");
+        $year = date("Y");
+        $this->_get_today_datatables_query($opt);
+                $this->db->where($where);
+
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+  public function count_month_all($opt = '')
+  {
+       $month = date("m");
+        $year = date("Y");
+    		         $today = date('Y-m-d');
+        $days = date("t", strtotime($today));
+        $where = "DATE(invoicedate) BETWEEN '$year-$month-01' AND '$year-$month-$days'";
+		     $month = date("m");
+        $year = date("Y");
+
+        $this->db->select('gtg_invoices.id');
+        $this->db->from($this->table);
+        $this->db->where('gtg_invoices.i_class', 0);
+		                $this->db->where($where);
+
+     
+        return $this->db->count_all_results();
+    }
+
 
 
     public function billingterms()

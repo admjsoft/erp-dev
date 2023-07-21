@@ -1790,6 +1790,71 @@ public function country_list()
 }
 
 
+    var $role_column_order = array(null, 'gtg_role.id', 'gtg_role.name', 'gtg_role.status');
+    var $role_column_search = array('gtg_role.id', 'gtg_role.name', 'gtg_role.status');
+    var $role_order = array('gtg_role.id' => 'desc');
+
+
+    private function _role_datatables_query($id)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_role');
+      
+
+        $i = 0;
+
+        foreach ($this->role_column_search as $item) // loop column
+        {
+            $search = $this->input->post('search');
+            $value = $search['value'];
+            if ($value) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $value);
+                } else {
+                    $this->db->or_like($item, $value);
+                }
+
+                if (count($this->role_column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        $search = $this->input->post('order');
+        if ($search) // here order processing
+        {
+            $this->db->order_by($this->role_order[$search['0']['column']], $search['0']['dir']);
+        } else if (isset($this->role_order)) {
+            $order = $this->role_order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function role_datatables()
+    {
+        $this->_role_datatables_query();
+        if ($this->input->post('length') != -1)
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function rolecount_filtered()
+    {
+        $this->_role_datatables_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function rolecount_all()
+    {
+        $this->_role_datatables_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
 
 
 
