@@ -8,7 +8,16 @@
                                                                class="btn btn-primary btn-sm rounded">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
+				
+            </h5></br></br>
+			  <h5 class="title">
+                <?php echo $this->lang->line('Role') ?> <a href="<?php echo base_url('employee/role') ?>"
+                                                                  class="btn btn-primary btn-sm rounded">
+                    <?php echo $this->lang->line('Add new') ?>
+                </a>
+				
             </h5>
+			
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -51,7 +60,8 @@
 						
 									
 									
-									 
+					 <label><input type="checkbox" name="sample" class="selectall"/> Select all</label>
+
                     <table id="" class="table table-striped table-bordered zero-configuration table-responsive"
                            cellspacing="0" width="100%">
                         <thead>
@@ -198,7 +208,13 @@ function getValues(val)
 	
 }
 	
-	
+	$('.selectall').click(function() {
+    if ($(this).is(':checked')) {
+        $('div input').attr('checked', true);
+    } else {
+        $('div input').attr('checked', false);
+    }
+});
 </script>
 
 

@@ -38,8 +38,10 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="fa fa-file-text-o text-bold-200  font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-primary white media-body">
+										<a href="<?php echo base_url("invoices/invoice_today") ?>" style="color:#fff">
+
                         <h5><?php echo $this->lang->line('today_invoices') ?></h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-plus"></i> <?= $todayin ?></h5>
+                        <h5 class="text-bold-400 mb-0"><i class="ft-plus"></i> <?= $todayin ?></h5></a>
 
                     </div>
                 </div>
@@ -54,8 +56,10 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="icon-notebook font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-danger white media-body">
+															<a href="<?php echo base_url("invoices/invoice_month") ?>" style="color:#fff">
+
                         <h5><?= $this->lang->line('this_month_invoices') ?></h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-arrow-up"></i><?= $monthin ?></h5>
+                        <h5 class="text-bold-400 mb-0"><i class="ft-arrow-up"></i><?= $monthin ?></h5></a>
                     </div>
                 </div>
             </div>
@@ -69,10 +73,11 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="icon-basket-loaded font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-warning white media-body">
-                        <h5><?= $this->lang->line('today_sales') ?></h5>
+                     										<a href="<?php echo base_url("invoices/invoice_today") ?>" style="color:#fff">
+   <h5><?= $this->lang->line('today_sales') ?></h5>
                         <h5 class="text-bold-400 mb-0"><i
                                     class="ft-arrow-up"></i><?= amountExchange($todaysales, 0, $this->aauth->get_user()->loc) ?>
-                        </h5>
+                        </h5></a>
                     </div>
                 </div>
             </div>
@@ -86,10 +91,11 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         <i class="icon-wallet font-large-2 white"></i>
                     </div>
                     <div class="p-1 bg-gradient-x-success white media-body">
-                        <h5><?php echo $this->lang->line('this_month_sales') ?></h5>
+                     															<a href="<?php echo base_url("invoices/invoice_month") ?>" style="color:#fff">
+   <h5><?php echo $this->lang->line('this_month_sales') ?></h5>
                         <h5 class="text-bold-400 mb-0"><i
                                     class="ft-arrow-up"></i> <?= amountExchange($monthsales, 0, $this->aauth->get_user()->loc) ?>
-                        </h5>
+                        </h5></a>
                     </div>
                 </div>
             </div>
@@ -973,6 +979,7 @@ function drawMonthwiseChart(chart_data, chart_main_title)
         vAxis: {
             title: 'Expense'
         },
+		
         chartArea:{width:'80%',height:'85%'}
     }
 

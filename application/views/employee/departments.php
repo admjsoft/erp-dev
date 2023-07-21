@@ -72,7 +72,13 @@
         $(document).ready(function () {
 
             //datatables
-            $('#emptable').DataTable({responsive: true});
+            $('#emptable').DataTable({
+							    fixedColumns: true,
+
+          
+            responsive: true		
+				
+				});
 
 
         });

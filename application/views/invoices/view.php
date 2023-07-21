@@ -464,20 +464,24 @@
                             <th><?php echo $this->lang->line('Debit') ?></th>
                             <th><?php echo $this->lang->line('Credit') ?></th>
                             <th><?php echo $this->lang->line('Note') ?></th>
+                            <th><?php echo $this->lang->line('Proof Of Payment') ?></th>
 
 
                         </tr>
                         </thead>
                         <tbody id="activity">
-                        <?php foreach ($activity as $row) {
-
+                        <?php 
+						foreach ($activity as $row) {
+$docurl="../userfiles/documents/".$row['payment_proof'];
                             echo '<tr>
-                            <td><a href="view_payslip?id=' . $row['id'] . '&inv=' . $invoice['iid'] . '" class="btn btn-blue btn-sm"><span class="icon-print" aria-hidden="true"></span> ' . $this->lang->line('Print') . '  </a> ' . $row['date'] . '</td>
+                            <td><a href="view_payslip?id=' . $row['id'] . '&inv=' . $invoice['iid'] . '" target="_blank” class="btn btn-blue btn-sm"><span class="icon-print" aria-hidden="true"></span> ' . $this->lang->line('Print') . '  </a> ' . $row['date'] . '</td>
                             <td>' . $this->lang->line($row['method']) . '</td>
 
                               <td>' . amountExchange($row['debit'], 0, $this->aauth->get_user()->loc) . '</td>
                                <td>' . amountExchange($row['credit'], 0, $this->aauth->get_user()->loc) . '</td>
                             <td>' . $row['note'] . '</td>
+							                            <td><a href="'.$docurl.'" target="_blank">' . $row['payment_proof'] . '</a></td>
+
                         </tr>';
                         } ?>
 
@@ -872,7 +876,7 @@
             </div>
 
             <div class="modal-body">
-                <form id="form_model">
+                <form id="form_model" method="post" enctype="multipart/form-data" action="<?php echo base_url("invoices/update_status") ?>"">
                     <div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
@@ -883,16 +887,48 @@
                             </select>
 
                         </div>
+						
                     </div>
+ <div class="row">
+                        <div class="col mb-1"><label
+                                    for="pmethod"><?php echo $this->lang->line('Payment Method') ?></label>
+                            <select name="pmethod" class="form-control mb-1">
+                                <option value="Cash"><?php echo $this->lang->line('Cash') ?></option>
+                                <option value="Card"><?php echo $this->lang->line('Card') ?></option>
+                                <option value="Balance"><?php echo $this->lang->line('Wallet') ?></option>
+                                <option value="Bank"><?php echo $this->lang->line('Bank') ?></option>
+                            </select>
 
+                            </div>
+                    </div>
+					 
+					<div class="row">
+                        <div class="col mb-1"><label
+                                    for="pmethod"><?php echo $this->lang->line('Amount') ?></label></br>
+                            <input type="text"  name="amount" id="amount" class="form-control">
+
+                            </div>
+                    </div>
+					 <div class="row">
+                        <div class="col mb-1"><label
+                                    for="pmethod"><?php echo $this->lang->line('Note') ?></label></br>
+                            <textarea name="note" id="note" class="form-control"></textarea>
+
+                            </div>
+                    </div>
+					<div class="row">
+                        <div class="col mb-1"><label
+                                    for="pmethod"><?php echo $this->lang->line('Proof Of Payment') ?></label></br>
+<input type="file" name="userfile" method="post" action="" >
+                            </div>
+                    </div>
                     <div class="modal-footer">
                         <input type="hidden" class="form-control required"
                                name="tid" id="invoiceid" value="<?php echo $invoice['iid'] ?>">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
-                        <input type="hidden" id="action-url" value="invoices/update_status">
-                        <button type="button" class="btn btn-primary"
-                                id="submit_model"><?php echo $this->lang->line('Change Status'); ?></button>
+                        <button type="submit" class="btn btn-primary"
+                                id=""><?php echo $this->lang->line('Change Status'); ?></button>
                     </div>
                 </form>
             </div>

@@ -1988,6 +1988,52 @@ public function fwmsReportGenerateAjax()
 	
 }
 
+public function getRoles()
+{
+	
+	   	      $company = $this->input->post('company');
+              $employee = $this->input->post('employee');
+	 
+	      $ttype = $this->input->get('type');
+        $list = $this->employee->employee_report_datatables();
+		
+         $data = array();
+        // $no = $_POST['start'];
+        $temp='';
+		$type='';
+	   $no = $this->input->post('start');
+        foreach ($list as $obj) {
+      
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $obj->name;
+			$row[] = $obj->client;
+            $row[] = $obj->country_name;
+            $row[] = $obj->passport;
+			$row[] = $obj->passport_expiry;
+            $row[] = $obj->permit;
+            $row[] = $obj->permit_expiry;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->employee->employee_report_count_all(),
+            "recordsFiltered" => $this->employee->employee_report_count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+	
+	
+	
+}
+
+
+
+
+
 public function fwmsreportGenerate()
 {
 

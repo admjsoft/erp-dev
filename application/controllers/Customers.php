@@ -232,7 +232,7 @@ public function saveInternational()
 
 				}
 	
-     if(!empty($create_login)&&!empty($password))
+     if(!empty($create_login) || !empty($password))
 	 {
     $insert1=$this->customers->addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type);
 	                //echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . $p_string . '&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>', 'cid' => $cid, 'pass' => $temp_password, 'discount' => amountFormat_general($discount)));
@@ -394,8 +394,10 @@ public function deleteFwmsClient()
         exit();
 
 				}
-		if(!empty($create_login)&&!empty($password ))
+		if(!empty($create_login)|| !empty($password ))
 		{
+							
+
         $insert1=$this->customers->add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language, $create_login, $password, $docid, $custom, $discount);
 	if(!$insert1){
                     $data['status'] = 'danger';
@@ -414,6 +416,7 @@ public function deleteFwmsClient()
         exit();	
 		}
 		else{
+							
 
 		$insert= $this->customers->add_new($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, 
 		$phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s, $language,$docid, $custom, $discount);

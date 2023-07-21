@@ -1,4 +1,4 @@
-<!doctype html>
+N<!doctype html>
 <html>
 <head>
 
@@ -25,7 +25,7 @@
 
 </head>
 <body style="font-family: Helvetica;" dir="<?= LTR ?>">
-
+<div id="title" style="text-align:center"><center><b>Receipt</b></center></div>
 <h5><?php echo $this->lang->line('Transaction Details') . ' ID : ' . prefix(5) . $trans['id'] ?></h5>
 
 <table>
