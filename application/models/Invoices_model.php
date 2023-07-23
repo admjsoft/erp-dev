@@ -597,7 +597,7 @@ class Invoices_model extends CI_Model
 
     private function _get_peppol_invoices_datatables_query($opt = '')
     {
-        $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_customers.name,gtg_invoices.pamnt,gtg_peppol_invoices.invoice_sent_date,gtg_peppol_invoices.id as peppol_invoice_id');
+        $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_customers.name,gtg_invoices.pamnt,gtg_peppol_invoices.invoice_sent_date,gtg_peppol_invoices.id as peppol_invoice_id,gtg_peppol_invoices.guid,gtg_peppol_invoices.document_url,gtg_peppol_invoices.document_expire_date');
         $this->db->from($this->table);
         $this->db->join('gtg_peppol_invoices','gtg_invoices.id = gtg_peppol_invoices.invoice_id','right');
         $this->db->join('gtg_customers', 'gtg_invoices.csd=gtg_customers.id', 'left');
@@ -661,5 +661,14 @@ class Invoices_model extends CI_Model
         }
 
         return $query->result();
+    }
+
+    public function peppol_invoice_details($id, $eid = '', $p = true)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_peppol_invoices');
+        $this->db->where('invoice_id', $id);        
+        $query = $this->db->get();
+        return $query->row_array();
     }
 }

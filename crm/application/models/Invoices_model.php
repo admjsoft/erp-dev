@@ -92,10 +92,68 @@ class Invoices_model extends CI_Model
         }
     }
 
+
+    private function _get_peppol_datatables_query()
+    {
+
+        // $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_invoices.multi,gtg_customers.name');
+        // $this->db->from($this->table);
+        // $this->db->where('gtg_invoices.csd', $this->session->userdata('user_details')[0]->cid);
+        // //     $this->db->where('gtg_invoices.i_class');
+        // $this->db->join('gtg_customers', 'gtg_invoices.csd=gtg_customers.id', 'left');
+
+        $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_customers.name,gtg_invoices.pamnt,gtg_peppol_invoices.invoice_sent_date,gtg_peppol_invoices.id as peppol_invoice_id,gtg_peppol_invoices.guid,gtg_peppol_invoices.document_url,gtg_peppol_invoices.document_expire_date');
+        $this->db->from($this->table);
+        $this->db->join('gtg_peppol_invoices','gtg_invoices.id = gtg_peppol_invoices.invoice_id','right');
+        $this->db->join('gtg_customers', 'gtg_invoices.csd=gtg_customers.id', 'left');
+        $this->db->where('gtg_invoices.csd', $this->session->userdata('user_details')[0]->cid);
+
+        $i = 0;
+
+        foreach ($this->column_search as $item) // loop column
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
     function get_datatables()
     {
 
         $this->_get_datatables_query();
+        $this->db->where('gtg_invoices.csd', $this->session->userdata('user_details')[0]->cid);
+        // $this->db->where('gtg_invoices.i_class', 0);
+        if ($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function get_peppol_datatables()
+    {
+
+        $this->_get_peppol_datatables_query();
         $this->db->where('gtg_invoices.csd', $this->session->userdata('user_details')[0]->cid);
         // $this->db->where('gtg_invoices.i_class', 0);
         if ($_POST['length'] != -1)
@@ -121,6 +179,24 @@ class Invoices_model extends CI_Model
         return $this->db->count_all_results();
     }
 
+    function peppol_count_filtered()
+    {
+        $this->_get_peppol_datatables_query();
+        $this->db->where('gtg_invoices.csd', $this->session->userdata('user_details')[0]->cid);
+        //     $this->db->where('gtg_invoices.i_class', 0);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function peppol_count_all()
+    {
+        $this->db->from($this->table);
+        $this->db->join('gtg_peppol_invoices','gtg_invoices.id = gtg_peppol_invoices.invoice_id','right');
+        $this->db->where('gtg_invoices.csd', $this->session->userdata('user_details')[0]->cid);
+        //      $this->db->where('gtg_invoices.i_class', 0);
+        return $this->db->count_all_results();
+    }
+
 
     public function billingterms()
     {
@@ -136,6 +212,15 @@ class Invoices_model extends CI_Model
         $this->db->from('gtg_employees');
         $this->db->where('gtg_employees.id', $id);
         $this->db->join('gtg_users', 'gtg_employees.id =gtg_users.id', 'left');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function peppol_invoice_details($id, $eid = '', $p = true)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_peppol_invoices');
+        $this->db->where('invoice_id', $id);        
         $query = $this->db->get();
         return $query->row_array();
     }

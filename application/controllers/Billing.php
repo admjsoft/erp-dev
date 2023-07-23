@@ -1624,17 +1624,18 @@ class Billing extends CI_Controller
             "document" => [
                 "documentType" => "invoice",
                 "invoice" => [
-                    "invoiceNumber" => "202112007",
+                    "invoiceNumber" => strval(mt_rand(10000000, 99999999)),
                     "issueDate" => "2021-12-07",
                     "documentCurrencyCode" => "EUR",
                     "taxSystem" => "tax_line_percentages",
                     "accountingCustomerParty" => [
                         "party" => [
-                            "companyName" => "ManyMarkets Inc.",
+                            "companyName" => $data['invoice']['company'],
                             "address" => [
-                                "street1" => "Street 123",
-                                "zip" => "1111AA",
-                                "city" => "Here",
+                                "street1" => $data['invoice']['address'],
+                                "zip" => $data['invoice']['postbox'],
+                                "city" => $data['invoice']['city'],
+                                // "country" => $data['invoice']['country'],
                                 "country" => "NL",
                             ],
                         ],
@@ -1676,8 +1677,8 @@ class Billing extends CI_Controller
         ];
 
         $jsonArray = json_encode($arrayVar,TRUE);
-       // echo $jsonArray;
-
+        // echo $jsonArray;
+        // exit;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -1705,6 +1706,49 @@ class Billing extends CI_Controller
         // exit;
         if(empty($errors))
         {
+
+            $response = json_decode($response, true);
+            $guid = $response['guid'];
+            $data['guid'] = $guid;
+            // get confirmation by guid
+            $curl1 = curl_init();
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.storecove.com/api/v2/document_submissions/'.$guid.'/evidence',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
+                'Content-Type: application/json'
+            ),
+            ));
+
+            $response1 = curl_exec($curl1);
+            $response1 = json_decode($response1, true);
+            $errors1 = curl_error($curl1);
+            curl_close($curl1);
+            
+            if(empty($errors1))
+            {            
+                $data['evidence_json'] = $response1;
+                $documents =  $response1['documents'];
+
+                if(!empty($documents)){
+                    foreach($documents as $doc){
+                        if($doc['mime_type'] == 'application/xml')
+                        {
+                            $data['document_url'] = $doc['document'];
+                            $data['document_expire_date'] = $doc['expires_at'];
+                        }
+                    }
+                }
+            }
             $p_invoice_id = $data['invoice']['id'];
             $p_invoice_sent_date = date('Y-m-d');
             $p_invoice_json = $jsonArray;

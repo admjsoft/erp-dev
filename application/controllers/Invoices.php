@@ -14,6 +14,7 @@ class Invoices extends CI_Controller
         $this->load->model('invoices_model', 'invocies');
         $this->load->model('plugins_model', 'plugins');
         $this->load->library("Aauth");
+        $this->load->library('pdf');
 
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
@@ -1024,7 +1025,7 @@ class Invoices extends CI_Controller
             $row[] = amountExchange($invoices->total, 0, $this->aauth->get_user()->loc);
             $row[] = amountExchange($invoices->pamnt, 0, $this->aauth->get_user()->loc);
             $row[] = '<span class="st-' . $invoices->status . '">' . $this->lang->line(ucwords($invoices->status)) . '</span>';
-            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-sm" title="View"><i class="fa fa-eye"></i></a>&nbsp;<a href="' . base_url("invoices/printinvoice?id=$invoices->id") . '&d=1" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a> <a href="#" data-object-id="' . $invoices->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-sm" title="View"><i class="fa fa-eye"></i></a>&nbsp;<a href="' . base_url("invoices/printinvoice?id=$invoices->id") . '&d=1" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a>  <a href="'.$invoices->document_url.'" tartget="_blank" class="btn btn-info btn-sm"  title="xml doc"><span class="fa fa-code"></span></a>     <a href="' . base_url("invoices/download_peppol_invoice?id=$invoices->id") . '"  class="btn btn-info btn-sm"  title="xml Download"><span class="fa fa-file"></span></a> <a href="#" data-object-id="' . $invoices->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
             $data[] = $row;
         }
         $output = array(
@@ -1037,4 +1038,35 @@ class Invoices extends CI_Controller
         echo json_encode($output);
     }
 
+    public function download_peppol_invoice(){
+        $invoice_id = $this->input->get('id');
+        $invoice_details = $this->invocies->peppol_invoice_details($invoice_id);
+
+        $xmlUrl =  $invoice_details['document_url'];
+
+        // Fetch the XML data from the URL
+        $xmlData = file_get_contents($xmlUrl);
+        $html = '<!DOCTYPE html>';
+        $html .= '<html>';
+        $html .= '<head>';
+        $html .= '<title>Peppol Invoice Document</title>';
+        $html .= '</head>';
+        $html .= '<body>';
+        $html .= '<h1>Peppol Invoice Document</h1>';
+        $html .= '<pre>' . htmlentities($xmlData) . '</pre>'; // Display the raw XML data for demonstration
+        $html .= '</body>';
+        $html .= '</html>';
+
+        // Create an mPDF instance
+        // $mpdf = new Mpdf();
+        $mpdf = $this->pdf->load_en();
+        // Load HTML content into mPDF
+        $mpdf->WriteHTML($html);
+
+        // Output the PDF to the browser or save to a file
+        $mpdf->Output('peppol_invoice_document.pdf', 'D'); // 'D' to download the PDF, 'I' to display in the browser
+
+ 
+
+    }
 }
