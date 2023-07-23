@@ -1617,6 +1617,26 @@ class Billing extends CI_Controller
             ];
 
         }
+        if(!empty($data['invoice']['postbox']) && mb_strlen($data['invoice']['postbox']) > 2)
+        {
+            $postbox = $data['invoice']['postbox'];
+        }else{
+            $postbox = $data['invoice']['postbox']."...";
+        }
+
+        if(!empty($data['invoice']['address']) && mb_strlen($data['invoice']['address']) > 2)
+        {
+            $address = $data['invoice']['address'];
+        }else{
+            $address = $data['invoice']['address']."...";
+        }
+
+        if(!empty($data['invoice']['city']) && mb_strlen($data['invoice']['city']) > 2)
+        {
+            $city = $data['invoice']['city'];
+        }else{
+            $city = $data['invoice']['city']."...";
+        }
         
         $arrayVar = [
             "legalEntityId" => 215184,
@@ -1632,9 +1652,9 @@ class Billing extends CI_Controller
                         "party" => [
                             "companyName" => $data['invoice']['company'],
                             "address" => [
-                                "street1" => $data['invoice']['address'],
-                                "zip" => $data['invoice']['postbox'],
-                                "city" => $data['invoice']['city'],
+                                "street1" => $address,
+                                "zip" => $postbox,
+                                "city" => $city,
                                 // "country" => $data['invoice']['country'],
                                 "country" => "NL",
                             ],
@@ -1702,6 +1722,9 @@ class Billing extends CI_Controller
         $errors = curl_error($curl);
         curl_close($curl);
 
+        // echo "<pre>"; echo $response; echo "</pre>";
+        // echo "<pre>"; echo $errors; echo "</pre>";
+        // exit;
         // print_r($errors);
         // exit;
         if(empty($errors))
@@ -1709,13 +1732,41 @@ class Billing extends CI_Controller
 
             $response = json_decode($response, true);
             $guid = $response['guid'];
-            $data['guid'] = $guid;
-            // get confirmation by guid
-            $curl1 = curl_init();
+            $data1['guid'] = strval($guid);
+            // $encodedGUID = urlencode($dynamicGUID);
+            // // get confirmation by guid
+            // $curl1 = curl_init();
+            // $curl_url = 'https://api.storecove.com/api/v2/document_submissions/'.$guid.'/evidence';
+            // //echo $curl_url;
+            // curl_setopt_array($curl1, array(
+            // CURLOPT_URL => $curl_url,
+            // CURLOPT_RETURNTRANSFER => true,
+            // CURLOPT_ENCODING => '',
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 0,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => 'GET',
+            // CURLOPT_HTTPHEADER => array(
+            //     'Accept: application/json',
+            //     'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378',
+            //     'Content-Type: application/json'
+            // ),
+            // ));
 
+            // $response1 = curl_exec($curl1);
+            // $errors1 = curl_error($curl1);
+            // curl_close($curl1);
+
+            $curl = curl_init();
+            $ccc_url = "https://api.storecove.com/api/v2/document_submissions/325c39cc-197c-430e-98e0-f2ab7bd604ae/evidence";
+            //echo $ccc_url;
+            
             curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.storecove.com/api/v2/document_submissions/'.$guid.'/evidence',
+            CURLOPT_URL => $ccc_url,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER, false,
+            CURLOPT_SSL_VERIFYHOST, false,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
@@ -1729,22 +1780,33 @@ class Billing extends CI_Controller
             ),
             ));
 
-            $response1 = curl_exec($curl1);
+            $response1 = curl_exec($curl);
+
+            curl_close($curl);
+            //echo $response1;
+// exit;
+            $data1['evidence_json'] = $response1;
+
+            // echo "<pre>"; echo $response1; echo "</pre>";
+            // echo "<pre>"; echo $errors1; echo "</pre>";
+
             $response1 = json_decode($response1, true);
-            $errors1 = curl_error($curl1);
-            curl_close($curl1);
+            //$errors1 = curl_error($curl1);
+            
+            //echo "<pre>"; print_r($response1); echo "</pre>";
+       
             
             if(empty($errors1))
             {            
-                $data['evidence_json'] = $response1;
+                
                 $documents =  $response1['documents'];
 
                 if(!empty($documents)){
                     foreach($documents as $doc){
                         if($doc['mime_type'] == 'application/xml')
                         {
-                            $data['document_url'] = $doc['document'];
-                            $data['document_expire_date'] = $doc['expires_at'];
+                            $data1['document_url'] = $doc['document'];
+                            $data1['document_expire_date'] = $doc['expires_at'];
                         }
                     }
                 }
@@ -1753,14 +1815,30 @@ class Billing extends CI_Controller
             $p_invoice_sent_date = date('Y-m-d');
             $p_invoice_json = $jsonArray;
 
-            $data = array('invoice_id' => $p_invoice_id, 'invoice_sent_date' => $p_invoice_sent_date, 'invoice_json' => $p_invoice_json);
-            if($this->db->insert('gtg_peppol_invoices', $data)){
+            $data1['invoice_id'] = $p_invoice_id;
+            $data1['invoice_sent_date'] = $p_invoice_sent_date;
+            $data1['invoice_json'] = $p_invoice_json;
+//exit;     
+            if($this->db->where('invoice_id',$p_invoice_id)->get('gtg_peppol_invoices')->num_rows() > 0)
+            {   
+                if($this->db->where('invoice_id',$p_invoice_id)->update('gtg_peppol_invoices', $data1)){
                 
                 $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
             }else{
 
                 $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
             }
+
+            }else{
+                if($this->db->insert('gtg_peppol_invoices', $data1)){
+                
+                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
+                }else{
+    
+                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
+                }    
+            }
+            
 
         }else{
             
