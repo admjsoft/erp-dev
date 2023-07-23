@@ -347,8 +347,8 @@ class Search_products extends CI_Controller
         if(!empty($pos_id))
         {
             $e .= ' ,merchant_items_thirdparty_pricing.Price AS product_price';
-            $join .= ' LEFT JOIN merchant_items_thirdparty_pricing ON merchant_items_thirdparty_pricing.ItemId = gtg_products.pid LEFT JOIN merchant_thirdparty_vendors ON merchant_thirdparty_vendors.Id = merchant_items_thirdparty_pricing.ThirdPartyVenderId';
-            $qw .= ' (merchant_items_thirdparty_pricing.ThirdPartyVenderId = '.$pos_id.') AND  ';
+            $join .= ' LEFT JOIN merchant_items_thirdparty_pricing ON merchant_items_thirdparty_pricing.ItemId = gtg_products.pid LEFT JOIN merchant_thirdparty_vendors ON merchant_thirdparty_vendors.Id = merchant_items_thirdparty_pricing.ThirdPartyVendorId';
+            $qw .= ' (merchant_items_thirdparty_pricing.ThirdPartyVendorId = '.$pos_id.') AND  ';
 
         }
 

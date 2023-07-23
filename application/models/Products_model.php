@@ -217,7 +217,7 @@ class Products_model extends CI_Model
                         foreach ($thirdparty_vendors as $th_vendor) {
                             $th_data = array(
                                 "ItemId" => $pid,
-                                "ThirdPartyVenderId" => $th_vendor['Id'],
+                                "ThirdPartyVendorId" => $th_vendor['Id'],
                                 "MerchantId" => '',
                                 "CityId" => '',
                                 "LocationId" => '',
@@ -345,7 +345,7 @@ class Products_model extends CI_Model
                     foreach ($thirdparty_vendors as $th_vendor) {
                         $th_data = array(
                             "ItemId" => $pid,
-                            "ThirdPartyVenderId" => $th_vendor['Id'],
+                            "ThirdPartyVendorId" => $th_vendor['Id'],
                             "MerchantId" => '',
                             "CityId" => '',
                             "LocationId" => '',
