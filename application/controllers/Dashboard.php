@@ -147,30 +147,31 @@ function fetch_data()
   {
    $chart_data = $this->dashboard_model->fetch_chart_data($this->input->post('year'));
   // print_r($chart_data);
- 
+
   
  if(!empty( $chart_data))
  {
    foreach($chart_data as $row)
    {
-	   
-
     $output[] = array(
      'month'  => $row["monthText"],
      'expense' => floatval($row["amount"])
     );
    }
+      echo json_encode($output);
+
  }
  else{
-	 
+	 $value='[{"month":"January","expense":0},{"month":"February","expense":0},{"month":"March","expense":0},{"month":"April","expense":0},
+	 {"month":"May","expense":0},{"month":"June","expense":0},{"month":"July","expense":0}]';
 	$output[] = array(
      'month'  =>'',
      'expense' => ''
     );
-	 
+	    echo $value;
+
  }
  //print_r($output);
-   echo json_encode($output);
   }
  }
     public function clock_in()
