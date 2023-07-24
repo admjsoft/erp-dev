@@ -34,7 +34,7 @@ class Invoices_model extends CI_Model
 
     public function invoice_details($id, $eid = '', $p = true)
     {
-        $this->db->select('gtg_invoices.*,SUM(gtg_invoices.shipping + gtg_invoices.ship_tax) AS shipping,gtg_customers.*,gtg_invoices.loc as loc,gtg_invoices.id AS iid,gtg_customers.id AS cid,gtg_terms.id AS termid,gtg_terms.title AS termtit,gtg_terms.terms AS terms');
+        $this->db->select('gtg_invoices.*,SUM(gtg_invoices.shipping + gtg_invoices.ship_tax) AS shipping,gtg_invoices.loc as loc,gtg_invoices.id AS iid,gtg_customers.id AS cid,gtg_customers.name,gtg_customers.phone,gtg_customers.address,gtg_customers.city,gtg_customers.region,gtg_customers.country,gtg_customers.postbox,gtg_customers.email,gtg_customers.company,gtg_customers.custom1,gtg_customers.name_s,gtg_customers.phone_s,gtg_customers.address_s,gtg_customers.city_s,gtg_customers.region_s,gtg_customers.country_s,gtg_customers.postbox_s,gtg_customers.email_s,gtg_customers.loc,gtg_customers.gid,gtg_terms.id AS termid,gtg_terms.title AS termtit,gtg_terms.terms AS terms');
         $this->db->from($this->table);
         $this->db->where('gtg_invoices.id', $id);
         if ($eid) {

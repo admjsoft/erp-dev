@@ -1586,6 +1586,9 @@ class Billing extends CI_Controller
         $data['id'] = $tid;
         $this->limited = '';
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
+
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
         $data['c_custom_fields'] = $this->customers->mydetails($data['invoice']['cid']);
         $invoice_status = $data['invoice']['status'];
         // if($invoice_status == 'due')
@@ -1760,6 +1763,11 @@ class Billing extends CI_Controller
 
             $curl = curl_init();
             $ccc_url = "https://api.storecove.com/api/v2/document_submissions/325c39cc-197c-430e-98e0-f2ab7bd604ae/evidence";
+            //$ccc1_url = '"https://api.storecove.com/api/v2/document_submissions/"'.$guid.'"/evidence"';
+
+        //    echo $ccc_url."<br>";
+        //    echo $ccc1_url;
+        //    exit;
             //echo $ccc_url;
             
             curl_setopt_array($curl, array(
@@ -1781,20 +1789,20 @@ class Billing extends CI_Controller
             ));
 
             $response1 = curl_exec($curl);
-
+            $errors1 = curl_error($curl);
             curl_close($curl);
             //echo $response1;
-// exit;
+            // exit;
             $data1['evidence_json'] = $response1;
 
             // echo "<pre>"; echo $response1; echo "</pre>";
             // echo "<pre>"; echo $errors1; echo "</pre>";
 
             $response1 = json_decode($response1, true);
-            //$errors1 = curl_error($curl1);
+          
             
             //echo "<pre>"; print_r($response1); echo "</pre>";
-       
+            //exit;
             
             if(empty($errors1))
             {            
@@ -1821,13 +1829,15 @@ class Billing extends CI_Controller
 //exit;     
             if($this->db->where('invoice_id',$p_invoice_id)->get('gtg_peppol_invoices')->num_rows() > 0)
             {   
+                // echo $this->db->last_query();
+                // exit;
                 if($this->db->where('invoice_id',$p_invoice_id)->update('gtg_peppol_invoices', $data1)){
                 
                 $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
-            }else{
+                }else{
 
-                $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
-            }
+                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
+                }
 
             }else{
                 if($this->db->insert('gtg_peppol_invoices', $data1)){

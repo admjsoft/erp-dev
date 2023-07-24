@@ -211,7 +211,7 @@ $(document).ready(function() {
             <li class="nav-item <?php if ($this->uri->segment(1) == "invoices") {
                 echo 'active';
             } ?>">
-                <a href="<?php echo base_url(); ?>peppol_invoices/"> <i class="icon-file-text"></i><span class="menu-title"> <?php echo "Peppol Invoices"; //$this->lang->line('Pay Bill'); ?> </span></a>
+                <a href="<?php echo base_url(); ?>invoices/peppol_invoices/"> <i class="icon-file-text"></i><span class="menu-title"> <?php echo "Peppol Invoices"; //$this->lang->line('Pay Bill'); ?> </span></a>
             </li>
             <?php /* temprary hide
             <li class="nav-item <?php if ($this->uri->segment(1) == "rec_invoices") {
