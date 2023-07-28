@@ -1457,6 +1457,11 @@ $('.nav-menu-main').removeClass('is-active');
 			<ul class="menu-content">
 </ul>
 					</li>
+                <li class="nav-item "><a href="<?= base_url(); ?>digitalmarketing/"><i
+                                 class="icon-speedometer"></i><span><?= $this->lang->line('digitalmarketing') ?></span></a>
+
+                 </li>
+
 				<?php
 					}
 					if($this->aauth->subscribe(9))
