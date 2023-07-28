@@ -1275,6 +1275,15 @@ return $msg.$html;
         return $query->row();
 		
 	}
-	
-	
+
+    public function get_all_customers()
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_customers');       
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    } 
+		
 }
+
