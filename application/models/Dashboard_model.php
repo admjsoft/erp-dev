@@ -166,7 +166,8 @@ class Dashboard_model extends CI_Model
 		  $this->db->select('*');
           $this->db->from('gtg_employees');
 		$this->db->where('employee_type',"foreign");
-	  
+	  		 $this->db->where('gtg_employees.delete_status',0);
+
           $this->db->where('passport_expiry<',$currentdate);
           $query = $this->db->get();
 
@@ -180,7 +181,8 @@ class Dashboard_model extends CI_Model
           $this->db->from('gtg_employees');
           $this->db->where('permit_expiry<',$currentdate);
 		$this->db->where('employee_type',"foreign");
-  
+  		 $this->db->where('gtg_employees.delete_status',0);
+
           $query = $this->db->get();
 
         return $query->num_rows();
@@ -193,6 +195,7 @@ class Dashboard_model extends CI_Model
           $this->db->from('gtg_employees');
           $this->db->where('passport_expiry>=',$currentdate);
 		 $this->db->where('employee_type',"foreign");
+		 $this->db->where('gtg_employees.delete_status',0);
 
           $query = $this->db->get();
            return $query->num_rows();  
@@ -204,6 +207,8 @@ class Dashboard_model extends CI_Model
         $this->db->from('gtg_employees');
         $this->db->where('permit_expiry>=',$currentdate);
 		        $this->db->where('employee_type',"foreign");
+						 $this->db->where('gtg_employees.delete_status',0);
+
 
         $query = $this->db->get();
         return $query->num_rows();  
@@ -229,8 +234,8 @@ public function getthirtyDaysExpiryPassport()
 $thirtydays=date('Y-m-d',strtotime('+30 days'));
 	    $this->db->select('*');
         $this->db->from('gtg_employees');
-         $this->db->where('permit_expiry<=',$thirtydays);
-		 $this->db->where('permit_expiry>=',$current_date);
+         $this->db->where('passport_expiry<=',$thirtydays);
+		 $this->db->where('passport_expiry>=',$current_date);
 		$this->db->where('employee_type',"foreign");
 		 $this->db->where('delete_status',0);
         $query = $this->db->get();

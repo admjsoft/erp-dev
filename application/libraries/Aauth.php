@@ -696,7 +696,6 @@ class Aauth
      */
     public function create_user($email, $pass, $username = FALSE)
     {
-
         $valid = TRUE;
 
         if ($this->config_vars['login_with_name'] == TRUE) {
@@ -727,10 +726,13 @@ class Aauth
             $this->error($this->CI->lang->line('aauth_error_password_invalid'),true);
             $valid = FALSE;
         }
-        if ($username != FALSE && !ctype_alnum(str_replace($this->config_vars['additional_valid_chars'], '', $username))) {
+        /*if ($username != FALSE && !ctype_alnum(str_replace($this->config_vars['additional_valid_chars'], '', $username))) {
 			$this->error($this->CI->lang->line('aauth_error_username_invalid'),true);
             $valid = FALSE;
-        }
+        }*/
+		
+		
+		
         if (!$valid) {
             return FALSE;
         }
@@ -743,8 +745,7 @@ class Aauth
             'picture' => 'example.png'
         );
 
-
-
+           
         if ($this->aauth_db->insert($this->config_vars['users'], $data)) {
 
              $user_id = $this->aauth_db->insert_id();

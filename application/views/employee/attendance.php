@@ -17,7 +17,7 @@
                 <div class="form-group row">
 
                     <label class="col-sm-3 col-form-label"
-                           for="pay_cat"><?php echo $this->lang->line('Employees') ?></label>
+                           for="pay_cat"><?php echo $this->lang->line('Employees') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-6">
                         <select name="employee[]" class="form-control required select-box" multiple="multiple" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
@@ -36,7 +36,7 @@
                 <div class="form-group row">
 
                     <label class="col-sm-3 control-label"
-                           for="from"><?php echo $this->lang->line('Date') ?></label>
+                           for="from"><?php echo $this->lang->line('Date') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-2">
                         <input type="text" class="form-control b_input required"
@@ -47,7 +47,7 @@
                 <div class="form-group row">
 
                     <label class="col-sm-3 control-label"
-                           for="todate"><?php echo $this->lang->line('From') ?></label>
+                           for="todate"><?php echo $this->lang->line('From') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-2">
                         <div class="input-group bootstrap-timepicker timepicker">
@@ -59,7 +59,7 @@
                 <div class="form-group row">
 
                     <label class="col-sm-3 control-label"
-                           for="todate"><?php echo $this->lang->line('To') ?></label>
+                           for="todate"><?php echo $this->lang->line('To') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-2">
                         <div class="input-group bootstrap-timepicker timepicker">
@@ -71,7 +71,7 @@
 
                 <div class="form-group row">
 
-                    <label class="col-sm-3 col-form-label" for="note"><?php echo $this->lang->line('Note') ?></label>
+                    <label class="col-sm-3 col-form-label" for="note"><?php echo $this->lang->line('Note') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-8">
 					<textarea name="note" placeholder="Note" class="form-control"></textarea>

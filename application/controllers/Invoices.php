@@ -759,8 +759,8 @@ class Invoices extends CI_Controller
         $config['encrypt_name'] = FALSE;
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('userfile')) {
-           $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            echo json_encode($error);
+           //$error = array('status' => 'file', 'error' => $this->upload->display_errors());
+           // echo json_encode($error);
                     $filename ='';
 
 		} else {
@@ -797,9 +797,10 @@ class Invoices extends CI_Controller
             $this->db->set($data1);
         $this->db->where('id', $tid);
         $this->db->update('gtg_invoices');
-
-        echo json_encode(array('status' => 'Success', 'message' =>
-        $this->lang->line('UPDATED'), 'pstatus' => $status));
+      //  redirect('dashboard');
+redirect('invoices');
+       // echo json_encode(array('status' => 'Success', 'message' =>
+        //$this->lang->line('UPDATED'), 'pstatus' => $status));
     }
 
 

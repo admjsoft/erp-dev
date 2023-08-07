@@ -1258,4 +1258,6 @@ $lang['Permit Status'] = "Permit Status";
 $lang['Permit Status'] = "Permit Status";
 $lang['Month Wise Expense For Payroll Data'] = "Month Wise Expense For Payroll Data";
 $lang['Proof Of Payment'] = "Proof Of Payment";
+$lang['Add Asset Category'] = "Add Asset Category";
+$lang['Add Asset Sub Category'] = "Add Asset Sub Category";
 

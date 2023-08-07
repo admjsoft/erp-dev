@@ -1,5 +1,5 @@
-<article class="content">
-    <div class="card card-block">
+<div class="content-body">
+<div id="c_body"></div>    <div class="card card-block">
         <div id="notify" class="alert alert-success" style="display:none;">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
 
@@ -42,7 +42,7 @@
             </table>
         </div>
     </div>
-</article>
+</div>
 <script type="text/javascript">
 
 

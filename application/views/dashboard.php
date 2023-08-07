@@ -112,6 +112,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
    <div class="col-xl-3 col-lg-6 col-12">
         <div class="card">
             <div class="card-content">
+			
                 <div class="media align-items-stretch">
                     <div class="p-2 text-center bg-primary bg-darken-2">
                         <i class="fa fa-file-text-o text-bold-200  font-large-2 white"></i>
@@ -199,13 +200,13 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
                         </thead>
                         <tbody>
                        <tr>
-					   <td><?php echo $passport_expiry_thirthy;?></td>
-					   <td><?php echo $passport_expiry_sixty;?></td>
-					   <td><?php echo $passport_expiry_ninety;?></td>
-					   	<td><?php echo $permit_expiry_thirthy;?></td>
-					   <td><?php echo $permit_expiry_sixty;?></td>
-					   <td><?php echo $permit_expiry_ninety;?></td>
-
+					   <td><a href="<?php echo base_url("employee/passportExpiredThirty") ?>">
+					   <?php echo $passport_expiry_thirthy;?></a></td>
+					   <td><a href="<?php echo base_url("employee/passportExpiredSixty") ?>"><?php echo $passport_expiry_sixty;?></a></td>
+					   <td><a href="<?php echo base_url("employee/passportExpiredNinety") ?>"><?php echo $passport_expiry_ninety;?></a></td>
+					   	<td><a href="<?php echo base_url("employee/permitExpiredThirty") ?>"><?php echo $permit_expiry_thirthy;?></a></td>
+					   <td><a href="<?php echo base_url("employee/permitExpiredSixty") ?>"><?php echo $permit_expiry_sixty;?></a></td>
+					   <td><a href="<?php echo base_url("employee/permitExpiredNinety") ?>"><?php echo $permit_expiry_ninety;?></a></td>
 					   </tr>
 
                         </tbody>
