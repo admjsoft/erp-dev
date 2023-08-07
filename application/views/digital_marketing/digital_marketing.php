@@ -22,8 +22,7 @@ if ($this->input->get('due')) {
                            class="btn btn-success btn-sm rounded multi_assign_button" style="display:none;"
                            data-lang="<?php echo $this->lang->line('SMS Selected') ?>"> <span class="fa fa-mobile"></span>
                             <?php echo $this->lang->line('SMS Selected') ?></a></li>
-                    <li><a id="delete_selected"
-                           href="#"
+                    <li><a href="#sendWhatsApp" data-toggle="modal" data-remote="false"
                            class="btn btn-danger btn-sm rounded multi_assign_button" style="display:none;"
                            data-lang="<?php echo "WhatsApp Selected"; //  $this->lang->line('Delete Selected') ?>">  <span class="fa fa-trash-o"></span>
                             <?php echo  "WhatsApp Selected";  //$this->lang->line('Delete Selected') ?></a></li>
@@ -173,6 +172,46 @@ if ($this->input->get('due')) {
 
       </div>
 
+      <div id="sendWhatsApp" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo "WhatsApp Selected"; // $this->lang->line('SMS Selected') ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form id="sendwhatsapp_form"><input type="hidden"
+                                                name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                                value="<?php echo $this->security->get_csrf_hash(); ?>">
+
+
+
+                    <div class="row">
+                        <div class="col mb-1"><label
+                                    for="shortnote"><?php echo $this->lang->line('Message') ?></label>
+                            <textarea name="message" class="form-control" rows="3" cols="60"></textarea></div>
+                    </div>
+
+                    <input type="hidden" id="WhatsAppMultipleTaskAssignIds" name="WhatsAppMultipleTaskAssignIds" value="" />
+
+                    <input type="hidden" id="action-url" value="communication/send_general">
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                <button type="button" class="btn btn-primary"
+                        id="sendWhatsAppSelected"><?php echo $this->lang->line('Send') ?></button>
+            </div>
+        </div>
+    </div>
+
+      </div>
+
     <script type="text/javascript">
     $(document).ready(function () {
         $('.summernote').summernote({
@@ -291,6 +330,27 @@ $('#sendSmsS').on('click', '#sendSmsSelected', function (e) {
                 url: "<?php echo site_url('digitalmarketing/sendSmsSelected')?>",
                 type: 'POST',
                 data: $("input[name='cust[]']:checked").serialize() + '&'+$("#sendsms_form").serialize(),
+                  dataType: 'json',
+                success: function (data) {
+                   $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
+                        $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
+                    $("html, body").animate({scrollTop: $('#notify').offset().top}, 1000);
+                }
+            });
+});
+
+
+
+$('#sendWhatsApp').on('click', '#sendWhatsAppSelected', function (e) {
+       e.preventDefault();
+         $("#sendSmsS").modal('hide');
+                     if ($("#notify").length == 0) {
+        $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
+    }
+            jQuery.ajax({
+                url: "<?php echo site_url('digitalmarketing/sendWhatsappSelected')?>",
+                type: 'POST',
+                data: $("input[name='cust[]']:checked").serialize() + '&'+$("#sendwhatsapp_form").serialize(),
                   dataType: 'json',
                 success: function (data) {
                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);

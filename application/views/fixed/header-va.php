@@ -1457,10 +1457,7 @@ $('.nav-menu-main').removeClass('is-active');
 			<ul class="menu-content">
 </ul>
 					</li>
-                <li class="nav-item "><a href="<?= base_url(); ?>digitalmarketing/"><i
-                                 class="icon-speedometer"></i><span><?= $this->lang->line('digitalmarketing') ?></span></a>
-
-                 </li>
+                
 
 				<?php
 					}
@@ -1884,6 +1881,68 @@ $('.nav-menu-main').removeClass('is-active');
                 </li> */ ?>
             <?php }
             ?>
+
+            
+<li class="menu-item  has-sub <?php if ($this->li_a == "digitalmarketing") {
+    echo ' open';
+} ?>"><a href="#"><i
+                            class="icon-basket"></i><?php echo  "Digital Marketing"; // $this->lang->line('E-Commerce') ?><?php //echo $this->lang->line('invoices') ?></a>
+                <ul class="menu-content">
+
+                    
+                <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/customers_list"> Customers List<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    </li>  
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/transactional"> Transactional<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                
+                    <ul class="menu-content">
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/transactions/email"><?php echo "Emails"; // $this->lang->line('Attendance'); ?></a>
+                    </li>
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/transactions/sms"><?php echo "Sms"; // $this->lang->line('Attendance Report'); ?></a>
+                    </li>
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/transactions/whatsapp"><?php echo "Whatsapp"; // $this->lang->line('Break Setting'); ?></a>
+                    </li>
+                    </ul>
+                   
+                    
+                    </li> 
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/SmsMarketing"> Sms Marketing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    <ul class="menu-content">
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/sms_marketing_campaigns"><?php echo "Campaigns"; // $this->lang->line('Attendance'); ?></a>
+                    </li>
+                    
+                    </ul>
+                    </li> 
+                    
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/EmailMarketing"> Email Marketing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    <ul class="menu-content">
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/email_marketing_campaigns"><?php echo "Campaigns"; // $this->lang->line('Attendance'); ?></a>
+                    </li>
+                    
+                    </ul>
+                    </li> 
+
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/whatsappMarketing"> Whatsapp Marketing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    <ul class="menu-content">
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/whatsapp_marketing_campaigns"><?php echo "Campaigns"; // $this->lang->line('Attendance'); ?></a>
+                    </li>
+                    
+                    </ul>
+                    </li> 
+                    
+                </ul>
+            </li>
+
 
         </ul>
     </div>

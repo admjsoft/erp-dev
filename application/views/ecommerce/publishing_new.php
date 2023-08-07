@@ -391,7 +391,10 @@ $(document).on('change', "#vendor_type", function (e) {
         product_id = $(this).attr('product_id');
         vendor_id = $(this).attr('vendor_id');
         vendor_pricing_id = $(this).attr('vendor_pricing_id');
-
+        category = $('#category').val();
+        sub_category = $('#sub_category').val();
+        
+        
         $.ajax({
 
         url: "<?php echo site_url('ecommerce/share_product_to_third_party') ?>",
@@ -400,7 +403,9 @@ $(document).on('change', "#vendor_type", function (e) {
         data: {
             product_id: product_id,
             vendor_id: vendor_id,
-            vendor_pricing_id: vendor_pricing_id
+            vendor_pricing_id: vendor_pricing_id,
+            category: category,
+            sub_category: sub_category
         },
         success: function (data) {
             alert(data.message);

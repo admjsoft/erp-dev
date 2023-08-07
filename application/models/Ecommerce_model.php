@@ -634,6 +634,7 @@ public function GetThirdPartyCategories($vendor_details)
     $options = array(
         CURLOPT_URL => $url . '?' . http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
@@ -725,6 +726,7 @@ public function GetThirdPartySubCategories($vendor_details,$category_id)
     $options = array(
         CURLOPT_URL => $url . '?' . http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
@@ -829,6 +831,7 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
      $options = array(
         CURLOPT_URL => $url . '?' . http_build_query($params),
         CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
@@ -1011,7 +1014,7 @@ public function GetAllProductsList($vendor){
    }
 
 
-   public function share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id)
+   public function share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id,$category,$sub_category)
    {
        // print_r($vendor_details);
     $website_url = $vendor_details[0]['WebSiteUrl'];
@@ -1030,6 +1033,10 @@ public function GetAllProductsList($vendor){
            'type' => 'simple',
            'regular_price' => $product_details[0]['product_price'],
            'description' => $product_details[0]['product_des'],
+           'categories' => array(
+            array('id' => $category), // Replace 15 with the actual category ID
+            array('id' => $sub_category), // Replace 25 with the actual subcategory ID
+        ),
            // Add more product fields as needed
        );
    
@@ -1037,6 +1044,7 @@ public function GetAllProductsList($vendor){
        $options = array(
            CURLOPT_URL => $url,
            CURLOPT_RETURNTRANSFER => true,
+           CURLOPT_SSL_VERIFYPEER => false,
            CURLOPT_CUSTOMREQUEST => 'POST',
            CURLOPT_HTTPHEADER => array(
                'Content-Type: application/json',
@@ -1107,6 +1115,7 @@ public function GetAllProductsList($vendor){
     $options = array(
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_CUSTOMREQUEST => 'PUT',
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
@@ -1242,6 +1251,7 @@ public function get_third_party_product_details($vendor_details,$product_id)
     // Set cURL options
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
     ));

@@ -575,11 +575,13 @@ class Ecommerce extends CI_Controller
         $vendor = $post['vendor_id'];
         $product_id = $post['product_id'];
         $vendor_pricing_id = $post['vendor_pricing_id'];
+        $category = $post['category'];
+        $sub_category = $post['sub_category'];
 
         $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
         $product_details = $this->ecommerce->GetProductDetails($product_id);
         
-        $response = $this->ecommerce->share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id);
+        $response = $this->ecommerce->share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id,$category,$sub_category);
         echo json_encode($response);
             
     }
