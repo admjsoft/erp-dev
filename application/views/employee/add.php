@@ -133,7 +133,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 										<span class="passport_error"></span>
 
-                                            <input type="number" placeholder="Passport Number"
+                                            <input type="text" placeholder="Passport Number"
                                                    class="form-control margin-bottom b_input" name="passport" id="passport" required>
                                         </div>
                                     </div>
@@ -157,7 +157,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 												<span class="permit_error"></span>
 	
-                                            <input type="number" placeholder="Permit Number"
+                                            <input type="text" placeholder="Permit Number"
                                                    class="form-control margin-bottom b_input" name="permit" id="permit" required>
                                         </div>
                                     </div><div class="form-group row">

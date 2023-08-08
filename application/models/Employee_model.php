@@ -1170,7 +1170,7 @@ $country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa
             $data1 = array(
                 'roleid' => $roleid
             );
-          
+          print_r();
             $this->db->set($data1);
             $this->db->where('id', $id);
 
@@ -1578,12 +1578,22 @@ public function employee_datatables_query()
 		$empid=$_SESSION['id'];
 		
 		$currentdate=date("Y-m-d");
+$thirtydays=date('Y-m-d',strtotime('+30 days'));
+$sixtydays=date('Y-m-d',strtotime('+60 days'));
 
             $active = $this->input->post('active');
 		  $permitactive = $this->input->post('permit_active');
            $passport_expiry = $this->input->post('passport_expiry');
 		   $permit_expiry = $this->input->post('permit_expiry');
+		   $passport_thirty_expiry = $this->input->post('passport_thirty_expiry');
+		   $passport_sixty_expiry = $this->input->post('passport_sixty_expiry');
+		   $passport_ninety_expiry = $this->input->post('passport_ninety_expiry');
+		   $ninentydays=date('Y-m-d',strtotime('+90 days'));
 
+		   $permit_thirty_expiry = $this->input->post('permit_thirty_expiry');
+		   $permit_sixty_expiry = $this->input->post('permit_sixty_expiry');
+		   $permit_ninety_expiry = $this->input->post('permit_ninety_expiry');
+		   
 		   
         $this->db->select('gtg_employees.id,gtg_employees.name,gtg_employees.passport,gtg_employees.passport_document,
 		gtg_employees.visa_document,gtg_employees.passport_expiry,permit_expiry,gtg_employees.passport,
@@ -1592,6 +1602,8 @@ public function employee_datatables_query()
         $this->db->from('gtg_employees');
 	    $this->db->join('gtg_customers', 'gtg_customers.id=gtg_employees.company','left');
         $this->db->where('gtg_employees.employee_type',"foreign");
+		        $this->db->where('gtg_employees.delete_status',0);
+
 		if($this->aauth->get_user()->roleid == 2)
 		{
 	      $this->db->where('gtg_employees.id',$empid);
@@ -1620,6 +1632,40 @@ else if($permit_expiry){
 
 	
 }
+else if($passport_thirty_expiry){
+	
+         $this->db->where('passport_expiry<=',$thirtydays);
+		 $this->db->where('passport_expiry>=',$currentdate);
+	
+}
+else if($passport_sixty_expiry){
+	
+       $this->db->where('passport_expiry>',$thirtydays);
+		 $this->db->where('passport_expiry<=',$sixtydays);
+	
+}
+else if($passport_ninety_expiry){
+	  $this->db->where('passport_expiry>',$sixtydays);
+      $this->db->where('passport_expiry<=',$ninentydays);
+}
+else if($permit_thirty_expiry){
+	
+         $this->db->where('permit_expiry<=',$thirtydays);
+		 $this->db->where('permit_expiry>=',$currentdate);
+	
+}
+else if($permit_sixty_expiry){
+	
+   $this->db->where('passport_expiry>',$thirtydays);
+		 $this->db->where('passport_expiry<=',$sixtydays);
+	
+}
+else if($permit_ninety_expiry){
+	 $this->db->where('passport_expiry>',$sixtydays);
+		 $this->db->where('passport_expiry<=',$ninentydays);
+}
+
+
        //$this->db->order_by('gtg_employees.id', 'DESC');
 
         $i = 0;
@@ -1698,7 +1744,7 @@ public function employee_report_datatables_query()
     {
        $company = $this->input->post('company');
        $employee = $this->input->post('employee');
-        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_countries.country_name,gtg_employees.passport,
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_countries.country_name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,
 		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_customers.company as client');
         $this->db->from('gtg_employees');
 

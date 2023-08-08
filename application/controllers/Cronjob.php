@@ -158,6 +158,7 @@ public function reminder()
 	$emailist = $this->employee->getEmailToSend();
 			 $explodevariable=explode(",",$emailist->email_to);
 			
+$organization =$this->employee->getOrganizationDetails();
 
 
 if (in_array("1",$explodevariable))
@@ -987,10 +988,13 @@ foreach($exppassportlist as $exppassport) {
 Thank you and regards.
 
 <p>
-JSOFT SOLUTION SDN BHD,</p>
-<p>16-03-C</br></p>
-<p>Phone : +0374956282</p>
-<p>Email : support@jsoftsolution.com.my</p>';
+'.$organization->cname.',</p>
+<p>'.$organization->address.',</br></p>
+<p>'.$organization->city.',</br></p>
+<p>'.$organization->region.',</br></p>
+<p>'.$organization->country.',</br></p>
+<p>Phone : '.$organization->phone.',</p>
+<p>Email : support@jsoftsolution.com.my.</p>';
 	$mailto=$passportemail;
 	    $mailtotitle="";
 		$subject="Passport Renewal Reminder";
@@ -1047,12 +1051,14 @@ foreach($exppassportlistsixty as $exppassportsixty) {
 	</br>
 
 Thank you and regards.
-
 <p>
-JSOFT SOLUTION SDN BHD,</p>
-<p>16-03-C</br></p>
-<p>Phone : +0374956282</p>
-<p>Email : support@jsoftsolution.com.my</p>';
+'.$organization->cname.',</p>
+<p>'.$organization->address.',</br></p>
+<p>'.$organization->city.',</br></p>
+<p>'.$organization->region.',</br></p>
+<p>'.$organization->country.',</br></p>
+<p>Phone : '.$organization->phone.',</p>
+<p>Email : support@jsoftsolution.com.my.</p>';
 	$mailto=$passportemail;
 	    $mailtotitle="";
 		$subject="Passport Renewal Reminder";
@@ -1189,10 +1195,13 @@ $this->load->library('ultimatemailer');
 Thank you and regards.
 
 <p>
-JSOFT SOLUTION SDN BHD,</p>
-<p>16-03-C</br></p>
-<p>Phone : +0374956282</p>
-<p>Email : support@jsoftsolution.com.my</p>';
+'.$organization->cname.',</p>
+<p>'.$organization->address.',</br></p>
+<p>'.$organization->city.',</br></p>
+<p>'.$organization->region.',</br></p>
+<p>'.$organization->country.',</br></p>
+<p>Phone : '.$organization->phone.',</p>
+<p>Email : support@jsoftsolution.com.my.</p>';
 		    $mailtotitle="";
 		
 		$attachmenttrue="true";
@@ -1245,10 +1254,13 @@ $this->load->library('ultimatemailer');
 Thank you and regards.
 
 <p>
-JSOFT SOLUTION SDN BHD,</p>
-<p>16-03-C</br></p>
-<p>Phone : +0374956282</p>
-<p>Email : support@jsoftsolution.com.my</p>';
+'.$organization->cname.',</p>
+<p>'.$organization->address.',</br></p>
+<p>'.$organization->city.',</br></p>
+<p>'.$organization->region.',</br></p>
+<p>'.$organization->country.',</br></p>
+<p>Phone : '.$organization->phone.',</p>
+<p>Email : support@jsoftsolution.com.my.</p>';
 		    $mailtotitle="";
 		
 		$attachmenttrue="true";
@@ -1302,10 +1314,13 @@ $this->load->library('ultimatemailer');
 Thank you and regards.
 
 <p>
-JSOFT SOLUTION SDN BHD,</p>
-<p>16-03-C</br></p>
-<p>Phone : +0374956282</p>
-<p>Email : support@jsoftsolution.com.my</p>';
+'.$organization->cname.',</p>
+<p>'.$organization->address.',</br></p>
+<p>'.$organization->city.',</br></p>
+<p>'.$organization->region.',</br></p>
+<p>'.$organization->country.',</br></p>
+<p>Phone : '.$organization->phone.',</p>
+<p>Email : support@jsoftsolution.com.my.</p>';
 		    $mailtotitle="";
 		
 		$attachmenttrue="true";

@@ -43,21 +43,21 @@
                             <label for="employee_name" class="caption col-form-label"><?php echo $this->lang->line('Employee') ?>
                                 <span style="color: red;">*</span></label>
                                 <input type="hidden" name="emp_id" id="employee_id" value="0">
-                            <input type="text" class="form-control required" name="emp_name" id="employee_name">
+                            <input type="text" class="form-control required" name="emp_name" id="employee_name" required>
                         </div>
                         <?php } else { ?>
                         <div class="col-sm-4">
                             <label for="employee_name" class="caption col-form-label"><?php echo $this->lang->line('Employee') ?>
                                 <span style="color: red;">*</span></label>
                                 <input type="hidden" name="emp_id" id="employee_id" value="<?php echo $this->session->userdata('id'); ?>">
-                            <input type="text" class="form-control required" name="emp_name" id="employee_name" value="<?php echo $this->session->userdata('login_name'); ?>">
+                            <input type="text" class="form-control required" required name="emp_name" id="employee_name"  value="<?php echo $this->session->userdata('login_name'); ?>">
                         </div>
                         <?php } ?>
                         <div class="col-sm-4"><label for="title"
                                                      class="caption col-form-label"><?php echo $this->lang->line('Title') ?>
                                 <span
                                         style="color: red;">*</span></label>
-                            <input type="text" class="form-control required" name="title" id="title">
+                            <input type="text" class="form-control required" name="title" id="title" required>
                         </div>
                     </div>
                     <div id="employeepanel" class="form-group row bg-lighten-4">
@@ -87,7 +87,7 @@
                                                      for="receipt_date"><?php echo $this->lang->line('Receipt Date') ?></label>
                             <input type="date" class="form-control required"
                                    name="receipt_date"
-                                   autocomplete="false" id="receipt_date">
+                                   autocomplete="false" id="receipt_date" required>
                         </div>
                     </div>
                     <div id="employeepanel" class="form-group row bg-lighten-4">
@@ -96,13 +96,13 @@
                                                      for="receipt_amount"><?php echo $this->lang->line('Receipt Amount') ?></label>
                             <input type="text" placeholder="Receipt Amount"
                                    class="form-control margin-bottom  required" name="receipt_amount" id="receipt_amount" value="0"
-                                   onkeypress="return isNumber(event)">
+                                   onkeypress="return isNumber(event)" required>
                         </div>
                         <div class="col-sm-4"><label class="col-form-label"
                                                      for="tax_amount"><?php echo $this->lang->line('Tax Amount') ?></label>
                             <input type="text" placeholder="Tax Amount"
                                    class="form-control margin-bottom  required" name="tax_amount" id="tax_amount" value="0"
-                                   onkeypress="return isNumber(event)">
+                                   onkeypress="return isNumber(event)" required>
                         </div>
                     </div>
                     <div id="employeepanel" class="form-group row bg-lighten-4">

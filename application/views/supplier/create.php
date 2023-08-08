@@ -17,7 +17,8 @@
             <form method="post" id="data_form" class="form-horizontal">
                 <div class="form-group row">
 
-                    <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Name') ?></label>
+                    <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Name') ?>
+					<span style="color:red">*</span></label>
 
                     <div class="col-sm-6">
                         <input type="text" placeholder="Name"
@@ -36,7 +37,7 @@
 
                 <div class="form-group row">
 
-                    <label class="col-sm-2 col-form-label" for="phone"><?php echo $this->lang->line('Phone') ?></label>
+                    <label class="col-sm-2 col-form-label" for="phone"><?php echo $this->lang->line('Phone') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-6">
                         <input type="text" placeholder="phone"
@@ -45,7 +46,7 @@
                 </div>
                 <div class="form-group row">
 
-                    <label class="col-sm-2 col-form-label" for="email"><?php echo $this->lang->line('Email') ?></label>
+                    <label class="col-sm-2 col-form-label" for="email"><?php echo $this->lang->line('Email') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-6">
                         <input type="text" placeholder="email"

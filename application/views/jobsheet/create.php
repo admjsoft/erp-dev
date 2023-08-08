@@ -56,7 +56,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text" list="CloneTasksList"  placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="title"
-                                                   id="title">
+                                                   id="title" required>
                                                    
                                             <datalist id="CloneTasksList">
                                         
@@ -72,7 +72,7 @@ if(isset($_SESSION['status'])){
                                             <!-- <input type="text" placeholder="Description"
                                                    class="form-control margin-bottom b_input" name="description"> -->
                                             <textarea  placeholder="Description"
-                                                   class="form-control margin-bottom b_input" name="description"></textarea>        
+                                                   class="form-control margin-bottom b_input" name="description" required></textarea>        
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -95,7 +95,7 @@ if(isset($_SESSION['status'])){
                                                for="cname"><?php echo $this->lang->line('Customer') ?></label>
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Customer Name" id="customer_name"
-                                                   class="form-control margin-bottom b_input" name="cname">
+                                                   class="form-control margin-bottom b_input" name="cname" required>
                                             <input type="hidden" id="customer_id" class="form-control" name="cid">
                                         </div>
                                     </div>
@@ -104,7 +104,7 @@ if(isset($_SESSION['status'])){
                                                for="Location"><?php echo $this->lang->line('Location') ?></label>
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Location" id="customer_address"
-                                                   class="form-control margin-bottom b_input" name="location">
+                                                   class="form-control margin-bottom b_input" name="location" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -112,13 +112,13 @@ if(isset($_SESSION['status'])){
                                                for="Location"><?php echo $this->lang->line('Date') ?></label>
                                         <div class="col-sm-3">
                                             <input type="date" placeholder="date" id="date"
-                                                   class="form-control" min="<?php echo date("Y-m-d"); ?>" name="date">
+                                                   class="form-control" min="<?php echo date("Y-m-d"); ?>" name="date" required>
                                         </div>
                                          <label class="col-sm-2 col-form-label"
                                                for="Location"><?php echo $this->lang->line('Time') ?></label>
                                         <div class="col-sm-3">
                                             <input type="time" placeholder="time" id="time"
-                                                   class="form-control" name="time">
+                                                   class="form-control" name="time" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">

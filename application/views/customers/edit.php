@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form method="post" id="data_form" class="form-horizontal">
+            <form method="post" id="data_form" class="form-horizontal" >
                 <div class="row">
 
                     <div class="col-md-6">
@@ -25,9 +25,11 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="product_name"><?php echo $this->lang->line('Name') ?></label>
+                                   for="product_name"><?php echo $this->lang->line('Name') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+								<span class="domestic_name_error"></span>
+
                                 <input type="text" placeholder="Name"
                                        class="form-control margin-bottom required" name="name"
                                        value="<?php echo $customer['name'] ?>" id="mcustomer_name">
@@ -36,11 +38,13 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="product_name"><?php echo $this->lang->line('Company') ?></label>
+                                   for="product_name"><?php echo $this->lang->line('Company') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+														<span class="domestic_comapny_error"></span>
+
                                 <input type="text" placeholder="Company"
-                                       class="form-control margin-bottom" name="company"
+                                       class="form-control margin-bottom" name="company" id="domestic_company"
                                        value="<?php echo $customer['company'] ?>">
                             </div>
                         </div>
@@ -48,9 +52,11 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="phone"><?php echo $this->lang->line('Phone') ?></label>
+                                   for="phone"><?php echo $this->lang->line('Phone') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+								<span class="domestic_phone_error"></span>
+
                                 <input type="text" placeholder="phone"
                                        class="form-control margin-bottom  required" name="phone"
                                        value="<?php echo $customer['phone'] ?>" id="mcustomer_phone">
@@ -58,10 +64,11 @@
                         </div>
                         <div class="form-group row">
 
-                            <label class="col-sm-3 col-form-label" for="email">Email</label>
+                            <label class="col-sm-3 col-form-label" for="email">Email <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
-                                <input type="text" placeholder="email"
+                       <span class="domestic_email_error"></span>
+							  <input type="text" placeholder="email"
                                        class="form-control margin-bottom required" name="email"
                                        value="<?php echo $customer['email'] ?>" id="mcustomer_email">
                             </div>
@@ -69,9 +76,11 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="product_name"><?php echo $this->lang->line('Address') ?></label>
+                                   for="product_name"><?php echo $this->lang->line('Address') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+					                       <span class="domestic_address_error"></span>
+
                                 <input type="text" placeholder="address"
                                        class="form-control margin-bottom" name="address"
                                        value="<?php echo $customer['address'] ?>" id="mcustomer_address1">
@@ -80,9 +89,11 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="city"><?php echo $this->lang->line('City') ?></label>
+                                   for="city"><?php echo $this->lang->line('City') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+									 <span class="domestic_city_error"></span>
+
                                 <input type="text" placeholder="city"
                                        class="form-control margin-bottom" name="city"
                                        value="<?php echo $customer['city'] ?>" id="mcustomer_city">
@@ -91,9 +102,11 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="region"><?php echo $this->lang->line('Region') ?></label>
+                                   for="region"><?php echo $this->lang->line('Region') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+																 <span class="domestic_region_error"></span>
+
                                 <input type="text" placeholder="region"
                                        class="form-control margin-bottom" name="region"
                                        value="<?php echo $customer['region'] ?>" id="region">
@@ -102,9 +115,11 @@
                         <div class="form-group row">
 
                             <label class="col-sm-3 col-form-label"
-                                   for="country"><?php echo $this->lang->line('Country') ?></label>
+                                   for="country"><?php echo $this->lang->line('Country') ?> <span style="color:red">*</span></label>
 
                             <div class="col-sm-9">
+						 <span class="domestic_country_error"></span>
+
                                 <input type="text" placeholder="Country"
                                        class="form-control margin-bottom" name="country"
                                        value="<?php echo $customer['country'] ?>" id="mcustomer_country">
@@ -347,6 +362,7 @@
 </div>
 <script>
  $("#submit-data-update").on("click", function (e) {
+validateFormForDomestic(e);
         e.preventDefault();
         var o_data = $("#data_form").serialize();
         var action_url = $('#action-url').val();
@@ -386,6 +402,159 @@ setTimeout(function() {
         });
     });
 
+ function  validateFormForDomestic(e){
+        var company_name = document.getElementById('company_name').value;
+		 var company = document.getElementById('company').value;
+		 $("#mcustomer_name").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_name_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+		 $("#domestic_company").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_comapny_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+$("#mcustomer_phone").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_phone_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+$("#mcustomer_email").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_email_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#mcustomer_address1").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_address_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+
+$("#mcustomer_city").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_city_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			
+$("#region").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_region_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			
+			
+$("#mcustomer_country").focusout(function() { 
+                if($(this).val()=='') { 
+                    $(this).css('border', 'solid 2px red'); 
+					$(".domestic_country_error").text("this field is required");
+				//	$('input:radio[name=chooseradio]').val(['foreign']);
+//$("#foreign_content").css("display", "block");
+					        e.preventDefault();
+
+                }
+                else {
+                      
+                    // If it is not blank.
+                    $(this).css('border', 'solid 2px green');    
+								
+
+                }    
+            }) .trigger("focusout");
+			
+			
+			
+			
+			
+
+
+	   }
+		
 
 </script>
 

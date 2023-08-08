@@ -77,7 +77,7 @@
 
                                                 <div class="col-sm-6">
                                                     <input type="text" placeholder="Document Title"
-                                                           class="form-control margin-bottom  required" name="title">
+                                                           class="form-control margin-bottom  required" name="title" required>
                                                 </div>
                                             </div>
 
@@ -88,7 +88,7 @@
                                                     (docx,docs,txt,pdf,xls,csv)</label>
 
                                                 <div class="col-sm-6">
-                                                    <input type="file" name="userfile" size="20"/>
+                                                    <input type="file" name="userfile" size="20"/ required>
                                                 </div>
                                             </div>
 

@@ -122,7 +122,14 @@ class Reports extends CI_Controller
         $edate = datefordatabase($this->input->post('edate'));
         $ttype = $this->input->post('ttype');
         $customer = $this->supplier->details($cid);
-        $data['filter'] = array($cid, $trans_type, $sdate, $edate, $ttype, $customer['name']);
+		if(!empty($customer['name']))
+		{
+			$cusname=$customer['name'];
+		}
+		else{
+			$cusname='';
+		}
+        $data['filter'] = array($cid, $trans_type, $sdate, $edate, $ttype, $cusname);
 
         //  print_r( $data['statement']);
         $head['title'] = "Supplier Account Statement";

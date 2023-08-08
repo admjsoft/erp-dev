@@ -117,7 +117,11 @@ if (isset($_SESSION['status'])) {
         <div class="modal-content ">
             <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/save_asset_category") ?>" onSubmit="return validateForm(event);">
                 <!-- Modal Header -->
+                 <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo $this->lang->line('Add Asset Category') ?></h4>
                 
+            </div>
 
                 <!-- Modal Body -->
                 <div class="modal-body">

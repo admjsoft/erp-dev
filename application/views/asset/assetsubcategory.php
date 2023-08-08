@@ -120,7 +120,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/save_asset_sub_category") ?>"onSubmit="return validateForm(event);">
                 <!-- Modal Header -->
                 
+ <div class="modal-header">
 
+                <h4 class="modal-title"><?php echo $this->lang->line('Add Asset Sub Category') ?></h4>
+                
+            </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <p id="statusMsg"></p>
