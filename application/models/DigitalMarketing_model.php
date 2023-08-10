@@ -35,7 +35,7 @@ class DigitalMarketing_model extends CI_Model
         // API headers
         $headers = array(
             'accept: application/json',
-            'api-key: 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'
+            'api-key: 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'
         );
         
         // Initialize cURL session
@@ -81,7 +81,7 @@ class DigitalMarketing_model extends CI_Model
             // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
             $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/' . $campaignId;
-            $apiKey = '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';
+            $apiKey = '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';
 
             $ch = curl_init();
 
@@ -125,7 +125,7 @@ class DigitalMarketing_model extends CI_Model
         //$campaignId = 25; // Your dynamic value here, e.g., received from user input or database
         
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/' . $campaignId;
-        $apiKey = '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';
+        $apiKey = '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';
         
         $ch = curl_init();
         
@@ -173,7 +173,7 @@ class DigitalMarketing_model extends CI_Model
     public function SmsCampaignSave($post){
         
         $apiUrl = 'https://api.brevo.com/v3/smsCampaigns';
-        $apiKey = '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';
+        $apiKey = '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';
 
         $inputDateTime = new DateTime($post['schedule_date']);
         $formattedDate = $inputDateTime->format('Y-m-d\TH:i:sP');
@@ -244,7 +244,7 @@ class DigitalMarketing_model extends CI_Model
         
 
             $apiUrl = 'https://api.brevo.com/v3/smsCampaigns';
-            $apiKey = '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';
+            $apiKey = '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';
 
             $ch = curl_init();
 
@@ -291,7 +291,7 @@ class DigitalMarketing_model extends CI_Model
             // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
             $apiUrl = 'https://api.brevo.com/v3/smsCampaigns/' . $campaignId;
-            $apiKey = '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';
+            $apiKey = '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';
 
             $ch = curl_init();
 
@@ -336,7 +336,7 @@ class DigitalMarketing_model extends CI_Model
         // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
         $apiUrl = 'https://api.brevo.com/v3/smsCampaigns/' . $campaignId;
-        $apiKey = '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';
+        $apiKey = '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';
 
         $ch = curl_init();
 
@@ -386,7 +386,7 @@ class DigitalMarketing_model extends CI_Model
     public function GetSmsCampaignsListIds(){
         
         $apiUrl = 'https://api.brevo.com/v3/contacts/lists';
-        $apiKey = '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';
+        $apiKey = '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';
         $limit = 10;
         $offset = 0;
         $sort = 'desc';
@@ -434,7 +434,7 @@ class DigitalMarketing_model extends CI_Model
         
         
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns';
-        $apiKey = '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';
+        $apiKey = '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';
 
         // /$datetime = new DateTime($post['schedule_date']);
         $inputDateTime = new DateTime($post['schedule_date']);
@@ -504,7 +504,7 @@ class DigitalMarketing_model extends CI_Model
     public function GetEmailCampaignsList(){
         
         $apiUrl = 'https://api.brevo.com/v3/emailCampaigns';
-        $apiKey = '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';
+        $apiKey = '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';
         
         $ch = curl_init();
         
@@ -549,7 +549,7 @@ class DigitalMarketing_model extends CI_Model
             // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
             $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/' . $campaignId;
-            $apiKey = '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';
+            $apiKey = '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';
 
             $ch = curl_init();
 
@@ -593,7 +593,7 @@ class DigitalMarketing_model extends CI_Model
         // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
         $apiUrl = 'https://api.brevo.com/v3/emailCampaigns/' . $campaignId;
-        $apiKey = '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';
+        $apiKey = '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';
 
         $ch = curl_init();
 
@@ -634,7 +634,7 @@ class DigitalMarketing_model extends CI_Model
     public function GetWhatsAppTemplatesList(){
         
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/template-list';
-        $apiKey = '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';
+        $apiKey = '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';
         $limit = 50;
         $offset = 0;
         $sort = 'desc';
@@ -679,5 +679,63 @@ class DigitalMarketing_model extends CI_Model
                 
     }
 
+
+
+    
+    public function GetSettings(){
+        
+        return $this->db->get('digital_marketing_settings')->result_array();
+    }
+
+    public function GetSettingsById($id){
+        
+        return $this->db->where('id',$id)->get('digital_marketing_settings')->result_array();
+    }
+
+    public function DeleteSettingsById($id){
+        
+        if($this->db->where('id',$id)->delete('digital_marketing_settings'))
+        {            
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Settings Deleted Successfully';
+        } else {
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Delete Settings';
+        }
+        return $resp_data;
+    }
+    public function SettingsSave($post){
+        
+        $data = array(
+            "name" => $post['setting_name'],
+            "api_key" => $post['api_key']
+        );
+        
+        $id = $post['setting_id'];
+
+        if(empty($id))
+        {
+            if ($this->db->insert('digital_marketing_settings',$data)) {
+           
+                $resp_data['status'] = '200';
+                $resp_data['message'] = 'Settings Created Successfully';
+            } else {
+                $resp_data['status'] = '500';
+                $resp_data['message'] = 'Unable to Create Settings';
+            }
+        }else{
+            if ($this->db->where('id',$id)->update('digital_marketing_settings',$data)) {
+           
+                $resp_data['status'] = '200';
+                $resp_data['message'] = 'Settings Updated Successfully';
+            } else {
+                $resp_data['status'] = '500';
+                $resp_data['message'] = 'Unable to Updated Settings';
+            }
+        } 
+        
+//exit;
+        return $resp_data;
+    }
 
 }

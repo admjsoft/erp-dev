@@ -144,8 +144,6 @@ class Digitalmarketing extends CI_Controller
                         "email" => "sprasad96@gmail.com" 
                     ], 
                 "to" => $nn_data, 
-                "bcc" => [], 
-                "cc" => [], 
                 "htmlContent" => $text, 
                 "subject" => $subject, 
                 "replyTo" => [
@@ -177,16 +175,45 @@ class Digitalmarketing extends CI_Controller
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
                     'Accept: application/json',
-                    'api-key: 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'
+                    'api-key: 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'
                 ),
                 ));
 
                 $response = curl_exec($curl);
-
+                // echo $response;
+                // exit;
+                //$response = curl_exec($ch);
+        
+                if (curl_errno($curl)) {
+                    // echo 'cURL Error: ' . curl_error($ch);
+                    // return false;
+                    $resp_data['status'] = '500';
+                    $resp_data['message'] = 'Unable to Send Email';
+                }
+                
+                $httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                
                 curl_close($curl);
-                echo $response;
 
-                   }
+                
+                if ($httpStatus >= 200 && $httpStatus < 300) {
+                    // Successful response
+                    // echo 'Campaign with ID ' . $campaignId . ' deleted successfully.';
+                    // return true;
+                    $resp_data['status'] = '200';
+                    $resp_data['message'] = 'Email Sent Successfully';
+                } else {
+                    // Handle the failure case here
+                    // echo 'Request failed with HTTP status code: ' . $httpStatus;
+                    // return false;
+                    $resp_data['status'] = '500';
+                    $resp_data['message'] = 'Unable to Send Email';
+                }
+
+                echo json_encode($resp_data);
+
+
+            }
     }
 
     function sendSmsSelected()
@@ -221,56 +248,72 @@ class Digitalmarketing extends CI_Controller
             $dg_data['customer_source'] = $nnn_data;
             $m_response = $this->digitalmarketing->addTransactionalData($dg_data);
 
-            $data = [
-                "sender" => [
-                        "name" => "JsoftSolutions", 
-                        "email" => "sprasad96@gmail.com" 
-                    ], 
-                "to" => $nn_data, 
-                "bcc" => [], 
-                "cc" => [], 
-                "htmlContent" => $text, 
-                "subject" => $subject, 
-                "replyTo" => [
-                                    "email" => "sprasad96@gmail.com", 
-                                    "name" => "JsoftSolutions" 
-                                ], 
-                "tags" => [
-                                "tag1", 
-                                "tag2" 
-                            ] 
-                ]; 
-                $data = json_encode($data);
-
-                // echo "<pre>"; print_r($data); echo "</pre>";
+                $apiUrl = 'https://api.brevo.com/v3/transactionalSMS/sms';
+                $apiKey = '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';
+                
+                $data = array(
+                    "type" => "transactional",
+                    "unicodeEnabled" => false,
+                    "sender" => "Jsoft",
+                    "recipient" => $n_data['phone_no'],
+                    "content" => $text
+                );
+                
+                // print_r($data);
                 // exit;
-                $curl = curl_init();
 
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api.brevo.com/v3//smtp/email',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_POSTFIELDS => $data,
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Accept: application/json',
-                    'api-key: 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'
-                ),
-                ));
+                $jsonData = json_encode($data);
+                
+                $ch = curl_init();
+                
+                curl_setopt($ch, CURLOPT_URL, $apiUrl);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                
+                $headers = array(
+                    'accept: application/json',
+                    'api-key: ' . $apiKey,
+                    'content-type: application/json',
+                );
+                
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                
+                $response = curl_exec($ch);
+                
+                // echo $response;
+                // exit;
+        
+                if (curl_errno($ch)) {
+                    // echo 'cURL Error: ' . curl_error($ch);
+                    // return false;
+                    $resp_data['status'] = '500';
+                    $resp_data['message'] = 'Unable to Send Sms';
+                }
+                
+                $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                
+                curl_close($ch);
 
-                $response = curl_exec($curl);
+                
+                if ($httpStatus >= 200 && $httpStatus < 300) {
+                    // Successful response
+                    // echo 'Campaign with ID ' . $campaignId . ' deleted successfully.';
+                    // return true;
+                    $resp_data['status'] = '200';
+                    $resp_data['message'] = 'Sms Sent Successfully';
+                } else {
+                    // Handle the failure case here
+                    // echo 'Request failed with HTTP status code: ' . $httpStatus;
+                    // return false;
+                    $resp_data['status'] = '500';
+                    $resp_data['message'] = 'Unable to Send Sms';
+                }
 
-                curl_close($curl);
-                echo $response;
-
-                   }
-
+                echo json_encode($resp_data);
+                
+            }
     }
 
     function sendWhatsAppSelected()
@@ -297,6 +340,7 @@ class Digitalmarketing extends CI_Controller
                 $nn_data[] = $n_data;
                 $nnn_data[] = $rec['phone'];
             }
+            $contact_nos = $nnn_data;
             $nnn_data = implode(',',$nnn_data);
             $dg_data['type'] = 'whatsapp';
             $dg_data['subject'] = '';
@@ -305,54 +349,69 @@ class Digitalmarketing extends CI_Controller
             $dg_data['customer_source'] = $nnn_data;
             $m_response = $this->digitalmarketing->addTransactionalData($dg_data);
 
-            $data = [
-                "sender" => [
-                        "name" => "JsoftSolutions", 
-                        "email" => "sprasad96@gmail.com" 
-                    ], 
-                "to" => $nn_data, 
-                "bcc" => [], 
-                "cc" => [], 
-                "htmlContent" => $text, 
-                "subject" => $subject, 
-                "replyTo" => [
-                                    "email" => "sprasad96@gmail.com", 
-                                    "name" => "JsoftSolutions" 
-                                ], 
-                "tags" => [
-                                "tag1", 
-                                "tag2" 
-                            ] 
-                ]; 
-                $data = json_encode($data);
+            $apiUrl = 'https://api.brevo.com/v3/whatsapp/sendMessage';
+            $apiKey = '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';
 
-                // echo "<pre>"; print_r($data); echo "</pre>";
-                // exit;
-                $curl = curl_init();
+            $data = array(
+                "senderNumber" => "919032992056",
+                "text" => $text,
+                "contactNumbers" => $contact_nos
+            );
 
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://api.brevo.com/v3//smtp/email',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $data,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Accept: application/json',
-                    'api-key: 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'
-                ),
-                ));
+            // echo "<pre>"; print_r($data); echo "</pre>";
+            // exit;
+            $jsonData = json_encode($data);
 
-                $response = curl_exec($curl);
+            // echo $jsonData;
+            // exit;
 
-                curl_close($curl);
-                echo $response;
+            $ch = curl_init();
 
+            curl_setopt($ch, CURLOPT_URL, $apiUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            $headers = array(
+                'accept: application/json',
+                'api-key: ' . $apiKey,
+                'content-type: application/json',
+            );
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $response = curl_exec($ch);
+
+            // echo $response;
+            // exit;
+            if (curl_errno($ch)) {
+                // echo 'cURL Error: ' . curl_error($ch);
+                // return false;
+                $resp_data['status'] = '500';
+                $resp_data['message'] = 'Unable to Send Sms';
+            }
+            
+            $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            
+            curl_close($ch);
+
+            
+            if ($httpStatus >= 200 && $httpStatus < 300) {
+                // Successful response
+                // echo 'Campaign with ID ' . $campaignId . ' deleted successfully.';
+                // return true;
+                $resp_data['status'] = '200';
+                $resp_data['message'] = 'Sms Sent Successfully';
+            } else {
+                // Handle the failure case here
+                // echo 'Request failed with HTTP status code: ' . $httpStatus;
+                // return false;
+                $resp_data['status'] = '500';
+                $resp_data['message'] = 'Unable to Send Sms';
+            }
+
+            echo json_encode($resp_data);
             }
     }
 
@@ -583,5 +642,65 @@ class Digitalmarketing extends CI_Controller
         $this->load->view('fixed/footer');
     }
     
+    public function settings(){
+      $head['title'] = "Digital Marketing Settings";
+      $head['usernm'] = $this->aauth->get_user()->username;
+      $data['dg_settings'] = $this->digitalmarketing->GetSettings();
+      $this->load->view('fixed/header', $head);
+      $this->load->view('digital_marketing/settings',$data);
+      $this->load->view('fixed/footer');
+    }
+
+  public function settings_create(){
+    $head['title'] = "Digital Marketing Settings";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data = array();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/settings_create',$data);
+    $this->load->view('fixed/footer');
+  }
+  public function settings_save()
+  {
+      $post = $this->input->post();  
+      // echo "<pre>"; print_r($post); echo "</pre>"; 
+      // /exit;     
+      $response = $this->digitalmarketing->SettingsSave($post);
+      echo json_encode($response);
+          
+  }
+  public function settings_edit(){
+      $id = $this->input->get('id');
+      $head['title'] = "Digital Marketing Settings";
+      $head['usernm'] = $this->aauth->get_user()->username;
+      $data['settings_details'] = $this->digitalmarketing->GetSettingsById($id);
+
+      // echo "<pre>"; print_r($data); echo "</pre>";
+      // exit;
+
+      $this->load->view('fixed/header', $head);
+      $this->load->view('digital_marketing/settings_edit',$data);
+      $this->load->view('fixed/footer');
+  }
+
+  public function settings_view(){
+      $id = $this->input->get('id');
+      $head['title'] = "Sms Marketing Campaign";
+      $head['usernm'] = $this->aauth->get_user()->username;
+      
+      $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+      $data['campaign_details'] = $this->digitalmarketing->GetSmsCampaignById($id);
+      $this->load->view('fixed/header', $head);
+      $this->load->view('digital_marketing/sms_campaign_view',$data);
+      $this->load->view('fixed/footer');
+  }
+
+  public function settings_delete()
+  {
+      $post = $this->input->post(); 
+      $setting_id = $post['setting_id'];       
+      $response = $this->digitalmarketing->DeleteSettingsById($setting_id);
+      echo json_encode($response);
+          
+  }
 
 }

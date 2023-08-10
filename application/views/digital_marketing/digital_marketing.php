@@ -326,7 +326,10 @@ $('#sendSmsS').on('click', '#sendSmsSelected', function (e) {
                      if ($("#notify").length == 0) {
         $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
     }
-            jQuery.ajax({
+
+    if(messaging_team_ids.length == 1)
+    {
+        jQuery.ajax({
                 url: "<?php echo site_url('digitalmarketing/sendSmsSelected')?>",
                 type: 'POST',
                 data: $("input[name='cust[]']:checked").serialize() + '&'+$("#sendsms_form").serialize(),
@@ -337,6 +340,10 @@ $('#sendSmsS').on('click', '#sendSmsSelected', function (e) {
                     $("html, body").animate({scrollTop: $('#notify').offset().top}, 1000);
                 }
             });
+    }else{
+        alert('Please Select Only One Contact');
+    }
+          
 });
 
 

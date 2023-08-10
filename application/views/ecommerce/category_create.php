@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Task Details 
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Create Category Details 
             </h4>
             
 
@@ -48,65 +48,58 @@ if(isset($_SESSION['status'])){
                         <div class="card-body">
                             <div class="tab-content px-1 pt-1">
                                 <div class="tab-pane active show" id="tab1" role="tabpanel" aria-labelledby="base-tab1">
+                                    
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Category Name"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
-                                                   class="form-control margin-bottom b_input required " name="title"
-                                                   id="name" value="<?php  echo $product_details['name']; ?>">
+                                                   class="form-control margin-bottom b_input required " name="category_name"
+                                                   id="category_name" value="">
                                             
                                         </div>
                                     </div>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Regular Price"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Category Slug"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="Title"
-                                                   class="form-control margin-bottom b_input required " name="title"
-                                                   id="regular_price" value="<?php  echo $product_details['regular_price']; ?>">
-                                             
+                                            <input type="text"   placeholder="Title"
+                                                   class="form-control margin-bottom b_input required " name="category_slug"
+                                                   id="category_slug" value="">
+                                            
                                         </div>
                                     </div>
+
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Sale Price"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Category Description"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="Title"
-                                                   class="form-control margin-bottom b_input required " name="title"
-                                                   id="sale_price" value="<?php  echo $product_details['sale_price']; ?>">
-                                             
+                                            <textarea type="text"   placeholder="Title"
+                                                   class="form-control margin-bottom b_input required " name="category_description"
+                                                   id="category_description" value="">
+                                            </textarea>
+                                            
                                         </div>
                                     </div>
-                                    <div class="form-group row">
 
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Description"; // $this->lang->line('Description') ?></label>
-
-                                        <div class="col-sm-8">
-                                            <!-- <input type="text" placeholder="Description"
-                                                   class="form-control margin-bottom b_input" name="description"> -->
-                                            <textarea  placeholder="Description"
-                                                   class="form-control margin-bottom b_input" id="description" name="description"><?php  echo $product_details['description']; ?></textarea>        
-                                        </div>
-                                    </div>
+                                    
+                                    
                                     
                                     
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="jobsheets/edit_task" id="action-url">
-                                    <input type="hidden" name="product_id" value="<?php  echo $product_details['id']; ?>" id="product_id">
-                                    <input type="hidden" name="vendor_id" value="<?php  echo $vendor_id; ?>" id="vendor_id">
-                                    <input type="hidden" name="vendor_pricing_id" value="<?php  echo $vendor_pricing_id; ?>" id="vendor_pricing_id">
+                                    <input type="hidden" name="category_id" value="" id="category_id">
+                                    <input type="hidden" name="vendor_id" value="<?php echo $vendor_details[0]['Id']; ?>" id="vendor_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Product"
+                                           value="<?php //echo $this->lang->line('Add customer') ?>Create Category"
                                            data-loading-text="updating...">
                                 </div>
                             </div>
@@ -124,31 +117,27 @@ if(isset($_SESSION['status'])){
 
     $(document).on('click', "#update_product_btn", function (e) {
         e.preventDefault();
-       var product_id = $('#product_id').val();
+       var category_name = $('#category_name').val();
+       var category_slug = $('#category_slug').val();
+       var category_description = $('#category_description').val();
+       var category_id = $('#category_id').val();
        var vendor_id = $('#vendor_id').val();
-       var name = $('#name').val();
-       var regular_price = $('#regular_price').val();
-       var sale_price = $('#sale_price').val();
-       var description = $('#description').val();
-       var vendor_pricing_id = $('#vendor_pricing_id').val();
+       
 
         $.ajax({
 
-        url: "<?php echo site_url('ecommerce/update_product_to_third_party') ?>",
+        url: "<?php echo site_url('ecommerce/category_save') ?>",
         type: 'POST',
         dataType: 'json',
         data: {
-            product_id: product_id,
-            vendor_id: vendor_id,
-            vendor_pricing_id: vendor_pricing_id,
-            product_name: name,
-            product_price: regular_price,
-            sale_price: sale_price,
-            product_description: description
+            category_name: category_name,
+            category_slug: category_slug,
+            category_description: category_description,
+            category_id: category_id,
+            vendor_id: vendor_id
         },
         success: function (data) {
             alert(data.message);
-            location.reload();
         },
         error: function(data) {
         //console.log(data);
