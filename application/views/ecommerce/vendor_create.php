@@ -180,6 +180,17 @@ if(isset($_SESSION['status'])){
         },
         success: function (data) {
             alert(data.message);
+            $('#vendor_name').val('');
+            $('#website_url').val('');
+            $('#consumer_key').val('');
+            $('#consumer_secret').val('');
+            $('#website_type').val('');
+            $('#sale_type').val('');
+            $('#vendor_id').val('');
+            
+            setTimeout(function() {
+            window.location.href = "<?php echo site_url('ecommerce/vendors') ?>";
+            }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);

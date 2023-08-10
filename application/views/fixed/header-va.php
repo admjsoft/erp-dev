@@ -1430,16 +1430,23 @@ $('.nav-menu-main').removeClass('is-active');
                                          class="icon-basket"></i><?php echo $this->lang->line('E-Commerce') ?><?php //echo $this->lang->line('invoices') ?></a>
                              <ul class="menu-content">
 
-                                 
-                             <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/analytics"> Analytics<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
-                                 </li>  
-                                 <li class="menu-item"><a
+                                <li class="menu-item"><a
                                              href="<?php echo base_url(); ?>ecommerce/vendors"> Vendors<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
                                  </li> 
+                                <li class="menu-item"><a
+                                             href="<?php echo base_url(); ?>ecommerce/categories"> Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                 </li> 
+                                 <li class="menu-item"><a
+                                             href="<?php echo base_url(); ?>ecommerce/sub_categories"> Sub Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                 </li>     
+                                 
+                                 
                                  <li class="menu-item"><a
                                              href="<?php echo base_url(); ?>ecommerce/publishing"> Publishing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
-                                 </li>          
+                                 </li>
+                                 <li class="menu-item"><a
+                                             href="<?php echo base_url(); ?>ecommerce/analytics"> Analytics<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                 </li>            
                                  
                              </ul>
                          </li>
@@ -1942,7 +1949,10 @@ $('.nav-menu-main').removeClass('is-active');
                     
                     </ul>
                     </li> 
-                    
+                    <li class="menu-item">
+                        <a href="<?php echo base_url(); ?>digitalmarketing/settings"><i
+                                    class=""></i> <?php echo "Settings"; // $this->lang->line('Payroll'); ?></a>
+                    </li>
                 </ul>
             </li>
 		<?php }

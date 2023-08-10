@@ -605,90 +605,162 @@ public function GetVendorDetails($id){
 
 public function GetThirdPartyCategories($vendor_details)
 {
-    // print_r($vendor_details);
-    $website_url = $vendor_details[0]['WebSiteUrl'];
-    $consumer_key = $vendor_details[0]['ConsumerKey'];
-    $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
 
-    // WooCommerce API endpoint for retrieving categories
-    $url = $website_url.'/wp-json/wc/v3/products/categories';
+    $page = 1;
+    $per_page = 100; // Adjust as needed
+    $all_categories = array();
 
-    // API authentication credentials
-    $consumerKey = $consumer_key;
-    $consumerSecret = $consumer_secret;
-
-    $params = array(
-        'parent' => 0, // Set to 0 to get parent categories only
-    );
-
-    // Set cURL options
-    // $options = array(
-    //     CURLOPT_URL => $url,
-    //     CURLOPT_RETURNTRANSFER => true,
-    //     CURLOPT_HTTPHEADER => array(
-    //         'Content-Type: application/json',
-    //         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
-    //     )
-    //     //CURLOPT_POSTFIELDS => http_build_query($params)
-    // );
-    $options = array(
-        CURLOPT_URL => $url . '?' . http_build_query($params),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
-        )
-        //CURLOPT_POSTFIELDS => http_build_query($params)
-    );
-
-
-    // Initialize cURL
-    $curl = curl_init();
-    curl_setopt_array($curl, $options);
-
-    // Send the cURL request
-    $response = curl_exec($curl);
-
-    // echo $response;
-    // exit;
-    // Check if the request was successful
-    if ($response !== false) {
-        $categories = json_decode($response);
-        return $categories;
-        // Process the list of categories
-        // foreach ($categories as $category) {
-        //     // Category details
-        //     $categoryId = $category->id;
-        //     $categoryName = $category->name;
-
-        //     // Display the category information
-        //     echo "Category ID: $categoryId<br>";
-        //     echo "Category Name: $categoryName<br><br>";
-
-        //     // Check if the category has subcategories
-        //     if (!empty($category->children)) {
-        //         // Process the list of subcategories
-        //         foreach ($category->children as $subcategory) {
-        //             // Subcategory details
-        //             $subcategoryId = $subcategory->id;
-        //             $subcategoryName = $subcategory->name;
-
-        //             // Display the subcategory information
-        //             echo "Subcategory ID: $subcategoryId<br>";
-        //             echo "Subcategory Name: $subcategoryName<br><br>";
-        //         }
-        //     }
-        // }
-    } else {
-        // Request failed, show an error message
-        // echo "Error retrieving categories: " . curl_error($curl);
-        return array();
-    }
-
-    // Close cURL
-    curl_close($curl);
+    do {
+        $categories_endpoint = $website_url . "/wp-json/wc/v3/products/categories?parent=0&page={$page}&per_page={$per_page}";
+        $categories_response = $this->make_curl_request1($categories_endpoint, base64_encode($consumer_key . ':' . $consumer_secret));
+        
+        if (!empty($categories_response)) {
+            $all_categories = array_merge($all_categories, $categories_response);
+            $page++;
+        } else {
+            break;
+        }
+    } while (true);
+    //echo"<pre>"; print_r($all_categories); echo"</pre>";
+    // Display all categories
+    // foreach ($parent as $category) {
+    //     echo "Category Name: {$category['name']}<br>";
+    // }
+    return $all_categories;
 }
+
+public function make_curl_request1($url, $credentials) {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . $credentials));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  
+    $response = curl_exec($curl);
+//     echo $response."===";
+// exit;
+    curl_close($curl);
+    return json_decode($response, true);
+}
+    
+        // // Replace with your actual WooCommerce API credentials
+        // $website_url = $vendor_details[0]['WebSiteUrl'];
+        // $consumer_key = $vendor_details[0]['ConsumerKey'];
+        // $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+        // // Function to make cURL request
+        // function make_curl_request1($url, $credentials) {
+        //     $curl = curl_init();
+        //     curl_setopt($curl, CURLOPT_URL, $url);
+        //     curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . $credentials));
+        //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        //     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);            
+        //     $response = curl_exec($curl);
+        //     curl_close($curl);
+        //     return json_decode($response, true);
+        // }
+
+        // // Get all categories by setting a high per_page value
+        // $per_page = 1000; // Adjust as needed
+        // $categories_endpoint = $website_url . "/wp-json/wc/v3/products/categories?per_page={$per_page}";
+        // $categories = make_curl_request1($categories_endpoint, base64_encode($consumer_key . ':' . $consumer_secret));
+
+        // // Display all categories
+        // // foreach ($categories as $category) {
+        // //     echo "Category Name: {$category['name']}<br>";
+        // // }
+        // echo "<pre>"; print_r($categories); echo "</pre>";
+        // exit;
+   // }
+//}
+
+//     // print_r($vendor_details);
+//     $website_url = $vendor_details[0]['WebSiteUrl'];
+//     $consumer_key = $vendor_details[0]['ConsumerKey'];
+//     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+//     // WooCommerce API endpoint for retrieving categories
+//     $url = $website_url.'/wp-json/wc/v3/products/categories';
+
+//     // API authentication credentials
+//     $consumerKey = $consumer_key;
+//     $consumerSecret = $consumer_secret;
+//     $per_page = 1000;
+//     $params = array(
+//         'parent' => 0, // Set to 0 to get parent categories only
+//         'per_page' => $per_page
+//     );
+
+//     // Set cURL options
+//     // $options = array(
+//     //     CURLOPT_URL => $url,
+//     //     CURLOPT_RETURNTRANSFER => true,
+//     //     CURLOPT_HTTPHEADER => array(
+//     //         'Content-Type: application/json',
+//     //         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+//     //     )
+//     //     //CURLOPT_POSTFIELDS => http_build_query($params)
+//     // );
+//     $options = array(
+//         CURLOPT_URL => $url . '?' . http_build_query($params),
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_SSL_VERIFYPEER => false,
+//         CURLOPT_HTTPHEADER => array(
+//             'Content-Type: application/json',
+//             'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+//         )
+//         //CURLOPT_POSTFIELDS => http_build_query($params)
+//     );
+
+
+//     // Initialize cURL
+//     $curl = curl_init();
+//     curl_setopt_array($curl, $options);
+
+//     // Send the cURL request
+//     $response = curl_exec($curl);
+
+//     // echo $response;
+//     // exit;
+//     // Check if the request was successful
+//     if ($response !== false) {
+//         $categories = json_decode($response);
+//         return $categories;
+//         // Process the list of categories
+//         // foreach ($categories as $category) {
+//         //     // Category details
+//         //     $categoryId = $category->id;
+//         //     $categoryName = $category->name;
+
+//         //     // Display the category information
+//         //     echo "Category ID: $categoryId<br>";
+//         //     echo "Category Name: $categoryName<br><br>";
+
+//         //     // Check if the category has subcategories
+//         //     if (!empty($category->children)) {
+//         //         // Process the list of subcategories
+//         //         foreach ($category->children as $subcategory) {
+//         //             // Subcategory details
+//         //             $subcategoryId = $subcategory->id;
+//         //             $subcategoryName = $subcategory->name;
+
+//         //             // Display the subcategory information
+//         //             echo "Subcategory ID: $subcategoryId<br>";
+//         //             echo "Subcategory Name: $subcategoryName<br><br>";
+//         //         }
+//         //     }
+//         // }
+//     } else {
+//         // Request failed, show an error message
+//         // echo "Error retrieving categories: " . curl_error($curl);
+//         return array();
+//     }
+
+//     // Close cURL
+//     curl_close($curl);
+// }
 
 
 
@@ -696,75 +768,110 @@ public function GetThirdPartySubCategories($vendor_details,$category_id)
 {
     //  print_r($vendor_details);
     // echo $category_id;
-     $website_url = $vendor_details[0]['WebSiteUrl'];
+    $website_url = $vendor_details[0]['WebSiteUrl'];
     $consumer_key = $vendor_details[0]['ConsumerKey'];
     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
 
-    // WooCommerce API endpoint for retrieving categories
-    $url = $website_url.'/wp-json/wc/v3/products/categories';
 
-    // API authentication credentials
-    $consumerKey = $consumer_key;
-    $consumerSecret = $consumer_secret;
+        $page = 1;
+        $per_page = 100; // Adjust as needed
+        $subcategories = array();
 
-    $params = array(
-        'parent' => $category_id, // Parent category ID
-        //'per_page' => 10, // Number of subcategories per page
-    );
+        do {
+            $subcategories_endpoint = $website_url . "/wp-json/wc/v3/products/categories?parent={$category_id}&page={$page}&per_page={$per_page}";
+            $subcategories_response = $this->make_curl_request2($subcategories_endpoint, base64_encode($consumer_key . ':' . $consumer_secret));
 
-    // Set cURL options
+            if (!empty($subcategories_response)) {
+                $subcategories = array_merge($subcategories, $subcategories_response);
+                $page++;
+            } else {
+                break;
+            }
+        } while (true);
+
+        // Display subcategories
+        // foreach ($subcategories as $subcategory) {
+        //     echo "Subcategory Name: {$subcategory['name']}<br>";
+        // }
+        return $subcategories;
+    }
+
+    public function make_curl_request2($url, $credentials) {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . $credentials));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($response, true);
+    }
+
+    // // WooCommerce API endpoint for retrieving categories
+    // $url = $website_url.'/wp-json/wc/v3/products/categories';
+
+    // // API authentication credentials
+    // $consumerKey = $consumer_key;
+    // $consumerSecret = $consumer_secret;
+
+    // $params = array(
+    //     'parent' => $category_id, // Parent category ID
+    //     //'per_page' => 10, // Number of subcategories per page
+    // );
+
+    // // Set cURL options
+    // // $options = array(
+    // //     CURLOPT_URL => $url,
+    // //     CURLOPT_RETURNTRANSFER => true,
+    // //     CURLOPT_HTTPHEADER => array(
+    // //         'Content-Type: application/json',
+    // //         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+    // //     ),
+    // //     CURLOPT_POSTFIELDS => http_build_query($params)
+    // // );
+
     // $options = array(
-    //     CURLOPT_URL => $url,
+    //     CURLOPT_URL => $url . '?' . http_build_query($params),
     //     CURLOPT_RETURNTRANSFER => true,
+    //     CURLOPT_SSL_VERIFYPEER => false,
     //     CURLOPT_HTTPHEADER => array(
     //         'Content-Type: application/json',
     //         'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
     //     ),
-    //     CURLOPT_POSTFIELDS => http_build_query($params)
     // );
 
-    $options = array(
-        CURLOPT_URL => $url . '?' . http_build_query($params),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
-        ),
-    );
+    // // Initialize cURL
+    // $curl = curl_init();
+    // curl_setopt_array($curl, $options);
 
-    // Initialize cURL
-    $curl = curl_init();
-    curl_setopt_array($curl, $options);
+    // // Send the cURL request
+    // $response = curl_exec($curl);
 
-    // Send the cURL request
-    $response = curl_exec($curl);
+    // // echo $response;
+    // // exit;
+    // // Check if the request was successful
+    // if ($response !== false) {
+    //     $subcategories = json_decode($response);
+    //     return $subcategories;
+    //     // Process the list of subcategories
+    //     // foreach ($subcategories as $subcategory) {
+    //     //     // Subcategory details
+    //     //     $subcategoryId = $subcategory->id;
+    //     //     $subcategoryName = $subcategory->name;
 
-    // echo $response;
-    // exit;
-    // Check if the request was successful
-    if ($response !== false) {
-        $subcategories = json_decode($response);
-        return $subcategories;
-        // Process the list of subcategories
-        // foreach ($subcategories as $subcategory) {
-        //     // Subcategory details
-        //     $subcategoryId = $subcategory->id;
-        //     $subcategoryName = $subcategory->name;
+    //     //     // Display the subcategory information
+    //     //     echo "Subcategory ID: $subcategoryId<br>";
+    //     //     echo "Subcategory Name: $subcategoryName<br><br>";
+    //     // }
+    // } else {
+    //     // Request failed, show an error message
+    //     // echo "Error retrieving subcategories: " . curl_error($curl);
+    //     return array();
+    // }
 
-        //     // Display the subcategory information
-        //     echo "Subcategory ID: $subcategoryId<br>";
-        //     echo "Subcategory Name: $subcategoryName<br><br>";
-        // }
-    } else {
-        // Request failed, show an error message
-        // echo "Error retrieving subcategories: " . curl_error($curl);
-        return array();
-    }
-
-    // Close cURL
-    curl_close($curl);
-}
+    // // Close cURL
+    // curl_close($curl);
+//}
 
 public function GetPosProductsList($vendor,$category,$sub_category){
     // $LocationId ='';
@@ -808,7 +915,7 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     $website_url = $vendor_details[0]['WebSiteUrl'];
     $consumer_key = $vendor_details[0]['ConsumerKey'];
     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
-
+    $per_page = 1000;
     // WooCommerce API endpoint for retrieving products
     $url = $website_url.'/wp-json/wc/v3/products';
 
@@ -817,6 +924,7 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     $consumerSecret = $consumer_secret;
 
     $params = array();
+    $params['per_page'] = 100;
     if(!empty($category))
     {
         $params['category'] = $category;
@@ -1107,6 +1215,7 @@ public function GetAllProductsList($vendor){
         'name' => $product_details['product_name'],
         'type' => 'simple',
         'regular_price' => $product_details['product_price'],
+        'sale_price' => $product_details['sale_price'],
         'description' => $product_details['product_description'],
         // Add more product fields as needed
     );
@@ -1273,6 +1382,454 @@ public function get_third_party_product_details($vendor_details,$product_id)
     curl_close($ch);
 }
 
-   
+public function GetSubSegmentsAndSegmentsList($category_id=''){
+
+    $sql = "SELECT sub.id AS subcategory_id, sub.title AS subcategory_name,cat.title AS category_name FROM gtg_product_cat sub JOIN gtg_product_cat cat ON sub.rel_id = cat.id WHERE sub.c_type != 0 ";
+    if(!empty($category_id)){
+        $sql .= "AND sub.rel_id={$category_id}";
+    }
+    $query = $this->db->query($sql);
+    $sub_segments_list = $query->result_array();
+    return $sub_segments_list;
+}
+
+public function get_subcategories_with_parent($vendor_details) {
+
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+        
+        // Function to make cURL request
+        
+
+        // Get all categories
+        $categories = $this->make_curl_request($website_url . '/wp-json/wc/v3/products/categories', base64_encode($consumer_key . ':' . $consumer_secret),$cat=true);
+        $f_sub_categories = array();
+        // Loop through categories
+        foreach ($categories as $category) {
+            // Get subcategories of the current category
+            $subcategory_endpoint = $website_url . '/wp-json/wc/v3/products/categories?parent=' . $category['id'];
+            $subcategories = $this->make_curl_request($subcategory_endpoint, base64_encode($consumer_key . ':' . $consumer_secret));
+            // echo "<pre>"; print_r($subcategories); echo "</pre>";
+            // exit;
+            // Display subcategory name and parent category name
+            foreach ($subcategories as $subcategory) {
+                
+                $sub_cat['name'] = $subcategory['name'];
+                $sub_cat['category_name'] = $category['name'];
+                $sub_cat['subcategory_id'] = $subcategory['id'];
+                $f_sub_categories[] = $sub_cat;
+
+                //echo "Subcategory Name: {$subcategory['name']}, Parent Category Name: {$category['name']}<br>";
+            }
+            
+        }
+        return $f_sub_categories;
+    }
+    
+    public function make_curl_request($url, $credentials, $cat=false) {
+        
+        
+       
+        $curl = curl_init();
+        if($cat)
+        {
+            $params = array(
+                'parent' => 0, // Set to 0 to get parent categories only
+            );
+            curl_setopt($curl, CURLOPT_URL, $url . '?' . http_build_query($params));
+    
+        }else{
+            curl_setopt($curl, CURLOPT_URL, $url);
+        }
+        // CURLOPT_URL => $url . '?' . http_build_query($params),
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . $credentials));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($curl);
+        // echo $response;
+        // exit;
+        curl_close($curl);
+        return json_decode($response, true);
+    }
+
+
+    public function delete_subcategory($vendor_details,$subcategory_id) {
+        // Replace with your actual WooCommerce API credentials
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+        // Delete subcategory
+        $subcategory_endpoint = $website_url . "/wp-json/wc/v3/products/categories/{$subcategory_id}?force=true";
+        
+        $credentials = base64_encode($consumer_key . ':' . $consumer_secret);
+        
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $subcategory_endpoint);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . $credentials));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        // Display response
+        //echo $response;
+        if ($response !== false) {
+            $product = json_decode($response);
+    
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Deleted successfully';
+        } else {
+            // Request failed, show an error message
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Delete';
+        }
+        // Close cURL
+        //curl_close($curl);
+        return $resp_data;
+    }
+
+    public function GetCategoryDetailsById($vendor_details,$category_id)
+    {
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+        // Create the cURL URL for the category endpoint
+        $category_endpoint = $website_url . "/wp-json/wc/v3/products/categories/{$category_id}";
+
+        // Initialize cURL
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret)));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // Execute cURL and get the response
+        $response = curl_exec($curl);
+
+        // Check for cURL errors
+        if (curl_errno($curl)) {
+            echo "cURL Error: " . curl_error($curl);
+            exit;
+        }
+
+        // Close cURL
+        curl_close($curl);
+
+        // Decode and display the JSON response
+        $category_details = json_decode($response, true);
+        return $category_details;
+        
+    }
+
+    
+public function category_save($vendor_details,$post)
+{
+    
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+
+        $category_name = $post['category_name'];
+        $category_slug = $post['category_slug'];
+        $category_description = $post['category_description'];
+        $category_id = $post['category_id'];
+
+        if(!empty($category_id))
+        {
+
+        
+
+        // Updated category data
+        $updated_category_data = array(
+            'name' => $category_name, // Change to the new category name
+            'description' => $category_description, 
+            'slug' => $category_slug, // Change to the new description
+            // Add other fields you want to update
+        );
+
+        // Create the cURL URL for the category endpoint
+        $category_endpoint = $website_url . "/wp-json/wc/v3/products/categories/{$category_id}";
+
+        // Initialize cURL
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+            'Content-Type: application/json' // Set content type to JSON
+        ));       
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($updated_category_data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($curl, CURLOPT_VERBOSE, true);
+        // $verbose = fopen('php://temp', 'w+');
+        // curl_setopt($curl, CURLOPT_STDERR, $verbose);
+
+        // Execute cURL and get the response
+        $response = curl_exec($curl);
+
+        // Check for cURL errors
+        if (curl_errno($curl)) {
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to update Category';
+        }
+
+        // Close cURL
+        curl_close($curl);
+
+        // echo $response;
+        // exit;
+        // Display response
+        $updated_category = json_decode($response, true);
+
+        //echo "<pre>"; print_r($updated_category); echo "</pre>";
+        if (!empty($updated_category)) {
+        
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Category updated successfully';
+        } else {
+            // Request failed, show an error message
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to update Category';
+        }
+        return $resp_data;
+            // if ($this->db->where('Id',$id)->update('merchant_thirdparty_vendors', $data)) {
+           
+            //     $resp_data['status'] = '200';
+            //     $resp_data['message'] = 'Vendor updated successfully';
+            // } else {
+            //     // Request failed, show an error message
+            //     $resp_data['status'] = '500';
+            //     $resp_data['message'] = 'Unable to update Vendor';
+            // }
+        }else{
+
+            
+        // Updated category data
+        $new_category_data = array(
+            'name' => $category_name, // Change to the new category name
+            'description' => $category_description, 
+            'slug' => $category_slug,
+            "parent"=> 0, // Change to the new description
+            // Add other fields you want to update
+        );
+
+        // Create the cURL URL for the category endpoint
+        $category_endpoint = $website_url . "/wp-json/wc/v3/products/categories";
+
+        // Initialize cURL
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+            'Content-Type: application/json' // Set content type to JSON
+        ));       
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($new_category_data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($curl, CURLOPT_VERBOSE, true);
+        // $verbose = fopen('php://temp', 'w+');
+        // curl_setopt($curl, CURLOPT_STDERR, $verbose);
+
+        // Execute cURL and get the response
+        $response = curl_exec($curl);
+
+        // Check for cURL errors
+        if (curl_errno($curl)) {
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Create Category';
+        }
+
+        // Close cURL
+        curl_close($curl);
+
+        //echo $response;
+        // exit;
+        // Display response
+        $created_category = json_decode($response, true);
+
+        // echo "<pre>"; print_r($created_category); echo "</pre>";
+        // exit;
+        if (!empty($created_category)) {
+        
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Category Created successfully';
+        } else {
+            // Request failed, show an error message
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Create Category';
+        }
+        return $resp_data;
+          
+        }
+
+        
+
+        return $resp_data;
+}
+
+
+
+    
+public function sub_category_save($vendor_details,$post)
+{
+    
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+
+        $category_name = $post['category_name'];
+        $category_slug = $post['category_slug'];
+        $category_description = $post['category_description'];
+        $category_id = $post['category_id'];
+        $sub_category_id = $post['sub_category_id'];
+
+        if(!empty($sub_category_id))
+        {
+
+        
+
+        // Updated category data
+        $updated_category_data = array(
+            'name' => $category_name, // Change to the new category name
+            'description' => $category_description, 
+            'slug' => $category_slug,
+            'parent' => $category_id, // Change to the new description
+            // Add other fields you want to update
+        );
+
+        // Create the cURL URL for the category endpoint
+        $category_endpoint = $website_url . "/wp-json/wc/v3/products/categories/{$sub_category_id}";
+
+        // Initialize cURL
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+            'Content-Type: application/json' // Set content type to JSON
+        ));       
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($updated_category_data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($curl, CURLOPT_VERBOSE, true);
+        // $verbose = fopen('php://temp', 'w+');
+        // curl_setopt($curl, CURLOPT_STDERR, $verbose);
+
+        // Execute cURL and get the response
+        $response = curl_exec($curl);
+
+        // Check for cURL errors
+        if (curl_errno($curl)) {
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to update Category';
+        }
+
+        // Close cURL
+        curl_close($curl);
+
+        // echo $response;
+        // exit;
+        // Display response
+        $updated_category = json_decode($response, true);
+
+        //echo "<pre>"; print_r($updated_category); echo "</pre>";
+        if (!empty($updated_category)) {
+        
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Sub Category updated successfully';
+        } else {
+            // Request failed, show an error message
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to update Sub Category';
+        }
+        return $resp_data;
+            // if ($this->db->where('Id',$id)->update('merchant_thirdparty_vendors', $data)) {
+           
+            //     $resp_data['status'] = '200';
+            //     $resp_data['message'] = 'Vendor updated successfully';
+            // } else {
+            //     // Request failed, show an error message
+            //     $resp_data['status'] = '500';
+            //     $resp_data['message'] = 'Unable to update Vendor';
+            // }
+        }else{
+
+            
+        // Updated category data
+        $new_category_data = array(
+            'name' => $category_name, // Change to the new category name
+            'description' => $category_description, 
+            'slug' => $category_slug,
+            "parent"=> 0, // Change to the new description
+            // Add other fields you want to update
+        );
+
+        // Create the cURL URL for the category endpoint
+        $category_endpoint = $website_url . "/wp-json/wc/v3/products/categories";
+
+        // Initialize cURL
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+            'Content-Type: application/json' // Set content type to JSON
+        ));       
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($new_category_data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($curl, CURLOPT_VERBOSE, true);
+        // $verbose = fopen('php://temp', 'w+');
+        // curl_setopt($curl, CURLOPT_STDERR, $verbose);
+
+        // Execute cURL and get the response
+        $response = curl_exec($curl);
+
+        // Check for cURL errors
+        if (curl_errno($curl)) {
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Create Category';
+        }
+
+        // Close cURL
+        curl_close($curl);
+
+        //echo $response;
+        // exit;
+        // Display response
+        $created_category = json_decode($response, true);
+
+        // echo "<pre>"; print_r($created_category); echo "</pre>";
+        // exit;
+        if (!empty($created_category)) {
+        
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Category Created successfully';
+        } else {
+            // Request failed, show an error message
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Create Category';
+        }
+        return $resp_data;
+          
+        }
+
+        
+
+        return $resp_data;
+}
+
+
+
+
 }
 

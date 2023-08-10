@@ -336,7 +336,7 @@ class Ecommerce extends CI_Controller
             {
                 $html='<option value="">Select Category</option>';
                 foreach($segments as $segment){
-                $html.='<option value="'.$segment->id.'">'.$segment->name.'</option>';
+                $html.='<option value="'.$segment['id'].'">'.$segment['name'].'</option>';
                 }
                 echo $html;
             }else{
@@ -376,7 +376,7 @@ class Ecommerce extends CI_Controller
             {
                 $html='<option value="">Select Sub Category</option>';
                 foreach($sub_segments as $sub_segment){
-                $html.='<option value="'.$sub_segment->id.'">'.$sub_segment->name.'</option>';
+                $html.='<option value="'.$sub_segment['id'].'">'.$sub_segment['name'].'</option>';
                 }
                 echo $html;
             }else{
@@ -658,12 +658,14 @@ class Ecommerce extends CI_Controller
         $product_id = $post['product_id'];
         $product_name = $post['product_name'];
         $product_price = $post['product_price'];
+        $sale_price = $post['sale_price'];
         $product_description = $post['product_description'];
         $vendor_pricing_id = $post['vendor_pricing_id'];
 
         $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
         $product_details['product_name'] = $product_name;
         $product_details['product_price'] = $product_price;
+        $product_details['sale_price'] = $sale_price;
         $product_details['product_description'] = $product_description;
         $product_details['product_id'] = $product_id;
         
@@ -1017,5 +1019,239 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
 
     }
 
+
+    public function categories()
+    {
+        $head['title'] = "E-Commerce Publishing";
+        $head['usernm'] = $this->aauth->get_user()->username;
+
+        $data['vendors'] = $this->ecommerce->GetThirdPartyVendors();
+        $data['categories'] = $this->ecommerce->GetSegmentsPublishing();
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/categories',$data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function sub_categories()
+    {
+        $head['title'] = "E-Commerce Publishing";
+        $head['usernm'] = $this->aauth->get_user()->username;
+
+        $data['vendors'] = $this->ecommerce->GetThirdPartyVendors();
+        $data['categories'] = $this->ecommerce->GetSegmentsPublishing();
+        $data['sub_categories'] = $this->ecommerce->GetSubSegmentsAndSegmentsList($category_id ='');
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/sub_categories',$data);
+        $this->load->view('fixed/footer');
+    }
+
+    
+
+    public function get_categories_table_list(){
+        $post = $this->input->post();
+        $vendor = $post['vendor'];
+        $vendor_name = $post['vendor_name'];
+        $html = '';
+        if($vendor_name == 'POS')
+        {
+            $segments = $this->ecommerce->GetSegmentsPublishing();
+            //echo "<pre>"; print_r($sub_segments); echo "</pre>";
+            if(!empty($segments))
+            {
+                $c=1;
+                foreach($segments as $segment){
+                $html.='<tr>';
+                $html.='<td>'.$c.'</td>';
+                $html.='<td>'.$segment['title'].'</td>';
+                $html.='<td><a href="'.base_url('productcategory/edit/?' . http_build_query(array('id' => $segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                <a data-object-id="'.$segment['id'].'" category_id="'.$segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete-object"><i class="fa fa-trash"></i></a></td>';
+                $html.='</tr>';
+                $c++;
+                }
+                echo $html;
+            }else{
+                $html='<tr>No categories Found</tr>';
+                echo $html;
+            }
+        }else{
+
+            $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+            $segments = $this->ecommerce->GetThirdPartyCategories($vendor_details);
+            if(!empty($segments))
+            {
+                $c=1;
+                foreach($segments as $segment){
+                $html.='<tr id="tv_cat_id_'.$segment['id'].'">';
+                $html.='<td>'.$c.'</td>';
+                $html.='<td>'.$segment['name'].'</td>';
+                $html.='<td><a href="'.base_url('ecommerce/category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'category_id' => $segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                <a vendor_id="'.$vendor_details[0]['Id'].'" category_id="'.$segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_category"><i class="fa fa-trash"></i></a></td>';
+                $html.='</tr>';
+                $c++;
+                }
+                echo $html;
+            }else{
+                $html='<tr>No categories Found</tr>';
+                echo $html;
+            }
+        }
+        
+    }
+
+
+    public function get_sub_categories_table_list(){
+        $post = $this->input->post();
+        //$segment_id = $post['category'];
+        $vendor = $post['vendor'];
+        $vendor_name = $post['vendor_name'];
+        $category_id = $post['category_id'];
+        $html = '';
+        if($vendor_name == 'POS')
+        {
+            $sub_segments = $this->ecommerce->GetSubSegmentsAndSegmentsList($category_id);
+            //echo "<pre>"; print_r($sub_segments); echo "</pre>";
+            if(!empty($sub_segments))
+            {
+                $c=1;
+                foreach($sub_segments as $sub_segment){
+                $html.='<tr>';
+                $html.='<td>'.$c.'</td>';
+                $html.='<td>'.$sub_segment['subcategory_name'].'</td>';
+                // $html.='<td>'.$sub_segment['category_name'].'</td>';
+                $html.='<td><a href="'.base_url('productcategory/edit/?' . http_build_query(array('id' => $sub_segment['subcategory_id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                <a data-object-id="'.$sub_segment['subcategory_id'].'" vendor_id="'.$sub_segment['subcategory_id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete-object"><i class="fa fa-trash"></i></a></td>';
+                $html.='</tr>';
+                $c++;
+                }
+                echo $html;
+            }else{
+                $html='<tr>No sub categories Found</tr>';
+                echo $html;
+            }
+        }else{
+            $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+            // $sub_segments = $this->ecommerce->get_subcategories_with_parent($vendor_details);
+            $sub_segments = $this->ecommerce->GetThirdPartySubCategories($vendor_details,$category_id);
+            // echo "<pre>"; print_r($sub_segments); echo "</pre>";
+            // exit;
+            if(!empty($sub_segments))
+            {
+                $c=1;
+                foreach($sub_segments as $sub_segment){
+                    $html.='<tr id="tv_sub_cat_id_'.$sub_segment['id'].'">';
+                $html.='<td>'.$c.'</td>';
+                $html.='<td>'.$sub_segment['name'].'</td>';
+                // $html.='<td>'.$sub_segment['category_name'].'</td>';
+                $html.='<td><a href="'.base_url('ecommerce/sub_category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'sub_category_id' => $sub_segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                <a vendor_id="'.$vendor_details[0]['Id'].'" subcategory_id="'.$sub_segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_subcategory"><i class="fa fa-trash"></i></a></td>';
+                $html.='</tr>';
+                $c++;
+                }
+                echo $html;
+            }else{
+                $html='<tr>No sub categories Found</tr>';
+                echo $html;
+            }
+        }
+        
+    }
+
+    public function delete_category()
+    {
+        $post = $this->input->post();
+        $vendor = $post['vendor_id'];
+        $category_id = $post['category_id'];
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        $response = $this->ecommerce->delete_subcategory($vendor_details,$category_id);
+        echo json_encode($response);
+       
+    }
+
+    public function delete_subcategory()
+    {
+        $post = $this->input->post();
+        $vendor = $post['vendor_id'];
+        $sub_category_id = $post['subcategory_id'];
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        $response = $this->ecommerce->delete_subcategory($vendor_details,$sub_category_id);
+        echo json_encode($response);
+       
+    }
+
+    public function category_edit()
+    {
+        $vendor_id = $this->input->get('vendor_id');
+        $category_id = $this->input->get('category_id');
+        $head['title'] = 'Vendor Edit';
+        $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
+        $data['category_details'] = $this->ecommerce->GetCategoryDetailsById($data['vendor_details'],$category_id);
+       
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/category_edit',$data);
+        $this->load->view('fixed/footer');
+       
+    }
+
+    public function category_create()
+    {
+        $vendor_id = $this->input->get('vendor_id');
+        $head['title'] = 'Vendor Edit';
+        $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
+        
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/category_create',$data);
+        $this->load->view('fixed/footer');
+       
+    }
+
+    public function category_save()
+    {
+        $post = $this->input->post(); 
+        $vendor_id = $post['vendor_id'];  
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor_id);     
+        $response = $this->ecommerce->category_save($vendor_details,$post);
+        echo json_encode($response);
+            
+    }
+
+    
+    public function sub_category_edit()
+    {
+        $vendor_id = $this->input->get('vendor_id');
+        $sub_category_id = $this->input->get('sub_category_id');
+        $head['title'] = 'SubCategory Edit';
+        $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
+        $data['sub_category_details'] = $this->ecommerce->GetCategoryDetailsById($data['vendor_details'],$sub_category_id);
+        $data['categories'] = $this->ecommerce->GetThirdPartyCategories($data['vendor_details']);
+        
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/sub_category_edit',$data);
+        $this->load->view('fixed/footer');
+       
+    }
+
+    public function sub_category_create()
+    {
+        $vendor_id = $this->input->get('vendor_id');
+        $head['title'] = 'Vendor Edit';
+        $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
+        
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/category_create',$data);
+        $this->load->view('fixed/footer');
+       
+    }
+
+    public function sub_category_save()
+    {
+        $post = $this->input->post(); 
+        $vendor_id = $post['vendor_id'];  
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor_id);     
+        $response = $this->ecommerce->sub_category_save($vendor_details,$post);
+        echo json_encode($response);
+            
+    }
 }
 
