@@ -752,7 +752,6 @@ $('.nav-menu-main').removeClass('is-active');
                         
 
                          
-                         <?php /* temprary hide
                          <li class="menu-item"><a href="#"><i
                                          class="ft-radio"></i><?php echo $this->lang->line('Subscriptions') ?></a>
                              <ul class="menu-content">
@@ -768,7 +767,7 @@ $('.nav-menu-main').removeClass('is-active');
                              <a href="<?php echo base_url(); ?>stockreturn/creditnotes"><i
                                          class="icon-screen-tablet"></i><?php echo $this->lang->line('Credit Notes'); ?>
                              </a>
-                         </li> */ ?>
+                         </li> 
                     </ul>
                 </li>
             <?php }
@@ -981,7 +980,6 @@ $('.nav-menu-main').removeClass('is-active');
                                 </li>
                             </ul>
                         </li>
-                        <?php /* temprary hide
                         <li class="menu-item">
                             <a href="<?php echo base_url(); ?>clientgroup"><i
                                         class="icon-grid"></i> <?php echo $this->lang->line('Client Groups'); ?></a>
@@ -996,7 +994,7 @@ $('.nav-menu-main').removeClass('is-active');
                                             href="<?php echo base_url(); ?>tickets"><?= $this->lang->line('Manage Tickets'); ?></a>
                                 </li>
                             </ul>
-                        </li> */ ?>
+                        </li> 
 
                     </ul>
                 </li>
@@ -1769,14 +1767,14 @@ $('.nav-menu-main').removeClass('is-active');
 			if ($this->aauth->premission(21)) {  ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "expenses") {
                 echo ' open';
-            } ?>""><a href="#"><i class="fa fa-money"></i><span><?php echo $this->lang->line('Expenses') ?></span></a>
+            } ?>""><a href="#"><i class="fa fa-money"></i><span><?php echo $this->lang->line('Claims') ?></span></a>
             <ul class="menu-content">
                 <?php if ($this->aauth->premission(21)) {  ?>
                     <li class="menu-item">
-                        <a href="<?php echo base_url(); ?>expenses/add"><?= $this->lang->line('Add Expense'); ?></a>
+                        <a href="<?php echo base_url(); ?>expenses/add"><?= $this->lang->line('Add Claims'); ?></a>
                     </li>
                     <li class="menu-item">
-                        <a href="<?php echo base_url(); ?>expenses"><?= $this->lang->line('Expenses'); ?></a>
+                        <a href="<?php echo base_url(); ?>expenses"><?= $this->lang->line('Claims'); ?></a>
                     </li>
                     <li class="menu-item">
                         <a href="<?php echo base_url(); ?>expenses/reports"><?php echo "Reports"; // $this->lang->line('Expenses'); ?></a>
@@ -1882,7 +1880,12 @@ $('.nav-menu-main').removeClass('is-active');
             <?php }
             ?>
 
-            
+        <?php 
+					if($this->aauth->subscribe(38))
+					{
+		
+		if ($this->aauth->premission(42)) {
+?>			
 <li class="menu-item  has-sub <?php if ($this->li_a == "digitalmarketing") {
     echo ' open';
 } ?>"><a href="#"><i
@@ -1942,8 +1945,25 @@ $('.nav-menu-main').removeClass('is-active');
                     
                 </ul>
             </li>
+		<?php }
+					}
+					
+					else{
+		?>
 
+<li class="nav-item"><a href="#" title="subscripe"><i
+                                class="ft-file-text"></i <span><?php echo "Digital Marketing"; ?></span> &nbsp;
+   <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512" onclick="subscribemessage('Digital Marketing Module');" ><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#dc1853}</style><path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path></svg>
+	  
+		 </a>
+			<ul class="menu-content">
+</ul>
+					</li>
 
+<?php  
+					}
+
+?>
         </ul>
     </div>
     <!-- /horizontal menu content-->
