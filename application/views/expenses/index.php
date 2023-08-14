@@ -19,7 +19,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Expenses') ?> <a
+            <h5><?php echo $this->lang->line('Claims') ?> <a
                         href="<?php echo base_url('expenses/add') ?>"
                         class="btn btn-primary btn-sm rounded">
                     <?php echo $this->lang->line('Add new') ?>

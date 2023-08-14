@@ -761,4 +761,60 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id GROUP BY  i.cs
             $this->load->view('fixed/footer');
         }
     }
+	
+	public function employeeTemplate()
+	{
+		$folder='userfiles/employee/';
+		$fileName='employee.xlsx';
+		    $filePath =FCPATH.$folder.$fileName; 
+
+    if(!empty($fileName)){ 
+        // Define headers 
+        header("Cache-Control: public"); 
+        header("Content-Description: File Transfer"); 
+        header("Content-Disposition: attachment; filename=$fileName"); 
+        header("Content-Type: application/pdf"); 
+        header("Content-Transfer-Encoding: binary"); 
+         
+        // Read the file 
+        readfile($filePath); 
+        exit; 
+    }else{ 
+        echo 'The file does not exist.'; 
+    } 
+	}
+		public function clientTemplate()
+	{
+		$folder='userfiles/customers/';
+		$fileName='client.xlsx';
+		    $filePath =FCPATH.$folder.$fileName; 
+
+    if(!empty($fileName)){ 
+        // Define headers 
+        header("Cache-Control: public"); 
+        header("Content-Description: File Transfer"); 
+        header("Content-Disposition: attachment; filename=$fileName"); 
+        header("Content-Type: application/pdf"); 
+        header("Content-Transfer-Encoding: binary"); 
+         
+        // Read the file 
+        readfile($filePath); 
+        exit; 
+    }else{ 
+        echo 'The file does not exist.'; 
+    } 	
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 }

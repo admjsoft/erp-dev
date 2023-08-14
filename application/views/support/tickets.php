@@ -91,6 +91,7 @@
                 <tr>
                     <th>#</th>
                     <th><?php echo $this->lang->line('Subject') ?></th>
+					<th><?php echo $this->lang->line('Client') ?></th>
                     <th><?php echo $this->lang->line('Added') ?></th>
                     <th><?php echo $this->lang->line('Status') ?></th>
                     <th><?php echo $this->lang->line('Action') ?></th>

@@ -553,7 +553,7 @@ $totalDeductionCalc='';
         <img style="width:20%;float:left" src="'.$imageurl.'" >
         <center><h3><b>SALARY SLIP</b></h3></center>'.$address.'<center><h7><b>'.$monthText.' '.$year.'</b></h7></center>
     </div>
-    <div class="p-3" style="background:#FF8585;border:1px solid black;width:30%;border-left:0px;">
+    <div class="p-3" style="background:#00B5B8;color:#fff;border:1px solid black;width:30%;border-left:0px;">
         <center><h2 style="font-size:20px;"><b>CONFIDENTIAL</b></h2></center>
     </div>
 </div>
@@ -581,12 +581,12 @@ $totalDeductionCalc='';
 </div>
 
 <div class="row pb-0 pr-3 pl-3">
-    <div class="p-1" style="background:red;color:white;border:1px solid black;border-top:0px;width:50%">
+    <div class="p-1" style="background:#26C0C3 ;color:white;border:1px solid black;border-top:0px;width:50%">
     <center>Description</center></div>
 
-    <div class="p-1" style="background:red;color:white;border:1px solid black;border-top:0px;width:25%;border-left:0px;"><center>Earnings</center></div>
+    <div class="p-1" style="background:#26C0C3;color:white;border:1px solid black;border-top:0px;width:25%;border-left:0px;"><center>Earnings</center></div>
 
-    <div class="p-1" style="background:red;color:white;border:1px solid black;border-top:0px;width:25%;border-left:0px;"><center>Deductions</center></div>
+    <div class="p-1" style="background:#26C0C3;color:white;border:1px solid black;border-top:0px;width:25%;border-left:0px;"><center>Deductions</center></div>
 </div>
 
     <div class="row pb-0 pr-3 pl-3">
@@ -665,9 +665,9 @@ $totalDeductionCalc='';
         </div>
 
         <div style="border:1px solid black;border-top:0px;width:50%;border-left:0px;">
-            <div style="background:red;color:white;border-bottom:1px solid black;"><center><b>NET PAY</b></center></div>
+            <div style="background:#26C0C3;color:white;border-bottom:1px solid black;"><center><b>NET PAY</b></center></div>
 
-            <div style="background:#FF8585;border-bottom:1px solid black;"><center><h5>RM '.$this->payroll->pointNumber($netPay).'</h5></center></div>
+            <div style="background:#26C0C3;color:white;border-bottom:1px solid black;"><center><h5>RM '.$this->payroll->pointNumber($netPay).'</h5></center></div>
 
             <div class="pt-5" style="height:100%"><center><h4></h4></center></div>
         </div>

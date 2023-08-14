@@ -1,7 +1,10 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
+require 'vendor/autoload.php';
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Employee extends CI_Controller
 {
     public function __construct()
@@ -126,7 +129,9 @@ class Employee extends CI_Controller
          if(!empty($email)&&!empty($password)&&!empty($username))
 		 {
          $a = $this->aauth->create_user($email, $password, $username);
-
+      
+		if(!empty($this->aauth->get_user($a)->id))
+		{
        if ((string)$this->aauth->get_user($a)->id != $this->aauth->get_user()->id) {
               $nuid = (string)$this->aauth->get_user($a)->id;
 			
@@ -135,9 +140,14 @@ class Employee extends CI_Controller
 				$region, $country, $postbox, $location, $salary, $commission,$department,$email, $password,$user_role);
             }
         } else {
-            echo json_encode(array('status' => 'Error', 'message' =>
-            'There has been an error, please try again.'));
+echo json_encode(array('status' => 'Error', 'message' =>
+            'There has been an error, please try again.'));        }
+		}
+		else {
+            echo json_encode(array('status' => 'Error', 'message' =>$a));
         }
+		
+		
 		 }
 		 
 		 else{
@@ -225,6 +235,112 @@ class Employee extends CI_Controller
         $this->load->view('employee/transactions', $data);
         $this->load->view('fixed/footer');
     }
+	    public function addExcel()
+    {
+        $id = $this->input->get('id');
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Employee Import';
+        //$data['employee'] = $this->employee->employee_details($id);
+        $data['eid'] = intval($id);
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/import', $data);
+        $this->load->view('fixed/footer');
+    }
+	
+	
+	
+	
+	
+	
+	public function import() {
+		
+		$path 		= "../userfiles/";
+		$json 		= [];
+		$this->upload_config($path);
+		if (!$this->upload->do_upload('file')) {
+			 echo $this->upload->display_errors();
+			
+		} else {
+			
+			$file_data 	= $this->upload->data();
+			$file_name 	= $path.$file_data['file_name'];
+			$arr_file 	= explode('.', $file_name);
+			$extension 	= end($arr_file);
+			if('csv' == $extension) {
+				$reader 	= new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+			} else {
+				$reader 	= new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+			}
+			$spreadsheet 	= $reader->load($file_name);
+			$sheet_data 	= $spreadsheet->getActiveSheet()->toArray();
+			$list 			= [];
+			
+			foreach($sheet_data as $key => $val) {
+			    // print_r($val);
+				if($key != 0) {
+					$result 	= '';
+				
+					if($result) {
+					} else {
+						$list [] = [
+							'username'					=> $val[0],
+							'email'			=> $val[1],
+							'name'				=> $val[2],
+							'address'			=> $val[3],
+							'city'				=> $val[4],
+							'region'			=> $val[5],
+							'country' 			=> $val[6],
+							'phone'				=> $val[7],
+
+						];
+						$list1 [] = [
+							'username'					=> $val[0],
+							'email'			=> $val[1],
+							
+						];
+					}
+				}
+			}
+			if(file_exists($file_name))
+				unlink($file_name);
+			if(count($list) > 0) {
+				$result 	= $this->employee->add_batch($list,$list1);
+				if($result) {
+					
+					$data['status'] = 'success';
+                    $data['message'] = $this->lang->line('UPDATED');
+						
+	 
+				} else {
+					 $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+					
+				}
+			} else {
+				
+			}
+		}
+		    $_SESSION['status']=$data['status'];
+            $_SESSION['message']=$data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+		    redirect('employee', 'refresh');
+            exit();
+	}
+	
+	
+	public function upload_config($path) {
+		if (!is_dir($path)) 
+			mkdir($path, 0777, TRUE);		
+		$config['upload_path'] 		= './'.$path;		
+		$config['allowed_types'] 	= 'csv|CSV|xlsx|XLSX|xls|XLS';
+		$config['max_filename']	 	= '255';
+		$config['encrypt_name'] 	= TRUE;
+		$config['max_size'] 		= 4096; 
+		$this->load->library('upload', $config);
+	}
+	
+	
 public function reminder()
 {
 
@@ -1730,7 +1846,26 @@ JSOFT SOLUTION SDN BHD,</p>
 	public function createrole()
 	{
 		 $role_name = $this->input->post('role_name');
+         $this->db->select('*');
+	    $this->db->from('gtg_role');
+	 $this->db->where('delete_status',0);
 
+          $query = $this->db->get();
+        $count=$query->num_rows();
+		if($count>=8)
+		{
+			 $data['status'] = 'danger';
+             $data['message'] = $this->lang->line('Please Refer to Administrator For Add More Role');
+			
+			  $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('employee/role', 'refresh');
+			
+		}
+		
+		
 		$insert= $this->employee->role_create($role_name);
         
 	if(!$insert){
@@ -3441,7 +3576,7 @@ public function saveInternational()
 			$emp_name,$email,$roleid,$passport,$permit,
 			$country,$company,$type,$passport_expiry,$permit_expiry,
 			$passport_filename,$visa_filename,$role_id);
-				
+				die;
 
             }
         } else {
@@ -3456,7 +3591,7 @@ else{
 			$emp_name,$roleid,$passport,$permit,
 			$country,$company,$type,$passport_expiry,$permit_expiry,
 			$passport_filename,$visa_filename,$role_id);
-	
+	die;
 }
 		  
    
@@ -3479,6 +3614,72 @@ else{
 
 
 }
+
+ public function importFile(){
+  
+      if ($this->input->post('submit')) {
+                 
+                $path = 'uploads/';
+                require_once APPPATH . "/third_party/PHPExcel.php";
+                $config['upload_path'] = $path;
+                $config['allowed_types'] = 'xlsx|xls|csv';
+                $config['remove_spaces'] = TRUE;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);            
+                if (!$this->upload->do_upload('uploadFile')) {
+                    $error = array('error' => $this->upload->display_errors());
+                } else {
+                    $data = array('upload_data' => $this->upload->data());
+                }
+                if(empty($error)){
+                  if (!empty($data['upload_data']['file_name'])) {
+                    $import_xls_file = $data['upload_data']['file_name'];
+                } else {
+                    $import_xls_file = 0;
+                }
+                $inputFileName = $path . $import_xls_file;
+                 
+                try {
+                    $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($inputFileName);
+                    $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+                    $flag = true;
+                    $i=0;
+                    foreach ($allDataInSheet as $value) {
+                      if($flag){
+                        $flag =false;
+                        continue;
+                      }
+                      $inserdata[$i]['first_name'] = $value['A'];
+                      $inserdata[$i]['last_name'] = $value['B'];
+                      $inserdata[$i]['email'] = $value['C'];
+                      $inserdata[$i]['contact_no'] = $value['D'];
+                      $i++;
+                    }               
+                    $result = $this->employee->insert_excel($inserdata);   
+                    if($result){
+                      echo "Imported successfully";
+                    }else{
+                      echo "ERROR !";
+                    }             
+      
+              } catch (Exception $e) {
+                   die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+                            . '": ' .$e->getMessage());
+                }
+              }else{
+                  echo $error['error'];
+                }
+                 
+                 
+        }
+       // $this->load->view('import');
+    }
+
+
+
+
 
 public function updateInternational()
 {

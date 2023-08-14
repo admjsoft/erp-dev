@@ -11,6 +11,11 @@
 	<div class="card-header">
             <h5 class="title">
                 <?php echo $this->lang->line('Employee Details') ?>
+								
+				<a href="<?php echo base_url('employee/addExcel') ?>"
+                                                               class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo $this->lang->line('Import Employee') ?>
+										</a>
             </h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">

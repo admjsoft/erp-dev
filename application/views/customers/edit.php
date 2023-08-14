@@ -362,7 +362,7 @@
 </div>
 <script>
  $("#submit-data-update").on("click", function (e) {
-validateFormForDomestic(e);
+//validateFormForDomestic(e);
         e.preventDefault();
         var o_data = $("#data_form").serialize();
         var action_url = $('#action-url').val();

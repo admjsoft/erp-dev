@@ -118,9 +118,12 @@ class Ticket_model extends CI_Model
     private function ticket_datatables_query($filt)
     {
 
-        $this->db->from('gtg_tickets');
+        $this->db->select('gtg_tickets.id ,gtg_tickets.subject,gtg_tickets.created,gtg_tickets.status,gtg_tickets.cid,gtg_tickets.section,gtg_customers.company');
+		$this->db->from('gtg_tickets');
+		$this->db->join('gtg_customers', 'gtg_customers.id = gtg_tickets.cid','left');
+
         if ($filt == 'unsolved') {
-            $this->db->where('status!=', 'Solved');
+            $this->db->where('gtg_tickets.status!=', 'Solved');
         }
 
         $i = 0;
@@ -128,7 +131,13 @@ class Ticket_model extends CI_Model
         foreach ($this->doccolumn_search as $item) // loop column
         {
             $search = $this->input->post('search');
+			if(!empty($search))
+			{
             $value = $search['value'];
+			}
+			else{
+				$value='';
+			}
             if ($value) {
 
                 if ($i === 0) {

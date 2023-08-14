@@ -827,9 +827,9 @@ public function pointNumber($str){
     </table>
     <table style='border-collapse: collapse;width:100%'>
         <tr class='row'>
-            <td style='color:white;background:red;width:50%;border-left:1px solid black;text-align:center'><p><b>Description</b></p></td>
-            <td style='color:white;background:red;width:25%;border-left:1px solid black;text-align:center'><p><b>Earnings</b></p></td>
-            <td style='color:white;background:red;width:25%;border-left:1px solid black;text-align:center'><p><b>Deductions</b></p></td>
+            <td style='color:white;background:#00B5B8;width:50%;border-left:1px solid black;text-align:center'><p><b>Description</b></p></td>
+            <td style='color:white;background:#00B5B8;width:25%;border-left:1px solid black;text-align:center'><p><b>Earnings</b></p></td>
+            <td style='color:white;background:#00B5B8;width:25%;border-left:1px solid black;text-align:center'><p><b>Deductions</b></p></td>
         </tr>
     </table>
     <table style='border-collapse: collapse;width:100%'>
@@ -899,10 +899,10 @@ public function pointNumber($str){
             <td style='width:50%;border-left:1px solid black;padding:0px'>
                 <table style='border-collapse: collapse;width:100%'>
                     <tr style='border-bottom:1px solid black'>
-                        <td style='background:red;color:white;text-align:center;border-top:1px solid black;border-bottom:1px solid black;'><p>NET PAY</p></td>
+                        <td style='background:#26C0C3;color:white;text-align:center;border-top:1px solid black;border-bottom:1px solid black;'><p>NET PAY</p></td>
                     </tr>
-                    <tr style='background:#FF8585;border-bottom:1px solid black'>
-                        <td style='text-align:center;border-bottom:1px solid black;'><p>RM ".$this->pointNumber($netPay)."</p></td>
+                    <tr style='background:#26C0C3;border-bottom:1px solid black'>
+                        <td style='text-align:center;border-bottom:1px solid black;color:#fff;'><p>RM ".$this->pointNumber($netPay)."</p></td>
                     </tr>
                 </table>
             </td>

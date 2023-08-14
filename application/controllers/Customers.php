@@ -2,7 +2,10 @@
 
 
 defined('BASEPATH') or exit('No direct script access allowed');
+require 'vendor/autoload.php';
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Customers extends CI_Controller
 {
     public function __construct()
@@ -44,7 +47,104 @@ class Customers extends CI_Controller
         $this->load->view('customers/create', $data);
         $this->load->view('fixed/footer');
     }
+    public function addExcel()
+    {
+        $id = $this->input->get('id');
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Customer Import';
+        //$data['employee'] = $this->employee->employee_details($id);
+        $data['eid'] = intval($id);
+        $this->load->view('fixed/header', $head);
+        $this->load->view('customers/import', $data);
+        $this->load->view('fixed/footer');
+    }
+	
+		public function import() {
+		
+		$path 		= "../userfiles/";
+		$json 		= [];
+		$this->upload_config($path);
+		if (!$this->upload->do_upload('file')) {
+			 echo $this->upload->display_errors();
+			
+		} else {
+			
+			$file_data 	= $this->upload->data();
+			$file_name 	= $path.$file_data['file_name'];
+			$arr_file 	= explode('.', $file_name);
+			$extension 	= end($arr_file);
+			if('csv' == $extension) {
+				$reader 	= new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+			} else {
+				$reader 	= new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+			}
+			$spreadsheet 	= $reader->load($file_name);
+			$sheet_data 	= $spreadsheet->getActiveSheet()->toArray();
+			$list 			= [];
+			
+			foreach($sheet_data as $key => $val) {
+			    // print_r($val);
+				if($key != 0) {
+					$result 	= '';
+				
+					if($result) {
+					} else {
+						$list [] = [
+							'name'			=> $val[0],
+							'phone'			=> $val[1],
+							'address'		=> $val[2],
+							'city'			=> $val[3],
+							'region'		=> $val[4],
+							'country' 		=> $val[5],
+							'email'			=> $val[6],
+							'company'		=> $val[7],
 
+						];
+						$list1 [] = [
+							'name'			=> $val[0],
+							'email'			=> $val[6],
+
+						];
+					}
+				}
+			}
+			if(file_exists($file_name))
+				unlink($file_name);
+			if(count($list) > 0) {
+				$result 	= $this->customers->add_batch($list,$list1);
+				if($result) {
+					
+					$data['status'] = 'success';
+                    $data['message'] = $this->lang->line('UPDATED');
+						
+	 
+				} else {
+					 $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+					
+				}
+			} else {
+				
+			}
+		}
+		    $_SESSION['status']=$data['status'];
+            $_SESSION['message']=$data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+		    redirect('customers', 'refresh');
+            exit();
+	}
+	public function upload_config($path) {
+		if (!is_dir($path)) 
+			mkdir($path, 0777, TRUE);		
+		$config['upload_path'] 		= './'.$path;		
+		$config['allowed_types'] 	= 'csv|CSV|xlsx|XLSX|xls|XLS';
+		$config['max_filename']	 	= '255';
+		$config['encrypt_name'] 	= TRUE;
+		$config['max_size'] 		= 4096; 
+		$this->load->library('upload', $config);
+	}
+	
     public function view()
     {
         if (!$this->aauth->premission(8)) {
@@ -486,6 +586,7 @@ public function deleteFwmsClient()
 
     public function editcustomer()
     {
+
         if (!$this->aauth->premission(8)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
