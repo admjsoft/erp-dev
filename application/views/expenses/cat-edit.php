@@ -7,7 +7,7 @@
     <form method="post" id="data_form" class="form-horizontal">
         <div class="card-body">
 
-            <h5><?php echo $this->lang->line('Edit Expenses Category') ?>no</h5>
+            <h5><?php echo $this->lang->line('Edit Claims Category') ?>no</h5>
             <hr>
             <input type="hidden" name="catid" value="<?php echo $cat['id'] ?>">
             <div class="form-group row">

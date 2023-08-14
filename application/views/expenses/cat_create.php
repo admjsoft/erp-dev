@@ -9,7 +9,7 @@
 
         <form method="post" id="data_form" class="form-horizontal">
 
-            <h5><?php echo $this->lang->line('New Expenses Category') ?></h5>
+            <h5><?php echo $this->lang->line('New Claims Category') ?></h5>
             <hr>
 
             <div class="form-group row">

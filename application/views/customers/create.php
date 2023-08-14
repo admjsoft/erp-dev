@@ -4,7 +4,13 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"><?php echo $this->lang->line('Add New Customer') ?></h4>
+            <h4 class="card-title"><?php echo $this->lang->line('Add New Customer') ?>
+			<a href="<?php echo base_url('customers/addExcel') ?>"
+                                                               class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo $this->lang->line('Import Customer') ?>
+										</a>
+			
+			</h4>
 
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">

@@ -440,6 +440,14 @@ $('.nav-menu-main').removeClass('is-active');
                                                                href="<?php echo base_url(); ?>settings/tickets"><i
                                                                         class="ft-chevron-right"></i> <?php echo $this->lang->line('Support Tickets') ?>
                                                             </a></li>
+														 <li><a class="dropdown-item"
+                                                               href="<?php echo base_url(); ?>settings/clientTemplate"><i
+                                                     class="ft-chevron-right"></i> <?php echo $this->lang->line('Client Template') ?>
+                                                      </a></li>
+													 <li><a class="dropdown-item"
+                                                               href="<?php echo base_url(); ?>settings/employeeTemplate"><i
+                                           class="ft-chevron-right"></i> <?php echo $this->lang->line('Employee Template') ?>
+                                                      </a></li>
                                                     </ul>
                                                 </div>
                                             </div>

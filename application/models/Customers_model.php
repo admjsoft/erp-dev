@@ -1284,6 +1284,19 @@ return $msg.$html;
         $query = $this->db->get();
         return $query->result();
     } 
-		
+	
+
+
+
+
+public function add_batch($data,$data1) {
+	
+	$this->db->insert_batch('users', $data1);
+	return $this->db->insert_batch('gtg_customers', $data);
+	
+	}
+
+
+	
 }
 

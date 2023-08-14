@@ -47,6 +47,7 @@ class Tickets extends CI_Controller
             $no++;
             $row[] = $no;
             $row[] = $ticket->subject;
+			$row[] = $ticket->company;
             $row[] = dateformat_time($ticket->created);
             $row[] = '<span class="st-' . $ticket->status . '">' . $ticket->status . '</span>';
 

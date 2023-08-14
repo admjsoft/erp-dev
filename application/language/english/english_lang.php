@@ -1260,4 +1260,10 @@ $lang['Month Wise Expense For Payroll Data'] = "Month Wise Expense For Payroll D
 $lang['Proof Of Payment'] = "Proof Of Payment";
 $lang['Add Asset Category'] = "Add Asset Category";
 $lang['Add Asset Sub Category'] = "Add Asset Sub Category";
+$lang['Please Refer to Administrator For Add More Role'] = "Please Refer to Administrator For Add More Role";
+$lang['Add Claims'] = "Add Claims";
+$lang['Import Employee'] = "Import Employee";
+$lang['Import Customer'] = "Import Customer";
+$lang['Client Template'] = "Client Template";
+$lang['Employee Template'] = "Employee Template";
 
