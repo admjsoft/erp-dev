@@ -304,6 +304,7 @@ $('#sendMail').on('click', '#sendNowSelected', function (e) {
                 data: $("input[name='cust[]']:checked").serialize() + '&'+$("#sendmail_form").serialize(),
                   dataType: 'json',
                 success: function (data) {
+                    $("#sendMail").modal('hide');
                     var form = document.getElementById("sendmail_form");
                     // Reset the form
                     form.reset();
@@ -322,7 +323,7 @@ $('#sendMail').on('click', '#sendNowSelected', function (e) {
 
 $('#sendSmsS').on('click', '#sendSmsSelected', function (e) {
        e.preventDefault();
-         $("#sendSmsS").modal('hide');
+         
                      if ($("#notify").length == 0) {
         $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
     }
@@ -335,6 +336,16 @@ $('#sendSmsS').on('click', '#sendSmsSelected', function (e) {
                 data: $("input[name='cust[]']:checked").serialize() + '&'+$("#sendsms_form").serialize(),
                   dataType: 'json',
                 success: function (data) {
+                    $("#sendSmsS").modal('hide');
+                    var form = document.getElementById("sendsms_form");
+                    // Reset the form
+                    form.reset();
+                    messaging_team_ids.splice(0);
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="cust"]');
+                    // Loop through each checkbox and set checked to false
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                         $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").animate({scrollTop: $('#notify').offset().top}, 1000);
@@ -350,7 +361,7 @@ $('#sendSmsS').on('click', '#sendSmsSelected', function (e) {
 
 $('#sendWhatsApp').on('click', '#sendWhatsAppSelected', function (e) {
        e.preventDefault();
-         $("#sendSmsS").modal('hide');
+        
                      if ($("#notify").length == 0) {
         $("#c_body").html('<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>');
     }
@@ -360,6 +371,16 @@ $('#sendWhatsApp').on('click', '#sendWhatsAppSelected', function (e) {
                 data: $("input[name='cust[]']:checked").serialize() + '&'+$("#sendwhatsapp_form").serialize(),
                   dataType: 'json',
                 success: function (data) {
+                    $("#sendWhatsApp").modal('hide');
+                    var form = document.getElementById("sendwhatsapp_form");
+                    // Reset the form
+                    form.reset();
+                    messaging_team_ids.splice(0);
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="cust"]');
+                    // Loop through each checkbox and set checked to false
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                         $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
                     $("html, body").animate({scrollTop: $('#notify').offset().top}, 1000);

@@ -69,7 +69,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Sender Name"
                                                    class="form-control margin-bottom b_input required " name="sender_name"
-                                                   id="sender_name" value="">
+                                                   id="sender_name" value="" maxlength="11">
                                             
                                         </div>
                                     </div>
@@ -121,7 +121,7 @@ if(isset($_SESSION['status'])){
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="" id="action-url">
-                                    <input type="hidden" name="vendor_id" value="" id="sms_campaign_id">
+                                    <input type="hidden" name="campaign_id" value="" id="campaign_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                            value="<?php //echo $this->lang->line('Add customer') ?>Create Campaign"
@@ -148,7 +148,9 @@ if(isset($_SESSION['status'])){
        var message_content = $('#message_content').val();
        var receipents = $('#recepients').val();
        var campaign_id = $('#campaign_id').val();
-       
+        
+       if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' && message_content!= '' && receipents!= '' )
+       {
 
         $.ajax({
 
@@ -165,6 +167,9 @@ if(isset($_SESSION['status'])){
         },
         success: function (data) {
             alert(data.message);
+            setTimeout(function() {
+            window.location.href = "<?php echo site_url('digitalmarketing/sms_marketing_campaigns') ?>";
+            }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);
@@ -172,7 +177,10 @@ if(isset($_SESSION['status'])){
         }
 
 
-    });
+        });
+    }else{
+        alert('Please Enter All Fields');
+    }
 
     
 });

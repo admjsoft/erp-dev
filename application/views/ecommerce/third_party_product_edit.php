@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Task Details 
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Product Details 
             </h4>
             
 

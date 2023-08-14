@@ -175,7 +175,7 @@ class Digitalmarketing extends CI_Controller
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
                     'Accept: application/json',
-                    'api-key: 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'
+                    'api-key: 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'
                 ),
                 ));
 
@@ -249,7 +249,7 @@ class Digitalmarketing extends CI_Controller
             $m_response = $this->digitalmarketing->addTransactionalData($dg_data);
 
                 $apiUrl = 'https://api.brevo.com/v3/transactionalSMS/sms';
-                $apiKey = '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';
+                $apiKey = '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';
                 
                 $data = array(
                     "type" => "transactional",
@@ -350,7 +350,7 @@ class Digitalmarketing extends CI_Controller
             $m_response = $this->digitalmarketing->addTransactionalData($dg_data);
 
             $apiUrl = 'https://api.brevo.com/v3/whatsapp/sendMessage';
-            $apiKey = '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';
+            $apiKey = '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';
 
             $data = array(
                 "senderNumber" => "919032992056",
@@ -554,92 +554,39 @@ class Digitalmarketing extends CI_Controller
         $head['title'] = "Email Marketing Campaigns";
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['campaigns'] = $this->digitalmarketing->GetEmailCampaignsList();
-        $campaigns = '{
-            "count": 1,
-            "campaigns": [
-              {
-                "id": 3,
-                "name": "siva email test",
-                "type": "classic",
-                "status": "sent",
-                "testSent": false,
-                "header": "[DEFAULT_HEADER]",
-                "footer": "EXISTS",
-                "sender": {
-                  "name": "Testing Company",
-                  "id": 1,
-                  "email": "sprasad96@gmail.com"
-                },
-                "replyTo": "",
-                "toField": "",
-                "previewText": "hiiiiiiiiiiiiiiiii",
-                "tag": "",
-                "inlineImageActivation": false,
-                "mirrorActive": false,
-                "recipients": {
-                  "lists": [
-                    6,
-                    2
-                  ],
-                  "exclusionLists": []
-                },
-                "statistics": {
-                  "globalStats": {
-                    "uniqueClicks": 0,
-                    "clickers": 0,
-                    "complaints": 0,
-                    "delivered": 0,
-                    "sent": 0,
-                    "softBounces": 0,
-                    "hardBounces": 0,
-                    "uniqueViews": 0,
-                    "unsubscriptions": 0,
-                    "viewed": 0,
-                    "trackableViews": 0,
-                    "trackableViewsRate": 0,
-                    "estimatedViews": 0
-                  },
-                  "campaignStats": [
-                    {
-                      "listId": 2,
-                      "uniqueClicks": 0,
-                      "clickers": 0,
-                      "complaints": 0,
-                      "delivered": 2,
-                      "sent": 2,
-                      "softBounces": 0,
-                      "hardBounces": 0,
-                      "uniqueViews": 1,
-                      "trackableViews": 1,
-                      "unsubscriptions": 0,
-                      "viewed": 1,
-                      "deferred": 0
-                    }
-                  ],
-                  "mirrorClick": 0,
-                  "remaining": 0,
-                  "linksStats": {},
-                  "statsByDomain": {}
-                },
-                "htmlContent": "",
-                "subject": "hiiii",
-                "scheduledAt": "2023-08-02T08:30:14.000+05:30",
-                "createdAt": "2023-08-02T08:18:14.000+05:30",
-                "modifiedAt": "2023-08-02T08:20:23.000+05:30",
-                "shareLink": "http://sh1.sendinblue.com/1yjvbyk2gc.html",
-                "sentDate": "2023-08-02T08:31:02.000+05:30",
-                "sendAtBestTime": false,
-                "abTesting": false
-              }
-            ]
-          }';
-
-          $data['campaigns'] = json_decode($campaigns,true);
-        
         
         $this->load->view('fixed/header', $head);
         $this->load->view('digital_marketing/email_campaigns',$data);
         $this->load->view('fixed/footer');
+    }
+
+    public function email_campaign_create(){
+        $head['title'] = "Sms Marketing Campaign";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+        $data['templates'] = $this->digitalmarketing->EmailCampaignTemplates();
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('digital_marketing/email_campaign_create',$data);
+        $this->load->view('fixed/footer');
+    }
+    public function email_campaign_save()
+    {
+        $post = $this->input->post();  
+        // echo "<pre>"; print_r($post); echo "</pre>"; 
+        // /exit;     
+        $response = $this->digitalmarketing->EmailCampaignSave($post);
+        echo json_encode($response);
+            
+    }
+
+    public function email_campaign_delete()
+    {
+        $post = $this->input->post(); 
+        $campaign_id = $post['campaign_id'];       
+        $response = $this->digitalmarketing->DeleteEmailCampaignById($campaign_id);
+        echo json_encode($response);
+            
     }
     
     public function settings(){

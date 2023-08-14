@@ -1253,5 +1253,102 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
         echo json_encode($response);
             
     }
+
+    public function get_all_vendors(){
+        
+            
+            $storeUrl = 'https://jstore.my';
+
+            // API authentication credentials
+            $consumerKey = 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de';
+            $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
+            // Endpoint to retrieve all vendors
+                       
+            // Endpoint to retrieve all vendors (this is a fictional example)
+            $get_vendors_endpoint = $storeUrl . "/wp-json/vendor-api/v1/vendors";
+            
+            $curl = curl_init($get_vendors_endpoint);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret),
+                'Content-Type: application/json'
+            ));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            $response = curl_exec($curl);
+            
+            echo $response;
+            exit;
+            if (curl_errno($curl)) {
+                echo "cURL Error: " . curl_error($curl);
+                exit;
+            }
+            
+            curl_close($curl);
+            
+            $vendors = json_decode($response, true);
+            
+            echo "<pre>"; print_r($vendors); echo "</pre>";
+            // if (!empty($vendors)) {
+            //     // Output the list of vendors
+            //     foreach ($vendors as $vendor) {
+            //         echo "Vendor ID: {$vendor['id']}<br>";
+            //         echo "Vendor Name: {$vendor['store_name']}<br>";
+            //         // Display other vendor details as needed
+            //         echo "<br>";
+            //     }
+            // } else {
+            //     echo "No vendors found or API request failed.";
+            // }
+          
+
+    }
+
+    public function vendor_poducts_list()
+    {
+        // WooCommerce API endpoint for listing products
+       // $url = 'https://jstore.my/wp-json/wc/v3/products';
+
+        // API authentication credentials
+        $consumerKey = 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de';
+        $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
+       
+       
+        $storeUrl = 'https://jstore.my'; // Replace with your store URL
+        $vendorUserId = 81; // Replace with your vendor's user ID
+        
+        // Endpoint to retrieve products based on the vendor's user ID
+        $get_products_endpoint = $storeUrl . "/wp-json/wc/v3/products?vendor={$vendorUserId}";
+        
+        $curl = curl_init($get_products_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret),
+            'Content-Type: application/json'
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($curl);
+        
+        if (curl_errno($curl)) {
+            echo "cURL Error: " . curl_error($curl);
+            exit;
+        }
+        
+        curl_close($curl);
+        
+        $products = json_decode($response, true);
+        
+        if (!empty($products)) {
+            // Output the list of products
+            foreach ($products as $product) {
+                echo "Product ID: {$product['id']}<br>";
+                echo "Product Name: {$product['name']}<br>";
+                // Display other product details as needed
+                echo "<br>";
+            }
+        } else {
+            echo "No products found or API request failed.";
+        }
+    }
+    
 }
 

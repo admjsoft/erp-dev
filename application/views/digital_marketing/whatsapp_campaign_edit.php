@@ -91,6 +91,23 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Campaign Status"; // $this->lang->line('Title') ?></label>
+                                        
+                                        <div class="col-sm-8">
+                                        <select  class="form-control margin-bottom b_input required " name="campaign_status"
+                                                   id="campaign_status"  >
+                                        
+                                        <option value='scheduled' selected>Scheduled</option>
+                                        <option value='suspended' >Suspended</option>
+                                        
+                                        </select>
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
                                                for="name"><?php echo "Recepients Lists"; // $this->lang->line('Title') ?></label>
                                         <?php $includedListsArray = $campaign_details['recipients']['includedLists']; ?>
                                         <div class="col-sm-8">
@@ -111,7 +128,7 @@ if(isset($_SESSION['status'])){
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="" id="action-url">
-                                    <input type="hidden" name="campaign_id" value="<?php echo $campaign_details['id']; ?>" id="whatsapp_campaign_id">
+                                    <input type="hidden" name="campaign_id" value="<?php echo $campaign_details['id']; ?>" id="campaign_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                            value="<?php //echo $this->lang->line('Add customer') ?>Update Campaign"
@@ -133,9 +150,10 @@ if(isset($_SESSION['status'])){
     $(document).on('click', "#update_product_btn", function (e) {
         e.preventDefault();
        var campaign_name = $('#campaign_name').val();
-       var schedule_date = $('#schedule_date').val();l();
+       var schedule_date = $('#schedule_date').val();
        var receipents = $('#recepients').val();
        var campaign_id = $('#campaign_id').val();
+       var campaign_status = $('#campaign_status').val();
        
 
         $.ajax({
@@ -147,10 +165,14 @@ if(isset($_SESSION['status'])){
             campaign_name: campaign_name,
             schedule_date: schedule_date,
             receipents: receipents,
-            campaign_id: campaign_id
+            campaign_id: campaign_id,
+            campaign_status: campaign_status
         },
         success: function (data) {
             alert(data.message);
+            setTimeout(function() {
+            window.location.href = "<?php echo site_url('digitalmarketing/whatsapp_marketing_campaigns') ?>";
+            }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);

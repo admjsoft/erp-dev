@@ -931,9 +931,10 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     }
     
     if(!empty($sub_category)){
-        $params['subcategory'] = $sub_category;
+        $params['category'] = $sub_category;
     }
-
+    // echo $url . '?' . http_build_query($params);
+    // exit;
     // Set cURL options
      // Set cURL options
      $options = array(
@@ -1135,16 +1136,40 @@ public function GetAllProductsList($vendor){
     // API authentication credentials
     $consumerKey = $consumer_key;
     $consumerSecret = $consumer_secret;
+
+    // $category = 15; // Replace with the actual category ID
+    // $sub_category = 25; // Replace with the actual sub-category ID
+
+    if(!empty($category))
+    {
+        $category_array = array('id' => $category);
+    }else{
+        $category_array = array();
+    }
+
+    if(!empty($sub_category))
+    {
+        $sub_category_array = array('id' => $sub_category);
+    }else{
+        $sub_category_array = array();
+    }
+    
+    
+
+    $result_array = array($category_array, $sub_category_array);
+       $image_url = base_url('userfiles/product/').$product_details[0]['image'];
+       //$image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
+       //$image_url = 'https://erp-dev.jsuitecloud.com/userfiles/product/778093images (1).jpg';
        // New product data
        $product_data = array(
            'name' => $product_details[0]['product_name'],
            'type' => 'simple',
            'regular_price' => $product_details[0]['product_price'],
            'description' => $product_details[0]['product_des'],
-           'categories' => array(
-            array('id' => $category), // Replace 15 with the actual category ID
-            array('id' => $sub_category), // Replace 25 with the actual subcategory ID
-        ),
+           'categories' => $result_array, // Replace 25 with the actual subcategory ID
+           'images' => array(
+            array('src' => $image_url)  // Replace with the actual image URL
+        )
            // Add more product fields as needed
        );
    
@@ -1167,7 +1192,8 @@ public function GetAllProductsList($vendor){
    
        // Send the cURL request
        $response = curl_exec($curl);
-   
+    //    echo $response;
+    //    exit;
        // Check if the request was successful
        if ($response !== false) {
            $product = json_decode($response);

@@ -273,7 +273,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
             var category = $('#category').val();
             var sub_category = $('#sub_category').val();
-
+            if(vendor != '' && category != '')
+            {
+                
             //if (start_date != '' && end_date != '') {
                 $('#doctable').DataTable().destroy();
                 draw_data(vendor,vendor_name,category, sub_category);
@@ -283,6 +285,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             // } else {
             //     alert("Date range is Required");
             // }
+            }else{
+                alert('Please Select Category');
+            }
+
         });
 
         // miniDash();
@@ -409,6 +415,7 @@ $(document).on('change', "#vendor_type", function (e) {
         },
         success: function (data) {
             alert(data.message);
+            $('#search').click();
         },
         error: function(data) {
         //console.log(data);

@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Vendor Details 
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Add Email Campaign Details 
             </h4>
             
 
@@ -52,48 +52,12 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Vendor Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Campaign Name"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
-                                            <input type="text"   placeholder="Title"
-                                                   class="form-control margin-bottom b_input required " name="vendor_name"
-                                                   id="vendor_name" value="">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mt-1">
-
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "WebSite url"; // $this->lang->line('Title') ?></label>
-
-                                        <div class="col-sm-8">
-                                            <input type="text"   placeholder="Title"
-                                                   class="form-control margin-bottom b_input required " name="website_url"
-                                                   id="website_url" value="">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mt-1">
-
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Consumer Key"; // $this->lang->line('Title') ?></label>
-
-                                        <div class="col-sm-8">
-                                            <input type="text"   placeholder="Consumer Key"
-                                                   class="form-control margin-bottom b_input required " name="consumer_key"
-                                                   id="consumer_key" value="">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mt-1">
-
-                                        <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Consumer Secret"; // $this->lang->line('Title') ?></label>
-
-                                        <div class="col-sm-8">
-                                            <input type="text"   placeholder="Consumer Secret"
-                                                   class="form-control margin-bottom b_input required " name="consumer_secret"
-                                                   id="consumer_secret" value="">
+                                            <input type="text"   placeholder="Campaign Name"
+                                                   class="form-control margin-bottom b_input required " name="campaign_name"
+                                                   id="campaign_name" value="">
                                             
                                         </div>
                                     </div>
@@ -101,13 +65,102 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Sale Type"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Campaign Tag"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
-                                        <select class="form-control margin-bottom b_input required " name="sale_type"
-                                                   id="sale_type"  >
-                                        <option value='Offline' >Offline</option>
-                                        <option value='Online' >Online</option>
+                                            <input type="text"   placeholder="Campaign Tag"
+                                                   class="form-control margin-bottom b_input required " name="campaign_tag"
+                                                   id="campaign_tag" value="">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Sender Name"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text"   placeholder="Sender Name"
+                                                   class="form-control margin-bottom b_input required " name="sender_name"
+                                                   id="sender_name" value="" >
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Sender Email"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="email"   placeholder="Sender Email"
+                                                   class="form-control margin-bottom b_input required " name="sender_email"
+                                                   id="sender_email" value="" >
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Schedule Date"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="datetime-local"   placeholder="Consumer Key"
+                                                   class="form-control margin-bottom b_input required " name="schedule_date"
+                                                   id="schedule_date" value="">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Subject"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text"   placeholder=""
+                                                   class="form-control margin-bottom b_input required " name="subject"
+                                                   id="subject" value="">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Email Preview Text"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text"   placeholder=""
+                                                   class="form-control margin-bottom b_input required " name="email_preview_text"
+                                                   id="email_preview_text" value="">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Reply to"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <input type="email"   placeholder=""
+                                                   class="form-control margin-bottom b_input required " name="reply_to"
+                                                   id="reply_to" value="">
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Template"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                        <select class="form-control margin-bottom b_input required " name="template"
+                                                   id="template"  >
+                                        <?php if(!empty($templates['templates'])) { foreach($templates['templates'] as $template) { ?>
+                                        <option value='<?php echo $template['id']; ?>' ><?php echo $template['name']; ?></option>
+                                        <?php } } ?>
                                         </select>
                                             
                                         </div>
@@ -116,28 +169,43 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "WebSite Type"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Message Content"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
-                                        <select class="form-control margin-bottom b_input required " name="website_type"
-                                                   id="website_type"  >
-                                        <option value='wordpress' >WordPress</option>
+                                            <textarea   placeholder="Message Content"
+                                                   class="form-control margin-bottom b_input required " name="message_content"
+                                                   id="message_content" value=""> </textarea>
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Recepients Lists"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                        <select multiple class="form-control margin-bottom b_input required " name="Recepients[]"
+                                                   id="recepients"  >
+                                        <?php if(!empty($list_ids['lists'])) { foreach($list_ids['lists'] as $list) { ?>
+                                        <option value='<?php echo $list['id']; ?>' ><?php echo $list['name']; ?></option>
+                                        <?php } } ?>
                                         </select>
                                             
                                         </div>
                                     </div>
 
-                                    
+                                                                      
                                     
                                     
                                     
                                 </div>
                                 <div id="mybutton">
-                                    <input type="hidden" value="jobsheets/edit_task" id="action-url">
-                                    <input type="hidden" name="vendor_id" value="" id="vendor_id">
+                                    <input type="hidden" value="" id="action-url">
+                                    <input type="hidden" name="campaign_id" value="" id="campaign_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Create Vendor"
+                                           value="<?php //echo $this->lang->line('Add customer') ?>Create Campaign"
                                            data-loading-text="updating...">
                                 </div>
                             </div>
@@ -155,31 +223,50 @@ if(isset($_SESSION['status'])){
 
     $(document).on('click', "#update_product_btn", function (e) {
         e.preventDefault();
-       var vendor_name = $('#vendor_name').val();
-       var website_url = $('#website_url').val();
-       var consumer_key = $('#consumer_key').val();
-       var consumer_secret = $('#consumer_secret').val();
-       var website_type = $('#website_type').val();
-       var sale_type = $('#sale_type').val();
-       var vendor_id = $('#vendor_id').val();
-       
+       var campaign_name = $('#campaign_name').val();
+       var campaign_tag = $('#campaign_tag').val();
+       var sender_name = $('#sender_name').val();
+       var sender_email = $('#sender_email').val();
+       var email_preview_text = $('#email_preview_text').val();
+       var reply_to = $('#reply_to').val();
+       var subject = $('#subject').val();
+       var schedule_date = $('#schedule_date').val();
+       var message_content = $('#message_content').val();
+       var receipents = $('#recepients').val();
+       var campaign_id = $('#campaign_id').val();
+       var template = $('#template').val();
+        
+    //    if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' &&  && receipents!= '' && campaign_tag!= '' && sender_email!= '' && email_preview_text!= '' && reply_to!= '' && subject!= '')
+    //    {
 
+    //     if(template != '' || message_content != '')
+    //     {
+
+        
         $.ajax({
 
-        url: "<?php echo site_url('ecommerce/vendor_save') ?>",
+        url: "<?php echo site_url('digitalmarketing/email_campaign_save') ?>",
         type: 'POST',
         dataType: 'json',
         data: {
-            vendor_name: vendor_name,
-            website_url: website_url,
-            consumer_key: consumer_key,
-            consumer_secret: consumer_secret,
-            website_type: website_type,
-            sale_type: sale_type,
-            vendor_id: vendor_id
+            campaign_name: campaign_name,
+            campaign_tag: campaign_tag,
+            sender_name: sender_name,
+            sender_email: sender_email,
+            email_preview_text: email_preview_text,
+            reply_to: reply_to,
+            subject: subject,
+            schedule_date: schedule_date,
+            message_content: message_content,
+            receipents: receipents,
+            campaign_id: campaign_id,
+            template: template
         },
         success: function (data) {
             alert(data.message);
+            // setTimeout(function() {
+            // window.location.href = "<?php echo site_url('digitalmarketing/email_marketing_campaigns') ?>";
+            // }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);
@@ -187,7 +274,14 @@ if(isset($_SESSION['status'])){
         }
 
 
-    });
+        });
+
+    // }else{
+    //     alert('Please Select Message Content or Template');
+    // }
+    // }else{
+    //     alert('Please Enter All Fields');
+    // }
 
     
 });

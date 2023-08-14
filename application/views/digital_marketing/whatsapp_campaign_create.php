@@ -113,7 +113,7 @@ if(isset($_SESSION['status'])){
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="" id="action-url">
-                                    <input type="hidden" name="campaign_id" value="" id="whatsapp_campaign_id">
+                                    <input type="hidden" name="campaign_id" value="" id="campaign_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                            value="<?php //echo $this->lang->line('Add customer') ?>Create Campaign"
@@ -155,6 +155,9 @@ if(isset($_SESSION['status'])){
         },
         success: function (data) {
             alert(data.message);
+            setTimeout(function() {
+            window.location.href = "<?php echo site_url('digitalmarketing/whatsapp_marketing_campaigns') ?>";
+            }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);

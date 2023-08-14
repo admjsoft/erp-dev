@@ -104,6 +104,7 @@
         },
         success: function (data) {
             alert(data.message);
+            location.reload();
         },
         error: function(data) {
         //console.log(data);
