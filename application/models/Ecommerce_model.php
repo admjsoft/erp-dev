@@ -51,8 +51,35 @@ class Ecommerce_model extends CI_Model
     }
 
 
-    
+    public function GetTotalProducts($post)
+    {
+        //$where = "DATE(invoicedate) ='$today'";
+        $this->db->select('*');
+        $this->db->from('gtg_products');
+        if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
+        {
+            $this->db->where('DATE(gtg_products.cr_date) >=', date("Y-m-d", strtotime($post['start_date'])));
+            $this->db->where('DATE(gtg_products.cr_date) <=', date("Y-m-d", strtotime($post['end_date'])));
+        }
+        return $this->db->get()->num_rows();
+    }
 
+    public function GetPosAnalytics($post)
+    {
+        $sql = "SELECT SUM(total) AS total_sales,SUM(tax) AS total_tax,COUNT(*) AS total_orders FROM gtg_invoices where i_class = 1";
+        
+        if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
+        {
+            $date_min = date("Y-m-d", strtotime($post['start_date']));
+            $date_max = date("Y-m-d", strtotime($post['end_date']));
+            $sql .= " AND  DATE(invoicedate) >= '$date_min'";
+            $sql .= " AND  DATE(invoicedate) <= '$date_max'";
+        }
+        
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+    
 
     private function _get_sales_invoices_datatables_query($opt = '')
     {
@@ -960,6 +987,7 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     // Check if the request was successful
     if ($response !== false) {
         $products = json_decode($response,true);
+        
         return $products;
         // Process the list of products
         // foreach ($products as $product) {
@@ -1077,6 +1105,46 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
 }
 
 
+public function GetThirdPartyProductsByIds($vendor_details,$productIds){
+    
+   
+    $website_url = $vendor_details[0]['WebSiteUrl'];
+    $consumer_key = $vendor_details[0]['ConsumerKey'];
+    $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+    //$per_page = 1000;
+    // WooCommerce API endpoint for retrieving products
+    //$url = $website_url.'/wp-json/wc/v3/products';
+
+    //$productIds = '12586,11798'; // Replace with a comma-separated list of product IDs
+
+    // Endpoint to retrieve products based on the specified product IDs
+    $get_products_endpoint = $website_url . "/wp-json/wc/v3/products?include={$productIds}";
+
+    $curl = curl_init($get_products_endpoint);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+        'Content-Type: application/json'
+    ));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);    
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+    $response = curl_exec($curl);
+
+    if (curl_errno($curl)) {
+        return array();
+    }
+
+    curl_close($curl);
+
+    $products = json_decode($response, true);
+
+    if (!empty($products)) {
+        return $products;
+    } else {
+        return array();
+    }
+
+}
 public function GetAllProductsList($vendor){
     $sql = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorItemId,mtv.ThirdPartyVendorId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
     
@@ -1098,9 +1166,29 @@ public function GetAllProductsList($vendor){
     return $product_details;
    }
 
+   public function GetVProductDetails($vendor_id,$product_id){
+    $sql = "SELECT mi.pid,mi.image,mi.product_name,mi.qty,mi.product_des,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorItemId,mtv.ThirdPartyVendorId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
+    
+    if(!empty($vendor_id))
+    {
+        $sql .= " WHERE mtv.ThirdPartyVendorId = {$vendor_id}"; 
+    }
+    if(!empty($product_id))
+    {
+        $sql .= " AND mi.pid = {$product_id}"; 
+    }
+    
+    $sql .= " group by mtv.ItemId"; 
+   
+    $query = $this->db->query($sql);
+    $item_details =$query->result_array();
+    return $item_details;
+
+   }
+
 
    public function get_pos_product_details($vendor,$product_id,$third_party_prcing_id){
-    $sql = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorItemId,mtv.ThirdPartyVendorId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
+    $sql = "SELECT mi.pid,mi.product_name,mi.qty,mi.product_des,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorItemId,mtv.ThirdPartyVendorId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
     
     if(!empty($vendor))
     {
@@ -1123,7 +1211,7 @@ public function GetAllProductsList($vendor){
    }
 
 
-   public function share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id,$category,$sub_category)
+   public function share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id)
    {
        // print_r($vendor_details);
     $website_url = $vendor_details[0]['WebSiteUrl'];
@@ -1140,16 +1228,16 @@ public function GetAllProductsList($vendor){
     // $category = 15; // Replace with the actual category ID
     // $sub_category = 25; // Replace with the actual sub-category ID
 
-    if(!empty($category))
+    if(!empty($product_details['category']))
     {
-        $category_array = array('id' => $category);
+        $category_array = array('id' => $product_details['category']);
     }else{
         $category_array = array();
     }
 
-    if(!empty($sub_category))
+    if(!empty($product_details['sub_category']))
     {
-        $sub_category_array = array('id' => $sub_category);
+        $sub_category_array = array('id' => $product_details['sub_category']);
     }else{
         $sub_category_array = array();
     }
@@ -1157,22 +1245,27 @@ public function GetAllProductsList($vendor){
     
 
     $result_array = array($category_array, $sub_category_array);
-       $image_url = base_url('userfiles/product/').$product_details[0]['image'];
-       //$image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
+       $image_url = $product_details['image_url'];
+       $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
        //$image_url = 'https://erp-dev.jsuitecloud.com/userfiles/product/778093images (1).jpg';
        // New product data
        $product_data = array(
-           'name' => $product_details[0]['product_name'],
+           'name' => $product_details['product_name'],
            'type' => 'simple',
-           'regular_price' => $product_details[0]['product_price'],
-           'description' => $product_details[0]['product_des'],
+           'regular_price' => $product_details['regular_price'],
+           'sale_price' => $product_details['sale_price'],
+           'description' => $product_details['product_description'],
            'categories' => $result_array, // Replace 25 with the actual subcategory ID
+           'stock_quantity' => (int)$product_details['quantity'],
            'images' => array(
             array('src' => $image_url)  // Replace with the actual image URL
         )
            // Add more product fields as needed
        );
-   
+       
+    //    echo "<pre>"; print_r($product_data); echo "</pre>";
+    //    exit;
+
        // Set cURL options
        $options = array(
            CURLOPT_URL => $url,
@@ -1236,6 +1329,27 @@ public function GetAllProductsList($vendor){
     // API authentication credentials
     $consumerKey = $consumer_key;
     $consumerSecret = $consumer_secret;
+    
+
+    if(!empty($product_details['category']))
+    {
+        $category_array = array('id' => $product_details['category']);
+    }else{
+        $category_array = array();
+    }
+
+    if(!empty($product_details['sub_category']))
+    {
+        $sub_category_array = array('id' => $product_details['sub_category']);
+    }else{
+        $sub_category_array = array();
+    }
+    
+    
+
+    $result_array = array($category_array, $sub_category_array);
+    $image_url = $product_details['image_url'];
+    $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
             // New product data
     $product_data = array(
         'name' => $product_details['product_name'],
@@ -1243,6 +1357,11 @@ public function GetAllProductsList($vendor){
         'regular_price' => $product_details['product_price'],
         'sale_price' => $product_details['sale_price'],
         'description' => $product_details['product_description'],
+        'categories' => $result_array, // Replace 25 with the actual subcategory ID
+           'stock_quantity' => (int)$product_details['quantity'],
+           'images' => array(
+            array('src' => $image_url)  // Replace with the actual image URL
+        )
         // Add more product fields as needed
     );
 
@@ -1282,7 +1401,70 @@ public function GetAllProductsList($vendor){
     return $resp_data;
 }
 
+public function GetSalesReport($vendor_details,$post){
 
+    // $apiUrl = 'https://example.com/wp-json/wc/v3/reports/sales?date_min=2016-05-03&date_max=2016-05-04';
+     // $consumerKey = 'consumer_key';
+     // $consumerSecret = 'consumer_secret';
+     $website_url = $vendor_details[0]['WebSiteUrl'];
+     $consumer_key = $vendor_details[0]['ConsumerKey'];
+     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+ 
+     // WooCommerce API endpoint for retrieving categories
+     $url = $website_url.'/wp-json/wc/v3/reports/sales';
+ 
+     $queryParams = array(
+         'date_min' => date("Y-m-d", strtotime($post['start_date'])),
+         'date_max' => date("Y-m-d", strtotime($post['end_date']))
+     );
+     
+     // Convert the query parameters to a URL-encoded string
+     $queryString = http_build_query($queryParams);
+     
+     // Combine the base URL with the query string
+     // $storeUrl = 'https://jstore.my';
+     // $apiUrl = $storeUrl . "/wp-json/wc/v3/reports/sales";
+     //$apiUrl = 'https://jstore.my/wp-json/wc/v3/reports/sales';
+     $apiUrl = $url . '?' . $queryString;
+     // echo $apiUrl;
+     // exit;
+     
+     //$storeUrl = 'https://jstore.my';
+    
+     $ch = curl_init($apiUrl);
+     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+         'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+         'Content-Type: application/json'
+     ));
+     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+     $response = curl_exec($ch);
+
+     if (curl_errno($ch)) {
+        
+         return array();
+     }
+
+    //  echo $response;
+    //  exit;
+     $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+     curl_close($ch);
+
+     if ($httpStatus >= 200 && $httpStatus < 300) {
+         // Successful response
+         $response = json_decode($response,true);
+         return $response;
+         
+         
+     } else {
+         // Handle the failure case here
+         return array();
+     }
+
+
+ }
 
 public function vendor_save($vendor_details)
 {

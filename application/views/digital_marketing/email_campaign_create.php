@@ -162,7 +162,9 @@ if(isset($_SESSION['status'])){
                                         <option value='<?php echo $template['id']; ?>' ><?php echo $template['name']; ?></option>
                                         <?php } } ?>
                                         </select>
-                                            
+                                        <label class="col-form-label"
+                                               for="name"><?php echo "Once template Selected Message Content Will be Ignored, Otherwise Message Content will be Senf in Campaign"; // $this->lang->line('Title') ?></label>
+  
                                         </div>
                                     </div>
 
@@ -236,11 +238,11 @@ if(isset($_SESSION['status'])){
        var campaign_id = $('#campaign_id').val();
        var template = $('#template').val();
         
-    //    if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' &&  && receipents!= '' && campaign_tag!= '' && sender_email!= '' && email_preview_text!= '' && reply_to!= '' && subject!= '')
-    //    {
+       if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' && receipents!= '' && campaign_tag!= '' && sender_email!= '' && email_preview_text!= '' && reply_to!= '' && subject!= '')
+       {
 
-    //     if(template != '' || message_content != '')
-    //     {
+        if(template != '' || message_content != '')
+        {
 
         
         $.ajax({
@@ -264,9 +266,9 @@ if(isset($_SESSION['status'])){
         },
         success: function (data) {
             alert(data.message);
-            // setTimeout(function() {
-            // window.location.href = "<?php echo site_url('digitalmarketing/email_marketing_campaigns') ?>";
-            // }, 2000); // 5000 milliseconds (5 seconds)
+            setTimeout(function() {
+            window.location.href = "<?php echo site_url('digitalmarketing/email_marketing_campaigns') ?>";
+            }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);
@@ -276,12 +278,12 @@ if(isset($_SESSION['status'])){
 
         });
 
-    // }else{
-    //     alert('Please Select Message Content or Template');
-    // }
-    // }else{
-    //     alert('Please Enter All Fields');
-    // }
+    }else{
+        alert('Please Select Message Content or Template');
+    }
+    }else{
+        alert('Please Enter All Fields');
+    }
 
     
 });

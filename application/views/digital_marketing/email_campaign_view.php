@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Email Campaign Details
+            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Email Campaign Details
             </h4>
 
 
@@ -190,7 +190,7 @@ if(isset($_SESSION['status'])){
 
                                         <label class="col-sm-2 col-form-label"
                                             for="name"><?php echo "Recepients Lists"; // $this->lang->line('Title') ?></label>
-                                        
+                                       
                                         <div class="col-sm-8">
                                             <select multiple class="form-control margin-bottom b_input required "
                                                 name="Recepients[]" id="recepients">
@@ -226,10 +226,12 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" value="" id="action-url">
                                     <input type="hidden" name="campaign_id"
                                         value="<?php echo $campaign_details['id']; ?>" id="campaign_id">
-                                    <input type="button" id="update_product_btn"
+                                    <?php /* ?>
+                                        <input type="button" id="update_product_btn"
                                         class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                         value="<?php //echo $this->lang->line('Add customer') ?>Update Campaign"
                                         data-loading-text="updating...">
+                                    <?php */ ?>
                                 </div>
                             </div>
                         </div>
@@ -254,13 +256,13 @@ $(document).ready(function() {
         var reply_to = $('#reply_to').val();
         var subject = $('#subject').val();
         var schedule_date = $('#schedule_date').val();
-        //var message_content = $('#message_content').val();
+        var message_content = $('#message_content').val();
         var receipents = $('#recepients').val();
         var campaign_id = $('#campaign_id').val();
-        //var template = $('#template').val();
+        var template = $('#template').val();
 
-           if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' &&  receipents!= '' && campaign_tag!= '' && sender_email!= '' && email_preview_text!= '' && reply_to!= '' && subject!= '')
-           {
+        //    if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' &&  && receipents!= '' && campaign_tag!= '' && sender_email!= '' && email_preview_text!= '' && reply_to!= '' && subject!= '')
+        //    {
 
         //     if(template != '' || message_content != '')
         //     {
@@ -280,10 +282,10 @@ $(document).ready(function() {
                 reply_to: reply_to,
                 subject: subject,
                 schedule_date: schedule_date,
-                //message_content: message_content,
+                message_content: message_content,
                 receipents: receipents,
                 campaign_id: campaign_id,
-                //template: template
+                template: template
             },
             success: function(data) {
                 alert(data.message);
@@ -302,9 +304,9 @@ $(document).ready(function() {
         // }else{
         //     alert('Please Select Message Content or Template');
         // }
-        }else{
-            alert('Please Enter All Fields');
-        }
+        // }else{
+        //     alert('Please Enter All Fields');
+        // }
 
 
     });

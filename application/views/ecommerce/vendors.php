@@ -2,10 +2,10 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">E-commerce Vendors<?php // echo $this->lang->line('Peppol Invoices') ?><a
-                        href="<?php echo base_url('ecommerce/vendor_create') ?>"
+            <h4 class="card-title">E-commerce Online Platforms<?php // echo $this->lang->line('Peppol Invoices') ?><a
+                        href="<?php echo base_url('ecommerce/online_platform_create') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add New Vendor"//$this->lang->line('Add new') ?></a></h4>
+                    <?php echo "Add New Platform"//$this->lang->line('Add new') ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -27,7 +27,7 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "Vendor Name"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo "Platform Name"; // $this->lang->line('Vendor Name') ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>
@@ -37,7 +37,8 @@
                             <tr>
                             <td><?php echo $c;  ?></td>
                             <td><?php echo $vendor['VendorName']; ?></td>
-                            <td class="no-sort"><a href="<?php echo base_url('ecommerce/vendor_edit/?' . http_build_query(array('id' => $vendor['Id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <td class="no-sort">
+                            <a href="<?php echo base_url('ecommerce/vendor_edit/?' . http_build_query(array('id' => $vendor['Id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a vendor_id="<?php echo $vendor['Id']; ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs vendor_delete"><i class="fa fa-trash"></i></a></td>
                             </tr> 
                         <?php $c++; }} ?>   

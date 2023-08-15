@@ -111,6 +111,13 @@ class Digitalmarketing extends CI_Controller
         if (!$this->aauth->premission(8)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
+
+        $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $this->myKey = $row->api_key    ; // Replace 'your_key_column' with the actual column name
+        }
+
         $post = $this->input->post();
         $subject = $this->input->post('subject');
         $text = $this->input->post('text');
@@ -175,7 +182,7 @@ class Digitalmarketing extends CI_Controller
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
                     'Accept: application/json',
-                    'api-key: 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'
+                    'api-key: '.$this->myKey
                 ),
                 ));
 
@@ -226,6 +233,13 @@ class Digitalmarketing extends CI_Controller
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
 
+        $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $this->myKey = $row->api_key    ; // Replace 'your_key_column' with the actual column name
+        }
+
+
         if ($this->input->post('SmsMultipleTaskAssignIds')) {
             $ids = $this->input->post('SmsMultipleTaskAssignIds');
             $ex_ids = explode(',',$ids);            
@@ -249,7 +263,7 @@ class Digitalmarketing extends CI_Controller
             $m_response = $this->digitalmarketing->addTransactionalData($dg_data);
 
                 $apiUrl = 'https://api.brevo.com/v3/transactionalSMS/sms';
-                $apiKey = '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';
+                $apiKey = $this->myKey;
                 
                 $data = array(
                     "type" => "transactional",
@@ -325,6 +339,12 @@ class Digitalmarketing extends CI_Controller
         if (!$this->aauth->premission(8)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
+        $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $this->myKey = $row->api_key    ; // Replace 'your_key_column' with the actual column name
+        }
+
 
         if ($this->input->post('WhatsAppMultipleTaskAssignIds')) {
             $ids = $this->input->post('WhatsAppMultipleTaskAssignIds');
@@ -350,7 +370,7 @@ class Digitalmarketing extends CI_Controller
             $m_response = $this->digitalmarketing->addTransactionalData($dg_data);
 
             $apiUrl = 'https://api.brevo.com/v3/whatsapp/sendMessage';
-            $apiKey = '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';
+            $apiKey = $this->myKey;
 
             $data = array(
                 "senderNumber" => "919032992056",
@@ -561,7 +581,7 @@ class Digitalmarketing extends CI_Controller
     }
 
     public function email_campaign_create(){
-        $head['title'] = "Sms Marketing Campaign";
+        $head['title'] = "Email Marketing Campaign";
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
         $data['templates'] = $this->digitalmarketing->EmailCampaignTemplates();
@@ -578,6 +598,35 @@ class Digitalmarketing extends CI_Controller
         $response = $this->digitalmarketing->EmailCampaignSave($post);
         echo json_encode($response);
             
+    }
+
+    public function email_campaign_edit(){
+        $id = $this->input->get('id');
+        $head['title'] = "Email Marketing Campaign";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+        $data['templates'] = $this->digitalmarketing->EmailCampaignTemplates();
+        $data['campaign_details'] = $this->digitalmarketing->EmailCampaignById($id);
+        // echo "<pre>"; print_r($data['campaign_details']); echo "</pre>";
+        // exit;
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('digital_marketing/email_campaign_edit',$data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function email_campaign_view(){
+        $id = $this->input->get('id');
+        $head['title'] = "Email Marketing Campaign";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        
+        $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+        $data['templates'] = $this->digitalmarketing->EmailCampaignTemplates();        
+        $data['campaign_details'] = $this->digitalmarketing->EmailCampaignById($id);
+        
+        $this->load->view('fixed/header', $head);
+        $this->load->view('digital_marketing/email_campaign_view',$data);
+        $this->load->view('fixed/footer');
     }
 
     public function email_campaign_delete()

@@ -13,6 +13,8 @@ class Ecommerce extends CI_Controller
     {
         parent::__construct();
         $this->load->model('invoices_model', 'invocies');
+        $this->load->model('pos_invoices_model', 'posinvocies');
+        
         $this->load->model('plugins_model', 'plugins');
         $this->load->model('ecommerce_model', 'ecommerce');
         $this->load->library("Aauth");
@@ -37,17 +39,48 @@ class Ecommerce extends CI_Controller
     public function analytics()
     {
         $head['title'] = "E-Commerce Analytics";
-        $head['usernm'] = $this->aauth->get_user()->username;
-        $data['online_sales'] = $this->ecommerce->getInvoiceCountByType(1);
-        $data['offline_sales'] = $this->ecommerce->getInvoiceCountByType(0);
-        $data['online_prod_sales'] = $this->ecommerce->getInvoiceProductsCountByType(1);
-        $data['offline_prod_sales'] = $this->ecommerce->getInvoiceProductsCountByType(0);
+        $head['usernm'] = $this->aauth->get_user()->username;        
+        $data['vendors'] = $this->ecommerce->GetThirdPartyVendors();
+        // $data['online_sales'] = $this->ecommerce->getInvoiceCountByType(1);
+        // $data['offline_sales'] = $this->ecommerce->getInvoiceCountByType(0);
+        // $data['online_prod_sales'] = $this->ecommerce->getInvoiceProductsCountByType(1);
+        // $data['offline_prod_sales'] = $this->ecommerce->getInvoiceProductsCountByType(0);
+        $data['total_sales'] = 0;
+        $data['total_orders'] = 0;
+        $data['total_products'] = 0;
+        $data['total_tax'] = 0;
 
         // echo "<pre>"; print_r($data); echo "</pre>";
         // exit;
         $this->load->view('fixed/header', $head);
         $this->load->view('ecommerce/analytics',$data);
         $this->load->view('fixed/footer');
+    }
+
+    public function get_ajax_analytics()
+    {
+        $post = $this->input->post();
+        $vendor_name = $post['vendor_name'];
+
+        if($vendor_name == 'POS')
+        {
+        $analytics = $this->ecommerce->GetPosAnalytics($post);
+        $data['analytics'][0]['total_sales'] = $analytics[0]['total_sales'];
+        $data['analytics'][0]['total_orders'] = $analytics[0]['total_orders'];
+        $data['analytics'][0]['total_items'] = $this->ecommerce->GetTotalProducts($post);
+        $data['analytics'][0]['total_tax'] = $analytics[0]['total_tax'];
+        // echo "<pre>"; print_r($data); echo "</pre>";    
+        // exit;
+    }else{
+            $vendor = $post['vendor_type'];
+            $start_date = $post['start_date'];
+            $end_date = $post['end_date'];
+            $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+            $data['analytics'] = $this->ecommerce->GetSalesReport($vendor_details,$post); 
+            //echo "<pre>"; print_r($data); echo "</pre>";    
+        }
+
+        echo $this->load->view('ecommerce/analytics_ajax_block',$data,true);
     }
 
 
@@ -282,7 +315,7 @@ class Ecommerce extends CI_Controller
  
    
 
-    public function vendors()
+    public function online_platforms()
     {
         $head['title'] = "E-Commerce Vendors";
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -395,10 +428,58 @@ class Ecommerce extends CI_Controller
         $vendor_name = $this->input->post('vendor_name');
         $category = $this->input->post('category');
         $sub_category = $this->input->post('sub_category');
+        $target_vendor = $this->input->post('target_vendor');
 
         if($vendor_name == 'POS')
         {
+            $vendor_details = $this->ecommerce->GetVendorDetails($target_vendor);
             $products = $this->ecommerce->GetPosProductsList($vendor,$category,$sub_category);
+            
+            $tp_products_list = $this->ecommerce->GetPosProductsList($target_vendor,$category,$sub_category);
+            
+            // echo "<pre>"; print_r($tp_products_list); echo "</pre>";
+            // exit;
+
+            $combined_array = array();
+            $combined_array_ids = array();
+            // Loop through the products array
+            foreach ($tp_products_list as $tp_product) {
+                if (!empty($tp_product['pid']) && !empty($tp_product['ThirdPartyVendorItemId'])) {
+                    $combined_array[] = array(
+                        'pid' => $tp_product['pid'],
+                        'ThirdPartyVendorItemId' => $tp_product['ThirdPartyVendorItemId']
+                    );
+                    $combined_array_ids[] = $tp_product['ThirdPartyVendorItemId'];
+                }
+            }
+            // $tp_item_ids = array_column($tp_products_list,'ThirdPartyVendorItemId');            
+            // $filtered_array = array_filter($tp_item_ids);
+            // $fin_tp_item_ids = array_values($filtered_array);
+
+            if(!empty($combined_array_ids)){
+                $productIds = implode(',', $combined_array_ids);
+
+                // echo "<pre>"; print_r($fin_tp_item_ids); echo "</pre>";
+                // exit;
+                //$vendor_details = $this->ecommerce->GetVendorDetails(4);
+                $tp_products = $this->ecommerce->GetThirdPartyProductsByIds($vendor_details,$productIds);
+                $tp_prod_ids = array_column($tp_products,'id');
+
+            }else{
+                $tp_prod_ids = array();
+            }
+            
+            $filtered_array = array_filter($combined_array, function($product) use ($tp_prod_ids) {
+                return in_array($product['ThirdPartyVendorItemId'], $tp_prod_ids);
+            });
+            
+            // Reindex the filtered array
+            $filtered_array = array_values($filtered_array);
+            $tp_prod_ids = array_column($filtered_array,'pid');
+            // echo "<pre>"; print_r($combined_array); echo "</pre>";
+           // echo "<pre>"; print_r($filtered_array); echo "</pre>";
+            //     exit;
+
             $data = array();
             $no = $this->input->post('start');
 
@@ -412,10 +493,13 @@ class Ecommerce extends CI_Controller
                 $row[] = $no;
                 $row[] = $product['product_name'];
                 $row[] = $product['product_price'];
-                $row[] = '---';
-                $row[] = $product['ThirdPartyVendorPrice'];
-                $temp = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i></a>';
-                $temp .= '<a href="' .  base_url('ecommerce/pos_product_edit/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
+                // $row[] = '---';
+                // $row[] = $product['ThirdPartyVendorPrice'];
+                $temp = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i> View</a>';
+                $temp .= '<a href="' .  base_url('ecommerce/pos_product_edit/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>';
+                if(!in_array($product['pid'],$tp_prod_ids)){
+                $temp .= '<a href="' .  base_url('ecommerce/third_party_product_create/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $vendor_details[0]['Id'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" product_id='.$product['pid'].' vendor_id='.$product['ThirdPartyVendorId'].' vendor_pricing_id='.$product['ThirdPartyVendorPricingId'].' style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs share_product_to_third_party_old"><i class="fa fa-share"></i> Publish</a>';
+                }
                 $row[]=$temp;
                 $data[] = $row;
             }
@@ -423,58 +507,58 @@ class Ecommerce extends CI_Controller
         }else{
 
             $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
-            $thid_party_products =  $array2 = $this->ecommerce->GetThirdPartyProductsList($vendor_details,$category,$sub_category);
-            $system_products = $array1 = $this->ecommerce->GetAllProductsList($vendor);
+            $products = $thid_party_products =  $array2 = $this->ecommerce->GetThirdPartyProductsList($vendor_details,$category,$sub_category);
+           // $system_products = $array1 = $this->ecommerce->GetAllProductsList($vendor);
 
             // echo "<pre>"; print_r($thid_party_products); echo "</pre>";
             // echo "<pre>"; print_r($system_products); echo "</pre>";
-            // exit;
-            $mergedArray = [];
-        foreach ($array1 as $item1) {
-            $matched = false;
-            foreach ($array2 as $item2) {
+        //     // exit;
+        //     $mergedArray = [];
+        // foreach ($array1 as $item1) {
+        //     $matched = false;
+        //     foreach ($array2 as $item2) {
 
-                // echo $item1['ThirdPartyVendorItemId']."====".$item2['id']."<br>";
-                if ((int)$item1['ThirdPartyVendorItemId'] === (int)$item2['id']) {
-                    $mergedArray[] = array_merge($item1, $item2, ['match_status' => '0']);
-                    $matched = true;
-                    break;
-                }
-            }
-            if (!$matched) {
-                $item1['match_status'] = '1';
-                $mergedArray[] = $item1;
-            }
-        }
+        //         // echo $item1['ThirdPartyVendorItemId']."====".$item2['id']."<br>";
+        //         if ((int)$item1['ThirdPartyVendorItemId'] === (int)$item2['id']) {
+        //             $mergedArray[] = array_merge($item1, $item2, ['match_status' => '0']);
+        //             $matched = true;
+        //             break;
+        //         }
+        //     }
+        //     if (!$matched) {
+        //         $item1['match_status'] = '1';
+        //         $mergedArray[] = $item1;
+        //     }
+        // }
 
-        // echo "<pre>"; print_r($mergedArray); echo "</pre>";
-        // exit;
-        // Add unmatched items from array2
-        foreach ($array2 as $item2) {
-            $matched = false;
-            foreach ($array1 as $item1) {
-                if ((int)$item2['id'] === (int)$item1['ThirdPartyVendorItemId']) {
-                    $matched = true;
-                    break;
-                }
-            }
-            if (!$matched) {
-                $item2['match_status'] = '2';
-                $item2['pid'] = '';
-                $item2['product_name'] = '';
-                $item2['product_price'] = '';
-                $item2['ThirdPartyVendorPricingId'] = '';
-                $item2['ThirdPartyVendorItemId'] = '';
-                $item2['ThirdPartyVendorId'] = $vendor;
-                $item2['ThirdPartyVendorPrice'] = '';
-                $mergedArray[] = $item2;
-            }
-        }
+        // // echo "<pre>"; print_r($mergedArray); echo "</pre>";
+        // // exit;
+        // // Add unmatched items from array2
+        // foreach ($array2 as $item2) {
+        //     $matched = false;
+        //     foreach ($array1 as $item1) {
+        //         if ((int)$item2['id'] === (int)$item1['ThirdPartyVendorItemId']) {
+        //             $matched = true;
+        //             break;
+        //         }
+        //     }
+        //     if (!$matched) {
+        //         $item2['match_status'] = '2';
+        //         $item2['pid'] = '';
+        //         $item2['product_name'] = '';
+        //         $item2['product_price'] = '';
+        //         $item2['ThirdPartyVendorPricingId'] = '';
+        //         $item2['ThirdPartyVendorItemId'] = '';
+        //         $item2['ThirdPartyVendorId'] = $vendor;
+        //         $item2['ThirdPartyVendorPrice'] = '';
+        //         $mergedArray[] = $item2;
+        //     }
+        // }
 
-        // Output the merged array
-        // echo "<pre>"; print_r($mergedArray); echo "</pre>";
-        // exit;
-        $products = $mergedArray;
+        // // Output the merged array
+        // // echo "<pre>"; print_r($mergedArray); echo "</pre>";
+        // // exit;
+        // $products = $mergedArray;
         $data = array();
         $no = $this->input->post('start');
 
@@ -482,35 +566,41 @@ class Ecommerce extends CI_Controller
             $row = array();
             $no++;
             $row[] = $no;
-            if($product['match_status'] == '0')
-            {
-                $row[] = $product['product_name'];
-                $row[] = $product['product_price'];
-                $row[] = $product['name'];
-                $row[] = $product['price'];
-                $temp1 = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i></a>';
-                $temp1 .= '<a href="' .  base_url('ecommerce/third_party_product_edit/?' . http_build_query(array('id' => $product['id'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> $product['ThirdPartyVendorId']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
-                $row[]=$temp1;
-            }else if($product['match_status'] == '1'){
-                $row[] = $product['product_name'];
-                $row[] = $product['product_price'];
-                $row[] = '---';
-                $row[] = '---';
-                $temp2 = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i></a>';
-                //$temp2 .= '<a href="' . base_url('jobsheets/edit/?id=' . $product['pid']) . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
-                $temp2 .= '<a product_id='.$product['pid'].' vendor_id='.$product['ThirdPartyVendorId'].' vendor_pricing_id='.$product['ThirdPartyVendorPricingId'].' style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs share_product_to_third_party"><i class="fa fa-share"></i></a>';
+            // if($product['match_status'] == '0')
+            // {
+            //     $row[] = $product['product_name'];
+            //     $row[] = $product['product_price'];
+            //     $row[] = $product['name'];
+            //     $row[] = $product['price'];
+            //     $temp1 = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i></a>';
+            //     $temp1 .= '<a href="' .  base_url('ecommerce/third_party_product_edit/?' . http_build_query(array('id' => $product['id'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> $product['ThirdPartyVendorId']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
+            //     $row[]=$temp1;
+            // }else if($product['match_status'] == '1'){
+            //     $row[] = $product['product_name'];
+            //     $row[] = $product['product_price'];
+            //     $row[] = '---';
+            //     $row[] = '---';
+            //     $temp2 = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i></a>';
+            //     //$temp2 .= '<a href="' . base_url('jobsheets/edit/?id=' . $product['pid']) . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
+            //     $temp2 .= '<a product_id='.$product['pid'].' vendor_id='.$product['ThirdPartyVendorId'].' vendor_pricing_id='.$product['ThirdPartyVendorPricingId'].' style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs share_product_to_third_party"><i class="fa fa-share"></i></a>';
 
-                $row[]=$temp2;
-            }else if($product['match_status'] == '2'){
-                $row[] = '---';
-                $row[] = '---';
-                $row[] = $product['name'];
-                $row[] = $product['price'];
-                //$temp = '<a href="' . base_url('jobsheets/thread/?id=' . $product['id']) . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a>';
-                $temp3 = '<a href="' .  base_url('ecommerce/third_party_product_edit/?' . http_build_query(array('id' => $product['id'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> 0))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
-                $row[]=$temp3;
-            }
-           
+            //     $row[]=$temp2;
+            // }else if($product['match_status'] == '2'){
+            //     $row[] = '---';
+            //     $row[] = '---';
+            //     $row[] = $product['name'];
+            //     $row[] = $product['price'];
+            //     //$temp = '<a href="' . base_url('jobsheets/thread/?id=' . $product['id']) . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a>';
+            //     $temp3 = '<a href="' .  base_url('ecommerce/third_party_product_edit/?' . http_build_query(array('id' => $product['id'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> 0))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>';
+            //     $row[]=$temp3;
+            // }
+
+            $row[] = $product['name'];
+            $row[] = $product['price'];
+            $temp1 = '<a href="' .  base_url('ecommerce/third_party_product_view/?' . http_build_query(array('id' => $product['id'],'vendor_id' => $vendor_details[0]['Id'],'vendor_pr_id'=> $vendor_details[0]['Id']))). '" data-object-id="' . $product['id'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object1"><i class="fa fa-eye"></i> View</a>';
+            $temp1 .= '<a href="' .  base_url('ecommerce/third_party_product_edit/?' . http_build_query(array('id' => $product['id'],'vendor_id' => $vendor_details[0]['Id'],'vendor_pr_id'=> $vendor_details[0]['Id']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>';
+            $row[]=$temp1;
+
             $data[] = $row;
         }
             
@@ -569,24 +659,56 @@ class Ecommerce extends CI_Controller
     }
 
     
-    public function share_product_to_third_party()
+    public function publish_product_to_third_party()
     {
         $post = $this->input->post();
         $vendor = $post['vendor_id'];
         $product_id = $post['product_id'];
         $vendor_pricing_id = $post['vendor_pricing_id'];
-        $category = $post['category'];
-        $sub_category = $post['sub_category'];
+        $product_details['category'] = $post['category'];
+        $product_details['sub_category'] = $post['sub_category'];
+        $product_details['product_name'] = $post['product_name'];
+        $product_details['regular_price'] = $post['regular_price'];
+        $product_details['sale_price'] = $post['sale_price'];
+        $product_details['quantity'] = $post['quantity'];
+        $product_details['product_description'] = $post['product_description'];
+        $product_details['image_url'] = $post['image_url'];
 
         $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
-        $product_details = $this->ecommerce->GetProductDetails($product_id);
+        //$product_details = $this->ecommerce->GetProductDetails($product_id);
         
-        $response = $this->ecommerce->share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id,$category,$sub_category);
+        $response = $this->ecommerce->share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id);
         echo json_encode($response);
             
     }
 
-    
+    public function third_party_product_create()
+    {
+        $product_id = $this->input->get('id');
+        $vendor = $this->input->get('vendor_id');
+        $vendor_pricing_id = $this->input->get('vendor_pr_id');
+        // $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Product Create';
+       
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        $data['categories'] = $this->ecommerce->GetThirdPartyCategories($vendor_details);
+        $data['vendor_details'] = $vendor_details;
+        //$data['product_details'] = $this->ecommerce->GetProductDetails($product_id);
+        $data['product_details'] = $this->ecommerce->GetVProductDetails($vendor,$product_id);
+        $data['vendor_pricing_id'] = $vendor_pricing_id;
+        $data['vendor_id'] = $vendor;
+        //$data['product_details'] = $this->ecommerce->GetVProductDetails($vendor,$product_id);
+        
+
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/third_party_product_create',$data);
+        $this->load->view('fixed/footer');
+       
+    }
+
     public function third_party_product_edit()
     {
         $product_id = $this->input->get('id');
@@ -600,12 +722,34 @@ class Ecommerce extends CI_Controller
         $data['product_details'] = $this->ecommerce->get_third_party_product_details($vendor_details,$product_id);
         $data['vendor_pricing_id'] = $vendor_pricing_id;
         $data['vendor_id'] = $vendor;
+        
 
         $this->load->view('fixed/header', $head);
         $this->load->view('ecommerce/third_party_product_edit',$data);
         $this->load->view('fixed/footer');
        
     }
+
+    public function third_party_product_view()
+    {
+        $product_id = $this->input->get('id');
+        $vendor = $this->input->get('vendor_id');
+        $vendor_pricing_id = $this->input->get('vendor_pr_id');
+        // $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Product View';
+       
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        $data['vendor_details'] = $vendor_details;
+        $data['product_details'] = $this->ecommerce->get_third_party_product_details($vendor_details,$product_id);
+        $data['vendor_pricing_id'] = $vendor_pricing_id;
+        $data['vendor_id'] = $vendor;
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/third_party_product_view',$data);
+        $this->load->view('fixed/footer');
+       
+    }
+
 
     public function pos_product_edit()
     {
@@ -640,7 +784,7 @@ class Ecommerce extends CI_Controller
         $this->load->view('fixed/footer');
        
     }
-    public function vendor_create()
+    public function online_platform_create()
     {
         
         $head['title'] = 'Vendor Create';
@@ -661,6 +805,7 @@ class Ecommerce extends CI_Controller
         $sale_price = $post['sale_price'];
         $product_description = $post['product_description'];
         $vendor_pricing_id = $post['vendor_pricing_id'];
+       
 
         $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
         $product_details['product_name'] = $product_name;
@@ -668,6 +813,11 @@ class Ecommerce extends CI_Controller
         $product_details['sale_price'] = $sale_price;
         $product_details['product_description'] = $product_description;
         $product_details['product_id'] = $product_id;
+        $product_details['category'] = $post['category'];
+        $product_details['sub_category'] = $post['sub_category'];
+        $product_details['sale_price'] = $post['sale_price'];
+        $product_details['quantity'] = $post['quantity'];
+        $product_details['image_url'] = $post['image_url'];
         
         $response = $this->ecommerce->update_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id);
         echo json_encode($response);
@@ -916,106 +1066,8 @@ class Ecommerce extends CI_Controller
     }
 
     public function test(){
-//         // Sample arrays
-// $array1 = [
-//     ['id' => 1, 'name' => 'John'],
-//     ['id' => 2, 'name' => 'Alice'],
-//     ['id' => 6, 'name' => 'fucker'],
-// ];
-
-// $array2 = [
-//     ['id' => 1, 'age' => 25],
-//     ['id' => 3, 'age' => 30],
-//     ['id' => 4, 'age' => 30],
-//     ['id' => 5, 'age' => 30],
-//     ['id' => 6, 'age' => 30],
-// ];
-
-// // Merge arrays based on 'id' element
-// $mergedArray = [];
-// foreach ($array1 as $item1) {
-//     $matched = false;
-//     foreach ($array2 as $item2) {
-//         if ($item1['id'] === $item2['id']) {
-//             $mergedArray[] = array_merge($item1, $item2, ['match_status' => true]);
-//             //$item1['match_status'] = true;
-//             //$mergedArray[] = $item1;
-//             $matched = true;
-//         }
-//     }
-//     if (!$matched) {
-//         $item1['match_status'] = false;
-//         $mergedArray[] = $item1;
-//     }
-// }
-
-// // Add unmatched items from array2
-// foreach ($array2 as $item2) {
-//     $matched = false;
-//     foreach ($array1 as $item1) {
-//         if ($item2['id'] === $item1['id']) {
-//             $matched = true;
-//             break;
-//         }
-//     }
-//     if (!$matched) {
-//         $item2['match_status'] = false;
-//         $mergedArray[] = $item2;
-//     }
-// }
-
-// // Output the merged array
-// echo "<pre>"; print_r($mergedArray); echo "</pre>";
-
-// Sample arrays
-$array1 = [
-    ['id' => 1, 'name' => 'John'],
-    ['id' => 2, 'name' => 'Alice'],
-    ['id' => 6, 'name' => 'fucker'],
-];
-
-$array2 = [
-    ['id' => 1, 'age' => 25, 'id22' => 1, 'ag22e' => 25],
-    ['id' => 3, 'age' => 30, 'id22' => 1, 'ag22e' => 25],
-    ['id' => 4, 'age' => 30, 'id22' => 1, 'ag22e' => 25],
-    ['id' => 5, 'age' => 30, 'id22' => 1, 'ag22e' => 25],
-    ['id' => 6, 'age' => 30, 'id22' => 1, 'ag22e' => 25],
-];
-
-// Merge arrays based on 'id' element
-$mergedArray = [];
-foreach ($array1 as $item1) {
-    $matched = false;
-    foreach ($array2 as $item2) {
-        if ($item1['id'] === $item2['id']) {
-            $mergedArray[] = array_merge($item1, $item2, ['match_status' => 'Both']);
-            $matched = true;
-            break;
-        }
-    }
-    if (!$matched) {
-        $item1['match_status'] = 'Only in Array 1';
-        $mergedArray[] = $item1;
-    }
-}
-
-// Add unmatched items from array2
-foreach ($array2 as $item2) {
-    $matched = false;
-    foreach ($array1 as $item1) {
-        if ($item2['id'] === $item1['id']) {
-            $matched = true;
-            break;
-        }
-    }
-    if (!$matched) {
-        $item2['match_status'] = 'Only in Array 2';
-        $mergedArray[] = $item2;
-    }
-}
-
-// Output the merged array
-echo "<pre>"; print_r($mergedArray); echo "</pre>";
+        $vendor_details = $this->ecommerce->GetVendorDetails(4);
+        $products = $this->ecommerce->GetThirdPartyProductsByIds($vendor_details);
 
     }
 
@@ -1086,8 +1138,9 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
                 $html.='<tr id="tv_cat_id_'.$segment['id'].'">';
                 $html.='<td>'.$c.'</td>';
                 $html.='<td>'.$segment['name'].'</td>';
-                $html.='<td><a href="'.base_url('ecommerce/category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'category_id' => $segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                <a vendor_id="'.$vendor_details[0]['Id'].'" category_id="'.$segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_category"><i class="fa fa-trash"></i></a></td>';
+                //$html.='<td><a href="'.base_url('ecommerce/category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'category_id' => $segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                //<a vendor_id="'.$vendor_details[0]['Id'].'" category_id="'.$segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_category"><i class="fa fa-trash"></i></a></td>';
+                $html.='<td>----</td>';
                 $html.='</tr>';
                 $c++;
                 }
@@ -1140,12 +1193,13 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
             {
                 $c=1;
                 foreach($sub_segments as $sub_segment){
-                    $html.='<tr id="tv_sub_cat_id_'.$sub_segment['id'].'">';
+                $html.='<tr id="tv_sub_cat_id_'.$sub_segment['id'].'">';
                 $html.='<td>'.$c.'</td>';
                 $html.='<td>'.$sub_segment['name'].'</td>';
                 // $html.='<td>'.$sub_segment['category_name'].'</td>';
-                $html.='<td><a href="'.base_url('ecommerce/sub_category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'sub_category_id' => $sub_segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                <a vendor_id="'.$vendor_details[0]['Id'].'" subcategory_id="'.$sub_segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_subcategory"><i class="fa fa-trash"></i></a></td>';
+                // $html.='<td><a href="'.base_url('ecommerce/sub_category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'sub_category_id' => $sub_segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                // <a vendor_id="'.$vendor_details[0]['Id'].'" subcategory_id="'.$sub_segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_subcategory"><i class="fa fa-trash"></i></a></td>';
+                $html.='<td>----</td>';
                 $html.='</tr>';
                 $c++;
                 }
@@ -1303,6 +1357,62 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
 
     }
 
+    public function sales_report(){
+
+       // $apiUrl = 'https://example.com/wp-json/wc/v3/reports/sales?date_min=2016-05-03&date_max=2016-05-04';
+        // $consumerKey = 'consumer_key';
+        // $consumerSecret = 'consumer_secret';
+        $consumerKey = 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de';
+        $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
+       
+        $queryParams = array(
+            'date_min' => '2016-05-03',
+            'date_max' => date('Y-m-d')
+        );
+        
+        // Convert the query parameters to a URL-encoded string
+        $queryString = http_build_query($queryParams);
+        
+        // Combine the base URL with the query string
+        // $storeUrl = 'https://jstore.my';
+        // $apiUrl = $storeUrl . "/wp-json/wc/v3/reports/sales";
+        $apiUrl = 'https://jstore.my/wp-json/wc/v3/reports/sales';
+        $apiUrl = $apiUrl . '?' . $queryString;
+        // echo $apiUrl;
+        // exit;
+        
+        //$storeUrl = 'https://jstore.my';
+       
+        $ch = curl_init($apiUrl);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret),
+            'Content-Type: application/json'
+        ));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'cURL Error: ' . curl_error($ch);
+        }
+
+        echo $response;
+        exit;
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($httpStatus >= 200 && $httpStatus < 300) {
+            // Successful response
+            echo $response;
+        } else {
+            // Handle the failure case here
+            echo 'Request failed with HTTP status code: ' . $httpStatus;
+        }
+
+
+    }
     public function vendor_poducts_list()
     {
         // WooCommerce API endpoint for listing products
@@ -1313,6 +1423,7 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
         $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
        
        
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $storeUrl = 'https://jstore.my'; // Replace with your store URL
         $vendorUserId = 81; // Replace with your vendor's user ID
         
@@ -1326,6 +1437,7 @@ echo "<pre>"; print_r($mergedArray); echo "</pre>";
         ));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        
         $response = curl_exec($curl);
         
         if (curl_errno($curl)) {

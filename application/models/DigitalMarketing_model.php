@@ -5,6 +5,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Digitalmarketing_model extends CI_Model
 {
+    private $myKey; // Class property to store the key
+    
+    public function __construct() {
+        parent::__construct();
+        // Load necessary libraries, models, or do other initializations here
+
+        //$this->load->database(); // Load the database library
+
+        // Fetch the key from the database and store it in the class property
+        $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $this->myKey = $row->api_key    ; // Replace 'your_key_column' with the actual column name
+        }
+    }
 
 
     public function addTransactionalData($data)
@@ -33,9 +48,10 @@ class Digitalmarketing_model extends CI_Model
         $url = 'https://api.brevo.com/v3/whatsappCampaigns';
         
         // API headers
+        $key = $this->myKey;
         $headers = array(
             'accept: application/json',
-            'api-key: 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'
+            'api-key: ' . $key // Use the dynamic key here
         );
         
         // Initialize cURL session
@@ -81,7 +97,8 @@ class Digitalmarketing_model extends CI_Model
             // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
             $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/' . $campaignId;
-            $apiKey = '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';
+            $apiKey = $this->myKey;
+
 
             $ch = curl_init();
 
@@ -125,7 +142,7 @@ class Digitalmarketing_model extends CI_Model
         //$campaignId = 25; // Your dynamic value here, e.g., received from user input or database
         
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/' . $campaignId;
-        $apiKey = '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';
+        $apiKey = $this->myKey;
         
         $ch = curl_init();
         
@@ -176,7 +193,7 @@ class Digitalmarketing_model extends CI_Model
         if(!empty($campaign_id))
         {
             $apiUrl = 'https://api.brevo.com/v3/smsCampaigns/'.$campaign_id;
-            $apiKey = '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';
+            $apiKey = $this->myKey;
 
            
             //$input_schedule_date  = $post['schedule_date'];
@@ -260,7 +277,7 @@ class Digitalmarketing_model extends CI_Model
             $apiUrl = 'https://api.brevo.com/v3/smsCampaigns';
             
 
-        $apiKey = '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';
+        $apiKey = $this->myKey;
 
         // $input_schedule_date  = $post['schedule_date'];
         //$formattedDate = $inputDateTime->format('Y-m-d\TH:i:sP');
@@ -353,7 +370,7 @@ class Digitalmarketing_model extends CI_Model
         
 
             $apiUrl = 'https://api.brevo.com/v3/smsCampaigns';
-            $apiKey = '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';
+            $apiKey = $this->myKey;
 
             $ch = curl_init();
 
@@ -400,7 +417,7 @@ class Digitalmarketing_model extends CI_Model
             // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
             $apiUrl = 'https://api.brevo.com/v3/smsCampaigns/' . $campaignId;
-            $apiKey = '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';
+            $apiKey = $this->myKey;
 
             $ch = curl_init();
 
@@ -445,7 +462,7 @@ class Digitalmarketing_model extends CI_Model
         // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
         $apiUrl = 'https://api.brevo.com/v3/smsCampaigns/' . $campaignId;
-        $apiKey = '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';
+        $apiKey = $this->myKey;
 
         $ch = curl_init();
 
@@ -497,7 +514,7 @@ class Digitalmarketing_model extends CI_Model
     public function GetSmsCampaignsListIds(){
         
         $apiUrl = 'https://api.brevo.com/v3/contacts/lists';
-        $apiKey = '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';
+        $apiKey = $this->myKey;
         $limit = 10;
         $offset = 0;
         $sort = 'desc';
@@ -548,7 +565,7 @@ class Digitalmarketing_model extends CI_Model
         {
             
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/'.$campaign_id;
-        $apiKey = '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';
+        $apiKey = $this->myKey;
 
         // $inputDateTime = new DateTime($post['schedule_date']);
         // $formattedDate = $inputDateTime->format('Y-m-d\TH:i:sP');
@@ -624,7 +641,7 @@ class Digitalmarketing_model extends CI_Model
         }else{
 
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns';
-        $apiKey = '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';
+        $apiKey = $this->myKey;
 
         // /$datetime = new DateTime($post['schedule_date']);
         // $inputDateTime = new DateTime($post['schedule_date']);
@@ -673,8 +690,8 @@ class Digitalmarketing_model extends CI_Model
 
         $response = curl_exec($ch);
 
-        echo $response;
-        exit;
+        // echo $response;
+        // exit;
         if (curl_errno($ch)) {
             // echo 'cURL Error: ' . curl_error($ch);
             $resp_data['status'] = '500';
@@ -705,7 +722,7 @@ class Digitalmarketing_model extends CI_Model
     public function GetEmailCampaignsList(){
         
         $apiUrl = 'https://api.brevo.com/v3/emailCampaigns';
-        $apiKey = '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';
+        $apiKey = $this->myKey;
         
         $ch = curl_init();
         
@@ -749,23 +766,25 @@ class Digitalmarketing_model extends CI_Model
 
             // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
-            $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/' . $campaignId;
-            $apiKey = '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';
+            $apiUrl = 'https://api.brevo.com/v3/emailCampaigns/' . $campaignId;
+            $apiKey = $this->myKey;
 
             $ch = curl_init();
-
+            
             curl_setopt($ch, CURLOPT_URL, $apiUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            
             $headers = array(
                 'accept: application/json',
-                'api-key: ' . $apiKey,
+                'api-key: ' . $apiKey
             );
-
+            
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
+            
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $response = curl_exec($ch);
-
+            // echo $response;
+            // exit;
             if (curl_errno($ch)) {
                 // echo 'cURL Error: ' . curl_error($ch);
                 return array();
@@ -794,7 +813,7 @@ class Digitalmarketing_model extends CI_Model
         // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
 
         $apiUrl = 'https://api.brevo.com/v3/emailCampaigns/' . $campaignId;
-        $apiKey = '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';
+        $apiKey = $this->myKey;
 
         $ch = curl_init();
 
@@ -804,14 +823,13 @@ class Digitalmarketing_model extends CI_Model
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $headers = array(
             'accept: application/json',
-            'api-key: ' . $apiKey,
+            'api-key: '.$apiKey,
         );
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $response = curl_exec($ch);
-// echo $response;
-            // exit;
+            
             if (curl_errno($ch)) {
                 //echo 'cURL Error: ' . curl_error($ch);
                 $resp_data['status'] = '500';
@@ -842,7 +860,7 @@ class Digitalmarketing_model extends CI_Model
     public function GetWhatsAppTemplatesList(){
         
         $apiUrl = 'https://api.brevo.com/v3/whatsappCampaigns/template-list';
-        $apiKey = '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';
+        $apiKey = $this->myKey;
         $limit = 50;
         $offset = 0;
         $sort = 'desc';
@@ -952,75 +970,97 @@ class Digitalmarketing_model extends CI_Model
         $campaign_id = $post['campaign_id'];
         if(!empty($campaign_id))
         {
-            $apiUrl = 'https://api.brevo.com/v3/smsCampaigns/'.$campaign_id;
-            $apiKey = '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';
-
-           
+            
             $input_schedule_date  = $post['schedule_date'];
             //$formattedDate = $inputDateTime->format('Y-m-d\TH:i:sP');
             $input_datetime = new DateTime($input_schedule_date);
+            $dateTimeObj = new DateTime($input_schedule_date, new DateTimeZone('Asia/Kuala_Lumpur'));
+
+            // Convert to UTC by setting the time zone to UTC
+            $dateTimeObj->setTimezone(new DateTimeZone('UTC'));
+
+            // Format the DateTime object to the specified format ('Y-m-d\TH:i:sP')
+            $formattedDate = $dateTimeObj->format('Y-m-d\TH:i:sP');
 
             // $malaysian_timezone = new DateTimeZone('Asia/Kuala_Lumpur');
             // $input_datetime->setTimezone($malaysian_timezone);
             
             // Format the modified datetime to include Malaysian time zone
-            $formattedDate = $input_datetime->format('Y-m-d\TH:i:sP');
-
+            // $formattedDate = $input_datetime->format('Y-m-d\TH:i:sP');
+            // echo $input_schedule_date."</ br>";
+            // echo  $formattedDate; 
+            // exit;
             $listIds = array_map('intval', $post['receipents']);
 
+
+            $apiUrl = 'https://api.brevo.com/v3/emailCampaigns/'.$campaign_id;
+            $apiKey = $this->myKey;
+            
             $data = array(
+                "sender" => array(
+                    "name" => $post['sender_name'],
+                    "email" =>  $post['sender_email'],
+                ),
                 "recipients" => array(
                     "listIds" => $listIds
-                ),       
-                "unicodeEnabled" => false,
-                "name" => $post['campaign_name'],
-                "sender" => $post['sender_name'],
-                "content" => $post['message_content'],
-                "scheduledAt" => $formattedDate 
+                ),  
+                "inlineImageActivation" => false,
+                "sendAtBestTime" => false,
+                "abTesting" => false,
+                "ipWarmupEnable" => false,
+                "tag" =>  $post['campaign_name'],
+                "name" =>  $post['campaign_tag'],                
+                "subject" => $post['subject'],
+                "scheduledAt" => $formattedDate,
+                "replyTo" => $post['reply_to'],
+                "previewText" => $post['email_preview_text'],
             );
 
+                        
             $jsonData = json_encode($data);
-
+            
             $ch = curl_init();
-
+            
             curl_setopt($ch, CURLOPT_URL, $apiUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);            
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
+            
             $headers = array(
                 'accept: application/json',
                 'api-key: ' . $apiKey,
                 'content-type: application/json',
             );
-
+            
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
+            
             $response = curl_exec($ch);
-
+            
+            // echo $response;
+            // exit;
             if (curl_errno($ch)) {
-                echo 'cURL Error: ' . curl_error($ch);
+                //echo 'cURL Error: ' . curl_error($ch);
                 $resp_data['status'] = '500';
-                $resp_data['message'] = 'Unable to Update Sms Campaign';
+                $resp_data['message'] = 'Unable to Update Email Campaign';
             }
-    
+
             $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
+
             curl_close($ch);
-    
+
             if ($httpStatus >= 200 && $httpStatus < 300) {
                 // Successful response
                 //$decodedResponse = json_decode($response, true);
                 // Do something with the decoded response
                 //print_r($decodedResponse);
                 $resp_data['status'] = '200';
-                $resp_data['message'] = 'Sms Campaign Updated Successfully';
+                $resp_data['message'] = 'Email Campaign Update Successfully';
             } else {
                 // Handle the failure case here
                 //echo 'Request failed with HTTP status code: ' . $httpStatus;
                 $resp_data['status'] = '500';
-                $resp_data['message'] = 'Unable to Update Sms Campaign';
+                $resp_data['message'] = 'Unable to Update Email Campaign';
             }
         }else{
         
@@ -1048,7 +1088,7 @@ class Digitalmarketing_model extends CI_Model
 
 
             $apiUrl = 'https://api.brevo.com/v3/emailCampaigns';
-            $apiKey = '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';
+            $apiKey = $this->myKey;
             
             $data = array(
                 "sender" => array(
@@ -1133,7 +1173,7 @@ class Digitalmarketing_model extends CI_Model
 public function EmailCampaignTemplates(){
         
     $apiUrl = 'https://api.brevo.com/v3/smtp/templates?limit=50&offset=0&sort=desc';
-    $apiKey = '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';
+    $apiKey = $this->myKey;
 
     $ch = curl_init();
 

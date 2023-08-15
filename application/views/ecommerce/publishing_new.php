@@ -18,12 +18,25 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         <div class="row justify-content-center">
           <div class="col-md-2">
             <div class="form-group">
-              <label for="employee">Vendor</label>
+              <label for="employee">Current Platform</label>
               <select class="form-control" id="vendor_type">
                 <!-- <option value="">Select Vendor</option> -->
                 <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
                     <option value="<?php echo $vendor['Id']; ?>" vendor_name="<?php echo $vendor['VendorName']; ?>" <?php if($vendor['VendorName'] == 'POS'){ echo "selected"; } ?>><?php echo $vendor['VendorName']." (".$vendor['Type'].") "; ?></option>
                 <?php } } ?>
+                
+                
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2" id="target_vendor_type_block">
+            <div class="form-group">
+              <label for="employee">Target Platform</label>
+              <select class="form-control" id="target_vendor_type">
+                <!-- <option value="">Select Vendor</option> -->
+                <?php if(!empty($vendors)){ foreach ($vendors as $vendor1) { if($vendor1['VendorName'] != 'POS'){ ?>
+                    <option value="<?php echo $vendor1['Id']; ?>" vendor_name="<?php echo $vendor1['VendorName']; ?>" <?php  ?>><?php echo $vendor1['VendorName']." (".$vendor1['Type'].") "; ?></option>
+                <?php } } } ?>
                 
                 
               </select>
@@ -84,8 +97,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <th>#</th>
                     <th><?php echo "Product Name"; //$this->lang->line('Subject') ?></th>
                     <th><?php echo "Product Price"; //$this->lang->line('Added') ?></th>
-                    <th id="table_header_vendor_product_name"></th>
-                    <th id="table_header_vendor_name" ><?php // echo "Product Name"; //$this->lang->line('Status') ?></th>
+                    <!-- <th id="table_header_vendor_product_name"></th>
+                    <th id="table_header_vendor_name" ><?php // echo "Product Name"; //$this->lang->line('Status') ?></th> -->
                     <th><?php echo $this->lang->line('Action') ?></th>
                 </tr>
                 </thead>
@@ -180,12 +193,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
         $('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
         $('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
-        
+        var target_vendor = $('#target_vendor_type').val();
     
         //alert(vendor_name);
-        draw_data(vendor,vendor_name);
+        draw_data(vendor,vendor_name,category='',sub_category='',target_vendor);
 
-        function draw_data(vendor = '',vendor_name='',category='',sub_category='') {
+        function draw_data(vendor = '',vendor_name='',category='',sub_category='',target_vendor = '') {
 
             
             // alert(status);
@@ -196,7 +209,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             $('#doctable').DataTable({
             "processing": true,
             "serverSide": true,
-            responsive: true,
+            responsive: false,
             <?php datatable_lang();?>
             "ajax": {
                 "url": "<?php if (isset($_GET['filter'])) {
@@ -210,7 +223,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         vendor: vendor,
                         vendor_name: vendor_name,
                         category: category,
-                        sub_category: sub_category
+                        sub_category: sub_category,
+                        target_vendor: target_vendor
                     }
             },
             "columnDefs": [
@@ -224,9 +238,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 { "data": 0 },
                 { "data": 1 }, // Assuming the first column is at index 0
                 { "data": 2 },
-                { "data": 3 },
-                { "data": 4 },
-                { "data": 5 }
+                { "data": 3 }
                 
             ],
             dom: 'Blfrtip',
@@ -273,14 +285,26 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
             var category = $('#category').val();
             var sub_category = $('#sub_category').val();
+            //var target_vendor_type = $('#target_vendor_type').val();
+
+            var target_vendor_type = document.getElementById('target_vendor_type');
+            var target_vendor_type_value = null;
+
+            if (target_vendor_type) {
+                target_vendor_type_value = target_vendor_type.value;
+            } else {
+                // Handle the case when the element is not available
+                target_vendor_type_value = '';
+            }
+
             if(vendor != '' && category != '')
             {
                 
             //if (start_date != '' && end_date != '') {
                 $('#doctable').DataTable().destroy();
-                draw_data(vendor,vendor_name,category, sub_category);
-                $('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
-                $('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
+                draw_data(vendor,vendor_name,category, sub_category,target_vendor_type_value);
+                // $('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
+                // $('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
      
             // } else {
             //     alert("Date range is Required");
@@ -347,6 +371,13 @@ $(document).on('change', "#vendor_type", function (e) {
    var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
    //$('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
    //$('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
+
+   if(vendor_name != 'POS')
+   {
+    $('#target_vendor_type_block').hide();
+   }else{
+    $('#target_vendor_type_block').show();
+   }
 
    $('#category').html('');
    $('#sub_category').html('');
