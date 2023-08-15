@@ -15,7 +15,7 @@ class Digitalmarketing extends CI_Controller
         if (!$this->aauth->premission(15)&&!$this->aauth->premission(16)&&!$this->aauth->premission(17)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
-        $this->li_a = 'digital_marketing';
+        $this->li_a = 'digitalmarketing';
     }
 
     public function index()

@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Add Settings 
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Update Settings 
             </h4>
             
 
@@ -80,7 +80,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="vendor_id" value="<?php echo $settings_details[0]['id']; ?>" id="setting_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Add Setting"
+                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Setting"
                                            data-loading-text="updating...">
                                 </div>
                             </div>

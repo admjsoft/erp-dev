@@ -303,7 +303,9 @@ $(document).ready(function () {
         },
         success: function (data) {
             alert(data.message);
-            location.reload();
+            setTimeout(function() {
+            window.location.href = "<?php echo site_url('ecommerce/publishing') ?>";
+            }, 2000); // 5000 milliseconds (5 seconds)
         },
         error: function(data) {
         //console.log(data);

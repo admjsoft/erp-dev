@@ -1246,7 +1246,7 @@ public function GetAllProductsList($vendor){
 
     $result_array = array($category_array, $sub_category_array);
        $image_url = $product_details['image_url'];
-       $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
+       // $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
        //$image_url = 'https://erp-dev.jsuitecloud.com/userfiles/product/778093images (1).jpg';
        // New product data
        $product_data = array(
@@ -1349,7 +1349,7 @@ public function GetAllProductsList($vendor){
 
     $result_array = array($category_array, $sub_category_array);
     $image_url = $product_details['image_url'];
-    $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
+    // $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
             // New product data
     $product_data = array(
         'name' => $product_details['product_name'],
@@ -1358,9 +1358,9 @@ public function GetAllProductsList($vendor){
         'sale_price' => $product_details['sale_price'],
         'description' => $product_details['product_description'],
         'categories' => $result_array, // Replace 25 with the actual subcategory ID
-           'stock_quantity' => (int)$product_details['quantity'],
-           'images' => array(
-            array('src' => $image_url)  // Replace with the actual image URL
+        'stock_quantity' => (int)$product_details['quantity'],
+        'images' => array(
+        array('src' => $image_url)  // Replace with the actual image URL
         )
         // Add more product fields as needed
     );

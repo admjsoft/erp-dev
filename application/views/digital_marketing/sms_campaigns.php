@@ -43,8 +43,11 @@
                             <td><?php echo $campaign['status']; ?></td>
                             <td><?php echo $campaign['statistics']['sent']; ?></td>
                             <td><?php echo $campaign['statistics']['delivered']; ?></td>
-                            <td class="no-sort"><a href="<?php echo base_url('digitalmarketing/sms_campaign_edit/?' . http_build_query(array('id' => $campaign['id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <td class="no-sort">
+                            <?php if($campaign['status'] != 'draft') { ?>
+                            <a href="<?php echo base_url('digitalmarketing/sms_campaign_edit/?' . http_build_query(array('id' => $campaign['id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a href="<?php echo base_url('digitalmarketing/sms_campaign_view/?' . http_build_query(array('id' => $campaign['id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a>
+                            <?php } ?>
                             <a campaign_id="<?php echo $campaign['id']; ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs vendor_delete"><i class="fa fa-trash"></i></a></td>
                             </tr> 
                         <?php $c++; }} ?>   

@@ -722,7 +722,10 @@ class Ecommerce extends CI_Controller
         $data['product_details'] = $this->ecommerce->get_third_party_product_details($vendor_details,$product_id);
         $data['vendor_pricing_id'] = $vendor_pricing_id;
         $data['vendor_id'] = $vendor;
-        
+        $data['categories'] = $this->ecommerce->GetThirdPartyCategories($vendor_details);
+
+        // echo "<pre>"; print_r($data['product_details']); echo "</pre>";
+        // exit;
 
         $this->load->view('fixed/header', $head);
         $this->load->view('ecommerce/third_party_product_edit',$data);

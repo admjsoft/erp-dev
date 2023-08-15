@@ -57,7 +57,8 @@ if(isset($_SESSION['status'])){
                                             </div> -->
                                             <!-- The container for the uploaded files -->
                                             <table id="files" class="files">
-                                            <tr><td><img style="max-height:150px; max-width:150px;" src="<?php echo base_url('userfiles/product/').$product_details[0]['image']; ?>"><div style="margin-top: 10px;"><a data-url="https://localhost/erp-dev/products/file_handling?op=delete&amp;name=<?php echo $product_details[0]['image']; ?>" class="aj_delete"><i class="btn-danger btn-sm fa fa-trash"></i><?php echo base_url('userfiles/product/').$product_details[0]['image']; ?></a></div></td></tr>
+                                            <tr><td><img style="max-height:150px; max-width:150px;" src="<?php echo $product_details['images'][0]['src']; ?>">
+                                            </td></tr>
                                             </table>
                                             <?php /* ?><br>
                                             <span class="btn btn-success fileinput-button" style="width:100%">
