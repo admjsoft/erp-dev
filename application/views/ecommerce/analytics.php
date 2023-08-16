@@ -347,6 +347,7 @@ $(document).ready(function() {
                 success: function (resp) {
                     $('#analytics_block').html('');
                     $('#analytics_block').html(resp);
+                    $('#online_invoices').DataTable();
                 },
                 error: function(resp) {
                 //console.log(data);
@@ -471,6 +472,7 @@ $(document).ready(function() {
                 success: function (resp) {
                     $('#analytics_block').html('');
                     $('#analytics_block').html(resp);
+                    $('#online_invoices').DataTable();
                 },
                 error: function(resp) {
                 //console.log(data);

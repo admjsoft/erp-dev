@@ -74,6 +74,34 @@
 
                 <div class="card-content">
                     <div class="card-body">
+                    <!-- <?php if($type == 'POS'){ ?>
+                    <?php }else{ ?>
+                    <?php } ?> -->
+                    <table id="online_invoices" class="table table-striped table-bordered zero-configuration ">
+                        <thead>
+                            <tr>
+                            <th>S.No</th>
+                            <th>Date</th>
+                            <th>Sales</th>
+                            <th>Orders</th>
+                            <th>Items</th>
+                            <th>Tax</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; foreach ($analytics[0]["totals"] as $date => $details) { 
+                            echo '<tr>
+                                    <td>' . $i . '</td>
+                                    <td>' . $date . '</td>
+                                    <td>' . $details["sales"] . '</td>
+                                    <td>' . $details["orders"] . '</td>
+                                    <td>' . $details["items"] . '</td>
+                                    <td>' . $details["tax"] . '</td>
+                                </tr>';
+                        $i++;  } ?>
+                        </tbody>
+                        
+                    </table>
                     <?php /* ?>
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">

@@ -48,7 +48,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         </div>
         <div class="card-body">
             <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Products </div>
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Categories </div>
             <div class="header-block">
                 <h3 class="title">
                     <?php //echo $this->lang->line('Support Tickets') ?>
@@ -185,10 +185,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('#doc_table').DataTable();
+        $('#doctable').DataTable();
 
        
-});
+    });
 
 
 
@@ -213,6 +213,8 @@ $(document).on('change', "#vendor_type", function (e) {
    success: function (data) {
        $('#category_table_body').html('');
        $('#category_table_body').html(data);
+       //$('#doctable').DataTable().destroy();
+       $('#doctable').DataTable();
    },
    error: function(data) {
    //console.log(data);

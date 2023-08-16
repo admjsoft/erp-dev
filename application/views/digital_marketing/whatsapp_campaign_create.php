@@ -155,9 +155,12 @@ if(isset($_SESSION['status'])){
         },
         success: function (data) {
             alert(data.message);
-            setTimeout(function() {
-            window.location.href = "<?php echo site_url('digitalmarketing/whatsapp_marketing_campaigns') ?>";
-            }, 2000); // 5000 milliseconds (5 seconds)
+            if(data.status == '200')
+            {
+                setTimeout(function() {
+                window.location.href = "<?php echo site_url('digitalmarketing/whatsapp_marketing_campaigns') ?>";
+                }, 2000); // 5000 milliseconds (5 seconds)
+            }
         },
         error: function(data) {
         //console.log(data);

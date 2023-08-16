@@ -79,6 +79,38 @@ class Ecommerce_model extends CI_Model
         $query = $this->db->query($sql);
         return $query->result_array();
     }
+
+    public function GetAnalyticsOrders($post){
+       
+        $this->db->select('invoicedate, SUM(tax) as total_tax, SUM(total) as total_amount, SUM(items) as total_items, COUNT(*) as row_count');
+        $this->db->from('gtg_invoices'); // Replace with your actual table name
+        
+        if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
+        {
+            $start_date = date("Y-m-d", strtotime($post['start_date']));
+            $end_date = date("Y-m-d", strtotime($post['end_date']));
+            $this->db->where('invoicedate >=', $start_date);
+            $this->db->where('invoicedate <=', $end_date);
+        }               
+        $this->db->where('i_class', 1);
+        $result = $this->db->group_by('invoicedate')->get()->result_array();
+
+        // /$data['analytics'][0]["totals"] = array();
+        
+        foreach ($result as $row) {
+            $data[$row["invoicedate"]] = [
+                "sales" => $row["total_amount"],
+                "orders" => $row["row_count"],
+                "items" => $row["total_items"],
+                "tax" => $row["total_tax"]
+            ];
+        }
+        
+        
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
+        return $data;
+    }
     
 
     private function _get_sales_invoices_datatables_query($opt = '')

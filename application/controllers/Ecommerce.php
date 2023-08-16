@@ -69,6 +69,8 @@ class Ecommerce extends CI_Controller
         $data['analytics'][0]['total_orders'] = $analytics[0]['total_orders'];
         $data['analytics'][0]['total_items'] = $this->ecommerce->GetTotalProducts($post);
         $data['analytics'][0]['total_tax'] = $analytics[0]['total_tax'];
+        $data['analytics'][0]['totals'] = $this->ecommerce->GetAnalyticsOrders($post);
+        $data['type'] = $vendor_name;
         // echo "<pre>"; print_r($data); echo "</pre>";    
         // exit;
     }else{
@@ -77,7 +79,9 @@ class Ecommerce extends CI_Controller
             $end_date = $post['end_date'];
             $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
             $data['analytics'] = $this->ecommerce->GetSalesReport($vendor_details,$post); 
-            //echo "<pre>"; print_r($data); echo "</pre>";    
+            $data['type'] = $vendor_name;
+            // echo "<pre>"; print_r($data); echo "</pre>";    
+            // exit;
         }
 
         echo $this->load->view('ecommerce/analytics_ajax_block',$data,true);
