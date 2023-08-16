@@ -127,6 +127,8 @@ $('.nav-menu-main').removeClass('is-active');
 
                         </ul>
                     </li>
+					
+					
                     <?php    if ($this->aauth->premission(12)) { ?>   <li class="nav-item d-none d-md-block nav-link "><a href="<?= base_url() ?>pos_invoices/create"
                                                                         class="btn btn-info btn-md t_tooltip"
                                                                         title="Access POS"><i
@@ -144,7 +146,19 @@ $('.nav-menu-main').removeClass('is-active');
                              aria-labelledby="search-input"></div>
                     </li>
                 </ul>
-
+				<?php if($this->aauth->get_user()->roleid==5)
+				{
+				?>
+<li class="nav-item d-none d-md-block nav-link "><a href='<?php echo base_url("dashboard/referralList") ?>'
+class="btn btn-primary btn-sm rounded">
+                                                <?php echo $this->lang->line('Referral List') ?></a>
+				</li><?php }?>
+				<?php if($this->aauth->get_user()->roleid==4)
+				{
+				?>
+<li class="nav-item d-none d-md-block nav-link "><a href='#'class="btn btn-primary btn-sm rounded"data-toggle="modal" data-target="#addReferral">
+                                                <?php echo $this->lang->line('Referral') ?></a>
+				</li><?php }?>
                 <ul class="nav navbar-nav float-right"><?php if ($this->aauth->get_user()->roleid == 5) { ?>
                         <li class="dropdown nav-item mega-dropdown"><a class="dropdown-toggle nav-link " href="#"
                                                                        data-toggle="dropdown"><?php echo $this->lang->line('business_settings') ?></a>
@@ -1439,7 +1453,7 @@ $('.nav-menu-main').removeClass('is-active');
                              <ul class="menu-content">
 
                                 <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/online_platforms"> Online Platforms<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/vendors"> Vendors<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
                                  </li> 
                                 <li class="menu-item"><a
                                              href="<?php echo base_url(); ?>ecommerce/categories"> Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
@@ -1987,6 +2001,102 @@ $('.nav-menu-main').removeClass('is-active');
     <!-- /horizontal menu content-->
 </div>
 <!-- Horizontal navigation-->
+<div class="modal fade" id="addReferral" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <form method="post" id="product_action" class="form-horizontal" 
+			action="<?php echo base_url("customers/referral") ?>" >
+                <!-- Modal Header -->
+                 <div class="modal-header">
+
+                <h4 class="modal-title">Add Referral</h4>
+                
+            </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <p id="statusMsg"></p>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="name">Referral Name <span style="color:red">*</span></label>
+
+                                <div class="col-sm-4">
+								<span class="name_error"></span>
+
+                                    <input type="text" placeholder="Referer Name"
+                                           class="form-control margin-bottom" id="rname" name="rname">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Company Name<span style="color:red">*</span></label>
+
+                                <div class="col-sm-4">
+																			<span class="desc_error"></span>
+
+                                    <input type="text" placeholder="Company Name"
+                                           class="form-control margin-bottom" name="company" id="company">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Contact Number<span style="color:red">*</span></label>
+
+                                <div class="col-sm-4">
+																			<span class="desc_error"></span>
+
+                                    <input type="text" placeholder="Contact Number"
+                                           class="form-control margin-bottom" name="contact" id="contact">
+                                </div>
+                            </div>
+                               <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Email Id<span style="color:red">*</span></label>
+
+                                <div class="col-sm-4">
+																			<span class="desc_error"></span>
+
+                                    <input type="email" placeholder="Email Id"
+                              class="form-control margin-bottom" name="email" id="email">
+                                </div>
+                            </div>
+							  <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Remarks<span style="color:red">*</span></label>
+
+                                <div class="col-sm-4">
+										<span class="desc_error"></span>
+
+                                    <textarea  class="form-control margin-bottom" name="remarks" id="remarks"></textarea>
+                                          
+                                </div>
+                            </div>
+                                </div>
+                           
+                                </div>
+
+                     
+                       
+
+
+                        </div>
+ <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                    <input type="submit" id="submit" class="btn btn-primary submitBtn" value="ADD"/>
+                </div>
+                    </div>
+					
+                </div>
+                <!-- Modal Footer -->
+               
+            </form>
+        </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -2011,6 +2121,9 @@ $('.nav-menu-main').removeClass('is-active');
         </div>
         <div class="content-body">
 <div id="c_body"></div>
+
+    </div>
+	
 <script>
 function subscribemessage(val)
 {

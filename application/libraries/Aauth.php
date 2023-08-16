@@ -702,29 +702,36 @@ class Aauth
             if (empty($username)) {
                 $this->error($this->CI->lang->line('aauth_error_username_required'),true);
                 $valid = FALSE;
+		return "Username Required";
+
             }
         }
         if ($this->user_exist_by_username($username) && $username != FALSE) {
 
             $this->error($this->CI->lang->line('aauth_error_username_exists'),true);
             $valid = FALSE;
+		return "Username Exists";
         }
 
         if ($this->user_exist_by_email($email)) {
-
-            $this->error($this->CI->lang->line('aauth_error_email_exists'),true);
+             $this->error($this->CI->lang->line('aauth_error_email_exists'),true);
             $valid = FALSE;
+			return "Email Exists Already";
         }
         $valid_email = (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!$valid_email) {
 
             $this->error($this->CI->lang->line('aauth_error_email_invalid'),true);
             $valid = FALSE;
+		return "Invalid Email";
+
         }
         if (strlen($pass) < $this->config_vars['min'] or strlen($pass) > $this->config_vars['max']) {
 
             $this->error($this->CI->lang->line('aauth_error_password_invalid'),true);
             $valid = FALSE;
+		return "Invalid Password";
+
         }
         /*if ($username != FALSE && !ctype_alnum(str_replace($this->config_vars['additional_valid_chars'], '', $username))) {
 			$this->error($this->CI->lang->line('aauth_error_username_invalid'),true);
@@ -795,7 +802,8 @@ class Aauth
         $data = array();
         $valid = TRUE;
         $user = $this->get_user($user_id);
-
+        print_r($user);
+		die;
         if ($user->email == $email) {
             $email = FALSE;
         }

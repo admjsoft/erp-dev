@@ -1266,4 +1266,10 @@ $lang['Import Employee'] = "Import Employee";
 $lang['Import Customer'] = "Import Customer";
 $lang['Client Template'] = "Client Template";
 $lang['Employee Template'] = "Employee Template";
+$lang['Client Template Error Use JsuiteTemplate']="Client Template Error Use JsuiteTemplate";
+$lang['Employee Template Error Use JsuiteTemplate']="Employee Template Error Use JsuiteTemplate";
+$lang['Referral'] = "Referral";
+$lang['Referral List'] = "Referral List";
+$lang['Refer By'] = "Refer By";
+$lang['Status'] = "Status";
 

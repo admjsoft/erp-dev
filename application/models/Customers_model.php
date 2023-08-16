@@ -1289,13 +1289,47 @@ return $msg.$html;
 
 
 
-public function add_batch($data,$data1) {
+public function add_batch($data,$data1)
+ {
+	 foreach($data as $key=>$value)
+		{
+		$result[$value['name']]=$value;	
+			
+			
+		}
+		 $count1=count($data);
+		 $count2=count($result);
+		 $count=$count1-$count2;
+		 
+	$ins= $this->db->insert_batch('gtg_customers',$result);
 	
-	$this->db->insert_batch('users', $data1);
-	return $this->db->insert_batch('gtg_customers', $data);
-	
+	 foreach($data1 as $key=>$value)
+		{
+		$result1[$value['name']]=$value;	
+			
+			
+		}
+	$this->db->insert_batch('users', $result1);
+    return $count;
 	}
 
+
+public function addReferral($rname,$company,$contact,$email,$remarks)
+{
+	 $data = array(
+                    'referral_name' =>$rname,
+                    'company_name' => $company,
+                    'contact_no' => $contact,
+                    'emailid' => $email,
+                    'remarks' => $remarks,
+                    'delete_status' =>0
+                );
+
+                $this->db->insert('gtg_referral', $data);
+	
+	
+	
+}
 
 	
 }

@@ -441,7 +441,6 @@ function fetch_data()
 	
 	else{
 		
-		
 	$data = array(
                 'r_5' => 0
             );
@@ -459,26 +458,121 @@ function fetch_data()
 		
 	}
 	
-	
-	
-	
-	
-		
-	//}
-		       
-
-
 			   redirect('dashboard/settings');
 
 	
 		
 	}
 	
+	public function referralList()
+	{
+		 $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Referral List';
+        //$data['permission'] = $this->dashboard_model->subscribe_permissions();
+        $this->load->view('fixed/header', $head);
+        $this->load->view('referralList');
+        $this->load->view('fixed/footer');
+		
+	}
+	public function getReferrerList()
+	{
+	   
+	 
+	      $ttype = $this->input->get('type');
+        $list = $this->dashboard_model->get_datatables();
+	         $data = array();
+        // $no = $_POST['start'];
+        $temp='';
+		$type='';
+	   $no = $this->input->post('start');
+        foreach ($list as $obj) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $obj->referral_name;
+			$row[] = '<a href="#" class="" onclick="viewReferral(' . $obj->id . ');"> ' .$obj->company_name . '</a>'; 
+            $row[] = $obj->created_at;
+		    $row[] = "Admin";
+            $row[] = "Status";
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->dashboard_model->count_all(),
+            "recordsFiltered" => $this->dashboard_model->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
 	
+	}
 	
-	
-	
-	
-	
+  public function getreferences()
+  {
+		    $id = $this->input->post('id');
+        $list = $this->dashboard_model->get_references($id);
+         $html='                    <div class="row">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="name">Referral Name</label>
+                                <div class="col-sm-4">
+                                  '.$list->referral_name.'
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Company Name</label>
+
+                                <div class="col-sm-4">
+
+                                   '.$list->company_name.'
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Contact Number</label>
+
+                                <div class="col-sm-4">
+																	
+                                   '.$list->contact_no.'
+
+                                </div>
+                            </div>
+                               <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Email Id<span style="color:red"></span></label>
+
+                                <div class="col-sm-4">
+
+                                   '.$list->emailid.'
+                                </div>
+                            </div>
+							  <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Remarks</label>
+
+                                <div class="col-sm-4">
+
+                                     '.$list->remarks.'                                          
+                                </div>
+                            </div>
+                                </div>
+                           
+                                </div>';
+	  
+	  echo json_encode($html);
+
+	  
+	  
+  }
+
+
+
+
 
 }

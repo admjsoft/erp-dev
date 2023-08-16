@@ -765,7 +765,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id GROUP BY  i.cs
 	public function employeeTemplate()
 	{
 		$folder='userfiles/employee/';
-		$fileName='employee.xlsx';
+		$fileName='employee_jsuiteTemplate.xlsx';
 		    $filePath =FCPATH.$folder.$fileName; 
 
     if(!empty($fileName)){ 
@@ -773,7 +773,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id GROUP BY  i.cs
         header("Cache-Control: public"); 
         header("Content-Description: File Transfer"); 
         header("Content-Disposition: attachment; filename=$fileName"); 
-        header("Content-Type: application/pdf"); 
+        header("Content-Type: application/xlsx"); 
         header("Content-Transfer-Encoding: binary"); 
          
         // Read the file 
@@ -786,7 +786,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id GROUP BY  i.cs
 		public function clientTemplate()
 	{
 		$folder='userfiles/customers/';
-		$fileName='client.xlsx';
+		$fileName='client_jsuiteTemplate.xlsx';
 		    $filePath =FCPATH.$folder.$fileName; 
 
     if(!empty($fileName)){ 
@@ -794,7 +794,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id GROUP BY  i.cs
         header("Cache-Control: public"); 
         header("Content-Description: File Transfer"); 
         header("Content-Disposition: attachment; filename=$fileName"); 
-        header("Content-Type: application/pdf"); 
+        header("Content-Type: application/xlsx"); 
         header("Content-Transfer-Encoding: binary"); 
          
         // Read the file 
