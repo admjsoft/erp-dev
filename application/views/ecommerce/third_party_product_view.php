@@ -138,10 +138,11 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="title"
-                                                   id="sale_price" value="<?php  echo $product_details['sale_price']; ?>">
+                                                   id="sale_price" value="<?php if(!empty($product_details['sale_price'])){ echo $product_details['sale_price']; }else{ echo $product_details['regular_price']; }   ?>">
                                              
                                         </div>
                                     </div>
+                                    <?php /* ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -154,6 +155,7 @@ if(isset($_SESSION['status'])){
                                              
                                         </div>
                                     </div>
+                                    <?php */ ?>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"

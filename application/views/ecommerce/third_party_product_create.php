@@ -136,11 +136,12 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
-                                                   class="form-control margin-bottom b_input required " name="title"
+                                                   class="form-control margin-bottom b_input required " name="sale_price"
                                                    id="sale_price" value="<?php echo $product_details[0]['product_price']; ?>">
                                              
                                         </div>
                                     </div>
+                                    <?php /* ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -153,6 +154,7 @@ if(isset($_SESSION['status'])){
                                              
                                         </div>
                                     </div>
+                                    <?php */ ?>
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
@@ -278,7 +280,7 @@ $(document).ready(function () {
        var sale_price = $('#sale_price').val();
        var description = $('#description').val();
        var vendor_pricing_id = $('#vendor_pricing_id').val();
-       var quantity = $('#quantity').val();
+       //var quantity = $('#quantity').val();
        var category = $('#sub_category').val();
        var sub_category = $('#sub_category').val();
        var image_url = $('#image_url').val();
@@ -295,7 +297,7 @@ $(document).ready(function () {
             product_name: name,
             regular_price: regular_price,
             sale_price: sale_price,
-            quantity: quantity,
+            //quantity: quantity,
             category: category,
             sub_category: sub_category,
             product_description: description,

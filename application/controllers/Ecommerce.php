@@ -674,7 +674,7 @@ class Ecommerce extends CI_Controller
         $product_details['product_name'] = $post['product_name'];
         $product_details['regular_price'] = $post['regular_price'];
         $product_details['sale_price'] = $post['sale_price'];
-        $product_details['quantity'] = $post['quantity'];
+        //$product_details['quantity'] = $post['quantity'];
         $product_details['product_description'] = $post['product_description'];
         $product_details['image_url'] = $post['image_url'];
 
@@ -822,8 +822,7 @@ class Ecommerce extends CI_Controller
         $product_details['product_id'] = $product_id;
         $product_details['category'] = $post['category'];
         $product_details['sub_category'] = $post['sub_category'];
-        $product_details['sale_price'] = $post['sale_price'];
-        $product_details['quantity'] = $post['quantity'];
+        //$product_details['quantity'] = $post['quantity'];
         $product_details['image_url'] = $post['image_url'];
         
         $response = $this->ecommerce->update_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id);

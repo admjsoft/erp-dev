@@ -124,6 +124,7 @@ if(isset($_SESSION['status'])){
                                             </select>
                                         </div>
                                     </div>
+                                    <?php /* ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -137,6 +138,7 @@ if(isset($_SESSION['status'])){
 
                                         </div>
                                     </div>
+                                    <?php */ ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -158,7 +160,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
                                                 class="form-control margin-bottom b_input required " name="title"
-                                                id="sale_price" value="<?php  echo $product_details['sale_price']; ?>">
+                                                id="sale_price" value="<?php if(!empty($product_details['sale_price'])){ echo $product_details['sale_price']; }else{ echo $product_details['regular_price']; }   ?>">
 
                                         </div>
                                     </div>
@@ -298,7 +300,7 @@ $(document).ready(function() {
         var sale_price = $('#sale_price').val();
         var description = $('#description').val();
         var vendor_pricing_id = $('#vendor_pricing_id').val();
-        var quantity = $('#quantity').val();
+        // var quantity = $('#quantity').val();
         var category = $('#sub_category').val();
         var sub_category = $('#sub_category').val();
         var image_url = $('#image_url').val();
@@ -316,7 +318,7 @@ $(document).ready(function() {
                 product_price: regular_price,
                 sale_price: sale_price,
                 product_description: description,
-                quantity: quantity,
+               // quantity: quantity,
                 category: category,
                 sub_category: sub_category,
                 image_url: image_url
