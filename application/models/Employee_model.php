@@ -1146,6 +1146,22 @@ public function addInternational_new(
 			}
 
 
+ public function insert_excel($data) {
+  
+            $res = $this->db->insert_batch('import',$data);
+            if($res){
+                return TRUE;
+            }else{
+                return FALSE;
+            }
+      
+        }
+
+
+
+
+
+
 public function addInternational($id,$username,$emp_name,$email,$roleid,$passport,$permit,
 $country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id)
 {
@@ -1165,12 +1181,13 @@ $country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa
 				'degis'=>$role_id,
 
 				);
+				
+				
 	            $this->db->insert('gtg_employees', $data);
 				$insert_id = $this->db->insert_id();
             $data1 = array(
                 'roleid' => $roleid
             );
-          print_r();
             $this->db->set($data1);
             $this->db->where('id', $id);
 
@@ -1903,7 +1920,72 @@ public function country_list()
     }
 
 
+public function add($data) {
+		$this->db->insert($this->table, $data);
+		return $this->db->insert_id();
+	}
+
+	public function update($where, $data) {
+		return $this->db->update($this->table, $data, $where);
+	}
+
+	public function delete($where) {
+		return $this->db->delete($this->table, $where);
+	}
+
+	public function get() {
+		        $this->db->select('*');
+        $this->db->from('gtg_employees');
+              $query = $this->db->get();
 
 
+		return $query->row();
+	}
 
+	public function get_all($where = 0, $order_by_column = 0, $order_by = 0) {
+		if($where) 
+			$this->db->where($where);
+		if($order_by_column and $order_by) 
+			$this->db->order_by($order_by_column, $order_by);
+		$query = $this->db->get($this->table);
+		return $query->result();
+	}
+
+	public function get_num_rows($where = 0) {
+		if($where) 
+			$this->db->where($where);
+		$query = $this->db->get($this->table);		
+		return $query->num_rows();
+	}
+
+public function add_batch($data,$data1) 
+{
+	
+foreach($data as $key=>$value)
+		{
+		$result[$value['username']]=$value;	
+			
+			
+		}
+		 $count1=count($data);
+		 $count2=count($result);
+		 $count=$count1-$count2;
+		
+		for($i=0;$i<count($data1);$i++)
+		{
+		 $a = $this->aauth->create_user($data1[$i]['email'], $data1[$i]['pass'], $data1[$i]['name']);
+	    //$this->db->insert_batch('gtg_users', $data1);
+		 $data2 = array(
+                'roleid' =>$data1[$i]['roleid']
+            );
+            $this->db->set($data2);
+            $this->db->where('id', $a);
+
+            $this->db->update('gtg_users');
+	}
+		 $this->db->insert_batch('gtg_employees', $result);
+         return $count;
+
+
+	}
 }

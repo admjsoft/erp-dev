@@ -254,6 +254,17 @@ echo json_encode(array('status' => 'Error', 'message' =>
 	
 	public function import() {
 		
+		if($_FILES['file']['name']!="employee_jsuiteTemplate.xlsx")
+		{
+			$data['status'] = 'danger';
+            $data['message'] = $this->lang->line('Employee Template Error Use JsuiteTemplate');
+			$_SESSION['status']=$data['status'];
+            $_SESSION['message']=$data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+		    redirect('employee/addExcel', 'refresh');
+			
+		}
 		$path 		= "../userfiles/";
 		$json 		= [];
 		$this->upload_config($path);
@@ -276,7 +287,7 @@ echo json_encode(array('status' => 'Error', 'message' =>
 			$list 			= [];
 			
 			foreach($sheet_data as $key => $val) {
-			    // print_r($val);
+				
 				if($key != 0) {
 					$result 	= '';
 				
@@ -291,31 +302,40 @@ echo json_encode(array('status' => 'Error', 'message' =>
 							'region'			=> $val[5],
 							'country' 			=> $val[6],
 							'phone'				=> $val[7],
+							'employee_type'    =>$val[8],
 
 						];
 						$list1 [] = [
-							'username'					=> $val[0],
+							'name'					=> $val[2],
 							'email'			=> $val[1],
-							
+						    'pass'		=>'123456',
+                            'roleid'    =>'8',
+
 						];
 					}
 				}
 			}
+	
 			if(file_exists($file_name))
 				unlink($file_name);
 			if(count($list) > 0) {
 				$result 	= $this->employee->add_batch($list,$list1);
-				if($result) {
-					
+				//print_r($result);
+				
+				       if($result>0 && $result!=0)
+					   {
+						 	$data['status'] = 'danger';
+                    $data['message'] =$result." Rows Are Dublicate";
+						  
+						   
+					   }
+					   else{
+					   
 					$data['status'] = 'success';
                     $data['message'] = $this->lang->line('UPDATED');
-						
+					   }
 	 
-				} else {
-					 $data['status'] = 'danger';
-                    $data['message'] = $this->lang->line('ERROR');
-					
-				}
+				
 			} else {
 				
 			}
@@ -324,7 +344,7 @@ echo json_encode(array('status' => 'Error', 'message' =>
             $_SESSION['message']=$data['message'];
             $this->session->mark_as_flash('status');
             $this->session->mark_as_flash('message');
-		    redirect('employee', 'refresh');
+		    redirect('employee/addExcel', 'refresh');
             exit();
 	}
 	
@@ -3576,7 +3596,6 @@ public function saveInternational()
 			$emp_name,$email,$roleid,$passport,$permit,
 			$country,$company,$type,$passport_expiry,$permit_expiry,
 			$passport_filename,$visa_filename,$role_id);
-				die;
 
             }
         } else {
@@ -3591,7 +3610,7 @@ else{
 			$emp_name,$roleid,$passport,$permit,
 			$country,$company,$type,$passport_expiry,$permit_expiry,
 			$passport_filename,$visa_filename,$role_id);
-	die;
+
 }
 		  
    

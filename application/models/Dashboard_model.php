@@ -634,8 +634,93 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
  }
 
 	
+    var $column_search = array('gtg_referral.referral_name', 'gtg_referral.company_name', 'gtg_referral.contact_no',
+	'gtg_referral.emailid', 'gtg_referral.remarks', 'gtg_referral.created_at');
+    var $column_order = array('gtg_referral.referral_name', 'gtg_referral.company_name', 'gtg_referral.contact_no',
+	'gtg_referral.emailid', 'gtg_referral.remarks', 'gtg_referral.created_at');
 
 
+    private function _get_datatables_query($id = '')
+    {
+        $due = $this->input->post('due');
+		$fdms=$this->input->post('fdms');
 
+            $this->db->select('*');
+            $this->db->from('gtg_referral');
+           
+		
+		
+		
+		
+        $i = 0;
 
+        foreach ($this->column_search as $item) // loop column
+        {
+            $search = $this->input->post('search');
+            $value = $search['value'];
+            if ($value) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $value);
+                } else {
+                    $this->db->or_like($item, $value);
+                }
+
+                if (count($this->column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        $search = $this->input->post('order');
+        if ($search) // here order processing
+        {
+            $this->db->order_by($this->column_order[$search['0']['column']], $search['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables($id = '')
+    {
+        $this->_get_datatables_query($id);
+        if ($this->aauth->get_user()->loc) {
+            // $this->db->where('loc', $this->aauth->get_user()->loc);
+        }
+        if ($this->input->post('length') != -1)
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        $query = $this->db->get();
+		//print_r($this->db->last_query());    
+
+        return $query->result();
+    }
+
+  function count_filtered($id = '')
+    {
+        $this->_get_datatables_query();
+        $query = $this->db->get();
+     
+        return $query->num_rows($id = '');
+    }
+
+    public function count_all($id = '')
+    {
+        $this->_get_datatables_query();
+        
+        $query = $this->db->get();
+        return $query->num_rows($id = '');
+    }
+	
+	public function  get_references($id)
+	{
+	
+	$this->db->select('*');
+   $this->db->from('gtg_referral');
+   $this->db->where('id',$id);
+   $query=$this->db->get();
+   return $query->row();
+}
 }

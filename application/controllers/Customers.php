@@ -61,6 +61,19 @@ class Customers extends CI_Controller
 	
 		public function import() {
 		
+		if($_FILES['file']['name']!="client_jsuiteTemplate.xlsx")
+		{
+			$data['status'] = 'danger';
+            $data['message'] = $this->lang->line('Client Template Error Use JsuiteTemplate');
+			$_SESSION['status']=$data['status'];
+            $_SESSION['message']=$data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+		    redirect('customers/addExcel', 'refresh');
+			
+		}
+		
+		
 		$path 		= "../userfiles/";
 		$json 		= [];
 		$this->upload_config($path);
@@ -71,6 +84,7 @@ class Customers extends CI_Controller
 			
 			$file_data 	= $this->upload->data();
 			$file_name 	= $path.$file_data['file_name'];
+
 			$arr_file 	= explode('.', $file_name);
 			$extension 	= end($arr_file);
 			if('csv' == $extension) {
@@ -81,7 +95,7 @@ class Customers extends CI_Controller
 			$spreadsheet 	= $reader->load($file_name);
 			$sheet_data 	= $spreadsheet->getActiveSheet()->toArray();
 			$list 			= [];
-			
+			//$temp_password="123456";
 			foreach($sheet_data as $key => $val) {
 			    // print_r($val);
 				if($key != 0) {
@@ -103,6 +117,10 @@ class Customers extends CI_Controller
 						$list1 [] = [
 							'name'			=> $val[0],
 							'email'			=> $val[6],
+							'password'      => password_hash(123456, PASSWORD_DEFAULT),
+							'status'        =>'active',
+							'is_deleted'=>0,
+							'user_id' => 1,
 
 						];
 					}
@@ -113,12 +131,20 @@ class Customers extends CI_Controller
 			if(count($list) > 0) {
 				$result 	= $this->customers->add_batch($list,$list1);
 				if($result) {
-					
+				       if($result>0)
+					   {
+						 	$data['status'] = 'danger';
+                    $data['message'] =$result." Rows Are Dublicate";
+						  
+						   
+					   }
+					   else{
+					   
 					$data['status'] = 'success';
                     $data['message'] = $this->lang->line('UPDATED');
-						
+					   }
 	 
-				} else {
+				}  else {
 					 $data['status'] = 'danger';
                     $data['message'] = $this->lang->line('ERROR');
 					
@@ -131,7 +157,7 @@ class Customers extends CI_Controller
             $_SESSION['message']=$data['message'];
             $this->session->mark_as_flash('status');
             $this->session->mark_as_flash('message');
-		    redirect('customers', 'refresh');
+		    redirect('customers/addExcel', 'refresh');
             exit();
 	}
 	public function upload_config($path) {
@@ -334,7 +360,8 @@ public function saveInternational()
 	
      if(!empty($create_login) || !empty($password))
 	 {
-    $insert1=$this->customers->addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,$password,$language,$type);
+    $insert1=$this->customers->addInternational($company_name,$company,$address,$roc,$email,$contact,$incharge,$create_login,
+	$password,$language,$type);
 	                //echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . $p_string . '&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>', 'cid' => $cid, 'pass' => $temp_password, 'discount' => amountFormat_general($discount)));
 	//$html='&nbsp;<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
    // echo $data['message']=$this->lang->line('ADDED') . $p_string .$insert1; 
@@ -1212,5 +1239,41 @@ public function deleteFwmsClient()
         $due = 0;
         echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('Paid') . ' ' . amountExchange($amount), 'due' => amountExchange_s($due)));
     }
+
+public function referral()
+{
+	
+	   
+        $head['title'] = 'Referral';
+		 $rname = $this->input->post('rname');
+         $company = $this->input->post('company');
+		 $contact = $this->input->post('contact');
+         $email = $this->input->post('email');
+         $remarks = $this->input->post('remarks');
+         $insert=$this->customers->addReferral($rname,$company,$contact,$email,$remarks);
+		if($insert){  
+			 $data['status'] = 'success';
+                    $data['message'] = $this->lang->line('ADDED');
+                    }
+           
+					else{
+                     $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+}
+ 
+
+	     $_SESSION['status']=$data['status'];
+        $_SESSION['message']=$data['message'];
+        $this->session->mark_as_flash('status');
+        $this->session->mark_as_flash('message');
+		redirect('dashboard', 'refresh');
+		
+       
+	
+	
+}
+
+
+
 
 }

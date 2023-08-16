@@ -5,10 +5,14 @@
     <div class="card">
         <div class="card-header">
             <h4 class="card-title"><?php echo $this->lang->line('Add New Customer') ?>
+			<?php if($this->aauth->premission(43))
+			{
+				?>
 			<a href="<?php echo base_url('customers/addExcel') ?>"
                                                                class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Import Customer') ?>
 										</a>
+			<?php }?>
 			
 			</h4>
 
