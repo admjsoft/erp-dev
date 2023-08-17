@@ -105,7 +105,7 @@ if(isset($_SESSION['status'])){
                                             <select class="form-control" id="category">
                                                 <option value="">Select Category</option>
                                                 <?php  if(!empty($categories)){ foreach ($categories as $category) { ?>
-                                                <option value="<?php echo $category['id']; ?>">
+                                                <option value="<?php echo $category['id']; ?>" <?php if($category['id'] == $p_cat_id){ echo "selected"; } ?>>
                                                     <?php echo $category['name']; ?></option>
                                                 <?php  } }  ?>
                                             </select>
@@ -124,6 +124,7 @@ if(isset($_SESSION['status'])){
                                             </select>
                                         </div>
                                     </div>
+                                    <?php /* ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -137,6 +138,7 @@ if(isset($_SESSION['status'])){
 
                                         </div>
                                     </div>
+                                    <?php */ ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -158,7 +160,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
                                                 class="form-control margin-bottom b_input required " name="title"
-                                                id="sale_price" value="<?php  echo $product_details['sale_price']; ?>">
+                                                id="sale_price" value="<?php if(!empty($product_details['sale_price'])){ echo $product_details['sale_price']; }else{ echo $product_details['regular_price']; }   ?>">
 
                                         </div>
                                     </div>
@@ -187,12 +189,14 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="vendor_pricing_id"
                                         value="<?php  echo $vendor_pricing_id; ?>" id="vendor_pricing_id">
                                     <input type="hidden" name="image_url"
-                                        value="<?php // echo base_url('userfiles/product/').$product_details['image']; ?>"
+                                        value="<?php echo $product_details['images'][0]['src']; ?>"
                                         id="image_url">
                                     <input type="hidden" name="vendor_type"
                                         value="<?php  echo $vendor_details[0]['Id']; ?>" id="vendor_type">
                                     <input type="hidden" name="vendor_name"
                                         value="<?php  echo $vendor_details[0]['VendorName']; ?>" id="vendor_name">
+                                    <input type="hidden" name="product_sub_category_id"
+                                        value="<?php if(!empty($product_details['categories'][0]['id'])){ echo $product_details['categories'][0]['id']; }  ?>" id="product_sub_category_id">    
                                     <input type="button" id="update_product_btn"
                                         class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                         value="<?php //echo $this->lang->line('Add customer') ?>Update Product"
@@ -298,10 +302,13 @@ $(document).ready(function() {
         var sale_price = $('#sale_price').val();
         var description = $('#description').val();
         var vendor_pricing_id = $('#vendor_pricing_id').val();
-        var quantity = $('#quantity').val();
+        // var quantity = $('#quantity').val();
         var category = $('#sub_category').val();
         var sub_category = $('#sub_category').val();
         var image_url = $('#image_url').val();
+
+        if(name != '' && regular_price != '' && sale_price != '' && description != '' && category != '' && sub_category != '' && image_url != '')
+       {
 
         $.ajax({
 
@@ -316,7 +323,7 @@ $(document).ready(function() {
                 product_price: regular_price,
                 sale_price: sale_price,
                 product_description: description,
-                quantity: quantity,
+               // quantity: quantity,
                 category: category,
                 sub_category: sub_category,
                 image_url: image_url
@@ -333,7 +340,9 @@ $(document).ready(function() {
 
         });
 
-
+        }else{
+                alert('Please Enter All Fields');
+            }
     });
 
     $(document).on('change', "#category", function(e) {
@@ -364,6 +373,43 @@ $(document).ready(function() {
         });
 
     });
+
+
+});
+
+
+
+
+$(window).on('load', function() {
+
+var vendor = $('#vendor_type').val();
+var vendor_name = $('#vendor_name').val();
+var category = $('#category').val();
+var sub_category = $('#product_sub_category_id').val();
+
+if(category != ''  && sub_category != ''){
+$.ajax({
+
+    url: "<?php echo site_url('ecommerce/get_sub_categories_list') ?>",
+    type: 'POST',
+    data: {
+        vendor: vendor,
+        vendor_name: vendor_name,
+        category: category,
+        sub_category: sub_category
+    },
+    success: function(data) {
+        $('#sub_category').html('');
+        $('#sub_category').html(data);
+    },
+    error: function(data) {
+        //console.log(data);
+        console.log("Error not get emp list")
+    }
+
+
+});
+}
 
 });
 </script>

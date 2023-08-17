@@ -1274,11 +1274,11 @@ public function GetAllProductsList($vendor){
         $sub_category_array = array();
     }
     
-    
+        
 
     $result_array = array($category_array, $sub_category_array);
        $image_url = $product_details['image_url'];
-       // $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
+       //$image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
        //$image_url = 'https://erp-dev.jsuitecloud.com/userfiles/product/778093images (1).jpg';
        // New product data
        $product_data = array(
@@ -1288,7 +1288,7 @@ public function GetAllProductsList($vendor){
            'sale_price' => $product_details['sale_price'],
            'description' => $product_details['product_description'],
            'categories' => $result_array, // Replace 25 with the actual subcategory ID
-           'stock_quantity' => (int)$product_details['quantity'],
+           //'stock_quantity' => (int)$product_details['quantity'],
            'images' => array(
             array('src' => $image_url)  // Replace with the actual image URL
         )
@@ -1350,7 +1350,7 @@ public function GetAllProductsList($vendor){
 
    public function update_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id)
    {
-    // print_r($vendor_details);
+   
     $website_url = $vendor_details[0]['WebSiteUrl'];
     $consumer_key = $vendor_details[0]['ConsumerKey'];
     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
@@ -1390,13 +1390,14 @@ public function GetAllProductsList($vendor){
         'sale_price' => $product_details['sale_price'],
         'description' => $product_details['product_description'],
         'categories' => $result_array, // Replace 25 with the actual subcategory ID
-        'stock_quantity' => (int)$product_details['quantity'],
+        //'stock_quantity' => (int)$product_details['quantity'],
         'images' => array(
         array('src' => $image_url)  // Replace with the actual image URL
         )
         // Add more product fields as needed
     );
-
+    // echo "<pre>"; print_r($product_data); echo "</pre>"; 
+    // exit;
     // Set cURL options
     $options = array(
         CURLOPT_URL => $url,
@@ -1416,6 +1417,9 @@ public function GetAllProductsList($vendor){
 
     // Send the cURL request
     $response = curl_exec($curl);
+
+    // echo $response;
+    // exit;
 
     // Check if the request was successful
     if ($response !== false) {
