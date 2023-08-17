@@ -1274,7 +1274,7 @@ public function GetAllProductsList($vendor){
         $sub_category_array = array();
     }
     
-    
+        
 
     $result_array = array($category_array, $sub_category_array);
        $image_url = $product_details['image_url'];

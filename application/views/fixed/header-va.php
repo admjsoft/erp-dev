@@ -1453,7 +1453,7 @@ class="btn btn-primary btn-sm rounded">
                              <ul class="menu-content">
 
                                 <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/vendors"> Vendors<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/online_platforms"> Online Platforms<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
                                  </li> 
                                 <li class="menu-item"><a
                                              href="<?php echo base_url(); ?>ecommerce/categories"> Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>

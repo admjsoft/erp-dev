@@ -390,7 +390,12 @@ class Ecommerce extends CI_Controller
         $segment_id = $post['category'];
         $vendor = $post['vendor'];
         $vendor_name = $post['vendor_name'];
+        if(isset($post['sub_category']))
+        {
+            $sub_category = $post['sub_category'];
 
+        }
+        
         if($vendor_name == 'POS')
         {
             $sub_segments = $this->ecommerce->GetSubSegmentsList($segment_id);
@@ -409,11 +414,18 @@ class Ecommerce extends CI_Controller
         }else{
             $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
             $sub_segments = $this->ecommerce->GetThirdPartySubCategories($vendor_details,$segment_id);
+            $selected = '';
             if(!empty($sub_segments))
             {
                 $html='<option value="">Select Sub Category</option>';
                 foreach($sub_segments as $sub_segment){
-                $html.='<option value="'.$sub_segment['id'].'">'.$sub_segment['name'].'</option>';
+                    if($sub_segment['id'] == $sub_category)
+                    {
+                        $selected = 'selected';
+                    }else{
+                        $selected = '';
+                    }
+                    $html.='<option value="'.$sub_segment['id'].'" '.$selected.'>'.$sub_segment['name'].'</option>';
                 }
                 echo $html;
             }else{
@@ -727,8 +739,22 @@ class Ecommerce extends CI_Controller
         $data['vendor_pricing_id'] = $vendor_pricing_id;
         $data['vendor_id'] = $vendor;
         $data['categories'] = $this->ecommerce->GetThirdPartyCategories($vendor_details);
-
-        // echo "<pre>"; print_r($data['product_details']); echo "</pre>";
+        $data['p_cat_id'] = 0;
+        $data['category_details'] = array();
+        if(!empty($data['product_details']['categories'][0]['id'])){
+            $category_details = $this->ecommerce->GetCategoryDetailsById($vendor_details,$data['product_details']['categories'][0]['id']);
+            $data['category_details'] = $category_details;
+            if(!empty($category_details)){
+                if($category_details['parent'] != 0)
+                {
+                    $data['p_cat_id'] = $category_details['parent'];
+                }else{
+                    $data['p_cat_id'] = $data['product_details']['categories'][0]['id'];
+                }
+            }
+        }
+       
+        // echo "<pre>"; print_r($data); echo "</pre>";
         // exit;
 
         $this->load->view('fixed/header', $head);

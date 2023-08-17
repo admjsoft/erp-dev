@@ -285,6 +285,8 @@ $(document).ready(function () {
        var sub_category = $('#sub_category').val();
        var image_url = $('#image_url').val();
 
+       if(name != '' && regular_price != '' && sale_price != '' && description != '' && category != '' && sub_category != '' && image_url != '')
+       { 
         $.ajax({
 
         url: "<?php echo site_url('ecommerce/publish_product_to_third_party') ?>",
@@ -316,6 +318,9 @@ $(document).ready(function () {
 
 
         });
+    }else{
+        alert('Please Enter All Fields');
+    }
     });
 
     $(document).on('change', "#category", function (e) {
