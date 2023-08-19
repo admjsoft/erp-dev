@@ -41,7 +41,8 @@ class Digitalmarketing extends CI_Controller
     public function load_list()
     {
         $no = $this->input->post('start');
-        $list = $this->customers->get_all_customers();
+        //$list = $this->customers->get_all_customers();
+        $list = $this->customers->get_datatables();
         $data = array();
         if (!empty($list)) {
             foreach ($list as $customers) {
@@ -71,8 +72,8 @@ class Digitalmarketing extends CI_Controller
 
         $output = array(
             "draw" => $this->input->post('draw'),
-            "recordsTotal" => count($list),
-            "recordsFiltered" => count($list),
+            "recordsTotal" => $this->customers->count_all(),
+            "recordsFiltered" => $this->customers->count_filtered(),
             "data" => $data,
         );
         //output to json format
@@ -503,8 +504,8 @@ class Digitalmarketing extends CI_Controller
         $head['title'] = "WhatsApp Marketing Campaigns";
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['campaigns'] = $this->digitalmarketing->GetWhatsAppCampaignsList();
-
-        
+        // echo "<pre>"; print_r($data['campaigns']); echo "</pre>";
+        // exit;
         $this->load->view('fixed/header', $head);
         $this->load->view('digital_marketing/whatsapp_campaigns',$data);
         $this->load->view('fixed/footer');

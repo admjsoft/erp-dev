@@ -21,14 +21,14 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="employee">Start Date</label>
-                    <input type="text" name="start_date" id="start_date" class="form-control form-control" data-toggle="datepicker"
+                    <input type="date" value =""  name="start_date" id="start_date" class="form-control " data-toggle1="datepicker"
                                                 autocomplete="off" />
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="employee">End Date</label>
-                    <input type="text" name="end_date" id="end_date" class="form-control form-control" data-toggle="datepicker"
+                    <input type="date" value ="" name="end_date" id="end_date" class="form-control " data-toggle1="datepicker"
                                                 autocomplete="off" />
                 </div>
             </div>
