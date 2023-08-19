@@ -22,7 +22,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
               <select class="form-control" id="vendor_type">
                 <!-- <option value="">Select Vendor</option> -->
                 <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
-                    <option value="<?php echo $vendor['Id']; ?>" vendor_name="<?php echo $vendor['VendorName']; ?>" <?php if($vendor['VendorName'] == 'POS'){ echo "selected"; } ?>><?php echo $vendor['VendorName']." (".$vendor['Type'].") "; ?></option>
+                    <option value="<?php echo $vendor['Id']; ?>" v_platforem_type="<?php echo $vendor['PlatformType']; ?>" vendor_name="<?php echo $vendor['VendorName']; ?>" <?php if($vendor['VendorName'] == 'POS'){ echo "selected"; } ?>><?php echo $vendor['VendorName']." (".$vendor['Type'].") "; ?></option>
                 <?php } } ?>
                 
                 
@@ -47,7 +47,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
           </div>
         </div>
-        
+        <div class="row justify-content-center">
+        <label class="" style="display:none"; id="single_platform_text" for="name">Single Platform Option Allows to Edit/Delete Categories & Sub Categories  </label>
+         <label class="" style="display:none"; id="multiple_platform_text" for="name">Multiple Platform Option Don't Allows to Edit/Delete Categories & Sub Categories  </label>
+
+        </div>
       </div>
     
     </div>
@@ -209,7 +213,18 @@ $(document).on('change', "#vendor_type", function (e) {
    var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
    //$('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
    //$('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
-
+   var v_platforem_type = $("#vendor_type option:selected").attr('v_platforem_type');
+   //$('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
+   //$('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
+   if(v_platforem_type == 1)
+    {
+        $('#single_platform_text').hide();
+        $('#multiple_platform_text').show();
+    }else{
+        $('#multiple_platform_text').hide();
+        $('#single_platform_text').show();
+    }
+    
    $('#category').html('');
    $.ajax({
 
@@ -253,10 +268,17 @@ $(document).on('change', "#vendor_type", function (e) {
                 },
                 success: function (data) {
                     
+                   
+                    if ($.fn.DataTable.isDataTable('#doctable')) {
+                    $('#doctable').DataTable().destroy();
+                    }
                     $('#sub_category_table_body').html('');
                     $('#sub_category_table_body').html(data);
-                    //$('#doctable').DataTable().destroy();
-                    $('#doctable').DataTable();
+                    // Reinitialize DataTable with new configuration
+                    $('#doctable').DataTable({
+                        // your configuration options here
+                    });
+                    
                 },
                 error: function(data) {
                 //console.log(data);

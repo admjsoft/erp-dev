@@ -1707,6 +1707,8 @@ class Billing extends CI_Controller
         curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://api.storecove.com/api/v2/document_submissions',
         CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST, false,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 0,

@@ -492,9 +492,9 @@ class Ecommerce extends CI_Controller
             // Reindex the filtered array
             $filtered_array = array_values($filtered_array);
             $tp_prod_ids = array_column($filtered_array,'pid');
-            // echo "<pre>"; print_r($combined_array); echo "</pre>";
-           // echo "<pre>"; print_r($filtered_array); echo "</pre>";
-            //     exit;
+        //     echo "<pre>"; print_r($combined_array); echo "</pre>";
+        //    echo "<pre>"; print_r($filtered_array); echo "</pre>";
+        //         exit;
 
             $data = array();
             $no = $this->input->post('start');
@@ -506,16 +506,24 @@ class Ecommerce extends CI_Controller
             foreach ($products as $product) {
                 $row = array();
                 $no++;
+
+                $temp = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i> View</a>';
+                $temp .= '<a href="' .  base_url('ecommerce/pos_product_edit/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>';
+               
+                if(!in_array($product['pid'],$tp_prod_ids)){
+                    $temp .= '<a href="' .  base_url('ecommerce/third_party_product_create/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $vendor_details[0]['Id'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" product_id='.$product['pid'].' vendor_id='.$product['ThirdPartyVendorId'].' vendor_pricing_id='.$product['ThirdPartyVendorPricingId'].' style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs share_product_to_third_party_old"><i class="fa fa-share"></i> Publish</a>';
+                    $check_status  = '';
+                }else{
+                    $check_status = "disabled";
+                }
+
+                $row[] = '<input  '.$check_status.' type="checkbox" name="pos_product_ids" vendor_pr_id ='.$product['ThirdPartyVendorPricingId'].' class="checkbox" fetchId="' . $product['pid'] . '" value="' . $product['pid'] . '"> ';
                 $row[] = $no;
                 $row[] = $product['product_name'];
                 $row[] = $product['product_price'];
                 // $row[] = '---';
                 // $row[] = $product['ThirdPartyVendorPrice'];
-                $temp = '<a data-object-id="' . $product['pid'] . '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs view-object"><i class="fa fa-eye"></i> View</a>';
-                $temp .= '<a href="' .  base_url('ecommerce/pos_product_edit/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $product['ThirdPartyVendorId'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>';
-                if(!in_array($product['pid'],$tp_prod_ids)){
-                $temp .= '<a href="' .  base_url('ecommerce/third_party_product_create/?' . http_build_query(array('id' => $product['pid'],'vendor_id' => $vendor_details[0]['Id'],'vendor_pr_id'=> $product['ThirdPartyVendorPricingId']))). '" product_id='.$product['pid'].' vendor_id='.$product['ThirdPartyVendorId'].' vendor_pricing_id='.$product['ThirdPartyVendorPricingId'].' style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs share_product_to_third_party_old"><i class="fa fa-share"></i> Publish</a>';
-                }
+                
                 $row[]=$temp;
                 $data[] = $row;
             }
@@ -581,6 +589,7 @@ class Ecommerce extends CI_Controller
         foreach ($products as $product) {
             $row = array();
             $no++;
+            $row[] = '<input  disabled type="checkbox" name="tp_product_ids"  class="checkbox" > ';
             $row[] = $no;
             // if($product['match_status'] == '0')
             // {
@@ -696,6 +705,60 @@ class Ecommerce extends CI_Controller
         $response = $this->ecommerce->share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id);
         echo json_encode($response);
             
+    }
+
+    public function share_bulk_products_to_third_party()
+    {
+        $post = $this->input->post();
+        $vendor = $post['vendor_id'];
+        $product_ids = $post['product_ids'];
+       
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        //$p_details = $this->ecommerce->GetVProductDetails($product_id);
+        // //$product_details = $this->ecommerce->GetProductDetails($product_id);
+        // echo "<pre>"; print_r($post); echo "</pre>";
+        // exit;
+        $selectedProductsArray = json_decode($product_ids, true);
+        $allProductsProcessedSuccessfully = true; // Flag to track overall success
+
+        foreach($selectedProductsArray as $pr_id)
+        {
+            $product_details = array();
+
+            $p_details = $this->ecommerce->GetVProductDetails($vendor,$pr_id['fetchId']);
+            $product_details['category'] = $post['category'];
+            $product_details['sub_category'] = $post['sub_category'];
+            $product_details['product_name'] = $p_details[0]['product_name'];
+            $product_details['regular_price'] = $p_details[0]['product_price'];
+            $product_details['sale_price'] = $p_details[0]['product_price'];
+            //$product_details['quantity'] = $post['quantity'];
+            $product_details['product_description'] = $p_details[0]['product_des'];
+            $product_details['image_url'] = base_url('userfiles/product/').$p_details[0]['image'];
+            $vendor_pricing_id = $p_details[0]['ThirdPartyVendorPricingId'];
+
+            // echo "<pre>"; print_r($product_details); echo "</pre>";
+            $response = $this->ecommerce->share_product_to_third_party($vendor_details,$product_details,$vendor_pricing_id);
+            if ($response['status'] !== '200') {
+                $allProductsProcessedSuccessfully = false;
+            }
+        }
+        
+        if ($allProductsProcessedSuccessfully) {
+            $finalResponse = array(
+                'status' => '200',
+                'message' => 'All products added successfully'
+            );
+        } else {
+            $finalResponse = array(
+                'status' => '500',
+                'message' => 'Some products failed to be added'
+            );
+        }
+        
+        // Return the final response
+        echo json_encode($finalResponse);
+        
+              
     }
 
     public function third_party_product_create()
@@ -1170,10 +1233,16 @@ class Ecommerce extends CI_Controller
                 $html.='<tr id="tv_cat_id_'.$segment['id'].'">';
                 $html.='<td>'.$c.'</td>';
                 $html.='<td>'.$segment['name'].'</td>';
-                //$html.='<td><a href="'.base_url('ecommerce/category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'category_id' => $segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                //<a vendor_id="'.$vendor_details[0]['Id'].'" category_id="'.$segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_category"><i class="fa fa-trash"></i></a></td>';
-                $html.='<td>----</td>';
+                if($vendor_details[0]['PlatformType'] == 0)
+                {
+                $html.='<td><a href="'.base_url('ecommerce/category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'category_id' => $segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                <a vendor_id="'.$vendor_details[0]['Id'].'" category_id="'.$segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_category"><i class="fa fa-trash"></i></a></td>';              
                 $html.='</tr>';
+                }else{
+                $html.='<td>Not Allowed</td>';
+                $html.='</tr>';
+                }
+                
                 $c++;
                 }
                 echo $html;
@@ -1228,11 +1297,17 @@ class Ecommerce extends CI_Controller
                 $html.='<tr id="tv_sub_cat_id_'.$sub_segment['id'].'">';
                 $html.='<td>'.$c.'</td>';
                 $html.='<td>'.$sub_segment['name'].'</td>';
-                // $html.='<td>'.$sub_segment['category_name'].'</td>';
-                // $html.='<td><a href="'.base_url('ecommerce/sub_category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'sub_category_id' => $sub_segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                // <a vendor_id="'.$vendor_details[0]['Id'].'" subcategory_id="'.$sub_segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_subcategory"><i class="fa fa-trash"></i></a></td>';
-                $html.='<td>----</td>';
+                if($vendor_details[0]['PlatformType'] == 0)
+                {
+                
+                $html.='<td>'.$sub_segment['category_name'].'</td>';
+                $html.='<td><a href="'.base_url('ecommerce/sub_category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'sub_category_id' => $sub_segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                <a vendor_id="'.$vendor_details[0]['Id'].'" subcategory_id="'.$sub_segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_subcategory"><i class="fa fa-trash"></i></a></td>';
+                              
+                }else{
+                $html.='<td>Not Allowed</td>';
                 $html.='</tr>';
+                }
                 $c++;
                 }
                 echo $html;

@@ -66,7 +66,7 @@ class Ecommerce_model extends CI_Model
 
     public function GetPosAnalytics($post)
     {
-        $sql = "SELECT SUM(total) AS total_sales,SUM(tax) AS total_tax,COUNT(*) AS total_orders FROM gtg_invoices where i_class = 1";
+        $sql = "SELECT COALESCE(SUM(total), 0) AS total_sales,COALESCE(SUM(tax), 0) AS total_tax,COALESCE(COUNT(*), 0) AS total_orders FROM gtg_invoices WHERE i_class = 1";
         
         if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
         {
@@ -96,7 +96,9 @@ class Ecommerce_model extends CI_Model
         $result = $this->db->group_by('invoicedate')->get()->result_array();
 
         // /$data['analytics'][0]["totals"] = array();
-        
+        $data = array();
+       if(!empty($result))
+       {
         foreach ($result as $row) {
             $data[$row["invoicedate"]] = [
                 "sales" => $row["total_amount"],
@@ -105,6 +107,8 @@ class Ecommerce_model extends CI_Model
                 "tax" => $row["total_tax"]
             ];
         }
+       }
+        
         
         
         // echo "<pre>"; print_r($data); echo "</pre>";
@@ -1510,6 +1514,7 @@ public function vendor_save($vendor_details)
         $data['ConsumerKey'] = $vendor_details['consumer_key'];
         $data['ConsumerSecret'] = $vendor_details['consumer_secret'];
         $data['WebSiteType'] = $vendor_details['website_type'];
+        $data['PlatformType'] = $vendor_details['platform_type'];
         $id = $vendor_details['vendor_id'];
 
         if(!empty($id))

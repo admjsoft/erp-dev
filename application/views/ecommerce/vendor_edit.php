@@ -100,6 +100,30 @@ if(isset($_SESSION['status'])){
 
                                     <div class="form-group row mt-1">
 
+                                    <label class="col-sm-2 col-form-label"
+                                        for="name"><?php echo "Platform Type"; // $this->lang->line('Title') ?></label>
+
+                                    <div class="col-sm-8">
+                                    <select class="form-control margin-bottom b_input required " name="platform_type"
+                                            id="platform_type"  >
+                                    <option value='0' <?php if($vendor_details[0]['PlatformType'] == '0'){ echo "selected"; } ?>>Single Platform</option>
+                                    <option value='1' <?php if($vendor_details[0]['PlatformType'] == '1'){ echo "selected"; } ?>>Multiple Platform</option>
+                                    </select>
+                                    <?php if($vendor_details[0]['PlatformType'] == '0'){ ?>
+                                        <label class="" id="single_platform_text" for="name">Single Platform Option Allows to Edit/Delete Categories & Sub Categories  </label>
+                                        <label class="" style="display:none"; id="multiple_platform_text" for="name">Multiple Platform Option Don't Allows to Edit/Delete Categories & Sub Categories  </label>
+
+                                    <?php }else{ ?>
+                                        <label class="" style="display:none"; id="single_platform_text" for="name">Single Platform Option Allows to Edit/Delete Categories & Sub Categories  </label>
+                                        <label class=""  id="multiple_platform_text" for="name">Multiple Platform Option Don't Allows to Edit/Delete Categories & Sub Categories  </label>
+
+                                    <?php } ?>
+                                    
+                                    </div>
+                                    </div>
+
+                                    <div class="form-group row mt-1">
+
                                         <label class="col-sm-2 col-form-label"
                                                for="name"><?php echo "Sale Type"; // $this->lang->line('Title') ?></label>
 
@@ -152,7 +176,17 @@ if(isset($_SESSION['status'])){
 <script type="text/javascript">
     $(document).ready(function () {
 
-
+    $(document).on('change', "#platform_type", function (e) {
+    var p_type = $('#platform_type').val();
+    if(p_type == 1)
+    {
+        $('#single_platform_text').hide();
+        $('#multiple_platform_text').show();
+    }else{
+        $('#multiple_platform_text').hide();
+        $('#single_platform_text').show();
+    }
+    });
     $(document).on('click', "#update_product_btn", function (e) {
         e.preventDefault();
        var vendor_name = $('#vendor_name').val();
@@ -161,6 +195,7 @@ if(isset($_SESSION['status'])){
        var consumer_secret = $('#consumer_secret').val();
        var website_type = $('#website_type').val();
        var sale_type = $('#sale_type').val();
+       var platform_type = $('#platform_type').val();
        var vendor_id = $('#vendor_id').val();
        
 
@@ -176,6 +211,7 @@ if(isset($_SESSION['status'])){
             consumer_secret: consumer_secret,
             website_type: website_type,
             sale_type: sale_type,
+            platform_type: platform_type,
             vendor_id: vendor_id
         },
         success: function (data) {
