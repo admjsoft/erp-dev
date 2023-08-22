@@ -1,3 +1,13 @@
+<?php
+$this->db->select('*');
+   $this->db->from('gtg_referral');
+     $this->db->where('status',2);
+
+   $query=$this->db->get();
+
+  $result=$query->num_rows(); 
+
+?>
 <link rel="stylesheet" type="text/css"
       href="<?= assets_url() ?>app-assets/<?= LTR ?>/core/menu/menu-types/vertical-menu-modern.css">
 <style>
@@ -156,7 +166,12 @@ class="btn btn-primary btn-sm rounded">
 				<?php if($this->aauth->get_user()->roleid==4)
 				{
 				?>
-<li class="nav-item d-none d-md-block nav-link "><a href='#'class="btn btn-primary btn-sm rounded"data-toggle="modal" data-target="#addReferral">
+			<a class="" href="<?php echo base_url("dashboard/ApprovedReferralList")?>"><i
+                                    class="ficon ft-bell"></i><span
+                                    class="badge badge-pill badge-default badge-danger badge-default badge-up"
+                                    id=""><?php echo $result;?></span></a>
+<li class="nav-item d-none d-md-block nav-link ">	
+<a href='#'class="btn btn-primary btn-sm rounded"data-toggle="modal" data-target="#addReferral">
                                                 <?php echo $this->lang->line('Referral') ?></a>
 				</li><?php }?>
                 <ul class="nav navbar-nav float-right"><?php if ($this->aauth->get_user()->roleid == 5) { ?>
