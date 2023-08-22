@@ -89,7 +89,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <td><?php echo $c_no; ?></td>
                         <td><?php echo $sub_category['subcategory_name']; ?></td>
                         <!-- <td><?php // echo $sub_category['category_name']; ?></td> -->
-                        <td><a href="<?php echo base_url('productcategory/edit/?' . http_build_query(array('id' => $sub_category['subcategory_id'])));  ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                        <td><a href="<?php echo base_url('ecommerce/pos_category_edit/?' . http_build_query(array('id' => $sub_category['subcategory_id'])));  ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                         <a data-object-id="<?php echo $sub_category['subcategory_id']; ?>"  sub_category_id="<?php echo $sub_category['subcategory_id']; ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete-object"><i class="fa fa-trash"></i></a></td>
                         </tr>
                     <?php $c_no++; } } ?>

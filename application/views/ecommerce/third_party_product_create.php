@@ -30,6 +30,11 @@ if(isset($_SESSION['status'])){
     <div class="card">
         <div class="card-header">
                 <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Add Product Details 
+                <a
+                        href="<?php echo base_url('ecommerce/publishing') ?>"
+                        class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo "Back to Publishing"; ?>
+                </a>  
             </h4>
             
 

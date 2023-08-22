@@ -8,7 +8,8 @@
                     <select class="form-control" id="vendor_type">
                         <!-- <option value="">Select Vendor</option> -->
                         <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
-                        <option value="<?php echo $vendor['Id']; ?>" vendor_name="<?php echo $vendor['VendorName']; ?>"
+                        <option value="<?php echo $vendor['Id']; ?>" vendor_type="<?php echo $vendor['Type']; ?>"
+                            vendor_name="<?php echo $vendor['VendorName']; ?>"
                             <?php if($vendor['VendorName'] == 'POS'){ echo "selected"; } ?>>
                             <?php echo $vendor['VendorName']." (".$vendor['Type'].") "; ?></option>
                         <?php } } ?>
@@ -21,19 +22,19 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="employee">Start Date</label>
-                    <input type="date" value =""  name="start_date" id="start_date" class="form-control " data-toggle1="datepicker"
-                                                autocomplete="off" />
+                    <input type="date" value="" name="start_date" id="start_date" class="form-control "
+                        data-toggle1="datepicker" autocomplete="off" />
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="employee">End Date</label>
-                    <input type="date" value ="" name="end_date" id="end_date" class="form-control " data-toggle1="datepicker"
-                                                autocomplete="off" />
+                    <input type="date" value="" name="end_date" id="end_date" class="form-control "
+                        data-toggle1="datepicker" autocomplete="off" />
                 </div>
             </div>
 
-            
+
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="submit">&nbsp;</label>
@@ -46,7 +47,28 @@
 
 </div>
 
+
+
+
+
 <div class="content-body">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title"><?php // echo $this->lang->line('Add New Customer') ?></h4>
+
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+            <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body" id="total_analytics_block">
+            
+
+        </div>
+    </div>
     <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
@@ -57,12 +79,11 @@
                 <ul class="list-inline mb-0">
                     <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                    <li><a data-action="close"><i class="ft-x"></i></a></li>
                 </ul>
             </div>
         </div>
         <div class="card-body" id="analytics_block">
-            <div class="card" >
+            <div class="card">
                 <div class="row" id="analytics_counts_block">
                     <div class="col-xl-3 col-lg-6 col-12">
                         <div class="card">
@@ -105,7 +126,7 @@
                                         <i class="fa fa-shopping-basket font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-warning white media-body">
-                                        <h5> Total Products<?php // $this->lang->line('today_sales') ?></h5>
+                                        <h5> Total Unique Products<?php // $this->lang->line('today_sales') ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"></i><?php  echo (int)$total_products; ?>
                                         </h5>
@@ -131,14 +152,14 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
 
 
                 <div class="card-content">
                     <div class="card-body">
-                    <?php /* ?>
+                        <?php /* ?>
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active show" id="base-tab1" data-toggle="tab" aria-controls="tab1"
@@ -229,7 +250,7 @@
                                     </table>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="base-tab2">
 
 
@@ -304,7 +325,7 @@
                             <div class="tab-pane show" id="tab4" role="tabpanel" aria-labelledby="base-tab4">
 
                             </div>
-                            
+
                         </div>
                         <?php */ ?>
                     </div>
@@ -315,7 +336,42 @@
     </div>
 </div>
 
+<div id="invoice_products_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
 
+                <h4 class="modal-title"><?php echo "Products" ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+
+                <table id="invoice_products_table" class="table table-striped table-bordered zero-configuration"
+                    cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoice_products_block">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+
+                <input type="button" class="btn btn-primary" id="bulk_publish_btn" value="<?php echo "Publish"; ?>" />
+                <button type="button" data-dismiss="modal"
+                    class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -324,40 +380,62 @@
 $(document).ready(function() {
 
 
-        var start_date = '';
-        var end_date = '';
-        var vendor_type = $('#vendor_type').val();
-        var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
-        // alert(start_date);
-        // alert(end_date);
-        // alert(vendor_type);
-       
-           // $('#products_invoices').DataTable().destroy();
-            //draw_products_data(start_date, end_date);
-            $.ajax({
+    var start_date = '';
+    var end_date = '';
+    var vendor_type = $('#vendor_type').val();
+    var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
+    // alert(start_date);
+    // alert(end_date);
+    // alert(vendor_type);
 
-                url: "<?php echo site_url('ecommerce/get_ajax_analytics') ?>",
-                type: 'POST',
-                data: {
-                    start_date: start_date,
-                    end_date: end_date,
-                    vendor_type: vendor_type,
-                    vendor_name: vendor_name
-                },
-                success: function (resp) {
-                    $('#analytics_block').html('');
-                    $('#analytics_block').html(resp);
-                    $('#online_invoices').DataTable();
-                },
-                error: function(resp) {
+    // $('#products_invoices').DataTable().destroy();
+    //draw_products_data(start_date, end_date);
+    $.ajax({
+
+        url: "<?php echo site_url('ecommerce/get_ajax_analytics') ?>",
+        type: 'POST',
+        data: {
+            start_date: start_date,
+            end_date: end_date,
+            vendor_type: vendor_type,
+            vendor_name: vendor_name
+        },
+        success: function(resp) {
+            $('#analytics_block').html('');
+            $('#analytics_block').html(resp);
+            $('#online_invoices').DataTable();
+        },
+        error: function(resp) {
+            //console.log(data);
+            console.log("Error not get emp list")
+        }
+
+
+    });
+
+
+    $.ajax({
+
+            url: "<?php echo site_url('ecommerce/get_ajax_total_analytics') ?>",
+            type: 'POST',
+            data: {
+                start_date: start_date,
+                end_date: end_date,
+                vendor_type: vendor_type,
+                vendor_name: vendor_name
+            },
+            success: function(resp) {
+                $('#total_analytics_block').html('');
+                $('#total_analytics_block').html(resp);
+            },
+            error: function(resp) {
                 //console.log(data);
-                    console.log("Error not get emp list")
-                }
+                console.log("Error not get emp list")
+            }
 
 
-                });
+            });
 
-       
 
     draw_online_data();
 
@@ -457,7 +535,7 @@ $(document).ready(function() {
         // alert(vendor_type);
         if (start_date != '' && end_date != '' && vendor_type != '') {
 
-           // $('#products_invoices').DataTable().destroy();
+            // $('#products_invoices').DataTable().destroy();
             //draw_products_data(start_date, end_date);
             $.ajax({
 
@@ -469,18 +547,62 @@ $(document).ready(function() {
                     vendor_type: vendor_type,
                     vendor_name: vendor_name
                 },
-                success: function (resp) {
+                success: function(resp) {
                     $('#analytics_block').html('');
                     $('#analytics_block').html(resp);
                     $('#online_invoices').DataTable();
                 },
                 error: function(resp) {
-                //console.log(data);
+                    //console.log(data);
                     console.log("Error not get emp list")
                 }
 
 
-                });
+            });
+
+        } else {
+            alert("Date range is Required");
+        }
+    });
+
+
+
+
+    $(document).on('click', '.view_analytics_order', function() {
+        var vendor_id = $('#vendor_type').val();
+        var invoice_ids = $(this).attr('invoice_ids');
+        var invoice_date = $(this).attr('invoice_date');
+        //alert(invoice_ids);
+        if (invoice_ids != '' || invoice_date != '') {
+
+            // $('#products_invoices').DataTable().destroy();
+            //draw_products_data(start_date, end_date);
+            $.ajax({
+
+                url: "<?php echo site_url('ecommerce/get_products_list_by_invoices') ?>",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    vendor_id: vendor_id,
+                    invoice_ids: invoice_ids,
+                    invoice_date: invoice_date
+                },
+                success: function(resp) {
+                    if (resp.status == '200') {
+                        $('#invoice_products_table').html('');
+                        $('#invoice_products_table').html(resp.products);
+                        $('#invoice_products_table').DataTable();
+                        $('#invoice_products_modal').modal('show');
+                    }
+
+                },
+                error: function(resp) {
+                    //console.log(data);
+                    console.log("Error not get emp list")
+                }
+
+
+            });
 
         } else {
             alert("Date range is Required");
@@ -488,4 +610,6 @@ $(document).ready(function() {
     });
 
 });
+
+//$('.view_analytics_order').click(function() {
 </script>

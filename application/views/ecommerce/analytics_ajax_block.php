@@ -72,7 +72,7 @@
 
 
 
-                <div class="card-content">
+                <div class="card-content" >
                     <div class="card-body">
                     <!-- <?php if($type == 'POS'){ ?>
                     <?php }else{ ?>
@@ -82,7 +82,7 @@
                             <tr>
                             <th>S.No</th>
                             <th>Date</th>
-                            <th>Sales</th>
+                            <th><?php echo $vendor_details[0]['VendorName']." ".$vendor_details[0]['Type']; ?> Sales Price</th>
                             <th>Orders</th>
                             <th>Items</th>
                             <th>Tax</th>
@@ -90,15 +90,27 @@
                         </thead>
                         <tbody>
                         <?php $i=1; foreach ($analytics[0]["totals"] as $date => $details) { 
+                            if($details["orders"] >= 1)
+                            {
+
+                            
+                            if(isset($details["invoice_ids"]))
+                            {
+                                $invoice_ids = $details["invoice_ids"];
+                                $invoice_date = '';
+                            }else{
+                                $invoice_ids = '';
+                                $invoice_date = $date;
+                            }
                             echo '<tr>
                                     <td>' . $i . '</td>
                                     <td>' . $date . '</td>
                                     <td>' . $details["sales"] . '</td>
-                                    <td>' . $details["orders"] . '</td>
+                                    <td>' . $details["orders"] . ' <a href="javascript:void(0);" class="view_analytics_order" invoice_date="'.$invoice_date.'"  invoice_ids="'.$invoice_ids.'">(View Orders)</a></td>
                                     <td>' . $details["items"] . '</td>
                                     <td>' . $details["tax"] . '</td>
                                 </tr>';
-                        $i++;  } ?>
+                        $i++; }  } ?>
                         </tbody>
                         
                     </table>

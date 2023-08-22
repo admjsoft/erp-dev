@@ -14,7 +14,7 @@ class Ecommerce extends CI_Controller
         parent::__construct();
         $this->load->model('invoices_model', 'invocies');
         $this->load->model('pos_invoices_model', 'posinvocies');
-        
+        $this->load->model('categories_model', 'products_cat');
         $this->load->model('plugins_model', 'plugins');
         $this->load->model('ecommerce_model', 'ecommerce');
         $this->load->library("Aauth");
@@ -49,7 +49,7 @@ class Ecommerce extends CI_Controller
         $data['total_orders'] = 0;
         $data['total_products'] = 0;
         $data['total_tax'] = 0;
-
+       
         // echo "<pre>"; print_r($data); echo "</pre>";
         // exit;
         $this->load->view('fixed/header', $head);
@@ -57,23 +57,76 @@ class Ecommerce extends CI_Controller
         $this->load->view('fixed/footer');
     }
 
+    public function get_ajax_total_analytics(){
+
+           
+        $data['vendors'] = $this->ecommerce->GetThirdPartyVendors();
+
+        $online_sales = 0;
+        $offline_sales = 0;
+
+        if(!empty($data['vendors']))
+        {
+            foreach($data['vendors'] as $vendor_details)
+            {
+                if($vendor_details['VendorName'] == 'POS')
+                {   
+                    $post = array();
+                    $analytics = $this->ecommerce->GetPosAnalytics($post);
+                    $data1['title'] = strtoupper($vendor_details['VendorName'])." Sales";
+                    $data1['total_sales'] = $analytics['analytics'][0]['total_sales'];
+                    $n_data[] = $data1;
+                    $offline_sales += $data1['total_sales'];
+                
+                }else{
+                    $vendor = $vendor_details['Id'];
+                    $post['start_date'] = '1970-01-01';
+                    $post['end_date'] = date('Y-m-d');
+                    $vendor_details1 = $this->ecommerce->GetVendorDetails($vendor);
+                    $analytics = $this->ecommerce->GetSalesReport($vendor_details1,$post); 
+                    
+                    // echo "<pre>"; print_r($analytics); echo "</pre>";    
+                    // exit;
+                    $data1['title'] = strtoupper($vendor_details['VendorName'])." Sales";
+                    $data1['total_sales'] = $analytics[0]['total_sales'];
+                    $n_data[] = $data1;
+                    
+                    if($vendor_details['Id'] == "Offline")
+                    {
+                        $offline_sales += $data1['total_sales'];
+                    }else{
+                        $online_sales += $data1['total_sales'];
+                    }
+
+                }
+            }
+        }
+        
+        $data['platform_sales'] = $n_data;
+        $data['online_sales'] = $online_sales;
+        $data['offline_sales'] = $offline_sales;
+
+        echo $this->load->view('ecommerce/total_analytics_ajax_block',$data,true);
+    }
     public function get_ajax_analytics()
     {
         $post = $this->input->post();
         $vendor_name = $post['vendor_name'];
-
+        $vendor = $post['vendor_type'];
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        $data['vendor_details'] = $vendor_details; 
         if($vendor_name == 'POS')
         {
         $analytics = $this->ecommerce->GetPosAnalytics($post);
-        $data['analytics'][0]['total_sales'] = $analytics[0]['total_sales'];
-        $data['analytics'][0]['total_orders'] = $analytics[0]['total_orders'];
-        $data['analytics'][0]['total_items'] = $this->ecommerce->GetTotalProducts($post);
-        $data['analytics'][0]['total_tax'] = $analytics[0]['total_tax'];
-        $data['analytics'][0]['totals'] = $this->ecommerce->GetAnalyticsOrders($post);
+
+        $data['analytics'][0]['total_sales'] = $analytics['analytics'][0]['total_sales'];
+        $data['analytics'][0]['total_orders'] = $analytics['analytics'][0]['total_orders'];
+        $data['analytics'][0]['total_items'] = $analytics['counts'][0]['total_unique_pid_count'];
+        $data['analytics'][0]['total_tax'] = $analytics['analytics'][0]['total_tax'];
+        $data['analytics'][0]['totals'] = $this->ecommerce->GetAnalyticsOrders($vendor_details,$post);
         $data['type'] = $vendor_name;
-        // echo "<pre>"; print_r($data); echo "</pre>";    
-        // exit;
-    }else{
+        
+        }else{
             $vendor = $post['vendor_type'];
             $start_date = $post['start_date'];
             $end_date = $post['end_date'];
@@ -799,25 +852,31 @@ class Ecommerce extends CI_Controller
         $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
         $data['vendor_details'] = $vendor_details;
         $data['product_details'] = $this->ecommerce->get_third_party_product_details($vendor_details,$product_id);
+
+        // echo "<pre>"; print_r($data['product_details']); echo "</pre>";
+        // exit;
         $data['vendor_pricing_id'] = $vendor_pricing_id;
         $data['vendor_id'] = $vendor;
         $data['categories'] = $this->ecommerce->GetThirdPartyCategories($vendor_details);
-        $data['p_cat_id'] = 0;
+        // $data['p_cat_id'] = 0;
         $data['category_details'] = array();
         if(!empty($data['product_details']['categories'][0]['id'])){
-            $category_details = $this->ecommerce->GetCategoryDetailsById($vendor_details,$data['product_details']['categories'][0]['id']);
-            $data['category_details'] = $category_details;
-            if(!empty($category_details)){
-                if($category_details['parent'] != 0)
-                {
-                    $data['p_cat_id'] = $category_details['parent'];
-                }else{
-                    $data['p_cat_id'] = $data['product_details']['categories'][0]['id'];
-                }
-            }
+            $data['p_cat_id'] = $this->ecommerce->GetAllThirdPartyCategoriesHeirarichy($vendor_details,$data['product_details']['categories'][0]['id']);
+            
+            // echo "<pre>"; print_r($category_details); echo "</pre>";
+            // exit;
+            // $data['category_details'] = $category_details;
+            // if(!empty($category_details)){
+            //     if($category_details['parent'] != 0)
+            //     {
+            //         $data['p_cat_id'] = $category_details['parent'];
+            //     }else{
+            //         $data['p_cat_id'] = $data['product_details']['categories'][0]['id'];
+            //     }
+            // }
         }
        
-        // echo "<pre>"; print_r($data); echo "</pre>";
+        // echo "<pre>"; print_r($data['p_cat_id']); echo "</pre>";
         // exit;
 
         $this->load->view('fixed/header', $head);
@@ -860,7 +919,11 @@ class Ecommerce extends CI_Controller
         $data['product_details'] = $this->ecommerce->get_pos_product_details($vendor,$product_id,$vendor_pricing_id);
         $data['vendor_id'] = $vendor;
         $data['vendor_pricing_id'] = $vendor_pricing_id;
-
+        
+        $data['cat_ware'] = $this->products_cat->cat_ware($product_id);
+        $data['cat_sub'] = $this->products_cat->sub_cat_curr($data['product_details'][0]['sub_id']);
+        $data['cat_sub_list'] = $this->products_cat->sub_cat_list($data['product_details'][0]['pcat']);
+        $data['cat'] = $this->products_cat->category_list();
         // echo "<pre>"; print_r($data); echo "</pre>";
         // exit;
         $this->load->view('fixed/header', $head);
@@ -928,11 +991,16 @@ class Ecommerce extends CI_Controller
         $product_id = $post['product_id'];
         $product_price = $post['product_price'];
         $vendor_pricing_id = $post['vendor_pricing_id'];
+        $product_name = $post['product_name'];
 
         $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
 
         $product_details['product_price'] = $product_price;
         $product_details['product_id'] = $product_id;
+        $product_details['product_name'] = $product_name;
+        $product_details['category'] = $post['product_cat'];
+        $product_details['sub_category'] = $post['sub_cat'];
+        $product_details['product_description'] = $post['description'];
         
         $response = $this->ecommerce->update_product_to_pos($vendor_details,$product_details,$vendor_pricing_id);
         echo json_encode($response);
@@ -955,7 +1023,57 @@ class Ecommerce extends CI_Controller
             
     }
     
+    public function get_products_list_by_invoices(){
+        $post = $this->input->post();
+        $vendor = $post['vendor_id'];
+        $vendor_details = $this->ecommerce->GetVendorDetails($vendor);
+        $items = $this->ecommerce->get_products_list_by_invoices($post,$vendor_details);
 
+
+
+        if(!empty($items))
+        {
+            $c= 1;
+            $html = '';
+            $prevOrder = null;
+
+            foreach ($items as $item) {
+                if ($prevOrder !== $item['tid']) {
+                    // Start a new section for a different order
+                    if ($prevOrder !== null) {
+                        $html .= '</tbody></table>';
+                    }
+
+                    $prevOrder = $item['tid'];
+                    //$html .= '<h3>' . $prevOrder . '</h3>';
+                    $html .= '<table>';
+                    $html .= '<thead><tr><th>S.No</th><th>Product Name</th><th>Quantity</th></tr></thead>';
+                    $html .= '<tbody>';
+                }
+
+                $html .= '<tr>';
+                $html .= '<td>' . $c . '</td>';
+                $html .= '<td>' . $item['product'] . '</td>';
+                $html .= '<td>' . $item['qty'] . '</td>';
+                $html .= '</tr>';
+
+                $c++;
+                if (!empty($items)) {
+                    $html .= '</tbody></table>';
+                }
+            }
+
+
+
+            $response['status'] = '200';
+            $response['products'] = $html;
+        }else{
+            $response['status'] = '500';
+            $response['products'] = '';
+        }
+
+        echo json_encode($response);
+    }
     public function poducts_new_list()
     {
         // WooCommerce API endpoint for listing products
@@ -1297,10 +1415,12 @@ class Ecommerce extends CI_Controller
                 $html.='<tr id="tv_sub_cat_id_'.$sub_segment['id'].'">';
                 $html.='<td>'.$c.'</td>';
                 $html.='<td>'.$sub_segment['name'].'</td>';
+                // $html.='<td>'.$sub_segment['category_name'].'</td>';
+
                 if($vendor_details[0]['PlatformType'] == 0)
                 {
                 
-                $html.='<td>'.$sub_segment['category_name'].'</td>';
+                
                 $html.='<td><a href="'.base_url('ecommerce/sub_category_edit/?' . http_build_query(array('vendor_id'=>$vendor_details[0]['Id'],'sub_category_id' => $sub_segment['id']))).'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                 <a vendor_id="'.$vendor_details[0]['Id'].'" subcategory_id="'.$sub_segment['id'].'" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs delete_subcategory"><i class="fa fa-trash"></i></a></td>';
                               
@@ -1568,6 +1688,72 @@ class Ecommerce extends CI_Controller
             echo "No products found or API request failed.";
         }
     }
+
+    public function getCategoryHierarchy($category_id = 579) {
+        $categoryDetails = $this->fetchCategoryDetails($category_id);
+        //echo "<pre>"; print_r($categoryDetails); echo "</pre>";
+        $this->displayCategoryDetails($categoryDetails);
+    }
+
+    private function fetchCategoryDetails($category_id) {
+
+        $consumerKey = 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de';
+        $consumerSecret = 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d';
+       
+       
+        $storeUrl = 'https://jstore.my/';
+        $category_endpoint = $storeUrl . "/wp-json/wc/v3/products?vendor={$category_id}";
+        
+        
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret),
+            'Content-Type: application/json'
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($curl);
+        
+        if (curl_errno($curl)) {
+            echo "cURL Error: " . curl_error($curl);
+            exit;
+        }
+        
+        curl_close($curl);
+        
+        return json_decode($response, true);
+    }
+
+    private function displayCategoryDetails($categoryDetails, $depth = 0) {
+        if (!empty($categoryDetails)) {
+            if (isset($categoryDetails['name'])) {
+                echo str_repeat('-', $depth * 2) . " {$categoryDetails['name']} (ID: {$categoryDetails['id']})<br>";
+            }
     
+            if (isset($categoryDetails['parent']) && $categoryDetails['parent'] > 0) {
+                $parentCategoryDetails = $this->fetchCategoryDetails($categoryDetails['parent']);
+                $this->displayCategoryDetails($parentCategoryDetails, $depth + 1);
+            }
+        }
+    }
+    
+    public function pos_category_edit()
+    {
+        $catid = $this->input->get('id');
+        $this->db->select('*');
+        $this->db->from('gtg_product_cat');
+        $this->db->where('id', $catid);
+        $query = $this->db->get();
+        $data['productcat'] = $query->row_array();
+        $data['cat'] = $this->products_cat->category_list();
+
+        $head['title'] = "Edit Product Category";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/product-cat-edit', $data);
+        $this->load->view('fixed/footer');
+    }
+
 }
 

@@ -24,6 +24,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
                             <option value="<?php echo $vendor['Id']; ?>"
                                 vendor_name="<?php echo $vendor['VendorName']; ?>"
+                                vendor_type="<?php echo $vendor['Type']; ?>"
                                 <?php if($vendor['VendorName'] == 'POS'){ echo "selected"; } ?>>
                                 <?php echo $vendor['VendorName']." (".$vendor['Type'].") "; ?></option>
                             <?php } } ?>
@@ -32,21 +33,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         </select>
                     </div>
                 </div>
-                <div class="col-md-2" id="target_vendor_type_block">
-                    <div class="form-group">
-                        <label for="employee">Target Platform</label>
-                        <select class="form-control" id="target_vendor_type">
-                            <!-- <option value="">Select Vendor</option> -->
-                            <?php if(!empty($vendors)){ foreach ($vendors as $vendor1) { if($vendor1['VendorName'] != 'POS'){ ?>
-                            <option value="<?php echo $vendor1['Id']; ?>"
-                                vendor_name="<?php echo $vendor1['VendorName']; ?>" <?php  ?>>
-                                <?php echo $vendor1['VendorName']." (".$vendor1['Type'].") "; ?></option>
-                            <?php } } } ?>
-
-
-                        </select>
-                    </div>
-                </div>
+                
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="status">Categories</label>
@@ -63,6 +50,21 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label for="status">Sub Categories</label>
                         <select class="form-control" id="sub_category">
                             <option value="">Select Sub Category</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2" id="target_vendor_type_block">
+                    <div class="form-group">
+                        <label for="employee">Target Platform</label>
+                        <select class="form-control" id="target_vendor_type">
+                            <!-- <option value="">Select Vendor</option> -->
+                            <?php if(!empty($vendors)){ foreach ($vendors as $vendor1) { if($vendor1['VendorName'] != 'POS'){ ?>
+                            <option value="<?php echo $vendor1['Id']; ?>"
+                                vendor_name="<?php echo $vendor1['VendorName']; ?>" vendor_type="<?php echo $vendor1['Type']; ?>">
+                                <?php echo $vendor1['VendorName']." (".$vendor1['Type'].") "; ?></option>
+                            <?php } } } ?>
+
+
                         </select>
                     </div>
                 </div>
@@ -87,7 +89,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
             <div class="card-header">
                 <h4 class="card-title">
-                    <?php echo "View Products"; //$this->lang->line('Clients') ?></a></h4>
+                <span id="form_level_card_header"><?php echo "Publish Your Products to "; //$this->lang->line('Clients') ?></span><span id="form_level_header"></span></h4>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -298,6 +300,7 @@ $(document).ready(function() {
     $('#table_header_vendor_name').html($("#vendor_type option:selected").text() + ' Price');
     $('#table_header_vendor_product_name').html($("#vendor_type option:selected").text() + ' Name');
     var target_vendor = $('#target_vendor_type').val();
+    $('#form_level_header').html($("#target_vendor_type option:selected").attr('vendor_name')+" "+$("#target_vendor_type option:selected").attr('vendor_type'))
 
     //alert(vendor_name);
     draw_data(vendor, vendor_name, category = '', sub_category = '', target_vendor);
@@ -513,12 +516,20 @@ $(document).on('change', "#vendor_type", function(e) {
     var vendor_name = $("#vendor_type option:selected").attr('vendor_name');
     //$('#table_header_vendor_name').html($("#vendor_type option:selected").text()+' Price');
     //$('#table_header_vendor_product_name').html($("#vendor_type option:selected").text()+' Name');
+    form_level_header
 
     if (vendor_name != 'POS') {
         $('#target_vendor_type_block').hide();
+        $('#form_level_card_header').html("All Products from "+ $("#vendor_type option:selected").attr('vendor_name')+" "+$("#vendor_type option:selected").attr('vendor_type'));
+        $('#form_level_header').hide();
+       
         
     } else {
         $('#target_vendor_type_block').show();
+        $('#form_level_card_header').html("Publish Your Products to ");
+        $('#form_level_header').html($("#target_vendor_type option:selected").attr('vendor_name')+" "+$("#target_vendor_type option:selected").attr('vendor_type'));
+        $('#form_level_header').show();
+
     }
 
     $('#category').html('');
@@ -669,6 +680,10 @@ $('#bulk_publish_btn').click(function() {
     });
 
 }
+});
+
+$(document).on('change', "#target_vendor_type", function(e) {
+$('#form_level_header').html($("#target_vendor_type option:selected").attr('vendor_name')+" "+$("#target_vendor_type option:selected").attr('vendor_type'))
 });
 
 });

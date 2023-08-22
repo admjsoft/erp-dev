@@ -29,7 +29,12 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Product Details
+            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Product Details ( <?php echo $vendor_details[0]['VendorName']." ".$vendor_details[0]['Type'];  ?> )
+            <a
+                        href="<?php echo base_url('ecommerce/publishing') ?>"
+                        class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo "Back to Publishing"; ?>
+                </a>  
             </h4>
 
 
@@ -105,7 +110,7 @@ if(isset($_SESSION['status'])){
                                             <select class="form-control" id="category">
                                                 <option value="">Select Category</option>
                                                 <?php  if(!empty($categories)){ foreach ($categories as $category) { ?>
-                                                <option value="<?php echo $category['id']; ?>" <?php if($category['id'] == $p_cat_id){ echo "selected"; } ?>>
+                                                <option value="<?php echo $category['id']; ?>" <?php if(in_array($category['id'],$p_cat_id)){ echo "selected"; } ?>>
                                                     <?php echo $category['name']; ?></option>
                                                 <?php  } }  ?>
                                             </select>

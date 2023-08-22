@@ -67,7 +67,9 @@ class Ecommerce_model extends CI_Model
     public function GetPosAnalytics($post)
     {
         $sql = "SELECT COALESCE(SUM(total), 0) AS total_sales,COALESCE(SUM(tax), 0) AS total_tax,COALESCE(COUNT(*), 0) AS total_orders FROM gtg_invoices WHERE i_class = 1";
-        
+        // Assuming you have loaded the database library in CodeIgniter
+
+            
         if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
         {
             $date_min = date("Y-m-d", strtotime($post['start_date']));
@@ -75,36 +77,73 @@ class Ecommerce_model extends CI_Model
             $sql .= " AND  DATE(invoicedate) >= '$date_min'";
             $sql .= " AND  DATE(invoicedate) <= '$date_max'";
         }
-        
+        // echo $sql;
+        // exit;
         $query = $this->db->query($sql);
-        return $query->result_array();
-    }
+        $data['analytics'] = $query->result_array();
 
-    public function GetAnalyticsOrders($post){
-       
-        $this->db->select('invoicedate, SUM(tax) as total_tax, SUM(total) as total_amount, SUM(items) as total_items, COUNT(*) as row_count');
-        $this->db->from('gtg_invoices'); // Replace with your actual table name
-        
+
+        $sql1 = 'SELECT COALESCE(SUM(items_sold.count), 0) AS items_sold, COUNT(DISTINCT gi.pid) AS total_unique_pid_count FROM gtg_invoices AS i LEFT JOIN ( SELECT tid, COUNT(*) AS count FROM gtg_invoice_items GROUP BY tid ) AS items_sold ON i.id = items_sold.tid LEFT JOIN gtg_invoice_items AS gi ON i.id = gi.tid WHERE i.i_class = 1 ';
+    
         if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
         {
+            $date_min = date("Y-m-d", strtotime($post['start_date']));
+            $date_max = date("Y-m-d", strtotime($post['end_date']));
+            $sql1 .= " AND  DATE(invoicedate) >= '$date_min'";
+            $sql1 .= " AND  DATE(invoicedate) <= '$date_max'";
+        }
+        // echo $sql;
+        // exit;
+        $query1 = $this->db->query($sql1);
+        $data['counts'] = $query1->result_array();
+        return $data;
+    }
+
+    public function GetAnalyticsOrders($vendor_details,$post){
+       
+        // $this->db->select('invoicedate, SUM(tax) as total_tax, SUM(total) as total_amount, SUM(items) as total_items, COUNT(*) as row_count');
+        // $this->db->from('gtg_invoices'); // Replace with your actual table name
+        
+        // if (!empty($post['start_date']) && !empty($post['end_date'])) // if datatable send POST for search
+        // {
+        //     $start_date = date("Y-m-d", strtotime($post['start_date']));
+        //     $end_date = date("Y-m-d", strtotime($post['end_date']));
+        //     $this->db->where('invoicedate >=', $start_date);
+        //     $this->db->where('invoicedate <=', $end_date);
+        // }               
+        // $this->db->where('i_class', 1);
+        // $result = $this->db->group_by('invoicedate')->get()->result_array();
+
+        $this->db->select('invoicedate, GROUP_CONCAT(DISTINCT id) AS invoice_ids, SUM(tax) as total_tax, SUM(total) as total_amount, SUM(items) as total_items, COUNT(*) as row_count');
+        $this->db->from('gtg_invoices');
+
+        if (!empty($post['start_date']) && !empty($post['end_date'])) {
             $start_date = date("Y-m-d", strtotime($post['start_date']));
             $end_date = date("Y-m-d", strtotime($post['end_date']));
             $this->db->where('invoicedate >=', $start_date);
             $this->db->where('invoicedate <=', $end_date);
-        }               
-        $this->db->where('i_class', 1);
-        $result = $this->db->group_by('invoicedate')->get()->result_array();
+        }
 
+        $this->db->where('i_class', 1);
+        $this->db->group_by('invoicedate');
+        $result = $this->db->get()->result_array();
+        
+
+
+        // echo "<pre>"; print_r($result); echo "</pre>";
         // /$data['analytics'][0]["totals"] = array();
         $data = array();
        if(!empty($result))
        {
         foreach ($result as $row) {
+            //$inv_ids = explode(',',$row["invoice_ids"]);
+            //$invjson = json_encode($inv_ids);
             $data[$row["invoicedate"]] = [
                 "sales" => $row["total_amount"],
                 "orders" => $row["row_count"],
                 "items" => $row["total_items"],
-                "tax" => $row["total_tax"]
+                "tax" => $row["total_tax"],
+                "invoice_ids" => $row["invoice_ids"]
             ];
         }
        }
@@ -695,6 +734,63 @@ public function GetThirdPartyCategories($vendor_details)
     return $all_categories;
 }
 
+
+
+public function GetAllThirdPartyCategoriesHeirarichy($vendor_details,$category_id)
+{
+    $website_url = $vendor_details[0]['WebSiteUrl'];
+    $consumer_key = $vendor_details[0]['ConsumerKey'];
+    $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+
+    $curl = curl_init();
+    $category_ids = array();
+    //echo $category_id;
+    while ($category_id) {
+        // Create the API endpoint URL
+        //$category_endpoint = "$website_url/wp-json/wp/v2/categories/$category_id";
+        $category_endpoint = $website_url . "/wp-json/wc/v3/products/categories/{$category_id}";
+
+        // Set cURL options
+        curl_setopt($curl, CURLOPT_URL, $category_endpoint);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+            'Content-Type: application/json'
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  
+        // Execute cURL request
+        $response = curl_exec($curl);
+        // echo $response;
+        // exit;
+        if (curl_errno($curl)) {
+            // echo "cURL Error: " . curl_error($curl);
+            // exit;
+            return array();
+        }
+        
+        // Parse the JSON response
+        $category = json_decode($response, true);
+
+        if (!empty($category) && isset($category['parent']) && $category['parent'] !== 0) {
+            $category_ids[] = $category_id;
+            $category_id = $category['parent'];
+        } else {
+            break; // No more parent categories
+        }
+    }
+
+    curl_close($curl);
+    // Reverse the array to get hierarchical order
+    $category_ids[] = $category_id;
+    $category_ids = array_reverse($category_ids);
+    return $category_ids;
+    // Output the parent category IDs
+    // echo "Parent Category IDs: " . implode(', ', $category_ids);
+
+
+}
+
+
 public function make_curl_request1($url, $credentials) {
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -1224,7 +1320,7 @@ public function GetAllProductsList($vendor){
 
 
    public function get_pos_product_details($vendor,$product_id,$third_party_prcing_id){
-    $sql = "SELECT mi.pid,mi.product_name,mi.qty,mi.product_des,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorItemId,mtv.ThirdPartyVendorId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
+    $sql = "SELECT mi.pid,mi.product_name,mi.sub_id,mi.pcat,mi.product_des,mi.qty,mi.product_des,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorItemId,mtv.ThirdPartyVendorId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
     
     if(!empty($vendor))
     {
@@ -1321,7 +1417,7 @@ public function GetAllProductsList($vendor){
    
        // Send the cURL request
        $response = curl_exec($curl);
-    //    echo $response;
+       echo $response;
     //    exit;
        // Check if the request was successful
        if ($response !== false) {
@@ -1577,11 +1673,24 @@ public function vendor_delete($vendor_id)
 public function update_product_to_pos($vendor_details,$product_details,$vendor_pricing_id)
 {
         $data['Price'] = $product_details['product_price'];
-    
+        $n_data['product_price'] = $product_details['product_price'];
+        $n_data['product_name'] = $product_details['product_name'];
+        $n_data['pcat'] = $product_details['category'];
+        $n_data['sub_id'] = $product_details['sub_category'];
+        $n_data['product_des'] = $product_details['product_description'];
+
+        $product_id = $product_details['product_id'];
         if ($this->db->where('Id', $vendor_pricing_id)->update('merchant_items_thirdparty_pricing', $data)) {
-           
-            $resp_data['status'] = '200';
-            $resp_data['message'] = 'Product updated successfully';
+            
+            if($this->db->where('pid', $product_id)->update('gtg_products', $n_data))
+            {
+                $resp_data['status'] = '200';
+                $resp_data['message'] = 'Product updated successfully';
+            }else{
+                $resp_data['status'] = '500';
+                $resp_data['message'] = 'Unable to update Product';
+            }
+            
         } else {
             // Request failed, show an error message
             $resp_data['status'] = '500';
@@ -2077,7 +2186,108 @@ public function sub_category_save($vendor_details,$post)
         return $resp_data;
 }
 
+    public function get_products_list_by_invoices($post,$vendor_details)
+    {
+        
+        $invoice_date = $post['invoice_date'];    
+        $invoice_ids = $post['invoice_ids']; 
+        if(!empty($invoice_date))
+        {
+            // Check if the input date is in YYYY-MM-DD format
+            //$is_full_date = strpos($invoice_date, '-') === false;
+            //echo "====".$is_full_date."====";
+            // Create DateTime objects for the specified date
+            //$date_obj = new DateTime($invoice_date);
+            
+            $date_obj = new DateTime($invoice_date);
 
+            // Check if the input date format has days or not
+            $is_full_date = strlen($invoice_date) > 7;
+                    
+            if ($is_full_date) {
+                // If the input is in YYYY-MM-DD format, use it as is
+                $first_day = $date_obj->format('Y-m-d');
+                $last_day = $date_obj->format('Y-m-d');
+            } else {
+                // If the input is in YYYY-MM format, construct date range for the entire month
+                $first_day = $date_obj->format('Y-m-01');
+                $last_day = $date_obj->format('Y-m-t');
+            }
+            // $first_day = '2023-01-01';
+            // $last_day = '2023-01-01';
+
+            $website_url = $vendor_details[0]['WebSiteUrl'];
+            $consumer_key = $vendor_details[0]['ConsumerKey'];
+            $consumer_secret = $vendor_details[0]['ConsumerSecret'];
+            // Endpoint to retrieve orders
+            $orders_endpoint = $website_url."/wp-json/wc/v3/orders";
+
+            // Add query parameters to filter orders by the specified date range
+            $query_params = array(
+                //'per_page' => 100, // You might need to paginate if there are more orders
+                //'status' => 'completed', // Filter by completed orders
+                'after' => "{$first_day}T00:00:00Z",
+                'before' => "{$last_day}T23:59:59Z",
+            );
+
+            // echo $orders_endpoint . '?' . http_build_query($query_params);
+            // exit;
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $orders_endpoint . '?' . http_build_query($query_params));
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
+                'Content-Type: application/json'
+            ));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  
+
+         
+
+            $response = curl_exec($curl);
+// echo $response;
+// exit;
+            if (curl_errno($curl)) {
+                echo "cURL Error: " . curl_error($curl);
+                exit;
+            }
+
+            curl_close($curl);
+
+            $orders = json_decode($response, true);
+            $n_data = array();
+            $nn_data = array();
+            if(!empty($orders))
+            {
+                foreach($orders as $order){
+                   
+                    $n_data['tid'] = $order['id'];
+                    if(!empty($orders))
+                    {   
+                        foreach($order['line_items'] as $order_item){
+                            $n_data['product'] = $order_item['name'];
+                            $n_data['qty'] = $order_item['quantity'];
+                            $nn_data[] = $n_data;
+                        }   
+                    }else{
+                            $n_data['product'] = '';
+                            $n_data['qty'] = '';
+                            $nn_data[] = $n_data;
+                    }
+                    
+                }
+            }
+
+            return $nn_data;
+        }else{
+
+            $invoice_ids = explode(',',$post['invoice_ids']);
+            $this->db->select('*');
+            $this->db->from('gtg_invoice_items');
+            $this->db->where_in('tid',$invoice_ids);
+            return $this->db->get()->result_array();
+
+        }
+    }
 
 
 }
