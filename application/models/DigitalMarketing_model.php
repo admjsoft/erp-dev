@@ -251,7 +251,7 @@ class Digitalmarketing_model extends CI_Model
             $response = curl_exec($ch);
 
             if (curl_errno($ch)) {
-                echo 'cURL Error: ' . curl_error($ch);
+                // echo 'cURL Error: ' . curl_error($ch);
                 $resp_data['status'] = '500';
                 $resp_data['message'] = 'Unable to Update Sms Campaign';
             }
@@ -335,7 +335,7 @@ class Digitalmarketing_model extends CI_Model
         // echo $response;
         // exit;
         if (curl_errno($ch)) {
-            echo 'cURL Error: ' . curl_error($ch);
+            // echo 'cURL Error: ' . curl_error($ch);
             $resp_data['status'] = '500';
             $resp_data['message'] = 'Unable to Create Sms Campaign';
         }
@@ -1202,6 +1202,1064 @@ public function EmailCampaignTemplates(){
         // Successful response
         $decodedResponse = json_decode($response, true);
         // Do something with the decoded response (e.g., print the data)
+        return $decodedResponse;
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+
+}
+
+
+
+public function GetContactsList(){
+        
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts?offset=0&sort=desc';
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        //return $decodedResponse;
+        // echo "<pre>"; print_r($all_contacts); echo "</pre>";
+        // exit;
+        $contacts = array();
+        $all_contacts = array();
+        if(!empty($decodedResponse['contacts']))
+        {
+            foreach($decodedResponse['contacts'] as $contact){
+
+                if(isset($contact['attributes']['FIRSTNAME'])){ $contacts['first_name'] = $contact['attributes']['FIRSTNAME']; }else{ $contacts['first_name'] = '----'; }
+                if(isset($contact['attributes']['LASTNAME'])){ $contacts['last_name'] = $contact['attributes']['LASTNAME']; }else{ $contacts['last_name'] = '----'; }
+                if(isset($contact['attributes']['SMS'])){ $contacts['sms'] = $contact['attributes']['SMS']; }else{ $contacts['sms'] = '----'; }
+                if(isset($contact['attributes']['WHATSAPP'])){ $contacts['whatsapp'] = $contact['attributes']['WHATSAPP']; }else{ $contacts['whatsapp'] = '----'; }
+                if(isset($contact['email'])){ $contacts['email'] = $contact['email']; }else{ $contacts['email'] = '----'; }
+                $contacts['id'] = $contact['id']; 
+                $all_contacts[] = $contacts;
+            }
+        }
+
+        // echo "<pre>"; print_r($all_contacts); echo "</pre>";
+        // exit;
+        return $all_contacts;
+
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+}
+
+public function DeleteContactById($contactId){
+        
+    //$campaignId = 25; // Your dynamic value here, e.g., received from user input or database
+    
+    $apiUrl = 'https://api.brevo.com/v3/contacts/' . $contactId;
+    $apiKey = $this->myKey;
+    
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE'); // Set request type to DELETE
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+    
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+    $response = curl_exec($ch);
+    
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        // return false;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Delete Conatct';
+    }
+    
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    
+    curl_close($ch);
+
+    
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        // echo 'Campaign with ID ' . $campaignId . ' deleted successfully.';
+        // return true;
+        $resp_data['status'] = '200';
+        $resp_data['message'] = 'Conatct Deleted Successfully';
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        // return false;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Delete Conatct';
+    }
+    return $resp_data;
+}
+
+
+public function GetContactById($contactId){
+        
+
+    // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/' . $contactId;
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        return $decodedResponse;
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+
+}
+
+public function ConatctSave($post){
+        
+    $contact_id = $post['contact_id'];
+    if(!empty($campaign_id))
+    {
+        $apiUrl = 'https://api.brevo.com/v3/contacts/'.$contact_id;
+        $apiKey = $this->myKey;
+
+       
+    
+    $listIds = array_map('intval', $post['receipents']);
+
+   
+    $data = array(
+        "attributes" => array(
+            "FIRSTNAME" => $post['first_name'],
+            "LASTNAME" => $post['last_name'],
+            "SMS" => $post['sms_no'],
+            "WHATSAPP" => $post['whatsapp_no']
+        ),
+        "updateEnabled" => false,
+        "emailBlacklisted" => false,
+        "smsBlacklisted" => false
+    );
+
+    if(!empty($listIds))
+    {        
+        $data["listIds"] =  $listIds;
+    }
+        $jsonData = json_encode($data);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $headers = array(
+            'accept: application/json',
+            'api-key: ' . $apiKey,
+            'content-type: application/json',
+        );
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            echo 'cURL Error: ' . curl_error($ch);
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Update Contact Details';
+        }
+
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($httpStatus >= 200 && $httpStatus < 300) {
+            // Successful response
+            //$decodedResponse = json_decode($response, true);
+            // Do something with the decoded response
+            //print_r($decodedResponse);
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Contact Details Updated Successfully';
+        } else {
+            // Handle the failure case here
+            //echo 'Request failed with HTTP status code: ' . $httpStatus;
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Update Contact Details';
+        }
+    }else{
+        $apiUrl = 'https://api.brevo.com/v3/contacts';
+        
+
+        $apiKey = $this->myKey;
+
+    
+    $listIds = array_map('intval', $post['receipents']);
+
+   
+    $data = array(
+        "attributes" => array(
+            "FIRSTNAME" => $post['first_name'],
+            "LASTNAME" => $post['last_name'],
+            "SMS" => $post['sms_no'],
+            "WHATSAPP" => $post['whatsapp_no']
+        ),
+        "updateEnabled" => false,
+        "emailBlacklisted" => false,
+        "smsBlacklisted" => false,
+        "email" => $post['email_id'],
+    );
+
+    if(!empty($listIds))
+    {        
+        $data["listIds"] =  $listIds;
+    }
+    // echo "<pre>"; print_r($data); echo "</pre>"; 
+    // exit;
+    
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+        'content-type: application/json',
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    if (curl_errno($ch)) {
+        echo 'cURL Error: ' . curl_error($ch);
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Create Contact Details';
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        //$decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        //print_r($decodedResponse);
+        $resp_data['status'] = '200';
+        $resp_data['message'] = 'Contact Details Created Successfully';
+    } else {
+        // Handle the failure case here
+        //echo 'Request failed with HTTP status code: ' . $httpStatus;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Create Contact Details';
+    }
+//exit;
+    }
+    
+    
+    return $resp_data;
+}
+
+
+
+
+
+public function GetList(){
+        
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/lists?offset=0&sort=desc';
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        return $decodedResponse;
+        
+
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+}
+
+
+
+public function DeleteListById($listId){
+        
+    //$campaignId = 25; // Your dynamic value here, e.g., received from user input or database
+    
+    $apiUrl = 'https://api.brevo.com/v3/contacts/lists/' . $listId;
+    $apiKey = $this->myKey;
+    
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE'); // Set request type to DELETE
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+    
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+    $response = curl_exec($ch);
+    // echo $response;
+    // exit;
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        // return false;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Delete List';
+    }
+    
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    
+    curl_close($ch);
+
+    
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        // echo 'Campaign with ID ' . $campaignId . ' deleted successfully.';
+        // return true;
+        $resp_data['status'] = '200';
+        $resp_data['message'] = 'List Deleted Successfully';
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        // return false;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Delete List';
+    }
+    return $resp_data;
+}
+
+
+
+public function GetListById($listId){
+        
+
+    // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/lists/' . $listId;
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        return $decodedResponse;
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+
+}
+
+
+public function ListSave($post){
+        
+    $list_id = $post['list_id'];
+    if(!empty($list_id))
+    {
+
+            $apiUrl = 'https://api.brevo.com/v3/contacts/lists/'.$list_id;
+            $apiKey = $this->myKey;
+
+        
+            $data = array(
+        
+                "name" => $post['list_name']
+            );
+    
+        
+            $data1 = array(
+                "folderId" => (int)$post['folder_id']
+            );
+
+            $jsonData = json_encode($data);
+
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL, $apiUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            $headers = array(
+                'accept: application/json',
+                'api-key: ' . $apiKey,
+                'content-type: application/json',
+            );
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+            $response = curl_exec($ch);
+
+
+            $jsonData1 = json_encode($data1);
+
+            $ch1 = curl_init();
+
+            curl_setopt($ch1, CURLOPT_URL, $apiUrl);
+            curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch1, CURLOPT_CUSTOMREQUEST, 'PUT');
+            curl_setopt($ch1, CURLOPT_POSTFIELDS, $jsonData1);
+            curl_setopt($ch1, CURLOPT_SSL_VERIFYPEER, false);
+
+            $headers1 = array(
+                'accept: application/json',
+                'api-key: ' . $apiKey,
+                'content-type: application/json',
+            );
+
+            curl_setopt($ch1, CURLOPT_HTTPHEADER, $headers1);
+
+            $response1 = curl_exec($ch1);
+            
+        
+           
+        
+           
+          
+        
+        if (curl_errno($ch) || curl_errno($ch1)) {
+            //echo 'cURL Error: ' . curl_error($ch);
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Update List Details';
+        }
+
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpStatus1 = curl_getinfo($ch1, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+        curl_close($ch1);
+
+        if ($httpStatus >= 200 && $httpStatus < 300 && $httpStatus1 >= 200 && $httpStatus1 < 300) {
+            // Successful response
+            //$decodedResponse = json_decode($response, true);
+            // Do something with the decoded response
+            //print_r($decodedResponse);
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'List Details Updated Successfully';
+        } else {
+            // Handle the failure case here
+            //echo 'Request failed with HTTP status code: ' . $httpStatus;
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Update List Details';
+        }
+    }else{
+        $apiUrl = 'https://api.brevo.com/v3/contacts/lists';
+        
+
+        $apiKey = $this->myKey;
+
+    
+    $data = array(
+        
+        "name" => $post['list_name'],
+        "folderId" => (int)$post['folder_id']
+    );
+
+    
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+        'content-type: application/json',
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    if (curl_errno($ch)) {
+        //echo 'cURL Error: ' . curl_error($ch);
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Create List Details';
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        //$decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        //print_r($decodedResponse);
+        $resp_data['status'] = '200';
+        $resp_data['message'] = 'List Details Created Successfully';
+    } else {
+        // Handle the failure case here
+        //echo 'Request failed with HTTP status code: ' . $httpStatus;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Create List Details';
+    }
+//exit;
+    }
+    
+    
+    return $resp_data;
+}
+
+
+
+
+public function GetListContacts($listId){
+        
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/lists/'.$listId.'/contacts?offset=0&sort=desc';
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        //return $decodedResponse;
+        // echo "<pre>"; print_r($decodedResponse); echo "</pre>";
+        // exit;
+        $contacts = array();
+        $all_contacts = array();
+        if(!empty($decodedResponse['contacts']))
+        {
+            foreach($decodedResponse['contacts'] as $contact){
+
+                if(isset($contact['attributes']['FIRSTNAME'])){ $contacts['first_name'] = $contact['attributes']['FIRSTNAME']; }else{ $contacts['first_name'] = '----'; }
+                if(isset($contact['attributes']['LASTNAME'])){ $contacts['last_name'] = $contact['attributes']['LASTNAME']; }else{ $contacts['last_name'] = '----'; }
+                if(isset($contact['attributes']['SMS'])){ $contacts['sms'] = $contact['attributes']['SMS']; }else{ $contacts['sms'] = '----'; }
+                if(isset($contact['attributes']['WHATSAPP'])){ $contacts['whatsapp'] = $contact['attributes']['WHATSAPP']; }else{ $contacts['whatsapp'] = '----'; }
+                if(isset($contact['email'])){ $contacts['email'] = $contact['email']; }else{ $contacts['email'] = '----'; }
+                $contacts['id'] = $contact['id']; 
+                $all_contacts[] = $contacts;
+            }
+        }
+
+        // echo "<pre>"; print_r($all_contacts); echo "</pre>";
+        // exit;
+        return $all_contacts;
+
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+}
+
+
+
+
+public function GetFoldersList(){
+        
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/folders';
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        return $decodedResponse;
+        
+
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+}
+
+
+
+public function DeleteFolderById($folderId){
+        
+    //$campaignId = 25; // Your dynamic value here, e.g., received from user input or database
+    
+    $apiUrl = 'https://api.brevo.com/v3/contacts/folders/' . $folderId;
+    $apiKey = $this->myKey;
+    
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE'); // Set request type to DELETE
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+    
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+    $response = curl_exec($ch);
+    // echo $response;
+    // exit;
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        // return false;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Delete Folder';
+    }
+    
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    
+    curl_close($ch);
+
+    
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        // echo 'Campaign with ID ' . $campaignId . ' deleted successfully.';
+        // return true;
+        $resp_data['status'] = '200';
+        $resp_data['message'] = 'Folder Deleted Successfully';
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        // return false;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Delete Folder';
+    }
+    return $resp_data;
+}
+
+
+
+public function GetFolderById($folderId){
+        
+
+    // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/folders/' . $folderId;
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        return $decodedResponse;
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+
+}
+
+
+public function FolderSave($post){
+        
+    $folder_id = $post['folder_id'];
+    if(!empty($folder_id))
+    {
+        $apiUrl = 'https://api.brevo.com/v3/contacts/folders/'.$folder_id;
+        $apiKey = $this->myKey;
+
+       
+    
+   
+    $data = array(
+        "name" => $post['folder_name']
+    );
+
+    
+        $jsonData = json_encode($data);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $headers = array(
+            'accept: application/json',
+            'api-key: ' . $apiKey,
+            'content-type: application/json',
+        );
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            //echo 'cURL Error: ' . curl_error($ch);
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Update Folder Details';
+        }
+
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($httpStatus >= 200 && $httpStatus < 300) {
+            // Successful response
+            //$decodedResponse = json_decode($response, true);
+            // Do something with the decoded response
+            //print_r($decodedResponse);
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Folder Details Updated Successfully';
+        } else {
+            // Handle the failure case here
+            //echo 'Request failed with HTTP status code: ' . $httpStatus;
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Update Folder Details';
+        }
+    }else{
+        $apiUrl = 'https://api.brevo.com/v3/contacts/folders';
+        
+
+        $apiKey = $this->myKey;
+
+    $data = array(        
+        "name" => $post['folder_name']
+    );
+    
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+        'content-type: application/json',
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Create Folder Details';
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        //$decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        //print_r($decodedResponse);
+        $resp_data['status'] = '200';
+        $resp_data['message'] = 'Folder Details Created Successfully';
+    } else {
+        // Handle the failure case here
+        //echo 'Request failed with HTTP status code: ' . $httpStatus;
+        $resp_data['status'] = '500';
+        $resp_data['message'] = 'Unable to Create Folder Details';
+    }
+//exit;
+    }
+    
+    
+    return $resp_data;
+}
+
+
+
+public function GetFolderLists($folderId){
+        
+
+    $apiUrl = 'https://api.brevo.com/v3/contacts/folders/'.$folderId.'/lists?offset=0&sort=desc';
+    $apiKey = $this->myKey;
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    // echo $response;
+    // exit;
+    
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
+        return $decodedResponse;
+        
+
+    } else {
+        // Handle the failure case here
+        // echo 'Request failed with HTTP status code: ' . $httpStatus;
+        return array();
+    }
+}
+
+
+public function GetEmailTemplateById($templateId){
+            
+
+    // $campaignId = 2; // Your dynamic value here, e.g., received from user input or database
+
+    $apiUrl = 'https://api.brevo.com/v3/smtp/templates/' . $templateId;
+    $apiKey = $this->myKey;
+
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $headers = array(
+        'accept: application/json',
+        'api-key: ' . $apiKey,
+    );
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        // echo 'cURL Error: ' . curl_error($ch);
+        return array();
+    }
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpStatus >= 200 && $httpStatus < 300) {
+        // Successful response
+        $decodedResponse = json_decode($response, true);
+        // Do something with the decoded response
+        // print_r($decodedResponse);
         return $decodedResponse;
     } else {
         // Handle the failure case here

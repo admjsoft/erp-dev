@@ -166,6 +166,11 @@ if(isset($_SESSION['status'])){
                                                for="name"><?php echo "Once template Selected Message Content Will be Ignored, Otherwise Message Content will be Senf in Campaign"; // $this->lang->line('Title') ?></label>
   
                                         </div>
+                                        <div class="col-sm-2">
+                                        <input type="button" id="template_view_btn"
+                                           class="btn btn-sm btn btn-primary margin-bottom round float-xs-right mr-2"
+                                           value="View Template">
+                                        </div>
                                     </div>
 
                                     <div class="form-group row mt-1">
@@ -218,7 +223,36 @@ if(isset($_SESSION['status'])){
         </div>
     </div>
 </div>
+<div class="modal fade" id="template_view_modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <!-- Modal Header -->
+            <div class="modal-header">
 
+                <h4 class="modal-title">Email Template Design</h4>
+
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" id="template_view_modal_content">
+
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="template_view_modal_close" class="btn btn-default"
+                    data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Modal Footer -->
+
+</div>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -292,6 +326,42 @@ if(isset($_SESSION['status'])){
     
 });
 
+$(document).on('click', "#template_view_modal_close", function (e) {
+    $('#template_view_modal_content').html('');
+});
 
+$(document).on('click', "#template_view_btn", function (e) {
+
+    var template_id = $('#template').val();
+
+    $.ajax({
+
+        url: "<?php echo site_url('digitalmarketing/get_email_template_details') ?>",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            
+            template_id: template_id
+        },
+        success: function (data) {
+            //alert(data.message);
+            if(data.status == '200')
+            {
+
+                $('#template_view_modal').modal('show');
+                $('#template_view_modal_content').html(data.html);
+            }
+            
+        },
+        error: function(data) {
+        //console.log(data);
+        alert(data.message);
+        }
+
+
+        });
+
+
+});
     });
 </script>    

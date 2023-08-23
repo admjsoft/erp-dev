@@ -700,4 +700,237 @@ class Digitalmarketing extends CI_Controller
           
   }
 
+
+
+  
+
+  public function contacts(){
+    $head['title'] = "Contact Campaigns";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['contacts'] = $this->digitalmarketing->GetContactsList();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/contacts',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function contact_create(){
+    $head['title'] = "Contact management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/contact_create',$data);
+    $this->load->view('fixed/footer');
+}
+public function contact_save()
+{
+    $post = $this->input->post();  
+    // echo "<pre>"; print_r($post); echo "</pre>"; 
+    // /exit;     
+    $response = $this->digitalmarketing->ContactSave($post);
+    echo json_encode($response);
+        
+}
+public function contact_edit(){
+    $id = $this->input->get('id');
+    $head['title'] = "Contact management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+    $data['contact_details'] = $this->digitalmarketing->GetContactById($id);
+
+    // echo "<pre>"; print_r($data); echo "</pre>";
+    // exit;
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/contact_edit',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function contact_view(){
+    $id = $this->input->get('id');
+    $head['title'] = "Contact Management";
+    $head['usernm'] = $this->aauth->get_user()->username;    
+    $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+    $data['contact_details'] = $this->digitalmarketing->GetContactById($id);
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/contact_view',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function delete_contact()
+{
+    $post = $this->input->post(); 
+    $contact_id = $post['contact_id'];       
+    $response = $this->digitalmarketing->DeleteContactById($contact_id);
+    echo json_encode($response);
+        
+}
+
+
+
+ 
+
+public function lists(){
+    $head['title'] = "List Management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['lists'] = $this->digitalmarketing->GetList();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/lists',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function list_create(){
+    $head['title'] = "List management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
+    $data['folders'] = $this->digitalmarketing->GetFoldersList();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/list_create',$data);
+    $this->load->view('fixed/footer');
+}
+public function list_save()
+{
+    $post = $this->input->post();  
+    // echo "<pre>"; print_r($post); echo "</pre>"; 
+    // /exit;     
+    $response = $this->digitalmarketing->ListSave($post);
+    echo json_encode($response);
+        
+}
+public function list_edit(){
+    $id = $this->input->get('id');
+    $head['title'] = "List management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['list_details'] = $this->digitalmarketing->GetListById($id);
+
+    $data['folders'] = $this->digitalmarketing->GetFoldersList();
+    // echo "<pre>"; print_r($data); echo "</pre>";
+    // exit;
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/list_edit',$data);
+    $this->load->view('fixed/footer');
+}
+
+
+public function list_view(){
+    $id = $this->input->get('id');
+    $head['title'] = "List Management";
+    $head['usernm'] = $this->aauth->get_user()->username;    
+   
+    $data['list_details'] = $this->digitalmarketing->GetListById($id);
+
+    $data['folders'] = $this->digitalmarketing->GetFoldersList();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/list_view',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function delete_list()
+{
+    $post = $this->input->post(); 
+    $list_id = $post['list_id'];       
+    $response = $this->digitalmarketing->DeleteListById($list_id);
+    echo json_encode($response);
+        
+}
+
+public function list_contacts(){
+    
+    $id = $this->input->get('id');
+    $head['title'] = "List Management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['contacts'] = $this->digitalmarketing->GetListContacts($id);
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/list_contacts',$data);
+    $this->load->view('fixed/footer');
+}
+
+
+public function folders(){
+    $head['title'] = "Folder Management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['folders'] = $this->digitalmarketing->GetFoldersList();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/folders',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function folder_create(){
+    $head['title'] = "Folder management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data = array();
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/folder_create',$data);
+    $this->load->view('fixed/footer');
+}
+public function folder_save()
+{
+    $post = $this->input->post();  
+    // echo "<pre>"; print_r($post); echo "</pre>"; 
+    // /exit;     
+    $response = $this->digitalmarketing->FolderSave($post);
+    echo json_encode($response);
+        
+}
+public function folder_edit(){
+    $id = $this->input->get('id');
+    $head['title'] = "Folder management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['folder_details'] = $this->digitalmarketing->GetFolderById($id);
+
+    // echo "<pre>"; print_r($data); echo "</pre>";
+    // exit;
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/folder_edit',$data);
+    $this->load->view('fixed/footer');
+}
+
+
+public function folder_view(){
+    $id = $this->input->get('id');
+    $head['title'] = "Folder Management";
+    $head['usernm'] = $this->aauth->get_user()->username;    
+   
+    $data['folder_details'] = $this->digitalmarketing->GetFolderById($id);
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/folder_view',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function delete_folder()
+{
+    $post = $this->input->post(); 
+    $folder_id = $post['folder_id'];       
+    $response = $this->digitalmarketing->DeleteFolderById($folder_id);
+    echo json_encode($response);
+        
+}
+
+public function folder_lists(){
+    $id = $this->input->get('id');
+    $head['title'] = "List Management";
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $data['lists'] = $this->digitalmarketing->GetFolderLists($id);
+    $this->load->view('fixed/header', $head);
+    $this->load->view('digital_marketing/lists',$data);
+    $this->load->view('fixed/footer');
+}
+
+public function get_email_template_details(){
+
+    
+    $post = $this->input->post();
+    $template_id = $post['template_id'];
+    $data['template_details'] = $this->digitalmarketing->GetEmailTemplateById($template_id);
+    // echo "<pre>"; print_r($data['campaign_details']); echo "</pre>";
+    // exit;
+    $data['status'] = '200';
+    $data['html'] = $this->load->view('digital_marketing/email_template_view',$data,TRUE);
+    echo json_encode($data);
+}
+
 }

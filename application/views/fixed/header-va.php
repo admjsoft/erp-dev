@@ -1937,8 +1937,17 @@ class="btn btn-primary btn-sm rounded">
                 <ul class="menu-content">
 
                     
-                <li class="menu-item"><a
+                    <li class="menu-item"><a
                                 href="<?php echo base_url(); ?>digitalmarketing/customers_list"> Customers List<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    </li>  
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/contacts"> Contact management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    </li>
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/lists"> List Management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                    </li> 
+                    <li class="menu-item"><a
+                                href="<?php echo base_url(); ?>digitalmarketing/folders"> Folder Management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
                     </li>  
                     <li class="menu-item"><a
                                 href="<?php echo base_url(); ?>digitalmarketing/transactional"> Transactional<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
