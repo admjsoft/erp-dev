@@ -653,8 +653,9 @@ $('#bulk_publish_btn').click(function() {
     vendor_id = $('#target_vendor_type').val();
     category = $('#target_category').val();
     sub_category = $('#target_sub_category').val();
-
-    // /alert(product_ids);
+    if(category != '' && sub_category != '')
+    {
+    //alert(product_ids);
     $.ajax({
 
         url: "<?php echo site_url('ecommerce/share_bulk_products_to_third_party') ?>",
@@ -678,6 +679,9 @@ $('#bulk_publish_btn').click(function() {
 
 
     });
+}else{
+    alert('Please Select Category & Sub Category');
+}
 
 }
 });

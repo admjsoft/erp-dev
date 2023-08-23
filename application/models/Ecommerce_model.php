@@ -1417,7 +1417,7 @@ public function GetAllProductsList($vendor){
    
        // Send the cURL request
        $response = curl_exec($curl);
-       echo $response;
+    //    echo $response;
     //    exit;
        // Check if the request was successful
        if ($response !== false) {
