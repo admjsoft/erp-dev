@@ -1195,6 +1195,13 @@
             success: function (data) {
 
                 $("#pos_item").html(data);
+                var imgElements = document.querySelectorAll(".round img");
+                imgElements.forEach(function(img) {
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = '<?php echo base_url('userfiles/product/default.png'); ?>';
+                    };
+                });
 
             }
         });
@@ -1212,6 +1219,13 @@
             success: function (data) {
 
                 $("#pos_item").html(data);
+                var imgElements = document.querySelectorAll(".round img");
+            imgElements.forEach(function(img) {
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = '<?php echo base_url('userfiles/product/default.png'); ?>';
+                };
+            });
 
             }
         });
@@ -1279,7 +1293,13 @@
                         },
                         success: function (data) {
                             $("#pos_item").html(data);
-
+                            var imgElements = document.querySelectorAll(".round img");
+                            imgElements.forEach(function(img) {
+                                img.onerror = function() {
+                                    this.onerror = null;
+                                    this.src = '<?php echo base_url('userfiles/product/default.png'); ?>';
+                                };
+                            });
                         }
                     });
 
@@ -1308,6 +1328,13 @@
                                 $("#pos_item").html(data);
                                 $('#v2_search_bar').attr('readonly', false);
                                 $('#v2_search_bar').val('');
+                                var imgElements = document.querySelectorAll(".round img");
+                                    imgElements.forEach(function(img) {
+                                        img.onerror = function() {
+                                            this.onerror = null;
+                                            this.src = '<?php echo base_url('userfiles/product/default.png'); ?>';
+                                        };
+                                    });
                             }
 
                         });
