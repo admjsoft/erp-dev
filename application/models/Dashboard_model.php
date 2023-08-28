@@ -642,12 +642,16 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
 
     private function _get_datatables_query($id = '')
     {
-        $due = $this->input->post('due');
-		$fdms=$this->input->post('fdms');
-
+       
+             $approved=$this->input->post('approved');
             $this->db->select('*');
             $this->db->from('gtg_referral');
-           
+           if($approved)
+		   {
+			   $this->db->where('status',2);
+   
+			   
+		   }
 		
 		
 		
@@ -723,4 +727,49 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
    $query=$this->db->get();
    return $query->row();
 }
+
+	public function  get_approved_references($id)
+	{
+	
+	$this->db->select('*');
+   $this->db->from('gtg_referral');
+   $this->db->where('id',$id);
+   $this->db->where('status',2);
+   $query=$this->db->get();
+   return $query->row();
+}
+public function get_reference_status($id)
+{
+	
+	$this->db->select('status,id');
+        $this->db->from('gtg_referral');
+        $this->db->where('id',$id);
+         $query=$this->db->get();
+	$this->db->where('delete_status',0);
+
+         return $query->row();
+	
+	
+	
+}
+public function update_referral_status($id,$status,$sub,$startdate,$endate,$remarks)
+{
+	
+	$data = array(
+                'status' => $status,
+				'subscription' => $sub,
+				'start_date' => $startdate,
+				'end_date' => $endate,
+				'admin_remarks' => $remarks,
+ );
+			    $this->db->where('id',$id);
+				return $this->db->update('gtg_referral', $data);
+	
+	
+}
+
+
+
+
+
 }

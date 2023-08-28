@@ -38,7 +38,46 @@
                                 </div>
                             </div>
               
+<div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="name">Next Subscription % Discount</label>
 
+                                <div class="col-sm-4">
+                                 <select id="Category" class="form-control"  data-val="true" 
+								 data-val-required="The Category field is required." name="sub">
+                                                <option value="">--- SELECT ---</option>
+												<option value="10">10</option>
+	                                  			<option value="20">20</option>
+												<option value="30">30</option>
+											<option value="40">40</option>
+											<option value="50">50</option>
+
+                                   </select>
+									 
+                                </div>
+                            </div>
+<div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="name">Period to Earn</label>
+
+                                <div class="col-sm-4">
+                                 <input type="date" name="startdate" class="form-control">
+									 
+                                </div>
+								<div class="col-sm-4">
+                                 <input type="date" name="enddate" class="form-control">
+									 
+                                </div>
+                            </div>
+						<div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="name">Remarks</label>
+
+                                <div class="col-sm-4">
+                                <textarea name="remarks" class="form-control"></textarea>
+									 
+                                </div>
+                            </div>	
+							
+							
+							
                 <div class="col-sm-4">
                             <input type="submit" id="submit" class="btn btn-success margin-bottom" onclick="validate()"
                            value="<?php echo $this->lang->line('Update') ?>"

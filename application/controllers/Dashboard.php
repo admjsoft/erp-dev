@@ -474,7 +474,7 @@ function fetch_data()
         $this->load->view('fixed/footer');
 		
 	}
-	public function getReferrerList()
+public function getReferrerList()
 	{
 	   
 	 
@@ -486,14 +486,27 @@ function fetch_data()
 		$type='';
 	   $no = $this->input->post('start');
         foreach ($list as $obj) {
+			if($obj->status==0)
+			{
+				$status="Pending";
+			}
+			else if($obj->status==1)
+			{
+				$status="In Progress";
+			}
+			else{
+				$status="Success";
+				
+			}
+			$html=' <a href="' . base_url() . 'dashboard/referenceEdit?id=' . $obj->id . '"  class="btn btn-primary btn-sm"><span class="fa fa-edit"></span>  ' . $this->lang->line('Edit') . '</a>';
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = $obj->referral_name;
 			$row[] = '<a href="#" class="" onclick="viewReferral(' . $obj->id . ');"> ' .$obj->company_name . '</a>'; 
             $row[] = $obj->created_at;
-		    $row[] = "Admin";
-            $row[] = "Status";
+		    $row[] = $obj->reffered_by;
+            $row[] = $status.$html;
             $data[] = $row;
         }
         $output = array(
@@ -570,7 +583,146 @@ function fetch_data()
 	  
 	  
   }
+public function referenceEdit()
+	{
+		
+		$id = $this->input->get('id');
+        $this->load->library("Common");
+        $data['langs'] = $this->common->languages();
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $data['status'] = $this->dashboard_model->get_reference_status($id);
+       // $data['categories'] = $this->asset->get_all_categories();
+        //die;
+        // $data['custom_fields'] = $this->custom->add_fields(1);
+        $head['title'] = 'Update Status';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('referenceStatus', $data);
+        $this->load->view('fixed/footer');
+		
+		
+	}
+		public function UpdateReferralStatus()
+	{
+		
+				 $id = $this->input->post('statusid');
+			 $status = $this->input->post('status');
+			 $sub = $this->input->post('sub');
+			 $startdate = $this->input->post('startdate');
+			 $endate = $this->input->post('enddate');
+			 $remarks = $this->input->post('remarks');
+        $update = $this->dashboard_model->update_referral_status($id,$status,$sub,$startdate,$endate,$remarks);
+if($update) {
+				  
+					   
+					$data['status'] = 'success';
+                    $data['message'] = $this->lang->line('UPDATED');
+					   
+	 
+				}  else {
+					 $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('ERROR');
+					
+				}
+		$_SESSION['status']=$data['status'];
+            $_SESSION['message']=$data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+		    redirect('dashboard/referralList', 'refresh');
+		
+	}
+public function ApprovedReferralList()
+{
+	 $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Referral List';
+        //$data['permission'] = $this->dashboard_model->subscribe_permissions();
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ApprovedreferralList');
+        $this->load->view('fixed/footer');
 
+}
+
+public function getAprrovedReferrerList()
+	{
+	   
+	  
+	      $ttype = $this->input->get('type');
+        $list = $this->dashboard_model->get_datatables();
+	         $data = array();
+        // $no = $_POST['start'];
+        $temp='';
+		$type='';
+	   $no = $this->input->post('start');
+        foreach ($list as $obj) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $obj->created_at;
+			$row[] = $obj->referral_name;
+			$row[] = '<a href="#" class="" onclick="viewReferral(' . $obj->id . ');"> ' .$obj->company_name . '</a>'; 
+		    $row[] = $obj->subscription."%";
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->dashboard_model->count_all(),
+            "recordsFiltered" => $this->dashboard_model->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+	
+	}
+
+ public function getApprovedreferences()
+  {
+		    $id = $this->input->post('id');
+        $list = $this->dashboard_model->get_approved_references($id);
+		// $date= date('Y-m-d',strtotime($list->created_at));
+		  ///  $newDate = date('Y-m-d', strtotime($date. ' + 1 years'));
+			//$percent="15%";
+         $html='                    <div class="row">
+                        <div class="col">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"
+                                       for="name">Start Date</label>
+                                <div class="col-sm-4">
+                                  '.$list->start_date.'
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">End Date</label>
+
+                                <div class="col-sm-4">
+
+                                   '.$list->end_date.'
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <label class="col-sm-3 col-form-label"
+                                       for="phone">Percentage</label>
+
+                                <div class="col-sm-4">
+																	
+                                   '.$list->subscription.'
+
+                                </div>
+                            </div>
+                               
+							 
+                                </div>
+                           
+                                </div>';
+	  
+	  echo json_encode($html);
+
+	  
+	  
+  }
 
 
 

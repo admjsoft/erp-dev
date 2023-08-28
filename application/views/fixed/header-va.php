@@ -1468,7 +1468,7 @@ class="btn btn-primary btn-sm rounded">
                              <ul class="menu-content">
 
                                 <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/online_platforms"> Online Platforms<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/vendors"> Vendors<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
                                  </li> 
                                 <li class="menu-item"><a
                                              href="<?php echo base_url(); ?>ecommerce/categories"> Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
@@ -1937,17 +1937,8 @@ class="btn btn-primary btn-sm rounded">
                 <ul class="menu-content">
 
                     
-                    <li class="menu-item"><a
+                <li class="menu-item"><a
                                 href="<?php echo base_url(); ?>digitalmarketing/customers_list"> Customers List<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
-                    </li>  
-                    <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/contacts"> Contact management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
-                    </li>
-                    <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/lists"> List Management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
-                    </li> 
-                    <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/folders"> Folder Management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
                     </li>  
                     <li class="menu-item"><a
                                 href="<?php echo base_url(); ?>digitalmarketing/transactional"> Transactional<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
@@ -2028,7 +2019,7 @@ class="btn btn-primary btn-sm rounded">
 <div class="modal fade" id="addReferral" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content ">
-            <form method="post" id="product_action" class="form-horizontal" 
+            <form method="post" id="" class="form-horizontal" 
 			action="<?php echo base_url("customers/referral") ?>" >
                 <!-- Modal Header -->
                  <div class="modal-header">

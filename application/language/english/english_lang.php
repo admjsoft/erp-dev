@@ -1272,4 +1272,7 @@ $lang['Referral'] = "Referral";
 $lang['Referral List'] = "Referral List";
 $lang['Refer By'] = "Refer By";
 $lang['Status'] = "Status";
-
+$lang['Date of referral'] = "Date of referral";
+$lang['Referral Name'] = "Referral Name";
+$lang['Company name'] = "Company name";
+$lang['Earning Percentage'] = "Earning Percentage";
