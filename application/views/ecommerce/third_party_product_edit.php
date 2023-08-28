@@ -129,6 +129,17 @@ if(isset($_SESSION['status'])){
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                            for="name"><?php echo "Child Categories"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="child_category">
+                                                <option value="">Select Child Category</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <?php /* ?>
                                     <div class="form-group row mt-1">
 
@@ -153,7 +164,13 @@ if(isset($_SESSION['status'])){
                                             <input type="text" placeholder="Title"
                                                 class="form-control margin-bottom b_input required " name="title"
                                                 id="regular_price"
-                                                value="<?php  echo $product_details['regular_price']; ?>">
+                                                value="<?php  if(!empty($product_details['regular_price']))
+                                                        {
+                                                           echo $product_details['regular_price'];
+                                                        }else{
+                                                            
+                                                            echo $product_details['price'];
+                                                        } ?>">
 
                                         </div>
                                     </div>
@@ -165,7 +182,18 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
                                                 class="form-control margin-bottom b_input required " name="title"
-                                                id="sale_price" value="<?php if(!empty($product_details['sale_price'])){ echo $product_details['sale_price']; }else{ echo $product_details['regular_price']; }   ?>">
+                                                id="sale_price" value="<?php if(!empty($product_details['sale_price']))
+                                                    {
+                                                       echo $product_details['sale_price'];
+                                                    }else{
+                                                        if(!empty($product_details['regular_price']))
+                                                        {
+                                                            echo $product_details['regular_price'];
+                                                        }else{
+                                                            
+                                                            echo $product_details['price'];
+                                                        }
+                                                    } ?>">
 
                                         </div>
                                     </div>
@@ -202,6 +230,8 @@ if(isset($_SESSION['status'])){
                                         value="<?php  echo $vendor_details[0]['VendorName']; ?>" id="vendor_name">
                                     <input type="hidden" name="product_sub_category_id"
                                         value="<?php if(!empty($product_details['categories'][0]['id'])){ echo $product_details['categories'][0]['id']; }  ?>" id="product_sub_category_id">    
+                                    <input type="hidden" name="categories_list" id="categories_list"
+                                        value="<?php if(!empty($p_cat_id)){ echo json_encode($p_cat_id); }  ?>" />    
                                     <input type="button" id="update_product_btn"
                                         class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                         value="<?php //echo $this->lang->line('Add customer') ?>Update Product"
@@ -308,8 +338,9 @@ $(document).ready(function() {
         var description = $('#description').val();
         var vendor_pricing_id = $('#vendor_pricing_id').val();
         // var quantity = $('#quantity').val();
-        var category = $('#sub_category').val();
+        var category = $('#category').val();
         var sub_category = $('#sub_category').val();
+        var child_category = $('#child_category').val();
         var image_url = $('#image_url').val();
 
         if(name != '' && regular_price != '' && sale_price != '' && description != '' && category != '' && sub_category != '' && image_url != '')
@@ -331,6 +362,7 @@ $(document).ready(function() {
                // quantity: quantity,
                 category: category,
                 sub_category: sub_category,
+                child_category: child_category,
                 image_url: image_url
             },
             success: function(data) {
@@ -380,6 +412,41 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('change', "#sub_category", function(e) {
+
+    var vendor = $('#vendor_type').val();
+    var vendor_name = $('#vendor_name').val();
+    var category = $('#sub_category').val();
+    var sub_category = '';
+    var cat_type = 'child';
+
+    $.ajax({
+
+    url: "<?php echo site_url('ecommerce/get_sub_categories_list') ?>",
+    type: 'POST',
+    data: {
+        vendor: vendor,
+        vendor_name: vendor_name,
+        category: category,
+        sub_category: sub_category,
+        cat_type: cat_type
+    },
+    success: function(data) {
+        $('#child_category').html('');
+        $('#child_category').html(data);
+    },
+    error: function(data) {
+        //console.log(data);
+        console.log("Error not get emp list")
+    }
+
+
+    });
+
+    });
+
+
+
 });
 
 
@@ -390,22 +457,55 @@ $(window).on('load', function() {
 var vendor = $('#vendor_type').val();
 var vendor_name = $('#vendor_name').val();
 var category = $('#category').val();
-var sub_category = $('#product_sub_category_id').val();
+var categories_list = $('#categories_list').val();
+//var sub_category = $('#product_sub_category_id').val();
 
-if(category != ''  && sub_category != ''){
+if(category != '' ){
 $.ajax({
 
-    url: "<?php echo site_url('ecommerce/get_sub_categories_list') ?>",
+    url: "<?php echo site_url('ecommerce/get_sub_categories_edit_page_list') ?>",
     type: 'POST',
     data: {
         vendor: vendor,
         vendor_name: vendor_name,
         category: category,
-        sub_category: sub_category
+        categories_list: categories_list
     },
     success: function(data) {
         $('#sub_category').html('');
         $('#sub_category').html(data);
+        var selected_sub_category = $('#sub_category').val();
+        if(selected_sub_category != '')
+        {
+            $.ajax({
+
+                    url: "<?php echo site_url('ecommerce/get_sub_categories_edit_page_list') ?>",
+                    type: 'POST',
+                    data: {
+                        vendor: vendor,
+                        vendor_name: vendor_name,
+                        category: selected_sub_category,
+                        categories_list: categories_list
+                    },
+                    success: function(data) {
+                        $('#child_category').html('');
+                        $('#child_category').html(data);
+
+
+                        
+                    },
+                    error: function(data) {
+                        //console.log(data);
+                        console.log("Error not get emp list")
+                    }
+
+
+                    });
+
+
+        }
+        
+
     },
     error: function(data) {
         //console.log(data);

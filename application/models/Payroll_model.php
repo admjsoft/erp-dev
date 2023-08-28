@@ -911,7 +911,7 @@ public function pointNumber($str){
     <table style='border-collapse: collapse;width:100%'>
         <tr>
             <td style='width:100%;text-align:center'>
-                <p><b><i>This is a computer genetared document</i></b></p>
+                <p><b><i>This is a computer generated document</i></b></p>
             </td>
         </tr>
     </table>

@@ -111,10 +111,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th><?php echo "Product Name"; //$this->lang->line('Subject') ?></th>
-                        <th><?php echo "Product Price"; //$this->lang->line('Added') ?></th>
-                        <!-- <th id="table_header_vendor_product_name"></th>
-                    <th id="table_header_vendor_name" ><?php // echo "Product Name"; //$this->lang->line('Status') ?></th> -->
+                        <th><?php echo "Product Name"; ?></th>
+                        <th><?php echo "Product Price";  ?></th>
+                        <th id="tp_price"><?php echo "Online Price";  ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>
                     </tr>
                 </thead>
@@ -356,6 +355,9 @@ $(document).ready(function() {
                 },
                 {
                     "data": 4
+                },
+                {
+                    "data": 5
                 }
 
             ],
@@ -413,6 +415,13 @@ $(document).ready(function() {
         } else {
             // Handle the case when the element is not available
             target_vendor_type_value = '';
+        }
+
+        if(vendor_name == 'POS')
+        {
+            $('#tp_price').html('Online Price');
+        }else{
+            $('#tp_price').html('Sale Price');
         }
 
         if (vendor != '' && category != '') {
@@ -601,8 +610,15 @@ $(document).on('click', ".share_product_to_third_party", function(e) {
             sub_category: sub_category
         },
         success: function(data) {
-            alert(data.message);
-            $('#search').click();
+
+            if(data.status == '200')
+            {
+                alert(data.message);
+                $('#search').click();
+
+            }else{
+                alert(data.message);
+            }
         },
         error: function(data) {
             //console.log(data);
@@ -650,11 +666,16 @@ $('.multi_assign_button').click(function() {
 $('#bulk_publish_btn').click(function() {
     var product_ids = $('#selected_product_ids').val();
     if (product_ids) {
+
+    var button = document.getElementById('bulk_publish_btn');
+    button.disabled = true;
+    
     vendor_id = $('#target_vendor_type').val();
     category = $('#target_category').val();
     sub_category = $('#target_sub_category').val();
-
-    // /alert(product_ids);
+    if(category != '' && sub_category != '')
+    {
+    //alert(product_ids);
     $.ajax({
 
         url: "<?php echo site_url('ecommerce/share_bulk_products_to_third_party') ?>",
@@ -667,17 +688,29 @@ $('#bulk_publish_btn').click(function() {
             sub_category: sub_category
         },
         success: function(data) {
-            alert(data.message);
-            //$('#search').click();
-            location.reload();
-        },
+            if(data.status == '200')
+            {
+                alert(data.message);
+                //$('#search').click();
+                location.reload();
+
+            }else{
+                alert(data.message);
+                button.disabled = false;
+            }
+                    },
         error: function(data) {
             //console.log(data);
             alert(data.message);
+            button.disabled = false;
         }
 
 
     });
+}else{
+    alert('Please Select Category & Sub Category');
+        button.disabled = false;
+}
 
 }
 });

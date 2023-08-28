@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Contact Details 
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Create Contact  
             </h4>
             
 
@@ -57,7 +57,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="first Name"
                                                    class="form-control margin-bottom b_input required " name="first_name"
-                                                   id="first_name" value="">
+                                                   id="first_name" value="<?php if(isset($contact_details['attributes']['FIRSTNAME'])){ echo $contact_details['attributes']['FIRSTNAME']; }  ?>">
                                             
                                         </div>
                                     </div>
@@ -69,7 +69,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="last Name"
                                                    class="form-control margin-bottom b_input required " name="last_name"
-                                                   id="last_name" value="">
+                                                   id="last_name" value="<?php if(isset($contact_details['attributes']['LASTNAME'])){  echo $contact_details['attributes']['LASTNAME']; } ?>">
                                             
                                         </div>
                                     </div>
@@ -80,9 +80,9 @@ if(isset($_SESSION['status'])){
                                         for="name"><?php echo "Email Id"; // $this->lang->line('Title') ?></label>
 
                                     <div class="col-sm-8">
-                                        <input type="email"   placeholder="email id"
+                                        <input type="text"   placeholder="email id"
                                             class="form-control margin-bottom b_input required " name="email_id"
-                                            id="email_id" value="">
+                                            id="email_id" value="<?php echo $contact_details['email']; ?>">
                                         
                                     </div>
                                     </div>
@@ -95,7 +95,7 @@ if(isset($_SESSION['status'])){
                                     <div class="col-sm-8">
                                         <input type="text"   placeholder="sms phone No with country code"
                                             class="form-control margin-bottom b_input required " name="sms_no"
-                                            id="last_name" value="">
+                                            id="last_name" value="<?php if(isset($contact_details['attributes']['SMS'])){  echo $contact_details['attributes']['SMS']; } ?>">
                                         
                                     </div>
                                     </div>
@@ -108,7 +108,7 @@ if(isset($_SESSION['status'])){
                                     <div class="col-sm-8">
                                         <input type="text"   placeholder="whatsapp phone No with country code"
                                             class="form-control margin-bottom b_input required " name="whatsapp_no"
-                                            id="whatsapp_no" value="">
+                                            id="whatsapp_no" value="<?php if(isset($contact_details['attributes']['WHATSAPP'])){ echo $contact_details['attributes']['WHATSAPP']; } ?>">
                                         
                                     </div>
                                     </div>
@@ -121,8 +121,8 @@ if(isset($_SESSION['status'])){
                                         <select  class="form-control margin-bottom b_input required " name="email_blacklist"
                                                    id="email_blacklist"  >
                                         
-                                        <option value='true' >yes</option>
-                                        <option value='false'selected >no</option>
+                                        <option value='true' <?php if($contact_details['emailBlacklisted'] == true){ echo "selected"; }?>>yes</option>
+                                        <option value='false' <?php if($contact_details['emailBlacklisted'] == false){ echo "selected"; }?>>no</option>
                                         
                                         </select>
                                             
@@ -137,8 +137,8 @@ if(isset($_SESSION['status'])){
                                         <select  class="form-control margin-bottom b_input required " name="sms_blacklist"
                                                    id="sms_blacklist"  >
                                         
-                                        <option value='true' >yes</option>
-                                        <option value='false' selected>no</option>
+                                        <option value='true' <?php if($contact_details['smsBlacklisted'] == true){ echo "selected"; }?>>yes</option>
+                                        <option value='false' <?php if($contact_details['smsBlacklisted'] == false){ echo "selected"; }?>>no</option>
                                       
                                         
                                         </select>
@@ -169,11 +169,13 @@ if(isset($_SESSION['status'])){
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="" id="action-url">
-                                    <input type="hidden" name="contact_id" value="<?php echo $contact_details['id']; ?>" id="contact_id">
+                                    <input type="hidden" name="contact_id" value="" id="contact_id">
+                                    <?php /* ?>
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                            value="<?php //echo $this->lang->line('Add customer') ?>Update Contact"
                                            data-loading-text="updating...">
+                                    <?php */ ?>       
                                 </div>
                             </div>
                         </div>
@@ -190,36 +192,33 @@ if(isset($_SESSION['status'])){
 
     $(document).on('click', "#update_product_btn", function (e) {
         e.preventDefault();
-       var first_name = $('#first_name').val();
-       var last_name = $('#last_name').val();
-       var email_id = $('#email_id').val();
-       var sms_no = $('#sms_no').val();
-       var whatsapp_no = $('#whatsapp_no').val();
+       var campaign_name = $('#campaign_name').val();
+       var sender_name = $('#sender_name').val();
+       var schedule_date = $('#schedule_date').val();
+       var message_content = $('#message_content').val();
        var receipents = $('#recepients').val();
-       var contact_id = $('#contact_id').val();
+       var campaign_id = $('#campaign_id').val();
        
 
         $.ajax({
 
-        url: "<?php echo site_url('digitalmarketing/contact_save') ?>",
+        url: "<?php echo site_url('digitalmarketing/sms_campaign_save') ?>",
         type: 'POST',
         dataType: 'json',
         data: {
-            first_name: first_name,
-            last_name: last_name,
-            email_id: email_id,
-            sms_no: sms_no,
+            campaign_name: campaign_name,
+            sender_name: sender_name,
+            schedule_date: schedule_date,
+            message_content: message_content,
             receipents: receipents,
-            whatsapp_no: whatsapp_no,
-            receipents: receipents,
-            contact_id: contact_id
+            campaign_id: campaign_id
         },
         success: function (data) {
             alert(data.message);
             if(data.status == '200')
             {
                 setTimeout(function() {
-                window.location.href = "<?php echo site_url('digitalmarketing/contacts') ?>";
+                window.location.href = "<?php echo site_url('digitalmarketing/sms_marketing_campaigns') ?>";
                 }, 2000); // 5000 milliseconds (5 seconds)
             }
         },

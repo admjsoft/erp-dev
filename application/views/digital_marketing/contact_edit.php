@@ -95,7 +95,7 @@ if(isset($_SESSION['status'])){
                                     <div class="col-sm-8">
                                         <input type="text"   placeholder="sms phone No with country code"
                                             class="form-control margin-bottom b_input required " name="sms_no"
-                                            id="last_name" value="<?php if(isset($contact_details['attributes']['SMS'])){  echo $contact_details['attributes']['SMS']; } ?>">
+                                            id="sms_no" value="<?php if(isset($contact_details['attributes']['SMS'])){  echo $contact_details['attributes']['SMS']; } ?>">
                                         
                                     </div>
                                     </div>

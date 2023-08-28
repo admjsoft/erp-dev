@@ -783,6 +783,8 @@ public function GetAllThirdPartyCategoriesHeirarichy($vendor_details,$category_i
     // Reverse the array to get hierarchical order
     $category_ids[] = $category_id;
     $category_ids = array_reverse($category_ids);
+    // echo "<pre>"; print_r($category_ids); echo "</pre>";
+    // exit; 
     return $category_ids;
     // Output the parent category IDs
     // echo "Parent Category IDs: " . implode(', ', $category_ids);
@@ -1032,10 +1034,23 @@ public function GetThirdPartySubCategories($vendor_details,$category_id)
     // curl_close($curl);
 //}
 
-public function GetPosProductsList($vendor,$category,$sub_category){
+public function GetPosProductsList($vendor,$category,$sub_category,$post){
     // $LocationId ='';
     // $sql = "SELECT Id,Name,Price FROM merchant_items WHERE MerchantId={$MerchantId} and Segment ={$SegmentId} and SubSegment ={$SubSegmentId}"; 
     // $sql = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdVendorId,mtv.Price as ThirdVendorPrice,GROUP_CONCAT(mtv.Id,',',mtv.ItemStatus,',',mtv.Price,'##' ORDER BY mtv.ThirdPartyVenderId ASC) as PricesVendors FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVenderId = mt.Id WHERE mi.pcat ={$SegmentId} and mi.sub_id ={$SubSegmentId} group by mtv.ItemId"; 
+    
+    // $start = (int)$post['start'];
+    // $per_page = $post['length'];    
+    if(isset($post['search']['value']))
+    {
+
+     $search_key = $post['search']['value'];
+
+    }    // $current_page = ($start / $per_page) + 1;
+   
+ 
+
+
     $sql = "SELECT mi.pid,mi.product_name,mi.product_price,mtv.Id as ThirdPartyVendorPricingId,mtv.ThirdPartyVendorId,mtv.ThirdPartyVendorItemId,mtv.Price as ThirdPartyVendorPrice FROM gtg_products mi LEFT JOIN merchant_items_thirdparty_pricing mtv ON mtv.ItemId=mi.pid LEFT JOIN merchant_thirdparty_vendors as mt ON mtv.ThirdPartyVendorId = mt.Id ";
     
     if(!empty($vendor))
@@ -1051,8 +1066,14 @@ public function GetPosProductsList($vendor,$category,$sub_category){
 
     if(!empty($sub_category))
     {
-        $sql .= " and mi.sub_id ={$sub_category}"; 
+        $sql .= " and mi.sub_id ={$sub_category} "; 
     }
+
+    if(!empty($search_key))
+    {
+        $sql .= " AND mi.product_name LIKE '%$search_key%' ";
+    }
+ 
 
     $sql .= " group by mtv.ItemId"; 
     // if($LocationId!='') {
@@ -1068,13 +1089,21 @@ public function GetPosProductsList($vendor,$category,$sub_category){
     // return array("item_details"=>$item_details,"thirdparty_vendors"=>$this->GetThirdPartyVendors()); 
 }
     
-public function GetThirdPartyProductsList($vendor_details,$category,$sub_category){
+public function GetThirdPartyProductsList($vendor_details,$category,$sub_category,$post){
 
     //echo "<pre>"; print_r($vendor_details); echo "</pre>";
     $website_url = $vendor_details[0]['WebSiteUrl'];
     $consumer_key = $vendor_details[0]['ConsumerKey'];
     $consumer_secret = $vendor_details[0]['ConsumerSecret'];
-    $per_page = 1000;
+
+     $start = (int)$post['start'];
+     $per_page = $post['length'];    
+     $search_key = $post['search']['value'];
+     $current_page = ($start / $per_page) + 1;
+    //exit;
+
+
+    //$per_page = 10;
     // WooCommerce API endpoint for retrieving products
     $url = $website_url.'/wp-json/wc/v3/products';
 
@@ -1083,7 +1112,19 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     $consumerSecret = $consumer_secret;
 
     $params = array();
-    $params['per_page'] = 100;
+    $params['per_page'] = $per_page;
+    $params['page'] = (int)$current_page;
+    $params['search'] = $search_key;
+    // if($page != 1)
+    // {
+    //     $offset = $per_page * ($page -1);
+    //     $params['offset'] = $offset;
+    // }
+    if(!empty($search_key))
+    {
+        $params['search'] = $search_key;
+    }
+
     if(!empty($category))
     {
         $params['category'] = $category;
@@ -1119,20 +1160,10 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     // Check if the request was successful
     if ($response !== false) {
         $products = json_decode($response,true);
-        
+        // echo"<pre>"; print_r($products); echo"</pre>";
+        // exit;
         return $products;
-        // Process the list of products
-        // foreach ($products as $product) {
-        //     // Product details
-        //     $productId = $product->id;
-        //     $productName = $product->name;
-        //     $productPrice = $product->price;
-
-        //     // Display the product information
-        //     echo "Product ID: $productId<br>";
-        //     echo "Product Name: $productName<br>";
-        //     echo "Product Price: $productPrice<br><br>";
-        // }
+        
     } else {
         // Request failed, show an error message
         // echo "Error retrieving products: " . curl_error($curl);
@@ -1142,100 +1173,89 @@ public function GetThirdPartyProductsList($vendor_details,$category,$sub_categor
     // Close cURL
     curl_close($curl);
 
+    }
+
+
+    public function GetThirdPartyProductsListCount($vendor_details,$category,$sub_category,$post){
+
+        //echo "<pre>"; print_r($vendor_details); echo "</pre>";
+        $website_url = $vendor_details[0]['WebSiteUrl'];
+        $consumer_key = $vendor_details[0]['ConsumerKey'];
+        $consumer_secret = $vendor_details[0]['ConsumerSecret'];
     
-//  $jayParsedAry = [
-//         [
-//           "id" => 1, 
-//           "name" => "siva tested a product", 
-//           "slug" => "new-product-by-siva", 
-//           "permalink" => "https://jstore.my/?post_type=product&p=26250", 
-//           "date_created" => "2023-07-18T11:20:42", 
-//           "date_created_gmt" => "2023-07-18T03:20:42", 
-//           "date_modified" => "2023-07-18T12:03:07", 
-//           "date_modified_gmt" => "2023-07-18T04:03:07", 
-//           "type" => "simple", 
-//           "status" => "draft", 
-//           "featured" => false, 
-//           "catalog_visibility" => "visible", 
-//           "description" => "This is an updated product</p>", 
-//           "short_description" => "", 
-//           "sku" => "", 
-//           "price" => "19.99", 
-//           "regular_price" => "19.99", 
-//           "sale_price" => "", 
-//           "date_on_sale_from" => null, 
-//           "date_on_sale_from_gmt" => null, 
-//           "date_on_sale_to" => null, 
-//           "date_on_sale_to_gmt" => null, 
-//           "on_sale" => false, 
-//           "purchasable" => true, 
-//           "total_sales" => 0, 
-//           "virtual" => false, 
-//           "downloadable" => false, 
-//         ],
-//         [
-//             "id" => 2, 
-//             "name" => "siva tested a product", 
-//             "slug" => "new-product-by-siva", 
-//             "permalink" => "https://jstore.my/?post_type=product&p=26250", 
-//             "date_created" => "2023-07-18T11:20:42", 
-//             "date_created_gmt" => "2023-07-18T03:20:42", 
-//             "date_modified" => "2023-07-18T12:03:07", 
-//             "date_modified_gmt" => "2023-07-18T04:03:07", 
-//             "type" => "simple", 
-//             "status" => "draft", 
-//             "featured" => false, 
-//             "catalog_visibility" => "visible", 
-//             "description" => "This is an updated product</p>", 
-//             "short_description" => "", 
-//             "sku" => "", 
-//             "price" => "19.99", 
-//             "regular_price" => "19.99", 
-//             "sale_price" => "", 
-//             "date_on_sale_from" => null, 
-//             "date_on_sale_from_gmt" => null, 
-//             "date_on_sale_to" => null, 
-//             "date_on_sale_to_gmt" => null, 
-//             "on_sale" => false, 
-//             "purchasable" => true, 
-//             "total_sales" => 0, 
-//             "virtual" => false, 
-//             "downloadable" => false, 
-//         ],
-//         [
-//             "id" => 35, 
-//             "name" => "siva tested a product", 
-//             "slug" => "new-product-by-siva", 
-//             "permalink" => "https://jstore.my/?post_type=product&p=26250", 
-//             "date_created" => "2023-07-18T11:20:42", 
-//             "date_created_gmt" => "2023-07-18T03:20:42", 
-//             "date_modified" => "2023-07-18T12:03:07", 
-//             "date_modified_gmt" => "2023-07-18T04:03:07", 
-//             "type" => "simple", 
-//             "status" => "draft", 
-//             "featured" => false, 
-//             "catalog_visibility" => "visible", 
-//             "description" => "This is an updated product</p>", 
-//             "short_description" => "", 
-//             "sku" => "", 
-//             "price" => "19.99", 
-//             "regular_price" => "19.99", 
-//             "sale_price" => "", 
-//             "date_on_sale_from" => null, 
-//             "date_on_sale_from_gmt" => null, 
-//             "date_on_sale_to" => null, 
-//             "date_on_sale_to_gmt" => null, 
-//             "on_sale" => false, 
-//             "purchasable" => true, 
-//             "total_sales" => 0, 
-//             "virtual" => false, 
-//             "downloadable" => false, 
-//          ]
-//  ]; 
-
-//  return $jayParsedAry;
-}
-
+    
+         $search_key = $post['search']['value'];
+    
+        //exit;
+    
+    
+        //$per_page = 1000;
+        // WooCommerce API endpoint for retrieving products
+        $url = $website_url.'/wp-json/wc/v3/products';
+    
+        // API authentication credentials
+        $consumerKey = $consumer_key;
+        $consumerSecret = $consumer_secret;
+    
+        $params = array();
+        if(!empty($search_key))
+        {
+            $params['search'] = $search_key;
+    
+        }
+       
+        $params['page'] = 1;
+        $params['per_page'] = 100;
+        if(!empty($category))
+        {
+            $params['category'] = $category;
+        }
+        
+        if(!empty($sub_category)){
+            $params['category'] = $sub_category;
+        }
+        // echo $url . '?' . http_build_query($params);
+        // exit;
+        // Set cURL options
+         // Set cURL options
+         $options = array(
+            CURLOPT_URL => $url . '?' . http_build_query($params),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic ' . base64_encode($consumerKey . ':' . $consumerSecret)
+            )
+        );
+        
+    
+        // Initialize cURL
+        $curl = curl_init();
+        curl_setopt_array($curl, $options);
+    
+        // Send the cURL request
+        $response = curl_exec($curl);
+    
+        // echo $response;
+        // exit;
+        // Check if the request was successful
+        if ($response !== false) {
+            $products = json_decode($response,true);
+            // echo"<pre>"; print_r($products); echo"</pre>";
+            // exit;
+            return count($products);
+            
+        } else {
+            // Request failed, show an error message
+            // echo "Error retrieving products: " . curl_error($curl);
+            return array();
+        }
+    
+        // Close cURL
+        curl_close($curl);
+    
+        }
+    
 
 public function GetThirdPartyProductsByIds($vendor_details,$productIds){
     
@@ -1373,10 +1393,25 @@ public function GetAllProductsList($vendor){
     }else{
         $sub_category_array = array();
     }
+
+    if(!empty($product_details['child_category']))
+    {
+        $child_category_array = array('id' => $product_details['child_category']);
+    }else{
+        $child_category_array = array();
+    }
     
         
-
-    $result_array = array($category_array, $sub_category_array);
+ 
+    if(!empty($child_category_array))
+    {
+        $result_array = array($child_category_array);
+    }else if(!empty($sub_category_array)){
+        $result_array = array($sub_category_array);
+    }else{
+        $result_array = array($category_array);
+    }
+    
        $image_url = $product_details['image_url'];
        //$image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
        //$image_url = 'https://erp-dev.jsuitecloud.com/userfiles/product/778093images (1).jpg';
@@ -1417,7 +1452,7 @@ public function GetAllProductsList($vendor){
    
        // Send the cURL request
        $response = curl_exec($curl);
-       echo $response;
+    //    echo $response;
     //    exit;
        // Check if the request was successful
        if ($response !== false) {
@@ -1476,10 +1511,27 @@ public function GetAllProductsList($vendor){
     }else{
         $sub_category_array = array();
     }
-    
-    
 
-    $result_array = array($category_array, $sub_category_array);
+    if(!empty($product_details['child_category']))
+    {
+        $child_category_array = array('id' => $product_details['child_category']);
+    }else{
+        $child_category_array = array();
+    }
+    
+    
+    if(!empty($child_category_array))
+    {
+        $result_array = array($child_category_array);
+    }else if(!empty($sub_category_array)){
+        $result_array = array($sub_category_array);
+    }else{
+        $result_array = array($category_array);
+    }
+        
+    // echo "<pre>"; print_r($result_array); echo "</pre>"; 
+    // exit;
+
     $image_url = $product_details['image_url'];
     // $image_url = 'https://cdn.pixabay.com/photo/2014/06/03/19/38/board-361516_1280.jpg';
             // New product data

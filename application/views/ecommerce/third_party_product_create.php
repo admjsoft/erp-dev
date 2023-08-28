@@ -119,7 +119,17 @@ if(isset($_SESSION['status'])){
                                         </select>
                                         </div>
                                     </div>
+                                    <div class="form-group row mt-1">
 
+                                        <label class="col-sm-2 col-form-label"
+                                            for="name"><?php echo "Child Categories"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="child_category">
+                                                <option value="">Select Child Category</option>
+                                            </select>
+                                        </div>
+                                        </div>
                                     <div class="form-group row mt-1">
 
                                     <label class="col-sm-2 col-form-label"
@@ -286,8 +296,9 @@ $(document).ready(function () {
        var description = $('#description').val();
        var vendor_pricing_id = $('#vendor_pricing_id').val();
        //var quantity = $('#quantity').val();
-       var category = $('#sub_category').val();
+       var category = $('#category').val();
        var sub_category = $('#sub_category').val();
+       var child_category = $('#child_category').val();
        var image_url = $('#image_url').val();
 
        if(name != '' && regular_price != '' && sale_price != '' && description != '' && category != '' && sub_category != '' && image_url != '')
@@ -307,6 +318,7 @@ $(document).ready(function () {
             //quantity: quantity,
             category: category,
             sub_category: sub_category,
+            child_category: child_category,
             product_description: description,
             image_url: image_url
         },
@@ -356,6 +368,39 @@ $(document).ready(function () {
         });
 
     });
+
+    $(document).on('change', "#sub_category", function(e) {
+
+        var vendor = $('#vendor_type').val();
+        var vendor_name = $('#vendor_name').val();
+        var category = $('#sub_category').val();
+        var sub_category = '';
+        var cat_type = 'child';
+
+        $.ajax({
+
+        url: "<?php echo site_url('ecommerce/get_sub_categories_list') ?>",
+        type: 'POST',
+        data: {
+            vendor: vendor,
+            vendor_name: vendor_name,
+            category: category,
+            sub_category: sub_category,
+            cat_type: cat_type
+        },
+        success: function(data) {
+            $('#child_category').html('');
+            $('#child_category').html(data);
+        },
+        error: function(data) {
+            //console.log(data);
+            console.log("Error not get emp list")
+        }
+
+
+        });
+
+        });
 
     
 });

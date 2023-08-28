@@ -1376,10 +1376,10 @@ public function GetContactById($contactId){
 
 }
 
-public function ConatctSave($post){
+public function ContactSave($post){
         
     $contact_id = $post['contact_id'];
-    if(!empty($campaign_id))
+    if(!empty($contact_id))
     {
         $apiUrl = 'https://api.brevo.com/v3/contacts/'.$contact_id;
         $apiKey = $this->myKey;
@@ -1424,7 +1424,7 @@ public function ConatctSave($post){
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $response = curl_exec($ch);
-
+        
         if (curl_errno($ch)) {
             echo 'cURL Error: ' . curl_error($ch);
             $resp_data['status'] = '500';
@@ -1494,13 +1494,14 @@ public function ConatctSave($post){
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     $response = curl_exec($ch);
-
+    
+    $response= json_decode($response,true);
     // echo $response;
     // exit;
     if (curl_errno($ch)) {
         echo 'cURL Error: ' . curl_error($ch);
         $resp_data['status'] = '500';
-        $resp_data['message'] = 'Unable to Create Contact Details';
+        $resp_data['message'] = $response['message'];
     }
 
     $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -1518,7 +1519,7 @@ public function ConatctSave($post){
         // Handle the failure case here
         //echo 'Request failed with HTTP status code: ' . $httpStatus;
         $resp_data['status'] = '500';
-        $resp_data['message'] = 'Unable to Create Contact Details';
+        $resp_data['message'] = $response['message'];
     }
 //exit;
     }
@@ -1684,7 +1685,13 @@ public function ListSave($post){
     $list_id = $post['list_id'];
     if(!empty($list_id))
     {
+        $list_name = $post['list_name'];
+        $list_folder_id = (int)$post['folder_id'];
 
+        $list_details = $this->GetListById($list_id);
+        $success = true;
+        if($list_details['name'] != $list_name)
+        {
             $apiUrl = 'https://api.brevo.com/v3/contacts/lists/'.$list_id;
             $apiKey = $this->myKey;
 
@@ -1695,10 +1702,6 @@ public function ListSave($post){
             );
     
         
-            $data1 = array(
-                "folderId" => (int)$post['folder_id']
-            );
-
             $jsonData = json_encode($data);
 
             $ch = curl_init();
@@ -1718,7 +1721,32 @@ public function ListSave($post){
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
             $response = curl_exec($ch);
+            $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+            
+            if (curl_errno($ch)) {
+                $success = false;
+            }
+            curl_close($ch);
+
+            if ($httpStatus >= 200 && $httpStatus < 300) {
+                
+                $success = true;
+            } else {
+                $success = false;
+            }
+        }
+            
+        if($list_details['folderId'] != $list_folder_id)
+        {
+            $apiUrl = 'https://api.brevo.com/v3/contacts/lists/'.$list_id;
+            $apiKey = $this->myKey;
+
+
+        
+            $data1 = array(
+                "folderId" => (int)$post['folder_id']
+            );
 
             $jsonData1 = json_encode($data1);
 
@@ -1739,26 +1767,38 @@ public function ListSave($post){
             curl_setopt($ch1, CURLOPT_HTTPHEADER, $headers1);
 
             $response1 = curl_exec($ch1);
+
+            $httpStatus1 = curl_getinfo($ch1, CURLINFO_HTTP_CODE);
+
             
-        
-           
+            if (curl_errno($ch1)) {
+                $success = false;
+            }
+            curl_close($ch1);
+
+            if ($httpStatus1 >= 200 && $httpStatus1 < 300) {
+                
+                $success = true;
+            } else {
+                $success = false;
+            }
+            
+        }
+            // echo $response;
+            // echo $response1;
+            // exit;
         
            
           
         
-        if (curl_errno($ch) || curl_errno($ch1)) {
-            //echo 'cURL Error: ' . curl_error($ch);
-            $resp_data['status'] = '500';
-            $resp_data['message'] = 'Unable to Update List Details';
-        }
+        // if (curl_errno($ch) || curl_errno($ch1)) {
+        //     //echo 'cURL Error: ' . curl_error($ch);
+        //     $resp_data['status'] = '500';
+        //     $resp_data['message'] = 'Unable to Update List Details';
+        // }
 
-        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $httpStatus1 = curl_getinfo($ch1, CURLINFO_HTTP_CODE);
 
-        curl_close($ch);
-        curl_close($ch1);
-
-        if ($httpStatus >= 200 && $httpStatus < 300 && $httpStatus1 >= 200 && $httpStatus1 < 300) {
+        if ($success) {
             // Successful response
             //$decodedResponse = json_decode($response, true);
             // Do something with the decoded response

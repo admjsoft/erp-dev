@@ -674,7 +674,7 @@ $totalDeductionCalc='';
     </div>
 
     <div class="pb-0 pr-3 pl-3">
-        <center><p><i><b>This is a computer genetared document</b></i></p></center>
+        <center><p><i><b>This is a computer generated document</b></i></p></center>
     </div>';
     $_SESSION['payslip'] = $slip;
     echo $slip;

@@ -307,6 +307,13 @@ if (userfileElement) {
                                     },
                                     success: function (data) {
                                         $("#pos_item").html(data);
+                                        var imgElements = document.querySelectorAll(".round img");
+                                        imgElements.forEach(function(img) {
+                                            img.onerror = function() {
+                                                this.onerror = null;
+                                                this.src = baseurl +'userfiles/product/default.png';
+                                            };
+                                        });
 
                                     }
                                 });

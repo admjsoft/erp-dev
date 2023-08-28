@@ -387,9 +387,7 @@ class Search_products extends CI_Controller
                 $out .= '    <div class="col-2 border mb-1"  ><div class=" rounded" >
                                  <a  id="posp' . $i . '"  class="' . $p_class . ' round"   data-name="' . $row['product_name'] . '"  data-price="' . amountExchange_s($row['product_price'], 0, $this->aauth->get_user()->loc) . '"  data-tax="' . amountFormat_general($row['taxrate']) . '"  data-discount="' . amountFormat_general($row['disrate']) . '" data-pcode="' . $row['product_code'] . '"   data-pid="' . $row['pid'] . '"  data-stock="' . amountFormat_general($row['qty']) . '" data-unit="' . $row['unit'] . '" data-serial="' . @$row['serial'] . '" data-bar="' . $bar . '">
                                         <img class="round"
-                                            src="' . base_url('userfiles/product/' . $row['image']) . '"   
-                                            onerror="this.onerror=null;this.src='.base_url('userfiles/attach/thumbnail/default.png').';"
-                                             style="max-height: 100%;max-width: 100%">
+                                             src="' . base_url('userfiles/product/' . $row['image']) . '"  style="max-height: 100%;max-width: 100%">
                                         <div class="text-center" style="margin-top: 4px;">
 
                                             <small style="white-space: pre-wrap;">' . $row['product_name'] . '</small>
