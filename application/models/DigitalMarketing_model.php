@@ -1377,6 +1377,8 @@ public function GetContactById($contactId){
 }
 
 public function ContactSave($post){
+
+    //echo "<pre>"; print_r($post); echo "</pre>"; 
         
     $contact_id = $post['contact_id'];
     if(!empty($contact_id))

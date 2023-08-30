@@ -32,7 +32,7 @@ class Digitalmarketing extends CI_Controller
     {
        // $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Digital Marketing';
-        $data = array();
+        $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
         $this->load->view('fixed/header', $head);
         $this->load->view('digital_marketing/digital_marketing', $data);
         $this->load->view('fixed/footer');
@@ -434,6 +434,78 @@ class Digitalmarketing extends CI_Controller
 
             echo json_encode($resp_data);
             }
+    }
+
+    function saveContactsSelected()
+    {
+        $post = $this->input->post();
+        $list_ids = $this->input->post('Recepients');
+        // echo "<pre>"; print_r($post); echo "</pre>";
+        // exit;
+        if (!$this->aauth->premission(8)) {
+            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        }
+        $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $this->myKey = $row->api_key    ; // Replace 'your_key_column' with the actual column name
+        }
+
+
+        if ($this->input->post('ContactAddIds')) {
+            $ids = $this->input->post('ContactAddIds');
+            $ex_ids = explode(',',$ids);            
+            $recipients = $this->customers->recipients($ex_ids);
+
+            $n_data = array();
+            $nn_data = array();
+            $nnn_data = array();
+            foreach($recipients as $rec){
+                $n_data['first_name'] = $rec['name'];
+                $n_data['last_name'] = '';
+                $n_data['sms_no'] = $rec['phone'];
+                $n_data['whatsapp_no'] = $rec['phone'];
+                $n_data['email_id'] = $rec['email'];
+                $n_data['receipents'] = $list_ids;
+                $n_data['contact_id'] = '';
+                $nn_data[] = $n_data;
+            }
+        }
+        $f_response = array();
+        foreach($nn_data as $nf_data)
+        {
+        $response = array();    
+        $response = $this->digitalmarketing->ContactSave($nf_data);
+        $response['first_name'] = $nf_data['first_name'];
+        $response['phone'] = $nf_data['sms_no'];
+        $f_response[] = $response;
+        
+
+        }
+
+        // echo "<pre>"; print_r($f_response); echo "<pre>";
+        $resp_html = '';
+        foreach($f_response as $f_resp)
+        {
+            if($f_resp['status'] == '200')
+            {
+                $message = $f_resp['first_name']." Contact Saved Successfully";
+                $resp_html .= "<p class='alert-success'>".$message."</p>";
+
+            }else{
+                $message = $f_resp['first_name']." Contact Unable to Save Due to: ".$f_resp['message'];
+                $resp_html .= "<p class='alert-danger'>".$message."</p>";
+
+            } 
+            
+        }
+
+        $result_data['status'] = '200';
+        $result_data['message'] = $resp_html;
+        echo json_encode($result_data);
+
+
+
     }
 
 
