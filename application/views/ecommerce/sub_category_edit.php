@@ -61,6 +61,7 @@ if(isset($_SESSION['status'])){
                                             
                                         </div>
                                     </div>
+                                    <?php /* ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
@@ -73,7 +74,7 @@ if(isset($_SESSION['status'])){
                                             
                                         </div>
                                     </div>
-
+                                    <?php */ ?>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"

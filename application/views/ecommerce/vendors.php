@@ -33,7 +33,7 @@
                     </thead>
                     <tbody>
                         
-                        <?php if(!empty($vendors)){ $c=1; foreach($vendors as $vendor){ ?>
+                        <?php if(!empty($vendors)){ $c=1; foreach($vendors as $vendor){ if($vendor['VendorName'] != 'POS'){ ?>
                             <tr>
                             <td><?php echo $c;  ?></td>
                             <td><?php echo $vendor['VendorName']; ?></td>
@@ -41,7 +41,7 @@
                             <a href="<?php echo base_url('ecommerce/vendor_edit/?' . http_build_query(array('id' => $vendor['Id']))); ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a vendor_id="<?php echo $vendor['Id']; ?>" style="display: inline-block; padding:6px; margin-left:1px;" class="btn btn-danger btn-xs vendor_delete"><i class="fa fa-trash"></i></a></td>
                             </tr> 
-                        <?php $c++; }} ?>   
+                        <?php $c++; }}} ?>   
                           
                     </tbody>
                     <tfoot>

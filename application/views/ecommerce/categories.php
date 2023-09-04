@@ -18,7 +18,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         <div class="row justify-content-center">
           <div class="col-md-2">
             <div class="form-group">
-              <label for="employee">Vendor</label>
+              <label for="employee">Online Platform</label>
               <select class="form-control" id="vendor_type">
                 <!-- <option value="">Select Vendor</option> -->
                 <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
@@ -55,7 +55,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         </div>
         <div class="card-body">
             <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Categories </div>
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Categories <a
+                        id="category_create_btn" href="<?php echo base_url('ecommerce/pos_category_add') ?>"
+                        class="btn btn-primary btn-sm rounded ml-2">
+                    <?php echo "Add Category"//$this->lang->line('Add new') ?></a></div>
             <div class="header-block">
                 <h3 class="title">
                     <?php //echo $this->lang->line('Support Tickets') ?>
@@ -211,9 +214,21 @@ $(document).on('change', "#vendor_type", function (e) {
     {
         $('#single_platform_text').hide();
         $('#multiple_platform_text').show();
+        $('#category_create_btn').hide();
     }else{
         $('#multiple_platform_text').hide();
         $('#single_platform_text').show();
+        $('#category_create_btn').show();
+    }
+
+    if(vendor_name != 'POS')
+    {
+        var red_url = "<?php echo site_url('ecommerce/category_create/?vendor_id=') ?>"+vendor;
+        $('#category_create_btn').attr('href',red_url);
+    }else{
+        var red_url = "<?php echo site_url('ecommerce/pos_category_add') ?>";
+        $('#category_create_btn').attr('href',red_url);
+        
     }
     
    $('#category').html('');

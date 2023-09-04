@@ -130,7 +130,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                         <select class="form-control margin-bottom b_input required " name="sale_type"
                                                    id="sale_type"  >
-                                        <option value='Offline' <?php if($vendor_details[0]['Type'] == 'Offline'){ echo "selected"; } ?>>Offline</option>
+                                        <!-- <option value='Offline' <?php // if($vendor_details[0]['Type'] == 'Offline'){ echo "selected"; } ?>>Offline</option> -->
                                         <option value='Online' <?php if($vendor_details[0]['Type'] == 'Online'){ echo "selected"; } ?>>Online</option>
                                         </select>
                                             

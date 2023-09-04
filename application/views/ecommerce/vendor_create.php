@@ -121,8 +121,8 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                         <select class="form-control margin-bottom b_input required " name="sale_type"
                                                    id="sale_type"  >
-                                        <option value='Offline' >Offline</option>
-                                        <option value='Online' >Online</option>
+                                        <!-- <option value='Offline' >Offline</option> -->
+                                        <option value='Online' selected>Online</option>
                                         </select>
                                             
                                         </div>

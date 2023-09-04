@@ -1355,7 +1355,7 @@ class Ecommerce extends CI_Controller
 
     public function categories()
     {
-        $head['title'] = "E-Commerce Publishing";
+        $head['title'] = "E-Commerce Categories";
         $head['usernm'] = $this->aauth->get_user()->username;
 
         $data['vendors'] = $this->ecommerce->GetThirdPartyVendors();
@@ -1368,7 +1368,7 @@ class Ecommerce extends CI_Controller
 
     public function sub_categories()
     {
-        $head['title'] = "E-Commerce Publishing";
+        $head['title'] = "E-Commerce Sub Categories";
         $head['usernm'] = $this->aauth->get_user()->username;
 
         $data['vendors'] = $this->ecommerce->GetThirdPartyVendors();
@@ -1536,7 +1536,7 @@ class Ecommerce extends CI_Controller
     public function category_create()
     {
         $vendor_id = $this->input->get('vendor_id');
-        $head['title'] = 'Vendor Edit';
+        $head['title'] = 'Category Create';
         $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
 
         $this->load->view('fixed/header', $head);
@@ -1573,11 +1573,12 @@ class Ecommerce extends CI_Controller
     public function sub_category_create()
     {
         $vendor_id = $this->input->get('vendor_id');
-        $head['title'] = 'Vendor Edit';
+        $head['title'] = 'Sub Category create';
         $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
+        $data['categories'] = $this->ecommerce->GetThirdPartyCategories($data['vendor_details']);
 
         $this->load->view('fixed/header', $head);
-        $this->load->view('ecommerce/category_create', $data);
+        $this->load->view('ecommerce/sub_category_create', $data);
         $this->load->view('fixed/footer');
 
     }
@@ -1794,6 +1795,29 @@ class Ecommerce extends CI_Controller
                 $this->displayCategoryDetails($parentCategoryDetails, $depth + 1);
             }
         }
+    }
+    public function pos_category_add()
+    {
+        $data['cat'] = $this->products_cat->category_list();
+        $this->load->model('locations_model');
+        $data['locations'] = $this->locations_model->locations_list2();
+        $head['title'] = "Add Product Category";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/product-cat-add', $data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function pos_sub_category_add()
+    {
+        $data['cat'] = $this->products_cat->category_list();
+        $this->load->model('locations_model');
+        $data['locations'] = $this->locations_model->locations_list2();
+        $head['title'] = "Add Product Sub Category";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('ecommerce/product-sub-cat-add', $data);
+        $this->load->view('fixed/footer');
     }
 
     public function pos_category_edit()

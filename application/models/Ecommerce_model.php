@@ -1944,7 +1944,7 @@ public function category_save($vendor_details,$post)
 
 
         $category_name = $post['category_name'];
-        $category_slug = $post['category_slug'];
+        //$category_slug = $post['category_slug'];
         $category_description = $post['category_description'];
         $category_id = $post['category_id'];
 
@@ -1957,7 +1957,7 @@ public function category_save($vendor_details,$post)
         $updated_category_data = array(
             'name' => $category_name, // Change to the new category name
             'description' => $category_description, 
-            'slug' => $category_slug, // Change to the new description
+            //'slug' => $category_slug, // Change to the new description
             // Add other fields you want to update
         );
 
@@ -2023,7 +2023,7 @@ public function category_save($vendor_details,$post)
         $new_category_data = array(
             'name' => $category_name, // Change to the new category name
             'description' => $category_description, 
-            'slug' => $category_slug,
+            //'slug' => $category_slug,
             "parent"=> 0, // Change to the new description
             // Add other fields you want to update
         );
@@ -2038,7 +2038,7 @@ public function category_save($vendor_details,$post)
             'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
             'Content-Type: application/json' // Set content type to JSON
         ));       
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($new_category_data));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
@@ -2059,7 +2059,7 @@ public function category_save($vendor_details,$post)
         // Close cURL
         curl_close($curl);
 
-        //echo $response;
+        // echo $response;
         // exit;
         // Display response
         $created_category = json_decode($response, true);
@@ -2096,7 +2096,7 @@ public function sub_category_save($vendor_details,$post)
 
 
         $category_name = $post['category_name'];
-        $category_slug = $post['category_slug'];
+        //$category_slug = $post['category_slug'];
         $category_description = $post['category_description'];
         $category_id = $post['category_id'];
         $sub_category_id = $post['sub_category_id'];
@@ -2110,7 +2110,7 @@ public function sub_category_save($vendor_details,$post)
         $updated_category_data = array(
             'name' => $category_name, // Change to the new category name
             'description' => $category_description, 
-            'slug' => $category_slug,
+           // 'slug' => $category_slug,
             'parent' => $category_id, // Change to the new description
             // Add other fields you want to update
         );
@@ -2177,8 +2177,8 @@ public function sub_category_save($vendor_details,$post)
         $new_category_data = array(
             'name' => $category_name, // Change to the new category name
             'description' => $category_description, 
-            'slug' => $category_slug,
-            "parent"=> 0, // Change to the new description
+            //'slug' => $category_slug,
+            "parent"=> $category_id, // Change to the new description
             // Add other fields you want to update
         );
 
@@ -2192,7 +2192,7 @@ public function sub_category_save($vendor_details,$post)
             'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret),
             'Content-Type: application/json' // Set content type to JSON
         ));       
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($new_category_data));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);        
@@ -2207,7 +2207,7 @@ public function sub_category_save($vendor_details,$post)
         // Check for cURL errors
         if (curl_errno($curl)) {
             $resp_data['status'] = '500';
-            $resp_data['message'] = 'Unable to Create Category';
+            $resp_data['message'] = 'Unable to Create Sub Category';
         }
 
         // Close cURL
@@ -2223,11 +2223,11 @@ public function sub_category_save($vendor_details,$post)
         if (!empty($created_category)) {
         
             $resp_data['status'] = '200';
-            $resp_data['message'] = 'Category Created successfully';
+            $resp_data['message'] = 'Sub Category Created successfully';
         } else {
             // Request failed, show an error message
             $resp_data['status'] = '500';
-            $resp_data['message'] = 'Unable to Create Category';
+            $resp_data['message'] = 'Unable to Create Sub Category';
         }
         return $resp_data;
           

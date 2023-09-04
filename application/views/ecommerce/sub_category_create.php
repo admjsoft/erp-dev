@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Category Details 
+                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Create SubCategory Details 
             </h4>
             
 
@@ -52,12 +52,12 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Category Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Sub Category Name"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="category_name"
-                                                   id="category_name" value="<?php echo $category_details['name']; ?>">
+                                                   id="category_name" value="">
                                             
                                         </div>
                                     </div>
@@ -65,25 +65,42 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Category Slug"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Sub Category Slug"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="category_slug"
-                                                   id="category_slug" value="<?php echo $category_details['slug']; ?>">
+                                                   id="category_slug" value="<?php echo $sub_category_details['slug']; ?>">
                                             
                                         </div>
                                     </div>
                                     <?php */ ?>
+
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Category Description"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo "Category"; // $this->lang->line('Title') ?></label>
+
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="category_id" name="category_id">
+                                                <option value="">Select Category</option>
+                                                <?php if(!empty($categories)){ foreach ($categories as $category) { ?>
+                                                    <option value="<?php echo $category['id']; ?>" ><?php echo $category['name']; ?></option>
+                                                <?php } } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="form-group row mt-1">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo "Sub Category Description"; // $this->lang->line('Title') ?></label>
 
                                         <div class="col-sm-8">
                                             <textarea type="text"   placeholder="Title"
                                                    class="form-control margin-bottom b_input required " name="category_description"
-                                                   id="category_description" value=""><?php echo $category_details['description']; ?>
+                                                   id="category_description" value="">
                                             </textarea>
                                             
                                         </div>
@@ -96,11 +113,11 @@ if(isset($_SESSION['status'])){
                                 </div>
                                 <div id="mybutton">
                                     <input type="hidden" value="jobsheets/edit_task" id="action-url">
-                                    <input type="hidden" name="category_id" value="<?php echo $category_details['id']; ?>" id="category_id">
+                                    <input type="hidden" name="sub_category_id" value="" id="sub_category_id">
                                     <input type="hidden" name="vendor_id" value="<?php echo $vendor_details[0]['Id']; ?>" id="vendor_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Category"
+                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Sub Category"
                                            data-loading-text="updating...">
                                 </div>
                             </div>
@@ -122,12 +139,13 @@ if(isset($_SESSION['status'])){
        var category_slug = $('#category_slug').val();
        var category_description = $('#category_description').val();
        var category_id = $('#category_id').val();
+       var sub_category_id = $('#sub_category_id').val();
        var vendor_id = $('#vendor_id').val();
        
 
         $.ajax({
 
-        url: "<?php echo site_url('ecommerce/category_save') ?>",
+        url: "<?php echo site_url('ecommerce/sub_category_save') ?>",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -135,7 +153,8 @@ if(isset($_SESSION['status'])){
             category_slug: category_slug,
             category_description: category_description,
             category_id: category_id,
-            vendor_id: vendor_id
+            vendor_id: vendor_id,
+            sub_category_id: sub_category_id
         },
         success: function (data) {
             alert(data.message);
