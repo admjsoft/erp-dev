@@ -1670,18 +1670,18 @@ public function vendor_save($vendor_details)
             if ($this->db->where('Id',$id)->update('merchant_thirdparty_vendors', $data)) {
            
                 $resp_data['status'] = '200';
-                $resp_data['message'] = 'Vendor updated successfully';
+                $resp_data['message'] = 'Online Platform updated successfully';
             } else {
                 // Request failed, show an error message
                 $resp_data['status'] = '500';
-                $resp_data['message'] = 'Unable to update Vendor';
+                $resp_data['message'] = 'Unable to update Online Platform';
             }
         }else{
 
             if ($this->db->insert('merchant_thirdparty_vendors', $data)) {
            
                 $resp_data['status'] = '200';
-                $resp_data['message'] = 'Vendor Created successfully';
+                $resp_data['message'] = 'Online Platform Created successfully';
             } else {
                 // Request failed, show an error message
                 $resp_data['status'] = '500';
@@ -1704,7 +1704,7 @@ public function vendor_delete($vendor_id)
             if ($this->db->where('ThirdPartyVendorId',$vendor_id)->delete(' merchant_items_thirdparty_pricing')) {
         
                 $resp_data['status'] = '200';
-                $resp_data['message'] = 'Vendor delete successfully';
+                $resp_data['message'] = 'Online Platform delete successfully';
             } else {
                 // Request failed, show an error message
                 $resp_data['status'] = '500';
@@ -1714,7 +1714,7 @@ public function vendor_delete($vendor_id)
         } else {
             // Request failed, show an error message
             $resp_data['status'] = '500';
-            $resp_data['message'] = 'Unable to delete Vendor';
+            $resp_data['message'] = 'Unable to delete Online Platform';
         }
         
 

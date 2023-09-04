@@ -83,7 +83,13 @@ class Ecommerce extends CI_Controller
                     // echo "<pre>"; print_r($analytics); echo "</pre>";
                     // exit;
                     $data1['title'] = strtoupper($vendor_details['VendorName']) . " Sales";
-                    $data1['total_sales'] = $analytics[0]['total_sales'];
+                    if(!empty($analytics))
+                    {
+                        $data1['total_sales'] = $analytics[0]['total_sales'];
+                    }else{
+                        $data1['total_sales'] = 0.00;
+                    }
+
                     $n_data[] = $data1;
 
                     if ($vendor_details['Id'] == "Offline") {
@@ -1003,7 +1009,7 @@ class Ecommerce extends CI_Controller
     public function vendor_edit()
     {
         $vendor_id = $this->input->get('id');
-        $head['title'] = 'Vendor Edit';
+        $head['title'] = 'Online Platform Edit';
         $data['vendor_details'] = $this->ecommerce->GetVendorDetails($vendor_id);
 
         $this->load->view('fixed/header', $head);
@@ -1014,7 +1020,7 @@ class Ecommerce extends CI_Controller
     public function online_platform_create()
     {
 
-        $head['title'] = 'Vendor Create';
+        $head['title'] = 'Online Platform Create';
 
         $this->load->view('fixed/header', $head);
         $this->load->view('ecommerce/vendor_create');
