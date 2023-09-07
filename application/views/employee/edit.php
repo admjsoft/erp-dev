@@ -271,11 +271,13 @@
             dataType: 'json',
             formData: {'<?=$this->security->get_csrf_token_name()?>': crsf_hash},
             done: function (e, data) {
-
-                //$('<p/>').text(file.name).appendTo('#files');
-
+              //  var file=$("#fileupload").val();
+                //console.log(fileupload);
+                //console.log(file.name);
+            //$('<p/>').text(file.name).appendTo('#files');
 
                 $("#dpic").attr('src', '<?php echo base_url() ?>userfiles/employee/' + data.result + '?' + new Date().getTime());
+                location.reload();
 
             },
             progressall: function (e, data) {
@@ -299,6 +301,7 @@
 
                 //$('<p/>').text(file.name).appendTo('#files');
                 $("#sign_pic").attr('src', '<?php echo base_url() ?>userfiles/employee_sign/' + data.result + '?' + new Date().getTime());
+                location.reload();
 
 
             },

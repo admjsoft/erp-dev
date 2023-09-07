@@ -38,6 +38,7 @@
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
                         <th>Role</th>
+						<th>Employee Type</th>
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th><?php echo $this->lang->line('Actions') ?></th>
 
@@ -55,7 +56,14 @@
                         //$role = user_role($row['roleid']);
 						$role = $row['role_name'];
                         $status = $row['banned'];
-
+                        $employee_type = $row['employee_type'];
+                        if($employee_type=="foreign")
+						{
+							$type="Foreign";
+						}
+						else{
+							$type="Domestic";
+						}
                         if ($status == 1) {
                             $status = 'Deactive';
                             $btn = "<a href='#' data-object-id='" . $aid . "'  style='display: inline-block; padding: 6px; margin-left: 1px;' data-object1-id='" . $aid . "'  class='btn btn-blue btn-xs delete-object' title='Enable'><i class='icon-eye-slash'></i> Enable</a>";
@@ -67,7 +75,8 @@
                         echo "<tr>
                     <td>$i</td>
                     <td><img src='".$picture."' class='profile-icon'>$name</td>
-                    <td>$role</td>                 
+                    <td>$role</td>
+                    <td>$type</td>					
                     <td>$status</td>
                     <td><a href='" . base_url("employee/view?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;'  class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a>&nbsp;&nbsp;$btn&nbsp;&nbsp;<a href='#pop_model' style='display: inline-block; padding: 6px; margin-left: 1px;'  data-toggle='modal' data-remote='false' data-object-id='" . $aid . "' class='btn btn-danger btn-xs delemp' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
                         $i++;

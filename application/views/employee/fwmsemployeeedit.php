@@ -178,7 +178,29 @@ value="<?php echo $employee->name;?>" name="emp_name" id="emp_name" required>
 											  
                                         </div>
                                     </div>
-									
+											<div class="form-group row">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Upload Passport Document') ?></label>
+											
+                                        <div class="col-sm-8">
+												<span class="upload_error"></span>
+                                    <input type="file"
+ id="file" data-val="true" data-val-required="The ImageURLDetails field is required."  name='passportfile' >
+   (jpg,JPEG,png,pdf)
+                                        </div>
+                                    </div>
+									<div class="form-group row">
+
+                                        <label class="col-sm-2 col-form-label"
+                                               for="name"><?php echo $this->lang->line('Upload Visa Document') ?></label>
+                                        <div class="col-sm-8">
+												<span class="upload_error"></span>
+                                    <input type="file"
+ id="file" data-val="true" data-val-required="The field is required."  name='visafile' >
+(jpg,JPEG,png,pdf)
+                                        </div>
+                                    </div>		
 								
 									  
                 </div>

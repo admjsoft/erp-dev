@@ -19,11 +19,17 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Claims') ?> <a
+            <h5><?php echo $this->lang->line('Claims') ?> 
+            <?php if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5){  ?><a
                         href="<?php echo base_url('expenses/add') ?>"
                         class="btn btn-primary btn-sm rounded">
                     <?php echo $this->lang->line('Add new') ?>
-                </a></h5>
+                </a>
+                <?php
+            }
+                ?>
+                
+                </h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">

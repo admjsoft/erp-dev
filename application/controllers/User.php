@@ -307,6 +307,7 @@ class User extends CI_Controller
 
         $email = $this->input->post('email', true);
         $out = $this->aauth->remind_password($email);
+	 
         if ($out) {
             $this->load->model('communication_model');
 
@@ -320,7 +321,7 @@ class User extends CI_Controller
             $attachment = '';
             $this->communication_model->send_email($mailtoc, $mailtotilte, $subject, $message, $attachmenttrue, $attachment);
         } else {
-            echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+            echo json_encode(array('status' => 'Error', 'message' => 'Enter Valid Email'));
         }
     }
 
@@ -358,7 +359,8 @@ class User extends CI_Controller
         if (strlen($password) > 5) {
             $out = $this->aauth->reset_password($email, $code, $password);
             //   print_r($out);
-            if ($out) echo json_encode(array('status' => 'Success', 'message' => "Password Changed Successfully!  <a href='" . base_url() . "' class='btn btn-indigo btn-md'><span class='icon-home' aria-hidden='true'></span> " . $this->lang->line('Login') . "  </a>"));
+            if ($out) echo json_encode(array('status' => 'Success', 'message' => "Password Changed Successfully!  <a href='" . base_url() . "' class='btn btn-indigo btn-md'>
+			<span class='icon-home' aria-hidden='true'></span> Login </a>"));
             else echo json_encode(array('status' => 'Error', 'message' => "Code Expired! <a href='" . base_url() . "' class='btn btn-blue btn-md'><span class='fa fa-home' aria-hidden='true'></span> " . $this->lang->line('Login') . "  </a>"));
         }
 

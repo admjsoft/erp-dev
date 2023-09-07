@@ -88,8 +88,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <th>#</th>
                     <th><?php echo $this->lang->line('Subject') ?></th>
                     <th><?php echo $this->lang->line('Added') ?></th>
+                    <th><?php echo $this->lang->line('Created At') ?></th>
                     <th><?php echo $this->lang->line('Status') ?></th>
-                    <th><?php echo $this->lang->line('Action') ?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -191,22 +191,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     "orderable": false,
                 },
             ], 
-            "columns": [
-                 // Assuming the first column is at index 0
-                { "data": 1 },
-                { "data": 2 }, // Assuming the first column is at index 0
-                { "data": 3 },
-                { "data": 4 },
-                { "data": 7 }
-                
-            ],
+           
             dom: 'Blfrtip',
                 buttons: [
                     {
                         extend: 'excelHtml5',
                         footer: true,
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6]
+                            columns: [1, 2, 3, 4]
                         }
                     }
                 ],

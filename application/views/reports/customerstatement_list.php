@@ -1,3 +1,8 @@
+<style>
+    body.vertical-layout.vertical-menu-modern.menu-expanded .content, body.vertical-layout.vertical-menu-modern.menu-expanded .footer {
+    margin-left: 120px !important;
+}
+</style>
 <article class="content">
     <div class="card card-block">
         <div id="notify" class="alert alert-success" style="display:none;">
@@ -9,7 +14,7 @@
             <h4><?php echo $this->lang->line('Account Statement') ?></h4>
 
             <hr>
-            <p><?php echo $this->lang->line('Customer') ?> : <?php echo $filter[5] ?></p>
+            <p><?php echo $this->lang->line('Customer') ?> : <?php echo $filter[5]; ?></p>
 
 
             <table class="table table-striped" cellspacing="0" width="100%">

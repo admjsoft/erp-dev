@@ -14,6 +14,12 @@
             </div>
         </div>
         <div class="card-body">
+		<div class="card-content">
+            <div id="notify" class="alert alert-success" style="display:none;">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+
+                <div class="message"></div>
+            </div>
             <form method="post" id="data_form" class="form-horizontal" >
                 <div class="row">
 
@@ -359,6 +365,7 @@
             </form>
         </div>
     </div>
+	</div>
 </div>
 <script>
  $("#submit-data-update").on("click", function (e) {
