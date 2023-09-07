@@ -76,8 +76,9 @@ class Filemanager extends CI_Controller
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
         } */
+
         $this->load->model('filemanager_model');
-        $this->li_a = 'filemanager';
+        $this->li_a = 'misc';
 		// Remove devJsuite on live url wait
         //$this->load->helper('root_path',$_SERVER['DOCUMENT_ROOT']."/devJsuite/userfiles/filemanager");
 
@@ -154,9 +155,11 @@ class Filemanager extends CI_Controller
             $wd = fm_clean_path(dirname($_SERVER['PHP_SELF']));
             $this->root_url =  $this->root_url.$wd.DIRECTORY_SEPARATOR.$directories_users[$_SESSION[FM_SESSION_ID]['logged']];
         }
+
                     // clean $root_url
 
         $this->root_url = fm_clean_path($this->root_url);
+
         // abs path for site
         defined('FM_ROOT_URL') || define('FM_ROOT_URL', ($is_https ? 'https' : 'http') . '://' . $this->http_host . (!empty($this->root_url) ? '/' . $this->root_url : ''));
         defined('FM_SELF_URL') || define('FM_SELF_URL', ($is_https ? 'https' : 'http') . '://' . $this->http_host . '/'. $this->root_url );
@@ -164,7 +167,6 @@ class Filemanager extends CI_Controller
         // clean and check $root_path
         $this->root_path = rtrim($this->root_path, '\\/');
         $this->root_path = str_replace('\\', '/', $this->root_path);
-
         if (!@is_dir($this->root_path)) {
             echo "<h1>".lng('Root path')." \"{$this->root_path}\" ".lng('not found!')." </h1>";
             exit;
@@ -216,8 +218,6 @@ class Filemanager extends CI_Controller
         if (FM_PATH != '') {
             $path .= '/' . FM_PATH;
         }
-
-       
 
         // check path
         if (!is_dir($path)) {

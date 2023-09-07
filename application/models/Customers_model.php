@@ -654,7 +654,7 @@ return $msg.$html;
             $this->db->order_by($this->trans_column_order[$search['0']['column']], $search['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
+           // $this->db->order_by(key($order), $order[key($order)]);
         }
     }
 
@@ -952,7 +952,7 @@ return $msg.$html;
             $this->db->order_by($this->notecolumn_order[$search['0']['column']], $search['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
+            //$this->db->order_by(key($order), $order[key($order)]);
         }
     }
 
@@ -1322,6 +1322,7 @@ public function addReferral($rname,$company,$contact,$email,$remarks)
                     'contact_no' => $contact,
                     'emailid' => $email,
                     'remarks' => $remarks,
+					'reffered_by'=>$_SESSION['username'],
                     'delete_status' =>0
                 );
 

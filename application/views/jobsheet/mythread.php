@@ -180,7 +180,7 @@
                     <div class="col">
                         <div class="card-bordered shadow p-1">
                             <?php
-                            if ($doc['filename']) echo '<br><br><strong>Attachment: </strong><a href="' . base_url('userfiles/documents/' . $doc['filename']) . '">' . $doc['filename'] . '</a><br><br>';
+                            if ($doc['filename']) echo '<br><br><strong>Attachment: </strong><a href="' . base_url('userfiles/documents/' . $doc['filename']) . '" target="_blank">' . $doc['filename'] . '</a><br><br>';
                             ?></div>
                     </div>
                 </div>

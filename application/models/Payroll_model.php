@@ -14,11 +14,16 @@ class Payroll_model extends CI_Model
 		
         $this->db->select('*');
         $this->db->from('gtg_payslip');
-       	if($_SESSION['s_role']!="r_5")
+       if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5)
 		{
-        $this->db->where('employeeId',$_SESSION['id']);
+		    
 		} 			
-			
+			else{
+			    
+			            $this->db->where('employeeId',$_SESSION['id']);
+
+			    
+			}
 		 
              
 	   

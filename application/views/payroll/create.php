@@ -77,11 +77,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             </select>
 
                         </div>
-						<div class="col-sm-4">
-						   <b>(Those Who Are Entered in the Settings will Appear Here)</b>
-
-						</div>
                     </div>
+					<span style="color:red">*</span><b>(Those Who Are Entered in the Settings will Appear On The Staff List Here)</b>
+</br></br>
+
               <div class="form-group row">
                   <!-- MONTH -->
                     <label class="col-sm-1 col-form-label"

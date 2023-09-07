@@ -69,7 +69,7 @@
                     <div id="foreign_content" style="display:none">
                         
       <form method="post"  class="form-horizontal" enctype="multipart/form-data" id="myform" 
-	  action="<?php echo base_url("customers/saveInternational") ?>" onSubmit="return validateForm(event);">
+	  action="<?php echo base_url("customers/saveInternational") ?>" >
                             <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"

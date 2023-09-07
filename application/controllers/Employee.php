@@ -3406,12 +3406,21 @@ public function getfwmsEmployees()
 		  $permitactive = $this->input->post('permit_active');
            $passport_expiry = $this->input->post('passport_expiry');
 		   $permit_expiry = $this->input->post('permit_expiry');
+		
+		   
+		   
         $temp='';
 		$type='';
 		 $current_date=date('Y-m-d');
 	     foreach ($list as $prd) {
             $no++;
             
+			   
+		   $passport_expiry_newDate = date("d-m-Y", strtotime($prd->passport_expiry));
+		   $permit_expiry_newDate = date("d-m-Y", strtotime($prd->permit_expiry));
+
+			
+			
                   if(file_exists(FCPATH."userfiles/passport/".$prd->passport_document))
 			{
 			$ps='<a href="../userfiles/passport/'.$prd->passport_document.'" target=_blank>'.$prd->passport.'</a>';
@@ -3470,7 +3479,7 @@ public function getfwmsEmployees()
 			   $row[] = $prd->passport;
 
 			}
-			$row[] = '<b style="color:red">'.$prd->passport_expiry.'</b>';
+			$row[] = '<b style="color:red">'.$passport_expiry_newDate.'</b>';
 			if(!empty($prd->visa_document))
 			{
             $row[] = $vs;
@@ -3479,7 +3488,7 @@ public function getfwmsEmployees()
 				$row[] = $prd->permit;
 
 			}
-			$row[] = '<b style="color:red">'.$prd->permit_expiry.'';
+			$row[] = '<b style="color:red">'.$permit_expiry_newDate.'';
 						$row[]=$status;
 						$row[]=$status1;
 
@@ -3729,8 +3738,47 @@ public function updateInternational()
         }
 		
 		$a = $this->aauth->create_user($email, $password, $username);
+		 $attach = $_FILES['passportfile']['name'];
+	        $attach1 = $_FILES['visafile']['name'];
+
+	 $data['status'] = 'danger';
+        $data['message'] = $this->lang->line('No file error');
+        $config['upload_path'] = './userfiles/passport/';
+        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+        $config['encrypt_name'] = TRUE;
+        $config['max_size'] = 2669881;
+        $config['file_name'] = time() . str_replace(' ', '_', $attach);
+        $config['file_ext_tolower'] = TRUE;
+        $config['encrypt_name'] = FALSE;
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('passportfile')) {
+           // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+           // echo json_encode($error);
+                    $passport_filename ='';
+
+		} else {
+            $data = array('upload_data' => $this->upload->data());
+            $passport_filename = $data['upload_data']['file_name'];
+		}
 		
-    $update=$this->employee->updateInternational($id,$emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry);
+		   $data['status'] = 'danger';
+        $data['message'] = $this->lang->line('No file error');
+        $config['upload_path'] = './userfiles/passport/';
+        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+        $config['max_size'] = 2669881;
+        $config['file_name'] = time() . str_replace(' ', '_', $attach1);
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('visafile')) {
+          //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+           // echo json_encode($error);
+		   $visa_filename='';
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+             $visa_filename = $data['upload_data']['file_name'];
+		}
+		
+	
+    $update=$this->employee->updateInternational($id,$emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename);
 	//print_r($insert);
 	//die;
 	

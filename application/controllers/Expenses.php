@@ -343,12 +343,18 @@ class Expenses extends CI_Controller
          if (!$this->aauth->premission(21)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
-        $emp_id = $this->input->post('emp_id', true);
-        $emp_name = $this->input->post('emp_name', true);
+                $emp_name = $this->input->post('emp_name', true);
+
+        $explode=explode("-",$emp_name);
+        $emp_id=$explode[0];
+        $emp_name=$explode[1];
+       // $emp_id = $this->input->post('emp_id', true);
+        //$emp_name = $this->input->post('emp_name', true);
         $title = $this->input->post('title', true);
         $category = $this->input->post('category', true);
         $receipt_no = $this->input->post('receipt_no', true);
         $receipt_date = $this->input->post('receipt_date', true);
+		
         $receipt_amount = numberClean($this->input->post('receipt_amount', true));
         $tax_amount = numberClean($this->input->post('tax_amount', true));
         $reason = $this->input->post('reason', true);

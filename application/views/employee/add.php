@@ -124,7 +124,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                            <?php foreach($role_list as $role)
 						{
 							?>
-                            <option value="<?php echo $role['role_name'];?>"><?php echo $role['role_name'];?></option>
+                            <option value="<?php echo $role['id'];?>"><?php echo $role['role_name'];?></option>
 						<?php }?>
                         </select>
                     </div>

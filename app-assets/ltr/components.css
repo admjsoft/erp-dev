@@ -1228,7 +1228,7 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu-footer .content {
     display: table-cell; }
   .avatar img {
     width: 100%;
-    max-width: 100%;
+    max-width: 87%;
     height: auto;
     border: 0 none;
     border-radius: 1000px; }

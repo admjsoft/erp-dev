@@ -1519,7 +1519,7 @@ class="btn btn-primary btn-sm rounded">
                                     class="ft-users"></i> <?php echo $this->lang->line('Employees') ?></a>
                         <ul class="menu-content">
                             <li class="menu-item"><a
-                                        href="<?php echo base_url(); ?>employee"><?php echo $this->lang->line('Employees') ?></a>
+                                        href="<?php echo base_url(); ?>employee">Employees List</a>
                             </li>
                            <?php /* <li class="menu-item"><a
                                         href="<?php echo base_url(); ?>employee/permissions"><?= $this->lang->line('Permissions'); ?></a>

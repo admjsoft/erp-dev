@@ -185,7 +185,9 @@ class Invoices extends CI_Controller
             $invocieno = $query->row()->tid + 1;
         }
 
-        $data = array('tid' => $invocieno, 'invoicedate' => $bill_date, 'invoiceduedate' => $bill_due_date, 'subtotal' => $subtotal, 'shipping' => $shipping, 'ship_tax' => $shipping_tax, 'ship_tax_type' => $ship_taxtype, 'discount_rate' => $disc_val, 'total' => $total, 'notes' => $notes, 'csd' => $customer_id, 'eid' => $emp, 'taxstatus' => $tax, 'discstatus' => $discstatus, 'format_discount' => $discountFormat, 'refer' => $refer, 'term' => $pterms, 'multi' => $currency, 'loc' => $this->aauth->get_user()->loc);
+        $data = array('tid' => $invocieno, 'invoicedate' => $bill_date, 
+		'invoiceduedate' => $bill_due_date, 
+		'subtotal' => $subtotal, 'shipping' => $shipping, 'ship_tax' => $shipping_tax, 'ship_tax_type' => $ship_taxtype, 'discount_rate' => $disc_val, 'total' => $total, 'notes' => $notes, 'csd' => $customer_id, 'eid' => $emp, 'taxstatus' => $tax, 'discstatus' => $discstatus, 'format_discount' => $discountFormat, 'refer' => $refer, 'term' => $pterms, 'multi' => $currency, 'loc' => $this->aauth->get_user()->loc);
         $invocieno2 = $invocieno;
         if ($this->db->insert('gtg_invoices', $data)) {
             $invocieno = $this->db->insert_id();
@@ -285,7 +287,7 @@ class Invoices extends CI_Controller
                 $t_data['acid'] = $dual['key2'];
                 $t_data['account'] = $account_d['holder'];
                 $t_data['note'] = 'Debit ' . $tnote;
-
+                 
                 $this->db->insert('gtg_transactions', $t_data);
                 //account update
                 $this->db->set('lastbal', "lastbal-$total", FALSE);
@@ -743,7 +745,9 @@ class Invoices extends CI_Controller
 	 $pmethod = $this->input->post('pmethod');
 	 	 $note = $this->input->post('note');
 	 	 $amount = $this->input->post('amount');
-
+	 	 $amount = $this->input->post('amount');
+ $cid = $this->input->post('cid');
+            $cname = $this->input->post('cname', true);
 	// echo"innn";
 	
      $attach = $_FILES['userfile']['name'];
@@ -775,17 +779,27 @@ class Invoices extends CI_Controller
                 'cat' => "Sales",
                 'debit' =>'',
                 'credit' => $amount,
-                'payer' =>"admin",
-				'payerid'=>'',
+                'payer' =>$cname,
+				'payerid'=>$cid,
 				'method'=>$pmethod,
 				'date'=>$date,
 			    'tid'=>$tid,
-				'eid'=>'',
+				'eid' => $this->aauth->get_user()->id,
 				'note'=>$note ,
 				'payment_proof'=>$filename
 				);
 			
 	            $this->db->insert('gtg_transactions', $data);
+		        $this->db->select('SUM(credit) AS credit');
+        $this->db->from('gtg_transactions');
+        $this->db->where('gtg_transactions.tid', $tid);
+			 $query = $this->db->get();
+         $sumamount= $query->row();
+		 $totalamnt=$sumamount->credit;
+        $data = array('pamnt'=>$totalamnt);
+        $this->db->set($data);
+        $this->db->where('id', $tid);
+        $this->db->update('gtg_invoices');	
 		
 			
         $status = $this->input->post('status');

@@ -491,10 +491,16 @@ class Aauth
      */
     public function remind_password($email)
     {
-
-        $query = $this->aauth_db->where('email', $email);
-        $query = $this->aauth_db->get($this->config_vars['users']);
-
+ $this->aauth_db->from('gtg_users');
+            $this->aauth_db->where('email', $email);
+            $query = $this->aauth_db->get();
+			//echo $this->aauth_db->last_query();
+            //$result = $query->row();
+			//print_r($result);
+//die;
+        //$query = $this->aauth_db->where('email', $email);
+        //$query = $this->aauth_db->get($this->config_vars['users']);
+           
         if ($query->num_rows() > 0) {
             $row = $query->row();
 

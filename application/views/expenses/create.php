@@ -25,34 +25,52 @@
             </div>
             <div class="card-body">
                 <form method="post" id="data_form" enctype="multipart/form-data" action="<?php echo base_url("expenses/save_expenses") ?>" >
-                    <?php if ($this->aauth->premission(22)) { ?>
-                        <div class="row mb-1 ml-1">
-                            <label for="cst" class="col-md-2"><?php echo $this->lang->line('Search Employee') ?></label>
-                                <div class="col-md-6"><input type="text" class="form-control" name="cst" id="expenses-box"
-                                                        placeholder="Enter Person Name or Mobile Number to search (Optional)"
-                                                        autocomplete="off"/>
-                                <div id="expenses-box-result" class="sbox-result"></div>
-                            </div>
-
-                        </div>
-                    <hr>
-                    <?php } ?>
+                    
                     <div id="employeepanel" class="form-group row bg-lighten-4">
-                        <?php if ($this->aauth->premission(22)) { ?>
                         <div class="col-sm-4">
                             <label for="employee_name" class="caption col-form-label"><?php echo $this->lang->line('Employee') ?>
                                 <span style="color: red;">*</span></label>
-                                <input type="hidden" name="emp_id" id="employee_id" value="0">
-                            <input type="text" class="form-control required" name="emp_name" id="employee_name" required>
+                                <?php
+                                      $this->db->select('*');
+        $this->db->from('gtg_employees');
+        $query = $this->db->get();
+        //echo $this->db->last_query();
+        $result= $query->result_array();
+                              if(($this->aauth->get_user()->roleid==5) || ($this->aauth->get_user()->roleid==4))  
+                              {
+                                ?>
+                                                            <select class="form-control required" name="emp_name" id="employee_name" required>
+                                
+                                <?php 
+                                foreach($result as $res)
+                                {
+                                    
+                                ?>
+                                <option value="<?php echo $res['id'];?>-<?php echo $res['name'];?>"><?php echo $res['name'];?></option>
+                                <?php
+                                }?></select>  
+                                <?php
+                              }
+                              else{
+                      $this->db->select('*');
+        $this->db->from('gtg_employees');
+                $this->db->where('gtg_employees.id',$this->session->userdata('id'));
+        $query = $this->db->get();
+        //echo $this->db->last_query();
+        $result1= $query->result_array();
+          foreach($result1 as $res)
+                                {
+                              ?>                              <select class="form-control required" name="emp_name" id="employee_name" required >
+
+                                                          <option value="<?php echo $res['id'];?>-<?php echo $res['name'];?>"><?php echo $res['name'];?></option>
+</select>
+                          <?php
+                                
+                          
+                                }
+                          }?>
                         </div>
-                        <?php } else { ?>
-                        <div class="col-sm-4">
-                            <label for="employee_name" class="caption col-form-label"><?php echo $this->lang->line('Employee') ?>
-                                <span style="color: red;">*</span></label>
-                                <input type="hidden" name="emp_id" id="employee_id" value="<?php echo $this->session->userdata('id'); ?>">
-                            <input type="text" class="form-control required" required name="emp_name" id="employee_name"  value="<?php echo $this->session->userdata('login_name'); ?>">
-                        </div>
-                        <?php } ?>
+                        
                         <div class="col-sm-4"><label for="title"
                                                      class="caption col-form-label"><?php echo $this->lang->line('Title') ?>
                                 <span
@@ -126,12 +144,13 @@
                                     class="col-form-label" for="doc"><?php echo $this->lang->line('Supporting Document') ?></label>
                             <input type="file" placeholder="Documents"
                                    class="form-control" name="doc" id="doc" required>
+                                   (only pdf files)
                         </div>
                     </div>
                     <div class="form-group row mt-2" >
                         <div class="col-sm-4">
                                <input type="submit" class="btn btn-success btn-lg margin-bottom"
-                                   value="<?php echo $this->lang->line('Add Expenses') ?>"
+                                   value="Add Claims"
                                    data-loading-text="Adding...">
                         </div>
                     </div>

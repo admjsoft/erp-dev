@@ -16,9 +16,14 @@ class Expenses_model extends CI_Model
 
         $this->db->select('gtg_expenses.*,gtg_expenses.id as id');
         $this->db->from($this->table);
-        if($_SESSION['s_role'] != 'r_5')
-        {
-            $this->db->where('gtg_expenses.eid',$this->aauth->get_user()->id);
+if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5)
+{
+    }
+        else{
+        
+               //     $this->db->where('gtg_expenses.eid',$this->aauth->get_user()->id);
+    
+            
         }
         
         switch ($this->opt) {
@@ -52,8 +57,12 @@ class Expenses_model extends CI_Model
         }
 
       if($this->aauth->premission(21) && !$this->aauth->premission(22)){
+          if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5)
+{
+}
+else{
            $this->db->where('eid', $this->session->userdata('id'));
-      }
+     } }
         if ($this->aauth->get_user()->loc) {
             $this->db->where('loc', $this->aauth->get_user()->loc);
         }
@@ -215,6 +224,7 @@ class Expenses_model extends CI_Model
                 'loc' => $loc,
                 'created_at' => $datetime
             );
+			
             return $this->db->insert('gtg_expenses', $data);
 
     }

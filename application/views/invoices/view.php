@@ -871,7 +871,8 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo $this->lang->line('Change Status'); ?></h4>
+                <h4 class="modal-title"><?php
+				echo $this->lang->line('Change Status'); ?> </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
@@ -880,10 +881,10 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
                     <div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
-                            <select name="status" class="form-control mb-1">
-                                <option value="paid"><?php echo $this->lang->line('Paid'); ?></option>
+                                <select name="status" class="form-control mb-1">
                                 <option value="due"><?php echo $this->lang->line('Due'); ?></option>
                                 <option value="partial"><?php echo $this->lang->line('Partial'); ?></option>
+							    <option value="paid"><?php echo $this->lang->line('Paid'); ?></option>
                             </select>
 
                         </div>
@@ -923,6 +924,9 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
                             </div>
                     </div>
                     <div class="modal-footer">
+                     <input type="hidden" name="cid" value="<?php echo $invoice['cid'] ?>"><input type="hidden"
+                                                                                                     name="cname"
+                                                                                                     value="<?php echo $invoice['name'] ?>">
                         <input type="hidden" class="form-control required"
                                name="tid" id="invoiceid" value="<?php echo $invoice['iid'] ?>">
                         <button type="button" class="btn btn-default"

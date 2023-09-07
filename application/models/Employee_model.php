@@ -39,7 +39,7 @@ public function list_employee()
             if (BDATA) $this->db->or_where('loc', 0);
             $this->db->group_end();
         }
-		$this->db->where('gtg_employees.employee_type!=', "foreign");
+		//$this->db->where('gtg_employees.employee_type!=', "foreign");
         $this->db->order_by('gtg_users.roleid', 'DESC');
         $query = $this->db->get();
         return $query->result_array();
@@ -560,7 +560,7 @@ public function list_employee()
 	{
 		$this->db->select('id,company');
         $this->db->from('gtg_customers');
-        $this->db->where('customer_type',"foreign");
+       // $this->db->where('customer_type',"foreign");
         $query = $this->db->get();
         return $query->result_array();
 		
@@ -1196,7 +1196,7 @@ $country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa
 
 }
 
-public function updateInternational($id,$emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry)
+public function updateInternational($id,$emp_name,$email,$passport,$permit,$country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename)
 { 
 $type="foreign";
 	 $data = array(
@@ -1209,7 +1209,11 @@ $type="foreign";
                 'permit' => $permit,
 				'permit_expiry'=>$permit_expiry,
 				'passport_expiry'=>$passport_expiry,
-				'employee_type'=>$type);
+				'employee_type'=>$type,
+				'passport_document'=>$passport_filename,
+				'visa_document'=>$visa_filename
+				);
+				
 $this->db->where('id', $id);
             return $this->db->update('gtg_employees',$data);
 
@@ -1492,6 +1496,8 @@ public function getRoles()
 	
 	 $this->db->select('*');
 	    $this->db->from('gtg_role');
+	    	    $this->db->where('delete_status',0);
+
 		  $query = $this->db->get();
 		//print_r($this->db->last_query());
         return $query->result_array();

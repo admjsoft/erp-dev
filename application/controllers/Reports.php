@@ -101,8 +101,18 @@ class Reports extends CI_Controller
         $sdate = datefordatabase($this->input->post('sdate'));
         $edate = datefordatabase($this->input->post('edate'));
         $ttype = $this->input->post('ttype');
-        $customer = $this->customer->details($cid);
-        $data['filter'] = array($cid, $trans_type, $sdate, $edate, $ttype, $customer['name']);
+        if(!empty($this->customer->details($cid)))
+        {
+                    $customer = $this->customer->details($cid);
+                   // print_r($customer);
+                    $name=$customer['name'];
+        }
+        else{
+                    $customer ='';
+                    $name='';
+        }
+        
+        $data['filter'] = array($cid, $trans_type, $sdate, $edate, $ttype, $name);
 
         //  print_r( $data['statement']);
         $head['title'] = "Customer Account Statement";

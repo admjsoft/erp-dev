@@ -16,11 +16,7 @@ class Customers extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(3)) {
-
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-
-        }
+     
         $this->load->library("Custom");
         $this->li_a = 'crm';
 		$this->li_a == "fwms";
@@ -1113,7 +1109,7 @@ public function deleteFwmsClient()
             $row[] = $document->title;
             $row[] = dateformat($document->cdate);
 
-            $row[] = '<a href="' . base_url('userfiles/documents/' . $document->filename) . '" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
+            $row[] = '<a href="' . base_url('userfiles/documents/' . $document->filename) . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
 
 
             $data[] = $row;
