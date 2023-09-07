@@ -1,0 +1,282 @@
+[33mcommit 60543c03db816e6d437de710970139e75f47058c[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Sep 4 16:19:28 2023 +0530
+
+    ecommerce category and sub category adding done & improvised
+
+[33mcommit 9e23b3bcd56ed445819b67b4381cdc23bb486b74[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Sep 4 10:00:03 2023 +0530
+
+    04-09-2023
+
+[33mcommit 513794b9d80ae94a84c70922b15defd955973f36[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Wed Aug 30 11:00:05 2023 +0530
+
+    contacts bulk insert
+
+[33mcommit 73a7880f61511726a34f64d0ce78f15b931c778b[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 29 11:21:14 2023 +0530
+
+    missing code re added
+
+[33mcommit 4b2847701528fa51cbd9b14fa03efb0d2b8f5814[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 29 11:01:42 2023 +0530
+
+    29-08-2023 updated
+
+[33mcommit 363878da972bb000b9196a0344de9c8df4147b11[m
+Merge: 8b6e5b92 86a4b982
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Mon Aug 28 11:12:44 2023 +0800
+
+    header changes
+
+[33mcommit 8b6e5b928d19a5d505ed69505f88a6efd5a420e4[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Mon Aug 28 11:08:38 2023 +0800
+
+    header changes
+
+[33mcommit 86a4b9824e60967939fdcb625f85bc3f10da0254[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Sun Aug 27 11:55:46 2023 +0530
+
+    27-08-2023 latest by siva
+
+[33mcommit b6cc1ea43b9e96f057c3ac22a5deb4f52d87b01f[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Wed Aug 23 15:39:22 2023 +0530
+
+    latest fixes
+
+[33mcommit cee0a371e677d6081ee30ddbe470ac92486b0d0d[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Wed Aug 23 11:12:02 2023 +0530
+
+    digital marketing new fixes
+
+[33mcommit 80ea07e5a40a0f0d70e9fb8cb1e32a4dd47378c1[m
+Merge: 07c3f278 da8794d1
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 22 11:07:02 2023 +0530
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 07c3f2785e1e62f317061a0df1c21fa64a3a4096[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 22 11:06:43 2023 +0530
+
+    ecommerce bug fixes
+
+[33mcommit da8794d1d95224d4204c43417651c0101ed20cbb[m
+Merge: cb1ac5b0 d361393b
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Sat Aug 19 10:36:05 2023 +0800
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit d361393b9fbd6ab86d1f9b207de3adc6680fb8d4[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Sat Aug 19 06:36:42 2023 +0530
+
+    ecommerce updates
+
+[33mcommit cb1ac5b02988cc5adb5300e02176f209030ffa08[m
+Merge: 0d68deaa 5e695ad5
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Thu Aug 17 16:10:38 2023 +0800
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 0d68deaa350604b040c1627756b61a8a27a986ad[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Thu Aug 17 16:10:29 2023 +0800
+
+    header changes
+
+[33mcommit 5e695ad58c256966a0f49e770432d5c9d8b8d135[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Thu Aug 17 09:09:48 2023 +0530
+
+    ecommerce fixes
+
+[33mcommit b1e4ab51edaae635515e700c47a66804c6b46ef1[m
+Merge: 2e1a7741 36282f63
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Wed Aug 16 17:05:12 2023 +0530
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 2e1a774155a4bf38cbb7abcb5e53e9265d9cf779[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Wed Aug 16 17:04:53 2023 +0530
+
+    16-08-2023 recent code
+
+[33mcommit 36282f639b2b141e31769b3b24776a829827b6e2[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Wed Aug 16 14:25:42 2023 +0800
+
+    changes
+
+[33mcommit 73c468d08c7324b3a19afc9dc9d5e9117082d6c5[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Wed Aug 16 07:02:53 2023 +0530
+
+    update code 16-08-2023
+
+[33mcommit 917483ee182c0d47abbcdf7969bc9137844b93ad[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 15 14:27:46 2023 +0530
+
+    ecommerce fixes
+
+[33mcommit fe83f755adbd1fc8cd4bac1929aae81f332838a6[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 15 09:31:27 2023 +0530
+
+    ecommerce & digital marketing updated code 15-08-2023
+
+[33mcommit 33d11141e25a1af75f31a512f9c6037d4ee38b42[m
+Merge: 5cc5f3ac 4f3657b5
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Aug 14 09:11:26 2023 +0530
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 5cc5f3ac1ca05c1b0f4aa00a386f20c939812051[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Aug 14 09:11:08 2023 +0530
+
+    ecommerce latest 14-08-2023
+
+[33mcommit 4f3657b5c266e7b7ef42af64ac6bd471ecdfebd0[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Mon Aug 14 11:38:00 2023 +0800
+
+    my changes upto 14-08-23
+
+[33mcommit 92211f9b1be40f29b49fb2b24c9efc89251b460c[m
+Merge: 813a1ec2 c4e94e08
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Thu Aug 10 12:12:58 2023 +0800
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 813a1ec203d819bf8e1a45905efe171c157d1569[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Thu Aug 10 12:12:50 2023 +0800
+
+    header changes
+
+[33mcommit c4e94e08b2f5dddc3bf419335d2da26fe8bd2b68[m
+Merge: 88b0f605 ba4165e4
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Thu Aug 10 09:37:42 2023 +0530
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 88b0f605d26c26341aa96e979f27581f0725ae4b[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Thu Aug 10 09:37:21 2023 +0530
+
+    ecommerce final module 10-08-2023
+
+[33mcommit ba4165e42f57a3ab932e796ffedb99351988cf97[m
+Merge: 10f50806 47646c58
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Wed Aug 9 16:48:30 2023 +0800
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 10f50806ebf740b5895289a349fc0b8a454f8709[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Wed Aug 9 16:47:46 2023 +0800
+
+    sample test
+
+[33mcommit 47646c58ec452af9ac1ba1e1208fe44c6357b3d6[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 8 08:07:32 2023 +0530
+
+    08-08-2023 digital_marketing api key changed1
+
+[33mcommit d188e41bbc283aa68e41cd74ba1a5d64f1e633c8[m
+Merge: 50cd1c3c 8af584af
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 8 07:47:38 2023 +0530
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 50cd1c3c7fe6678272a14df9042abdbba43722b1[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Tue Aug 8 07:47:23 2023 +0530
+
+    08-08-2023 digital_marketing api key changed
+
+[33mcommit 8af584af81c93326d654da075c935ca618f64853[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Mon Aug 7 09:57:50 2023 +0800
+
+    lang changes
+
+[33mcommit 0c18235736b7029f48eeecd404d6012eec5ee124[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Mon Aug 7 09:43:52 2023 +0800
+
+    upto 08-07-23 changes
+
+[33mcommit 8c363cf70297bb9f8df52aa42aac0f19405b4d73[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Aug 7 07:06:13 2023 +0530
+
+    07-08-2023 digital_marketing
+
+[33mcommit 6bad163324d1154c598e8080556c211f7c334d82[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Fri Jul 28 13:22:51 2023 +0530
+
+    28-07-2023 1
+
+[33mcommit d5f75d52ac7336a362ee49e66adf81fe02b9ea6c[m
+Merge: 3ccb33c7 28179ebd
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Fri Jul 28 13:02:01 2023 +0530
+
+    Merge branch 'main' of https://github.com/admjsoft/erp-dev
+
+[33mcommit 3ccb33c7bde2b4484baa7cc99aff995c7033ec57[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Fri Jul 28 13:01:40 2023 +0530
+
+    28-07-2023
+
+[33mcommit 28179ebdea9e7ef966cd9f687b796811cde313fd[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Tue Jul 25 08:39:52 2023 +0800
+
+    test demo
+
+[33mcommit 274bf13ea37d33ad55b7d7a9454bbd65971f767c[m
+Author: udhayak1989 <udhayase@gmail.com>
+Date:   Mon Jul 24 12:09:32 2023 +0800
+
+    dashboard changes
+
+[33mcommit b8e9d502cb8e51f45d2a596a9e55561d53cb5f4f[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Jul 24 08:26:31 2023 +0530
+
+    peppol fix 24-07-2023_8_26_am
+
+[33mcommit e75e49c130f83e16c4220029be4ea10afe6f5196[m
+Author: Siva prasad <sprasad96@gmail.com>
+Date:   Mon Jul 24 03:19:56 2023 +0530
+
+    peppol fix
+
+[33mcommit 03a4ff
