@@ -31,9 +31,12 @@
 
 
 
-                            <a href="<?php echo 'edit?id=' . $invoice['iid']; ?>" class="btn btn-warning mb-1"><i
+                            <?php /* ?><a href="<?php echo 'edit?id=' . $invoice['iid']; ?>" class="btn btn-warning mb-1"><i
                                         class="fa fa-pencil"></i> <?php echo $this->lang->line('Edit Invoice') ?></a>
-
+                            <?php */ ?>
+                            <a href="javascript:void(0);" onclick="checkConditionAndRedirect('<?php echo $invoice['status']; ?>');"  class="btn btn-warning mb-1">
+                                <i class="fa fa-pencil"></i> <?php echo $this->lang->line('Edit Invoice') ?>
+                            </a>
                             <a href="#part_payment" data-toggle="modal" data-remote="false" data-type="reminder"
                                class="btn btn-large btn-info mb-1" title="Partial Payment"
                             ><span class="fa fa-money"></span> <?php echo $this->lang->line('Make Payment') ?> </a>
@@ -105,10 +108,10 @@
                                             class="fa fa-print"></i> <?php echo $this->lang->line('Print') ?>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" target=”_blank” 
+                                    <a class="dropdown-item" target="_blank" 
                                        href="<?= base_url('billing/printinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>"><?php echo $this->lang->line('Print') ?></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item"
+                                    <a class="dropdown-item"  target="_blank"
                                        href="<?= base_url('billing/printinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&d=1"><?php echo $this->lang->line('PDF Download') ?></a>
 
                                 </div>
@@ -519,7 +522,7 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
                         <tbody id="activity">
                         <?php foreach ($attach as $row) {
 
-                            echo '<tr><td><a data-url="' . base_url() . 'invoices/file_handling?op=delete&name=' . $row['col1'] . '&invoice=' . $invoice['iid'] . '" class="aj_delete"><i class="btn-danger btn-lg fa fa-trash"></i></a> <a class="n_item" href="' . base_url() . 'userfiles/attach/' . $row['col1'] . '"> ' . $row['col1'] . ' </a></td></tr>';
+                            echo '<tr><td><a data-url="' . base_url() . 'invoices/file_handling?op=delete&name=' . $row['col1'] . '&invoice=' . $invoice['iid'] . '" class="aj_delete"><i class="btn-danger btn-lg fa fa-trash"></i></a> <a class="n_item" target="_blank"  href="' . base_url() . 'userfiles/attach/' . $row['col1'] . '"> ' . $row['col1'] . ' </a></td></tr>';
                         } ?>
 
                         </tbody>
@@ -881,10 +884,10 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
                     <div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
-                                <select name="status" class="form-control mb-1">
-                                <option value="due"><?php echo $this->lang->line('Due'); ?></option>
-                                <option value="partial"><?php echo $this->lang->line('Partial'); ?></option>
-							    <option value="paid"><?php echo $this->lang->line('Paid'); ?></option>
+                                <select id="invoice_status_dd" name="status" class="form-control mb-1" <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
+                                <option value="due" <?php if($invoice['status'] == 'due'){ echo "selected"; } ?>><?php echo $this->lang->line('Due'); ?></option>
+                                <option value="partial" <?php if($invoice['status'] == 'partial'){ echo "selected"; } ?>><?php echo $this->lang->line('Partial'); ?></option>
+							    <option value="paid" <?php if($invoice['status'] == 'paid'){ echo "selected"; } ?>><?php echo $this->lang->line('Paid'); ?></option>
                             </select>
 
                         </div>
@@ -893,7 +896,7 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
  <div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Payment Method') ?></label>
-                            <select name="pmethod" class="form-control mb-1">
+                            <select name="pmethod" class="form-control mb-1" <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
                                 <option value="Cash"><?php echo $this->lang->line('Cash') ?></option>
                                 <option value="Card"><?php echo $this->lang->line('Card') ?></option>
                                 <option value="Balance"><?php echo $this->lang->line('Wallet') ?></option>
@@ -906,21 +909,21 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
 					<div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Amount') ?></label></br>
-                            <input type="text"  name="amount" id="amount" class="form-control">
+                            <input type="text"  name="amount" id="amount" class="form-control" <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
 
                             </div>
                     </div>
 					 <div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Note') ?></label></br>
-                            <textarea name="note" id="note" class="form-control"></textarea>
+                            <textarea name="note" id="note" class="form-control" <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>></textarea>
 
                             </div>
                     </div>
 					<div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Proof Of Payment') ?></label></br>
-<input type="file" name="userfile" method="post" action="" >
+                        <input type="file" name="userfile" method="post" action="" <?php if($invoice['status'] == 'paid'){ echo "disabled"; } ?>>
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -931,14 +934,66 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
                                name="tid" id="invoiceid" value="<?php echo $invoice['iid'] ?>">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
-                        <button type="submit" class="btn btn-primary"
+                        <?php if($invoice['status'] != 'paid'){ ?> 
+                            <button type="submit" id="change_status_btn" class="btn btn-primary"
                                 id=""><?php echo $this->lang->line('Change Status'); ?></button>
+                        <?php  } ?>
+                               
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+        // Get the form and button elements
+        const myForm = document.getElementById('form_model');
+        const submitButton = document.getElementById('change_status_btn');
+
+        // Function to handle the button click
+        submitButton.addEventListener('click', function (e) {
+            // Display a confirmation dialog
+            
+                //myForm.submit(); // Submit the form
+                var status = $('#invoice_status_dd').val();
+                if(status == 'paid')
+                {
+                    const PaidConfirmation = confirm("Are you sure want to change status? Once status is paid, cant be changed");
+                    if (PaidConfirmation) {
+                        myForm.submit(); // Submit the form
+                    }else{
+                        e.preventDefault();
+                    }
+                }else{
+                    const isConfirmed = confirm("Are you sure want to change status?");
+            
+                    // If the user confirmed, submit the form
+                    if (isConfirmed) {
+                        myForm.submit(); // Submit the form
+                    }else{
+                        e.preventDefault(); // Prevent the default form submission behavior
+
+                    }
+                }
+            
+
+            
+        });
+    </script>
+    <script>
+    function checkConditionAndRedirect(status) {
+        // Replace this condition with your actual condition
+        if (status != 'paid') {
+            // Condition passed, perform the redirect
+            
+            window.location.href = "<?php echo base_url('invoices/').'edit?id=' . $invoice['iid']; ?>";
+        } else {
+            // Condition failed, show an alert
+            alert("cannot edit inovice due to status is paid.");
+        }
+    }
+</script>
+
 
 <script type="text/javascript">
     $(function () {

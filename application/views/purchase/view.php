@@ -325,9 +325,21 @@
                             </div>
                             <div class="text-xs-center">
                                 <p><?php echo $this->lang->line('Authorized person') ?></p>
-                                <?php echo '<img src="' . base_url('userfiles/employee_sign/' . $employee['sign']) . '" alt="signature" class="height-100"/>
+                                <?php if(!empty($employee)){ ?>
+                                    <?php /* echo '<img src="' . base_url('userfiles/employee_sign/' . $employee['sign']) . '" alt="signature" class="height-100"/>
                                     <h6>(' . $employee['name'] . ')</h6>
-                                    <p class="text-muted">' . user_role($employee['roleid']) . '</p>'; ?>
+                                    <p class="text-muted">' . user_role($employee['roleid']) . '</p>'; */ ?>
+                                    <?php 
+                                        echo '<img src="' . base_url('userfiles/employee_sign/' . (!empty($employee['sign']) ? $employee['sign'] : '')) . '" alt="signature" class="height-100"/>
+                                            <h6>' . (!empty($employee['name']) ? $employee['name'] : '') . '</h6>
+                                            <p class="text-muted">' . (!empty($employee['roleid']) ? user_role($employee['roleid']) : '') . '</p>';
+                                        ?>
+
+                                <?php }else{ ?>
+                                    <p>Not Available</p>
+                                <?php } ?>    
+
+                                
                             </div>
                         </div>
                     </div>
@@ -393,7 +405,7 @@
                         <tbody id="activity">
                         <?php foreach ($attach as $row) {
 
-                            echo '<tr><td><a data-url="' . base_url() . 'purchase/file_handling?op=delete&name=' . $row['col1'] . '&invoice=' . $invoice['iid'] . '" class="aj_delete"><i class="btn-danger btn-lg fa fa-trash"></i></a> <a class="n_item" href="' . base_url() . 'userfiles/attach/' . $row['col1'] . '"> ' . $row['col1'] . ' </a></td></tr>';
+                            echo '<tr><td><a data-url="' . base_url() . 'purchase/file_handling?op=delete&name=' . $row['col1'] . '&invoice=' . $invoice['iid'] . '" class="aj_delete"><i class="btn-danger btn-lg fa fa-trash"></i></a> <a target="_blank" class="n_item" href="' . base_url() . 'userfiles/attach/' . $row['col1'] . '"> ' . $row['col1'] . ' </a></td></tr>';
                         } ?>
 
                         </tbody>

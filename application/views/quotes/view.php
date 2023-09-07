@@ -17,9 +17,13 @@
                         ?>
                         <div class="title-action">
 
-                            <a href="<?php echo 'edit?id=' . $invoice['iid']; ?>" class="btn btn-warning mb-1"><i
+                            <?php /* ?><a href="<?php echo 'edit?id=' . $invoice['iid']; ?>" class="btn btn-warning mb-1"><i
+                                        class="fa fa-pencil"></i> <?php echo $this->lang->line('Edit Quote') ?> </a>
+                            <?php */ ?>
+                            <a href="javascript:void(0);" onclick="checkConditionAndRedirect('<?php echo $invoice['status']; ?>');" class="btn btn-warning mb-1"><i
                                         class="fa fa-pencil"></i> <?php echo $this->lang->line('Edit Quote') ?> </a>
 
+                                        
                             <a href="#pop_model" data-toggle="modal" data-remote="false"
                                class="btn btn-large btn-success mb-1" title="Change Status"
                             ><span class="fa fa-retweet"></span> <?php echo $this->lang->line('Change Status') ?> </a>
@@ -740,4 +744,17 @@
     });
 
 
+</script>
+<script>
+    function checkConditionAndRedirect(status) {
+        // Replace this condition with your actual condition
+        if (status != 'accepted') {
+            // Condition passed, perform the redirect
+            
+            window.location.href = "<?php echo base_url('quote/').'edit?id=' . $invoice['iid']; ?>";
+        } else {
+            // Condition failed, show an alert
+            alert("cannot edit quote due to status is accepted.");
+        }
+    }
 </script>
