@@ -875,11 +875,16 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
             <div class="modal-header">
 
                 <h4 class="modal-title"><?php
-				echo $this->lang->line('Change Status'); ?> </h4>
+				echo $this->lang->line('Change Status'); ?> ( <?php echo $invoice['status'] ?> )</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
             <div class="modal-body">
+            <?php if($invoice['status'] == 'paid'){ ?>
+                <p class="alert-warning p-1">Cannot change status, status already paid</p>
+            <?php } ?>
+            
+            
                 <form id="form_model" method="post" enctype="multipart/form-data" action="<?php echo base_url("invoices/update_status") ?>"">
                     <div class="row">
                         <div class="col mb-1"><label

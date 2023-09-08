@@ -62,10 +62,10 @@
                                             class="fa fa-print"></i> <?php echo $this->lang->line('Print Order') ?>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item"
+                                    <a class="dropdown-item" target="_blank"
                                        href="<?= base_url('billing/printorder?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>"><?php echo $this->lang->line('Print') ?></a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item"
+                                    <a class="dropdown-item" target="_blank"
                                        href="<?= base_url('billing/printorder?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&d=1"><?php echo $this->lang->line('PDF Download') ?></a>
 
                                 </div>
@@ -557,8 +557,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><?php echo $this->lang->line('Cancel Purchase Order') ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                
             </div>
             <div class="modal-body">
                 <form class="cancelbill">

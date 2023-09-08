@@ -382,8 +382,8 @@ public function updateInternational($update_id,$company_name,$company,$address,$
 				 $html='&nbsp;
                 <a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
 
-                echo json_encode(array('status' => 'Success', 'message' => $msg.$html));
-                //return $msg.$html; 
+                //echo json_encode(array('status' => 'Success', 'message' => $msg.$html));
+                return $msg.$html; 
                     }
 	public function email_exists($email)
 	{

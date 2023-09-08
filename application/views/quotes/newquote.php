@@ -33,12 +33,14 @@
             </script>
 <div class="content-body">
 <div id="c_body"></div>
+<p id="statusMsg1" class="p-1"> 
     <div class="card">
         <div class="card-content">
             <div id="notify" class="alert alert-success" style="display:none;">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <div class="message"></div>
             </div>
+            
             <div class="card-body">
                 <form method="post" id="data_form">
                     <div class="row">

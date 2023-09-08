@@ -413,19 +413,23 @@
     $sign_logo =  FCPATH . 'assets/images/stamp2.png';
 
     echo amountExchange($rming, $invoice['multi'], $invoice['loc']);
-       if(!empty($employee['sign']) && $employee['sign'] != 'sign.png')
+    if(!empty($employee))
     {
-        echo '</strong></td>
-		</tr>
-		</table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="' . FCPATH . 'userfiles/employee_sign/' . $employee['sign'] . '" width="150" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><br>';
+        if(!empty($employee['sign']) && $employee['sign'] != 'sign.png')
+        {
+            echo '</strong></td>
+            </tr>
+            </table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="' . FCPATH . 'userfiles/employee_sign/' . $employee['sign'] . '" width="150" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><br>';
 
-    }else{
-        echo '</strong></td>
-		</tr>
-		</table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="'.$sign_logo.'" width="100" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><br>';
+        }else{
+            echo '</strong></td>
+            </tr>
+            </table><br><div class="sign">' . $this->lang->line('Authorized person') . '</div><div class="sign1"><img src="'.$sign_logo.'" width="100" height="100" border="0" alt=""></div><div class="sign2">(' . $employee['name'] . ')</div><div class="terms">' . $invoice['notes'] . '<hr><br>';
 
-    }
+        }
    
+    }
+
     echo '<strong>' . $invoice['termtit'] . '</strong><br>' . $invoice['terms'];
     ?></div>
 </div>

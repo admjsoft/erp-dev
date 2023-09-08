@@ -876,7 +876,8 @@ function searchCS(actionurl) {
             success: function (data) {
                 if (data.status == 'Success') {
 
-
+                    // alert('dddd');
+                    // return;
                     $("#statusMsg").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#statusMsg").removeClass("alert-warning").addClass("alert-success").fadeIn();
                     $("html, body").animate({scrollTop: $('html, body').offset().top}, 200);
@@ -884,6 +885,16 @@ function searchCS(actionurl) {
 
                         $("#statusMsg").fadeOut();     
                         $("#statusMsg").html("");           
+                    
+                        },3000);
+                    
+                    $("#statusMsg1").html("<strong>" + data.status + "</strong>: " + data.message);
+                    $("#statusMsg1").removeClass("alert-warning").addClass("alert-success").fadeIn();
+                    //$("html, body").animate({scrollTop: $('html, body').offset().top}, 200);
+                    setTimeout(function() { 
+
+                        $("#statusMsg1").fadeOut();     
+                        $("#statusMsg1").html("");           
                     
                         },3000);
                     $('#customer_id').val(data.cid);

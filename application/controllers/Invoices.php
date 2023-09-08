@@ -841,7 +841,15 @@ redirect('invoices');
         $postbox_s = $this->input->post('postbox_s', true);
 
         $this->load->model('customers_model', 'customers');
-        echo $this->customers->add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s);
+        $insert1 = $this->customers->add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s);
+        if(!$insert1){
+            $data['status'] = 'danger';
+            $data['message'] = $this->lang->line('Customer Add error');
+        }else{
+            $data['status'] = 'Success';
+            $data['message'] = "Customer Details Added Successfully!";
+        }
+        echo json_encode($data);
     }
 
     public function file_handling()
