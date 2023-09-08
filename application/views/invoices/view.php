@@ -875,25 +875,38 @@ $docurl="../userfiles/documents/".$row['payment_proof'];
             <div class="modal-header">
 
                 <h4 class="modal-title"><?php
-				echo $this->lang->line('Change Status'); ?> ( <?php echo $invoice['status'] ?> )</h4>
+				echo $this->lang->line('Change Status'); ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
+                        <div class="modal-body">
+                        <h6 style="text-align: right; margin-top:5px;margin-right:5px;"><?php echo "Current Status : "; //$this->lang->line('Change Status'); ?>  <?php echo ucfirst($invoice['status']); ?> </h6>
 
-            <div class="modal-body">
             <?php if($invoice['status'] == 'paid'){ ?>
                 <p class="alert-warning p-1">Cannot change status, status already paid</p>
             <?php } ?>
             
             
-                <form id="form_model" method="post" enctype="multipart/form-data" action="<?php echo base_url("invoices/update_status") ?>"">
+                <form id="form_model" method="post" enctype="multipart/form-data" action="<?php echo base_url("invoices/update_status") ?>">
                     <div class="row">
                         <div class="col mb-1"><label
                                     for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
                                 <select id="invoice_status_dd" name="status" class="form-control mb-1" <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
+                               <?php /* ?>
                                 <option value="due" <?php if($invoice['status'] == 'due'){ echo "selected"; } ?>><?php echo $this->lang->line('Due'); ?></option>
                                 <option value="partial" <?php if($invoice['status'] == 'partial'){ echo "selected"; } ?>><?php echo $this->lang->line('Partial'); ?></option>
 							    <option value="paid" <?php if($invoice['status'] == 'paid'){ echo "selected"; } ?>><?php echo $this->lang->line('Paid'); ?></option>
-                            </select>
+                                <?php */ ?>
+                                <?php if ($invoice['status'] == 'due') : ?>
+                                    <option value="due" selected><?php echo $this->lang->line('Due'); ?></option>
+                                    <option value="partial"><?php echo $this->lang->line('Partial'); ?></option>
+                                    <option value="paid"><?php echo $this->lang->line('Paid'); ?></option>
+                                <?php elseif ($invoice['status'] == 'partial') : ?>
+                                    <option value="partial" selected><?php echo $this->lang->line('Partial'); ?></option>
+                                    <option value="paid"><?php echo $this->lang->line('Paid'); ?></option>
+                                <?php elseif ($invoice['status'] == 'paid') : ?>
+                                    <option value="paid" selected><?php echo $this->lang->line('Paid'); ?></option>
+                                <?php endif; ?>
+                                </select>
 
                         </div>
 						

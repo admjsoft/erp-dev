@@ -9,25 +9,26 @@ class Common
 
     function taxlist($id = 0)
     {
-		
+		// echo $id;
+        // exit;
         $tax_list = '';
-        switch ($id) {
-            case -1:
-                $tax_list .= '<option value="yes" data-tformat="yes" selected>&raquo;' . $this->PI->lang->line('On') . '</option>';
-                break;
-            case -2:
-                $tax_list .= '<option value="inclusive"  data-tformat="incl" selected>&raquo;' . $this->PI->lang->line('Inclusive') . '</option>';
-                break;
-            case -3:
-                $tax_list .= '<option value="' . GST_INCL . '" data-tformat="cgst" selected>&raquo;' . $this->PI->lang->line('GST1') . '</option>';
-                break;
-            case -4:
-                $tax_list .= '<option value="' . GST_INCL . '"  data-tformat="igst" selected>&raquo;' . $this->PI->lang->line('IGST') . '</option>';
-                break;
-            case 0:
-                $tax_list .= '<option value="off" selected>&raquo;' . $this->PI->lang->line('Off') . '</option>';
-                break;
-        }
+        // switch ($id) {
+        //     case -1:
+        //         $tax_list .= '<option value="yes" data-tformat="yes" selected>&raquo;' . $this->PI->lang->line('On') . '</option>';
+        //         break;
+        //     case -2:
+        //         $tax_list .= '<option value="inclusive"  data-tformat="incl" selected>&raquo;' . $this->PI->lang->line('Inclusive') . '</option>';
+        //         break;
+        //     case -3:
+        //         $tax_list .= '<option value="' . GST_INCL . '" data-tformat="cgst" selected>&raquo;' . $this->PI->lang->line('GST1') . '</option>';
+        //         break;
+        //     case -4:
+        //         $tax_list .= '<option value="' . GST_INCL . '"  data-tformat="igst" selected>&raquo;' . $this->PI->lang->line('IGST') . '</option>';
+        //         break;
+        //     case 0:
+        //         $tax_list .= '<option value="off" selected>&raquo;' . $this->PI->lang->line('Off') . '</option>';
+        //         break;
+        // }
         if ($id > 0) {
             $this->PI->db->where('id', $id);
             $this->PI->db->where('type', 2);
@@ -36,11 +37,11 @@ class Common
             $row1 = $query->row_array();
             $tax_list .= '<option value="' . $row1['val4'] . '" data-tformat="' . $row1['val3'] . '" data-trate="' . $row1['val2'] . '">' . $row1['val1'] . '</option> ';
         }
-        $tax_list .= '<option value="yes" data-tformat="yes">' . $this->PI->lang->line('On') . '</option>
-                                            <option value="inclusive"  data-tformat="incl">' . $this->PI->lang->line('Inclusive') . '</option>
-                                            <option value="off" data-tformat="off">' . $this->PI->lang->line('Off') . '</option>
-                                            <option value="' . GST_INCL . '" data-tformat="cgst">' . $this->PI->lang->line('GST1') . '</option>
-                                            <option value="' . GST_INCL . '" data-tformat="igst">' . $this->PI->lang->line('IGST') . '</option> ';
+        // $tax_list .= '<option value="yes" data-tformat="yes">' . $this->PI->lang->line('On') . '</option>
+        //                                     <option value="inclusive"  data-tformat="incl">' . $this->PI->lang->line('Inclusive') . '</option>
+        //                                     <option value="off" data-tformat="off">' . $this->PI->lang->line('Off') . '</option>
+        //                                     <option value="' . GST_INCL . '" data-tformat="cgst">' . $this->PI->lang->line('GST1') . '</option>
+        //                                     <option value="' . GST_INCL . '" data-tformat="igst">' . $this->PI->lang->line('IGST') . '</option> ';
 
         $this->PI->db->where('type', 2);
         $this->PI->db->order_by('id', 'DESC');
