@@ -74,7 +74,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 		  
       </div>
 	  
-	        <div class="form-group row">
+	      <!--  <div class="form-group row">
 			          <div class="col-md-6">
 
 		<label>Choose Logo</label>
@@ -82,7 +82,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <input type="file" name="file">
 </div>
 </div>
-	<b>(only jpeg,png Formats)</b>
+	<b>(only jpeg,png Formats)</b>-->
 		    
             </div>
              <div class="form-group row mt-2">
