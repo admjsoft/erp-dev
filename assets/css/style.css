@@ -278,7 +278,7 @@ ballsWaveG{
 }
 .ui-menu-item-wrapper {
     background-color: #b3d8e4;
-    max-width: 60%;
+    max-width: 100%;
     border-bottom: 1px solid #ddd;
     padding: 4px;
 }
@@ -628,3 +628,30 @@ text-transform: capitalize;
 .pac-container { 
     z-index: 9999 !important;
 }
+
+.ui-widget-content{
+    z-index: 9999 !important;
+}
+
+.ui-autocomplete {
+    position: absolute;
+    max-height: 150px; /* Set a maximum height for the dropdown to enable scrolling if needed */
+    overflow-y: auto; /* Enable vertical scrolling if the dropdown content exceeds the maximum height */
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1; /* Ensure the dropdown appears above other elements */
+  }
+  
+  /* Style for individual autocomplete items */
+  
+  /* Highlight on hover */
+  .ui-menu-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Style for the selected item */
+  .ui-state-active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  

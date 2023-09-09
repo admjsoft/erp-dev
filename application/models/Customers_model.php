@@ -380,10 +380,11 @@ public function updateInternational($update_id,$company_name,$company,$address,$
             }
        		  $msg=$this->lang->line('ADDED') . $p_string;
 				 $html='&nbsp;
-<a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
+                <a href="' . base_url('customers/view?id=' . $cid) . '" class="btn btn-info btn-sm"><span class="icon-eye"></span>' . $this->lang->line('View') . '</a>';
 
-return $msg.$html; 
-    }
+                //echo json_encode(array('status' => 'Success', 'message' => $msg.$html));
+                return $msg.$html; 
+                    }
 	public function email_exists($email)
 	{
 		        $this->db->select('email');

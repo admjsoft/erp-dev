@@ -128,7 +128,7 @@ class Quote_model extends CI_Model
 
     public function update_status($id)
     {
-        $this->db->set('status', 'customer_approved');
+        $this->db->set('status', 'accepted');
         $this->db->where('id', $id);
         return $this->db->update('gtg_quotes');
     }
