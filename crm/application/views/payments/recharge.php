@@ -58,8 +58,8 @@
                                    for="name"></label>
 
                             <div class="col-sm-8">
-                                <input type="submit" class="btn btn-lg btn-success" value="Add Money to Wallet">
-                                <button type="button" class="btn btn-lg btn-amber" title="support recharge still pending" data-toggle="modal" data-target="#part_payment" >
+                                <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#paymentCard" >Add Money to Wallet
+                                <button type="button" class="btn btn-lg btn-amber" title="support recharge still pending" data-toggle="modal" data-target="#part_payment_new" >
                                     <?php //echo $this->lang->line('Support') ?>Payment Proof</button>
                             </div>
                         </div>
@@ -160,3 +160,95 @@
         </div>
     </div>
 </div>
+<div id="paymentCard" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title"><?php echo $this->lang->line('Make Payment') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <span style="color:red">Please Contact System Provider If Required Online Function</span>
+                    <?php
+
+
+                    /*foreach ($gateway as $row) {
+                        $cid = $row['id'];
+                        $title = $row['name'];
+                        if ($row['surcharge'] > 0) {
+                            $surcharge_t = true;
+                            $fee = '( ' . amountExchange($rming, $invoice['multi'], $invoice['loc']) . '+' . amountFormat_s($row['surcharge']) . ' %)';
+                        } else {
+                            $fee = '';
+                        }
+
+                        echo '<a href="' . base_url('billing/card?id=' . $invoice['iid'] . '&itype=inv&token=' . $token) . '&gid=' . $cid . '" class="btn mb-1 btn-block blue rounded border border-info text-bold-700 border-lighten-5 "><span class=" display-block"><span class="grey">Pay With </span><span class="blue font-medium-2">' . $title . ' ' . $fee . '</span></span>
+
+ <img class="mt-1 bg-white round" style="max-width:20rem;max-height:10rem"
+                                             src="' . assets_url('assets/gateway_logo/' . $cid . '.png') . '">
+</a><br>';
+                    }*/
+                    ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Modal HTML Wallet -->
+    <div id="part_payment_new" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title"><?php echo $this->lang->line('Payment Confirmation') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form class="payment" action="<?php echo base_url(); ?>/billing/walletpay" method="post" >
+                                            <span style="color:red">Please Contact System Provider Adding Money To e-wallet</span>
+
+                      <!--  <div class="row">
+                            <div class="col"><label
+                                        for="rmpay"><?php //echo $this->lang->line('Payment') ?></label>
+                                    <input type="text" class="form-control" placeholder="Total Amount" name="amount"
+                                           id="rmpay"
+                                           value="<?php //amountExchange_s($rming, 0, $invoice['loc']) ?>">
+                                    <div class="form-control-position">
+                                        <?php //echo $this->config->item('currency') ?>
+                                    </div>
+                            </div>
+                        </div>-->
+
+                        <!--<div class="row">
+                            <div class="col mb-1">
+                                <input type="hidden" name="pmethod" class="form-control mb-1" value="Balance" />
+                                <label for="account"><?php //echo $this->lang->line('Wallet') ?> <?php //echo $this->lang->line('Balance') ?></label>
+                                <input type="text" name="account" class="form-control mb-1" value="<?php //echo $customers['balance']; ?>" readonly />
+                           </div>
+                        </div>-->
+                        <!--<div class="row">
+                            <div class="col mb-1"><label
+                                        for="shortnote"><?php //echo $this->lang->line('Note') ?></label>
+                                <input type="text" class="form-control"
+                                       name="shortnote" placeholder="Short note"
+                                       value="Payment for invoice #<?php //echo $invoice['tid'] ?>"></div>
+                        </div>-->
+                        <div class="modal-footer">
+                            
+                            <!--<button type="submit" class="btn btn-primary"
+                                    id=""  <?php //if($rming>$customers['balance']){echo "disabled"; } ?>><?php //echo $this->lang->line('Make Payment'); ?></button>--->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

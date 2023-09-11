@@ -195,7 +195,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 												 ?></select>
                                         </div>
                                     </div>
-									<div class="form-group row">
+								<?php /* ?> <!--commented For Kitchen Deployment--> 
+								<div class="form-group row">
                                      <?php 
 								
 								// print_r($clients);
@@ -217,7 +218,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 											   </select>
 											  
                                         </div>
-                                    </div>
+                                    </div> 
+                                    <?php */ ?>
 									
 									<div class="form-group row">
 

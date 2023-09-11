@@ -1,5 +1,5 @@
 <div class="content-body">
-<div id="c_body"></div>
+    <div id="c_body"></div>
     <div class="card">
         <div class="card-content">
             <div id="notify" class="alert alert-success" style="display:none;">
@@ -15,10 +15,10 @@
                     <div class="col">
                         <?php $rming = $invoice['total'] - $invoice['pamnt'];
                         if ($invoice['status'] != 'canceled') { ?>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group mt-2"><?php echo $this->lang->line('Payment') ?>:
-                                        <?php if ($online_pay['enable'] == 1) {
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group mt-2"><?php echo $this->lang->line('Payment') ?>:
+                                    <?php if ($online_pay['enable'] == 1) {
                                             echo '<a class="btn btn-success btn-min-width mr-1" href="#' . base_url('billing/card?id=' . $invoice['iid'] . '&itype=inv&token=' . $token) . '" data-toggle="modal" data-target="#paymentCard"><i class="fa fa-cc"></i> Online Payment</a> ';
                                         }
                                         if ($online_pay['bank'] == 1) {
@@ -27,9 +27,10 @@
                                                         class="fa fa-bank" ></i > ' . $this->lang->line('Bank') . ' / ' . $this->lang->line('Cash') . '</a >';
                                         }
                                         ?>
-                                        <a href="#" class="btn btn-large btn-amber mr-1" title="Wallet"
-                                           data-toggle="modal" data-target="#part_payment" ><i class="fa fa-wallet"></i> <?php echo $this->lang->line('Wallet') ?></a>
-                                        <?php
+                                    <a href="#" class="btn btn-large btn-amber mr-1" title="Wallet" data-toggle="modal"
+                                        data-target="#part_payment"><i class="fa fa-wallet"></i>
+                                        <?php echo $this->lang->line('Wallet') ?></a>
+                                    <?php
 
                                         if (isset($this->session->userdata('user_details')[0]->cid)) {
                                             echo '<a class="btn btn-warning  mr-1"
@@ -41,32 +42,32 @@
                                                         class="fa fa-backward" ></i > </a >';
                                         }
                                         ?>
-                                    </div>
                                 </div>
+                            </div>
 
 
-                                <div class="col-md-4 text-right">
-                                    <div class="btn-group mt-2">
-                                        <button type="button" class="btn btn-primary btn-min-width dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                                    class="fa fa-print"></i> <?php echo $this->lang->line('Print Invoice') ?>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item"
-                                               href="<?php echo 'printinvoice?id=' . $invoice['iid'] . '&token=' . $token; ?>"><?php echo $this->lang->line('Print') ?></a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item"
-                                               href="<?php echo 'printinvoice?id=' . $invoice['iid'] . '&token=' . $token; ?>&d=1"><?php echo $this->lang->line('PDF Download') ?></a>
+                            <div class="col-md-4 text-right">
+                                <div class="btn-group mt-2">
+                                    <button type="button" class="btn btn-primary btn-min-width dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                            class="fa fa-print"></i> <?php echo $this->lang->line('Print Invoice') ?>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                            href="<?php echo 'printinvoice?id=' . $invoice['iid'] . '&token=' . $token; ?>"><?php echo $this->lang->line('Print') ?></a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item"
+                                            href="<?php echo 'printinvoice?id=' . $invoice['iid'] . '&token=' . $token; ?>&d=1"><?php echo $this->lang->line('PDF Download') ?></a>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="title-action ">
+                        </div>
+                        <hr>
+                        <div class="title-action ">
 
 
-                            </div><?php } else {
+                        </div><?php } else {
                             echo '<h2 class="btn btn-oval btn-danger">' . $this->lang->line('Cancelled') . '</h2>';
                         } ?>
                     </div>
@@ -74,10 +75,11 @@
 
                 <!-- Invoice Company Details -->
                 <div id="invoice-company-details" class="row mt-2">
-                    <div class="col-md-6 col-sm-12 text-xs-center text-md-left"><p></p>
+                    <div class="col-md-6 col-sm-12 text-xs-center text-md-left">
+                        <p></p>
                         <img src="<?php $loc = location($invoice['loc']);
-                        echo base_url('userfiles/company/' . $loc['logo']) ?>"
-                             class="img-responsive p-1 m-b-2" style="max-height: 120px;">
+                        echo base_url('userfiles/company/' . $loc['logo']) ?>" class="img-responsive p-1 m-b-2"
+                            style="max-height: 120px;">
                         <p class="text-muted"><?php echo $this->lang->line('From') ?></p>
 
                         <ul class="px-0 list-unstyled">
@@ -99,7 +101,8 @@
                             <p class="pb-1">' . $this->lang->line('Reference') . ':' . $invoice['refer'] . '</p>'; ?>
                         <ul class="px-0 list-unstyled">
                             <li><?php echo $this->lang->line('Gross Amount') ?></li>
-                            <li class="lead text-bold-800"><?= amountExchange($invoice['total'], $invoice['multi'], $invoice['loc']) ?></li>
+                            <li class="lead text-bold-800">
+                                <?= amountExchange($invoice['total'], $invoice['multi'], $invoice['loc']) ?></li>
                         </ul>
                     </div>
 
@@ -117,8 +120,7 @@
                             <ul class="px-0 list-unstyled">
 
 
-                                <li class="text-bold-800"><strong
-                                            class="invoice_a"><?php echo $invoice['name'] . '</strong></li><li>' . $invoice['address'] . '</li><li>' . $invoice['city'] . ', ' . $invoice['region'] . '</li><li>' . $invoice['country'] . ', ' . $invoice['postbox'] . '</li><li>' . $this->lang->line('Phone') . ' : ' . $invoice['phone'] . '</li><li>' . $this->lang->line('Email') . ' : ' . $invoice['email'] . ' </li>';
+                                <li class="text-bold-800"><strong class="invoice_a"><?php echo $invoice['name'] . '</strong></li><li>' . $invoice['address'] . '</li><li>' . $invoice['city'] . ', ' . $invoice['region'] . '</li><li>' . $invoice['country'] . ', ' . $invoice['postbox'] . '</li><li>' . $this->lang->line('Phone') . ' : ' . $invoice['phone'] . '</li><li>' . $this->lang->line('Email') . ' : ' . $invoice['email'] . ' </li>';
                                     if (isset($c_custom_fields)){
                                     foreach ($c_custom_fields
 
@@ -133,14 +135,14 @@
 
                         </div>
                         <div class="col-md-5 col-sm-12 text-xs-center text-md-left"> <?php if ($invoice['name_s']) { ?>
-                                <p class="text-muted"><?php echo $this->lang->line('Shipping Address') ?></p>
-                                <ul class="px-0 list-unstyled">
+                            <p class="text-muted"><?php echo $this->lang->line('Shipping Address') ?></p>
+                            <ul class="px-0 list-unstyled">
 
 
-                                    <li class="text-bold-800"><strong
-                                                class="invoice_a"><?php echo $invoice['name_s'] . '</strong></li><li>' . $invoice['address_s'] . '</li><li>' . $invoice['city_s'] . ',' . $invoice['region_s'] . '</li><li>' . $invoice['country_s'] . ',' . $invoice['postbox_s'] . '</li><li>' . $this->lang->line('Phone') . ' : ' . $invoice['phone_s'] . '</li><li>' . $this->lang->line('Email') . ' : ' . $invoice['email_s']; ?>
-                                    </li>
-                                </ul>
+                                <li class="text-bold-800"><strong
+                                        class="invoice_a"><?php echo $invoice['name_s'] . '</strong></li><li>' . $invoice['address_s'] . '</li><li>' . $invoice['city_s'] . ',' . $invoice['region_s'] . '</li><li>' . $invoice['country_s'] . ',' . $invoice['postbox_s'] . '</li><li>' . $this->lang->line('Phone') . ' : ' . $invoice['phone_s'] . '</li><li>' . $this->lang->line('Email') . ' : ' . $invoice['email_s']; ?>
+                                </li>
+                            </ul>
                             <?php } ?>
                         </div>
                         <div class="col-md-3 col-sm-12 text-xs-center text-md-left">
@@ -159,22 +161,22 @@
                         <div class="table-responsive col-sm-12">
                             <table class="table table-striped">
                                 <thead>
-                                <?php if ($invoice['taxstatus'] == 'cgst'){ ?>
+                                    <?php if ($invoice['taxstatus'] == 'cgst'){ ?>
 
-                                <tr>
-                                    <th>#</th>
-                                    <th><?php echo $this->lang->line('Item') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('HSN') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('Rate') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('Qty') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('Discount') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('CGST') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('SGST') ?></th>
-                                    <th class="text-xs-left"><?php echo $this->lang->line('Amount') ?></th>
-                                </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th><?php echo $this->lang->line('Item') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('HSN') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('Rate') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('Qty') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('Discount') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('CGST') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('SGST') ?></th>
+                                        <th class="text-xs-left"><?php echo $this->lang->line('Amount') ?></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <?php $c = 1;
+                                    <?php $c = 1;
                                 $sub_t = 0;
 
                                 foreach ($products as $row) {
@@ -217,19 +219,19 @@
 
                                 } elseif ($invoice['taxstatus'] == 'igst') {
                                     ?>
-                                    <tr>
-                                        <th>#</th>
-                                        <th><?php echo $this->lang->line('Item') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('HSN') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Rate') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Qty') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Discount') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('IGST') ?></th>
+                                <tr>
+                                    <th>#</th>
+                                    <th><?php echo $this->lang->line('Item') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('HSN') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Rate') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Qty') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Discount') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('IGST') ?></th>
 
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Amount') ?></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Amount') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                     <?php $c = 1;
                                     $sub_t = 0;
 
@@ -267,21 +269,21 @@
                                         $c++;
                                     } ?>
 
-                                    </tbody>
-                                    <?php
+                                </tbody>
+                                <?php
                                 } else {
                                     ?>
-                                    <tr>
-                                        <th>#</th>
-                                        <th><?php echo $this->lang->line('Item') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Rate') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Qty') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Tax') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Discount') ?></th>
-                                        <th class="text-xs-left"><?php echo $this->lang->line('Amount') ?></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                <tr>
+                                    <th>#</th>
+                                    <th><?php echo $this->lang->line('Item') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Rate') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Qty') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Tax') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Discount') ?></th>
+                                    <th class="text-xs-left"><?php echo $this->lang->line('Amount') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                     <?php $c = 1;
                                     $sub_t = 0;
 
@@ -316,7 +318,7 @@
                                         $c++;
                                     } ?>
 
-                                    </tbody>
+                                </tbody>
                                 <?php } ?>
                             </table>
                         </div>
@@ -327,13 +329,13 @@
 
 
                             <div class="row">
-                                <div class="col-md-8"><p
-                                            class="lead"><?php echo $this->lang->line('Payment Status') ?>:
+                                <div class="col-md-8">
+                                    <p class="lead"><?php echo $this->lang->line('Payment Status') ?>:
                                         <u><strong
-                                                    id="pstatus"><?php echo $this->lang->line(ucwords($invoice['status'])) ?></strong></u>
+                                                id="pstatus"><?php echo $this->lang->line(ucwords($invoice['status'])) ?></strong></u>
                                     </p>
                                     <p class="lead"><?php echo $this->lang->line('Payment Method') ?>: <u><strong
-                                                    id="pmethod"><?php echo $this->lang->line($invoice['pmethod']) ?></strong></u>
+                                                id="pmethod"><?php echo $this->lang->line($invoice['pmethod']) ?></strong></u>
                                     </p>
 
                                     <p class="lead mt-1"><br><?php echo $this->lang->line('Note') ?>:</p>
@@ -349,49 +351,66 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tbody>
-                                    <tr>
-                                        <td><?php echo $this->lang->line('Sub Total') ?></td>
-                                        <td class="text-xs-right"> <?php echo amountExchange($sub_t, $invoice['multi'], $invoice['loc']) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo $this->lang->line('TAX') ?></td>
-                                        <td class="text-xs-right"><?php echo amountExchange($invoice['tax'], $invoice['multi'], $invoice['loc']) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo $this->lang->line('Discount') ?></td>
-                                        <td class="text-xs-right"><?php echo amountExchange($invoice['discount'], $invoice['multi'], $invoice['loc']) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td><?php echo $this->lang->line('Shipping') ?></td>
-                                        <td class="text-xs-right"><?php echo amountExchange($invoice['shipping'], $invoice['multi'], $invoice['loc']) ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-bold-800"><?php echo $this->lang->line('Total') ?></td>
-                                        <td class="text-bold-800 text-xs-right"> <?php echo amountExchange($invoice['total'], $invoice['multi'], $invoice['loc']) ?></td>
-                                    </tr>
-                                    <?php $roundoff = $this->custom->api_config(4);
+                                        <tr>
+                                            <td><?php echo $this->lang->line('Sub Total') ?></td>
+                                            <td class="text-xs-right">
+                                                <?php echo amountExchange($sub_t, $invoice['multi'], $invoice['loc']) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('TAX') ?></td>
+                                            <td class="text-xs-right">
+                                                <?php echo amountExchange($invoice['tax'], $invoice['multi'], $invoice['loc']) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('Discount') ?></td>
+                                            <td class="text-xs-right">
+                                                <?php echo amountExchange($invoice['discount'], $invoice['multi'], $invoice['loc']) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('Shipping') ?></td>
+                                            <td class="text-xs-right">
+                                                <?php echo amountExchange($invoice['shipping'], $invoice['multi'], $invoice['loc']) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold-800"><?php echo $this->lang->line('Total') ?></td>
+                                            <td class="text-bold-800 text-xs-right">
+                                                <?php echo amountExchange($invoice['total'], $invoice['multi'], $invoice['loc']) ?>
+                                            </td>
+                                        </tr>
+                                        <?php $roundoff = $this->custom->api_config(4);
                                     if ($roundoff['other']) {
                                         $final_amount = round($invoice['total'], $roundoff['active'], constant($roundoff['other']));
                                         ?>
 
                                         <tr>
                                             <td>
-                                                <span class="text-bold-800"><?php echo $this->lang->line('Total') ?></span>
+                                                <span
+                                                    class="text-bold-800"><?php echo $this->lang->line('Total') ?></span>
                                                 (<?php echo $this->lang->line('Round Off') ?> )
                                             </td>
-                                            <td class="text-bold-800 text-xs-right"> <?php echo amountExchange($final_amount, $invoice['multi'], $invoice['loc']) ?></td>
+                                            <td class="text-bold-800 text-xs-right">
+                                                <?php echo amountExchange($final_amount, $invoice['multi'], $invoice['loc']) ?>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
                                     ?>
-                                    <tr>
-                                        <td><?php echo $this->lang->line('Payment Made'); ?></td>
-                                        <td class="pink text-xs-right">
-                                            (-) <?php echo ' <span id="paymade">' . amountExchange($invoice['pamnt'], $invoice['multi'], $invoice['loc']) ?></span></td>
-                                    </tr>
-                                    <tr class="bg-grey bg-lighten-4">
-                                        <td class="text-bold-800"><?php echo $this->lang->line('Balance Due'); ?></td>
-                                        <td class="text-bold-800 text-xs-right"> <?php $myp = '';
+                                        <tr>
+                                            <td><?php echo $this->lang->line('Payment Made'); ?></td>
+                                            <td class="pink text-xs-right">
+                                                (-)
+                                                <?php echo ' <span id="paymade">' . amountExchange($invoice['pamnt'], $invoice['multi'], $invoice['loc']) ?></span>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-grey bg-lighten-4">
+                                            <td class="text-bold-800"><?php echo $this->lang->line('Balance Due'); ?>
+                                            </td>
+                                            <td class="text-bold-800 text-xs-right">
+                                                <?php $myp = '';
 
                                             if ($rming < 0) {
                                                 $rming = 0;
@@ -400,8 +419,9 @@
                                             if ($roundoff['other']) {
                                                 $rming = round($rming, $roundoff['active'], constant($roundoff['other']));
                                             }
-                                            echo ' <span id="paydue">' . amountExchange($rming, $invoice['multi'], $invoice['loc']) . '</span></strong>'; ?></td>
-                                    </tr>
+                                            echo ' <span id="paydue">' . amountExchange($rming, $invoice['multi'], $invoice['loc']) . '</span></strong>'; ?>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -417,21 +437,22 @@
 
                 <!-- Invoice Footer -->
 
-                <div id="invoice-footer"><p class="lead"><?php echo $this->lang->line('Credit Transactions'); ?>
+                <div id="invoice-footer">
+                    <p class="lead"><?php echo $this->lang->line('Credit Transactions'); ?>
                         :</p>
                     <table class="table table-striped">
                         <thead>
-                        <tr>
-                            <th><?php echo $this->lang->line('Date'); ?></th>
-                            <th><?php echo $this->lang->line('Method'); ?></th>
-                            <th><?php echo $this->lang->line('Amount'); ?></th>
-                            <th><?php echo $this->lang->line('Note'); ?></th>
+                            <tr>
+                                <th><?php echo $this->lang->line('Date'); ?></th>
+                                <th><?php echo $this->lang->line('Method'); ?></th>
+                                <th><?php echo $this->lang->line('Amount'); ?></th>
+                                <th><?php echo $this->lang->line('Note'); ?></th>
 
 
-                        </tr>
+                            </tr>
                         </thead>
                         <tbody id="activity">
-                        <?php foreach ($activity as $row) {
+                            <?php foreach ($activity as $row) {
                             if ($row['credit'] > 0) {
                                 echo '<tr>
                             <td>' . $row['date'] . '</td>
@@ -462,22 +483,22 @@
                     <div class="row">
                         <?php if ($attach) { ?>
 
-                            <table class="table table-striped">
-                                <thead>
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
                                     <th><?php echo $this->lang->line('Files') ?></th>
 
 
                                 </tr>
-                                </thead>
-                                <tbody id="activity">
+                            </thead>
+                            <tbody id="activity">
                                 <?php foreach ($attach as $row) {
 
                                     echo '<tr><td><a href="' . base_url() . 'userfiles/attach/' . $row['col1'] . '"><i class="btn-info btn-lg icon-download"></i> ' . $row['col1'] . ' </a></td></tr>';
                                 } ?>
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
                         <?php } ?>
 
                     </div>
@@ -490,22 +511,22 @@
     </div>
 </div>
 <?php if ($online_pay['enable'] == 1) { ?>
-    <div id="paymentCard" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+<div id="paymentCard" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
 
-                    <h4 class="modal-title"><?php echo $this->lang->line('Make Payment') ?></h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
+                <h4 class="modal-title"><?php echo $this->lang->line('Make Payment') ?></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span style="color:red">Please Contact System Provider If Required Online Function</span>
+                <?php
 
-                    <?php
 
-
-                    foreach ($gateway as $row) {
+                    /*foreach ($gateway as $row) {
                         $cid = $row['id'];
                         $title = $row['name'];
                         if ($row['surcharge'] > 0) {
@@ -520,75 +541,77 @@
  <img class="mt-1 bg-white round" style="max-width:20rem;max-height:10rem"
                                              src="' . assets_url('assets/gateway_logo/' . $cid . '.png') . '">
 </a><br>';
-                    }
+                    }*/
                     ?>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal HTML Wallet -->
+<div id="part_payment" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo $this->lang->line('Payment Confirmation') ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
-        </div>
-    </div>
+            <div class="modal-body">
+                <form class="payment" action="<?php echo base_url(); ?>/billing/walletpay" method="post">
+                    <span style="color:red">Please Contact System Provider Adding Money To e-wallet</span>
 
-
-    <!-- Modal HTML Wallet -->
-    <div id="part_payment" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-
-                    <h4 class="modal-title"><?php echo $this->lang->line('Payment Confirmation') ?></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <form class="payment" action="<?php echo base_url(); ?>/billing/walletpay" method="post" >
-                        <div class="row">
+                    <!--  <div class="row">
                             <div class="col"><label
-                                        for="rmpay"><?php echo $this->lang->line('Payment') ?></label>
+                                        for="rmpay"><?php //echo $this->lang->line('Payment') ?></label>
                                     <input type="text" class="form-control" placeholder="Total Amount" name="amount"
                                            id="rmpay"
-                                           value="<?= amountExchange_s($rming, 0, $invoice['loc']) ?>">
+                                           value="<?php //amountExchange_s($rming, 0, $invoice['loc']) ?>">
                                     <div class="form-control-position">
-                                        <?php echo $this->config->item('currency') ?>
+                                        <?php //echo $this->config->item('currency') ?>
                                     </div>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <div class="row">
+                    <!--<div class="row">
                             <div class="col mb-1">
                                 <input type="hidden" name="pmethod" class="form-control mb-1" value="Balance" />
-                                <label for="account"><?php echo $this->lang->line('Wallet') ?> <?php echo $this->lang->line('Balance') ?></label>
-                                <input type="text" name="account" class="form-control mb-1" value="<?php echo $customers['balance']; ?>" readonly />
+                                <label for="account"><?php //echo $this->lang->line('Wallet') ?> <?php //echo $this->lang->line('Balance') ?></label>
+                                <input type="text" name="account" class="form-control mb-1" value="<?php //echo $customers['balance']; ?>" readonly />
                            </div>
-                        </div>
-                        <div class="row">
+                        </div>-->
+                    <!--<div class="row">
                             <div class="col mb-1"><label
-                                        for="shortnote"><?php echo $this->lang->line('Note') ?></label>
+                                        for="shortnote"><?php //echo $this->lang->line('Note') ?></label>
                                 <input type="text" class="form-control"
                                        name="shortnote" placeholder="Short note"
-                                       value="Payment for invoice #<?php echo $invoice['tid'] ?>"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="hidden" class="form-control required"
-                                   name="id" id="invoiceid" value="<?php echo $invoice['iid'] ?>">
-                            <input type="hidden" class="form-control required"
-                                   name="tid" id="invoiceid" value="<?php echo $invoice['tid'] ?>">
-                            <input type="hidden" class="form-control required"
-                                   name="multi" id="invoiceid" value="<?php echo $invoice['multi'] ?>">
-                            <input type="hidden" class="form-control required"
-                                   name="loc" id="invoiceid" value="<?php echo $invoice['loc'] ?>">
-                            <button type="button" class="btn btn-default"
-                                    data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
-                            <input type="hidden" name="cid" value="<?php echo $invoice['cid'] ?>">
-                            <input type="hidden" name="cname" value="<?php echo $invoice['name'] ?>">
-                            <button type="submit" class="btn btn-primary"
-                                    id=""  <?php if($rming>$customers['balance']){echo "disabled"; } ?>><?php echo $this->lang->line('Make Payment'); ?></button>
-                        </div>
-                    </form>
-                </div>
+                                       value="Payment for invoice #<?php //echo $invoice['tid'] ?>"></div>
+                        </div>-->
+                    <div class="modal-footer">
+                        <input type="hidden" class="form-control required" name="id" id="invoiceid"
+                            value="<?php echo $invoice['iid'] ?>">
+                        <input type="hidden" class="form-control required" name="tid" id="invoiceid"
+                            value="<?php echo $invoice['tid'] ?>">
+                        <input type="hidden" class="form-control required" name="multi" id="invoiceid"
+                            value="<?php echo $invoice['multi'] ?>">
+                        <input type="hidden" class="form-control required" name="loc" id="invoiceid"
+                            value="<?php echo $invoice['loc'] ?>">
+                        <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                        <input type="hidden" name="cid" value="<?php echo $invoice['cid'] ?>">
+                        <input type="hidden" name="cname" value="<?php echo $invoice['name'] ?>">
+                        <!--<button type="submit" class="btn btn-primary"
+                                    id=""  <?php //if($rming>$customers['balance']){echo "disabled"; } ?>><?php //echo $this->lang->line('Make Payment'); ?></button>--->
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 <?php } ?>
