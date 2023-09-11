@@ -1628,7 +1628,7 @@ JSOFT SOLUTION SDN BHD,</p>
 	
 	
 	
-    public function permissions_update()
+   public function permissions_update()
     {
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Employee Permissions';
@@ -1638,41 +1638,40 @@ JSOFT SOLUTION SDN BHD,</p>
         foreach ($permission as $row) {
             $i = $row['id'];
               $name1 = 'r_' . $i . '_1';
-            // $name2 = 'r_' . $i . '_2';
-            // $name3 = 'r_' . $i . '_3';
-            //   $name4 = 'r_' . $i . '_4';
-            // $name5 = 'r_' . $i . '_5';
-            // $name6 = 'r_' . $i . '_6';
-            // $name7 = 'r_' . $i . '_7';
-           //  $name8 = 'r_' . $i . '_8';
+             $name2 = 'r_' . $i . '_2';
+             $name3 = 'r_' . $i . '_3';
+               $name4 = 'r_' . $i . '_4';
+             $name5 = 'r_' . $i . '_5';
+             $name6 = 'r_' . $i . '_6';
+             $name7 = 'r_' . $i . '_7';
+             $name8 = 'r_' . $i . '_8';
             $val1 = 0;
-           // $val2 = 0;
-           // $val3 = 0;
-          //  $val4 = 0;
-          //  $val5 = 0;
-          //  $val6 = 0;
-          //  $val7 = 0;
-          //  $val8 = 0;
+            $val2 = 0;
+            $val3 = 0;
+            $val4 = 0;
+            $val5 = 0;
+            $val6 = 0;
+            $val7 = 0;
+            $val8 = 0;
             if ($this->input->post($name1)) $val1 = 1;
-           // if ($this->input->post($name2)) $val2 = 1;
-           // if ($this->input->post($name3)) $val3 = 1;
-           // if ($this->input->post($name4)) $val4 = 1;
-           // if ($this->input->post($name5)) $val5 = 1;
-           // if ($this->input->post($name6)) $val6 = 1;
-           // if ($this->input->post($name7)) $val7 = 1;
-           // if ($this->input->post($name8)) $val8 = 1;
-           // if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
+            if ($this->input->post($name2)) $val2 = 1;
+            if ($this->input->post($name3)) $val3 = 1;
+            if ($this->input->post($name4)) $val4 = 1;
+            if ($this->input->post($name5)) $val5 = 1;
+            if ($this->input->post($name6)) $val6 = 1;
+            if ($this->input->post($name7)) $val7 = 1;
+            if ($this->input->post($name8)) $val8 = 1;
+            if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
            // $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
            $data = array($userrole => $val1);
 		   $this->db->set($data);
             $this->db->where('id', $i);
-            $this->db->update('gtg_premissions_new');
+            $this->db->update('gtg_premissions');
         }
 
         echo json_encode(array('status' => 'Success', 'message' =>
         $this->lang->line('UPDATED')));
     }
-
 
     public function holidays()
     {

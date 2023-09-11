@@ -604,7 +604,7 @@ public function list_employee()
     public function employee_permissions()
     {
         $this->db->select('*');
-        $this->db->from('gtg_premissions_new');
+        $this->db->from('gtg_premissions');
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
         return $query->result_array();
