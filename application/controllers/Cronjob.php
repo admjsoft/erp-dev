@@ -115,6 +115,92 @@ class Cronjob extends CI_Controller
         }
     }
 
+    public function reminder_new()
+    {
+
+        $this->load->model('employee_model', 'employee');
+        $schedulers = $this->employee->getschedulerAllList();
+        if (!empty($schedulers)) {
+            foreach ($schedulers as $schedular) {
+                $schedular_sub_modules = explode(',', $schedular['sub_module_names']);
+
+                if (!empty($schedular_sub_modules)) {
+                    foreach ($schedular_sub_modules as $schedular_sub_module) {
+                        if ($schedular_sub_module == 'permit') {
+                            $data = $this->check_permit_expiry($schedular);
+
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
+
+                        } else if ($schedular_sub_module == 'passport') {
+
+                            $data = $this->check_passport_expiry($schedular);
+
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function check_passport_expiry($schedular)
+    {
+        $this->db->select('e.*, c.name AS customer_name');
+        $this->db->from('gtg_employees AS e');
+        $this->db->join('gtg_customers AS c', 'e.company = c.id', 'inner');
+        $this->db->where('e.employee_type', 'foreign');
+        $this->db->where('e.delete_status', 0);
+
+        $days = $schedular['days'];
+        // Calculate the date 30 days from today
+        $days_from_now = date('Y-m-d', strtotime('+' . $days . ' days'));
+
+        // Add a condition for "passport_expiry" within 30 days from today
+        $this->db->where('e.passport_expiry =', $days_from_now);
+
+        $query = $this->db->get();
+        //echo "<br>".$this->db->last_query();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+        } else {
+            $result = array(); // No matching records found
+        }
+
+        return $result;
+    }
+
+    public function check_permit_expiry($schedular)
+    {
+        $this->db->select('e.*, c.name AS customer_name');
+        $this->db->from('gtg_employees AS e');
+        $this->db->join('gtg_customers AS c', 'e.company = c.id', 'inner');
+        $this->db->where('e.employee_type', 'foreign');
+        $this->db->where('e.delete_status', 0);
+
+        $days = $schedular['days'];
+        // Calculate the date 30 days from today
+        $days_from_now = date('Y-m-d', strtotime('+' . $days . ' days'));
+
+        // Add a condition for "passport_expiry" within 30 days from today
+        $this->db->where('e.permit_expiry =', $days_from_now);
+
+        $query = $this->db->get();
+        //echo "<br>".$this->db->last_query();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+        } else {
+            $result = array(); // No matching records found
+        }
+
+        return $result;
+    }
+
     public function reminder()
     {
 
@@ -130,6 +216,9 @@ class Cronjob extends CI_Controller
         /// $exppermitlistninenty = $this->employee->getpermitExpiryListNinenty();
 
         $schedulefor = $this->employee->getschedulerList();
+
+        // echo "<pre>"; print_r($schedulefor); echo "</pre>";
+        // exit;
         $explode = explode(",", $schedulefor->scheduler_on);
 
         $passport = $explode[0];

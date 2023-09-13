@@ -932,7 +932,7 @@ class="btn btn-primary btn-sm rounded">
                 <li class="nav-item has-sub <?php if ($this->li_a == "Jobsheet") {
                     echo ' open';
                 } ?>"><a href="#"><i
-                                class="icon-diamond"></i> <span><?php echo $this->lang->line('Jobsheet') ?></span></span></a>
+                                class="icon-diamond"></i> <span><?php echo $this->lang->line('Job Sheet') ?></span></span></a>
                     <ul class="menu-content">
                         <?php if($this->aauth->premission(15)){ ?>
                         <li class="menu-item"><a href="#"><i
@@ -1653,7 +1653,7 @@ class="btn btn-primary btn-sm rounded">
 				<li class="menu-item  has-sub <?php if ($this->li_a == "scheduler") {
                     echo ' open';
                 } ?>""><a href="#"><i
-                            class="ft-file-text"></i><span><?php echo "Scheduler"; ?></span></a>
+                            class="ft-file-text"></i><span><?php echo $this->lang->line('Scheduler') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>scheduler/schedule"><i
                                     class=""></i> <?php echo $this->lang->line('Schedule') ?></a>
@@ -1743,7 +1743,7 @@ class="btn btn-primary btn-sm rounded">
 							   	<li class="menu-item  has-sub <?php if ($this->li_a == "payroll") {
                     echo ' open';
                 } ?>""><a href="#"><i
-                            class="ft-file-text"></i><span><?php echo "PayRoll"; ?></span></a>
+                            class="ft-file-text"></i><span><?php echo $this->lang->line('Payroll') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>payroll/settings"><i
                                     class=""></i> <?php echo $this->lang->line('Settings') ?></a>

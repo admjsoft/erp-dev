@@ -1373,3 +1373,7 @@ $lang['Update WhatsApp Campaign Details'] = "Kemas kini Butiran Kempen WhatsApp"
 $lang['Templates'] = "templat";
 $lang['API key'] = "kunci API";
 $lang['Update Settings'] = "Kemas kini Tetapan";
+
+$lang['Job Sheet'] = "Lembaran Kerja";
+$lang['Scheduler'] = "Penjadual";
+$lang['Payroll'] = "Gaji";

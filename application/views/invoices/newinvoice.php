@@ -175,7 +175,7 @@
                                                class="caption"><?php echo $this->lang->line('Tax') ?></label>
                                         <select class="form-control round"
                                                 onchange="changeTaxFormat(this.value)"
-                                                id="taxformat">
+                                                id="taxformat" <?php if($system_data[0]['tax'] == 0){ echo "disabled"; } ?>>
 
                                             <?php echo $taxlist; ?>
                                         </select>
@@ -217,7 +217,7 @@
                                 <th width="10%" class="text-center"><?php echo $this->lang->line('Rate') ?></th>
                                 <th width="10%" class="text-center"><?php echo $this->lang->line('Tax(%)') ?></th>
                                 <th width="10%" class="text-center"><?php echo $this->lang->line('Tax') ?></th>
-                                <th width="7%" class="text-center"><?php echo $this->lang->line('Discount') ?></th>
+                                <th width="7%" class="text-center"><?php echo $this->lang->line('Discount') ?>(%)</th>
                                 <th width="10%" class="text-center">
                                     <?php echo $this->lang->line('Amount') ?>
                                     (<?= currency($this->aauth->get_user()->loc); ?>)
@@ -241,7 +241,7 @@
                                            autocomplete="off"></td>
                                 <td><input type="text" class="form-control vat " name="product_tax[]" id="vat-0"
                                            onkeypress="return isNumber(event)" onkeyup="rowTotal('0'), billUpyog()"
-                                           autocomplete="off"></td>
+                                           autocomplete="off" <?php if($system_data[0]['tax'] == 0){ echo "disabled"; } ?>></td>
                                 <td class="text-center" id="texttaxa-0">0</td>
                                 <td><input type="text" class="form-control discount" name="product_discount[]"
                                            onkeypress="return isNumber(event)" id="discount-0"
@@ -413,6 +413,7 @@
                     <input type="hidden" value="invoices/action" id="action-url">
                     <input type="hidden" value="search" id="billtype">
                     <input type="hidden" value="0" name="counter" id="ganak">
+                    <input type="hidden" value="<?php echo $system_data[0]['tax']; ?>" name="system_level_tax" id="system_level_tax">
                     <input type="hidden" value="<?= currency($this->aauth->get_user()->loc); ?>" name="currency">
                     <input type="hidden" value="<?= $taxdetails['handle']; ?>" name="taxformat" id="tax_format">
                     <input type="hidden" value="<?= $taxdetails['format']; ?>" name="tax_handle" id="tax_status">

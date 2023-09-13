@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <h5 class="title">
-                TAX Slabs <a
+                TAX  <a
                         href="<?php echo base_url('settings/taxslabs_new') ?>"
                         class="btn btn-primary btn-sm rounded">
                     <?php echo $this->lang->line('Add new') ?>
@@ -21,6 +21,7 @@
                     <th><?php echo $this->lang->line('Name') ?></th>
                     <th><?php echo $this->lang->line('Rate') ?></th>
                     <th><?php echo $this->lang->line('Type') ?></th>
+                    <th><?php echo $this->lang->line('Status') ?></th>
                     <th><?php echo $this->lang->line('Action') ?></th>
                 </tr>
                 </thead>
@@ -41,7 +42,17 @@
                             $t1 = 'IGST';
                             break;
                     }
-                    echo "<tr><td>" . $row['val1'] . "</td><td>" . $row['val2'] . "%</td><td>" . $t1 . "</td><td><a href='#' data-object-id='" . $cid . "' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
+
+                    switch ($row['val4']) {
+                        case 'inclusive' :
+                            $t2 = 'On';
+                            break;
+                        case 'yes' :
+                            $t2 = 'Off';
+                            break;
+                    }
+
+                    echo "<tr><td>" . $row['val1'] . "</td><td>" . $row['val2'] . "%</td><td>" . $t1 . "</td><td>" . $t2 . "</td><td><a href='#' data-object-id='" . $cid . "' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
                 }
                 ?>
                 </tbody>

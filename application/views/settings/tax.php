@@ -32,12 +32,12 @@
                 <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label"
-                           for="taxstatus">GST Type</label>
+                           for="taxstatus">Type</label>
 
                     <div class="col-sm-6">
                         <select name="gst_type" class="form-control">
 
-                            <?php if (GST_INCL == 'inclusive') {
+                            <?php /* if (GST_INCL == 'inclusive') {
                                 echo '<option value="inclusive">*Inclusive*</option>';
 
 
@@ -45,12 +45,12 @@
                                 echo '<option value="yes">*Exclusive*</option>';
 
 
-                            } ?>
-                            <option value="inclusive">Inclusive</option>
-                            <option value="yes">Exclusive</option>
+                            } */ ?>
+                            <option value="inclusive"  <?php if (GST_INCL == 'inclusive') { echo "checked"; } ?>>Inclusive</option>
+                            <option value="yes" <?php if (GST_INCL != 'yes') { echo "checked"; } ?>>Exclusive</option>
 
                         </select>
-                        <small>Applicable only if TAX Status is GST</small>
+                        <!-- <small>Applicable only if TAX Status is GST</small> -->
                     </div>
                 </div>
 

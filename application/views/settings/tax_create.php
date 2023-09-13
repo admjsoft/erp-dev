@@ -34,36 +34,35 @@
                                class="form-control margin-bottom  required" name="trate">
                     </div>
                 </div>
-
                 <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label"
                            for="ttype"><?php echo $this->lang->line('Type') ?></label>
 
                     <div class="col-sm-6">
-                        <select class="form-control round" name="ttype">
+                        <select class="form-control " name="ttype">
                             <option value="yes" data-tformat="yes">Exclusive</option>
                             <option value="inclusive"
                                     data-tformat="incl"><?php echo $this->lang->line('Inclusive') ?></option>
-                            <option value="cgst" data-tformat="cgst"><?php echo $this->lang->line('GST1') ?></option>
-                            <option value="igst" data-tformat="igst"><?php echo $this->lang->line('IGST') ?></option>
+                            <!-- <option value="cgst" data-tformat="cgst"><?php // echo $this->lang->line('GST1') ?></option>
+                            <option value="igst" data-tformat="igst"><?php // echo $this->lang->line('IGST') ?></option> -->
                         </select>
                     </div>
                 </div>
-
+                
                 <div class="form-group row">
 
                     <label class="col-sm-2 col-form-label"
-                           name="ttype2"><?php echo $this->lang->line('Type') ?> 2</label>
+                           name="ttype2"><?php echo $this->lang->line('Status') ?></label>
 
                     <div class="col-sm-6">
-                        <select class="form-control round" name="ttype2">
-                            <option value="yes" data-tformat="yes">Exclusive</option>
-                            <option value="inclusive"
-                                    data-tformat="incl"><?php echo $this->lang->line('Inclusive') ?></option>
+                        <select class="form-control " name="ttype2">
+                            <option value="yes" data-tformat="yes">Off</option>
+                            <option value="inclusive" data-tformat="incl">On</option>
                         </select>
                     </div>
                 </div>
+                
 
 
                 <div class="form-group row">

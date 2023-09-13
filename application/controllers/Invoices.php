@@ -55,6 +55,7 @@ class Invoices extends CI_Controller
         }else{
             $data['cust_details']=0;
         }
+       
         $data['lastinvoice'] = $this->invocies->lastinvoice();
         $data['warehouse'] = $this->invocies->warehouses();
         $data['terms'] = $this->invocies->billingterms();
@@ -65,6 +66,9 @@ class Invoices extends CI_Controller
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['taxdetails'] = $this->common->taxdetail();
         $data['custom_fields'] = $this->custom->add_fields(2);
+        $data['system_data'] = $this->db->get('gtg_system')->result_array();
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
         $this->load->view('fixed/header', $head);
         $this->load->view('invoices/newinvoice', $data);
         $this->load->view('fixed/footer');

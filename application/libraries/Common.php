@@ -12,6 +12,7 @@ class Common
 		// echo $id;
         // exit;
         $tax_list = '';
+        $tax_list .= '<option value="" selected>Please Select Tax</option>';
         // switch ($id) {
         //     case -1:
         //         $tax_list .= '<option value="yes" data-tformat="yes" selected>&raquo;' . $this->PI->lang->line('On') . '</option>';
@@ -29,21 +30,22 @@ class Common
         //         $tax_list .= '<option value="off" selected>&raquo;' . $this->PI->lang->line('Off') . '</option>';
         //         break;
         // }
-        if ($id > 0) {
-            $this->PI->db->where('id', $id);
-            $this->PI->db->where('type', 2);
-            $this->PI->db->order_by('id', 'DESC');
-            $query = $this->PI->db->get('gtg_config');
-            $row1 = $query->row_array();
-            $tax_list .= '<option value="' . $row1['val4'] . '" data-tformat="' . $row1['val3'] . '" data-trate="' . $row1['val2'] . '">' . $row1['val1'] . '</option> ';
-        }
+        // if ($id > 0) {
+        //     $this->PI->db->where('id', $id);
+        //     $this->PI->db->where('type', 2);
+        //     $this->PI->db->order_by('id', 'DESC');
+        //     $query = $this->PI->db->get('gtg_config');
+        //     $row1 = $query->row_array();
+        //     $tax_list .= '<option value="' . $row1['val4'] . '" data-tformat="' . $row1['val3'] . '" data-trate="' . $row1['val2'] . '">' . $row1['val1'] . '</option> ';
+        // }
         // $tax_list .= '<option value="yes" data-tformat="yes">' . $this->PI->lang->line('On') . '</option>
         //                                     <option value="inclusive"  data-tformat="incl">' . $this->PI->lang->line('Inclusive') . '</option>
         //                                     <option value="off" data-tformat="off">' . $this->PI->lang->line('Off') . '</option>
         //                                     <option value="' . GST_INCL . '" data-tformat="cgst">' . $this->PI->lang->line('GST1') . '</option>
         //                                     <option value="' . GST_INCL . '" data-tformat="igst">' . $this->PI->lang->line('IGST') . '</option> ';
 
-        $this->PI->db->where('type', 2);
+        $this->PI->db->where('type', 2);        
+        $this->PI->db->where('val4', 'inclusive');
         $this->PI->db->order_by('id', 'DESC');
         $query = $this->PI->db->get('gtg_config');
         $result = $query->result_array();
@@ -58,8 +60,9 @@ class Common
         $this->PI->db->where('id', 61);
         $query = $this->PI->db->get('univarsal_api');
         $row1 = $query->row_array();
-        $disclist = '<option value="' . $row1['key1'] . '">--' . $row1['other'] . '--</option> ';
-        $disclist .= '<option value="%">' . $this->PI->lang->line('% Discount') . ' ' . $this->PI->lang->line('After TAX') . '</option>
+        //$disclist = '<option value="" selected>Please Select Discount</option>';
+       // $disclist = '<option value="' . $row1['key1'] . '">--' . $row1['other'] . '--</option> ';
+        $disclist .= '<option value="%" selected>' . $this->PI->lang->line('% Discount') . ' ' . $this->PI->lang->line('After TAX') . '</option>
                                                 <option value="flat">' . $this->PI->lang->line('Flat Discount') . ' ' . $this->PI->lang->line('After TAX') . '</option>
                                                   <option value="b_p">' . $this->PI->lang->line('% Discount') . ' ' . $this->PI->lang->line('Before TAX') . '</option>
                                                 <option value="bflat">' . $this->PI->lang->line('Flat Discount') . ' ' . $this->PI->lang->line('Before TAX') . '</option> ';
@@ -79,44 +82,55 @@ class Common
     function taxsettings($id = 0)
     {
         $tax_list = '';
-        switch ($id) {
-            case -1:
-                $tax_list .= '<option value="-1" data-tformat="yes" selected>&raquo;' . $this->PI->lang->line('On') . '</option>';
-                break;
-            case -2:
-                $tax_list .= '<option value="-2"  data-tformat="incl" selected>&raquo;' . $this->PI->lang->line('Inclusive') . '</option>';
-                break;
-            case -3:
-                $tax_list .= '<option value="-3" data-tformat="cgst" selected>&raquo;' . $this->PI->lang->line('GST1') . '</option>';
-                break;
-            case -4:
-                $tax_list .= '<option value="-4"  data-tformat="igst" selected>&raquo;' . $this->PI->lang->line('IGST') . '</option>';
-                break;
-            case 0:
-                $tax_list .= '<option value="0" selected>&raquo;' . $this->PI->lang->line('Off') . '</option>';
-                break;
-        }
-        if ($id > 0) {
-            $this->PI->db->where('id', $id);
-            $this->PI->db->where('type', 2);
-            $this->PI->db->order_by('id', 'DESC');
-            $query = $this->PI->db->get('gtg_config');
-            $row1 = $query->row_array();
-            $tax_list .= '<option value="' . $row1['id'] . '" data-tformat="' . $row1['val3'] . '" data-trate="' . $row1['val2'] . '">' . $row1['val1'] . '</option> ';
-        }
-        $tax_list .= '<option value="-1" data-tformat="yes">' . $this->PI->lang->line('On') . '</option>
-                                            <option value="-2"  data-tformat="incl">' . $this->PI->lang->line('Inclusive') . '</option>
-                                            <option value="0" data-tformat="off">' . $this->PI->lang->line('Off') . '</option>
-                                            <option value="-3" data-tformat="cgst">' . $this->PI->lang->line('GST1') . '</option>
-                                            <option value="-4" data-tformat="igst">' . $this->PI->lang->line('IGST') . '</option> ';
+        // switch ($id) {
+        //     case -1:
+        //         $tax_list .= '<option value="-1" data-tformat="yes" selected>&raquo;' . $this->PI->lang->line('On') . '</option>';
+        //         break;
+        //     case -2:
+        //         $tax_list .= '<option value="-2"  data-tformat="incl" selected>&raquo;' . $this->PI->lang->line('Inclusive') . '</option>';
+        //         break;
+        //     case -3:
+        //         $tax_list .= '<option value="-3" data-tformat="cgst" selected>&raquo;' . $this->PI->lang->line('GST1') . '</option>';
+        //         break;
+        //     case -4:
+        //         $tax_list .= '<option value="-4"  data-tformat="igst" selected>&raquo;' . $this->PI->lang->line('IGST') . '</option>';
+        //         break;
+        //     case 0:
+        //         $tax_list .= '<option value="0" selected>&raquo;' . $this->PI->lang->line('Off') . '</option>';
+        //         break;
+        // }
+        // if ($id > 0) {
+        //     $this->PI->db->where('id', $id);
+        //     $this->PI->db->where('type', 2);
+        //     $this->PI->db->order_by('id', 'DESC');
+        //     $query = $this->PI->db->get('gtg_config');
+        //     $row1 = $query->row_array();
+        //     $tax_list .= '<option value="' . $row1['id'] . '" data-tformat="' . $row1['val3'] . '" data-trate="' . $row1['val2'] . '">' . $row1['val1'] . '</option> ';
+        // }
+        // $tax_list .= '<option value="-1" data-tformat="yes">' . $this->PI->lang->line('On') . '</option>
+        //                                     <option value="-2"  data-tformat="incl">' . $this->PI->lang->line('Inclusive') . '</option>
+        //                                     <option value="0" data-tformat="off">' . $this->PI->lang->line('Off') . '</option>
+        //                                     <option value="-3" data-tformat="cgst">' . $this->PI->lang->line('GST1') . '</option>
+        //                                     <option value="-4" data-tformat="igst">' . $this->PI->lang->line('IGST') . '</option> ';
 
-        $this->PI->db->where('type', 2);
-        $this->PI->db->order_by('id', 'DESC');
-        $query = $this->PI->db->get('gtg_config');
-        $result = $query->result_array();
-        foreach ($result as $row) {
-            $tax_list .= '<option value="' . $row['id'] . '" data-tformat="' . $row['val3'] . '" data-trate="' . $row['val2'] . '">' . $row['val1'] . '</option> ';
+        // $this->PI->db->where('type', 2);
+        // $this->PI->db->order_by('id', 'DESC');
+        // $query = $this->PI->db->get('gtg_config');
+        // $result = $query->result_array();
+        // foreach ($result as $row) {
+        //     $tax_list .= '<option value="' . $row['id'] . '" data-tformat="' . $row['val3'] . '" data-trate="' . $row['val2'] . '">' . $row['val1'] . '</option> ';
+        // }
+
+        if($id == 0)
+        {
+            $tax_list .= '<option value="-1" data-tformat="yes">' . $this->PI->lang->line('On') . '</option>
+            <option value="0" data-tformat="off" selected>' . $this->PI->lang->line('Off') . '</option>';
+        }else{
+            $tax_list .= '<option value="-1" data-tformat="yes" selected>' . $this->PI->lang->line('On') . '</option>
+            <option value="0" data-tformat="off">' . $this->PI->lang->line('Off') . '</option>';
         }
+       
+
         return $tax_list;
     }
 

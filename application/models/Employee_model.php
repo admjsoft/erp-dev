@@ -1315,15 +1315,23 @@ $this->db->where('id', $id);
 public function getschedulerList()
 {
 	
-	$this->db->select('scheduler_on');
+	    $this->db->select('scheduler_on');
         $this->db->from('scheduler');
         $query = $this->db->get();
         return $query->row();
 
 	
+}
+
+public function getschedulerAllList()
+{
 	
+	// return $this->db->where('status',1)->get('scheduler')->result_array();
+    $sql = 'SELECT mn.id, mn.run_scheduler_expiry_date, mn.module, mn.scheduler_on, mn.minutes, mn.hours, mn.days, mn.month, mn.day, mn.Schdeuleno_days, mn.email_to, mn.status, mn.created_at, GROUP_CONCAT(ssm.name) AS sub_module_names FROM scheduler mn LEFT JOIN gtg_schedular_sub_modules ssm ON FIND_IN_SET(ssm.Id, mn.scheduler_on) > 0 WHERE mn.status = 1 GROUP BY mn.id, mn.run_scheduler_expiry_date, mn.module, mn.scheduler_on, mn.minutes, mn.hours, mn.days, mn.month, mn.day, mn.Schdeuleno_days, mn.email_to, mn.status, mn.created_at;';
+    return $this->db->query($sql)->result_array();
 	
 }
+
 
 
 public function getpassportExpiryListSixty()

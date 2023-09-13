@@ -76,7 +76,7 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
 	 
         $this->db->from('modules_new');
         $query = $this->db->get();
-	     return $query->result_array();
+	    return $query->result_array();
 
 	 
  }

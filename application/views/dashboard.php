@@ -220,7 +220,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 <?php if ($this->aauth->premission(41))
 {
 	?>
-	<h3>JobSheet</h3>
+	<h3><?php echo $this->lang->line('Job Sheet') ?></h3>
 
 <div class="row">
 <hr>

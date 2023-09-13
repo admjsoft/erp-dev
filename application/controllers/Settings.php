@@ -292,6 +292,8 @@ class Settings extends CI_Controller
     {
         $this->li_a = 'tax';
         $this->load->library("Common");
+        // echo $this->config->item('tax');
+        // exit;
         $data['taxlist'] = $this->common->taxsettings($this->config->item('tax'));
         if ($this->input->post()) {
             $taxid = $this->input->post('taxid');
@@ -394,6 +396,7 @@ class Settings extends CI_Controller
             $trate = $this->input->post('trate');
             $ttype = $this->input->post('ttype');
             $ttype2 = $this->input->post('ttype2');
+            //$ttype2 = '';
             $this->settings->add_slab($tname, $trate, $ttype, $ttype2);
         } else {
 
