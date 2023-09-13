@@ -52,7 +52,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder=" Name"
@@ -64,7 +64,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "API Key"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('API key'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="API Key"

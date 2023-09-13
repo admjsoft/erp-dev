@@ -511,6 +511,7 @@
     </div>
 </div>
 <?php if ($online_pay['enable'] == 1) { ?>
+    <?php /* ?>
 <div id="paymentCard" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -523,10 +524,7 @@
             </div>
             <div class="modal-body">
                 <span style="color:red">Please Contact System Provider If Required Online Function</span>
-                <?php
-
-
-                    /*foreach ($gateway as $row) {
+                <?php /* ?>foreach ($gateway as $row) {
                         $cid = $row['id'];
                         $title = $row['name'];
                         if ($row['surcharge'] > 0) {
@@ -541,7 +539,50 @@
  <img class="mt-1 bg-white round" style="max-width:20rem;max-height:10rem"
                                              src="' . assets_url('assets/gateway_logo/' . $cid . '.png') . '">
 </a><br>';
-                    }*/
+                    <?php } */ ?>
+            <?php /* ?>        
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<?php */ ?>
+
+<div id="paymentCard" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo $this->lang->line('Make Payment') ?></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <?php
+
+
+                    foreach ($gateway as $row) {
+                        $cid = $row['id'];
+                        $title = $row['name'];
+                        if ($row['surcharge'] > 0) {
+                            $surcharge_t = true;
+                            $fee = '( ' . amountExchange($rming, $invoice['multi'], $invoice['loc']) . '+' . amountFormat_s($row['surcharge']) . ' %)';
+                        } else {
+                            $fee = '';
+                        }
+
+                        echo '<a href="' . base_url('billing/card?id=' . $invoice['iid'] . '&itype=inv&token=' . $token) . '&gid=' . $cid . '" class="btn mb-1 btn-block blue rounded border border-info text-bold-700 border-lighten-5 "><span class=" display-block"><span class="grey">Pay With </span><span class="blue font-medium-2">' . $title . ' ' . $fee . '</span></span>
+
+ <img class="mt-1 bg-white round" style="max-width:20rem;max-height:10rem"
+                                             src="' . assets_url('assets/gateway_logo/' . $cid . '.png') . '">
+</a><br>';
+                    }
                     ?>
             </div>
             <div class="modal-footer">
@@ -551,6 +592,8 @@
 
     </div>
 </div>
+
+
 
 
 <!-- Modal HTML Wallet -->

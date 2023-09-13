@@ -29,11 +29,11 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Product Details ( POS Offline ) 
+            <h4 class="card-title"><?php echo $this->lang->line('Product Details'); ?> ( POS Offline ) 
             <a
                         href="<?php echo base_url('ecommerce/publishing') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Back to Publishing"; ?>
+                        <?php echo $this->lang->line('Back To Publishing'); ?>
                 </a>  
             </h4>
 
@@ -58,7 +58,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Product Name"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Product Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
@@ -71,7 +71,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Product Price"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Product price'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
@@ -104,7 +104,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="form-group row mt-1">
                                             <label class="col-sm-2 col-form-label"
-                                                for="sub_cat"><?php echo "Product Sub Category"; ?></label>
+                                                for="sub_cat"><?php echo ""; ?></label>
 
                                             <div class="col-sm-8">
                                                 <select id="sub_cat" name="sub_cat" class="form-control select-box">
@@ -146,7 +146,7 @@ if(isset($_SESSION['status'])){
                                             value="<?php  echo $vendor_pricing_id; ?>" id="vendor_pricing_id">
                                         <input type="button" id="update_product_btn"
                                             class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                            value="<?php //echo $this->lang->line('Add customer') ?>Update Product"
+                                            value="<?php echo $this->lang->line('Update Product'); ?>"
                                             data-loading-text="updating...">
                                     </div>
                                 </div>

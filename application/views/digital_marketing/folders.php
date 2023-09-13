@@ -5,7 +5,7 @@
             <h4 class="card-title">Lists<?php // echo $this->lang->line('Peppol Invoices') ?><a
                         href="<?php echo base_url('digitalmarketing/folder_create'); ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add New Folder"//$this->lang->line('Add new') ?></a></h4>
+                        <?php echo $this->lang->line('Add New Folder'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -27,8 +27,8 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Uniques Subscribers"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Name'); ?></th>
+                        <th><?php echo $this->lang->line('Unique Subscribers'); ?></th>
                        
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>

@@ -10,7 +10,7 @@ if ($this->input->get('due')) {
             <h4 class="card-title"><a
                         href="<?php echo base_url('customers') ?>"
                         class="mr-5">
-                    <?php echo "Customers"; //$this->lang->line('Clients') ?></a></h4>
+                        <?php echo $this->lang->line('Customers'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -35,16 +35,16 @@ if ($this->input->get('due')) {
                     <tr>
                         <th>#</th>
                         <?php if($txn_type == 'email'){ ?>                            
-                        <th><?php echo "Subject"; // $this->lang->line('Name') ?></th>
+                        <th><?php echo $this->lang->line('Subject'); ?></th>
                         <?php } ?>
-                        <th><?php echo "Message"; // $this->lang->line('Email') ?></th>
+                        <th><?php echo $this->lang->line('message'); ?></th>
                         <?php if($txn_type == 'email'){ ?>   
-                        <th><?php echo "Customer Emails"; // $this->lang->line('Phone') ?></th>
+                        <th><?php echo $this->lang->line('Customer Emails'); ?></th>
                         <?php }else{ ?>
                         <th><?php echo "Customer Phone No's"; // $this->lang->line('Phone') ?></th>
                         <?php } ?>
-                        <th><?php echo "No Of Customers"; // $this->lang->line('Address') ?></th>
-                        <th><?php echo "Sent date"; // $this->lang->line('Address') ?></th>
+                        <th><?php echo $this->lang->line('No Of Customers'); ?></th>
+                        <th><?php echo $this->lang->line('Sent Date'); ?></th>
 
 
                     </tr>

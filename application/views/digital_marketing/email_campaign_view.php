@@ -53,7 +53,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Campaign Name"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Campaign Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Campaign Name"
@@ -67,7 +67,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Campaign Tag"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Campaign Tag'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Campaign Tag"
@@ -80,7 +80,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Sender Name"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Sender Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Sender Name"
@@ -93,7 +93,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Sender Email"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Sender Email'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="email" placeholder="Sender Email"
@@ -106,7 +106,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Schedule Date"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Schedule Date'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="datetime-local" placeholder="Consumer Key"
@@ -119,7 +119,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Subject"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Subject'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder=""
@@ -132,7 +132,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Email Preview Text"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Email Preview Text'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder=""
@@ -146,7 +146,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Reply to"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Reply to'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="email" placeholder=""
@@ -189,7 +189,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Recepients Lists"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Recepients Lists'); ?></label>
                                        
                                         <div class="col-sm-8">
                                             <select multiple class="form-control margin-bottom b_input required "
@@ -207,7 +207,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Message Content"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Message Content'); ?></label>
                                         
                                         <div class="col-sm-8 " >
                                         <label class="col-form-label"

@@ -45,7 +45,7 @@
                               <tr>
                                 <th >S.no</th>
                                 <th class="px-2 white-space-nowrap" scope="col">Product</th>
-                                <th class="px-2 white-space-nowrap rounded-0" scope="col">Product Price</th>
+                                <th class="px-2 white-space-nowrap rounded-0" scope="col"><?php echo $this->lang->line('Product price'); ?></th>
                                 <?php if(!empty($thirdparty_vendors)){ foreach($thirdparty_vendors as $tvendor_pr) { ?>
                                   <th class="px-2 white-space-nowrap w-150" scope="col"><?php echo $tvendor_pr['VendorName']; ?> / Price</th> 
                                 <?php } } ?>     

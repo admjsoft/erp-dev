@@ -8,7 +8,7 @@ if ($this->input->get('due')) {
     <div class="card">
         <div class="card-header">
             <h4 class="card-title"><a href="<?php echo base_url('customers') ?>" class="mr-5">
-                    <?php echo "Customers"; //$this->lang->line('Clients') ?></a></h4>
+            <?php echo $this->lang->line('Customers'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">

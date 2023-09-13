@@ -18,7 +18,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             <div class="row justify-content-center">
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label for="employee">Current Platform</label>
+                        <label for="employee"><?php echo $this->lang->line('Current Platform'); ?></label>
                         <select class="form-control" id="vendor_type">
                             <!-- <option value="">Select Vendor</option> -->
                             <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
@@ -55,7 +55,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 </div>
                 <div class="col-md-2" id="target_vendor_type_block">
                     <div class="form-group">
-                        <label for="employee">Target Platform</label>
+                        <label for="employee"><?php echo $this->lang->line('Target Platform'); ?></label>
                         <select class="form-control" id="target_vendor_type">
                             <!-- <option value="">Select Vendor</option> -->
                             <?php if(!empty($vendors)){ foreach ($vendors as $vendor1) { if($vendor1['VendorName'] != 'POS'){ ?>
@@ -111,8 +111,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th><?php echo "Product Name"; ?></th>
-                        <th><?php echo "Product Price";  ?></th>
+                        <th><?php echo $this->lang->line('Product Name'); ?></th>
+                        <th><?php echo $this->lang->line('Product price'); ?></th>
                         <th id="tp_price"><?php echo "Online Price";  ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>
                     </tr>
@@ -232,7 +232,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
             <div class="modal-footer">
                 
-                <input type="button" class="btn btn-primary" id="bulk_publish_btn" value="<?php echo "Publish"; ?>" />
+                <input type="button" class="btn btn-primary" id="bulk_publish_btn" value="<?php echo $this->lang->line('Publish'); ?>" />
                 <button type="button" data-dismiss="modal"
                     class="btn"><?php echo $this->lang->line('Cancel') ?></button>
             </div>

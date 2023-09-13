@@ -24,11 +24,11 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "First Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Last Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Email"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "SMS"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "WHATSAPP"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('First Name'); ?></th>
+                        <th><?php echo $this->lang->line('Last Name'); ?></th>
+                        <th><?php echo $this->lang->line('Email'); ?></th>
+                        <th><?php echo $this->lang->line('Sms'); ?></th>
+                        <th><?php echo $this->lang->line('Whatsapp'); ?></th>
                     </tr>
                     </thead>
                     <tbody>

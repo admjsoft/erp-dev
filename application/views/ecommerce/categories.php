@@ -39,8 +39,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
           
         </div>
         <div class="row justify-content-center">
-        <label class="" style="display:none"; id="single_platform_text" for="name">Single Platform Option Allows to Edit/Delete Categories & Sub Categories  </label>
-         <label class="" style="display:none"; id="multiple_platform_text" for="name">Multiple Platform Option Don't Allows to Edit/Delete Categories & Sub Categories  </label>
+        <label class="" style="display:none"; id="single_platform_text" for="name"><?php echo $this->lang->line('Single Platform Option Allows to Edit/Delete Categories & Sub Categories '); ?></label>
+         <label class="" style="display:none"; id="multiple_platform_text" for="name"><?php echo $this->lang->line('Multiple Platform Option Don\'t Allows to Edit/Delete Categories & Sub Categories '); ?>
+  </label>
 
         </div>
         
@@ -55,10 +56,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         </div>
         <div class="card-body">
             <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Categories <a
+                <h4 class="card-title"><?php echo $this->lang->line('View Categories'); ?><a
                         id="category_create_btn" href="<?php echo base_url('ecommerce/pos_category_add') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add Category"//$this->lang->line('Add new') ?></a></div>
+                        <?php echo $this->lang->line('Add Category'); ?></a></div>
             <div class="header-block">
                 <h3 class="title">
                     <?php //echo $this->lang->line('Support Tickets') ?>
@@ -73,7 +74,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 
                 <tr >
                     <th>#</th>
-                    <th><?php echo "Category Name"; //$this->lang->line('Subject') ?></th>
+                    <th><?php echo $this->lang->line('Category Name'); ?></th>
                     <th><?php echo $this->lang->line('Action') ?></th>
                 </tr>
                 </thead>

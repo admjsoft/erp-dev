@@ -5,7 +5,7 @@
             <h4 class="card-title">E-commerce Online Platforms<?php // echo $this->lang->line('Peppol Invoices') ?><a
                         href="<?php echo base_url('ecommerce/online_platform_create') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add New Platform"//$this->lang->line('Add new') ?></a></h4>
+                    <?php echo $this->lang->line('Add New Platform') ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -27,7 +27,7 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "Platform Name"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Platform Name') ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>

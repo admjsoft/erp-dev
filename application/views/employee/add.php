@@ -628,18 +628,19 @@ $("#passport").focusout(function() {
                     $(this).css('border', 'solid 2px green');    
                 }    
             }) .trigger("focusout");
-				$("#company").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".company_error").text("this field is required");
-					return false;
-                }
-                else {
+
+			// $("#company").focusout(function() { 
+            //     if($(this).val()=='') { 
+            //         $(this).css('border', 'solid 2px red'); 
+			// 		$(".company_error").text("this field is required");
+			// 		return false;
+            //     }
+            //     else {
                       
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-                }    
-            }) .trigger("focusout");
+            //         // If it is not blank.
+            //         $(this).css('border', 'solid 2px green');    
+            //     }    
+            // }) .trigger("focusout");
 			
 		
 		

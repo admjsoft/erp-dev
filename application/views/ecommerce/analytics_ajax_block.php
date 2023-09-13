@@ -8,7 +8,7 @@
                                         <i class="fa fa-shopping-cart text-bold-200  font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-primary white media-body">
-                                        <h5>Total Sales<?php // echo $this->lang->line('today_invoices') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Sales'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"><?php echo $analytics[0]['total_sales']; ?></i> </h5>
 
@@ -25,7 +25,7 @@
                                         <i class="fa fa-shopping-cart font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-danger white media-body">
-                                        <h5>Total Orders<?php // $this->lang->line('this_month_invoices') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Orders'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"></i><?php echo $analytics[0]['total_orders']; ?></h5>
                                     </div>
@@ -41,7 +41,7 @@
                                         <i class="fa fa-shopping-basket font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-warning white media-body">
-                                        <h5> Total Products<?php // $this->lang->line('today_sales') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Products'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"></i><?php  echo $analytics[0]['total_items']; ?>
                                         </h5>
@@ -58,7 +58,7 @@
                                         <i class="fa fa-shopping-basket font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-success white media-body">
-                                        <h5>Total Tax <?php // echo $this->lang->line('this_month_sales') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Tax'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"></i><?php echo $analytics[0]['total_tax']; ?>
                                         </h5>
@@ -82,8 +82,8 @@
                             <tr>
                             <th>S.No</th>
                             <th>Date</th>
-                            <th><?php echo $vendor_details[0]['VendorName']." ".$vendor_details[0]['Type']; ?> Sales Price</th>
-                            <th>Orders</th>
+                            <th><?php echo $vendor_details[0]['VendorName']." ".$vendor_details[0]['Type']; ?> <?php echo $this->lang->line('Sales Price'); ?></th>
+                            <th><?php echo $this->lang->line('Orders'); ?></th>
                             <th>Items</th>
                             <th>Tax</th>
                             </tr>

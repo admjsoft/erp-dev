@@ -44,10 +44,10 @@
     </div>
     <div class="row">
         <div class="col-md-6 text-center">
-            <h2>Total : POS Offline Sales <?php echo $offline_sales; ?></h2>
+            <h2>Total : POS <?php echo $this->lang->line('Offline Sales'); ?> <?php echo $offline_sales; ?></h2>
         </div>
         <div class="col-md-6 text-center">
-            <h2>Total : Online Sales <?php echo $online_sales; ?></h2>
+            <h2>Total : <?php echo $this->lang->line('Online Sales'); ?> <?php echo $online_sales; ?></h2>
         </div>
     </div>
 </div>

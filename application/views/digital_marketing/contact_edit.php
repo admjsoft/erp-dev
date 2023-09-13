@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Contact Details 
+                <h4 class="card-title"><?php echo $this->lang->line('Edit Contact Details'); ?> 
             </h4>
             
 
@@ -52,7 +52,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "First Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('First Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="first Name"
@@ -64,7 +64,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Last Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Last Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="last Name"
@@ -77,7 +77,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                     <label class="col-sm-2 col-form-label"
-                                        for="name"><?php echo "Email Id"; // $this->lang->line('Title') ?></label>
+                                        for="name"><?php echo $this->lang->line('Email Id'); ?></label>
 
                                     <div class="col-sm-8">
                                         <input type="text"  readonly  placeholder="email id"
@@ -90,7 +90,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                     <label class="col-sm-2 col-form-label"
-                                        for="name"><?php echo "SMS Phone No"; // $this->lang->line('Title') ?></label>
+                                        for="name"><?php echo $this->lang->line('SMS Phone No'); ?></label>
 
                                     <div class="col-sm-8">
                                         <input type="text"   placeholder="sms phone No with country code"
@@ -103,7 +103,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                     <label class="col-sm-2 col-form-label"
-                                        for="name"><?php echo "whatsapp Phone no"; // $this->lang->line('Title') ?></label>
+                                        for="name"><?php echo $this->lang->line('whatsapp Phone no'); ?></label>
 
                                     <div class="col-sm-8">
                                         <input type="text"   placeholder="whatsapp phone No with country code"
@@ -115,7 +115,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Email Black Listed"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Email Black Listed'); ?></label>
                                         
                                         <div class="col-sm-8">
                                         <select  class="form-control margin-bottom b_input required " name="email_blacklist"
@@ -131,7 +131,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Sms Black Listed"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Sms Black Listed'); ?></label>
                                         
                                         <div class="col-sm-8">
                                         <select  class="form-control margin-bottom b_input required " name="sms_blacklist"
@@ -149,7 +149,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Recepients Lists"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Recepients Lists'); ?></label>
                                         
                                         <div class="col-sm-8">
                                         <select multiple class="form-control margin-bottom b_input required " name="Recepients[]"
@@ -172,7 +172,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="contact_id" value="<?php echo $contact_details['id']; ?>" id="contact_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Contact"
+                                           value="<?php echo $this->lang->line('Update Contact'); ?>"
                                            data-loading-text="updating...">
                                 </div>
                             </div>

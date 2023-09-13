@@ -52,7 +52,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "List Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('List Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="list Name"
@@ -64,7 +64,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Folders"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Folders'); ?></label>
 
                                         <div class="col-sm-8">
                                         <select class="form-control margin-bottom b_input required " name="folder_id"

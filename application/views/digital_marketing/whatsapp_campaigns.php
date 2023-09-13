@@ -2,10 +2,10 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">WhatsApp Campaigns<?php // echo $this->lang->line('Peppol Invoices') ?><a
+            <h4 class="card-title"><?php echo $this->lang->line('WhatsApp Campaigns'); ?><a
                         href="<?php echo base_url('digitalmarketing/whatsapp_campaign_create'); ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add New WhatsApp Campaign"//$this->lang->line('Add new') ?></a></h4>
+                        <?php echo $this->lang->line('Add New Whatsapp Campaign'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -27,10 +27,10 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "Name"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Name'); ?></th>
                         <th><?php echo "Status"; // $this->lang->line('Vendor Name') ?></th>
                         <th><?php echo "Schedule"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Read Percentage"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Read Percentage'); ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>

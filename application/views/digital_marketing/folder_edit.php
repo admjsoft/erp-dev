@@ -52,7 +52,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Folder Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Folder Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="folder Name"
@@ -69,7 +69,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="folder_id" value="<?php echo $folder_details['id']; ?>" id="folder_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Folder"
+                                           value="<?php echo $this->lang->line('Update Folder'); ?>"
                                            data-loading-text="updating...">
                                 </div>
                             </div>

@@ -29,8 +29,8 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "API Key"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Name'); ?></th>
+                        <th><?php echo $this->lang->line('API key'); ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>

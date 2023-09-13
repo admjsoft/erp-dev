@@ -2,10 +2,10 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Email Campaigns<?php // echo $this->lang->line('Peppol Invoices') ?><a
+            <h4 class="card-title"><?php echo $this->lang->line('Email Campaigns'); ?><a
                         href="<?php echo base_url('digitalmarketing/email_campaign_create'); ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add New Email Campaign"//$this->lang->line('Add new') ?></a></h4>
+                        <?php echo $this->lang->line('Add New Email Campaign'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -27,10 +27,10 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "Name"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Name'); ?></th>
                         <th><?php echo "Status"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Subject"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Scheduled"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('Subject'); ?></th>
+                        <th><?php echo $this->lang->line('Scheduled'); ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>

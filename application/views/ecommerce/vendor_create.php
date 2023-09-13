@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Add Online Platform Details 
+                <h4 class="card-title"><?php echo $this->lang->line('Add Online Platform Details '); ?>
             </h4>
             
 
@@ -52,7 +52,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Online Platform Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Online Platform Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
@@ -64,7 +64,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "WebSite url"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('WebSite url'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
@@ -76,7 +76,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Consumer Key"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Consumer Key'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Consumer Key"
@@ -88,7 +88,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Consumer Secret"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Consumer Secret'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Consumer Secret"
@@ -101,7 +101,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                     <label class="col-sm-2 col-form-label"
-                                        for="name"><?php echo "Platform Type"; // $this->lang->line('Title') ?></label>
+                                        for="name"><?php echo $this->lang->line('Platform Type'); ?></label>
 
                                     <div class="col-sm-8">
                                     <select class="form-control margin-bottom b_input required " name="platform_type"
@@ -109,14 +109,15 @@ if(isset($_SESSION['status'])){
                                     <option value='0' >Single </option>
                                     <option value='1' >Multiple</option>
                                     </select>
-                                    <label class="" id="single_platform_text" for="name">Single Platform Option Allows to Edit/Delete Categories & Sub Categories  </label>
-                                    <label class="" style="display:none"; id="multiple_platform_text" for="name">Multiple Platform Option Don't Allows to Edit/Delete Categories & Sub Categories  </label>
+                                    <label class="" id="single_platform_text" for="name"><?php echo $this->lang->line('Single Platform Option Allows to Edit/Delete Categories & Sub Categories '); ?> </label>
+                                    <label class="" style="display:none"; id="multiple_platform_text" for="name"><?php echo $this->lang->line('Multiple Platform Option Don\'t Allows to Edit/Delete Categories & Sub Categories '); ?>
+  </label>
                                     </div>
                                     </div>
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Sale Type"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Sale Type'); ?></label>
 
                                         <div class="col-sm-8">
                                         <select class="form-control margin-bottom b_input required " name="sale_type"
@@ -131,7 +132,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "WebSite Type"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('WebSite Type'); ?></label>
 
                                         <div class="col-sm-8">
                                         <select class="form-control margin-bottom b_input required " name="website_type"
@@ -152,7 +153,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="vendor_id" value="" id="vendor_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Create Online Platform"
+                                           value="<?php echo $this->lang->line('Create Online Platform'); ?>"
                                            data-loading-text="updating...">
                                 </div>
                             </div>

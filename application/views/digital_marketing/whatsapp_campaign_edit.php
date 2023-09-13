@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit WhatsApp Campaign Details 
+                <h4 class="card-title"><?php echo $this->lang->line('Edit WhatsApp Campaign Details'); ?> 
             </h4>
             
 
@@ -52,7 +52,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Campaign Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Campaign Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Campaign Name"
@@ -65,7 +65,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Schedule Date"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Schedule Date'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="datetime-local"   placeholder="Schedule Date"
@@ -78,7 +78,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Templates"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Templates'); ?></label>
 
                                         <div class="col-sm-8">
                                         <input type="text"  readonly placeholder="Template"
@@ -108,7 +108,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Recepients Lists"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Recepients Lists'); ?></label>
                                         <?php $includedListsArray = $campaign_details['recipients']['includedLists']; ?>
                                         <div class="col-sm-8">
                                         <select multiple class="form-control margin-bottom b_input required " name="Recepients[]"

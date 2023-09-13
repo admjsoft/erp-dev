@@ -489,6 +489,9 @@ public function list_employee()
             'c_rate' => $commission
         );
 
+        // echo "dddd";
+        // exit;
+
 
         if ($this->db->insert('gtg_employees', $data)) {
             $data1 = array(
@@ -604,7 +607,7 @@ public function list_employee()
     public function employee_permissions()
     {
         $this->db->select('*');
-        $this->db->from('gtg_premissions_new');
+        $this->db->from('gtg_premissions');
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
         return $query->result_array();
@@ -625,7 +628,21 @@ public function list_employee()
     function role_create($role_name)
 	{
 		$data = array('role_name'=>$role_name,'status'=>1);
-        return $this->db->insert('gtg_role', $data);
+        $this->db->insert('gtg_role', $data);
+        $id = $this->db->insert_id();
+        if($id)
+        {
+            $table = 'gtg_premissions'; // Replace with your table name
+            $query = "ALTER TABLE $table ADD r_$id INT(11) DEFAULT 0";
+            if($this->db->query($query)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+
 	}
   function role_update($role_name,$role_id,$role_status)
 	{

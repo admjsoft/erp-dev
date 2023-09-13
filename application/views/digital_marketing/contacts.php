@@ -5,7 +5,7 @@
             <h4 class="card-title">Contacts<?php // echo $this->lang->line('Peppol Invoices') ?><a
                         href="<?php echo base_url('digitalmarketing/contact_create'); ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add New Contact"//$this->lang->line('Add new') ?></a></h4>
+                        <?php echo $this->lang->line('Add New Contact'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -27,11 +27,11 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th><?php echo "First Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Last Name"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "Email"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "SMS"; // $this->lang->line('Vendor Name') ?></th>
-                        <th><?php echo "WHATSAPP"; // $this->lang->line('Vendor Name') ?></th>
+                        <th><?php echo $this->lang->line('First Name'); ?></th>
+                        <th><?php echo $this->lang->line('Last Name'); ?></th>
+                        <th><?php echo $this->lang->line('Email'); ?></th>
+                        <th><?php echo $this->lang->line('Sms'); ?></th>
+                        <th><?php echo $this->lang->line('Whatsapp'); ?></th>
                         <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
                     </tr>
                     </thead>

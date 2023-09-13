@@ -1464,25 +1464,25 @@ class="btn btn-primary btn-sm rounded">
                        <li class="menu-item  has-sub <?php if ($this->li_a == "ecommerce") {
                     echo ' open';
                 } ?>"><a href="#"><i
-                                         class="icon-basket"></i><?php echo $this->lang->line('E-Commerce') ?><?php //echo $this->lang->line('invoices') ?></a>
+                                         class="icon-basket"></i><?php echo $this->lang->line('E-Commerce') ?></a>
                              <ul class="menu-content">
 
                                 <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/online_platforms"> Online Platforms<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/online_platforms"> <?php echo $this->lang->line('Online Platforms'); ?></a>
                                  </li> 
                                 <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/categories"> Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/categories"> <?php echo $this->lang->line('Categories'); ?></a>
                                  </li> 
                                  <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/sub_categories"> Sub Categories<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/sub_categories"> <?php echo $this->lang->line('Sub Categories'); ?></a>
                                  </li>     
                                  
                                  
                                  <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/publishing"> Publishing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/publishing"> <?php echo $this->lang->line('Publishing'); ?></a>
                                  </li>
                                  <li class="menu-item"><a
-                                             href="<?php echo base_url(); ?>ecommerce/analytics"> Analytics<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                             href="<?php echo base_url(); ?>ecommerce/analytics"> <?php echo $this->lang->line('Analytics'); ?></a>
                                  </li>            
                                  
                              </ul>
@@ -1933,65 +1933,65 @@ class="btn btn-primary btn-sm rounded">
 <li class="menu-item  has-sub <?php if ($this->li_a == "digitalmarketing") {
     echo ' open';
 } ?>"><a href="#"><i
-                            class="icon-basket"></i><?php echo  "Digital Marketing"; // $this->lang->line('E-Commerce') ?><?php //echo $this->lang->line('invoices') ?></a>
+                            class="icon-basket"></i><?php echo $this->lang->line('Digital Marketing'); ?></a>
                 <ul class="menu-content">
 
                     
                 <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/customers_list"> Customers List<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/customers_list"> <?php echo $this->lang->line('Customers List'); ?></a>
                     </li>  
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/contacts"> Contact management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/contacts"> <?php echo $this->lang->line('Contact management'); ?></a>
                     </li>
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/folders"> Folder Management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/folders"> <?php echo $this->lang->line('Folder Management'); ?></a>
                     </li> 
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/lists"> List Management<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/lists"> <?php echo $this->lang->line('List management'); ?></a>
                     </li> 
                      
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/transactional"> Transactional<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/transactional"> <?php echo $this->lang->line('Transactional'); ?></a>
                                 
                     <ul class="menu-content">
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/transactions/email"><?php echo "Emails"; // $this->lang->line('Attendance'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/transactions/email"> <?php echo $this->lang->line('Email'); ?></a>
                     </li>
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/transactions/sms"><?php echo "Sms"; // $this->lang->line('Attendance Report'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/transactions/sms"> <?php echo $this->lang->line('Sms'); ?></a>
                     </li>
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/transactions/whatsapp"><?php echo "Whatsapp"; // $this->lang->line('Break Setting'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/transactions/whatsapp"><?php echo $this->lang->line('Whatsapp'); ?></a>
                     </li>
                     </ul>
                    
                     
                     </li> 
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/SmsMarketing"> Sms Marketing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/SmsMarketing"><?php echo $this->lang->line('Sms Marketing'); ?></a>
                     <ul class="menu-content">
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/sms_marketing_campaigns"><?php echo "Campaigns"; // $this->lang->line('Attendance'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/sms_marketing_campaigns"><?php echo $this->lang->line('Campaigns'); ?></a>
                     </li>
                     
                     </ul>
                     </li> 
                     
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/EmailMarketing"> Email Marketing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/EmailMarketing"> <?php echo $this->lang->line('Email Marketing'); ?></a>
                     <ul class="menu-content">
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/email_marketing_campaigns"><?php echo "Campaigns"; // $this->lang->line('Attendance'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/email_marketing_campaigns"><?php echo $this->lang->line('Campaigns'); ?></a>
                     </li>
                     
                     </ul>
                     </li> 
 
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/whatsappMarketing"> Whatsapp Marketing<?php //echo $this->lang->line('Peppol Invoices'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/whatsappMarketing"> <?php echo $this->lang->line('Whatsapp Marketing'); ?></a>
                     <ul class="menu-content">
                     <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>digitalmarketing/whatsapp_marketing_campaigns"><?php echo "Campaigns"; // $this->lang->line('Attendance'); ?></a>
+                                href="<?php echo base_url(); ?>digitalmarketing/whatsapp_marketing_campaigns"><?php echo $this->lang->line('Campaigns'); ?></a>
                     </li>
                     
                     </ul>

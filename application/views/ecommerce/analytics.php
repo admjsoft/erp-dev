@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="employee">Current Platform</label>
+                    <label for="employee"><?php echo $this->lang->line('Current Platform'); ?></label>
                     <select class="form-control" id="vendor_type">
                         <!-- <option value="">Select Vendor</option> -->
                         <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
@@ -21,14 +21,14 @@
 
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="employee">Start Date</label>
+                    <label for="employee"><?php echo $this->lang->line('Start Date'); ?></label>
                     <input type="date" value="" name="start_date" id="start_date" class="form-control "
                         data-toggle1="datepicker" autocomplete="off" />
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="employee">End Date</label>
+                    <label for="employee"><?php echo $this->lang->line('End Date'); ?></label>
                     <input type="date" value="" name="end_date" id="end_date" class="form-control "
                         data-toggle1="datepicker" autocomplete="off" />
                 </div>
@@ -93,7 +93,7 @@
                                         <i class="fa fa-shopping-cart text-bold-200  font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-primary white media-body">
-                                        <h5>Total Sales<?php // echo $this->lang->line('today_invoices') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Sales'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"><?php echo $total_sales; ?></i> </h5>
 
@@ -110,7 +110,7 @@
                                         <i class="fa fa-shopping-cart font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-danger white media-body">
-                                        <h5>Total Orders<?php // $this->lang->line('this_month_invoices') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Orders'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"></i><?php echo $total_orders; ?></h5>
                                     </div>
@@ -143,7 +143,7 @@
                                         <i class="fa fa-shopping-basket font-large-2 white"></i>
                                     </div>
                                     <div class="p-1 bg-gradient-x-success white media-body">
-                                        <h5>Total Tax <?php // echo $this->lang->line('this_month_sales') ?></h5>
+                                        <h5><?php echo $this->lang->line('Total Tax'); ?></h5>
                                         <h5 class="text-bold-400 mb-0"><i
                                                 class="ft-arrow-up"></i><?php echo (int)$total_tax; ?>
                                         </h5>
@@ -353,8 +353,8 @@
                     <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
+                            <th><?php echo $this->lang->line('Product Name'); ?></th>
+                            <th><?php echo $this->lang->line('Quantity'); ?></th>
                         </tr>
                     </thead>
                     <tbody id="invoice_products_block">
@@ -365,7 +365,7 @@
             </div>
             <div class="modal-footer">
 
-                <input type="button" class="btn btn-primary" id="bulk_publish_btn" value="<?php echo "Publish"; ?>" />
+                <input type="button" class="btn btn-primary" id="bulk_publish_btn" value="<?php echo $this->lang->line('Publish'); ?>" />
                 <button type="button" data-dismiss="modal"
                     class="btn"><?php echo $this->lang->line('Cancel') ?></button>
             </div>

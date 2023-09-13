@@ -33,7 +33,7 @@ if(isset($_SESSION['status'])){
                 <a
                         href="<?php echo base_url('ecommerce/publishing') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Back to Publishing"; ?>
+                        <?php echo $this->lang->line('Back To Publishing'); ?>
                 </a>  
             </h4>
             
@@ -55,7 +55,7 @@ if(isset($_SESSION['status'])){
                                 <div class="tab-pane active show" id="tab1" role="tabpanel" aria-labelledby="base-tab1">
 
                                     <div class="form-group row"><label
-                                            class="col-sm-2 col-form-label"><?php echo "Product Image"; ?></label>
+                                            class="col-sm-2 col-form-label"><?php echo $this->lang->line('Product Image'); ?></label>
                                         <div class="col-sm-6">
                                             <div id="progress" class="progress">
                                                 <div class="progress-bar progress-bar-success"></div>
@@ -81,7 +81,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Name"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Product Name'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text"   placeholder="Title"
@@ -122,7 +122,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Child Categories"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Child Categories'); ?></label>
 
                                         <div class="col-sm-8">
                                             <select class="form-control" id="child_category">
@@ -133,7 +133,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                     <label class="col-sm-2 col-form-label"
-                                        for="name"><?php echo "Product Regular Price"; // $this->lang->line('Title') ?></label>
+                                        for="name"><?php echo $this->lang->line('Product Regular Price'); ?></label>
 
                                     <div class="col-sm-8">
                                         <input type="text" placeholder="Title"
@@ -147,7 +147,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Sale Price"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Product Sale Price'); ?></label>
 
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="Title"
@@ -173,7 +173,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Product Description"; // $this->lang->line('Description') ?></label>
+                                               for="name"><?php echo $this->lang->line('Product Description'); ?></label>
 
                                         <div class="col-sm-8">
                                             <!-- <input type="text" placeholder="Description"
@@ -195,7 +195,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="image_url" value="<?php echo base_url('userfiles/product/').$product_details[0]['image']; ?>" id="image_url">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Publish Product"
+                                           value="<?php echo $this->lang->line('Publish Product'); ?>"
                                            data-loading-text="updating...">
                                 </div>
                             </div>
