@@ -149,7 +149,7 @@ class Cronjob extends CI_Controller
 
     public function check_passport_expiry($schedular)
     {
-        $this->db->select('e.*, c.name AS customer_name');
+        $this->db->select('e.*, c.name AS cus_name, c.email AS cus_email');
         $this->db->from('gtg_employees AS e');
         $this->db->join('gtg_customers AS c', 'e.company = c.id', 'inner');
         $this->db->where('e.employee_type', 'foreign');
@@ -171,12 +171,211 @@ class Cronjob extends CI_Controller
             $result = array(); // No matching records found
         }
 
-        return $result;
+        // echo "<pre>";
+        // print_r($result);
+        // echo "</pre>";
+        //exit;
+
+        if(!empty($result))
+        {
+            $email_authors = explode(",", $schedular['email_to']);
+            
+            if(!empty($email_authors))
+            {
+                $organization = $this->employee->getOrganizationDetails();
+
+                if (in_array("1", $email_authors)) {
+
+                    $adminemail = $organization->email;
+                    $elements = array();
+                    $content = '';
+
+                    $message = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                    foreach ($result as $exppassport) {
+                        //do something
+                        $passportemail = $exppassport['email'];
+                        $id = $exppassport['id'];
+
+                        $name = $exppassport['name'];
+                        $passport = $exppassport['passport'];
+                        $passport_expiry = $exppassport['passport_expiry'];
+                        $cus_name = $exppassport['cus_name'];
+                        $currentdate = date("Y-m-d");
+                        $datetime1 = date_create($currentdate);
+                        $datetime2 = date_create($passport_expiry);
+
+                        // Calculates the difference between DateTime objects
+                        $interval = date_diff($datetime1, $datetime2);
+
+                        // Display the result
+                        $remainingdate = $interval->format('%R%a days');
+                        $content = '';
+                        $mailto = $adminemail;
+                        $mailtotitle = "";
+                        $subject = "List of Employees PassPort Expiry in Next ".$schedular['days']." Days";
+                        $message .= '<tr><td>' . $name . '</td><td>' . $cus_name . '</td><td>' . $passport . '</td><td>' . $passport_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+
+                    }
+                    $message .= "</table>";
+                    $attachmenttrue = "true";
+                    $this->load->library('ultimatemailer');
+                    $this->db->select('host,port,auth,auth_type,username,password,sender');
+                    $this->db->from('gtg_smtp');
+                    $query = $this->db->get();
+                    $smtpresult = $query->row_array();
+                    $host = $smtpresult['host'];
+                    $port = $smtpresult['port'];
+                    $auth = $smtpresult['auth'];
+                    $auth_type = $smtpresult['auth_type'];
+                    $username = $smtpresult['username'];
+                    $password = $smtpresult['password'];
+                    $mailfrom = $smtpresult['sender'];
+                    $mailfromtilte = $this->config->item('ctitle');
+                    $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                        $mailtotitle, $subject, $message, $attachmenttrue, '');
+                    if ($mailer) {
+                        // foreach ($exppassportlist as $exppassport) {
+                        //     $data = array(
+                        //         'passport_email_sent' => 1,
+                        //     );
+                        //     $this->db->set($data);
+                        //     $this->db->where('id', $exppassport['id']);
+                        //     $this->db->update('gtg_employees');
+                        // }
+                    }
+                }
+    
+                if (in_array("2", $email_authors)) {
+                        
+                        $elements = array();
+                        $content = '';                    
+                        $message = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                        //$employeeidarray = array();
+                        $exppassport = array();
+                        foreach ($result as $exppassport) {
+                            //do something
+                            $client_email = $exppassport['cus_email'];
+                            $passportemail = $exppassport['email'];
+                            $id = $exppassport['id'];
+
+                            $name = $exppassport['name'];
+                            $passport = $exppassport['passport'];
+                            $passport_expiry = $exppassport['passport_expiry'];
+                            $cus_name = $exppassport['cus_name'];
+                            $currentdate = date("Y-m-d");
+                            $datetime1 = date_create($currentdate);
+                            $datetime2 = date_create($passport_expiry);
+
+                            // Calculates the difference between DateTime objects
+                            $interval = date_diff($datetime1, $datetime2);
+
+                            // Display the result
+                            $remainingdate = $interval->format('%R%a days');
+                            $content = '';
+                            $mailto = $client_email;
+                            $mailtotitle = "";
+                            $subject = "List of Employee Expiry Between 30 days";
+                            $message .= '<tr><td>' . $name . '</td><td>' . $cus_name . '</td><td>' . $passport . '</td><td>' . $passport_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+
+                        }
+                        $message .= "</table>";
+                        $attachmenttrue = "true";
+                        $this->load->library('ultimatemailer');
+                        $this->db->select('host,port,auth,auth_type,username,password,sender');
+                        $this->db->from('gtg_smtp');
+                        $query = $this->db->get();
+                        $smtpresult = $query->row_array();
+                        $host = $smtpresult['host'];
+                        $port = $smtpresult['port'];
+                        $auth = $smtpresult['auth'];
+                        $auth_type = $smtpresult['auth_type'];
+                        $username = $smtpresult['username'];
+                        $password = $smtpresult['password'];
+                        $mailfrom = $smtpresult['sender'];
+                        $mailfromtilte = $this->config->item('ctitle');
+                        $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                            $mailtotitle, $subject, $message, $attachmenttrue, '');
+                        if ($mailer) {
+                            // foreach ($exppassportlist as $exppassport) {
+                            //     $data = array(
+                            //         'passport_email_sent' => 1,
+                            //     );
+                            //     $this->db->set($data);
+                            //     $this->db->where('id', $exppassport['id']);
+                            //     $this->db->update('gtg_employees');
+                            // }
+                        }
+
+                }
+    
+                if (in_array("3", $email_authors)) {
+
+                    $elements = array();
+                    $content = '';
+
+                    foreach ($result as $exppassport) {
+                        //do something
+                        $passportemail = $exppassport['email'];
+                        $id = $exppassport['id'];
+                        $name = $exppassport['name'];
+                        $passport = $exppassport['passport'];
+                        $passport_expiry = $exppassport['passport_expiry'];
+
+                        $content = '<p>Dear Employee ' . $name . '</p>
+                                    <p>We are reaching out you in regard to the expiry of your passport with the Passport No ' . $passport . ' on ' . date("d-m-Y", strtotime($passport_expiry)) . '</p>
+                                    <p>Kindly proceed for the renewal process. </p></br>
+                                    </br>
+
+                                    Thank you and regards.
+
+                                    <p>
+                                    ' . $organization->cname . ',</p>
+                                    <p>' . $organization->address . ',</br></p>
+                                    <p>' . $organization->city . ',</br></p>
+                                    <p>' . $organization->region . ',</br></p>
+                                    <p>' . $organization->country . ',</br></p>
+                                    <p>Phone : ' . $organization->phone . ',</p>
+                                    <p>Email : support@jsoftsolution.com.my.</p>';
+                        $mailto = $passportemail;
+                        $mailtotitle = "";
+                        $subject = "Passport Renewal Reminder";
+                        $message = $content;
+                        $attachmenttrue = "true";
+                        $this->load->library('ultimatemailer');
+                        $this->db->select('host,port,auth,auth_type,username,password,sender');
+                        $this->db->from('gtg_smtp');
+                        $query = $this->db->get();
+                        $smtpresult = $query->row_array();
+                        $host = $smtpresult['host'];
+                        $port = $smtpresult['port'];
+                        $auth = $smtpresult['auth'];
+                        $auth_type = $smtpresult['auth_type'];
+                        $username = $smtpresult['username'];
+                        $password = $smtpresult['password'];
+                        $mailfrom = $smtpresult['sender'];
+                        $mailfromtilte = $this->config->item('ctitle');
+                        $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                            $mailtotitle, $subject, $message, $attachmenttrue, '');
+                        if ($mailer) {
+                            // $data = array(
+                            //     'passport_email_sent' => 1,
+                            // );
+                            // $this->db->set($data);
+                            // $this->db->where('id', $id);
+                            // $this->db->update('gtg_employees');
+                        }
+
+                    }
+                }
+    
+            }           
+
+        }
     }
 
     public function check_permit_expiry($schedular)
     {
-        $this->db->select('e.*, c.name AS customer_name');
+        $this->db->select('e.*, c.name AS cus_name, c.email AS cus_email');
         $this->db->from('gtg_employees AS e');
         $this->db->join('gtg_customers AS c', 'e.company = c.id', 'inner');
         $this->db->where('e.employee_type', 'foreign');
@@ -198,7 +397,210 @@ class Cronjob extends CI_Controller
             $result = array(); // No matching records found
         }
 
-        return $result;
+        // echo "<pre>";
+        // print_r($result);
+        // echo "</pre>";
+        //exit;
+
+        if(!empty($result))
+        {
+            $email_authors = explode(",", $schedular['email_to']);
+            
+            if(!empty($email_authors))
+            {
+                $organization = $this->employee->getOrganizationDetails();
+
+                if (in_array("1", $email_authors)) {
+
+                    $adminemail = $organization->email;
+                    $elements = array();
+                    $content1 = '';
+                    $permitmessage = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                    $exppermit = array();
+                    foreach ($result as $exppermit) {
+                        //do something
+                        $permitemail = $exppermit['email'];
+                        $id = $exppermit['id'];
+                        $permitname = $exppermit['name'];
+                        $cus_name = $exppermit['cus_name'];
+
+                        $permit = $exppermit['permit'];
+                        $permit_expiry = $exppermit['permit_expiry'];
+                        $currentdate = date("Y-m-d");
+                        $datetime1 = date_create($currentdate);
+                        $datetime2 = date_create($permit_expiry);
+
+                        // Calculates the difference between DateTime objects
+                        $interval = date_diff($datetime1, $datetime2);
+
+                        // Display the result
+                        $remainingdate = $interval->format('%R%a days');
+                        $permitmessage .= '<tr><td>' . $permitname . '</td><td>' . $cus_name . '</td><td>' . $permit . '</td><td>' . $permit_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+
+                    }
+                    $permitmessage .= "</table>";
+
+                    $this->load->library('ultimatemailer');
+                    $this->db->select('host,port,auth,auth_type,username,password,sender');
+                    $this->db->from('gtg_smtp');
+                    $query = $this->db->get();
+                    $smtpresult = $query->row_array();
+                    $host = $smtpresult['host'];
+                    $port = $smtpresult['port'];
+                    $auth = $smtpresult['auth'];
+                    $auth_type = $smtpresult['auth_type'];
+                    $username = $smtpresult['username'];
+                    $password = $smtpresult['password'];
+                    $mailfrom = $smtpresult['sender'];
+                    $mailfromtilte = $this->config->item('ctitle');
+                    $mailtotitle = "";
+
+                    $attachmenttrue = "true";
+                    $mailto1 = $adminemail;
+                    $subject1 = "Permit Reminder";
+                    $mailer1 = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
+
+                    if ($mailer1) {
+                        // foreach ($exppermitlist as $exppermit) {
+                        //     $data = array(
+                        //         'permit_email_sent' => 1,
+                        //     );
+                        //     $this->db->set($data);
+                        //     $this->db->where('id', $exppermit['id']);
+                        //     $this->db->update('gtg_employees');
+                        // }
+                    }
+
+                }
+    
+                if (in_array("2", $email_authors)) {
+
+                        $elements = array();
+                        $content = ''; 
+                        //$employeeidarray = array();
+                        $exppermit = array();
+                        $permitmessage = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+
+                        foreach ($result as $exppermit) {
+                            //do something
+                            $client_email = $exppermit['cus_email'];
+                            $permitemail = $exppermit['email'];
+                            $id = $exppermit['id'];
+                            $permitname = $exppermit['name'];
+                            $cus_name = $exppermit['cus_name'];
+
+                            $permit = $exppermit['permit'];
+                            $permit_expiry = $exppermit['permit_expiry'];
+                            $currentdate = date("Y-m-d");
+                            $datetime1 = date_create($currentdate);
+                            $datetime2 = date_create($permit_expiry);
+
+                            // Calculates the difference between DateTime objects
+                            $interval = date_diff($datetime1, $datetime2);
+
+                            // Display the result
+                            $remainingdate = $interval->format('%R%a days');
+                            $permitmessage .= '<tr><td>' . $permitname . '</td><td>' . $cus_name . '</td><td>' . $permit . '</td><td>' . $permit_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+
+                        }
+                        $permitmessage .= "</table>";
+
+                        $this->load->library('ultimatemailer');
+                        $this->db->select('host,port,auth,auth_type,username,password,sender');
+                        $this->db->from('gtg_smtp');
+                        $query = $this->db->get();
+                        $smtpresult = $query->row_array();
+                        $host = $smtpresult['host'];
+                        $port = $smtpresult['port'];
+                        $auth = $smtpresult['auth'];
+                        $auth_type = $smtpresult['auth_type'];
+                        $username = $smtpresult['username'];
+                        $password = $smtpresult['password'];
+                        $mailfrom = $smtpresult['sender'];
+                        $mailfromtilte = $this->config->item('ctitle');
+                        $mailtotitle = "";
+
+                        $attachmenttrue = "true";
+                        $mailto1 = $client_email;
+                        $subject1 = "Permit Reminder";
+                        $mailer1 = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
+
+                        if ($mailer1) {
+                            // foreach ($exppermitlist as $exppermit) {
+                            //     $data = array(
+                            //         'permit_email_sent' => 1,
+                            //     );
+                            //     $this->db->set($data);
+                            //     $this->db->where('id', $exppermit['id']);
+                            //     $this->db->update('gtg_employees');
+                            // }
+                        }
+                 
+                }
+    
+                if (in_array("3", $email_authors)) {
+
+                    $elements = array();
+                    $content1 = '';
+                    $exppermit = array();
+                    foreach ($result as $exppermit) {
+                        //do something
+                        $permitemail = $exppermit['email'];
+                        $id = $exppermit['id'];
+                        $permitname = $exppermit['name'];
+
+                        $permit = $exppermit['permit'];
+                        $permit_expiry = $exppermit['permit_expiry'];
+                        $this->load->library('ultimatemailer');
+                        $this->db->select('host,port,auth,auth_type,username,password,sender');
+                        $this->db->from('gtg_smtp');
+                        $query = $this->db->get();
+                        $smtpresult = $query->row_array();
+                        $host = $smtpresult['host'];
+                        $port = $smtpresult['port'];
+                        $auth = $smtpresult['auth'];
+                        $auth_type = $smtpresult['auth_type'];
+                        $username = $smtpresult['username'];
+                        $password = $smtpresult['password'];
+                        $mailfrom = $smtpresult['sender'];
+                        $mailfromtilte = $this->config->item('ctitle');
+                        $content1 = '<p>Dear Employee ' . $permitname . '</p>
+                                    <p>We are reaching out you in regard to the expiry of your permit with the permit No ' . $permit . ' on ' . $permit_expiry . '</p>
+                                    <p>Kindly proceed for the renewal process. </p></br>
+                                    </br>
+
+                                    Thank you and regards.
+
+                                    <p>
+                                    ' . $organization->cname . ',</p>
+                                    <p>' . $organization->address . ',</br></p>
+                                    <p>' . $organization->city . ',</br></p>
+                                    <p>' . $organization->region . ',</br></p>
+                                    <p>' . $organization->country . ',</br></p>
+                                    <p>Phone : ' . $organization->phone . ',</p>
+                                    <p>Email : support@jsoftsolution.com.my.</p>';
+                        $mailtotitle = "";
+
+                        $attachmenttrue = "true";
+                        $mailto1 = $permitemail;
+                        $subject1 = "Permit Renewal Reminder";
+                        $message1 = $content1;
+                        $mailer1 = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $message1, $attachmenttrue, '');
+
+                        if ($mailer1) {
+                            // $data = array(
+                            //     'permit_email_sent' => 1,
+                            // );
+                            // $this->db->set($data);
+                            // $this->db->where('id', $id);
+                            // $this->db->update('gtg_employees');
+                        }
+                    }
+                }
+    
+            }           
+
+        }
     }
 
     public function reminder()
@@ -217,8 +619,8 @@ class Cronjob extends CI_Controller
 
         $schedulefor = $this->employee->getschedulerList();
 
-        // echo "<pre>"; print_r($schedulefor); echo "</pre>";
-        // exit;
+        echo "<pre>"; print_r($schedulefor); echo "</pre>";
+        exit;
         $explode = explode(",", $schedulefor->scheduler_on);
 
         $passport = $explode[0];
