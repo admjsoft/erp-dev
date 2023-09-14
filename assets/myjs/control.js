@@ -1044,7 +1044,8 @@ $("#submit-data").on("click", function (e) {
     $(this).hide();
     var o_data = $("#data_form").find(':input').not('.no-serialize').serialize();
     var action_url = $('#action-url').val();
-    addObject(o_data, action_url);
+    var after_action = $('#after_action').val();
+    addObject(o_data, action_url, table_reload ='',after_action);
     setTimeout(function(){  $("#submit-data").show(); }, 1000);
 });
 
@@ -1078,7 +1079,7 @@ $("#submit-data2").on("click", function (e) {
     addObject(o_data, action_url);
 });
 
-function addObject(action, action_url, table_reload='') {
+function addObject(action, action_url, table_reload='',after_action='') {
     //alert(table_reload);
     var errorNum = farmCheck();
     var $btn;
@@ -1107,6 +1108,7 @@ function addObject(action, action_url, table_reload='') {
                         $("#notify").fadeOut();
                     }, 3000);
 
+
                    if(data.pos_invoice_pdf != '')
                    {
                     $('#current_invoice_print_url').val(data.pos_invoice_pdf);
@@ -1114,6 +1116,12 @@ function addObject(action, action_url, table_reload='') {
                     //alert('sss');
                    }
 
+                   
+                   if(after_action == 'page_reload')
+                   {
+                       location.reload();
+                   }
+                   
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
                     $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();

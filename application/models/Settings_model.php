@@ -252,6 +252,17 @@ class Settings_model extends CI_Model
         return $query->result_array();
     }
 
+    public function get_tax_slab_details($id)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_config');
+        $this->db->where('type', 2);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+
     public function add_slab($tname, $trate, $ttype, $ttype2)
     {
         $data = array(
@@ -264,6 +275,24 @@ class Settings_model extends CI_Model
         if ($this->db->insert('gtg_config', $data)) {
             echo json_encode(array('status' => 'Success', 'message' =>
             $this->lang->line('ADDED')));
+        } else {
+            echo json_encode(array('status' => 'Error', 'message' =>
+            $this->lang->line('ERROR')));
+        }
+    }
+
+    public function update_slab($tname, $trate, $ttype, $ttype2, $slab_id)
+    {
+        $data = array(
+            'type' => 2,
+            'val1' => $tname,
+            'val2' => $trate,
+            'val3' => $ttype,
+            'val4' => $ttype2
+        );
+        if ($this->db->where('id',$slab_id)->update('gtg_config', $data)) {
+            echo json_encode(array('status' => 'Success', 'message' =>
+            $this->lang->line('UPDATED')));
         } else {
             echo json_encode(array('status' => 'Error', 'message' =>
             $this->lang->line('ERROR')));

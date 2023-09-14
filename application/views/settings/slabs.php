@@ -52,7 +52,7 @@
                             break;
                     }
 
-                    echo "<tr><td>" . $row['val1'] . "</td><td>" . $row['val2'] . "%</td><td>" . $t1 . "</td><td>" . $t2 . "</td><td><a href='#' data-object-id='" . $cid . "' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
+                    echo "<tr><td>" . $row['val1'] . "</td><td>" . $row['val2'] . "%</td><td>" . $t1 . "</td><td>" . $t2 . "</td><td><a href='".base_url('settings/get_tax_slab_details?id='.$cid)."' data-object-id='" . $cid . "' class='btn btn-success btn-xs mr-1' title='Edit'><i class='fa fa-edit'></i></a><a href='#' data-object-id='" . $cid . "' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
                 }
                 ?>
                 </tbody>

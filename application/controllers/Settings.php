@@ -409,6 +409,34 @@ class Settings extends CI_Controller
         }
     }
 
+    public function update_tax_slab_details(){
+
+        if ($this->input->post()) {
+            $slab_id = $this->input->post('slab_id');
+            $tname = $this->input->post('tname', true);
+            $trate = $this->input->post('trate');
+            $ttype = $this->input->post('ttype');
+            $ttype2 = $this->input->post('ttype2');
+            //$ttype2 = '';
+            $this->settings->update_slab($tname, $trate, $ttype, $ttype2,$slab_id);
+        }
+
+    }
+
+    public function get_tax_slab_details()
+    {
+        $this->li_a = 'tax';        
+        $id = $this->input->get('id');
+        $data['catlist'] = $this->settings->slabs();
+        $data['slab_details'] = $this->settings->get_tax_slab_details($id);
+        $head['title'] = "TAX Slabs";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('settings/tax_edit', $data);
+        $this->load->view('fixed/footer');
+        
+    }
+
     public function taxslabs_delete()
     {
 
