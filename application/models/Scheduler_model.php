@@ -80,6 +80,16 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
 
 	 
  }
+
+ public function GetSubModules($module)
+ {
+	 
+        $this->db->from('gtg_schedular_sub_modules')->where('ModuleId',$module);
+        $query = $this->db->get();
+	    return $query->result_array();
+
+	 
+ }
  
  
  public function insert($option,$days,$module,$implodevalues,$email_to)
@@ -102,6 +112,28 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
 	 
  }	 
  
+ 
+ public function update($option,$days,$module,$implodevalues,$email_to, $schedule_id)
+ {
+	 
+	 $create_at=date("Y-m-d");
+	 $option="yes";
+	// if($option=="yes")
+	// {
+	 $data = array('run_scheduler_expiry_date' =>$option, 'days' => $days, 'module' => $module,'scheduler_on' => $implodevalues,'email_to'=>$email_to,
+	 
+	 'created_at'=>$create_at);
+	// }
+	// else
+	// {
+	// $data = array('run_scheduler_expiry_date' => $option,'Schdeuleno_days' => $schdeuleno_days,'minutes' => $minutes,
+	// 'hours' => $hours,'month' => $month,'day' => $day,'module' => $module,'created_at'=>$create_at);
+	// }
+    return $this->db->where('id',$schedule_id)->update('scheduler', $data);
+	 
+ }	 
+ 
+
  public function get_schedule($id)
  {
 	 $this->db->from('scheduler');
@@ -112,7 +144,23 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
 	 
  }
  
- 
+     
+
+ public function delete_schedular($schedular_id)
+ {
+     
+     if ($this->db->where('id',$schedular_id)->delete('scheduler')) {
+     
+         
+             $resp_data['status'] = '200';
+             $resp_data['message'] = 'Scheduler delete successfully';
+     }else{    
+             // Request failed, show an error message
+             $resp_data['status'] = '500';
+             $resp_data['message'] = 'Unable to delete Scheduler products';
+     }
+     return $resp_data;
+ }
  
  
 }

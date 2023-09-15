@@ -1,22 +1,29 @@
 <?php
-if(isset($_SESSION['status'])){
- echo '<div class="alert alert-'.$_SESSION['status'].'">
+if (isset($_SESSION['status'])) {
+    echo '<div class="alert alert-' . $_SESSION['status'] . '">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
 
-            <div class="message">' .$_SESSION['message']. '</div>
+            <div class="message">' . $_SESSION['message'] . '</div>
         </div>';
-unset($_SESSION['status']);unset($_SESSION['message']);
-} ?>
+    unset($_SESSION['status']);unset($_SESSION['message']);
+}?>
 <style>
-    select#status, .inphtml{width: 100%; border: 1px   solid #ccc; border-radius:3px;padding: 10px;}
-    #doct{
+select#status,
+.inphtml {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+#doct {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    }
+}
 </style>
 <div class="content-body">
-<div id="c_body"></div>
+    <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Schedule List') ?></h5>
@@ -38,13 +45,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
             <hr>
             <table id="trans_table" class="table table-striped table-bordered zero-configuration" cellspacing="0"
-                   width="100%">
+                width="100%">
                 <thead>
                     <tr>
-						<th><?php echo $this->lang->line('Module') ?></th>
+                        <th><?php echo $this->lang->line('Module') ?></th>
                         <th><?php echo $this->lang->line('Scheduler For') ?></th>
-						   <th><?php echo $this->lang->line('Days') ?></th>
-					    <th><?php echo $this->lang->line('Created At') ?></th>
+                        <th><?php echo $this->lang->line('Days') ?></th>
+                        <th><?php echo $this->lang->line('Created At') ?></th>
+                        <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,53 +60,54 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <tfoot>
                     <?php /* ?>
                     <tr>
-						<th><?php echo $this->lang->line('Module') ?></th>
+                        <th><?php echo $this->lang->line('Module') ?></th>
                         <th><?php echo $this->lang->line('Scheduler For') ?></th>
-						    <th><?php echo $this->lang->line('Days') ?></th>
-					    <th><?php echo $this->lang->line('Created At') ?></th>
-					<th><?php echo $this->lang->line('Actions') ?></th>
+                        <th><?php echo $this->lang->line('Days') ?></th>
+                        <th><?php echo $this->lang->line('Created At') ?></th>
+                        <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>
-                    <?php */ ?>
+                    <?php */?>
                 </tfoot>
             </table>
         </div>
     </div>
 </div>
 <?php // print_r($this->aauth->get_user()->username); ?>
- <form>
-<div id="delete_model" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+<form>
+    <div id="delete_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <p><?php echo $this->lang->line('delete this expense') ?>Are you sure you want to delete this Payslip?</p>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" id="object-id" value="">
-                <input type="hidden" id="action-url" value="payroll/deletePayslip">
-                <button type="button" data-dismiss="modal" class="btn btn-primary"
+                </div>
+                <div class="modal-body">
+                    <p><?php echo $this->lang->line('delete this expense') ?>Are you sure you want to delete this
+                        Payslip?</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="object-id" value="">
+                    <input type="hidden" id="action-url" value="payroll/deletePayslip">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary"
                         id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
-                <button type="button" data-dismiss="modal"
+                    <button type="button" data-dismiss="modal"
                         class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </form>
 
-<form method="post" id="update_form" action="<?php base_url('expenses/update_i'); ?>">
+<form method="post" id="update_form" action="<?php base_url('expenses/update_i');?>">
     <div id="update_model" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><?php echo $this->lang->line('Update Status') ?>no Update Status</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body container-fluid">
                     <div class="row">
@@ -124,7 +133,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="receipt_date"><?php echo $this->lang->line('Receipt Date') ?></label>
-                            <input type="text" class="form-control" placeholder="Receipt Date" id="receipt_date" disabled>
+                            <input type="text" class="form-control" placeholder="Receipt Date" id="receipt_date"
+                                disabled>
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="amount"><?php echo $this->lang->line('Amount') ?></label>
@@ -141,17 +151,18 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         </div>
                         <div class="form-group col-sm-12">
                             <label for="doc"><?php echo $this->lang->line('Supporting Document') ?></label>
-                            <a href="#"  class=" btn btn-blue form-control" target="_blank" id="doc"><span id="doct"><?php echo $this->lang->line('View Supporting Document') ?></span></a>
+                            <a href="#" class=" btn btn-blue form-control" target="_blank" id="doc"><span
+                                    id="doct"><?php echo $this->lang->line('View Supporting Document') ?></span></a>
                         </div>
                         <div class="form-group col-sm-12">
                             <label for="remarks"><?php echo $this->lang->line('Remarks') ?></label>
                             <div id="remarks" class="inphtml">
                             </div>
                         </div>
-                        <?php if($this->aauth->premission(22)){ ?>
+                        <?php if ($this->aauth->premission(22)) {?>
                         <div class="form-group col-sm-12" id="remarksg">
                             <label for="remarks"><?php echo $this->lang->line('Remarks') ?></label>
-                            <textarea placeholder="Remarks"  name="remarks" class="form-control"></textarea>
+                            <textarea placeholder="Remarks" name="remarks" class="form-control"></textarea>
                         </div>
                         <div class="form-group col-sm-12" id="statusg">
                             <label for="status"><?php echo $this->lang->line('Status') ?></label>
@@ -165,96 +176,105 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <?php if($this->aauth->premission(22)){ ?>
+                    <?php if ($this->aauth->premission(22)) {?>
                     <input type="hidden" id="object-id" class="object-id" name="id" value="">
-                   <input type="hidden" id="update-url" value="expenses/update_i">
+                    <input type="hidden" id="update-url" value="expenses/update_i">
 
                     <button type="submit" data-dismiss="modal" class="btn btn-primary"
-                            id="submit-update"><?php echo $this->lang->line('Update') ?></button>
-                            <?php } ?>
+                        id="submit-update"><?php echo $this->lang->line('Update') ?></button>
+                    <?php }?>
                     <button type="button" data-dismiss="modal"
-                            class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#trans_table').removeAttr('width').DataTable( {
-            
+$(document).ready(function() {
+
+
+    draw_online_data();
+
+    function draw_online_data() {
+
+        $('#trans_table').removeAttr('width').DataTable({
+
             fixedColumns: true,
             "processing": true,
             "serverSide": true,
             "stateSave": true,
             responsive: true,
-            <?php datatable_lang();?>
-            "ajax": {
-                "url": "<?php echo site_url('scheduler/getSchedulelist')?>",
-                "type": "POST",
-                'data': {'<?=$this->security->get_csrf_token_name()?>': crsf_hash}
-            },
-            "columnDefs": [
-                {
-                    "targets": [0],
-                    "orderable": true,
-                },
-            ],
-           
-        });
-
-
-
-    });
-     $(document).on('click', ".update-object", function (e) {
-            e.preventDefault();
-            var id = $(this).attr('data-object-id');
-            $.ajax({
-                "url": "<?php echo site_url('expenses/employeeExpense')?>",
+            <?php datatable_lang();?> "ajax": {
+                "url": "<?php echo site_url('scheduler/getSchedulelist') ?>",
                 "type": "POST",
                 'data': {
-                    '<?=$this->security->get_csrf_token_name()?>': crsf_hash,
-                    'id':id
-                    },
-                    success: function(result){
-                       var data=JSON.parse(result);
-                       var file=baseurl+"userfiles/documents/"+data.doc;
-                       console.log(file);
-                    // $("#div1").html(result);
-                    if(data.status>=0){
-
-                        $('.object-id').val(id);
-                        $('#doc').attr('href',file);
-                        $('#status').val(data.status);
-                        $('#remarks').html(data.remarks);
-                        if(data.status==1){
-                            $('#submit-update').css('display',"none");
-                            $('#statusg').css('display',"none");
-                            $('#remarksg').css('display',"none");
-                        }else{
-                            $('#submit-update').css('display',"block");
-                            $('#statusg').css('display',"block");
-                            $('#remarksg').css('display',"block");
-
-                        }
-                        $('#doc').html(data.doc);
-                        $('#date').val(data.created_at);
-                        $('#name').val(data.name);
-                        $('#title').val(data.title);
-                        $('#category').val(data.category);
-                        $('#receipt_no').val(data.receipt_no);
-                        $('#receipt_date').val(data.receipt_date);
-                        $('#amount').val(data.receipt_amount);
-                        $('#tax').val(data.tax_amount);
-                        $('#reason').html(data.reason);
-                        $(this).closest('tr').attr('id', id);
-                        $('#update_model').modal({backdrop: 'static', keyboard: false});
-                    }
+                    '<?=$this->security->get_csrf_token_name()?>': crsf_hash
                 }
-            });
-
+            },
+            "columnDefs": [{
+                "targets": [0],
+                "orderable": true,
+            }, ],
 
         });
+
+
+    }
+
+});
+$(document).on('click', ".update-object", function(e) {
+    e.preventDefault();
+    var id = $(this).attr('data-object-id');
+    $.ajax({
+        "url": "<?php echo site_url('expenses/employeeExpense') ?>",
+        "type": "POST",
+        'data': {
+            '<?=$this->security->get_csrf_token_name()?>': crsf_hash,
+            'id': id
+        },
+        success: function(result) {
+            var data = JSON.parse(result);
+            var file = baseurl + "userfiles/documents/" + data.doc;
+            console.log(file);
+            // $("#div1").html(result);
+            if (data.status >= 0) {
+
+                $('.object-id').val(id);
+                $('#doc').attr('href', file);
+                $('#status').val(data.status);
+                $('#remarks').html(data.remarks);
+                if (data.status == 1) {
+                    $('#submit-update').css('display', "none");
+                    $('#statusg').css('display', "none");
+                    $('#remarksg').css('display', "none");
+                } else {
+                    $('#submit-update').css('display', "block");
+                    $('#statusg').css('display', "block");
+                    $('#remarksg').css('display', "block");
+
+                }
+                $('#doc').html(data.doc);
+                $('#date').val(data.created_at);
+                $('#name').val(data.name);
+                $('#title').val(data.title);
+                $('#category').val(data.category);
+                $('#receipt_no').val(data.receipt_no);
+                $('#receipt_date').val(data.receipt_date);
+                $('#amount').val(data.receipt_amount);
+                $('#tax').val(data.tax_amount);
+                $('#reason').html(data.reason);
+                $(this).closest('tr').attr('id', id);
+                $('#update_model').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+        }
+    });
+
+
+});
 /*
         $(document).on('click', ".view-object", function (e) {
             e.preventDefault();
@@ -264,4 +284,34 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             $('#view_model').modal({backdrop: 'static', keyboard: false});
 
         });*/
+
+        $(document).on('click', ".delete_schedular", function(e) {
+            e.preventDefault();
+            schedular_id = $(this).attr('schedular_id');
+
+            $.ajax({
+
+                url: "<?php echo site_url('scheduler/delete_schedular') ?>",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    schedular_id: schedular_id
+                },
+                success: function(data) {
+                    // if ($.fn.DataTable.isDataTable('#trans_table')) {
+                    //     $('#trans_table').DataTable().destroy();
+                    // }
+
+                    // draw_online_data();
+                    location.reload();
+
+                },
+                error: function(data) {
+                    //console.log(data);
+                    //alert(data.message);
+                }
+
+
+            });
+        });
 </script>
