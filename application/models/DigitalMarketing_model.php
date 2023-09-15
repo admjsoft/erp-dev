@@ -2311,4 +2311,70 @@ public function GetEmailTemplateById($templateId){
 
 }
 
+
+
+public function saveContactsToListSelected($post){
+            
+
+    $list_id = $post['Recepients'];
+    $contact_ids = $post['ContactAddIds'];
+    $contact_ids = explode(',',$contact_ids);
+    // $contact_ids = array_values($contact_ids);
+    // print_r($contact_ids);
+    // exit;
+    $apiUrl = 'https://api.brevo.com/v3/contacts/lists/'.$list_id.'/contacts/add';
+    $apiKey = $this->myKey;
+    // echo $apiUrl;
+    // echo "<pre>"; print_r($post); echo "</pre>";
+    // exit;
+        $data = array(
+            "ids" => $contact_ids
+        );
+
+        $jsonData = json_encode($data);
+
+        $headers = array(
+            'accept: application/json',
+            'content-type: application/json',
+            'api-key: ' . $apiKey,
+        );
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+
+
+        if (curl_errno($ch)) {
+            // echo 'cURL Error: ' . curl_error($ch);
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'Unable to Add Contacts to List';
+        }
+
+        $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($httpStatus >= 200 && $httpStatus < 300) {
+            // Successful response
+            $decodedResponse = json_decode($response, true);
+            $resp_data['status'] = '500';
+            $resp_data['message'] = $decodedResponse['message'];
+            
+        } else {
+            // Handle the failure case here
+            // echo 'Request failed with HTTP status code: ' . $httpStatus;
+            $resp_data['status'] = '200';
+            $resp_data['message'] = 'Contacts Added to List Successfully';
+        }
+        return $resp_data;
+}
+
+
 }

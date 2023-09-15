@@ -780,6 +780,7 @@ class Digitalmarketing extends CI_Controller
     $head['title'] = "Contact Campaigns";
     $head['usernm'] = $this->aauth->get_user()->username;
     $data['contacts'] = $this->digitalmarketing->GetContactsList();
+    $data['list_ids'] = $this->digitalmarketing->GetSmsCampaignsListIds();
     $this->load->view('fixed/header', $head);
     $this->load->view('digital_marketing/contacts',$data);
     $this->load->view('fixed/footer');
@@ -1004,5 +1005,26 @@ public function get_email_template_details(){
     $data['html'] = $this->load->view('digital_marketing/email_template_view',$data,TRUE);
     echo json_encode($data);
 }
+
+
+    function saveContactsToListSelected()
+    {
+        $post = $this->input->post();
+        if (!$this->aauth->premission(8)) {
+            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        }
+        $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $this->myKey = $row->api_key    ; // Replace 'your_key_column' with the actual column name
+        }
+
+        $response = $this->digitalmarketing->saveContactsToListSelected($post);
+        
+        echo json_encode($response);
+
+
+    }
+
 
 }

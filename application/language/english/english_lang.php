@@ -1427,3 +1427,5 @@ $lang['Update Settings'] = "Update Settings";
 $lang['Job Sheet'] = "Job Sheet";
 $lang['Scheduler'] = "Scheduler";
 $lang['Payroll'] = "Payroll";
+
+$lang['Save To List'] = "Save To List";
