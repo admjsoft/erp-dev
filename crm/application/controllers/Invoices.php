@@ -63,7 +63,8 @@ class Invoices extends CI_Controller
             $row[] = $invoices->tid;
             $row[] = $invoices->name;
             $row[] = $invoices->invoicedate;
-            $row[] = amountExchange($invoices->total, $invoices->multi);
+           // $row[] = amountExchange($invoices->total, $invoices->multi);
+            $row[] = $invoices->total;
             $row[] = '<span class="st-' . $invoices->status . '">' . $this->lang->line(ucwords($invoices->status)) . '</span>';
             $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a>';
 
@@ -101,7 +102,8 @@ class Invoices extends CI_Controller
             $row[] = $invoices->tid;
             $row[] = $invoices->name;
             $row[] = $invoices->invoicedate;
-            $row[] = amountExchange($invoices->total, $invoices->multi);
+            // $row[] = amountExchange($invoices->total, $invoices->multi);
+            $row[] = $invoices->total;
             $row[] = '<span class="st-' . $invoices->status . '">' . $this->lang->line(ucwords($invoices->status)) . '</span>';
             $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a><a href="'.$invoices->document_url.'" tartget="_blank" class="btn btn-info btn-sm"  title="xml doc"><span class="fa fa-code"></span></a>     <a href="' . base_url("invoices/download_peppol_invoice?id=$invoices->id") . '"  class="btn btn-info btn-sm"  title="xml Download"><span class="fa fa-file"></span></a>';
 

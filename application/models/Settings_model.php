@@ -272,12 +272,21 @@ class Settings_model extends CI_Model
             'val3' => $ttype,
             'val4' => $ttype2
         );
+
+        if($this->db->where('type',2)->where('val1',$tname)->get('gtg_config')->num_rows() == 0)
+        {
+
         if ($this->db->insert('gtg_config', $data)) {
             echo json_encode(array('status' => 'Success', 'message' =>
             $this->lang->line('ADDED')));
         } else {
             echo json_encode(array('status' => 'Error', 'message' =>
             $this->lang->line('ERROR')));
+        }
+        
+        }else{
+            echo json_encode(array('status' => 'Error', 'message' =>
+            $this->lang->line('Settings Name Existed ERROR')));
         }
     }
 

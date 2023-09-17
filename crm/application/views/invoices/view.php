@@ -23,7 +23,7 @@
                             if ($invoice['status'] != 'canceled') {
                                 echo ' <div class="title-action"><a href="' . $link . '"  class="btn btn-large btn-success" title="Partial Payment"
                                 ><span class="fa fa-money"></span> '.$this->lang->line('Make Payment').' </a>
-                                <a href="' . $linkp . '"  class="btn btn-large btn-info" title="Partial Payment"
+                                <a  target="_blank" href="' . $linkp . '"  class="btn btn-large btn-info" title="Partial Payment"
                                 ><span class="fa fa-print"></span> '.$this->lang->line('Print').' </a>   </div>';
                             } else {
                                 echo '<h2 class="btn btn-oval btn-danger">' . $this->lang->line('Cancelled') . '</h2>';

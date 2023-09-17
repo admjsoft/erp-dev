@@ -45,10 +45,10 @@ $message = $this->session->flashdata('item');
                                                 class="icon-print"></i> <?php echo $this->lang->line('Print Quote') ?>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item" target="_blank"
                                            href="<?php echo $link ?>"><?php echo $this->lang->line('Print') ?></a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item" target="_blank"
                                            href="<?php echo $link ?>&d=1"><?php echo $this->lang->line('PDF Download') ?></a>
 
                                     </div>  <?php

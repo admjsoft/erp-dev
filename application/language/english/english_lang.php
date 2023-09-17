@@ -1429,3 +1429,5 @@ $lang['Scheduler'] = "Scheduler";
 $lang['Payroll'] = "Payroll";
 
 $lang['Save To List'] = "Save To List";
+$lang['Settings Name Existed ERROR'] = "This Tax Already Exist";
+$lang['Quote Status'] = "Status";

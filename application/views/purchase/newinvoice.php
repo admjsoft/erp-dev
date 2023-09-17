@@ -2,6 +2,40 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-content">
+        <script src="<?php echo base_url('application/third_party/tinymce/tinymce.min.js'); ?>" type="text/javascript"></script>
+           <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>
+            <script>
+              /*  jQuery("textarea").each(function(){
+                    tinyMCE.execCommand("mceAddEdit",false, "#dpid-".id);
+                });
+              /* tinyMCE.execCommand('mceAddEdit', false, { id: 'dpid-0', options: {
+                        readonly: false,
+                        convert_newlines_to_brs : true,
+                        invalid_elements: 'p',
+                        element_format : 'html',
+                        forced_root_block : "",
+                        force_p_newlines : false
+                    }
+                }
+                */
+
+             tinymce.init({
+                    selector : "textarea#dpid-0",
+                    setup: function (editor) {
+                        editor.on('change', function () {
+                        editor.save();
+                        });
+                    },
+                    height: 300,
+                    convert_newlines_to_brs : true,
+                    invalid_elements: 'p',
+                    element_format : 'html',
+                    forced_root_block : "",
+                    force_p_newlines : false
+                });
+
+            </script>
+
             <div id="notify" class="alert alert-success" style="display:none;">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <div class="message"></div>
@@ -72,7 +106,7 @@
                                     </div>
                                     <hr><?php echo $this->lang->line('Warehouse') ?> <select id="s_warehouses"
                                                                                              class="selectpicker form-control">
-                                        <?php echo $this->common->default_warehouse();
+                                        <?php // echo $this->common->default_warehouse();
                                         echo '<option value="0">' . $this->lang->line('All') ?></option><?php foreach ($warehouse as $row) {
                                             echo '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
                                         } ?>
