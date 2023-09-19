@@ -1753,7 +1753,7 @@ JSOFT SOLUTION SDN BHD,</p>
         $this->db->where('role_name', $role_name);
         $query = $this->db->get();
         $count = $query->num_rows();
-        if ($count >= 8) {
+        if ($count >= 1) {
             $data['status'] = 'danger';
             $data['message'] = $this->lang->line('Role Is Existed! Please Enter New Role Name');
             $_SESSION['status'] = $data['status'];
