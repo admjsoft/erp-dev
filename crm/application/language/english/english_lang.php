@@ -1012,3 +1012,5 @@ $lang['Passport Number'] = "Passport Number";
 $lang['Passport Expiry'] = "Passport Expiry";
 $lang['Permit Number'] = "Permit Number";
 
+$lang['Quote Status'] = "Status";
+

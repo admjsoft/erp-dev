@@ -189,8 +189,9 @@ class Cronjob extends CI_Controller
                     $adminemail = $organization->email;
                     $elements = array();
                     $content = '';
+                    $subject = "List of Employees PassPort Expiry in Next ".$schedular['days']." Days";
 
-                    $message = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                    $table = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
                     foreach ($result as $exppassport) {
                         //do something
                         $passportemail = $exppassport['email'];
@@ -213,10 +214,38 @@ class Cronjob extends CI_Controller
                         $mailto = $adminemail;
                         $mailtotitle = "";
                         $subject = "List of Employees PassPort Expiry in Next ".$schedular['days']." Days";
-                        $message .= '<tr><td>' . $name . '</td><td>' . $cus_name . '</td><td>' . $passport . '</td><td>' . $passport_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+                        $table .= '<tr><td>' . $name . '</td><td>' . $cus_name . '</td><td>' . $passport . '</td><td>' . $passport_expiry . '</td><td>' . $remainingdate . '</td></tr>';
 
                     }
-                    $message .= "</table>";
+                    $table .= "</table>";
+
+                    $message = '<!DOCTYPE html>
+                    <html>
+                    <head>
+                    </head>
+                    <body>
+                        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                            <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                <h1 style="color: #fff; font-size: 28px;">Passport Expiry Information</h1>
+                            </div>
+                            <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
+                            </div>
+                            <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your passport:</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Passport Expiry Details.</p>
+                                '.$table.'
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>';
+
+                    // echo $message;
+                    // exit;
+
                     $attachmenttrue = "true";
                     $this->load->library('ultimatemailer');
                     $this->db->select('host,port,auth,auth_type,username,password,sender');
@@ -249,7 +278,9 @@ class Cronjob extends CI_Controller
                         
                         $elements = array();
                         $content = '';                    
-                        $message = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                        $subject = "List of Employees PassPort Expiry in Next ".$schedular['days']." Days";
+
+                        $table = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Passport</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
                         //$employeeidarray = array();
                         $exppassport = array();
                         foreach ($result as $exppassport) {
@@ -274,11 +305,39 @@ class Cronjob extends CI_Controller
                             $content = '';
                             $mailto = $client_email;
                             $mailtotitle = "";
-                            $subject = "List of Employee Expiry Between 30 days";
-                            $message .= '<tr><td>' . $name . '</td><td>' . $cus_name . '</td><td>' . $passport . '</td><td>' . $passport_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+                            $subject = "List of Employees PassPort Expiry in Next ".$schedular['days']." Days";
+                            $table .= '<tr><td>' . $name . '</td><td>' . $cus_name . '</td><td>' . $passport . '</td><td>' . $passport_expiry . '</td><td>' . $remainingdate . '</td></tr>';
 
                         }
-                        $message .= "</table>";
+                        $table .= "</table>";
+
+                        $message = '<!DOCTYPE html>
+                        <html>
+                        <head>
+                        </head>
+                        <body>
+                            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                                <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                    <h1 style="color: #fff; font-size: 28px;">Passport Expiry Information</h1>
+                                </div>
+                                <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                    <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
+                                </div>
+                                <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your passport:</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Passport Expiry Details.</p>
+                                    '.$table.'
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                    <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>';
+
+                    
+                    // echo $message;
+                    // exit;
                         $attachmenttrue = "true";
                         $this->load->library('ultimatemailer');
                         $this->db->select('host,port,auth,auth_type,username,password,sender');
@@ -320,25 +379,45 @@ class Cronjob extends CI_Controller
                         $name = $exppassport['name'];
                         $passport = $exppassport['passport'];
                         $passport_expiry = $exppassport['passport_expiry'];
+                        $subject = "Passport Renewal Reminder";
+                        $content = '<!DOCTYPE html>
+                        <html>
+                        <head>
+                        </head>
+                        <body>
+                            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                                <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                    <h1 style="color: #fff; font-size: 28px;">Your Passport Information</h1>
+                                </div>
+                                <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                    <h2>'.$subject.'</h2>
+                                </div>
+                                <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Employee '.$name.',</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">We are reaching out to you regarding the expiry of your passport with Passport No '.$passport.' on '.date("d-m-Y", strtotime($passport_expiry)).'.</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Kindly proceed with the renewal process.</p>
+                                    <br>
+                                    <br>
+                                    
+                                    <p style="font-size: 16px; color: #555;">Thank you and regards,</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->cname.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->address.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->city.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->region.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->country.'</p>
+                                    <p style="font-size: 16px; color: #555;">Phone : '.$organization->phone.'</p>
+                                    <p style="font-size: 16px; color: #555;">Email : support@jsoftsolution.com.my</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>';
 
-                        $content = '<p>Dear Employee ' . $name . '</p>
-                                    <p>We are reaching out you in regard to the expiry of your passport with the Passport No ' . $passport . ' on ' . date("d-m-Y", strtotime($passport_expiry)) . '</p>
-                                    <p>Kindly proceed for the renewal process. </p></br>
-                                    </br>
-
-                                    Thank you and regards.
-
-                                    <p>
-                                    ' . $organization->cname . ',</p>
-                                    <p>' . $organization->address . ',</br></p>
-                                    <p>' . $organization->city . ',</br></p>
-                                    <p>' . $organization->region . ',</br></p>
-                                    <p>' . $organization->country . ',</br></p>
-                                    <p>Phone : ' . $organization->phone . ',</p>
-                                    <p>Email : support@jsoftsolution.com.my.</p>';
+                        
+                    // echo $message;
+                    // exit;
                         $mailto = $passportemail;
                         $mailtotitle = "";
-                        $subject = "Passport Renewal Reminder";
+                        
                         $message = $content;
                         $attachmenttrue = "true";
                         $this->load->library('ultimatemailer');
@@ -415,7 +494,10 @@ class Cronjob extends CI_Controller
                     $adminemail = $organization->email;
                     $elements = array();
                     $content1 = '';
-                    $permitmessage = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                    $subject1 = "List of Employees Permit Expiry in Next ".$schedular['days']." Days";
+
+
+                    $permit_table = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
                     $exppermit = array();
                     foreach ($result as $exppermit) {
                         //do something
@@ -435,10 +517,36 @@ class Cronjob extends CI_Controller
 
                         // Display the result
                         $remainingdate = $interval->format('%R%a days');
-                        $permitmessage .= '<tr><td>' . $permitname . '</td><td>' . $cus_name . '</td><td>' . $permit . '</td><td>' . $permit_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+                        $permit_table .= '<tr><td>' . $permitname . '</td><td>' . $cus_name . '</td><td>' . $permit . '</td><td>' . $permit_expiry . '</td><td>' . $remainingdate . '</td></tr>';
 
                     }
-                    $permitmessage .= "</table>";
+                    $permit_table .= "</table>";
+
+
+                    $permitmessage = '<!DOCTYPE html>
+                    <html>
+                    <head>
+                    </head>
+                    <body>
+                        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                            <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                <h1 style="color: #fff; font-size: 28px;">Permit Expiry Information</h1>
+                            </div>
+                            <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject1.'</h2>
+                            </div>
+                            <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your permit:</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Permit Expiry Details.</p>
+                                '.$permit_table.'
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>';
+
 
                     $this->load->library('ultimatemailer');
                     $this->db->select('host,port,auth,auth_type,username,password,sender');
@@ -457,7 +565,7 @@ class Cronjob extends CI_Controller
 
                     $attachmenttrue = "true";
                     $mailto1 = $adminemail;
-                    $subject1 = "Permit Reminder";
+                    //$subject1 = "Permit Reminder";
                     $mailer1 = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
 
                     if ($mailer1) {
@@ -479,7 +587,9 @@ class Cronjob extends CI_Controller
                         $content = ''; 
                         //$employeeidarray = array();
                         $exppermit = array();
-                        $permitmessage = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
+                        $subject1 = "List of Employees Permit Expiry in Next ".$schedular['days']." Days";
+
+                        $permit_table = '<table border=1><tr><th>Name</th><th>Company Name</th><th>Permit</th><th>Expiry Date</th><th>Remaining Date</th></tr>';
 
                         foreach ($result as $exppermit) {
                             //do something
@@ -500,10 +610,35 @@ class Cronjob extends CI_Controller
 
                             // Display the result
                             $remainingdate = $interval->format('%R%a days');
-                            $permitmessage .= '<tr><td>' . $permitname . '</td><td>' . $cus_name . '</td><td>' . $permit . '</td><td>' . $permit_expiry . '</td><td>' . $remainingdate . '</td></tr>';
+                            $permit_table .= '<tr><td>' . $permitname . '</td><td>' . $cus_name . '</td><td>' . $permit . '</td><td>' . $permit_expiry . '</td><td>' . $remainingdate . '</td></tr>';
 
                         }
-                        $permitmessage .= "</table>";
+                        $permit_table .= "</table>";
+
+                        $permitmessage = '<!DOCTYPE html>
+                        <html>
+                        <head>
+                        </head>
+                        <body>
+                            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                                <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                    <h1 style="color: #fff; font-size: 28px;">Permit Expiry Information</h1>
+                                </div>
+                                <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                    <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject1.'</h2>
+                                </div>
+                                <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your permit:</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Permit Expiry Details.</p>
+                                    '.$permit_table.'
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                    <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>';
+
 
                         $this->load->library('ultimatemailer');
                         $this->db->select('host,port,auth,auth_type,username,password,sender');
@@ -522,7 +657,7 @@ class Cronjob extends CI_Controller
 
                         $attachmenttrue = "true";
                         $mailto1 = $client_email;
-                        $subject1 = "Permit Reminder";
+                        //$subject1 = "Permit Reminder";
                         $mailer1 = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $permitmessage, $attachmenttrue, '');
 
                         if ($mailer1) {
@@ -564,26 +699,44 @@ class Cronjob extends CI_Controller
                         $password = $smtpresult['password'];
                         $mailfrom = $smtpresult['sender'];
                         $mailfromtilte = $this->config->item('ctitle');
-                        $content1 = '<p>Dear Employee ' . $permitname . '</p>
-                                    <p>We are reaching out you in regard to the expiry of your permit with the permit No ' . $permit . ' on ' . $permit_expiry . '</p>
-                                    <p>Kindly proceed for the renewal process. </p></br>
-                                    </br>
+                        $subject1 = "Permit Renewal Reminder";
+                        $content1 = '<!DOCTYPE html>
+                        <html>
+                        <head>
+                        </head>
+                        <body>
+                            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                                <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                    <h1 style="color: #fff; font-size: 28px;">Your Permit Information</h1>
+                                </div>
+                                <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                    <h2>'.$subject1.'</h2>
+                                </div>
+                                <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Employee '.$permitname.',</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">We are reaching out to you regarding the expiry of your permit with permit No '.$permit.' on '.date("d-m-Y", strtotime($permit_expiry)).'.</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Kindly proceed with the renewal process.</p>
+                                    <br>
+                                    <br>
+                                    
+                                    <p style="font-size: 16px; color: #555;">Thank you and regards,</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->cname.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->address.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->city.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->region.'</p>
+                                    <p style="font-size: 16px; color: #555;">'.$organization->country.'</p>
+                                    <p style="font-size: 16px; color: #555;">Phone : '.$organization->phone.'</p>
+                                    <p style="font-size: 16px; color: #555;">Email : support@jsoftsolution.com.my</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>';
 
-                                    Thank you and regards.
-
-                                    <p>
-                                    ' . $organization->cname . ',</p>
-                                    <p>' . $organization->address . ',</br></p>
-                                    <p>' . $organization->city . ',</br></p>
-                                    <p>' . $organization->region . ',</br></p>
-                                    <p>' . $organization->country . ',</br></p>
-                                    <p>Phone : ' . $organization->phone . ',</p>
-                                    <p>Email : support@jsoftsolution.com.my.</p>';
                         $mailtotitle = "";
 
                         $attachmenttrue = "true";
                         $mailto1 = $permitemail;
-                        $subject1 = "Permit Renewal Reminder";
+                        
                         $message1 = $content1;
                         $mailer1 = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto1, $mailtotitle, $subject1, $message1, $attachmenttrue, '');
 
