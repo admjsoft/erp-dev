@@ -1072,7 +1072,8 @@ redirect('invoices');
         $xmlUrl =  $invoice_details['document_url'];
 
         // Fetch the XML data from the URL
-        $xmlData = file_get_contents($xmlUrl);
+        //$xmlData = file_get_contents($xmlUrl);
+        $xmlData ='';
         $html = '<!DOCTYPE html>';
         $html .= '<html>';
         $html .= '<head>';
@@ -1086,9 +1087,13 @@ redirect('invoices');
 
         // Create an mPDF instance
         // $mpdf = new Mpdf();
+        
         $mpdf = $this->pdf->load_en();
         // Load HTML content into mPDF
         $mpdf->WriteHTML($html);
+        // $watermarkText = 'Watermark Text';
+        // $mpdf->SetWatermarkText($watermarkText);
+        // $mpdf->showWatermarkText = true;
 
         // Output the PDF to the browser or save to a file
         $mpdf->Output('peppol_invoice_document.pdf', 'D'); // 'D' to download the PDF, 'I' to display in the browser

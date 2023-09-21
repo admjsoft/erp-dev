@@ -811,8 +811,8 @@ class Aauth
         $data = array();
         $valid = TRUE;
         $user = $this->get_user($user_id);
-        print_r($user);
-		die;
+        // print_r($user);
+		// die;
         if ($user->email == $email) {
             $email = FALSE;
         }

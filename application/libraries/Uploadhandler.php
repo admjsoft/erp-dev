@@ -476,7 +476,7 @@ class Uploadhandler
     {
         $index = isset($matches[1]) ? ((int)$matches[1]) + 1 : 1;
         $ext = isset($matches[2]) ? $matches[2] : '';
-        return ' (' . $index . ')' . $ext;
+        return '(' . $index . ')' . $ext;
     }
 
     protected function upcount_name($name)
