@@ -1431,3 +1431,10 @@ $lang['Payroll'] = "Payroll";
 $lang['Save To List'] = "Save To List";
 $lang['Settings Name Existed ERROR'] = "This Tax Already Exist";
 $lang['Quote Status'] = "Status";
+
+$lang['Email Id Existed'] = "Email Id Existed";
+$lang['Passport Details Existed'] = "Passport Details Existed";
+$lang['Permit Details Existed'] = "Permit Details Existed";
+$lang['Employee Details Adding Error'] = "Employee Details Adding Error";
+$lang['Employee Details Existed'] = "Employee Details Existed";
+$lang["Passport Can't be Updated"] = "Passport Number Can't Be Updated";

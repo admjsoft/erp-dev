@@ -39,6 +39,7 @@ public function list_employee()
             if (BDATA) $this->db->or_where('loc', 0);
             $this->db->group_end();
         }
+        $this->db->where('gtg_employees.delete_status',0);
 		//$this->db->where('gtg_employees.employee_type!=', "foreign");
         $this->db->order_by('gtg_users.roleid', 'DESC');
         $query = $this->db->get();
@@ -439,9 +440,10 @@ public function list_employee()
         $this->db->where('eid', $this->eid);
         return $this->db->count_all_results();
     }
-    public function add_employee_new($name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0,$user_role)
+    public function add_employee_new($d_user_id,$name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0,$user_role)
 	{
 		$data = array(
+            'id'=>$d_user_id,
             'name' => $name,
             'address' => $address,
             'city' => $city,
@@ -1130,17 +1132,20 @@ public function getcompnayEmployees($id)
 	   $this->db->select('*');
        $this->db->from('gtg_employees');
 	   $this->db->where('company',$id);
-$query = $this->db->get();
-        return $query->result_array();
+       $this->db->where('employee_type','foreign');       
+       $this->db->where('delete_status',0);       
+       $query = $this->db->get();
+       return $query->result_array();
 	
 }
-public function addInternational_new(
+public function addInternational_new($d_user_id,
 			$emp_name,$roleid,$passport,$permit,
 			$country,$company,$type,$passport_expiry,$permit_expiry,
 			$passport_filename,$visa_filename,$role_id)
 			{
 				
 					 $data = array(
+                'id' => $d_user_id,
                 'name' => $emp_name,
                 'country' => $country,
                 'company' => $company,
@@ -1183,6 +1188,7 @@ public function addInternational($id,$username,$emp_name,$email,$roleid,$passpor
 $country,$company,$type,$passport_expiry,$permit_expiry,$passport_filename,$visa_filename,$role_id)
 {
 	 $data = array(
+                'id'=>$id,
                 'username' => $emp_name,
 				'email' => $email,
                 'name' => $emp_name,
@@ -1823,6 +1829,8 @@ public function employee_report_datatables_query()
 
 		}
 		
+        $this->db->where('gtg_employees.delete_status',0);
+
         $i = 0;
 
         foreach ($this->rcolumn_search as $item) // loop column
@@ -2019,4 +2027,72 @@ foreach($data as $key=>$value)
 
 
 	}
+
+
+    public function get_fwms_employees_report($company,$employee){
+
+       
+       
+        $this->db->select('gtg_employees.id,gtg_employees.name,gtg_countries.country_name,gtg_employees.passport,gtg_employees.passport_document,gtg_employees.visa_document,
+		gtg_employees.passport_expiry,gtg_employees.permit,gtg_employees.permit_expiry,gtg_customers.company as client');
+        $this->db->from('gtg_employees');
+
+		if(!empty($company) && !empty($employee))
+		{
+        $this->db->where('gtg_employees.id',$employee);
+		$this->db->where('gtg_customers.id',$company);
+		 $this->db->where('gtg_employees.employee_type',"foreign");
+		 		 $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country');
+
+		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
+
+		}
+		else if(!empty($company) && empty($employee))
+		{
+		$this->db->where('gtg_customers.id',$company);
+        $this->db->where('gtg_employees.employee_type',"foreign");
+				 $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country');
+
+		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
+
+		}
+		else{
+		 $this->db->where('gtg_employees.employee_type',"foreign");
+		 		 $this->db->join('gtg_countries', 'gtg_countries.id=gtg_employees.country');
+
+		 $this->db->join('gtg_customers', 'gtg_customers.id = gtg_employees.company');
+
+		}
+        $this->db->where('gtg_employees.delete_status',0);
+        $list = $this->db->get()->result();
+
+
+        $data = array();
+        $table = '<table border="1"><thead><tr><th>No</th><th>Name</th><th>Client</th><th>Country</th><th>Passport</th><th>Passport Expiry</th><th>Visa</th><th>Visa Expiry</th></tr></thead><tbody>';
+
+        if (empty($list)) {
+            $table .= '<tr><td colspan="8">No data available</td></tr>';
+        } else {
+            $no = 0;
+            foreach ($list as $obj) {
+                $no++;
+                $table .= '<tr>';
+                $table .= '<td>' . $no . '</td>';
+                $table .= '<td>' . $obj->name . '</td>';
+                $table .= '<td>' . $obj->client . '</td>';
+                $table .= '<td>' . $obj->country_name . '</td>';
+                $table .= '<td>' . $obj->passport . '</td>';
+                $table .= '<td>' . $obj->passport_expiry . '</td>';
+                $table .= '<td>' . $obj->permit . '</td>';
+                $table .= '<td>' . $obj->permit_expiry . '</td>';
+                $table .= '</tr>';
+            }
+        }
+
+        $table .= '</tbody></table>';
+
+        return $table;
+        // Now you can use $data['table'] to display the HTML table in your view.
+        
+    }
 }

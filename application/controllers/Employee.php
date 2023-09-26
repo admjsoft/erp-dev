@@ -12,6 +12,8 @@ class Employee extends CI_Controller
         parent::__construct();
         $this->load->model('employee_model', 'employee');
         $this->load->library("Aauth");
+        $this->load->library('pdf');
+
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
@@ -142,7 +144,9 @@ class Employee extends CI_Controller
             }
 
         } else {
-            $this->employee->add_employee_new($name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department, $user_role);
+
+            $d_user_id = $this->aauth->create_dummy_user();
+            $this->employee->add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department, $user_role);
 
         }
 
@@ -1506,7 +1510,7 @@ JSOFT SOLUTION SDN BHD,</p>
 
     }
 
-   public function permissions_update()
+    public function permissions_update()
     {
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Employee Permissions';
@@ -1515,34 +1519,37 @@ JSOFT SOLUTION SDN BHD,</p>
         $userrole = "r_" . $role;
         foreach ($permission as $row) {
             $i = $row['id'];
-              $name1 = 'r_' . $i . '_1';
+            $name1 = 'r_' . $i . '_1';
             // $name2 = 'r_' . $i . '_2';
             // $name3 = 'r_' . $i . '_3';
             //   $name4 = 'r_' . $i . '_4';
             // $name5 = 'r_' . $i . '_5';
             // $name6 = 'r_' . $i . '_6';
             // $name7 = 'r_' . $i . '_7';
-           //  $name8 = 'r_' . $i . '_8';
+            //  $name8 = 'r_' . $i . '_8';
             $val1 = 0;
-           // $val2 = 0;
-           // $val3 = 0;
-          //  $val4 = 0;
-          //  $val5 = 0;
-          //  $val6 = 0;
-          //  $val7 = 0;
-          //  $val8 = 0;
-            if ($this->input->post($name1)) $val1 = 1;
-           // if ($this->input->post($name2)) $val2 = 1;
-           // if ($this->input->post($name3)) $val3 = 1;
-           // if ($this->input->post($name4)) $val4 = 1;
-           // if ($this->input->post($name5)) $val5 = 1;
-           // if ($this->input->post($name6)) $val6 = 1;
-           // if ($this->input->post($name7)) $val7 = 1;
-           // if ($this->input->post($name8)) $val8 = 1;
-           // if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
-           // $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
-           $data = array($userrole => $val1);
-		   $this->db->set($data);
+            // $val2 = 0;
+            // $val3 = 0;
+            //  $val4 = 0;
+            //  $val5 = 0;
+            //  $val6 = 0;
+            //  $val7 = 0;
+            //  $val8 = 0;
+            if ($this->input->post($name1)) {
+                $val1 = 1;
+            }
+
+            // if ($this->input->post($name2)) $val2 = 1;
+            // if ($this->input->post($name3)) $val3 = 1;
+            // if ($this->input->post($name4)) $val4 = 1;
+            // if ($this->input->post($name5)) $val5 = 1;
+            // if ($this->input->post($name6)) $val6 = 1;
+            // if ($this->input->post($name7)) $val7 = 1;
+            // if ($this->input->post($name8)) $val8 = 1;
+            // if ($this->aauth->get_user()->roleid == 5 && $i == 9) $val5 = 1;
+            // $data = array('r_1' => $val1, 'r_2' => $val2, 'r_3' => $val3, 'r_4' => $val4, 'r_5' => $val5, 'r_6' => $val6, 'r_7' => $val7,'r_8' => $val8);
+            $data = array($userrole => $val1);
+            $this->db->set($data);
             $this->db->where('id', $i);
             $this->db->update('gtg_premissions');
         }
@@ -1959,6 +1966,7 @@ JSOFT SOLUTION SDN BHD,</p>
         $list = $this->employee->getcompnayEmployees($companyid);
         ///print_r($list);
         //$listarray='';
+        $listarray[] = '<option value="">All</option>';
         foreach ($list as $listvalue) {
             $listarray[] = '<option value="' . $listvalue['id'] . '">' . $listvalue['name'] . '</option>';
         }
@@ -3275,9 +3283,9 @@ JSOFT SOLUTION SDN BHD,</p>
         $company = $this->input->post('company');
         $passport_expiry = $this->input->post('passport_expiry');
         $permit_expiry = $this->input->post('permit_expiry');
-        if (empty($company)) {
-            $company = ' ';
-        }
+        // if (empty($company)) {
+        //     $company = ' ';
+        // }
 
         $username = $this->input->post('user_name', true);
         // $attach = $_FILES['image']['name'];
@@ -3296,87 +3304,138 @@ JSOFT SOLUTION SDN BHD,</p>
             }
         }
 
-        $a = $this->aauth->create_user($email, $password, $username);
+        //$existing_details = $this->db->where('email', $email)->or_where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+        $existing_details = $this->db->where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
 
-        //print_r($insert);
-        //die;
-        $attach = $_FILES['passportfile']['name'];
-        $attach1 = $_FILES['visafile']['name'];
+        // echo "<pre>";  print_r($existing_details); echo "</pre>";
+        // echo count($existing_details);
+        // echo $this->db->last_query();
+        //exit;
+        if (count($existing_details) <= 0) {
+            // $a = $this->aauth->create_user($email, $password, $username);
 
-        $data['status'] = 'danger';
-        $data['message'] = $this->lang->line('No file error');
-        $config['upload_path'] = './userfiles/passport/';
-        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-        $config['encrypt_name'] = true;
-        $config['max_size'] = 2669881;
-        $config['file_name'] = time() . str_replace(' ', '_', $attach);
-        $config['file_ext_tolower'] = true;
-        $config['encrypt_name'] = false;
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('passportfile')) {
-            // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            // echo json_encode($error);
-            $passport_filename = '';
+            // echo $a;
+            // exit;
+            //print_r($insert);
+            //die;
+            $attach = $_FILES['passportfile']['name'];
+            $attach1 = $_FILES['visafile']['name'];
 
-        } else {
-            $data = array('upload_data' => $this->upload->data());
-            $passport_filename = $data['upload_data']['file_name'];
-        }
+            $data['status'] = 'danger';
+            $data['message'] = $this->lang->line('No file error');
+            $config['upload_path'] = './userfiles/passport/';
+            $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+            $config['encrypt_name'] = true;
+            $config['max_size'] = 2669881;
+            $config['file_name'] = time() . str_replace(' ', '_', $attach);
+            $config['file_ext_tolower'] = true;
+            $config['encrypt_name'] = false;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('passportfile')) {
+                // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+                // echo json_encode($error);
+                $passport_filename = '';
 
-        $data['status'] = 'danger';
-        $data['message'] = $this->lang->line('No file error');
-        $config['upload_path'] = './userfiles/passport/';
-        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-        $config['max_size'] = 2669881;
-        $config['file_name'] = time() . str_replace(' ', '_', $attach1);
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('visafile')) {
-            //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            // echo json_encode($error);
-            $visa_filename = '';
-        } else {
-            $data = array('upload_data' => $this->upload->data());
-            $visa_filename = $data['upload_data']['file_name'];
-        }
-        if (!empty($username) && !empty($password) && !empty($email)) {
+            } else {
+                $data = array('upload_data' => $this->upload->data());
+                $passport_filename = $data['upload_data']['file_name'];
+            }
 
-            if ((string) $this->aauth->get_user($a)->id != $this->aauth->get_user()->id) {
-                $nuid = (string) $this->aauth->get_user($a)->id;
+            $data['status'] = 'danger';
+            $data['message'] = $this->lang->line('No file error');
+            $config['upload_path'] = './userfiles/passport/';
+            $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+            $config['max_size'] = 2669881;
+            $config['file_name'] = time() . str_replace(' ', '_', $attach1);
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('visafile')) {
+                //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+                // echo json_encode($error);
+                $visa_filename = '';
+            } else {
+                $data = array('upload_data' => $this->upload->data());
+                $visa_filename = $data['upload_data']['file_name'];
+            }
 
-                if ($nuid > 0) {
-                    $insert = $this->employee->addInternational($nuid,
-                        (string) $this->aauth->get_user($a)->username,
-                        $emp_name, $email, $roleid, $passport, $permit,
-                        $country, $company, $type, $passport_expiry, $permit_expiry,
-                        $passport_filename, $visa_filename, $role_id);
+            if (!empty($username) && !empty($password) && !empty($email)) {
+                $a = $this->aauth->create_user($email, $password, $username);
+                if ((string) $this->aauth->get_user($a)->id != $this->aauth->get_user()->id) {
+                    $nuid = (string) $this->aauth->get_user($a)->id;
 
+                    if ($nuid > 0) {
+                        $insert = $this->employee->addInternational($nuid,
+                            (string) $this->aauth->get_user($a)->username,
+                            $emp_name, $email, $roleid, $passport, $permit,
+                            $country, $company, $type, $passport_expiry, $permit_expiry,
+                            $passport_filename, $visa_filename, $role_id);
+
+                    }
+                } else {
+
+                    echo json_encode(array('status' => 'Error', 'message' =>
+                        'There has been an error, please try again.'));
                 }
             } else {
 
-                echo json_encode(array('status' => 'Error', 'message' =>
-                    'There has been an error, please try again.'));
+                $d_user_id = $this->aauth->create_dummy_user();
+                $insert = $this->employee->addInternational_new($d_user_id,
+                    $emp_name, $roleid, $passport, $permit,
+                    $country, $company, $type, $passport_expiry, $permit_expiry,
+                    $passport_filename, $visa_filename, $role_id);
+
             }
+
+            if (!$insert) {
+                $data['status'] = 'danger';
+                $data['message'] = $this->lang->line('Employee Add error');
+            } else {
+                $data['status'] = 'success';
+                $data['message'] = $this->lang->line('Employee Created Successfully');
+            }
+            $_SESSION['status'] = $data['status'];
+            $_SESSION['message'] = $data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+            redirect('employee/add', 'refresh');
+            exit();
         } else {
-            $insert = $this->employee->addInternational_new(
-                $emp_name, $roleid, $passport, $permit,
-                $country, $company, $type, $passport_expiry, $permit_expiry,
-                $passport_filename, $visa_filename, $role_id);
 
-        }
+            // echo "<pre>";
+            // print_r($existing_details);
+            // echo "</pre>";
+            // echo count($existing_details);
+            //exit;
 
-        if (!$insert) {
+            $emails = array_column($existing_details, 'email');
+            $passports = array_column($existing_details, 'passport');
+            $permits = array_column($existing_details, 'permit');
+
+            if (in_array($email, $emails)) {
+                $data['message'] = $this->lang->line('Email Id Existed');
+
+            } else if (in_array($passport, $passports)) {
+                $data['message'] = $this->lang->line('Passport Details Existed');
+
+            } else if (in_array($permit, $permits)) {
+                $data['message'] = $this->lang->line('Permit Details Existed');
+
+            } else {
+                $data['message'] = $this->lang->line('Employee Details Adding Error');
+            }
+
             $data['status'] = 'danger';
-            $data['message'] = $this->lang->line('Employee Add error');
-        } else {
-            $data['status'] = 'success';
-            $data['message'] = $this->lang->line('Employee Created Successfully');
+
+            // echo "<pre>";
+            // print_r($data);
+            // echo "</pre>";
+            $_SESSION['status'] = $data['status'];
+            $_SESSION['message'] = $data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+            redirect('employee/add', 'refresh');
+            exit();
+
         }
-        $_SESSION['status'] = $data['status'];
-        $_SESSION['message'] = $data['message'];
-        $this->session->mark_as_flash('status');
-        $this->session->mark_as_flash('message');
-        redirect('employee/add', 'refresh');
-        exit();
 
     }
 
@@ -3470,95 +3529,168 @@ JSOFT SOLUTION SDN BHD,</p>
             }
         }
 
-        $a = $this->aauth->create_user($email, $password, $username);
-        $attach = $_FILES['passportfile']['name'];
-        $attach1 = $_FILES['visafile']['name'];
+        //$existing_details = $this->db->where('id !=',$id)->where('email',$email)->or_where('passport',$passport)->or_where('permit',$permit)->get('gtg_employees')->result_array();
+        $existing_details = $this->db->where('id !=', $id)
+            ->group_start()
+            ->where('email', $email)
+            ->or_where('passport', $passport)
+            ->or_where('permit', $permit)
+            ->group_end()
+            ->get('gtg_employees')
+            ->result_array();
 
-        $data['status'] = 'danger';
-        $data['message'] = $this->lang->line('No file error');
-        $config['upload_path'] = './userfiles/passport/';
-        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-        $config['encrypt_name'] = true;
-        $config['max_size'] = 2669881;
-        $config['file_name'] = time() . str_replace(' ', '_', $attach);
-        $config['file_ext_tolower'] = true;
-        $config['encrypt_name'] = false;
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('passportfile')) {
-            // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            // echo json_encode($error);
-            $passport_filename = '';
+        //echo $this->db->last_query();
+        $c_emp_details = $this->db->where('id', $id)->get('gtg_employees')->result_array();
+        //echo "<pre>";  print_r($existing_details); echo "</pre>";
 
+        //echo count($existing_details);
+        //exit;
+        if (count($existing_details) <= 0) {
+
+            if ($c_emp_details[0]['passport'] == $passport) {
+
+                $a = $this->aauth->create_user($email, $password, $username);
+                $attach = $_FILES['passportfile']['name'];
+                $attach1 = $_FILES['visafile']['name'];
+
+                $data['status'] = 'danger';
+                $data['message'] = $this->lang->line('No file error');
+                $config['upload_path'] = './userfiles/passport/';
+                $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+                $config['encrypt_name'] = true;
+                $config['max_size'] = 2669881;
+                $config['file_name'] = time() . str_replace(' ', '_', $attach);
+                $config['file_ext_tolower'] = true;
+                $config['encrypt_name'] = false;
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('passportfile')) {
+                    // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+                    // echo json_encode($error);
+                    $passport_filename = '';
+
+                } else {
+                    $data = array('upload_data' => $this->upload->data());
+                    $passport_filename = $data['upload_data']['file_name'];
+                }
+
+                $data['status'] = 'danger';
+                $data['message'] = $this->lang->line('No file error');
+                $config['upload_path'] = './userfiles/passport/';
+                $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+                $config['max_size'] = 2669881;
+                $config['file_name'] = time() . str_replace(' ', '_', $attach1);
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('visafile')) {
+                    //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+                    // echo json_encode($error);
+                    $visa_filename = '';
+                } else {
+                    $data = array('upload_data' => $this->upload->data());
+                    $visa_filename = $data['upload_data']['file_name'];
+                }
+
+                $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename);
+                //print_r($insert);
+                //die;
+
+                /*$count = count($_FILES['files']['name']);*/
+
+                /*  for($i=0;$i<$count;$i++){
+
+                if(!empty($_FILES['files']['name'][$i])){
+
+                $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+
+                $config['upload_path'] = './userfiles/passport/';
+                $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+                $config['max_size'] = '5000';
+                $config['file_name'] = $_FILES['files']['name'][$i];
+
+                $this->load->library('upload',$config);
+
+                if($this->upload->do_upload('file')){
+                $uploadData = $this->upload->data();
+                $filename = $uploadData['file_name'];
+                $data = array(
+                'employee_id' =>$insert,
+                'document'=>$filename);
+                $this->db->insert('gtg_fws_documents', $data);
+                ///$data['totalFiles'][] = $filename;
+                }
+
+                }
+
+                }*/
+                if (!$update) {
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('Employee Add error');
+
+                    $_SESSION['status'] = $data['status'];
+                    $_SESSION['message'] = $data['message'];
+                    $this->session->mark_as_flash('status');
+                    $this->session->mark_as_flash('message');
+                    redirect('employee/fwmsemplyeeedit?id=' . $id, 'refresh');
+                    exit();
+
+                } else {
+                    $data['status'] = 'success';
+                    $data['message'] = $this->lang->line('Employee Updated Successfully');
+                    $_SESSION['status'] = $data['status'];
+                    $_SESSION['message'] = $data['message'];
+                    $this->session->mark_as_flash('status');
+                    $this->session->mark_as_flash('message');
+                    redirect('fwms/fwmsemployees', 'refresh');
+                    exit();
+
+                }
+
+            } else {
+                $data['status'] = 'danger';
+                $data['message'] = $this->lang->line("Passport Can't be Updated");
+                $_SESSION['status'] = $data['status'];
+                $_SESSION['message'] = $data['message'];
+                $this->session->mark_as_flash('status');
+                $this->session->mark_as_flash('message');
+                redirect('employee/fwmsemplyeeedit?id=' . $id, 'refresh');
+                exit();
+            }
         } else {
-            $data = array('upload_data' => $this->upload->data());
-            $passport_filename = $data['upload_data']['file_name'];
-        }
 
-        $data['status'] = 'danger';
-        $data['message'] = $this->lang->line('No file error');
-        $config['upload_path'] = './userfiles/passport/';
-        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-        $config['max_size'] = 2669881;
-        $config['file_name'] = time() . str_replace(' ', '_', $attach1);
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('visafile')) {
-            //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-            // echo json_encode($error);
-            $visa_filename = '';
-        } else {
-            $data = array('upload_data' => $this->upload->data());
-            $visa_filename = $data['upload_data']['file_name'];
-        }
+            //  echo "<pre>";  print_r($existing_details); echo "</pre>";
+            // echo count($existing_details);
+            // exit;
 
-        $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename);
-        //print_r($insert);
-        //die;
+            $emails = array_column($existing_details, 'email');
+            $passports = array_column($existing_details, 'passport');
+            $permits = array_column($existing_details, 'permit');
 
-        /*$count = count($_FILES['files']['name']);*/
+            if (in_array($email, $emails)) {
+                $data['message'] = $this->lang->line('Email Id Existed');
 
-        /*  for($i=0;$i<$count;$i++){
+            } else if (in_array($passport, $passports)) {
+                $data['message'] = $this->lang->line('Passport Details Existed');
 
-        if(!empty($_FILES['files']['name'][$i])){
+            } else if (in_array($permit, $permits)) {
+                $data['message'] = $this->lang->line('Permit Details Existed');
 
-        $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-        $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-        $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-        $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-        $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+            } else {
+                $data['message'] = $this->lang->line('Employee Details Adding Error');
+            }
 
-        $config['upload_path'] = './userfiles/passport/';
-        $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-        $config['max_size'] = '5000';
-        $config['file_name'] = $_FILES['files']['name'][$i];
-
-        $this->load->library('upload',$config);
-
-        if($this->upload->do_upload('file')){
-        $uploadData = $this->upload->data();
-        $filename = $uploadData['file_name'];
-        $data = array(
-        'employee_id' =>$insert,
-        'document'=>$filename);
-        $this->db->insert('gtg_fws_documents', $data);
-        ///$data['totalFiles'][] = $filename;
-        }
-
-        }
-
-        }*/
-        if (!$update) {
             $data['status'] = 'danger';
-            $data['message'] = $this->lang->line('Employee Add error');
-        } else {
-            $data['status'] = 'success';
-            $data['message'] = $this->lang->line('Employee Updated Successfully');
+
+            $_SESSION['status'] = $data['status'];
+            $_SESSION['message'] = $data['message'];
+            $this->session->mark_as_flash('status');
+            $this->session->mark_as_flash('message');
+            redirect('employee/fwmsemplyeeedit?id=' . $id, 'refresh');
+            exit();
+
         }
-        $_SESSION['status'] = $data['status'];
-        $_SESSION['message'] = $data['message'];
-        $this->session->mark_as_flash('status');
-        $this->session->mark_as_flash('message');
-        redirect('fwms/fwmsemployees', 'refresh');
-        exit();
 
     }
 
@@ -3952,4 +4084,88 @@ JSOFT SOLUTION SDN BHD,</p>
         echo $attend;
     }
 
+    public function pdf_report_download()
+    {
+        // $invoice_id = $this->input->get('id');
+        // $invoice_details = $this->invocies->peppol_invoice_details($invoice_id);
+
+        // $xmlUrl =  $invoice_details['document_url'];
+
+        // Fetch the XML data from the URL
+        //$xmlData = file_get_contents($xmlUrl);
+        //header('Content-Type: application/pdf');
+
+        //try {
+
+        $company = $this->input->post('company');
+        $employee = $this->input->post('employee');
+        $report = $this->employee->get_fwms_employees_report($company, $employee);
+
+        $org_details = $this->employee->getOrganizationDetails();
+        $logo = $org_details->logo;
+        $name = $org_details->cname;
+
+        $logo_url = base_url() . 'userfiles/company/' . $logo;
+
+        $mpdf = $this->pdf->load_en();
+        $mpdf->pdf_version = '1.4';
+        $headers = @get_headers($logo_url);
+        $client_image = '';
+        $client_name = '';
+
+        if ($headers && strpos($headers[0], "200 OK") !== false) {
+            // HTTP status code is 200, indicating success
+            $watermarkImage = base_url() . 'userfiles/company/' . $logo;
+            $client_image = base_url() . 'userfiles/company/' . $logo;
+            $mpdf->SetWatermarkImage($watermarkImage);
+            $mpdf->showWatermarkImage = true;
+        } else {
+            // Image is not loadable or the URL is invalid
+            $watermarkText = $name;
+            $client_name = $name;
+            $mpdf->SetWatermarkText($watermarkText);
+            $mpdf->showWatermarkText = true;
+        }
+
+        $xmlData = '';
+        $html = '<!DOCTYPE html>';
+        $html .= '<html>';
+        $html .= '<head>';
+        $html .= '<title>FWMS Report</title>';
+        $html .= '<style>';
+        $html .= 'body { text-align: center; }'; // Center-align the content
+        $html .= 'img { display: block; margin: 0 auto; width:100px; height:100px; }'; // Center-align the image
+        $html .= '</style>';
+        $html .= '</head>';
+        $html .= '<body>';
+        if (!empty($client_image)) {
+            $html .= '<img src="' . $client_image . '" alt="" width="200" height="200" />'; // Replace with the path to your image
+            $html .= '<h1>FWMS Report</h1>';
+        } else {
+            $html .= '<h1>' . $client_name . '</h1>';
+            $html .= '<h2>FWMS Report</h2>';
+        }
+
+        $html .= '<pre>' . $report . '</pre>'; // Display the raw XML data for demonstration
+        $html .= '</body>';
+        $html .= '</html>';
+
+        // Create an mPDF instance
+        // $mpdf = new Mpdf();
+
+        //echo $html;
+        //exit;
+
+        $mpdf->WriteHTML($html);
+        $currentTimestamp = time();
+        $name = 'fwms_report' . $currentTimestamp . '.pdf';
+        // Output the PDF to the browser or save to a file
+        $mpdf->Output($name, 'D'); // 'D' to download the PDF, 'I' to display in the browser
+
+        // Your mPDF code here
+        // } catch (\Mpdf\MpdfException $e) {
+        //     echo 'PDF generation error: ' . $e->getMessage();
+        // }
+
+    }
 }

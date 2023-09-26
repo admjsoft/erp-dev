@@ -794,6 +794,23 @@ class Aauth
         }
     }
 
+
+    public function create_dummy_user()
+    {
+
+        $data = array(
+            'email' => '',
+            'pass' => '', // Password cannot be blank but user_id required for salt, setting bad password for now
+            'username' => '',
+            'date_created' => date("Y-m-d H:i:s"),
+            'picture' => 'example.png'
+        );
+        if ($this->aauth_db->insert($this->config_vars['users'], $data)) {
+            return $this->aauth_db->insert_id();
+        }else{
+            return 0;
+        }
+    }
     //tested
 
     /**

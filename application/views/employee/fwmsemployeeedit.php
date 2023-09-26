@@ -1,3 +1,21 @@
+<?php
+
+if(isset($_SESSION['status'])){
+ echo '<div class="alert alert-'.$_SESSION['status'].'">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+
+            <div class="message">' .$_SESSION['message']. '</div>
+        </div>';
+unset($_SESSION['status']);unset($_SESSION['message']);
+} ?>
+<style>
+    select#status, .inphtml{width: 100%; border: 1px   solid #ccc; border-radius:3px;padding: 10px;}
+    #doct{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+</style>
 <style>
 .error_show{
 	color: red;
