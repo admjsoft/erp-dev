@@ -969,6 +969,21 @@ class Aauth
         $out = $query->row_array();
         return $out[$role];
     }
+
+    public function get_role_based_sidebar()
+    {
+        $role = $this->CI->session->userdata('s_role');
+        if ($role == 'r_-1') $role = 'r_6';
+        // $this->aauth_db->select($role);
+        // $this->aauth_db->where('id', $module_id);
+        // $query = $this->aauth_db->get('gtg_premissions');
+        // $out = $query->row_array();
+        // return $out[$role];
+        $sql = "SELECT si.id, si.title, si.type,si.icon,si.url,si.subscription_status, sh.parent_id FROM sidebaritems si LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id WHERE si.{$role} = 1 ORDER BY sh.parent_id, si.display_order";
+        $query = $this->aauth_db->query($sql);
+        return $query->result_array();
+    }
+
  public function subscribe($module_id)
     {
        // $role = $this->CI->session->userdata('s_role');

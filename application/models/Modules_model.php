@@ -1,0 +1,152 @@
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Modules_model extends CI_Model
+{
+
+    
+    public function get_sidebars()
+    {
+        $this->db->select();
+        $this->db->from('sidebaritems');
+        $this->db->where('type','Sidebar');  
+        $this->db->or_where('type','Subheading');    
+        $this->db->order_by('type');
+        $query = $this->db->get();
+        return $query->result_array();
+    }	
+
+    public function add_module($data)
+    {
+        if($this->db->insert('sidebaritems',$data))
+        {
+            $id = $this->db->insert_id();
+            if($data['parent_id'
+            ] != '0')
+            {
+                $n_data['parent_id'] = $data['parent_id'];
+                $n_data['child_id'] = $id;
+    
+                if($this->db->insert('sidebarhierarchy',$n_data))
+                {
+                    $resp['status'] = 'Success';
+                    $resp['message'] = 'Module Added Successfully';
+                }else{
+                    $resp['status'] = 'Failure';
+                    $resp['message'] = 'Unable To Add The Module Relation! Please Try Again';
+                    $this->db->where('id',$id)->delete('sidebaritems');
+                }
+            }else{
+                    $resp['status'] = 'Success';
+                    $resp['message'] = 'Module Added Successfully'; 
+            }            
+
+        }else{
+            $resp['status'] = 'Failure';
+            $resp['message'] = 'Unable To Add The Module! Please Try Again';
+        }
+        return $resp;
+    }
+    
+    
+    public function update_module($data,$module_id)
+    {
+        if($this->db->where('id',$module_id)->update('sidebaritems',$data))
+        {
+            $id = $module_id;
+            if($data['parent_id'] != '0')
+            {
+                $n_data['parent_id'] = $data['parent_id'];
+                $n_data['child_id'] = $id;
+                if($this->db->where('child_id',$id)->get('sidebarhierarchy')->num_rows() > 0)
+                {
+                    if($this->db->where('child_id',$id)->update('sidebarhierarchy',$n_data))
+                    {
+                        $resp['status'] = 'Success';
+                        $resp['message'] = 'Module Updated Successfully';
+                    }else{
+                        $resp['status'] = 'Failure';
+                        $resp['message'] = 'Unable To Update The Module Relation! Please Try Again';
+                        //$this->db->where('id',$id)->delete('sidebaritems');
+                    }
+                }else{
+
+                    $n_data['parent_id'] = $data['parent_id'];
+                    $n_data['child_id'] = $id;
+        
+                    if($this->db->insert('sidebarhierarchy',$n_data))
+                    {
+                        $resp['status'] = 'Success';
+                        $resp['message'] = 'Module Updated Successfully';
+                    }else{
+                        $resp['status'] = 'Failure';
+                        $resp['message'] = 'Unable To Updated The Module Relation! Please Try Again';
+                        //$this->db->where('id',$id)->delete('sidebaritems');
+                    }
+
+                }   
+                
+            }else{
+                    $resp['status'] = 'Success';
+                    $resp['message'] = 'Module Updated Successfully'; 
+            }            
+
+        }else{
+            $resp['status'] = 'Failure';
+            $resp['message'] = 'Unable To Update The Module! Please Try Again';
+        }
+        return $resp;
+    }
+
+    public function get_module_details($id)
+    {
+        $sql = "SELECT si.*, sh.parent_id as rel_parent_id FROM sidebaritems si LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id WHERE si.id = {$id}";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }	
+
+    public function get_modules_list()
+    {
+        $sql = "SELECT si.*, sh.parent_id AS rel_parent_id, sip.title AS rel_parent_title FROM sidebaritems si LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id LEFT JOIN sidebaritems sip ON sh.parent_id = sip.id order by si.type,si.title ASC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function get_modules_hierarchy() {
+        $query = $this->db->query("
+            SELECT si.id, si.title, si.type, sh.parent_id
+            FROM sidebaritems si
+            LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id
+            ORDER BY sh.parent_id, si.display_order
+        ");
+        return $query->result();
+    }
+
+    public function get_role_module_permissions($role){
+
+        $roleuser = "r_" . $role;
+        $this->db->select('id');
+        $this->db->from('sidebaritems');
+        $this->db->where($roleuser, 1);
+        $query = $this->db->get();
+        return $query->result_array();
+
+    }
+
+
+    public function get_role_based_sidebar(){
+
+        $query = $this->db->query("
+        SELECT si.id, si.title, si.type, sh.parent_id
+        FROM sidebaritems si
+        LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id
+        ORDER BY sh.parent_id, si.display_order
+        ");
+        return $query->result();
+
+    }
+
+    
+	        
+}

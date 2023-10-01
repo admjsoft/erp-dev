@@ -1,15 +1,15 @@
 <?php
 $this->db->select('*');
-   $this->db->from('gtg_referral');
-     $this->db->where('status',2);
+$this->db->from('gtg_referral');
+$this->db->where('status', 2);
 
-   $query=$this->db->get();
+$query = $this->db->get();
 
-  $result=$query->num_rows(); 
+$result = $query->num_rows();
 
 ?>
 <link rel="stylesheet" type="text/css"
-    href="<?= assets_url() ?>app-assets/<?= LTR ?>/core/menu/menu-types/vertical-menu-modern.css">
+    href="<?=assets_url()?>app-assets/<?=LTR?>/core/menu/menu-types/vertical-menu-modern.css">
 <style>
 .main-menu.menu-dark .navigation>li.hover>a,
 .main-menu.menu-dark .navigation>li:hover>a,
@@ -93,13 +93,13 @@ $(document).ready(function() {
         if ($('.vertical-menu-modern').hasClass('menu-collapsed')) {
             $('.vertical-menu-modern').removeClass('menu-collapsed');
             $('.vertical-menu-modern').addClass('menu-expanded');
-            $(".brand-logo").attr('src', '<?php echo base_url('userfiles/theme/logo-header.png')?>');
+            $(".brand-logo").attr('src', '<?php echo base_url('userfiles/theme/logo-header.png') ?>');
             $('.nav-menu-main').addClass('is-active');
         } else {
             $('.vertical-menu-modern').removeClass('menu-expanded');
             $('.vertical-menu-modern').addClass('menu-collapsed');
             $(".brand-logo").attr('src',
-                '<?php echo base_url('userfiles/theme/logo-header-icon.png')?>');
+                '<?php echo base_url('userfiles/theme/logo-header-icon.png') ?>');
             $('.nav-menu-main').removeClass('is-active');
         }
 
@@ -121,7 +121,7 @@ $(document).ready(function() {
                     <li class="nav-item mobile-menu d-md-none mr-auto"><a
                             class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
                                 class="ft-menu font-large-1"></i></a></li>
-                    <li class="nav-item"><a class="navbar-brand" href="<?= base_url() ?>dashboard/">
+                    <li class="nav-item"><a class="navbar-brand" href="<?=base_url()?>dashboard/">
                             <img class="brand-logo ml-1" alt="logo"
                                 src="<?php echo base_url(); ?>userfiles/theme/logo-header.png">
                         </a></li>
@@ -147,18 +147,18 @@ $(document).ready(function() {
 
                                 <li class="dropdown-menu-footer"><span
                                         class="dropdown-item text-muted text-center blue"> <?php $loc = location($this->aauth->get_user()->loc);
-                                    echo $loc['cname']; ?></span>
+echo $loc['cname'];?></span>
                                 </li>
 
                             </ul>
                         </li>
 
 
-                        <?php    if ($this->aauth->premission(12)) { ?> <li
-                            class="nav-item d-none d-md-block nav-link "><a href="<?= base_url() ?>pos_invoices/create"
-                                class="btn btn-info btn-md t_tooltip" title="Access POS"><i
-                                    class="icon-handbag"></i><?php echo $this->lang->line('POS') ?> </a>
-                        </li> <?php    } ?>
+                        <?php if ($this->aauth->premission(12)) {?> <li class="nav-item d-none d-md-block nav-link "><a
+                                href="<?=base_url()?>pos_invoices/create" class="btn btn-info btn-md t_tooltip"
+                                title="Access POS"><i class="icon-handbag"></i><?php echo $this->lang->line('POS') ?>
+                            </a>
+                        </li> <?php }?>
                         <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"
                                 aria-haspopup="true" aria-expanded="false" id="search-input"><i
                                     class="ficon ft-search"></i></a>
@@ -171,27 +171,25 @@ $(document).ready(function() {
                             </div>
                         </li>
                     </ul>
-                    <?php if($this->aauth->get_user()->roleid==5)
-				{
-				?>
+                    <?php if ($this->aauth->get_user()->roleid == 5) {
+    ?>
                     <li class="nav-item d-none d-md-block nav-link "><a
                             href='<?php echo base_url("dashboard/referralList") ?>'
                             class="btn btn-primary btn-sm rounded">
                             <?php echo $this->lang->line('Referral List') ?></a>
                     </li><?php }?>
-                    <?php if($this->aauth->get_user()->roleid==4)
-				{
-				?>
-                    <a class="" href="<?php echo base_url("dashboard/ApprovedReferralList")?>"><i
+                    <?php if ($this->aauth->get_user()->roleid == 4) {
+    ?>
+                    <a class="" href="<?php echo base_url("dashboard/ApprovedReferralList") ?>"><i
                             class="ficon ft-bell"></i><span
                             class="badge badge-pill badge-default badge-danger badge-default badge-up"
-                            id=""><?php echo $result;?></span></a>
+                            id=""><?php echo $result; ?></span></a>
                     <li class="nav-item d-none d-md-block nav-link ">
                         <a href='#' class="btn btn-primary btn-sm rounded" data-toggle="modal"
                             data-target="#addReferral">
                             <?php echo $this->lang->line('Referral') ?></a>
                     </li><?php }?>
-                    <ul class="nav navbar-nav float-right"><?php if ($this->aauth->get_user()->roleid == 5) { ?>
+                    <ul class="nav navbar-nav float-right"><?php if ($this->aauth->get_user()->roleid == 5) {?>
                         <li class="dropdown nav-item mega-dropdown"><a class="dropdown-toggle nav-link " href="#"
                                 data-toggle="dropdown"><?php echo $this->lang->line('business_settings') ?></a>
                             <ul class="mega-dropdown-menu dropdown-menu row">
@@ -392,7 +390,7 @@ $(document).ready(function() {
                                                 <a class=" text-uppercase black" data-toggle="collapse"
                                                     data-parent="#accordionWrap1" href="#accordion6"
                                                     aria-controls="accordion6"><i
-                                                        class="fa fa-scissors"></i><?php echo $this->lang->line('TaxSettings')  ?>
+                                                        class="fa fa-scissors"></i><?php echo $this->lang->line('TaxSettings') ?>
                                                 </a>
                                             </div>
                                             <div class="card-collapse collapse mb-1 " id="accordion6" role="tabpanel"
@@ -568,7 +566,7 @@ $(document).ready(function() {
                                                                 href="<?php echo base_url(); ?>paymentgateways/exchange"><i
                                                                     class="ft-chevron-right"></i>Currency Exchange
                                                                 API</a></li>
-                                                        <?php plugins_checker(); ?>
+                                                        <?php plugins_checker();?>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -633,7 +631,7 @@ $(document).ready(function() {
 
 
                             </ul>
-                        </li> <?php } ?>
+                        </li> <?php }?>
                         <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
                                 data-toggle="dropdown"><i class="ficon ft-bell"></i><span
                                     class="badge badge-pill badge-default badge-danger badge-default badge-up"
@@ -642,7 +640,7 @@ $(document).ready(function() {
                                 <li class="dropdown-menu-header">
                                     <h6 class="dropdown-header m-0"><span
                                             class="grey darken-2"><?php echo $this->lang->line('Pending Tasks') ?></span><span
-                                            class="notification-tag badge badge-default badge-danger float-right m-0"><?=$this->lang->line('New') ?></span>
+                                            class="notification-tag badge badge-default badge-danger float-right m-0"><?=$this->lang->line('New')?></span>
                                     </h6>
                                 </li>
                                 <li class="scrollable-container media-list" id="tasklist"></li>
@@ -664,9 +662,9 @@ $(document).ready(function() {
                                 <li class="scrollable-container media-list">
                                     <?php $list_pm = $this->aauth->list_pms(6, 0, $this->aauth->get_user()->id, false);
 
-                                foreach ($list_pm as $row) {
+foreach ($list_pm as $row) {
 
-                                    echo '<a href="' . base_url('messages/view?id=' . $row->pid) . '">
+    echo '<a href="' . base_url('messages/view?id=' . $row->pid) . '">
                       <div class="media">
                         <div class="media-left"><span class="avatar avatar-sm  rounded-circle"><img src="' . base_url('userfiles/employee/' . $row->picture) . '" alt="avatar"><i></i></span></div>
                         <div class="media-body">
@@ -675,49 +673,48 @@ $(document).ready(function() {
                             <time class="media-meta text-muted" datetime="' . $row->{'date_sent'} . '">' . $row->{'date_sent'} . '</time></small>
                         </div>
                       </div></a>';
-                                } ?> </li>
+}?> </li>
                                 <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center"
                                         href="<?php echo base_url('messages') ?>"><?php echo $this->lang->line('Read all messages') ?></a>
                                 </li>
                             </ul>
                         </li>
-                        <?php  $user_attendance = 0;
-                        if ($this->aauth->auto_attend()) { ?>
+                        <?php $user_attendance = 0;
+if ($this->aauth->auto_attend()) {?>
                         <li class="dropdown dropdown-d nav-item">
                             <?php if ($this->aauth->clock()) {
-                                echo ' <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon spinner icon-clock"></i><span class="badge badge-pill badge-default badge-success badge-default badge-up">' . $this->lang->line('On') . '</span></a>';
-                            } else {
-                                echo ' <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon icon-clock"></i><span class="badge badge-pill badge-default badge-warning badge-default badge-up">' . $this->lang->line('Off') . '</span></a>';
-                            }
-                            ?>
+    echo ' <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon spinner icon-clock"></i><span class="badge badge-pill badge-default badge-success badge-default badge-up">' . $this->lang->line('On') . '</span></a>';
+} else {
+    echo ' <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon icon-clock"></i><span class="badge badge-pill badge-default badge-warning badge-default badge-up">' . $this->lang->line('Off') . '</span></a>';
+}
+    ?>
 
                             <ul
                                 class="dropdown-menu dropdown-menu-right border-primary border-lighten-3 text-xs-center">
                                 <br><br>
                                 <?php echo '<li class="p-1 pd-0"><span class="text-bold-300">' . $this->lang->line('Attendance') . ':</span></li>';
-                                if (!$this->aauth->clock()) {
-                                    echo '<li class="p-1"><a href="' . base_url() . '/dashboard/clock_in" class="btn btn-outline-success  btn-outline-white btn-md" ><span class="icon-toggle-on" aria-hidden="true"></span> ' . $this->lang->line('ClockIn') . ' <i
+    if (!$this->aauth->clock()) {
+        echo '<li class="p-1"><a href="' . base_url() . '/dashboard/clock_in" class="btn btn-outline-success  btn-outline-white btn-md" ><span class="icon-toggle-on" aria-hidden="true"></span> ' . $this->lang->line('ClockIn') . ' <i
                                     class="ficon icon-clock spinner"></i></a></li>';
-                                } else {
-                                    $user_attendance = 1;
-                                    echo '<li class="p-1"><a href="' . base_url() . '/dashboard/clock_out" class="btn btn-outline-danger  btn-outline-white btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> ' . $this->lang->line('ClockOut') . ' </a></li>';
-                                     if($this->aauth->check_break()){
-                                         $rw=$this->aauth->break_time_all();
-                                        foreach($rw as $item){
-                                        echo '<li class="p-1"><a href="' . base_url() . 'dashboard/break_in?bt='.$item['id'].'" class="btn btn-outline-light-blue  btn-outline-blue-grey btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> '.$item['name'].'</a></li>';
-                                    }
-                                    }else{
-                                         echo '<li class="p-1"><a href="' . base_url() . 'dashboard/break_out" class="btn btn-outline-cyan btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> ' . $this->lang->line('End Break') . 'End Break</a></li>';
-                                    }
-                                }
+    } else {
+        $user_attendance = 1;
+        echo '<li class="p-1"><a href="' . base_url() . '/dashboard/clock_out" class="btn btn-outline-danger  btn-outline-white btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> ' . $this->lang->line('ClockOut') . ' </a></li>';
+        if ($this->aauth->check_break()) {
+            $rw = $this->aauth->break_time_all();
+            foreach ($rw as $item) {
+                echo '<li class="p-1"><a href="' . base_url() . 'dashboard/break_in?bt=' . $item['id'] . '" class="btn btn-outline-light-blue  btn-outline-blue-grey btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> ' . $item['name'] . '</a></li>';
+            }
+        } else {
+            echo '<li class="p-1"><a href="' . base_url() . 'dashboard/break_out" class="btn btn-outline-cyan btn-md" ><span class="icon-toggle-off" aria-hidden="true"></span> ' . $this->lang->line('End Break') . 'End Break</a></li>';
+        }
+    }
 
-
-                                    ?>
+    ?>
 
                                 <br><br>
                             </ul>
                         </li>
-                        <?php } ?>
+                        <?php }?>
                         <li class="dropdown dropdown-user nav-item"><a
                                 class="dropdown-toggle nav-link dropdown-user-link" href="#"
                                 data-toggle="dropdown"><span class="avatar avatar-online"><img
@@ -727,27 +724,27 @@ $(document).ready(function() {
                             <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
                                     href="<?php echo base_url(); ?>user/profile"><i class="ft-user"></i>
                                     <?php echo $this->lang->line('Profile') ?></a>
-                                <?php if ($this->aauth->premission(25)){ ?>
+                                <?php if ($this->aauth->premission(25)) {?>
                                 <a href="<?php echo base_url(); ?>user/attendance" class="dropdown-item"><i
                                         class="fa fa-list-ol"></i><?php echo $this->lang->line('Attendance') ?></a>
                                 <a href="<?php echo base_url(); ?>employee/attendview?id=<?php echo $this->aauth->get_user()->id; ?>"
                                     class="dropdown-item"><i
                                         class="fa fa-list-ol"></i><?php echo $this->lang->line('Break Details') ?></a>
-                                <?php } ?>
+                                <?php }?>
                                 <a href="<?php echo base_url(); ?>user/holidays" class="dropdown-item"><i
                                         class="fa fa-hotel"></i><?php echo $this->lang->line('Holidays') ?></a>
 
 
                                 <div class="dropdown-divider"></div>
 
-                                <?php if($user_attendance){ ?>
+                                <?php if ($user_attendance) {?>
                                 <a class="dropdown-item" href="#" data-toggle="modal"
                                     data-target="#attendance_logout_check"><i class="ft-power"></i>
                                     <?php echo $this->lang->line('Logout') ?></a>
-                                <?php }else{ ?>
+                                <?php } else {?>
                                 <a class="dropdown-item" href="<?php echo base_url('user/logout'); ?>"><i
                                         class="ft-power"></i> <?php echo $this->lang->line('Logout') ?></a>
-                                <?php } ?>
+                                <?php }?>
 
                             </div>
                         </li>
@@ -766,41 +763,41 @@ $(document).ready(function() {
 
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <?php //if ($this->aauth->get_user()->roleid == 5) { ?>
-                <?php if ($this->aauth->get_user()->roleid == 99) { ?>
+                <?php if ($this->aauth->get_user()->roleid == 99) {?>
                 <li class="p-1"><select class="form-control"
                         onchange="javascript:location.href = baseurl+'settings/switch_location?id='+this.value;"> <?php
-                        $loc = location($this->aauth->get_user()->loc);
-                        echo ' <option value="' . $loc['id'] . '"> *' . $loc['cname'] . '*</option>';
+$loc = location($this->aauth->get_user()->loc);
+    echo ' <option value="' . $loc['id'] . '"> *' . $loc['cname'] . '*</option>';
 
-                        $loc = locations();
-                        foreach ($loc as $row) {
-                            echo ' <option value="' . $row['id'] . '"> ' . $row['cname'] . '</option>';
-                        }
-                        /* temprary hide
-                        echo ' <option value="0">Master/Default</option>';
-                        */
-                         ?></select>
-                </li> <?php } ?>
-                <li class="nav-item "><a href="<?= base_url(); ?>dashboard/"><i
-                            class="icon-speedometer"></i><span><?= $this->lang->line('Dashboard') ?></span></a>
+    $loc = locations();
+    foreach ($loc as $row) {
+        echo ' <option value="' . $row['id'] . '"> ' . $row['cname'] . '</option>';
+    }
+    /* temprary hide
+    echo ' <option value="0">Master/Default</option>';
+     */
+    ?></select>
+                </li> <?php }?>
+                <?php /* ?>
+                <li class="nav-item "><a href="<?=base_url();?>dashboard/"><i
+                            class="icon-speedometer"></i><span><?=$this->lang->line('Dashboard')?></span></a>
 
                 </li>
+                
                 <?php
-			if($this->aauth->subscribe(1))
-				{
-             if ($this->aauth->premission(1)) { ?>
+if ($this->aauth->subscribe(1)) {
+    if ($this->aauth->premission(1)) {?>
                 <li class="nav-item has-sub <?php if ($this->li_a == "sales") {
-                     echo ' open';
-                 } ?>"><a href="#"><i
-                            class="icon-basket-loaded"></i><span><?php echo $this->lang->line('sales') ?></span></a>
+        echo ' open';
+    }?>"><a href="#"><i class="icon-basket-loaded"></i><span><?php echo $this->lang->line('sales') ?></span></a>
                     <ul class="menu-content">
-                        <?php    if ($this->aauth->premission(12)) { ?>
+                        <?php if ($this->aauth->premission(12)) {?>
 
                         <li class="menu-item"><a href="#"><i
                                     class="icon-call-out"></i><?php echo $this->lang->line('Quotes') ?></a>
                             <ul class="menu-content">
                                 <li class="menu-item"><a
-                                        href="<?= base_url(); ?>quote/create"><?php echo $this->lang->line('New Quote'); ?></a>
+                                        href="<?=base_url();?>quote/create"><?php echo $this->lang->line('New Quote'); ?></a>
                                 </li>
 
                                 <li class="menu-item"><a class="dropdown-item" href="<?php echo base_url(); ?>quote"
@@ -810,7 +807,7 @@ $(document).ready(function() {
                         <li class="menu-item"><a href="#"><i
                                     class="icon-basket"></i><?php echo $this->lang->line('invoices') ?></a>
                             <ul class="menu-content">
-                                <li class="menu-item"><a href="<?= base_url(); ?>invoices/create"
+                                <li class="menu-item"><a href="<?=base_url();?>invoices/create"
                                         data-toggle="dropdown"><?php echo $this->lang->line('New Invoice'); ?></a>
                                 </li>
 
@@ -826,19 +823,19 @@ $(document).ready(function() {
                                     class="icon-paper-plane"></i><?php echo $this->lang->line('pos invoices') ?></a>
                             <ul class="menu-content">
                                 <li class="menu-item"><a
-                                        href="<?= base_url(); ?>pos_invoices/create"><?php echo $this->lang->line('New Pos Invoice'); ?></a>
+                                        href="<?=base_url();?>pos_invoices/create"><?php echo $this->lang->line('New Pos Invoice'); ?></a>
                                 </li>
-                                <?php /* ?>
+                                <?php // ?>
                                 <li class="menu-item"><a
                                         href="<?php echo base_url(); ?>pos_invoices/create?v2=true"><?= $this->lang->line('New Invoice'); ?>
                                         V2 - Mobile</a>
                                 </li>
-                                <?php */ ?>
+                                <?php //?>
                                 <li class="menu-item"><a
                                         href="<?php echo base_url(); ?>pos_invoices"><?php echo $this->lang->line('Manage Pos Invoices'); ?></a>
                                 </li>
                             </ul>
-                        </li> <?php    } ?>
+                        </li> <?php }?>
 
 
 
@@ -846,7 +843,7 @@ $(document).ready(function() {
                                     class="ft-radio"></i><?php echo $this->lang->line('Subscriptions') ?></a>
                             <ul class="menu-content">
                                 <li class="menu-item"><a
-                                        href="<?= base_url(); ?>subscriptions/create"><?php echo $this->lang->line('New Subscription'); ?></a>
+                                        href="<?=base_url();?>subscriptions/create"><?php echo $this->lang->line('New Subscription'); ?></a>
                                 </li>
 
                                 <li class="menu-item"><a
@@ -861,11 +858,10 @@ $(document).ready(function() {
                     </ul>
                 </li>
                 <?php }
-			
-			}
-			else{
-				
-		?>
+
+} else {
+
+    ?>
 
                 <li class="nav-item"><a href="#" title="subscripe"><i class="icon-diamond"></i>
                         <span><?php echo $this->lang->line('sales') ?></span> &nbsp;
@@ -886,23 +882,22 @@ $(document).ready(function() {
                     <ul class="menu-content">
                     </ul>
                 </li>
-                <?php	
-			}
-				if($this->aauth->subscribe(2))
-				{
-            if ($this->aauth->premission(2)) { ?>
+                <?php
+}
+if ($this->aauth->subscribe(2)) {
+    if ($this->aauth->premission(2)) {?>
                 <li class="nav-item has-sub <?php if ($this->li_a == "stock") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="ft-layers"></i><span><?php echo $this->lang->line('Stock') ?></span></a>
+        echo ' open';
+    }?>"><a href="#"><i class="ft-layers"></i><span><?php echo $this->lang->line('Stock') ?></span></a>
                     <ul class="menu-content">
                         <li class="menu-item"><a href="#"><i class="ft-list"></i>
                                 <?php echo $this->lang->line('Items Manager') ?></a>
                             <ul class="menu-content">
-                                <li class="menu-item"><a href="<?= base_url(); ?>products/add">
+                                <li class="menu-item"><a href="<?=base_url();?>products/add">
                                         <?php echo $this->lang->line('New Product'); ?></a>
                                 </li>
                                 <li class="menu-item"><a
-                                        href="<?php echo base_url(); ?>products"><?= $this->lang->line('Manage Products'); ?></a>
+                                        href="<?php echo base_url(); ?>products"><?=$this->lang->line('Manage Products');?></a>
                                 </li>
                             </ul>
                         </li>
@@ -922,11 +917,11 @@ $(document).ready(function() {
                 <li class="menu-item"><a href="#"><i class="icon-handbag"></i>
                         <?php echo $this->lang->line('Purchase Order') ?></a>
                     <ul class="menu-content">
-                        <li class="menu-item"><a class="dropdown-item" href="<?= base_url(); ?>purchase/create"
+                        <li class="menu-item"><a class="dropdown-item" href="<?=base_url();?>purchase/create"
                                 data-toggle="dropdown"> <?php echo $this->lang->line('New Order'); ?></a>
                         </li>
                         <li class="menu-item"><a
-                                href="<?php echo base_url(); ?>purchase"><?= $this->lang->line('Manage Orders'); ?></a>
+                                href="<?php echo base_url(); ?>purchase"><?=$this->lang->line('Manage Orders');?></a>
                         </li>
 
 
@@ -936,7 +931,7 @@ $(document).ready(function() {
                 <li class="menu-item"><a href="#"><i class="icon-puzzle"></i>
                         <?php echo $this->lang->line('Stock Return') ?></a>
                     <ul class="menu-content">
-                        <li class="menu-item"><a href="<?= base_url(); ?>stockreturn">
+                        <li class="menu-item"><a href="<?=base_url();?>stockreturn">
                                 <?php echo $this->lang->line('SuppliersRecords'); ?></a>
                         </li>
                         <li class="menu-item"><a
@@ -950,7 +945,7 @@ $(document).ready(function() {
                             class="ft-target"></i><?php echo $this->lang->line('Suppliers') ?></a>
                     <ul class="menu-content">
                         <li class="menu-item"><a
-                                href="<?= base_url(); ?>supplier/create"><?php echo $this->lang->line('New Supplier'); ?></a>
+                                href="<?=base_url();?>supplier/create"><?php echo $this->lang->line('New Supplier'); ?></a>
                         </li>
 
                         <li class="menu-item"><a
@@ -973,9 +968,8 @@ $(document).ready(function() {
             </ul>
             </li>
             <?php }
-			}
-			else{
-				?>
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-diamond"></i>
                     <span><?php echo $this->lang->line('Stock') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage('Stock Module');"
@@ -996,19 +990,18 @@ $(document).ready(function() {
                 </ul>
             </li>
 
-            <?php			
-			}
-			            if ($this->aauth->subscribe(15)||$this->aauth->subscribe(16)||$this->aauth->subscribe(17)) {
+            <?php
+}
+if ($this->aauth->subscribe(15) || $this->aauth->subscribe(16) || $this->aauth->subscribe(17)) {
 
-			
-            if ($this->aauth->premission(15)||$this->aauth->premission(16)||$this->aauth->premission(17)) {
-                ?>
+    if ($this->aauth->premission(15) || $this->aauth->premission(16) || $this->aauth->premission(17)) {
+        ?>
             <li class="nav-item has-sub <?php if ($this->li_a == "Jobsheet") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-diamond"></i>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-diamond"></i>
                     <span><?php echo $this->lang->line('Job Sheet') ?></span></span></a>
                 <ul class="menu-content">
-                    <?php if($this->aauth->premission(15)){ ?>
+                    <?php if ($this->aauth->premission(15)) {?>
                     <li class="menu-item"><a href="#"><i class="fa fa-ticket"></i>
                             <?php echo $this->lang->line('Task Manager') ?></a>
                         <ul class="menu-content">
@@ -1019,12 +1012,12 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>jobsheets"><?php echo $this->lang->line('View Task'); ?></a>
                             </li>
                             <li data-menu=""><a class="dropdown-item" href="<?php echo base_url(); ?>jobsheets/reports"
-                                    data-toggle="dropdown"><?php echo "Reports"; //echo $this->lang->line('View Task'); ?></a>
+                                    data-toggle="dropdown"><?php echo "Reports"; //echo $this->lang->line('View Task');  ?></a>
                             </li>
                         </ul>
                     </li>
-                    <?php } ?>
-                    <?php if($this->aauth->premission(16)){ ?>
+                    <?php }?>
+                    <?php if ($this->aauth->premission(16)) {?>
                     <li class="menu-item"><a href="#"><i class="fa fa-ticket"></i>
                             <?php echo $this->lang->line('My Task') ?></a>
                         <ul class="menu-content">
@@ -1033,7 +1026,7 @@ $(document).ready(function() {
                             </li>
                         </ul>
                     </li>
-                    <?php } ?>
+                    <?php }?>
                     <!--
                         <li class="menu-item">
                             <a href="<?php echo base_url(); ?>clientgroup"><i
@@ -1046,7 +1039,7 @@ $(document).ready(function() {
                                             href="<?php echo base_url(); ?>tickets/?filter=unsolved"><?php echo $this->lang->line('UnSolved') ?></a>
                                 </li>
                                 <li class="menu-item"><a
-                                            href="<?php echo base_url(); ?>tickets"><?= $this->lang->line('Manage Tickets'); ?></a>
+                                            href="<?php echo base_url(); ?>tickets"><?=$this->lang->line('Manage Tickets');?></a>
                                 </li>
                             </ul>
                         </li>-->
@@ -1055,10 +1048,8 @@ $(document).ready(function() {
             </li>
 
             <?php }
-						}
-						
-						else{
-							?>
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-diamond"></i>
                     <span><?php echo $this->lang->line('Jobsheet') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1081,14 +1072,13 @@ $(document).ready(function() {
 
 
             <?php
-						}
-			if($this->aauth->subscribe(3))
-				{
-            if ($this->aauth->premission(3)) {
-                ?>
+}
+if ($this->aauth->subscribe(3)) {
+    if ($this->aauth->premission(3)) {
+        ?>
             <li class="nav-item has-sub <?php if ($this->li_a == "crm") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-diamond"></i> <span><?php echo $this->lang->line('CRM') ?></span></a>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-diamond"></i> <span><?php echo $this->lang->line('CRM') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="#"><i class="ft-users"></i>
                             <?php echo $this->lang->line('Clients') ?></a>
@@ -1097,7 +1087,7 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>customers/create"><?php echo $this->lang->line('New Client') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>customers"><?= $this->lang->line('Manage Clients'); ?></a>
+                                    href="<?php echo base_url(); ?>customers"><?=$this->lang->line('Manage Clients');?></a>
                             </li>
                         </ul>
                     </li>
@@ -1112,16 +1102,15 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>tickets/?filter=unsolved"><?php echo $this->lang->line('UnSolved') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>tickets"><?= $this->lang->line('Manage Tickets'); ?></a>
+                                    href="<?php echo base_url(); ?>tickets"><?=$this->lang->line('Manage Tickets');?></a>
                             </li>
                         </ul>
                     </li>
 
                 </ul>
             </li>
-            <?php }}
-				else{
-				?>
+            <?php }} else {
+    ?>
 
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-diamond"></i>
                     <span><?php echo $this->lang->line('CRM') ?></span> &nbsp;
@@ -1143,28 +1132,27 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php }
-					if($this->aauth->subscribe(29))
-				{
-			
-             if ($this->aauth->premission(29)) {
-                ?>
+if ($this->aauth->subscribe(29)) {
+
+    if ($this->aauth->premission(29)) {
+        ?>
             <li class="nav-item has-sub <?php if ($this->li_a == "filemanager") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="fa fa-folder-o"></i>
+            echo ' open';
+        }?>"><a href="#"><i class="fa fa-folder-o"></i>
                     <span><?php echo $this->lang->line('File Manager') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a
                             href="<?php echo base_url(); ?>filemanager"><?php echo $this->lang->line('My Drive') ?></a>
                     </li>
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>filemanager/sharedfolders"><?= $this->lang->line('Shared Folders'); ?></a>
+                            href="<?php echo base_url(); ?>filemanager/sharedfolders"><?=$this->lang->line('Shared Folders');?></a>
                     </li>
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>filemanager/sharedfiles"><?= $this->lang->line('Shared Files'); ?></a>
+                            href="<?php echo base_url(); ?>filemanager/sharedfiles"><?=$this->lang->line('Shared Files');?></a>
                     </li>
-                    <?php /* temprary hide
-                        <li class="menu-item">
-                            <a href="<?php echo base_url(); ?>clientgroup"><i class="icon-grid"></i>
+                    <?php // temprary hide
+        <li class="menu-item">
+        <a href="<?php echo base_url(); ?>clientgroup"><i class="icon-grid"></i>
                     <?php echo $this->lang->line('Client Groups'); ?></a>
             </li>
             <li class="menu-item"><a href="#"><i class="fa fa-ticket"></i>
@@ -1177,13 +1165,12 @@ $(document).ready(function() {
                             href="<?php echo base_url(); ?>tickets"><?= $this->lang->line('Manage Tickets'); ?></a>
                     </li>
                 </ul>
-            </li> */ ?>
+            </li> //?>
 
             </ul>
             </li>
-            <?php }}
-				else{
-					?>
+            <?php }} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="fa fa-folder-o"></i
                         <span><?php echo $this->lang->line('File Manager') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1205,15 +1192,14 @@ $(document).ready(function() {
             </li>
 
             <?php
-			
-				}
-				if($this->aauth->subscribe(4))
-				{
-            if ($this->aauth->premission(4)) {
-                ?>
+
+}
+if ($this->aauth->subscribe(4)) {
+    if ($this->aauth->premission(4)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "project") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-briefcase"></i><span><?= $this->lang->line('Project') ?></span></a>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-briefcase"></i><span><?=$this->lang->line('Project')?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="#"><i class="icon-calendar"></i>
                             <?php echo $this->lang->line('Project Management') ?>
@@ -1223,7 +1209,7 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>projects/addproject"><?php echo $this->lang->line('New Project') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>projects"><?= $this->lang->line('Manage Projects'); ?></a>
+                                    href="<?php echo base_url(); ?>projects"><?=$this->lang->line('Manage Projects');?></a>
                             </li>
                         </ul>
                     </li>
@@ -1234,9 +1220,8 @@ $(document).ready(function() {
 
                 </ul>
             </li>
-            <?php }}
-				else{
-				?>
+            <?php }} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-briefcase"></i
                         <span><?php echo $this->lang->line('Project') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage('Project Module');"
@@ -1257,15 +1242,14 @@ $(document).ready(function() {
                 <ul class="menu-content">
                 </ul>
             </li>
-            <?php				
-					
-					
-				}
-            if (!$this->aauth->premission(4) && $this->aauth->premission(7)) {
-                ?>
+            <?php
+
+}
+if (!$this->aauth->premission(4) && $this->aauth->premission(7)) {
+    ?>
             <li class="menu-item has-sub <?php if ($this->li_a == "manager") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-briefcase"></i>
+        echo ' open';
+    }?>"><a href="#"><i class="icon-briefcase"></i>
                     <span><?php echo $this->lang->line('Project') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item">
@@ -1282,17 +1266,16 @@ $(document).ready(function() {
             </li>
             <?php }
 
-			?>
+?>
 
 
             <?php
-					if($this->aauth->subscribe(5))
-				{
-            if ($this->aauth->premission(5)) {
-                ?>
+if ($this->aauth->subscribe(5)) {
+    if ($this->aauth->premission(5)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "accounts") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-calculator"></i><span><?= $this->lang->line('Accounts') ?></span></a>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-calculator"></i><span><?=$this->lang->line('Accounts')?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="#" data-toggle="dropdown"><i class="icon-book-open"></i>
                             <?php echo $this->lang->line('Accounts') ?></a>
@@ -1301,10 +1284,10 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>accounts"><?php echo $this->lang->line('Manage Accounts') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>accounts/balancesheet"><?= $this->lang->line('BalanceSheet'); ?></a>
+                                    href="<?php echo base_url(); ?>accounts/balancesheet"><?=$this->lang->line('BalanceSheet');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>reports/accountstatement"><?= $this->lang->line('Account Statements'); ?></a>
+                                    href="<?php echo base_url(); ?>reports/accountstatement"><?=$this->lang->line('Account Statements');?></a>
                             </li>
                         </ul>
                     </li>
@@ -1315,19 +1298,19 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>transactions"><?php echo $this->lang->line('View Transactions') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>transactions/add"><?= $this->lang->line('New Transaction'); ?></a>
+                                    href="<?php echo base_url(); ?>transactions/add"><?=$this->lang->line('New Transaction');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>transactions/transfer"><?= $this->lang->line('New Transfer'); ?></a>
+                                    href="<?php echo base_url(); ?>transactions/transfer"><?=$this->lang->line('New Transfer');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>transactions/income"><?= $this->lang->line('Income'); ?></a>
+                                    href="<?php echo base_url(); ?>transactions/income"><?=$this->lang->line('Income');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>transactions/expense"><?= $this->lang->line('Expense'); ?></a>
+                                    href="<?php echo base_url(); ?>transactions/expense"><?=$this->lang->line('Expense');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>customers"><?= $this->lang->line('Clients Transactions'); ?></a>
+                                    href="<?php echo base_url(); ?>customers"><?=$this->lang->line('Clients Transactions');?></a>
                             </li>
                         </ul>
                     </li>
@@ -1336,8 +1319,8 @@ $(document).ready(function() {
             </li>
 
             <li class="menu-item  has-sub <?php if ($this->li_a == "promo") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-energy"></i>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-energy"></i>
                     <span><?php echo $this->lang->line('Promo Codes') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="#"><i class="icon-trophy"></i>
@@ -1347,7 +1330,7 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>promo/create"><?php echo $this->lang->line('New Promo') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>promo"><?= $this->lang->line('Manage Promo'); ?></a>
+                                    href="<?php echo base_url(); ?>promo"><?=$this->lang->line('Manage Promo');?></a>
                             </li>
                         </ul>
                     </li>
@@ -1357,10 +1340,8 @@ $(document).ready(function() {
             </li>
 
             <?php }
-			}
-			
-			else{
-				?>
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-calculator"></i
                         <span><?php echo $this->lang->line('Accounts') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1383,14 +1364,13 @@ $(document).ready(function() {
             </li>
 
             <?php
-			}
-			if($this->aauth->subscribe(10))
-				{
-            if ($this->aauth->premission(10)) {
-                ?>
+}
+if ($this->aauth->subscribe(10)) {
+    if ($this->aauth->premission(10)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "data") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-pie-chart"></i>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-pie-chart"></i>
                     <span><?php echo $this->lang->line('Data & Reports') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item">
@@ -1404,7 +1384,7 @@ $(document).ready(function() {
                         <ul class="menu-content">
 
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>reports/accountstatement"><?= $this->lang->line('Account Statements'); ?></a>
+                                    href="<?php echo base_url(); ?>reports/accountstatement"><?=$this->lang->line('Account Statements');?></a>
                             </li>
                             <li class="menu-item"><a
                                     href="<?php echo base_url(); ?>reports/customerstatement"><?php echo $this->lang->line('Customer_Account_Statements') ?></a>
@@ -1427,13 +1407,13 @@ $(document).ready(function() {
                         <ul class="menu-content">
 
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>chart/product_cat"><?= $this->lang->line('Product Categories'); ?></a>
+                                    href="<?php echo base_url(); ?>chart/product_cat"><?=$this->lang->line('Product Categories');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>chart/trending_products"><?= $this->lang->line('Trending Products'); ?></a>
+                                    href="<?php echo base_url(); ?>chart/trending_products"><?=$this->lang->line('Trending Products');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>chart/profit"><?= $this->lang->line('Profit'); ?></a>
+                                    href="<?php echo base_url(); ?>chart/profit"><?=$this->lang->line('Profit');?></a>
                             </li>
 
                             <li class="menu-item"><a
@@ -1444,10 +1424,10 @@ $(document).ready(function() {
                             </li>
 
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>chart/income"><?= $this->lang->line('Income'); ?></a>
+                                    href="<?php echo base_url(); ?>chart/income"><?=$this->lang->line('Income');?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>chart/expenses"><?= $this->lang->line('Expenses'); ?></a>
+                                    href="<?php echo base_url(); ?>chart/expenses"><?=$this->lang->line('Expenses');?></a>
 
 
                         </ul>
@@ -1460,7 +1440,7 @@ $(document).ready(function() {
                                     href="<?php echo base_url(); ?>reports/statistics"><?php echo $this->lang->line('Statistics') ?></a>
                             </li>
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>reports/profitstatement"><?= $this->lang->line('Profit'); ?></a>
+                                    href="<?php echo base_url(); ?>reports/profitstatement"><?=$this->lang->line('Profit');?></a>
                             </li>
                             <li class="menu-item"><a
                                     href="<?php echo base_url(); ?>reports/incomestatement"><?php echo $this->lang->line('Calculate Income'); ?></a>
@@ -1476,8 +1456,8 @@ $(document).ready(function() {
                             </li>
 
                             <li class="menu-item"><a
-                                    href="<?php echo base_url(); ?>reports/commission"><?= $this->lang->line('Employee'); ?>
-                                    <?= $this->lang->line('Commission'); ?></a>
+                                    href="<?php echo base_url(); ?>reports/commission"><?=$this->lang->line('Employee');?>
+                                    <?=$this->lang->line('Commission');?></a>
                             </li>
 
                         </ul>
@@ -1486,10 +1466,8 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php }
-				}
-				else
-			    {		
-			?>
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-pie-chart"></i
                         <span><?php echo $this->lang->line('Data & Reports') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" onclick="subscribemessage('Data & Reports Module');"
@@ -1512,15 +1490,13 @@ $(document).ready(function() {
             </li>
 
             <?php
-				}
-					if($this->aauth->subscribe(6))
-				{
-            if ($this->aauth->premission(6)) {
-                ?>
+}
+if ($this->aauth->subscribe(6)) {
+    if ($this->aauth->premission(6)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "misc") {
-                    echo ' open';
-                } ?>"><a href="#"><i
-                        class="icon-note"></i><span><?php echo $this->lang->line('Miscellaneous') ?></span></a>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-note"></i><span><?php echo $this->lang->line('Miscellaneous') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item">
                         <a href="<?php echo base_url(); ?>tools/notes"><i class="icon-note"></i>
@@ -1538,10 +1514,7 @@ $(document).ready(function() {
 
                 </ul>
             </li>
-            <?php }}
-				
-				else
-				{?>
+            <?php }} else {?>
 
             <li class="nav-item"><a href="#" title="subscribe"><i class="icon-note"></i
                         <span><?php echo $this->lang->line('Miscellaneous') ?></span> &nbsp;
@@ -1565,13 +1538,12 @@ $(document).ready(function() {
             </li>
 
             <?php }
-				
-					if($this->aauth->subscribe(30))
-				{
-			            if ($this->aauth->premission(30)) {
-                            /*
 
-			?>
+if ($this->aauth->subscribe(30)) {
+    if ($this->aauth->premission(30)) {
+        //
+
+    ?>
             <li class="menu-item"><a href="#"><i class="icon-basket"></i><?php echo $this->lang->line('invoices') ?></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?= base_url(); ?>invoices/create"
@@ -1586,9 +1558,8 @@ $(document).ready(function() {
                     </li>
                 </ul>
             </li>
-            <?php  */ } } 
-				else{
-					?>
+            <?php  // }} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-basket"></i
                         <span><?php echo $this->lang->line('invoices') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1610,19 +1581,17 @@ $(document).ready(function() {
             </li>
 
             <?php
-					
-				}
-					   
-					   ?>
-            <?php 
-					if($this->aauth->subscribe(37))
-					{
- if ($this->aauth->premission(37)) 
-			{
-				?>
+
+}
+
+?>
+            <?php
+if ($this->aauth->subscribe(37)) {
+    if ($this->aauth->premission(37)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "ecommerce") {
-                    echo ' open';
-                } ?>"><a href="#"><i class="icon-basket"></i><?php echo $this->lang->line('E-Commerce') ?></a>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-basket"></i><?php echo $this->lang->line('E-Commerce') ?></a>
                 <ul class="menu-content">
 
                     <li class="menu-item"><a href="<?php echo base_url(); ?>ecommerce/online_platforms">
@@ -1646,9 +1615,8 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php }
-					}
-					else{
-			?>
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="icon-diamond"></i>
                     <span><?php echo $this->lang->line('E-Commerce') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1671,46 +1639,43 @@ $(document).ready(function() {
 
 
             <?php
-					}
-					if($this->aauth->subscribe(9))
-				{
+}
+if ($this->aauth->subscribe(9)) {
 
-
-            if ($this->aauth->premission(9)) 
-			{
-                ?>
+    if ($this->aauth->premission(9)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "emp") {
-                    echo ' open';
-                } ?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo $this->lang->line('HRM') ?></span></a>
+            echo ' open';
+        }?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo $this->lang->line('HRM') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="#"><i class="ft-users"></i>
                             <?php echo $this->lang->line('Employees') ?></a>
                         <ul class="menu-content">
                             <li class="menu-item"><a href="<?php echo base_url(); ?>employee">Employees List</a>
                             </li>
-                            <?php /* <li class="menu-item"><a
-                                        href="<?php echo base_url(); ?>employee/permissions"><?= $this->lang->line('Permissions'); ?></a>
-                    </li> */ ?>
+                            <?php // <li class="menu-item"><a
+        href="<?php echo base_url(); ?>employee/permissions"><?= $this->lang->line('Permissions'); ?></a>
+                    </li> //?>
 
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>employee/salaries"><?= $this->lang->line('Salaries'); ?></a>
+                            href="<?php echo base_url(); ?>employee/salaries"><?=$this->lang->line('Salaries');?></a>
                     </li>
-                    <?php if ($this->aauth->premission(26)) { ?>
+                    <?php if ($this->aauth->premission(26)) {?>
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>employee/attendances"><?= $this->lang->line('Attendance'); ?></a>
-                    </li>
-                    <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>employee/attendreport"><?= $this->lang->line('Attendance Report'); ?></a>
+                            href="<?php echo base_url(); ?>employee/attendances"><?=$this->lang->line('Attendance');?></a>
                     </li>
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>employee/attendbreaksetting"><?= $this->lang->line('Break Setting'); ?></a>
+                            href="<?php echo base_url(); ?>employee/attendreport"><?=$this->lang->line('Attendance Report');?></a>
                     </li>
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>employee/attendview"><?= $this->lang->line('Break Status'); ?></a>
+                            href="<?php echo base_url(); ?>employee/attendbreaksetting"><?=$this->lang->line('Break Setting');?></a>
                     </li>
-                    <?php   }   ?>
                     <li class="menu-item"><a
-                            href="<?php echo base_url(); ?>employee/holidays"><?= $this->lang->line('Holidays'); ?></a>
+                            href="<?php echo base_url(); ?>employee/attendview"><?=$this->lang->line('Break Status');?></a>
+                    </li>
+                    <?php }?>
+                    <li class="menu-item"><a
+                            href="<?php echo base_url(); ?>employee/holidays"><?=$this->lang->line('Holidays');?></a>
                     </li>
 
                 </ul>
@@ -1728,10 +1693,9 @@ $(document).ready(function() {
 
             </ul>
             </li> <?php
-			} 
-			} 
-			else{
-				?>
+}
+} else {
+    ?>
 
             <!-- <li class="nav-item"><a href="#" title="subscripe"><i
                                 class="ft-file-text"></i <span><?php // echo $this->lang->line('HRM') ?></span> &nbsp;
@@ -1752,17 +1716,15 @@ $(document).ready(function() {
             </li>
 
             <?php }?>
-            <?php 
-						   if($this->aauth->subscribe(32))
-				{
-						   if ($this->aauth->premission(32)) 
-						   {
-						if ($this->aauth->get_user()->roleid == 2) {
-							   ?>
+            <?php
+if ($this->aauth->subscribe(32)) {
+    if ($this->aauth->premission(32)) {
+        if ($this->aauth->get_user()->roleid == 2) {
+            ?>
 
             <li class="menu-item  has-sub <?php if ($this->li_a == "fwms") {
-                    echo ' open';
-                } ?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo "FWMS"; ?></span></a>
+                echo ' open';
+            }?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo "FWMS"; ?></span></a>
 
                 <ul class="menu-content">
 
@@ -1773,12 +1735,11 @@ $(document).ready(function() {
 
                 </ul>
             </li><?php
-						}
-						else{
-						?>
+} else {
+            ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "fwms") {
-                    echo ' open';
-                } ?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo "FWMS"; ?></span></a>
+                echo ' open';
+            }?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo "FWMS"; ?></span></a>
 
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>fwms/fwmsclients"><i class=""></i>
@@ -1796,15 +1757,13 @@ $(document).ready(function() {
 
                 </ul>
             </li>
-            <?php		
-							
-							
-						}
-						
-			}
-				}
-				else{
-					?>
+            <?php
+
+        }
+
+    }
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="ft-file-text"></i
                         <span><?php echo $this->lang->line('FWMS') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage('FWMS Module');"
@@ -1826,18 +1785,15 @@ $(document).ready(function() {
             </li>
 
             <?php
-					
-				}
-					if($this->aauth->subscribe(33))
-				{
-			 if ($this->aauth->premission(33)) 
-			 {
-			?>
+
+}
+if ($this->aauth->subscribe(33)) {
+    if ($this->aauth->premission(33)) {
+        ?>
 
             <li class="menu-item  has-sub <?php if ($this->li_a == "scheduler") {
-                    echo ' open';
-                } ?>""><a href=" #"><i
-                    class="ft-file-text"></i><span><?php echo $this->lang->line('Scheduler') ?></span></a>
+            echo ' open';
+        }?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo $this->lang->line('Scheduler') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>scheduler/schedule"><i class=""></i>
                             <?php echo $this->lang->line('Schedule') ?></a>
@@ -1849,10 +1805,9 @@ $(document).ready(function() {
 
                 </ul>
             </li>
-            <?php }}
-				else{
-					
-					?>
+            <?php }} else {
+
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="ft-file-text"></i
                         <span><?php echo $this->lang->line('Scheduler') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1874,18 +1829,16 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php
-				}
-			 if($this->aauth->subscribe(34))
-				{
-			 if ($this->aauth->premission(34)) 
-			 {
-			 ?>
+}
+if ($this->aauth->subscribe(34)) {
+    if ($this->aauth->premission(34)) {
+        ?>
 
 
 
             <li class="menu-item  has-sub <?php if ($this->li_a == "asset") {
-                    echo ' open';
-                } ?>""><a href=" #"><i
+            echo ' open';
+        }?>""><a href=" #"><i
                     class="ft-file-text"></i><span><?php echo $this->lang->line('Asset Management'); ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>asset/assetlist"><i class=""></i>
@@ -1919,9 +1872,8 @@ $(document).ready(function() {
             </li>
             </ul>
             </li><?php }
-				}
-				else{
-			 ?>
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="ft-file-text"></i
                         <span><?php echo $this->lang->line('Asset') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em"
@@ -1942,15 +1894,13 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php
-				}
-								        	if($this->aauth->subscribe(28))
-											{
-						   if ($this->aauth->premission(28)) {
-							   ?>
+}
+if ($this->aauth->subscribe(28)) {
+    if ($this->aauth->premission(28)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "payroll") {
-                    echo ' open';
-                } ?>""><a href=" #"><i
-                    class="ft-file-text"></i><span><?php echo $this->lang->line('Payroll') ?></span></a>
+            echo ' open';
+        }?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo $this->lang->line('Payroll') ?></span></a>
                 <ul class="menu-content">
                     <li class="menu-item"><a href="<?php echo base_url(); ?>payroll/settings"><i class=""></i>
                             <?php echo $this->lang->line('Settings') ?></a>
@@ -1973,14 +1923,13 @@ $(document).ready(function() {
             </li>
 
             <?php
-						   }
-						   else{
-						   if ($this->aauth->premission(27)) {
+} else {
+        if ($this->aauth->premission(27)) {
 
-						   ?>
+            ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "payroll") {
-                    echo ' open';
-                } ?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo "PayRoll"; ?></span></a>
+                echo ' open';
+            }?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo "PayRoll"; ?></span></a>
                 <ul class="menu-content">
 
                     <li class="menu-item">
@@ -1993,10 +1942,9 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php }
-	}
-	}
-	else{
-	?>
+    }
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="ft-file-text"></i
                         <span><?php echo $this->lang->line('Payroll') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage('Payroll Module');"
@@ -2018,56 +1966,50 @@ $(document).ready(function() {
                 </ul>
             </li>
 
-            <?php 
+            <?php
 }
-  ?>
+?>
 
             <?php
-			if($this->aauth->subscribe(21))
-				{
-			if ($this->aauth->premission(21)) {  ?>
+if ($this->aauth->subscribe(21)) {
+    if ($this->aauth->premission(21)) {?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "expenses") {
-                echo ' open';
-            } ?>""><a href=" #"><i class="fa fa-money"></i><span><?php echo $this->lang->line('Claims') ?></span></a>
+        echo ' open';
+    }?>""><a href=" #"><i class="fa fa-money"></i><span><?php echo $this->lang->line('Claims') ?></span></a>
                 <ul class="menu-content">
-                    <?php if ($this->aauth->premission(21)) {  ?>
+                    <?php if ($this->aauth->premission(21)) {?>
                     <li class="menu-item">
-                        <a href="<?php echo base_url(); ?>expenses/add"><?= $this->lang->line('Add Claims'); ?></a>
+                        <a href="<?php echo base_url(); ?>expenses/add"><?=$this->lang->line('Add Claims');?></a>
                     </li>
                     <li class="menu-item">
-                        <a href="<?php echo base_url(); ?>expenses"><?= $this->lang->line('Claims'); ?></a>
+                        <a href="<?php echo base_url(); ?>expenses"><?=$this->lang->line('Claims');?></a>
                     </li>
                     <li class="menu-item">
                         <a
-                            href="<?php echo base_url(); ?>expenses/reports"><?php echo "Reports"; // $this->lang->line('Expenses'); ?></a>
+                            href="<?php echo base_url(); ?>expenses/reports"><?php echo "Reports"; // $this->lang->line('Expenses');  ?></a>
                     </li>
 
-                    <?php 
-				} 
-			}
-				
-			
-				
-				if ($this->aauth->premission(22)) {  ?>
+                    <?php
+}
+    }
+
+    if ($this->aauth->premission(22)) {?>
                     <li class="menu-item">
                         <a
-                            href="<?php echo base_url(); ?>expenses/createcat"><?= $this->lang->line('Add Category'); ?></a>
+                            href="<?php echo base_url(); ?>expenses/createcat"><?=$this->lang->line('Add Category');?></a>
                     </li>
                     <li class="menu-item">
                         <a
-                            href="<?php echo base_url(); ?>expenses/categories"><?= $this->lang->line('Category List'); ?></a>
+                            href="<?php echo base_url(); ?>expenses/categories"><?=$this->lang->line('Category List');?></a>
                     </li>
-                    <?php } 
-				
-				
-				?>
+                    <?php }
+
+    ?>
                 </ul>
             </li>
-            <?php 
-				}
-				
-					else{
-				?>
+            <?php
+} else {
+    ?>
             <li class="nav-item"><a href="#" title="subscripe"><i class="ft-file-text"></i
                         <span><?php echo $this->lang->line('Expenses') ?></span> &nbsp;
                     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 448 512"
@@ -2088,42 +2030,41 @@ $(document).ready(function() {
                 </ul>
             </li>
             <?php }
-				if ($this->aauth->premission(19)) {  ?>
+if ($this->aauth->premission(19)) {?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "settings") {
-                    echo ' open';
-                } ?>""><a href=" #"><i
-                    class="ft-file-text"></i><span><?php echo $this->lang->line('Settings') ?></span></a>
+    echo ' open';
+}?>""><a href=" #"><i class="ft-file-text"></i><span><?php echo $this->lang->line('Settings') ?></span></a>
                 <ul class="menu-content">
                     <?php // if ($this->aauth->premission(20) && ($this->aauth->get_user()->roleid==5)) {  ?>
-                    <?php if ($this->aauth->premission(20)) {  ?>
+                    <?php if ($this->aauth->premission(20)) {?>
                     <li class="menu-item">
                         <a
-                            href="<?php echo base_url(); ?>employee/permissions"><?= $this->lang->line('Permissions'); ?></a>
+                            href="<?php echo base_url(); ?>employee/permissions"><?=$this->lang->line('Permissions');?></a>
                     </li>
-                    <?php } ?>
+                    <?php }?>
                     <?php // if ($this->aauth->premission(20) && ($this->aauth->get_user()->roleid==5)) {  ?>
-                        <?php if ($this->aauth->premission(20)) {  ?>
+                    <?php if ($this->aauth->premission(20)) {?>
                     <li class="menu-item">
                         <a
-                            href="<?php echo base_url(); ?>dashboard/settings"><?= $this->lang->line('Dashboard Settings'); ?></a>
+                            href="<?php echo base_url(); ?>dashboard/settings"><?=$this->lang->line('Dashboard Settings');?></a>
                     </li>
-                    <?php } ?>
+                    <?php }?>
                     <?php // if ($this->aauth->premission(21) && ($this->aauth->get_user()->roleid==5)) {  ?>
-                        <?php if ($this->aauth->premission(20)) {  ?>    
+                    <?php if ($this->aauth->premission(20)) {?>
                     <li class="menu-item">
                         <a
-                            href="<?php echo base_url(); ?>dashboard/subscribe"><?= $this->lang->line('Subscribe Settings'); ?></a>
+                            href="<?php echo base_url(); ?>dashboard/subscribe"><?=$this->lang->line('Subscribe Settings');?></a>
                     </li>
-                    <?php } ?>
+                    <?php }?>
                 </ul>
             </li>
             <?php }
-            if ($this->aauth->get_user()->roleid > 4) {
-                ?>
-            <?php /* temprary hide
-                <li class="menu-item   has-sub <?php if ($this->li_a == "export") {
-                    echo ' open';
-                } ?>""><a href="#"><i class="ft-bar-chart-2"></i>
+if ($this->aauth->get_user()->roleid > 4) {
+    ?>
+            <?php // temprary hide
+    <li class="menu-item   has-sub <?php if ($this->li_a == "export") {
+    echo ' open';
+    } ?>""><a href="#"><i class="ft-bar-chart-2"></i>
                 <span><?php echo $this->lang->line('Export_Import'); ?></span></a>
             <ul class="menu-content">
                 <li class="menu-item"><a href="<?php echo base_url(); ?>export/crm"><i class="fa fa-caret-right"></i>
@@ -2156,19 +2097,18 @@ $(document).ready(function() {
                     </a></li>
                 <li class="mt-1"></li>
             </ul>
-            </li> */ ?>
+            </li> // ?>
             <?php }
-            ?>
-
-            <?php 
-					if($this->aauth->subscribe(38))
-					{
-		
-		if ($this->aauth->premission(42)) {
 ?>
+
+            <?php
+if ($this->aauth->subscribe(38)) {
+
+    if ($this->aauth->premission(42)) {
+        ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "digitalmarketing") {
-    echo ' open';
-} ?>"><a href="#"><i class="icon-basket"></i><?php echo $this->lang->line('Digital Marketing'); ?></a>
+            echo ' open';
+        }?>"><a href="#"><i class="icon-basket"></i><?php echo $this->lang->line('Digital Marketing'); ?></a>
                 <ul class="menu-content">
 
 
@@ -2234,15 +2174,13 @@ $(document).ready(function() {
                     </li>
                     <li class="menu-item">
                         <a href="<?php echo base_url(); ?>digitalmarketing/settings"><i class=""></i>
-                            <?php echo "Settings"; // $this->lang->line('Payroll'); ?></a>
+                            <?php echo "Settings"; // $this->lang->line('Payroll');  ?></a>
                     </li>
                 </ul>
             </li>
             <?php }
-					}
-					
-					else{
-		?>
+} else {
+    ?>
 
             <li class="nav-item"><a href="#" title="subscripe"><i class="ft-file-text"></i
                         <span><?php echo "Digital Marketing"; ?></span> &nbsp;
@@ -2264,11 +2202,135 @@ $(document).ready(function() {
                 </ul>
             </li>
 
-            <?php  
-					}
+            <?php
+}
 
 ?>
+<?php */ ?>
+            <?php
+// Example result set from the database
+// $resultSet = [
+//     ['id' => 1, 'title' => 'Sales', 'type' => 'Sidebar', 'parent_id' => null],
+//     ['id' => 63, 'title' => 'support', 'type' => 'Sidebar', 'parent_id' => null],
+//     ['id' => 2, 'title' => 'Quotes', 'type' => 'Subheading', 'parent_id' => 1],
+//     ['id' => 3, 'title' => 'New Quote', 'type' => 'Child Heading', 'parent_id' => 2],
+//     ['id' => 4, 'title' => 'sample test', 'type' => 'Subheading', 'parent_id' => 1],
+//     ['id' => 5, 'title' => 'sub sample test', 'type' => 'v', 'parent_id' => 4],
+//     ['id' => 61, 'title' => 'Invoice', 'type' => 'Sidebar', 'parent_id' => null],
+//     // Add more data as needed
+// ];
+
+// $this->load->model('Modules_Model');
+// $resultSet = $this->Modules_model->get_role_based_sidebar();
+$resultSet = $this->aauth->get_role_based_sidebar();
+// Function to generate the sidebar recursively
+// function generateSidebar($items, $parentId = null, $firstItem = true)
+// {
+//     foreach ($items as $item) {
+//         if ($item['parent_id'] == $parentId) {
+//             // Determine the class for the current item
+//             $itemClass = 'menu-item';
+//             if (!$firstItem) {
+//                 $hasChildren = false;
+//                 foreach ($items as $child) {
+//                     if ($child['parent_id'] == $item['id']) {
+//                         $hasChildren = true;
+//                         break;
+//                     }
+//                 }
+//                 if ($hasChildren) {
+//                     $itemClass .= ' has-sub';
+//                 }
+//             }
+
+//             echo '<li class="' . $itemClass . '">';
+//             echo '<a href="' . base_url($item['url']) . '"><i class="' . $item['icon'] . '"></i>' . $item['title'] . '</a>';
+
+//             // Check if there are child items
+//             $hasChildren = false;
+//             foreach ($items as $child) {
+//                 if ($child['parent_id'] == $item['id']) {
+//                     $hasChildren = true;
+//                     break;
+//                 }
+//             }
+
+//             if ($hasChildren) {
+//                 echo '<ul class="menu-content">';
+//                 generateSidebar($items, $item['id'], false); // Recursively generate child items
+//                 echo '</ul>';
+//             }
+
+//             echo '</li>';
+//         }
+//     }
+// }
+
+// // Start generating the sidebar
+// generateSidebar($resultSet);
+
+// Function to generate the sidebar recursively
+function generateSidebar($items, $parentId = null, $firstItem = true)
+{
+    foreach ($items as $item) {
+        if ($item['parent_id'] == $parentId) {
+            // Check if type is Sidebar and subscription_status is 0
+            if ($item['type'] === 'Sidebar' && $item['subscription_status'] == 0) {
+                // Display alternative code for subscription_status == 0
+                echo '<li class="nav-item"><a href="#" title="subscribe">';
+                echo '<i class="icon-diamond"></i>';
+                echo '<span>' . $item['title']. '</span>&nbsp;';
+                echo '<svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage(\'Sales Module\');" viewBox="0 0 448 512">';
+                echo '<style>svg { fill: #dc1853; }</style>';
+                echo '<path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path>';
+                echo '</svg>';
+                echo '</a><ul class="menu-content"></ul></li>';
+            } else {
+                // Display the existing code for other items
+                $itemClass = 'menu-item';
+                if (!$firstItem) {
+                    $hasChildren = false;
+                    foreach ($items as $child) {
+                        if ($child['parent_id'] == $item['id']) {
+                            $hasChildren = true;
+                            break;
+                        }
+                    }
+                    if ($hasChildren) {
+                        $itemClass .= ' has-sub';
+                    }
+                }
+
+                echo '<li class="' . $itemClass . '">';
+                echo '<a href="' . base_url($item['url']) . '"><i class="' . $item['icon'] . '"></i>' . $item['title'] . '</a>';
+
+                $hasChildren = false;
+                foreach ($items as $child) {
+                    if ($child['parent_id'] == $item['id']) {
+                        $hasChildren = true;
+                        break;
+                    }
+                }
+
+                if ($hasChildren) {
+                    echo '<ul class="menu-content">';
+                    generateSidebar($items, $item['id'], false); // Recursively generate child items
+                    echo '</ul>';
+                }
+
+                echo '</li>';
+            }
+        }
+    }
+}
+
+// Start generating the sidebar
+generateSidebar($resultSet);
+?>
+
             </ul>
+
+
         </div>
         <!-- /horizontal menu content-->
     </div>

@@ -1438,3 +1438,44 @@ $lang['Permit Details Existed'] = "Permit Details Existed";
 $lang['Employee Details Adding Error'] = "Employee Details Adding Error";
 $lang['Employee Details Existed'] = "Employee Details Existed";
 $lang["Passport Can't be Updated"] = "Passport Number Can't Be Updated";
+
+
+$lang["Passport Document"] = "Passport Document";
+$lang["Visa Document"] = "Visa Document";
+$lang["Add New Module"] = "Add New Module";
+$lang["Module Name"] = "Module Name";
+$lang["Module Url"] = "Module Url";
+$lang["Module Parent"] = "Module Parent";
+$lang["Module Type"] = "Module Type";
+$lang["Module Position"] = "Module Position";
+$lang["Module Icon"] = "Module Icon";
+$lang["Add Module"] = "Add Module";
+$lang["Edit Module"] = "Edit Module";
+$lang["Module Status"] = "Module Status";
+$lang["Module Activity Type"] = "Module Activity Type";
+
+$lang["Add New Module"] = "Add New Module";
+$lang["Module"] = "Module";
+
+$lang["Parent Module"] = "Parent Module";
+$lang["Icon"] = "Icon";
+$lang["Activity Type"] = "Activity Type";
+$lang["Status"] = "Status";
+$lang["Position"] = "Position";
+
+
+$lang["Delete This Module"] = "Are you sure you want to delete this Module? <br><strong> It will delete all sub modules in this Module also.</strong>";
+$lang["Module Deleted Successfully"] = "Module Deleted Successfully";
+$lang["Module Deleted Failed"] = "Module Deleted Failed";
+
+
+$lang["Module Added Successfully"] = "Module Added Successfully";
+$lang["Unable To Add The Module Relation! Please Try Again"] = "Unable To Add The Module Relation! Please Try Again";
+$lang["Unable To Add The Module! Please Try Again"] = "Unable To Add The Module! Please Try Again";
+
+$lang["Module Updated Successfully"] = "Module Updated Successfully";
+$lang["Unable To Update The Module Relation! Please Try Again"] = "Unable To Update The Module Relation! Please Try Again";
+$lang["Unable To Update The Module! Please Try Again"] = "Unable To Update The Module! Please Try Again";
+
+
+

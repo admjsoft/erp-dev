@@ -1450,8 +1450,9 @@ JSOFT SOLUTION SDN BHD,</p>
             } else {
 
                 $newpassword = $this->input->post('newpassword');
-                echo json_encode(array('status' => 'Success', 'message' => 'Password Updated Successfully!'));
                 $this->aauth->update_user($eid, false, $newpassword, false);
+                echo json_encode(array('status' => 'Success', 'message' => 'Password Updated Successfully!'));
+                
             }
         } else {
             $head['usernm'] = $this->aauth->get_user()->username;
@@ -3275,17 +3276,25 @@ JSOFT SOLUTION SDN BHD,</p>
 
     public function saveInternational()
     {
+        
         $type = $this->input->post('chooseradio');
         $emp_name = $this->input->post('emp_name');
         $passport = $this->input->post('passport');
         $permit = $this->input->post('permit');
         $country = $this->input->post('country');
-        $company = $this->input->post('company');
-        $passport_expiry = $this->input->post('passport_expiry');
-        $permit_expiry = $this->input->post('permit_expiry');
+        $company = $this->input->post('company');        
+        // $passport_expiry = date('Y-m-d',strtotime($this->input->post('passport_expiry')));
+        // $permit_expiry = date('Y-m-d',strtotime($this->input->post('permit_expiry')));
         // if (empty($company)) {
         //     $company = ' ';
         // }
+        $passport_expiry = date_create_from_format("d-m-Y", $this->input->post('passport_expiry'))->format("Y-m-d");
+        $permit_expiry = date_create_from_format("d-m-Y", $this->input->post('permit_expiry'))->format("Y-m-d");
+
+
+        // echo $passport_expiry;
+        // echo $permit_expiry;
+        // exit;
 
         $username = $this->input->post('user_name', true);
         // $attach = $_FILES['image']['name'];
@@ -3304,10 +3313,15 @@ JSOFT SOLUTION SDN BHD,</p>
             }
         }
 
-        //$existing_details = $this->db->where('email', $email)->or_where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
-        $existing_details = $this->db->where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+        if(!empty($email))
+        {
+            $existing_details = $this->db->where('email', $email)->or_where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
 
-        // echo "<pre>";  print_r($existing_details); echo "</pre>";
+        }else{
+            $existing_details = $this->db->where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+
+        }
+                // echo "<pre>";  print_r($existing_details); echo "</pre>";
         // echo count($existing_details);
         // echo $this->db->last_query();
         //exit;
@@ -3406,7 +3420,14 @@ JSOFT SOLUTION SDN BHD,</p>
             // echo count($existing_details);
             //exit;
 
-            $emails = array_column($existing_details, 'email');
+            if(!empty($emails))
+            {
+                $emails = array_column($existing_details, 'email');
+
+            }else{
+                $emails = array();
+
+            }
             $passports = array_column($existing_details, 'passport');
             $permits = array_column($existing_details, 'permit');
 
@@ -3414,7 +3435,7 @@ JSOFT SOLUTION SDN BHD,</p>
                 $data['message'] = $this->lang->line('Email Id Existed');
 
             } else if (in_array($passport, $passports)) {
-                $data['message'] = $this->lang->line('Passport Details Existed');
+                $data['message'] = $this->lang->line("Passport Can't be Updated");
 
             } else if (in_array($permit, $permits)) {
                 $data['message'] = $this->lang->line('Permit Details Existed');
@@ -3511,8 +3532,11 @@ JSOFT SOLUTION SDN BHD,</p>
         $permit = $this->input->post('permit');
         $country = $this->input->post('country');
         $company = $this->input->post('company');
-        $passport_expiry = $this->input->post('passport_expiry');
-        $permit_expiry = $this->input->post('permit_expiry');
+        // $passport_expiry = $this->input->post('passport_expiry');
+        // $permit_expiry = $this->input->post('permit_expiry');
+        $passport_expiry = date_create_from_format("d-m-Y", $this->input->post('passport_expiry'))->format("Y-m-d");
+        $permit_expiry = date_create_from_format("d-m-Y", $this->input->post('permit_expiry'))->format("Y-m-d");
+
         $username = $this->input->post('user_name', true);
         // $attach = $_FILES['image']['name'];
         $email = $this->input->post('user_email');
@@ -3530,7 +3554,9 @@ JSOFT SOLUTION SDN BHD,</p>
         }
 
         //$existing_details = $this->db->where('id !=',$id)->where('email',$email)->or_where('passport',$passport)->or_where('permit',$permit)->get('gtg_employees')->result_array();
-        $existing_details = $this->db->where('id !=', $id)
+        if(!empty($email))
+        {
+            $existing_details = $this->db->where('id !=', $id)
             ->group_start()
             ->where('email', $email)
             ->or_where('passport', $passport)
@@ -3539,12 +3565,25 @@ JSOFT SOLUTION SDN BHD,</p>
             ->get('gtg_employees')
             ->result_array();
 
+
+        }else{
+            $existing_details = $this->db->where('id !=', $id)
+            ->group_start()
+            //->where('email', $email)
+            ->or_where('passport', $passport)
+            ->or_where('permit', $permit)
+            ->group_end()
+            ->get('gtg_employees')
+            ->result_array();
+
+        }
+      
         //echo $this->db->last_query();
         $c_emp_details = $this->db->where('id', $id)->get('gtg_employees')->result_array();
-        //echo "<pre>";  print_r($existing_details); echo "</pre>";
+        // echo "<pre>";  print_r($existing_details); echo "</pre>";
 
-        //echo count($existing_details);
-        //exit;
+        // echo count($existing_details);
+        // exit;
         if (count($existing_details) <= 0) {
 
             if ($c_emp_details[0]['passport'] == $passport) {
@@ -3553,40 +3592,52 @@ JSOFT SOLUTION SDN BHD,</p>
                 $attach = $_FILES['passportfile']['name'];
                 $attach1 = $_FILES['visafile']['name'];
 
-                $data['status'] = 'danger';
-                $data['message'] = $this->lang->line('No file error');
-                $config['upload_path'] = './userfiles/passport/';
-                $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-                $config['encrypt_name'] = true;
-                $config['max_size'] = 2669881;
-                $config['file_name'] = time() . str_replace(' ', '_', $attach);
-                $config['file_ext_tolower'] = true;
-                $config['encrypt_name'] = false;
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('passportfile')) {
-                    // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-                    // echo json_encode($error);
-                    $passport_filename = '';
+                if(!empty($attach))
+                {
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('No file error');
+                    $config['upload_path'] = './userfiles/passport/';
+                    $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+                    $config['encrypt_name'] = true;
+                    $config['max_size'] = 2669881;
+                    $config['file_name'] = time() . str_replace(' ', '_', $attach);
+                    $config['file_ext_tolower'] = true;
+                    $config['encrypt_name'] = false;
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('passportfile')) {
+                        // $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+                        // echo json_encode($error);
+                        $passport_filename = '';
 
                 } else {
                     $data = array('upload_data' => $this->upload->data());
                     $passport_filename = $data['upload_data']['file_name'];
                 }
 
-                $data['status'] = 'danger';
-                $data['message'] = $this->lang->line('No file error');
-                $config['upload_path'] = './userfiles/passport/';
-                $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-                $config['max_size'] = 2669881;
-                $config['file_name'] = time() . str_replace(' ', '_', $attach1);
-                $this->load->library('upload', $config);
-                if (!$this->upload->do_upload('visafile')) {
-                    //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
-                    // echo json_encode($error);
+                }else{
+                    $passport_filename = '';
+                }
+
+                if(!empty($attach1))
+                {
+                    
+                    $data['status'] = 'danger';
+                    $data['message'] = $this->lang->line('No file error');
+                    $config['upload_path'] = './userfiles/passport/';
+                    $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+                    $config['max_size'] = 2669881;
+                    $config['file_name'] = time() . str_replace(' ', '_', $attach1);
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('visafile')) {
+                        //  $error = array('status' => 'file', 'error' => $this->upload->display_errors());
+                        // echo json_encode($error);
+                        $visa_filename = '';
+                    } else {
+                        $data = array('upload_data' => $this->upload->data());
+                        $visa_filename = $data['upload_data']['file_name'];
+                    }
+                }else{
                     $visa_filename = '';
-                } else {
-                    $data = array('upload_data' => $this->upload->data());
-                    $visa_filename = $data['upload_data']['file_name'];
                 }
 
                 $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename);
@@ -3663,8 +3714,13 @@ JSOFT SOLUTION SDN BHD,</p>
             //  echo "<pre>";  print_r($existing_details); echo "</pre>";
             // echo count($existing_details);
             // exit;
-
-            $emails = array_column($existing_details, 'email');
+            if(!empty($email))
+            {
+                $emails = array_column($existing_details, 'email');
+            }else{
+                $emails = array();
+            }
+            
             $passports = array_column($existing_details, 'passport');
             $permits = array_column($existing_details, 'permit');
 
@@ -3672,7 +3728,7 @@ JSOFT SOLUTION SDN BHD,</p>
                 $data['message'] = $this->lang->line('Email Id Existed');
 
             } else if (in_array($passport, $passports)) {
-                $data['message'] = $this->lang->line('Passport Details Existed');
+                $data['message'] = $this->lang->line("Passport Can't be Updated");
 
             } else if (in_array($permit, $permits)) {
                 $data['message'] = $this->lang->line('Permit Details Existed');

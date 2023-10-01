@@ -554,11 +554,12 @@ $("#submit-data").on("click", function(e) {
     var o_data =  $("#data_form").serialize();
 
     var action_url= $('#action-url').val();
-    addObject(o_data,action_url);
+    var after_action= $('#after_action').val();
+    addObject(o_data,action_url,after_action);
 });
 
 
-function addObject(action,action_url) {
+function addObject(action,action_url,after_action='') {
 
     console.log(action);
     var errorNum = farmCheck();
@@ -597,6 +598,14 @@ function addObject(action,action_url) {
 
             }
         });
+
+        $(after_action != '')
+        {
+            if(after_action == 'reload')
+            {
+                location.reload();
+            }
+        }
     }
 
 }

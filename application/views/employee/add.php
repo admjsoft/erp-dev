@@ -4,6 +4,10 @@
 	margin-left: 10px;
 }
 </style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <div class="content-body">
 <div id="c_body"></div>
@@ -152,8 +156,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 						<span class="passport_expiry_error"></span>
 		
-                                            <input type="date" 
-                                                   class="form-control margin-bottom b_input" name="passport_expiry" id="passport_expiry" required>
+                                            <input type="text" 
+                                                   class="form-control margin-bottom b_input"  placeholder="dd-mm-yy" name="passport_expiry" id="passport_expiry" required>
                                         </div>
                                     </div>
 <div class="form-group row">
@@ -175,8 +179,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                         <div class="col-sm-8">
 														<span class="permit_expiry_error"></span>
 
-                                            <input type="date"
-                                                   class="form-control margin-bottom b_input" name="permit_expiry" id="permit_expiry" required>
+                                            <input type="text" 
+                                                   class="form-control margin-bottom b_input" placeholder="dd-mm-yy" name="permit_expiry" id="permit_expiry" required>
                                         </div>
                                     </div>
 									                               
@@ -195,7 +199,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 												 ?></select>
                                         </div>
                                     </div>
-								<?php /* ?> <!--commented For Kitchen Deployment--> 
+								<?php  ?> <!--commented For Kitchen Deployment--> 
 								<div class="form-group row">
                                      <?php 
 								
@@ -219,7 +223,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 											  
                                         </div>
                                     </div> 
-                                    <?php */ ?>
+                                    <?php ?>
 									
 									<div class="form-group row">
 
@@ -485,7 +489,22 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         actionProduct1(actionurl);
     });
 </script>
+<script>
+  $(document).ready(function() {
+    $("#passport_expiry").datepicker({
+      dateFormat: "dd-mm-yy",
+      changeMonth: true,
+      changeYear: true
+    });
 
+    $("#permit_expiry").datepicker({
+      dateFormat: "dd-mm-yy",
+      changeMonth: true,
+      changeYear: true
+    });
+
+  });
+</script>
 <script>
 
     function actionProduct1(actionurl) {
