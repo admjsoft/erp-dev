@@ -1481,5 +1481,23 @@ $lang["Module Updated Successfully"] = "Module Updated Successfully";
 $lang["Unable To Update The Module Relation! Please Try Again"] = "Unable To Update The Module Relation! Please Try Again";
 $lang["Unable To Update The Module! Please Try Again"] = "Unable To Update The Module! Please Try Again";
 
+//mishalini
+
+$lang['Contract'] = "Contract";
+$lang['Manage Contract'] = "Manage Contract";
+$lang['Search Contract'] = "Search Contract";
+$lang['Add Contract'] = "Add Contract";
+$lang['Add New Contract'] = "Add New Contract";
+$lang['View Contract'] = "View Contract";
+$lang['Client Name'] = "Client Name";
+$lang['Contract Name'] = "Contract Name";
+$lang['Reminder Date'] = "Reminder Date";
+$lang['Person In Charge'] = "Person In Charge";
+$lang['Document Upload'] = "Document Upload";
+$lang['Document Preview'] = "Document Preview";
+$lang['Sharing Option'] = "Sharing Option";
+$lang['Digital Signature'] = "Digital Signature";
+$lang['End Date'] = "End Date";
+$lang['Last Updated On'] = "Last Updated On";
 
 
