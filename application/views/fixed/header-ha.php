@@ -46,7 +46,7 @@
                             </li>
                         </ul>
                     </li>
-                    <?php    if ($this->aauth->premission(12)) { ?> <li class="nav-item d-none d-md-block nav-link "><a href="<?= base_url() ?>pos_invoices/create"
+                    <?php    if ($this->aauth->premission(157)) { ?> <li class="nav-item d-none d-md-block nav-link "><a href="<?= base_url() ?>pos_invoices/create"
                                                                         class="btn btn-info btn-md t_tooltip"
                                                                         title="Access POS"><i
                                     class="icon-handbag"></i><?php echo $this->lang->line('POS') ?> </a>
@@ -613,6 +613,7 @@
     <div class="navbar-container main-menu-content" data-menu="menu-container">
 
         <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
+            <?php /* ?>
             <li class="nav-item"><a class="nav-link" href="<?= base_url(); ?>dashboard/"><i
                             class="icon-speedometer"></i><span><?= $this->lang->line('Dashboard') ?></span></a>
 
@@ -623,7 +624,7 @@
                                                                       data-toggle="dropdown"><i
                                 class="icon-basket-loaded"></i><span><?php echo $this->lang->line('sales') ?></span></a>
                     <ul class="dropdown-menu">
-                        <?php    if ($this->aauth->premission(12)) { ?>
+                        <?php    if ($this->aauth->premission(157)) { ?>
                         <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a
                                     class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown"><i
                                         class="icon-paper-plane"></i><?php echo $this->lang->line('pos invoices') ?></a>
@@ -670,7 +671,7 @@
                             </ul>
                         </li>
 
-                        <?php /* temprary hide
+                        <?php // temprary hide
                         <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu"><a
                                     class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown"><i
                                         class="ft-radio"></i><?php echo $this->lang->line('Subscriptions') ?></a>
@@ -687,7 +688,7 @@
                             <a class="dropdown-item" href="<?php echo base_url(); ?>stockreturn/creditnotes"><i
                                         class="icon-screen-tablet"></i><?php echo $this->lang->line('Credit Notes'); ?>
                             </a>
-                        </li>*/ ?>
+                        </li> // ?>
                     </ul>
                 </li>
             <?php }
@@ -864,7 +865,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <?php /* temprary hide
+                        <?php // temprary hide
                         <li data-menu="">
                             <a class="dropdown-item" href="<?php echo base_url(); ?>clientgroup"><i
                                         class="icon-grid"></i><?php echo $this->lang->line('Client Groups'); ?></a>
@@ -881,7 +882,7 @@
                                                     data-toggle="dropdown"><?= $this->lang->line('Manage Tickets'); ?></a>
                                 </li>
                             </ul>
-                        </li> */ ?>
+                        </li> // ?>
 
                     </ul>
                 </li>
@@ -1017,7 +1018,7 @@
                 </li>
 
             <?php }
-            if ($this->aauth->premission(10)) {
+            if ($this->aauth->premission(158)) {
                 ?>
                 <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#"
                                                                       data-toggle="dropdown"><i
@@ -1166,10 +1167,10 @@
                                 <li data-menu=""><a class="dropdown-item" href="<?php echo base_url(); ?>employee"
                                                     data-toggle="dropdown"><?php echo $this->lang->line('Employees') ?></a>
                                 </li>
-                               <?php /* <li data-menu=""><a class="dropdown-item"
+                               <?php // <li data-menu=""><a class="dropdown-item"
                                                     href="<?php echo base_url(); ?>employee/permissions"
                                                     data-toggle="dropdown"><?= $this->lang->line('Permissions'); ?></a>
-                                </li>*/ ?>
+                                </li> // ?>
 
                                 <li data-menu=""><a class="dropdown-item"
                                                     href="<?php echo base_url(); ?>employee/salaries"
@@ -1201,10 +1202,10 @@
                                 <li data-menu=""><a class="dropdown-item" href="<?php echo base_url(); ?>employee"
                                                     data-toggle="dropdown"><?php echo $this->lang->line('Employees') ?></a>
                                 </li>
-                               <?php /* <li data-menu=""><a class="dropdown-item"
+                               <?php // <li data-menu=""><a class="dropdown-item"
                                                     href="<?php echo base_url(); ?>employee/permissions"
                                                     data-toggle="dropdown"><?= $this->lang->line('Permissions'); ?></a>
-                                </li>*/ ?>
+                                </li> // ?>
 
                                 <li data-menu=""><a class="dropdown-item"
                                                     href="<?php echo base_url(); ?>employee/attendbreaksetting"
@@ -1339,11 +1340,78 @@
                         </li>
 
                     </ul>
-                </li> */ ?>
-            <?php }
+                </li> // ?>
+            <?php } */
             ?>
+<?php
+// Example result set from the database
+// $resultSet = [
+//     ['id' => 1, 'title' => 'Sales', 'type' => 'Sidebar', 'parent_id' => null, 'subscription_status' => 0],
+//     ['id' => 63, 'title' => 'support', 'type' => 'Sidebar', 'parent_id' => null, 'subscription_status' => 1],
+//     ['id' => 2, 'title' => 'Quotes', 'type' => 'Subheading', 'parent_id' => 1],
+//     ['id' => 3, 'title' => 'New Quote', 'type' => 'Child Heading', 'parent_id' => 2],
+//     ['id' => 4, 'title' => 'sample test', 'type' => 'Subheading', 'parent_id' => 1],
+//     ['id' => 5, 'title' => 'sub sample test', 'type' => 'v', 'parent_id' => 4],
+//     ['id' => 61, 'title' => 'Invoice', 'type' => 'Sidebar', 'parent_id' => null],
+//     // Add more data as needed
+// ];
 
-        </ul>
+$resultSet = $this->aauth->get_role_based_sidebar();
+
+function generateMenu($items, $parentId = null) {
+    $html = '';
+    foreach ($items as $item) {
+        if ($item['parent_id'] == $parentId) {
+            if ($item['type'] == 'Sidebar') {
+                if ($item['subscription_status'] == 1) {
+                    $html .= '<li class="dropdown nav-item" data-menu="dropdown">';
+                    $html .= '<a class="dropdown-toggle nav-link" href="' . base_url($item['url']). '" data-toggle="dropdown">';
+                    $html .= '<i class="'. $item['icon'].'"></i><span>' . $item['title'] . '</span>';
+                    $html .= '</a>';
+                } else {
+                    // Display alternative code for subscription_status == 0
+                    $html .= '<li class="dropdown nav-item" data-menu="dropdown"><a href="#" class="dropdown-toggle nav-link" href="#" data-toggle="dropdown" title="subscribe">';
+                    $html .= '<i class="icon-diamond"></i>';
+                    $html .= '<span>' . $item['title']. '</span>&nbsp;';
+                    $html .= '<svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage(\'Sales Module\');" viewBox="0 0 448 512">';
+                    $html .= '<style>svg { fill: #dc1853; }</style>';
+                    $html .= '<path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path>';
+                    $html .= '</svg>';
+                    $html .= '</a><ul class="menu-content"></ul></li>';
+                    continue;
+                }
+            } elseif ($item['type'] == 'Subheading') {
+                $html .= '<li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">';
+                $html .= '<a class="dropdown-item dropdown-toggle" href="' . base_url($item['url']). '" data-toggle="dropdown">';
+                $html .= '<i class="'. $item['icon'].'"></i>' . $item['title'];
+                $html .= '</a>';
+            } elseif ($item['type'] == 'Child Heading') {
+                $html .= '<li data-menu="">';
+                $html .= '<a class="dropdown-item" href="'.base_url($item['url']).'">' . $item['title'] . '</a>';
+                $html .= '</li>';
+            }
+            
+            $children = generateMenu($items, $item['id']);
+            if ($children) {
+                $html .= '<ul class="dropdown-menu">';
+                $html .= $children;
+                $html .= '</ul>';
+            }
+            
+            $html .= '</li>';
+        }
+    }
+    return $html;
+}
+
+echo '<ul class="nav navbar-nav">';
+echo generateMenu($resultSet);
+echo '</ul>';
+
+
+?>
+
+</ul>
     </div>
     <!-- /horizontal menu content-->
 </div>

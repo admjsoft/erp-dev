@@ -11,9 +11,9 @@ class Scheduler extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(9)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(9)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->li_a = 'scheduler';
     }
 

@@ -45,6 +45,7 @@
                             <option value="">Select Activity Type</option>
                             <option value="Page Display" <?php if($module_details[0]['module_type'] == 'Page Display'){ echo "selected"; } ?>>Page Display</option>
                             <option value="Authorized Action" <?php if($module_details[0]['module_type'] == 'Authorized Action'){ echo "selected"; } ?>>Action Authorization</option>
+                            <option value="Landing Page" <?php if($module_details[0]['module_type'] == 'Landing Page'){ echo "selected"; } ?>>Landing Page</option>
                         </select>
 
 

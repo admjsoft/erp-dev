@@ -154,7 +154,7 @@ echo $loc['cname'];?></span>
                         </li>
 
 
-                        <?php if ($this->aauth->premission(12)) {?> <li class="nav-item d-none d-md-block nav-link "><a
+                        <?php if ($this->aauth->premission(157)) {?> <li class="nav-item d-none d-md-block nav-link "><a
                                 href="<?=base_url()?>pos_invoices/create" class="btn btn-info btn-md t_tooltip"
                                 title="Access POS"><i class="icon-handbag"></i><?php echo $this->lang->line('POS') ?>
                             </a>
@@ -724,7 +724,7 @@ if ($this->aauth->auto_attend()) {?>
                             <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item"
                                     href="<?php echo base_url(); ?>user/profile"><i class="ft-user"></i>
                                     <?php echo $this->lang->line('Profile') ?></a>
-                                <?php if ($this->aauth->premission(25)) {?>
+                                <?php if ($this->aauth->premission(114)) {?>
                                 <a href="<?php echo base_url(); ?>user/attendance" class="dropdown-item"><i
                                         class="fa fa-list-ol"></i><?php echo $this->lang->line('Attendance') ?></a>
                                 <a href="<?php echo base_url(); ?>employee/attendview?id=<?php echo $this->aauth->get_user()->id; ?>"
@@ -1366,7 +1366,7 @@ if ($this->aauth->subscribe(5)) {
             <?php
 }
 if ($this->aauth->subscribe(10)) {
-    if ($this->aauth->premission(10)) {
+    if ($this->aauth->premission(158)) {
         ?>
             <li class="menu-item  has-sub <?php if ($this->li_a == "data") {
             echo ' open';

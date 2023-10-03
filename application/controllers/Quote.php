@@ -13,9 +13,9 @@ class Quote extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->li_a = 'sales';
     }
 
@@ -209,11 +209,22 @@ class Quote extends CI_Controller
       /*  if ($this->aauth->premission(9)) {
             $eid = $this->input->post('eid');
         }*/
-        if (($this->aauth->get_user()->roleid == 5)||($this->aauth->get_user()->roleid == 4)) {
+
+        $user_role = $this->aauth->get_user()->roleid;
+        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        $all_data_previleges = $role_details[0]['all_data_previleges'];
+
+        if ($all_data_previleges) {
             $eid = 0;
         } else {
             $eid = $this->aauth->get_user()->id;
         }
+
+        // if (($this->aauth->get_user()->roleid == 5)||($this->aauth->get_user()->roleid == 4)) {
+        //     $eid = 0;
+        // } else {
+        //     $eid = $this->aauth->get_user()->id;
+        // }
         $list = $this->quote->get_datatables($eid);
         $data = array();
         $no = $this->input->post('start');

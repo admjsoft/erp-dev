@@ -588,13 +588,13 @@ class Employee_model extends CI_Model
         return $this->db->insert('gtg_hrm', $data);
     }
 
-    public function role_create($role_name)
+    public function role_create($role_name,$all_data_previleges)
     {
-        $data = array('role_name' => $role_name, 'status' => 1);
+        $data = array('role_name' => $role_name, 'all_data_previleges' => $all_data_previleges, 'status' => 1);
         $this->db->insert('gtg_role', $data);
         $id = $this->db->insert_id();
         if ($id) {
-            $table = 'gtg_premissions'; // Replace with your table name
+            $table = 'sidebaritems'; // Replace with your table name
             $query = "ALTER TABLE $table ADD r_$id INT(11) DEFAULT 0";
             if ($this->db->query($query)) {
                 return true;
@@ -606,9 +606,9 @@ class Employee_model extends CI_Model
         }
 
     }
-    public function role_update($role_name, $role_id, $role_status)
+    public function role_update($role_name, $role_id, $role_status, $all_data_previleges)
     {
-        $data = array('role_name' => $role_name, 'status' => $role_status);
+        $data = array('role_name' => $role_name, 'all_data_previleges' => $all_data_previleges, 'status' => $role_status);
 
         $this->db->set($data);
         $this->db->where('id', $role_id);

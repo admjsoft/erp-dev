@@ -45,6 +45,7 @@
                             <option value="">Select Activity Type</option>
                             <option value="Page Display" selected>Page Display</option>
                             <option value="Authorized Action">Action Authorization</option>
+                            <option value="Landing Page">Landing Page</option>
                         </select>
 
 

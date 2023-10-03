@@ -13,11 +13,11 @@ class Customers extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(3)) {
+        // if (!$this->aauth->premission(3)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $this->load->library("Custom");
         $this->li_a = 'crm';
     }
@@ -46,9 +46,9 @@ class Customers extends CI_Controller
 
     public function view()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $custid = $this->input->get('id');
         $data['details'] = $this->customers->details($custid);
         $data['customergroup'] = $this->customers->group_info($data['details']['gid']);
@@ -311,9 +311,9 @@ public function deleteFwmsClient()
     //edit section
     public function edit()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->library("Common");
         $pid = $this->input->get('id');
         $data['customer'] = $this->customers->details($pid);
@@ -362,9 +362,9 @@ public function deleteFwmsClient()
 
     function sendSelected()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         if ($this->input->post('cust')) {
             $ids = $this->input->post('cust');
@@ -381,9 +381,9 @@ public function deleteFwmsClient()
 
     function sendSmsSelected()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         if ($this->input->post('cust')) {
             $ids = $this->input->post('cust');
@@ -401,9 +401,9 @@ public function deleteFwmsClient()
 
     public function editcustomer()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $id = $this->input->post('id');
         $name = $this->input->post('name', true);
         $company = $this->input->post('company', true);
@@ -435,9 +435,9 @@ public function deleteFwmsClient()
 
     public function changepassword()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         if ($id = $this->input->post()) {
             $id = $this->input->post('id');
             $password = $this->input->post('password', true);
@@ -460,7 +460,7 @@ public function deleteFwmsClient()
 
     public function delete_i()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
             if ($id > 1) {
                 if ($this->customers->delete($id)) {
@@ -483,9 +483,9 @@ public function deleteFwmsClient()
 
     public function displaypic()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $id = $this->input->get('id');
         $this->load->library("uploadhandler", array(
             'accept_file_types' => '/\.(gif|jpe?g|png)$/i', 'upload_dir' => FCPATH . 'userfiles/customers/'
@@ -499,9 +499,9 @@ public function deleteFwmsClient()
 
     public function translist()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $cid = $this->input->post('cid');
         $list = $this->customers->trans_table($cid);
         $data = array();
@@ -532,9 +532,9 @@ public function deleteFwmsClient()
 
     public function inv_list()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $cid = $this->input->post('cid');
         $tid = $this->input->post('tyd');
 
@@ -563,9 +563,9 @@ public function deleteFwmsClient()
 
     public function transactions()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $custid = $this->input->get('id');
         $data['details'] = $this->customers->details($custid);
         $data['money'] = $this->customers->money_details($custid);
@@ -578,9 +578,9 @@ public function deleteFwmsClient()
 
     public function invoices()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $custid = $this->input->get('id');
         $data['details'] = $this->customers->details($custid);
         $data['money'] = $this->customers->money_details($custid);
@@ -593,9 +593,9 @@ public function deleteFwmsClient()
 
     public function quotes()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $custid = $this->input->get('id');
         $data['details'] = $this->customers->details($custid);
         $data['money'] = $this->customers->money_details($custid);
@@ -608,9 +608,9 @@ public function deleteFwmsClient()
 
     public function qto_list()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $cid = $this->input->post('cid');
         $tid = $this->input->post('tyd');
         $list = $this->customers->qto_datatables($cid, $tid);
@@ -640,9 +640,9 @@ public function deleteFwmsClient()
 
     public function balance()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         if ($this->input->post()) {
             $id = $this->input->post('id');
             $amount = $this->input->post('amount', true);
@@ -667,9 +667,9 @@ public function deleteFwmsClient()
 
     public function projects()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $custid = $this->input->get('id');
         $data['details'] = $this->customers->details($custid);
         $data['money'] = $this->customers->money_details($custid);
@@ -682,9 +682,9 @@ public function deleteFwmsClient()
 
     public function prj_list()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $cid = $this->input->post('cid');
 
 
@@ -719,9 +719,9 @@ public function deleteFwmsClient()
 
     public function notes()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $custid = $this->input->get('id');
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['details'] = $this->customers->details($custid);
@@ -734,9 +734,9 @@ public function deleteFwmsClient()
 
     public function notes_load_list()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $cid = $this->input->post('cid');
         $list = $this->customers->notes_datatables($cid);
         $data = array();
@@ -763,9 +763,9 @@ public function deleteFwmsClient()
 
     public function editnote()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         if ($this->input->post()) {
             $id = $this->input->post('id');
             $title = $this->input->post('title', true);
@@ -791,9 +791,9 @@ public function deleteFwmsClient()
 
     public function addnote()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         if ($this->input->post('title')) {
 
             $title = $this->input->post('title', true);
@@ -977,9 +977,9 @@ public function deleteFwmsClient()
 
     public function bulkpayment()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $data['id'] = $this->input->get('id');
         $data['details'] = $this->customers->details($data['id']);
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -994,9 +994,9 @@ public function deleteFwmsClient()
 
     public function bulk_post()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $csd = $this->input->post('customer', true);
         $sdate = datefordatabase($this->input->post('sdate'));
         $edate = datefordatabase($this->input->post('edate'));
@@ -1009,9 +1009,9 @@ public function deleteFwmsClient()
 
     public function bulk_post_payment()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $csd = $this->input->post('customer', true);
         $account = $this->input->post('account', true);
         $pay_method = $this->input->post('pmethod', true);

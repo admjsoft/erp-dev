@@ -19,10 +19,10 @@ class Transactions extends CI_Controller
 
     public function index()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "Transaction";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -32,10 +32,10 @@ class Transactions extends CI_Controller
 
     public function add()
     {
-        if (!$this->aauth->premission(5)) {
+        // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $data['dual'] = $this->custom->api_config(65);
 
         $data['cat'] = $this->transactions->categories();
@@ -49,10 +49,10 @@ class Transactions extends CI_Controller
 
     public function transfer()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $data['cat'] = $this->transactions->categories();
         $data['accounts'] = $this->transactions->acc_list();
@@ -66,10 +66,10 @@ class Transactions extends CI_Controller
     public function payinvoice()
     {
 
-        if (!$this->aauth->premission(1)) {
+        // if (!$this->aauth->premission(1)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $amount2 = 0;
         $tid = $this->input->post('tid');
         $amount = rev_amountExchange_s($this->input->post('amount', true), 0, $this->aauth->get_user()->loc);
@@ -213,9 +213,9 @@ class Transactions extends CI_Controller
     public function paypurchase()
     {
 
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $tid = $this->input->post('tid', true);
         $amount = $this->input->post('amount', true);
@@ -316,10 +316,10 @@ class Transactions extends CI_Controller
 
     public function cancelinvoice()
     {
-        if (!$this->aauth->premission(1)) {
+        // if (!$this->aauth->premission(1)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
 
         $tid = intval($this->input->post('tid'));
@@ -364,9 +364,9 @@ class Transactions extends CI_Controller
 
     public function cancelpurchase()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $tid = intval($this->input->post('tid'));
         $this->db->set('pamnt', "0.00", FALSE);
         $this->db->set('status', 'canceled');
@@ -403,9 +403,9 @@ class Transactions extends CI_Controller
 
     public function translist()
     {
-        if (!$this->aauth->premission(5)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(5)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $ttype = $this->input->get('type');
         $list = $this->transactions->get_datatables($ttype);
         $data = array();
@@ -543,10 +543,10 @@ class Transactions extends CI_Controller
 
     public function save_trans()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $dual = $this->custom->api_config(65);
 
         $credit = 0;
@@ -608,10 +608,10 @@ class Transactions extends CI_Controller
 
     public function save_transfer()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $pay_acc = $this->input->post('pay_acc');
         $pay_acc2 = $this->input->post('pay_acc2');
@@ -631,10 +631,10 @@ class Transactions extends CI_Controller
 
     public function delete_i()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $id = $this->input->post('deleteid');
         if ($id) {
@@ -649,10 +649,10 @@ class Transactions extends CI_Controller
 
     public function income()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "Income Transaction";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -662,10 +662,10 @@ class Transactions extends CI_Controller
 
     public function expense()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "Expense Transaction";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -675,10 +675,10 @@ class Transactions extends CI_Controller
 
     public function view()
     {
-        if (!$this->aauth->premission(1)) {
+        // if (!$this->aauth->premission(1)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "View Transaction";
         $head['usernm'] = $this->aauth->get_user()->username;
         $id = $this->input->get('id');
@@ -697,10 +697,10 @@ class Transactions extends CI_Controller
 
     public function print_t()
     {
-        if (!$this->aauth->premission(5)) {
+       // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "View Transaction";
         $head['usernm'] = $this->aauth->get_user()->username;
         $id = $this->input->get('id');

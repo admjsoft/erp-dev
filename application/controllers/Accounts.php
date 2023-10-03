@@ -13,10 +13,10 @@ class Accounts extends CI_Controller
             redirect('/user/', 'refresh');
         }
 
-        if (!$this->aauth->premission(5)) {
+        // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->model('accounts_model', 'accounts');
         $this->li_a = 'accounts';
     }

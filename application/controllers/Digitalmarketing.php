@@ -109,9 +109,9 @@ class Digitalmarketing extends CI_Controller
 
     function sendSelected()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //if (!$this->aauth->premission(8)) {
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
 
         $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
         if ($query->num_rows() > 0) {
@@ -230,9 +230,9 @@ class Digitalmarketing extends CI_Controller
         $text = $this->input->post('message');
         // echo "<pre>"; print_r($post); echo "</pre>";
         // exit;
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //if (!$this->aauth->premission(8)) {
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
 
         $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
         if ($query->num_rows() > 0) {
@@ -337,9 +337,9 @@ class Digitalmarketing extends CI_Controller
         $text = $this->input->post('message');
         // echo "<pre>"; print_r($post); echo "</pre>";
         // exit;
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //if (!$this->aauth->premission(8)) {
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
         $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
         if ($query->num_rows() > 0) {
             $row = $query->row();
@@ -442,9 +442,9 @@ class Digitalmarketing extends CI_Controller
         $list_ids = $this->input->post('Recepients');
         // echo "<pre>"; print_r($post); echo "</pre>";
         // exit;
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //if (!$this->aauth->premission(8)) {
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
         $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
         if ($query->num_rows() > 0) {
             $row = $query->row();
@@ -1010,9 +1010,9 @@ public function get_email_template_details(){
     function saveContactsToListSelected()
     {
         $post = $this->input->post();
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //if (!$this->aauth->premission(8)) {
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
         $query = $this->db->get('digital_marketing_settings'); // Replace 'your_key_table' with the actual table name
         if ($query->num_rows() > 0) {
             $row = $query->row();

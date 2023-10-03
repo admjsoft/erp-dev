@@ -13,11 +13,11 @@ class Events extends CI_Controller
             redirect('/user/', 'refresh');
         }
 
-        if (!$this->aauth->premission(6)) {
+        // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $this->load->model('events_model');
         $this->li_a = 'misc';
 

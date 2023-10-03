@@ -19,9 +19,9 @@ class Invoices extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         if (($this->aauth->get_user()->roleid == 5)||($this->aauth->get_user()->roleid == 4)) {
             $this->limited = '';
@@ -78,7 +78,7 @@ class Invoices extends CI_Controller
     //edit invoice
     public function edit()
     {
-        if (!$this->aauth->premission(13)) {
+        if (!$this->aauth->premission(159)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $tid = intval($this->input->get('id'));
@@ -454,6 +454,16 @@ class Invoices extends CI_Controller
     }
     public function ajax_list()
     {
+        $user_role = $this->aauth->get_user()->roleid;
+        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        $all_data_previleges = $role_details[0]['all_data_previleges'];
+
+        if ($all_data_previleges) {
+            $this->limited = '';
+        } else {
+            $this->limited = $this->aauth->get_user()->id;
+        }
+        
         $list = $this->invocies->get_datatables($this->limited);
         $data = array();
         $no = $this->input->post('start');
@@ -546,7 +556,7 @@ class Invoices extends CI_Controller
 
     public function delete_i()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
 
             if ($this->invocies->invoice_delete($id, $this->limited)) {
@@ -564,7 +574,7 @@ class Invoices extends CI_Controller
 
     public function editaction()
     {
-        if (!$this->aauth->premission(13)) {
+        if (!$this->aauth->premission(159)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $customer_id = $this->input->post('customer_id');

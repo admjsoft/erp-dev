@@ -6,7 +6,7 @@ class Modules extends CI_Controller {
     public function __construct() {
         parent::__construct();        
         $this->load->model('employee_model', 'employee');
-        $this->load->model('Modules_model');
+        $this->load->model('Modules_model','modules');
         $this->load->model('SidebarItemModel');
         $this->load->library("Aauth");
         if (!$this->aauth->is_loggedin()) {
@@ -24,16 +24,26 @@ class Modules extends CI_Controller {
     public function module_permissions() {
 
         $data['roles'] = $this->employee->getRoles();
-        $data['sidebar_hierarchy'] = $this->Modules_model->get_modules_hierarchy();
+        $data['sidebar_hierarchy'] = $this->modules->get_modules_hierarchy();
         $head['title'] = "Module Permissions";
         $this->load->view('fixed/header', $head);
         $this->load->view('modules/module_permissions', $data);
         $this->load->view('fixed/footer');
     }
 
+    public function subscriptions() {
+
+        //$data['roles'] = $this->employee->getRoles();
+        $data['sidebar_hierarchy'] = $this->modules->get_modules_hierarchy();
+        $head['title'] = "Subscription Permissions";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('modules/subscription_permissions', $data);
+        $this->load->view('fixed/footer');
+    }
+
 
     public function modules_list() {
-        $data['modules'] = $this->Modules_model->get_modules_list();
+        $data['modules'] = $this->modules->get_modules_list();
         $head['title'] = "Modules List";
         $this->load->view('fixed/header', $head);
         $this->load->view('modules/modules_list', $data);
@@ -55,12 +65,12 @@ class Modules extends CI_Controller {
             $data['r_5'] = 1;
 
             if ($data) {
-                $response = $this->Modules_model->add_module($data);
+                $response = $this->modules->add_module($data);
                 echo json_encode($response,true);
             }
 
         }else{
-            $data['side_bars'] = $this->Modules_model->get_sidebars();
+            $data['side_bars'] = $this->modules->get_sidebars();
             $head['title'] = "Add Module";
             $this->load->view('fixed/header', $head);
             $this->load->view('modules/add_module', $data);
@@ -75,8 +85,8 @@ class Modules extends CI_Controller {
         $id = $this->input->get('id');
         if(!empty($id))
         {
-            $data['module_details'] = $this->Modules_model->get_module_details($id);
-            $data['side_bars'] = $this->Modules_model->get_sidebars();
+            $data['module_details'] = $this->modules->get_module_details($id);
+            $data['side_bars'] = $this->modules->get_sidebars();
             $head['title'] = "Edit Module";
             $this->load->view('fixed/header', $head);
             $this->load->view('modules/edit_module', $data);
@@ -84,7 +94,7 @@ class Modules extends CI_Controller {
 
         }else{
 
-            $data['side_bars'] = $this->Modules_model->get_sidebars();
+            $data['side_bars'] = $this->modules->get_sidebars();
             $head['title'] = "Module List";
             $this->load->view('fixed/header', $head);
             $this->load->view('modules/list', $data);
@@ -109,12 +119,12 @@ class Modules extends CI_Controller {
             $module_id = $this->input->post('module_id', true);
 
             if ($data) {
-                $response = $this->Modules_model->update_module($data, $module_id);
+                $response = $this->modules->update_module($data, $module_id);
                 echo json_encode($response,true);
             }
 
         }else{
-            $data['side_bars'] = $this->Modules_model->get_sidebars();
+            $data['side_bars'] = $this->modules->get_sidebars();
             $head['title'] = "Add Module";
             $this->load->view('fixed/header', $head);
             $this->load->view('modules/modules', $data);
@@ -148,8 +158,8 @@ class Modules extends CI_Controller {
     public function get_role_module_permissions(){
 
         $role = $this->input->post('roleid');
-        $data['sidebar_hierarchy'] = $this->Modules_model->get_modules_hierarchy();
-        $data['role_permissions'] = $this->Modules_model->get_role_module_permissions($role);
+        $data['sidebar_hierarchy'] = $this->modules->get_modules_hierarchy();
+        $data['role_permissions'] = $this->modules->get_role_module_permissions($role);
         echo $this->load->view('modules/role_module_permissions',$data,TRUE);
     }
 
@@ -176,5 +186,27 @@ class Modules extends CI_Controller {
             $this->lang->line('UPDATED')));
     }
 
+    public function update_subscription_permissions(){
+        
+        
+        $role = $this->input->post('role');
+        $selected_modules = $this->input->post('selected_modules');
+        $selected_modules = explode(',',$selected_modules);
+        
+
+        $data1 = array('subscription_status' => 0);
+        $this->db->set($data1);
+        $this->db->where_not_in('id', $selected_modules);
+        $this->db->update('sidebaritems');
+        
+        $data = array('subscription_status' => 1);        
+        $this->db->set($data);
+        $this->db->where_in('id', $selected_modules);
+        $this->db->update('sidebaritems');
+        
+
+        echo json_encode(array('status' => 'Success', 'message' =>
+            $this->lang->line('UPDATED')));
+    }
 
 }

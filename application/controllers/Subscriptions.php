@@ -16,9 +16,9 @@ class Subscriptions extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         if ($this->aauth->get_user()->roleid == 2) {
             $this->limited = $this->aauth->get_user()->id;
         } else {
@@ -344,7 +344,7 @@ class Subscriptions extends CI_Controller
     public function delete_i()
     {
         $id = $this->input->post('deleteid');
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             if ($this->invocies->invoice_delete($id, $this->limited)) {
                 echo json_encode(array('status' => 'Success', 'message' =>
                 $this->lang->line('DELETED')));

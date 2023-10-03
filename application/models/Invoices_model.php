@@ -223,6 +223,8 @@ class Invoices_model extends CI_Model
 
     private function _get_datatables_query($opt = '')
     {
+
+        
         $this->db->select('gtg_invoices.id,gtg_invoices.tid,gtg_invoices.invoicedate,
 		gtg_invoices.invoiceduedate,gtg_invoices.total,gtg_invoices.status,gtg_customers.name,gtg_invoices.pamnt');
         $this->db->from($this->table);

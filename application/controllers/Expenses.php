@@ -18,10 +18,10 @@ class Expenses extends CI_Controller
     // expenses update function
     public function update_i()
     {
-        if (!$this->aauth->premission(22)) {
+        // if (!$this->aauth->premission(22)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $id = $this->input->post('id');
         $remarks = $this->input->post('remarks');
         $status = $this->input->post('status');
@@ -57,10 +57,10 @@ class Expenses extends CI_Controller
     // expenses delete function
     public function delete_i()
     {
-        if (!$this->aauth->premission(21)) {
+        //if (!$this->aauth->premission(21)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
 
         $id = $this->input->post('deleteid');
         $data=$this->expenses->get_expense($id);
@@ -132,10 +132,10 @@ class Expenses extends CI_Controller
     public function categories()
     {
         //$this->li_a = 'misc_settings';
-        if (!$this->aauth->premission(22)) {
+       // if (!$this->aauth->premission(22)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $data['catlist'] = $this->expenses->categories();
         $head['title'] = "Category";
@@ -147,10 +147,10 @@ class Expenses extends CI_Controller
 // create category
     public function createcat()
     {
-        if (!$this->aauth->premission(22)) {
+       // if (!$this->aauth->premission(22)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $head['title'] = "Category";
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -162,10 +162,10 @@ class Expenses extends CI_Controller
     public function editcat()
     {
 
-        if (!$this->aauth->premission(22)) {
+       // if (!$this->aauth->premission(22)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $head['title'] = "Category";
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -182,10 +182,10 @@ class Expenses extends CI_Controller
     public function save_createcat()
     {
 
-        if (!$this->aauth->premission(22)) {
+       // if (!$this->aauth->premission(22)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $name = $this->input->post('catname');
 
@@ -200,10 +200,10 @@ class Expenses extends CI_Controller
     // category edit save
     public function editcatsave()
     {
-        if (!$this->aauth->premission(22)) {
+       // if (!$this->aauth->premission(22)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $id = $this->input->post('catid');
         $name = $this->input->post('cat_name');
@@ -221,9 +221,9 @@ class Expenses extends CI_Controller
     // category delete
     public function delete_cat()
     {
-        if (!$this->aauth->premission(22)){
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(22)){
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         $id = $this->input->post('deleteid');
         if ($id) {
@@ -238,10 +238,10 @@ class Expenses extends CI_Controller
     // expenses list page
     public function index()
     {
-        if (!$this->aauth->premission(21)) {
+       //if (!$this->aauth->premission(21)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
         $head['title'] = "Expenses";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -253,10 +253,10 @@ class Expenses extends CI_Controller
     // expenses reports page
     public function reports()
     {
-        if (!$this->aauth->premission(21)) {
+       //if (!$this->aauth->premission(21)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
         $head['title'] = "Expenses";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -268,9 +268,9 @@ class Expenses extends CI_Controller
     // expenses list
     public function expenseslist()
     {
-        if (!$this->aauth->premission(21)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(21)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $ttype = $this->input->get('type');
         $status = $this->input->post('status');
         $employee = $this->input->post('employee');
@@ -324,10 +324,10 @@ class Expenses extends CI_Controller
     // add expenses
     public function add()
     {
-        if (!$this->aauth->premission(21)) {
+       //if (!$this->aauth->premission(21)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //    exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //}
         $data['dual'] = $this->custom->api_config(65);
         $data['cat'] = $this->expenses->categories();
         $head['title'] = "Add Expenses";
@@ -340,9 +340,9 @@ class Expenses extends CI_Controller
     // save expense
     public function save_expenses()
     {
-         if (!$this->aauth->premission(21)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //  if (!$this->aauth->premission(21)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
                 $emp_name = $this->input->post('emp_name', true);
 
         $explode=explode("-",$emp_name);

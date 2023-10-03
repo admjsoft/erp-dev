@@ -13,10 +13,10 @@ class Promo extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(5)) {
+        // if (!$this->aauth->premission(5)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->library("Coupon");
         $this->li_a = 'promo';
     }

@@ -19,9 +19,9 @@ class Stockreturn extends CI_Controller
     //create invoice
     public function create()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->library("Common");
         $this->load->model('plugins_model', 'plugins');
         $data['exchange'] = $this->plugins->universal_api(5);
@@ -42,9 +42,9 @@ class Stockreturn extends CI_Controller
 
     public function create_client()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->library("Common");
         $this->load->model('plugins_model', 'plugins');
         $data['exchange'] = $this->plugins->universal_api(5);
@@ -65,9 +65,9 @@ class Stockreturn extends CI_Controller
 
     public function create_note()
     {
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->library("Common");
         $data['taxlist'] = $this->common->taxlist($this->config->item('tax'));
         $this->load->model('customers_model', 'customers');
@@ -89,9 +89,9 @@ class Stockreturn extends CI_Controller
     //edit invoice
     public function edit()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $tid = intval($this->input->get('id'));
         $data['id'] = $tid;
         $this->load->model('customers_model', 'customers');
@@ -111,9 +111,9 @@ class Stockreturn extends CI_Controller
 
     public function edit_c()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $tid = intval($this->input->get('id'));
         $data['id'] = $tid;
         $this->load->model('customers_model', 'customers');
@@ -133,9 +133,9 @@ class Stockreturn extends CI_Controller
 
     public function edit_note()
     {
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $tid = intval($this->input->get('id'));
         $data['id'] = $tid;
         $this->load->model('customers_model', 'customers');
@@ -156,9 +156,9 @@ class Stockreturn extends CI_Controller
     //invoices list
     public function index()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "Manage Stock Return Orders";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -168,9 +168,9 @@ class Stockreturn extends CI_Controller
 
     public function customer()
     {
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "Manage Stockreturn Orders";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -180,9 +180,9 @@ class Stockreturn extends CI_Controller
 
     public function creditnotes()
     {
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $head['title'] = "Manage Credit Notes";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -200,15 +200,15 @@ class Stockreturn extends CI_Controller
         $new_u = 'create';
         if ($person_type) {
             $new_u = 'create_client';
-            if (!$this->aauth->premission(2)) {
-                exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-            }
+            // if (!$this->aauth->premission(2)) {
+            //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+            // }
         }
         if ($person_type == 2) {
             $new_u = 'create_note';
-            if (!$this->aauth->premission(1)) {
-                exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-            }
+            // if (!$this->aauth->premission(1)) {
+            //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+            // }
         }
         $invocieno = $this->input->post('invocieno');
         $invoicedate = $this->input->post('invoicedate');
@@ -436,14 +436,14 @@ class Stockreturn extends CI_Controller
         $customer_id = $this->input->post('customer_id');
         $person_type = $this->input->post('person_type');
         if ($person_type) {
-            if (!$this->aauth->premission(2)) {
-                exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-            }
+          // if (!$this->aauth->premission(2)) {
+            //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+            // }
         }
         if ($person_type == 2) {
-            if (!$this->aauth->premission(1)) {
-                exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-            }
+            // if (!$this->aauth->premission(1)) {
+            //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+            // }
         }
         $invocieno = $this->input->post('iid');
         $invoicedate = $this->input->post('invoicedate');

@@ -1043,7 +1043,7 @@ $('.nav-menu-main').removeClass('is-active');
                 </li>
 
             <?php }*/
-            if ($this->aauth->premission(10)) {
+            if ($this->aauth->premission(158)) {
                 ?>
                 <li class="menu-item  has-sub <?php if ($this->li_a == "data") {
                     echo ' open';

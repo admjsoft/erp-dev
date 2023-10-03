@@ -71,11 +71,11 @@ class Filemanager extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-       /* if (!$this->aauth->premission(6)) {
+       /*// if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        } */
+        // } */
 
         $this->load->model('filemanager_model');
         $this->li_a = 'misc';

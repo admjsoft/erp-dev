@@ -12,10 +12,10 @@ class Productgroups extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(2)) {
+        // if (!$this->aauth->premission(2)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->model('products_model', 'products');
         $this->load->model('productgroups_model', 'productgroups');
         $this->load->model('categories_model');
@@ -66,7 +66,7 @@ class Productgroups extends CI_Controller
 
     public function delete_i()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
             if ($id) {
                 $this->db->delete('gtg_product_groups', array('id' => $id));

@@ -14,10 +14,10 @@ class Purchase extends CI_Controller
             redirect('/user/', 'refresh');
         }
 
-        if (!$this->aauth->premission(2)) {
+        // if (!$this->aauth->premission(2)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->li_a = 'stock';
         //exit('Under Dev Mode');
 
@@ -172,7 +172,7 @@ class Purchase extends CI_Controller
                 $amt = numberClean($product_qty[$key]);
 
                 if ($product_id[$key] > 0) {
-                    if ($this->input->post('update_stock') == 'yes' and $this->aauth->premission(14)) {
+                    if ($this->input->post('update_stock') == 'yes' and $this->aauth->premission(159)) {
 
                         $this->db->set('qty', "qty+$amt", FALSE);
                         $this->db->where('pid', $product_id[$key]);

@@ -13,7 +13,7 @@ class Reports extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(10)) {
+        if (!$this->aauth->premission(158)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }

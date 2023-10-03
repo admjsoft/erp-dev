@@ -26,7 +26,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
     <div class="message"><strong>Alert</strong>: Application is running in Development/Debug mode! Set it production mode <a href="<?=base_url('settings/debug') ?>">here</a></div>
 </div>
 <?php } ?>
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <div class="row">
@@ -105,7 +105,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 <?php 
 }
 ?>
-<?php if ($this->aauth->premission(36))
+<?php if ($this->aauth->premission(161))
 {
 	?>
 <div class="row">
@@ -217,7 +217,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
             </div>
 
 <?php }?>
-<?php if ($this->aauth->premission(41))
+<?php if ($this->aauth->premission(163))
 {
 	?>
 	<h3><?php echo $this->lang->line('Job Sheet') ?></h3>
@@ -303,7 +303,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
     </div>
 <?php }?>
 
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <div class="row match-height">
@@ -448,7 +448,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
         </div>
     </div>
 </div><?php }?>
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <div class="row match-height">
@@ -533,7 +533,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
         </div>
     </div>
 </div><?php }?>
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <div class="row">
@@ -622,7 +622,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
         </div>
     </div>
 </div><?php }?>
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <div class="row match-height">
@@ -661,7 +661,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 		
     </div>
     <?php ?>
-	<?php if ($this->aauth->premission(40))
+	<?php if ($this->aauth->premission(162))
 {
 ?>
     <div class="col-xl-5 col-lg-12">
@@ -697,7 +697,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
 	
 	
 </div><?php }?>
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <div class="row match-height">
@@ -776,7 +776,7 @@ background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important
     </div>
     */ ?>
 </div><?php }?>
-<?php if ($this->aauth->premission(35))
+<?php if ($this->aauth->premission(160))
 {
 ?>
 <script type="text/javascript">

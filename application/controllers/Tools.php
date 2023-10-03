@@ -23,11 +23,11 @@ class Tools extends CI_Controller
     public function todo()
     {
         $this->li_a = 'project';
-        if (!$this->aauth->premission(4)) {
+        // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'ToDo List';
         $data['totalt'] = $this->tools->task_count_all();
@@ -41,11 +41,11 @@ class Tools extends CI_Controller
     public function addtask()
     {
         $this->li_a = 'project';
-        if (!$this->aauth->premission(4)) {
+        // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $this->load->model('employee_model', 'employee');
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['emp'] = $this->employee->list_employee();
@@ -60,11 +60,11 @@ class Tools extends CI_Controller
     public function edittask()
     {
         $this->li_a = 'project';
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         if ($this->input->post()) {
             $id = $this->input->post('id');
             $name = $this->input->post('name', true);
@@ -102,11 +102,11 @@ class Tools extends CI_Controller
 
     public function save_addtask()
     {
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $name = $this->input->post('name', true);
         $status = $this->input->post('status');
         $priority = $this->input->post('priority');
@@ -128,11 +128,11 @@ class Tools extends CI_Controller
 
     public function set_task()
     {
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $id = $this->input->post('tid');
         $stat = $this->input->post('stat');
         $this->tools->settask($id, $stat);
@@ -143,11 +143,11 @@ class Tools extends CI_Controller
 
     public function view_task()
     {
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $id = $this->input->post('tid');
 
         $task = $this->tools->viewtask($id);
@@ -157,11 +157,11 @@ class Tools extends CI_Controller
 
     public function task_stats()
     {
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $this->tools->task_stats();
 
 
@@ -169,11 +169,11 @@ class Tools extends CI_Controller
 
     public function delete_i()
     {
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $id = $this->input->post('deleteid');
 
         if ($this->tools->deletetask($id)) {
@@ -186,11 +186,11 @@ class Tools extends CI_Controller
 
     public function todo_load_list()
     {
-        if (!$this->aauth->premission(4)) {
+               // if (!$this->aauth->premission(4)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $cday = $this->input->get('cday');
         $list = $this->tools->task_datatables($cday);
         $data = array();
@@ -264,11 +264,11 @@ class Tools extends CI_Controller
 
     public function notes()
     {
-        if (!$this->aauth->premission(6)) {
+        // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Notes';
         $this->load->view('fixed/header', $head);
@@ -279,11 +279,11 @@ class Tools extends CI_Controller
 
     public function notes_load_list()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $list = $this->tools->notes_datatables();
         $data = array();
         $no = $this->input->post('start');
@@ -309,11 +309,11 @@ class Tools extends CI_Controller
 
     public function addnote()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         if ($this->input->post('title')) {
 
             $title = $this->input->post('title', true);
@@ -336,11 +336,11 @@ class Tools extends CI_Controller
 
     public function editnote()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         if ($this->input->post('title')) {
             $id = $this->input->post('id');
             $title = $this->input->post('title', true);
@@ -366,11 +366,11 @@ class Tools extends CI_Controller
 
     public function delete_note()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $id = $this->input->post('deleteid');
 
         if ($this->tools->deletenote($id)) {
@@ -386,11 +386,11 @@ class Tools extends CI_Controller
 
     public function documents()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Documents';
         $this->load->view('fixed/header', $head);
@@ -402,11 +402,11 @@ class Tools extends CI_Controller
 
     public function document_load_list()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $list = $this->tools->document_datatables();
         $data = array();
         $no = $this->input->post('start');
@@ -435,11 +435,11 @@ class Tools extends CI_Controller
 
     public function adddocument()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $this->load->helper(array('form'));
         $data['response'] = 3;
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -485,11 +485,11 @@ class Tools extends CI_Controller
 
     public function delete_document()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $id = $this->input->post('deleteid');
 
         if ($this->tools->deletedocument($id)) {
@@ -502,11 +502,11 @@ class Tools extends CI_Controller
 
     public function pendingtasks()
     {
-        if (!$this->aauth->premission(6)) {
+       // if (!$this->aauth->premission(6)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $tasks = $this->tools->pending_tasks();
 
         $tlist = '';

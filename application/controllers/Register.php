@@ -22,7 +22,7 @@ class Register extends CI_Controller
 
     public function index()
     {
-        if (!$this->aauth->premission(10)) {
+        if (!$this->aauth->premission(158)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
@@ -39,7 +39,7 @@ class Register extends CI_Controller
 
     public function view()
     {
-        if (!$this->aauth->premission(10)) {
+        if (!$this->aauth->premission(158)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
@@ -71,9 +71,9 @@ class Register extends CI_Controller
     public function create()
     {
 
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         if ($this->registerlog->check($this->aauth->get_user()->id)) {
             redirect('pos_invoices/create');
         }
@@ -103,7 +103,7 @@ class Register extends CI_Controller
 
     public function delete_i()
     {
-        if (!$this->aauth->premission(10)) {
+        if (!$this->aauth->premission(158)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
@@ -122,7 +122,7 @@ class Register extends CI_Controller
 
     public function load_list()
     {
-        if (!$this->aauth->premission(10)) {
+        if (!$this->aauth->premission(158)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }

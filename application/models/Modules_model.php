@@ -108,17 +108,17 @@ class Modules_model extends CI_Model
 
     public function get_modules_list()
     {
-        $sql = "SELECT si.*, sh.parent_id AS rel_parent_id, sip.title AS rel_parent_title FROM sidebaritems si LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id LEFT JOIN sidebaritems sip ON sh.parent_id = sip.id order by si.type,si.title ASC";
+        $sql = "SELECT si.*, sh.parent_id AS rel_parent_id, sip.title AS rel_parent_title FROM sidebaritems si LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id LEFT JOIN sidebaritems sip ON sh.parent_id = sip.id order by si.id ASC";
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
     public function get_modules_hierarchy() {
         $query = $this->db->query("
-            SELECT si.id, si.title, si.type, sh.parent_id
+            SELECT si.id, si.title, si.type,si.subscription_status, sh.parent_id
             FROM sidebaritems si
             LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id
-            ORDER BY sh.parent_id, si.display_order
+            ORDER BY si.id, si.display_order
         ");
         return $query->result();
     }

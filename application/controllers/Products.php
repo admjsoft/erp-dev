@@ -13,10 +13,10 @@ class Products extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(2)) {
+        // if (!$this->aauth->premission(2)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->load->model('products_model', 'products');
         $this->load->model('categories_model');
         $this->load->library("Custom");
@@ -139,7 +139,7 @@ class Products extends CI_Controller
 
     public function delete_i()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
             if ($id) {
                 $this->db->delete('gtg_products', array('pid' => $id));
@@ -160,7 +160,7 @@ class Products extends CI_Controller
 
     public function edit()
     {
-        if (!$this->aauth->premission(14)) {
+        if (!$this->aauth->premission(159)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $pid = $this->input->get('id');
@@ -204,7 +204,7 @@ class Products extends CI_Controller
 
     public function editproduct()
     {
-        if (!$this->aauth->premission(14)) {
+        if (!$this->aauth->premission(159)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $pid = $this->input->post('pid');

@@ -13,9 +13,9 @@ class Productcategory extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(2)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(2)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->li_a = 'stock';
     }
 
@@ -129,7 +129,7 @@ class Productcategory extends CI_Controller
 
     public function delete_i()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = intval($this->input->post('deleteid'));
             if ($id) {
 
@@ -149,7 +149,7 @@ class Productcategory extends CI_Controller
 
     public function delete_i_sub()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = intval($this->input->post('deleteid'));
             if ($id) {
 
@@ -169,7 +169,7 @@ class Productcategory extends CI_Controller
 
     public function delete_warehouse()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
             if ($id) {
                 $this->db->delete('gtg_products', array('warehouse' => $id));

@@ -14,10 +14,10 @@ class Clientgroup extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(3)) {
+        // if (!$this->aauth->premission(3)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->li_a = 'crm';
     }
 
@@ -121,7 +121,7 @@ class Clientgroup extends CI_Controller
 
     public function delete_i()
     {
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
             if ($id != 1) {
                 $this->db->delete('gtg_cust_group', array('id' => $id));

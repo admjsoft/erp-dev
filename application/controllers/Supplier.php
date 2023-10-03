@@ -14,11 +14,11 @@ class Supplier extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(2)) {
+        // if (!$this->aauth->premission(2)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
 
-        }
+        // }
         $this->li_a = 'stock';
     }
 
@@ -256,9 +256,9 @@ class Supplier extends CI_Controller
 
     public function bulkpayment()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $data['id'] = $this->input->get('id');
         $data['details'] = $this->supplier->details($data['id']);
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -273,9 +273,9 @@ class Supplier extends CI_Controller
 
     public function bulk_post()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $csd = $this->input->post('customer', true);
         $sdate = datefordatabase($this->input->post('sdate'));
         $edate = datefordatabase($this->input->post('edate'));
@@ -288,9 +288,9 @@ class Supplier extends CI_Controller
 
     public function bulk_post_payment()
     {
-        if (!$this->aauth->premission(8)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(8)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $csd = $this->input->post('customer', true);
         $account = $this->input->post('account', true);
         $pay_method = $this->input->post('pmethod', true);

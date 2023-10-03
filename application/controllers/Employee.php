@@ -17,10 +17,10 @@ class Employee extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(9) && !$this->aauth->premission(25)) {
+        // if (!$this->aauth->premission(9) && !$this->aauth->premission(25)) {
 
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
         $this->li_a = 'emp';
     }
 
@@ -1716,8 +1716,9 @@ JSOFT SOLUTION SDN BHD,</p>
         $role_name = $this->input->post('role_name');
         $role_id = $this->input->post('role_id');
         $role_status = $this->input->post('role_status');
-
-        $update = $this->employee->role_update($role_name, $role_id, $role_status);
+        $all_data_previleges = $this->input->post('all_data_previleges');
+     
+        $update = $this->employee->role_update($role_name, $role_id, $role_status, $all_data_previleges);
 
         if (!$update) {
             $data['status'] = 'danger';
@@ -1738,6 +1739,8 @@ JSOFT SOLUTION SDN BHD,</p>
     public function createrole()
     {
         $role_name = $this->input->post('role_name');
+        $all_data_previleges = $this->input->post('all_data_previleges');
+        
         //  $this->db->select('*');
         //  $this->db->from('gtg_role');
         //  $this->db->where('delete_status',0);
@@ -1772,7 +1775,7 @@ JSOFT SOLUTION SDN BHD,</p>
 
         }
 
-        $insert = $this->employee->role_create($role_name);
+        $insert = $this->employee->role_create($role_name,$all_data_previleges);
 
         if (!$insert) {
             $data['status'] = 'danger';
@@ -3841,7 +3844,18 @@ JSOFT SOLUTION SDN BHD,</p>
 
     public function att_list()
     {
-        $cid = $this->input->post('cid');
+        //$cid = $this->input->post('cid');
+
+        $user_role = $this->aauth->get_user()->roleid;
+        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        $all_data_previleges = $role_details[0]['all_data_previleges'];
+
+        if ($all_data_previleges) {
+            $cid = 0;
+        } else {
+            $cid = $this->aauth->get_user()->id;
+        }
+
         $year = $this->input->post('year');
         $month = $this->input->post('month');
         $list = $this->employee->attendance_datatables($cid, $year, $month);

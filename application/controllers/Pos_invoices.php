@@ -35,7 +35,7 @@ class Pos_invoices extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(12)) {
+        if (!$this->aauth->premission(157)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         if ($this->aauth->get_user()->roleid == 2) {
@@ -144,7 +144,7 @@ class Pos_invoices extends CI_Controller
         if (!$this->registerlog->check($this->aauth->get_user()->id)) {
             redirect('register/create');
         }
-        if (!$this->aauth->premission(13)) {
+        if (!$this->aauth->premission(159)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $head['s_mode'] = false;
@@ -894,7 +894,7 @@ class Pos_invoices extends CI_Controller
 
     public function extended_ajax_list()
     {
-        if (!$this->aauth->premission(10)) {
+        if (!$this->aauth->premission(158)) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
@@ -1003,7 +1003,7 @@ class Pos_invoices extends CI_Controller
     public function delete_i()
     {
         $id = $this->input->post('deleteid');
-        if ($this->aauth->premission(11)) {
+        if ($this->aauth->premission(157)) {
             if ($this->invocies->invoice_delete($id, $this->limited)) {
                 echo json_encode(array('status' => 'Success', 'message' =>
                 $this->lang->line('DELETED')));
@@ -1019,7 +1019,7 @@ class Pos_invoices extends CI_Controller
 
     public function editaction()
     {
-        if (!$this->aauth->premission(13)) {
+        if (!$this->aauth->premission(159)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $ptype = $this->input->post('type');

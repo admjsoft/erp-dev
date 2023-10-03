@@ -20,9 +20,9 @@ class Ecommerce extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        if (!$this->aauth->premission(1)) {
-            exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
-        }
+        // if (!$this->aauth->premission(1)) {
+        //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
+        // }
 
         if (($this->aauth->get_user()->roleid == 5) || ($this->aauth->get_user()->roleid == 4)) {
             $this->limited = '';

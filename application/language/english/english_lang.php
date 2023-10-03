@@ -1463,6 +1463,10 @@ $lang["Activity Type"] = "Activity Type";
 $lang["Status"] = "Status";
 $lang["Position"] = "Position";
 
+$lang["Data Previleges"] = "Data Previleges";
+$lang["All Users Data Previleges"] = "All Users Data Previleges";
+$lang["Self User Data Previleges"] = "Self User Data Previleges";
+
 
 $lang["Delete This Module"] = "Are you sure you want to delete this Module? <br><strong> It will delete all sub modules in this Module also.</strong>";
 $lang["Module Deleted Successfully"] = "Module Deleted Successfully";
