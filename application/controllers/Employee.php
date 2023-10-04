@@ -2018,14 +2018,16 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $obj->passport;
 
             }
-            $row[] = $obj->passport_expiry;
+            $passport_expiry = date_create_from_format("Y-m-d", $obj->passport_expiry)->format("d-m-Y");
+            $row[] = $passport_expiry;
             if (!empty($obj->visa_document)) {
                 $row[] = $vs;
             } else {
                 $row[] = $obj->permit;
 
             }
-            $row[] = $obj->permit_expiry;
+            $permit_expiry = date_create_from_format("Y-m-d", $obj->permit_expiry)->format("d-m-Y");
+            $row[] = $permit_expiry;
 
             $data[] = $row;
         }

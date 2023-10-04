@@ -1,31 +1,27 @@
 <?php
 
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Expenses_model extends CI_Model
 {
-    var $table = 'gtg_expenses';
-    var $column_order = array('id', 'name', 'title', 'category', 'receipt_no', 'receipt_date', 'receipt_amount','tax_amount','reason','remarks','doc','loc');
-    var $column_search = array('id', 'name', 'title');
-    var $order = array('id' => 'desc');
-    var $opt = '';
+    public $table = 'gtg_expenses';
+    public $column_order = array('id', 'name', 'title', 'category', 'receipt_no', 'receipt_date', 'receipt_amount', 'tax_amount', 'reason', 'remarks', 'doc', 'loc');
+    public $column_search = array('id', 'name', 'title');
+    public $order = array('id' => 'desc');
+    public $opt = '';
 
-    private function _get_datatables_query($status='',$employee = '',$start_date = '',$end_date = '')
+    private function _get_datatables_query($status = '', $employee = '', $start_date = '', $end_date = '')
     {
 
         $this->db->select('gtg_expenses.*,gtg_expenses.id as id');
         $this->db->from($this->table);
-if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5)
-{
-    }
-        else{
-        
-               //     $this->db->where('gtg_expenses.eid',$this->aauth->get_user()->id);
-    
-            
+        if ($this->aauth->get_user()->roleid == 4 || $this->aauth->get_user()->roleid == 5) {
+        } else {
+
+            //     $this->db->where('gtg_expenses.eid',$this->aauth->get_user()->id);
+
         }
-        
+
         switch ($this->opt) {
             case 'income':
                 $this->db->where('type', 'Income');
@@ -39,30 +35,27 @@ if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5)
             $this->db->where('category', $status);
         }
 
-        
         if (!empty($employee)) {
             $this->db->where('eid', $employee);
         }
 
-        if (!empty($start_date) && !empty($end_date) ) {
+        if (!empty($start_date) && !empty($end_date)) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
-        }else if (!empty($start_date) && empty($end_date) ) {
+        } else if (!empty($start_date) && empty($end_date)) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
 
-        }else if (empty($start_date) && !empty($end_date) ) {
+        } else if (empty($start_date) && !empty($end_date)) {
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
         }
 
-      if($this->aauth->premission(21) && !$this->aauth->premission(22)){
-          if($this->aauth->get_user()->roleid==4 || $this->aauth->get_user()->roleid==5)
-{
-}
-else{
-           $this->db->where('eid', $this->session->userdata('id'));
-     } }
+        if ($this->aauth->premission(21) && !$this->aauth->premission(22)) {
+            if ($this->aauth->get_user()->roleid == 4 || $this->aauth->get_user()->roleid == 5) {
+            } else {
+                $this->db->where('eid', $this->session->userdata('id'));
+            }}
         if ($this->aauth->get_user()->loc) {
             $this->db->where('loc', $this->aauth->get_user()->loc);
         }
@@ -83,7 +76,10 @@ else{
                 }
 
                 if (count($this->column_search) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                {
+                    $this->db->group_end();
+                }
+                //close bracket
             }
             $i++;
         }
@@ -97,12 +93,14 @@ else{
         }
     }
 
-    function get_datatables($opt = 'all', $status = '',$employee = '',$start_date = '',$end_date = '')
+    public function get_datatables($opt = 'all', $status = '', $employee = '', $start_date = '', $end_date = '')
     {
         $this->opt = $opt;
-        $this->_get_datatables_query($status,$employee,$start_date,$end_date);
-        if ($_POST['length'] != -1)
+        $this->_get_datatables_query($status, $employee, $start_date, $end_date);
+        if ($_POST['length'] != -1) {
             $this->db->limit($_POST['length'], $_POST['start']);
+        }
+
         $query = $this->db->get();
 
         // echo $this->db->last_query();
@@ -110,22 +108,23 @@ else{
         return $query->result();
     }
     // get expense by id
-    function get_expense($id)
+    public function get_expense($id)
     {
         $this->db->from('gtg_expenses');
-        $this->db->where('id',$id);
+        $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->result();
     }
     //get employee by id
-    function get_expense_user_by_id($id){
+    public function get_expense_user_by_id($id)
+    {
         $this->db->from('gtg_users');
-        $this->db->where('id',$id);
+        $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->result();
     }
     // expenses filtered
-    function count_filtered($status='',$employee='',$start_date='',$end_date='')
+    public function count_filtered($status = '', $employee = '', $start_date = '', $end_date = '')
     {
         $this->db->from('gtg_expenses');
         if ($this->aauth->get_user()->loc) {
@@ -135,19 +134,18 @@ else{
             $this->db->where('category', $status);
         }
 
-        
         if (!empty($employee)) {
             $this->db->where('eid', $employee);
         }
 
-        if (!empty($start_date) && !empty($end_date) ) {
+        if (!empty($start_date) && !empty($end_date)) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
-        }else if (!empty($start_date) && empty($end_date) ) {
+        } else if (!empty($start_date) && empty($end_date)) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
 
-        }else if (empty($start_date) && !empty($end_date) ) {
+        } else if (empty($start_date) && !empty($end_date)) {
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
         }
@@ -156,7 +154,7 @@ else{
         return $query->num_rows();
     }
     // expense count function
-    public function count_all($status='',$employee='',$start_date='',$end_date='')
+    public function count_all($status = '', $employee = '', $start_date = '', $end_date = '')
     {
         $this->db->from($this->table);
         if ($this->aauth->get_user()->loc) {
@@ -167,19 +165,18 @@ else{
             $this->db->where('category', $status);
         }
 
-        
         if (!empty($employee)) {
             $this->db->where('eid', $employee);
         }
 
-        if (!empty($start_date) && !empty($end_date) ) {
+        if (!empty($start_date) && !empty($end_date)) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
-        }else if (!empty($start_date) && empty($end_date) ) {
+        } else if (!empty($start_date) && empty($end_date)) {
             $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
 
-        }else if (empty($start_date) && !empty($end_date) ) {
+        } else if (empty($start_date) && !empty($end_date)) {
             $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
 
         }
@@ -195,37 +192,36 @@ else{
         return $query->result_array();
     }
 
-
 // create category
     public function addcat($name)
     {
         $data = array(
-            'name' => $name
+            'name' => $name,
         );
 
         return $this->db->insert('gtg_expenses_cat', $data);
     }
 
-    public function addexpense($emp_id,$emp_name,$title,$category,$receipt_no,$receipt_date,$receipt_amount,$tax_amount,$reason,$remarks,$filename, $loc = 0)
+    public function addexpense($emp_id, $emp_name, $title, $category, $receipt_no, $receipt_date, $receipt_amount, $tax_amount, $reason, $remarks, $filename, $loc = 0)
     {
-        $datetime=date("Y-m-d") ." ".date("h:i:s");
-            $data = array(
-                'eid' => $emp_id,
-                'name' => $emp_name,
-                'title' => $title,
-                'category' => $category,
-                'receipt_no' => $receipt_no,
-                'receipt_date' => $receipt_date,
-                'receipt_amount' => $receipt_amount,
-                'tax_amount' => $tax_amount,
-                'reason' => $reason,
-                'remarks' => $remarks,
-                'doc' => $filename,
-                'loc' => $loc,
-                'created_at' => $datetime
-            );
-			
-            return $this->db->insert('gtg_expenses', $data);
+        $datetime = date("Y-m-d") . " " . date("h:i:s");
+        $data = array(
+            'eid' => $emp_id,
+            'name' => $emp_name,
+            'title' => $title,
+            'category' => $category,
+            'receipt_no' => $receipt_no,
+            'receipt_date' => $receipt_date,
+            'receipt_amount' => $receipt_amount,
+            'tax_amount' => $tax_amount,
+            'reason' => $reason,
+            'remarks' => $remarks,
+            'doc' => $filename,
+            'loc' => $loc,
+            'created_at' => $datetime,
+        );
+
+        return $this->db->insert('gtg_expenses', $data);
 
     }
 
@@ -240,7 +236,10 @@ else{
             if ($this->aauth->get_user()->loc) {
                 $this->db->group_start();
                 $this->db->where('loc', $this->aauth->get_user()->loc);
-                if (BDATA) $this->db->or_where('loc', 0);
+                if (BDATA) {
+                    $this->db->or_where('loc', 0);
+                }
+
                 $this->db->group_end();
             } elseif (!BDATA) {
                 $this->db->where('loc', 0);
@@ -253,7 +252,10 @@ else{
             if ($this->aauth->get_user()->loc) {
                 $this->db->group_start();
                 $this->db->where('loc', $this->aauth->get_user()->loc);
-                if (BDATA) $this->db->or_where('loc', 0);
+                if (BDATA) {
+                    $this->db->or_where('loc', 0);
+                }
+
                 $this->db->group_end();
             } elseif (!BDATA) {
                 $this->db->where('loc', 0);
@@ -276,12 +278,11 @@ else{
                     'eid' => $eid,
                     'note' => 'Transferred by ' . $account['holder'],
                     'ext' => 9,
-                    'loc' => $loc
+                    'loc' => $loc,
                 );
                 $this->db->insert('gtg_expenses', $data);
 
-
-                $this->db->set('lastbal', "lastbal+$amount", FALSE);
+                $this->db->set('lastbal', "lastbal+$amount", false);
                 $this->db->where('id', $pay_acc2);
                 $this->db->update('gtg_accounts');
                 $datec = date('Y-m-d');
@@ -300,10 +301,10 @@ else{
                     'eid' => $eid,
                     'note' => 'Transferred to ' . $account2['holder'],
                     'ext' => 9,
-                    'loc' => $loc
+                    'loc' => $loc,
                 );
 
-                $this->db->set('lastbal', "lastbal-$amount", FALSE);
+                $this->db->set('lastbal', "lastbal-$amount", false);
                 $this->db->where('id', $pay_acc);
                 $this->db->update('gtg_accounts');
 
@@ -329,7 +330,10 @@ else{
         if ($this->aauth->get_user()->loc) {
             $this->db->group_start();
             $this->db->where('loc', $this->aauth->get_user()->loc);
-            if (BDATA) $this->db->or_where('loc', 0);
+            if (BDATA) {
+                $this->db->or_where('loc', 0);
+            }
+
             $this->db->group_end();
         } elseif (!BDATA) {
             $this->db->where('loc', 0);
@@ -347,7 +351,10 @@ else{
         if ($this->aauth->get_user()->loc) {
             $this->db->group_start();
             $this->db->where('loc', $this->aauth->get_user()->loc);
-            if (BDATA) $this->db->or_where('loc', 0);
+            if (BDATA) {
+                $this->db->or_where('loc', 0);
+            }
+
             $this->db->group_end();
         } elseif (!BDATA) {
             $this->db->where('loc', 0);
@@ -381,7 +388,7 @@ else{
     public function cat_update($id, $cat_name)
     {
         $data = array(
-            'name' => $cat_name
+            'name' => $cat_name,
 
         );
         $this->db->set($data);
@@ -394,23 +401,22 @@ else{
         }
     }
 
-
     // expense update status query
     public function expenses_update($id, $remarks, $status)
     {
         /*
-            $this->db->select('remarks');
-            $this->db->from('gtg_expenses');
-            $this->db->where('id', $id);
-            $query = $this->db->get();
-            $res= $query->row_array();
-            $tempremarks='';
-            if(!empty($res['remarks'])){
-            $tempremarks=$res['remarks'].' <br />';}
-        */
+        $this->db->select('remarks');
+        $this->db->from('gtg_expenses');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        $res= $query->row_array();
+        $tempremarks='';
+        if(!empty($res['remarks'])){
+        $tempremarks=$res['remarks'].' <br />';}
+         */
         $data = array(
             'remarks' => $remarks,
-            'status' => $status
+            'status' => $status,
         );
 
         $this->db->set($data);
@@ -429,7 +435,10 @@ else{
         if ($this->aauth->get_user()->loc) {
             $this->db->group_start();
             $this->db->where('loc', $this->aauth->get_user()->loc);
-            if (BDATA) $this->db->or_where('loc', 0);
+            if (BDATA) {
+                $this->db->or_where('loc', 0);
+            }
+
             $this->db->group_end();
         } elseif (!BDATA) {
             $this->db->where('loc', 0);

@@ -1985,6 +1985,11 @@ class Employee_model extends CI_Model
         } else {
             $no = 0;
             foreach ($list as $obj) {
+
+                $passport_expiry = date_create_from_format("Y-m-d", $obj->passport_expiry)->format("d-m-Y");
+                $permit_expiry = date_create_from_format("Y-m-d", $obj->permit_expiry)->format("d-m-Y");
+        
+
                 $no++;
                 $table .= '<tr>';
                 $table .= '<td>' . $no . '</td>';
@@ -1992,9 +1997,9 @@ class Employee_model extends CI_Model
                 $table .= '<td>' . $obj->client . '</td>';
                 $table .= '<td>' . $obj->country_name . '</td>';
                 $table .= '<td>' . $obj->passport . '</td>';
-                $table .= '<td>' . $obj->passport_expiry . '</td>';
+                $table .= '<td>' . $passport_expiry . '</td>';
                 $table .= '<td>' . $obj->permit . '</td>';
-                $table .= '<td>' . $obj->permit_expiry . '</td>';
+                $table .= '<td>' . $permit_expiry . '</td>';
                 $table .= '</tr>';
             }
         }

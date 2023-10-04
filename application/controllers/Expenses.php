@@ -277,6 +277,26 @@ class Expenses extends CI_Controller
         $start_date = $this->input->post('start_date');
         $end_date = $this->input->post('end_date');
 
+        // echo "<pre>"; print_r($ $role_details); echo "</pre>";
+        // exit;
+
+        $user_role = $this->aauth->get_user()->roleid;
+        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        $all_data_previleges = $role_details[0]['all_data_previleges'];
+        // echo "<pre>"; print_r($role_details); echo "</pre>";
+        // exit;
+
+        if ($all_data_previleges) {
+            $employee = '';
+        } else {
+            // echo "sssssssss";
+            // exit;
+            $eid = $this->aauth->get_user()->id;
+            //$this->db->where('employeeId',$eid);
+            //$this->db->where('employeeId', $_SESSION['id']);
+            $employee = $eid;
+        }
+
         $list = $this->expenses->get_datatables($ttype,$status,$employee,$start_date,$end_date);
         $data = array();
         // $no = $_POST['start'];

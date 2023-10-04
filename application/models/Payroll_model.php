@@ -11,6 +11,10 @@ class Payroll_model extends CI_Model
 
     private function _get_datatables_query()
     {
+        $user_role = $this->aauth->get_user()->roleid;
+        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        $all_data_previleges = $role_details[0]['all_data_previleges'];
+
 
         $this->db->select('*');
         $this->db->from('gtg_payslip');
@@ -23,16 +27,16 @@ class Payroll_model extends CI_Model
 
         // }
 
-        $user_role = $this->aauth->get_user()->roleid;
-        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
-        $all_data_previleges = $role_details[0]['all_data_previleges'];
-
+        
+       
         if ($all_data_previleges) {
             $eid = 0;
         } else {
-            $eid = $this->aauth->get_user()->id;
-            $this->db->where('employeeId',$eid);
-            //$this->db->where('employeeId', $_SESSION['id']);
+            // echo "sssssssss";
+            // exit;
+            //$eid = $this->aauth->get_user()->id;
+            //$this->db->where('employeeId',$eid);
+            $this->db->where('employeeId', $_SESSION['id']);
         }
 
 
