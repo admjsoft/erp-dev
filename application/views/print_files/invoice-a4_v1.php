@@ -208,7 +208,7 @@
             </td>
             <td>
                 <?php
-                    if ($invoice['company']){  $company = $invoice['company']; }
+                    if ($invoice['company']){  $company = $invoice['company']; }else{  $company = '';}
                 echo '<strong>' . $company . '</strong><br>';
                 if ($invoice['name']) echo $invoice['name'] . '<br>';
 
@@ -307,7 +307,7 @@
             }
             if (CUSTOM) {
 
-                if(!isset($custom_modify)){
+                //if(!isset($custom_modify)){
 
                     $p_custom_fields = $this->custom->view_fields_data($row['pid'], 4, 1);
 
@@ -323,7 +323,7 @@
 
                             </tr>';
                     }
-                }
+                //}
                 
             }
             $fill = !$fill;

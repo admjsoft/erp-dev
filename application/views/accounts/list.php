@@ -99,18 +99,7 @@
                         }
                         ?>
                         </tbody>
-                        <tfoot>
-                            <?php /* ?>
-                        <tr>
-                            <th>#</th>
-                            <th><?php echo $this->lang->line('Account No') ?></th>
-                            <th><?php echo $this->lang->line('Name') ?></th>
-                            <th><?php echo $this->lang->line('Balance') ?></th>
-                            <th><?php echo $this->lang->line('Type') ?></th>
-                            <th><?php echo $this->lang->line('Actions') ?></th>
-                        </tr>
-                        <?php */ ?>
-                        </tfoot>
+                       
                     </table>
                 </div>
             </div>

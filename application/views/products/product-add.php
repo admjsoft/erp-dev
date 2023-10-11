@@ -285,6 +285,7 @@
                         <input type="submit" id="submit-data" class="btn btn-lg btn-blue margin-bottom"
                             value="<?php echo $this->lang->line('Add product') ?>" data-loading-text="Adding...">
                         <input type="hidden" value="products/addproduct" id="action-url">
+                        <input type="hidden" id="after_action" name="after_action" value="page_reload" />
                     </div>
                 </div><button class="btn btn-pink add_serial btn-sm m-1">
                     <?php echo $this->lang->line('add_serial') ?></button>

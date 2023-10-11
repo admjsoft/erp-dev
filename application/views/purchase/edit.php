@@ -57,8 +57,9 @@
                             </div>'; ?>
                                         <hr><?php echo $this->lang->line('Warehouse') ?> <select id="s_warehouses"
                                                                                                  class="selectpicker form-control">
-                                            <?php echo $this->common->default_warehouse();
-                                            echo '<option value="0">' . $this->lang->line('All') ?></option><?php foreach ($warehouse as $row) {
+                                            <?php //echo $this->common->default_warehouse();
+                                            echo '<option value="0">' . $this->lang->line('All') ?></option>
+                                            <?php foreach ($warehouse as $row) {
                                                 echo '<option value="' . $row['id'] . '">' . $row['title'] . '</option>';
                                             } ?>
 

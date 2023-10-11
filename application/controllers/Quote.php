@@ -492,7 +492,7 @@ class Quote extends CI_Controller
         if ($this->quote->convert_po($tid, $person)) {
 
             echo json_encode(array('status' => 'Success', 'message' =>
-            $this->lang->line('Quote to invoice conversion')));
+            $this->lang->line('Quote to Purchase Order conversion')));
         } else {
             echo json_encode(array('status' => 'Error', 'message' =>
             $this->lang->line('ERROR')));

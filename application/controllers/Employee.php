@@ -3318,12 +3318,36 @@ JSOFT SOLUTION SDN BHD,</p>
             }
         }
 
+        // if(!empty($email))
+        // {
+        //     $existing_details = $this->db->where('email', $email)->where('delete_status',0)->or_where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+
+        // }else{
+        //     $existing_details = $this->db->where('delete_status',0)->where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+
+        // }
+
         if(!empty($email))
         {
-            $existing_details = $this->db->where('email', $email)->or_where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+            $existing_details = $this->db->where('delete_status',0)
+            ->group_start()
+            ->where('email', $email)            
+            ->or_where('passport', $passport)
+            ->or_where('permit', $permit)
+            ->group_end()
+            ->get('gtg_employees')
+            ->result_array();
+
 
         }else{
-            $existing_details = $this->db->where('passport', $passport)->or_where('permit', $permit)->get('gtg_employees')->result_array();
+            $existing_details = $this->db->where('delete_status',0)
+            ->group_start()
+            //->where('email', $email)            
+            ->where('passport', $passport)
+            ->or_where('permit', $permit)
+            ->group_end()
+            ->get('gtg_employees')
+            ->result_array();
 
         }
                 // echo "<pre>";  print_r($existing_details); echo "</pre>";
@@ -3440,7 +3464,7 @@ JSOFT SOLUTION SDN BHD,</p>
                 $data['message'] = $this->lang->line('Email Id Existed');
 
             } else if (in_array($passport, $passports)) {
-                $data['message'] = $this->lang->line("Passport Can't be Updated");
+                $data['message'] = $this->lang->line("Passport Details Existed");
 
             } else if (in_array($permit, $permits)) {
                 $data['message'] = $this->lang->line('Permit Details Existed');
@@ -3562,6 +3586,7 @@ JSOFT SOLUTION SDN BHD,</p>
         if(!empty($email))
         {
             $existing_details = $this->db->where('id !=', $id)
+            ->where('delete_status',0)
             ->group_start()
             ->where('email', $email)
             ->or_where('passport', $passport)
@@ -3573,6 +3598,7 @@ JSOFT SOLUTION SDN BHD,</p>
 
         }else{
             $existing_details = $this->db->where('id !=', $id)
+            ->where('delete_status',0)
             ->group_start()
             //->where('email', $email)
             ->or_where('passport', $passport)
@@ -3739,7 +3765,7 @@ JSOFT SOLUTION SDN BHD,</p>
                 $data['message'] = $this->lang->line('Permit Details Existed');
 
             } else {
-                $data['message'] = $this->lang->line('Employee Details Adding Error');
+                $data['message'] = $this->lang->line('Employee Details Update Error');
             }
 
             $data['status'] = 'danger';

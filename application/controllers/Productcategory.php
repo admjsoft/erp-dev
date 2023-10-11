@@ -204,7 +204,11 @@ class Productcategory extends CI_Controller
 
     public function editwarehouse()
     {
+        
+
         if ($this->input->post()) {
+            // echo "<pre>"; print_r($_POST); echo "</pre>";
+            // exit;
             $cid = $this->input->post('catid');
             $cat_name = $this->input->post('product_cat_name', true);
             $cat_desc = $this->input->post('product_cat_desc', true);
@@ -217,11 +221,13 @@ class Productcategory extends CI_Controller
                 }
             }
 
-
+            // echo "<pre>"; print_r($_POST); echo "</pre>";
+            // exit;
             if ($cat_name) {
 
                 $this->products_cat->editwarehouse($cid, $cat_name, $cat_desc, $lid);
             }
+
         } else {
             $catid = $this->input->get('id');
             $this->db->select('*');

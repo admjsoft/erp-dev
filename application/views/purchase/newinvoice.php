@@ -372,6 +372,7 @@
                     <input type="hidden" value="purchase/action" id="action-url">
                     <input type="hidden" value="puchase_search" id="billtype">
                     <input type="hidden" value="0" name="counter" id="ganak">
+                    <input type="hidden" id="after_action" name="after_action" value="page_reload" />
                     <input type="hidden" value="<?php echo $this->config->item('currency'); ?>" name="currency">
                     <input type="hidden" value="<?= $taxdetails['handle']; ?>" name="taxformat" id="tax_format">
 

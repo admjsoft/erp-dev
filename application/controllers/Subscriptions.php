@@ -13,6 +13,7 @@ class Subscriptions extends CI_Controller
         parent::__construct();
         $this->load->model('subscriptions_model', 'invocies');
         $this->load->library("Aauth");
+        $this->load->library("Custom");
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
@@ -309,6 +310,11 @@ class Subscriptions extends CI_Controller
         $data['id'] = $tid;
         $data['title'] = "Invoice $tid";
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
+        if (CUSTOM) {
+            $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+        }else{
+            $data['c_custom_fields'] = array();
+        }
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
         $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => prefix(3), 't_type' => 0);
@@ -318,7 +324,7 @@ class Subscriptions extends CI_Controller
         } else {
             $html = $this->load->view('print_files/invoice-a4_v' . INVV, $data, true);
         }
-
+        
         //PDF Rendering
         $this->load->library('pdf');
         if (INVV == 1) {

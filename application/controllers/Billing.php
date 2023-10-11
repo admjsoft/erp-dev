@@ -253,8 +253,13 @@ class Billing extends CI_Controller
             $data['round_off'] = $this->custom->api_config(4);
             $data['general'] = array('title' => $this->lang->line('Quote'), 'person' => $this->lang->line('Customer'), 'prefix' => prefix(1), 't_type' => 1);
             //commented by siva
-            $data['custom_modify'] = '1';
-            $data['c_custom_fields'] = array();
+            //$data['custom_modify'] = '1';
+           // $data['c_custom_fields'] = array();
+            if (CUSTOM) {
+                $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+            }else{
+                $data['c_custom_fields'] = array();
+            }
             
             ini_set('memory_limit', '64M');
 
@@ -314,8 +319,14 @@ class Billing extends CI_Controller
             $data['employee'] = $this->purchase->employee($data['invoice']['eid']);
             $data['round_off'] = $this->custom->api_config(4);
             $data['general'] = array('title' => $this->lang->line('Purchase Order'), 'person' => $this->lang->line('Supplier'), 'prefix' => prefix(2), 't_type' => 0);
-            $data['custom_modify'] = '1';
-            $data['c_custom_fields'] = array();
+            //$data['custom_modify'] = '1';
+            
+            if (CUSTOM) {
+                $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+            }else{
+                $data['c_custom_fields'] = array();
+            }
+
             
             ini_set('memory_limit', '64M');
             if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
@@ -367,6 +378,13 @@ class Billing extends CI_Controller
             $data['employee'] = $this->stockreturn->employee($data['invoice']['eid']);
             $data['round_off'] = $this->custom->api_config(4);
             $ty = $this->input->get('ty');
+
+            if (CUSTOM) {
+                $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+            }else{
+                $data['c_custom_fields'] = array();
+            }
+            
 
             if ($ty < 2) {
                 if ($data['invoice']['i_class'] == 1) {

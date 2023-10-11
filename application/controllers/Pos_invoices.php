@@ -736,7 +736,7 @@ class Pos_invoices extends CI_Controller
                 $product_unit = $this->input->post('unit');
                 $product_hsn = $this->input->post('hsn');
 
-
+                if (is_array($pid)) {
                 foreach ($pid as $key => $value) {
 
 
@@ -766,6 +766,7 @@ class Pos_invoices extends CI_Controller
                     $prodindex++;
                     $amt = numberClean($product_qty[$key]);
                     $itc += $amt;
+                }
                 }
 
                 if ($prodindex > 0) {

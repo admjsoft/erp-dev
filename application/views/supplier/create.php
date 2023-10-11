@@ -49,7 +49,7 @@
                     <label class="col-sm-2 col-form-label" for="email"><?php echo $this->lang->line('Email') ?> <span style="color:red">*</span></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="email"
+                        <input type="email" placeholder="email"
                                class="form-control margin-bottom required" name="email">
                     </div>
                 </div>

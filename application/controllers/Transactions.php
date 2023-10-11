@@ -617,15 +617,22 @@ class Transactions extends CI_Controller
         $pay_acc2 = $this->input->post('pay_acc2');
         $amount = (float)$this->input->post('amount', true);
 
-        if ($amount > 0) {
-            if ($this->transactions->addtransfer($pay_acc, $pay_acc2, $amount, $this->aauth->get_user()->id, $this->aauth->get_user()->loc)) {
-                echo json_encode(array('status' => 'Success', 'message' =>
-                "Transfer has been successfully done! <a href='" . base_url() . "transactions/transfer' class='btn btn-indigo btn-sm'><span class='icon-plus-circle' aria-hidden='true'></span> " . $this->lang->line('New') . "  </a> <a href='" . base_url() . "accounts' class='btn btn-indigo btn-sm'><span class='icon-list-ul' aria-hidden='true'></span></a>"));
+        if($pay_acc != $pay_acc2)
+        {
+            if ($amount > 0) {
+                if ($this->transactions->addtransfer($pay_acc, $pay_acc2, $amount, $this->aauth->get_user()->id, $this->aauth->get_user()->loc)) {
+                    echo json_encode(array('status' => 'Success', 'message' =>
+                    "Transfer has been successfully done! <a href='" . base_url() . "transactions/transfer' class='btn btn-indigo btn-sm'><span class='icon-plus-circle' aria-hidden='true'></span> " . $this->lang->line('New') . "  </a> <a href='" . base_url() . "accounts' class='btn btn-indigo btn-sm'><span class='icon-list-ul' aria-hidden='true'></span></a>"));
+                }
+            } else {
+                echo json_encode(array('status' => 'Error', 'message' =>
+                'Error!'));
             }
-        } else {
-            echo json_encode(array('status' => 'Error', 'message' =>
-            'Error!'));
+        }else{
+            echo json_encode(array('status' => 'Error', 'message' => $this->lang->line("From Account & To Account shouldn't be Same")));
+            
         }
+        
     }
 
 

@@ -328,6 +328,7 @@
                     </div>
 
                     <input type="hidden" value="stockreturn/action" id="action-url">
+                    <input type="hidden" id="after_action" name="after_action" value="page_reload" />
                     <input type="hidden" value="2" name="person_type">
                     <input type="hidden" value="puchase_search" id="billtype">
                     <input type="hidden" value="0" name="counter" id="ganak">

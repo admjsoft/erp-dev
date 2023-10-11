@@ -287,10 +287,20 @@
                                     </table>
                                 </div>
                                 <div class="text-xs-center">
-                                    <p><?php echo $this->lang->line('Authorized person') ?></p>
-                                    <?php echo '<img src="' . base_url('userfiles/employee_sign/' . $employee['sign']) . '" alt="signature" class="height-100"/>
+                                    
+                                    <?php /* echo '<img src="' . base_url('userfiles/employee_sign/' . $employee['sign']) . '" alt="signature" class="height-100"/>
                                     <h6>(' . $employee['name'] . ')</h6>
-                                    <p class="text-muted">' . user_role($employee['roleid']) . '</p>'; ?>
+                                    <p class="text-muted">' . user_role($employee['roleid']) . '</p>'; */ ?>
+                                    <p><?php echo $this->lang->line('Authorized person') ?></p>                        
+                                    <?php if(!empty($employee)){ ?><?php 
+                                            echo '<img src="' . base_url('userfiles/employee_sign/' . (!empty($employee['sign']) ? $employee['sign'] : '')) . '" alt="signature" class="height-100"/>
+                                                <h6>' . (!empty($employee['name']) ? $employee['name'] : '') . '</h6>
+                                                <p class="text-muted">' . (!empty($employee['roleid']) ? user_role($employee['roleid']) : '') . '</p>';
+                                            ?>
+
+                                    <?php }else{ ?>
+                                        <p>Not Available</p>
+                                    <?php } ?> 
                                 </div>
                             </div>
                         </div>

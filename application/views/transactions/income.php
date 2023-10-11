@@ -39,19 +39,6 @@
                     <tbody>
                     </tbody>
 
-                    <tfoot>
-                    <tr>
-                        <th><?php echo $this->lang->line('Date') ?></th>
-                        <th><?php echo $this->lang->line('Account') ?></th>
-                        <th><?php echo $this->lang->line('Debit') ?></th>
-                        <th><?php echo $this->lang->line('Credit') ?></th>
-                        <th><?php echo $this->lang->line('Payer') ?></th>
-                        <th><?php echo $this->lang->line('Method') ?></th>
-                        <th><?php echo $this->lang->line('Action') ?></th>
-
-
-                    </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>

@@ -1480,7 +1480,9 @@ $lang["Unable To Add The Module! Please Try Again"] = "Unable To Add The Module!
 $lang["Module Updated Successfully"] = "Module Updated Successfully";
 $lang["Unable To Update The Module Relation! Please Try Again"] = "Unable To Update The Module Relation! Please Try Again";
 $lang["Unable To Update The Module! Please Try Again"] = "Unable To Update The Module! Please Try Again";
-
+$lang['Quote to Purchase Order conversion'] = "Quote to Purchase Order conversion successfully!";
+$lang["From Account & To Account shouldn't be Same"] = "From Account & To Account shouldn't be Same";
+$lang["Employee Details Update Error"] = "Employee Details Update Error";
 //mishalini
 
 $lang['Contract'] = "Contract";

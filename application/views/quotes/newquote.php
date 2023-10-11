@@ -424,7 +424,7 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                       for="email"><?php echo $this->lang->line('Email') ?></label>
+                                       for="email"><?php echo $this->lang->line('Email') ?> <span style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
                                     <input type="email" placeholder="Email"
@@ -603,6 +603,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                    <input type="hidden" id="after_action" name="after_action" value="page_reload" />     
                     <input type="submit" id="mclient_add" class="btn btn-primary submitBtn" value="ADD"/>
                 </div>
             </form>

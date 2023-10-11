@@ -171,6 +171,7 @@ p.pid='$id' $qj ");
         $this->db->where('id', $catid);
 
         if ($this->db->update('gtg_warehouse')) {
+            
             $this->aauth->applog("[Warehouse Edited] $product_cat_name ID " . $catid, $this->aauth->get_user()->username);
             echo json_encode(array('status' => 'Success', 'message' =>
             $this->lang->line('UPDATED')));

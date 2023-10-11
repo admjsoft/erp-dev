@@ -471,7 +471,7 @@
 
                                 <div class="input-group">
                                     <label class="display-inline-block custom-control custom-radio ml-1">
-                                        <input type="checkbox" name="customer1" class="custom-control-input"
+                                        <input type="checkbox" name="customer1" class=""
                                                id="copy_address">
                                         <span class="custom-control-indicator"></span>
                                         <span class="custom-control-description ml-0"><?php echo $this->lang->line('Same As Billing') ?></span>
@@ -563,6 +563,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                    <input type="hidden" value="page_reload" id="after_action" name="after_action">
                     <input type="submit" id="mclient_add" class="btn btn-primary submitBtn" value="ADD"/>
                 </div>
             </form>

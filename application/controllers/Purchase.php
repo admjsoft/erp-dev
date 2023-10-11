@@ -9,7 +9,8 @@ class Purchase extends CI_Controller
     {
         parent::__construct();
         $this->load->model('purchase_model', 'purchase');
-        $this->load->library("Aauth");
+        $this->load->library("Aauth");        
+        $this->load->library("Custom");
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
@@ -272,7 +273,11 @@ class Purchase extends CI_Controller
         $data['invoice']['multi'] = 0;
 
         $data['general'] = array('title' => $this->lang->line('Purchase Order'), 'person' => $this->lang->line('Supplier'), 'prefix' => prefix(2), 't_type' => 0);
-
+        if (CUSTOM) {
+            $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+        }else{
+            $data['c_custom_fields'] = array();
+        }
 
         ini_set('memory_limit', '64M');
 

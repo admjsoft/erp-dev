@@ -10,6 +10,7 @@ class Stockreturn extends CI_Controller
         parent::__construct();
         $this->load->model('Stockreturn_model', 'stockreturn');
         $this->load->library("Aauth");
+        $this->load->library("Custom");
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
@@ -386,6 +387,13 @@ class Stockreturn extends CI_Controller
         $data['invoice'] = $this->stockreturn->purchase_details($tid);
         $data['products'] = $this->stockreturn->purchase_products($tid);
         $data['employee'] = $this->stockreturn->employee($data['invoice']['eid']);
+
+        if (CUSTOM) {
+            $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+        }else{
+            $data['c_custom_fields'] = array();
+        }
+
         if (($data['invoice']['i_class'] != 2 && $this->aauth->premission(2)) or ($data['invoice']['i_class'] == 2 && $this->aauth->premission(1))) {
             if ($ty < 2) {
                 $data['general'] = array('title' => $this->lang->line('Stock Return'), 'person' => $this->lang->line('Supplier'), 'prefix' => prefix(4), 't_type' => 0);

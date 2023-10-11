@@ -52,20 +52,7 @@
                     </thead>
                     <tbody>
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th><?php echo $this->lang->line('No') ?></th>
-                        <th> #</th>
-                        <th><?php echo $this->lang->line('Customer') ?></th>
-                        <th>Sent Date<?php // echo $this->lang->line('Date') ?></th>
-
-                        <th><?php echo $this->lang->line('Amount') ?></th>
-                        <th><?php echo $this->lang->line('Payment') ?></th>
-                        <th><?php echo $this->lang->line('Status') ?></th>
-                        <th class="no-sort"><?php echo $this->lang->line('Settings') ?></th>
-
-                    </tr>
-                    </tfoot>
+                    
                 </table>
             </div>
         </div>
