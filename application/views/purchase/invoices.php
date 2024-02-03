@@ -1,3 +1,34 @@
+<style>
+    .custom-no-class {
+    background-color: #00B050 I !important; /* Replace with your color for 'yes' */
+}
+
+.custom-yes-class {
+    background-color: #92D050 !important; /* Replace with your color for 'no' */
+}
+
+
+/* Custom class for odd rows */
+.custom-yes-class.odd {
+    background-color: #92D050 !important; /* Replace with your desired color */
+}
+
+/* Custom class for odd rows */
+.custom-no-class.odd {
+    background-color: #00B050 !important; /* Replace with your desired color */
+}
+
+
+/* Custom class for even rows */
+.custom-add-class.even {
+    background-color: #92D050 !important; /* Replace with another color or remove this line */
+}
+/* Custom class for even rows */
+.custom-no-class.even {
+    background-color: #00B050 !important; /* Replace with another color or remove this line */
+}
+
+</style>    
 <div class="content-body">
 <div id="c_body"></div>
     <div class="card">
@@ -35,7 +66,7 @@
                     </div>
 
                     <div class="col-md-1">
-                        <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
+                        <input type="button" name="search" id="search" value="<?php echo $this->lang->line('Search'); ?>" class="btn btn-info btn-sm"/>
                     </div>
 
                 </div>
@@ -45,7 +76,7 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th>Order #</th>
+                        <th><?php echo $this->lang->line('Order'); ?> #</th>
                         <th><?php echo $this->lang->line('Supplier') ?></th>
                         <th><?php echo $this->lang->line('Date') ?></th>
                         <th><?php echo $this->lang->line('Amount') ?></th>
@@ -140,7 +171,17 @@
                         //alert(data[6]);
                         $(row).css('white-space','nowrap'); // Add CSS class to display row in red
                     }
-                    }
+                    },
+                    "createdRow": function (row, data, dataIndex) {
+                            // Assuming you have a property named 'status' in your data
+                            var doStatus = data[7]; // Assuming do_status is the last column
+                            if (doStatus > 0) {
+                                $(row).addClass('custom-yes-class'); // Add your custom class for 'yes'
+                            } else {
+                                $(row).addClass('custom-no-class'); // Add your custom class for 'no'
+                            }
+                            //$(row).css('white-space', 'nowrap');
+                        }
                 });
             };
 

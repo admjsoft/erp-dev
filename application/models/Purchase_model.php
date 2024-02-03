@@ -69,6 +69,33 @@ class Purchase_model extends CI_Model
         return $query->result_array();
     }
 
+    public function get_purchase_order_products($id)
+    {
+
+        $this->db->select('gtg_purchase_items.pid, gtg_purchase_items.qty AS purchase_qty, gtg_products.qty AS product_qty');
+        $this->db->from('gtg_purchase_items');
+        $this->db->join('gtg_products', 'gtg_purchase_items.pid = gtg_products.pid');
+        $this->db->where('gtg_purchase_items.tid', $id);
+        $query = $this->db->get();
+        $result = $query->result();
+    }
+
+    public function purchase_do_products($id)
+    {
+        $this->db->select('gtg_purchase_items.*, SUM(gtg_do_delivered_items.qty) AS total_delivery_qty,SUM(gtg_do_delivered_items.return_qty) AS return_qty');
+        $this->db->from('gtg_purchase_items');
+        $this->db->join('gtg_do_delivered_items', 'gtg_purchase_items.tid = gtg_do_delivered_items.po_id AND gtg_purchase_items.pid = gtg_do_delivered_items.p_id', 'left');
+        $this->db->where('gtg_purchase_items.tid', $id);
+        $this->db->group_by('gtg_purchase_items.id, gtg_purchase_items.tid, gtg_purchase_items.pid, gtg_purchase_items.product, gtg_purchase_items.qty');
+        
+        $query = $this->db->get();
+        
+        // Fetch the result
+        return $query->result_array();
+    }
+
+    
+
     public function purchase_transactions($id)
     {
         $this->db->select('*');
@@ -111,9 +138,14 @@ class Purchase_model extends CI_Model
 
     private function _get_datatables_query()
     {
-        $this->db->select('gtg_purchase.id,gtg_purchase.tid,gtg_purchase.invoicedate,gtg_purchase.invoiceduedate,gtg_purchase.total,gtg_purchase.status,gtg_supplier.name');
+        // $this->db->select('gtg_purchase.id,gtg_purchase.tid,gtg_purchase.invoicedate,gtg_purchase.invoiceduedate,gtg_purchase.total,gtg_purchase.status,gtg_supplier.name');
+        // $this->db->from($this->table);
+        // $this->db->join('gtg_supplier', 'gtg_purchase.csd=gtg_supplier.id', 'left');
+        $this->db->select('gtg_purchase.id, gtg_purchase.tid, gtg_purchase.invoicedate, gtg_purchase.invoiceduedate, gtg_purchase.total, gtg_purchase.status, gtg_supplier.name');
+        $this->db->select('(SELECT COUNT(*) FROM gtg_do_relations WHERE gtg_do_relations.po_id = gtg_purchase.id) AS do_status', FALSE);
         $this->db->from($this->table);
         $this->db->join('gtg_supplier', 'gtg_purchase.csd=gtg_supplier.id', 'left');
+        
         if ($this->aauth->get_user()->loc) {
             $this->db->where('gtg_purchase.loc', $this->aauth->get_user()->loc);
         } elseif (!BDATA) {

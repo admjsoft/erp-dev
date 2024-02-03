@@ -106,8 +106,8 @@ if(isset($_SESSION['status'])){
                                     <div class="col-sm-8">
                                     <select class="form-control margin-bottom b_input required " name="platform_type"
                                             id="platform_type"  >
-                                    <option value='0' <?php if($vendor_details[0]['PlatformType'] == '0'){ echo "selected"; } ?>>Single Platform</option>
-                                    <option value='1' <?php if($vendor_details[0]['PlatformType'] == '1'){ echo "selected"; } ?>>Multiple Platform</option>
+                                    <option value='0' <?php if($vendor_details[0]['PlatformType'] == '0'){ echo "selected"; } ?>><?php echo $this->lang->line('Single Platform'); ?></option>
+                                    <option value='1' <?php if($vendor_details[0]['PlatformType'] == '1'){ echo "selected"; } ?>><?php echo $this->lang->line('Multiple Platform'); ?></option>
                                     </select>
                                     <?php if($vendor_details[0]['PlatformType'] == '0'){ ?>
                                         <label class="" id="single_platform_text" for="name"><?php echo $this->lang->line('Single Platform Option Allows to Edit/Delete Categories & Sub Categories '); ?> </label>
@@ -133,7 +133,7 @@ if(isset($_SESSION['status'])){
                                         <select class="form-control margin-bottom b_input required " name="sale_type"
                                                    id="sale_type"  >
                                         <!-- <option value='Offline' <?php // if($vendor_details[0]['Type'] == 'Offline'){ echo "selected"; } ?>>Offline</option> -->
-                                        <option value='Online' <?php if($vendor_details[0]['Type'] == 'Online'){ echo "selected"; } ?>>Online</option>
+                                        <option value='Online' <?php if($vendor_details[0]['Type'] == 'Online'){ echo "selected"; } ?>><?php echo $this->lang->line('Online'); ?></option>
                                         </select>
                                             
                                         </div>
@@ -147,7 +147,7 @@ if(isset($_SESSION['status'])){
                                         <div class="col-sm-8">
                                         <select class="form-control margin-bottom b_input required " name="website_type"
                                                    id="website_type"  >
-                                        <option value='wordpress' <?php if($vendor_details[0]['WebSiteType'] == 'wordpress'){ echo "selected"; } ?>>WordPress</option>
+                                        <option value='wordpress' <?php if($vendor_details[0]['WebSiteType'] == 'wordpress'){ echo "selected"; } ?>><?php echo $this->lang->line('WordPress'); ?></option>
                                         </select>
                                             
                                         </div>
@@ -163,7 +163,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="vendor_id" value="<?php echo $vendor_details[0]['Id']; ?>" id="vendor_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Update Online Platform"
+                                           value="<?php echo $this->lang->line('Update Online Platform'); ?>"
                                            data-loading-text="updating...">
                                 </div>
                             </div>

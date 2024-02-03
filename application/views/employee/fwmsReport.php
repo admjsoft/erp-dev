@@ -45,7 +45,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
           <div class="col-md-6">
             <label>Company</label>
 	<select name="company"  class="form-control" onchange="getEmployee(this.value)">
-			<option value="">--Select Company--</option>
+			<option value="">--<?php echo $this->lang->line('Select Company'); ?>--</option>
               <?php foreach($client_list as $client)
 			  {
 				  ?>
@@ -62,9 +62,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
 
           <div class="col-md-6">
-		  <label>Employee</label>
+		  <label><?php echo $this->lang->line('Employee'); ?></label>
            <select class="form-control"  name="employee" id="employee">
-		   <option value="">Select Employee</option>
+		   <option value=""><?php echo $this->lang->line('Select Employee'); ?></option>
 		   
 		   </select>
           </div>

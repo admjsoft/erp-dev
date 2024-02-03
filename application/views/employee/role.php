@@ -23,6 +23,13 @@
         </div>
         <hr>
         <div class="card-content">
+        <div class="row mr-2">
+                    
+                    <div class="col-12 text-right mr-">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('employee/roles'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
             <?php
 if(isset($_SESSION['status'])){
  echo '<div class="alert alert-'.$_SESSION['status'].'">
@@ -67,7 +74,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label for="cst" class="col-md-3"><?php echo $this->lang->line('Data Previleges') ?></label>
                         <div class="col-md3">
                             <select name="all_data_previleges" class="form-control">
-                                <option value="">--Select Data Previleges--</option>
+                                <option value="">--<?php echo $this->lang->line('Select Data Previleges'); ?>--</option>
                                 <option value="1" ><?php echo $this->lang->line('All Users Data Previleges') ?></option>
                                 <option value="0" ><?php echo $this->lang->line('Self User Data Previleges') ?></option>
                             </select>

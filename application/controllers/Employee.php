@@ -2,9 +2,10 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 require 'vendor/autoload.php';
+require_once APPPATH . 'third_party/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+use Mpdf\Mpdf;
 class Employee extends CI_Controller
 {
     public function __construct()
@@ -22,6 +23,9 @@ class Employee extends CI_Controller
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         // }
         $this->li_a = 'emp';
+        $c_module = 'hrm';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()
@@ -125,6 +129,14 @@ class Employee extends CI_Controller
         $salary = numberClean($this->input->post('salary', true));
         $commission = $this->input->post('commission', true);
         $department = $this->input->post('department', true);
+
+        $gender = $this->input->post('gender', true);
+        $socso_number = $this->input->post('socso_number', true);
+        $kwsp_number = $this->input->post('kwsp_number', true);
+        $pcb_number = $this->input->post('pcb_number', true);
+        $join_date = $this->input->post('joined_date', true);
+        $employee_job_type = $this->input->post('employee_job_type', true);
+
         if (!empty($email) && !empty($password) && !empty($username)) {
             $a = $this->aauth->create_user($email, $password, $username);
 
@@ -134,7 +146,7 @@ class Employee extends CI_Controller
 
                     if ($nuid > 0) {
                         $this->employee->add_employee($nuid, (string) $this->aauth->get_user($a)->username, $name, $roleid, $phone, $address, $city,
-                            $region, $country, $postbox, $location, $salary, $commission, $department, $email, $password, $user_role);
+                            $region, $country, $postbox, $location, $salary, $commission, $department, $email, $password, $user_role, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type);
                     }
                 } else {
                     echo json_encode(array('status' => 'Error', 'message' =>
@@ -146,7 +158,7 @@ class Employee extends CI_Controller
         } else {
 
             $d_user_id = $this->aauth->create_dummy_user();
-            $this->employee->add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department, $user_role);
+            $this->employee->add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department, $user_role, $join_date,  $employee_job_type);
 
         }
 
@@ -240,9 +252,9 @@ class Employee extends CI_Controller
     public function import()
     {
 
-        if ($_FILES['file']['name'] != "employee_jsuiteTemplate.xlsx") {
+        if ($_FILES['file']['name'] != "Employee-Management-Template.xlsx") {
             $data['status'] = 'danger';
-            $data['message'] = $this->lang->line('Employee Template Error Use JsuiteTemplate');
+            $data['message'] = $this->lang->line('Employee Template Error Use Jsuite Downloaded Template');
             $_SESSION['status'] = $data['status'];
             $_SESSION['message'] = $data['message'];
             $this->session->mark_as_flash('status');
@@ -273,7 +285,7 @@ class Employee extends CI_Controller
 
             foreach ($sheet_data as $key => $val) {
 
-                if ($key != 0) {
+                if ($key > 1) {
                     $result = '';
 
                     if ($result) {
@@ -288,6 +300,11 @@ class Employee extends CI_Controller
                             'country' => $val[6],
                             'phone' => $val[7],
                             'employee_type' => $val[8],
+                            'gender' => strtolower($val[9]),
+                            'socso_number' => $val[10],
+                            'kwsp_number' => $val[11],
+                            'pcb_number' => $val[12],
+                            'joindate' => $val[13],
 
                         ];
                         $list1[] = [
@@ -311,7 +328,7 @@ class Employee extends CI_Controller
 
                 if ($result > 0 && $result != 0) {
                     $data['status'] = 'danger';
-                    $data['message'] = $result . " Rows Are Dublicate";
+                    $data['message'] = $result . " Rows Are Duplicate";
 
                 } else {
 
@@ -1379,7 +1396,15 @@ JSOFT SOLUTION SDN BHD,</p>
             $department = $this->input->post('department', true);
             $commission = $this->input->post('commission', true);
             $roleid = $this->input->post('roleid', true);
-            $this->employee->update_employee($eid, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary, $department, $commission, $roleid);
+            
+            $gender = $this->input->post('gender', true);
+            $socso_number = $this->input->post('socso_number', true);
+            $kwsp_number = $this->input->post('kwsp_number', true);
+            $pcb_number = $this->input->post('pcb_number', true);
+            $join_date = $this->input->post('joined_date', true);
+            $employee_job_type = $this->input->post('employee_job_type', true);
+            
+            $this->employee->update_employee($eid, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary, $department, $commission, $roleid, $gender, $kwsp_number, $socso_number, $pcb_number, $join_date, $employee_job_type);
         } else {
             //$head['usernm'] = $this->aauth->get_user($id)->username;
             // $head['title'] = $head['usernm'] . ' Profile';
@@ -1430,6 +1455,26 @@ JSOFT SOLUTION SDN BHD,</p>
         }
     }
 
+    public function user_signature_upload() {
+        // Check if the form is submitted
+        // echo "<pre>"; print_r($_POST); echo "</pre>";
+        // exit;
+        $id = $this->input->post('id');
+        $imageData = $this->input->post('signature_image');
+        $decodedImageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
+        $imageName = uniqid('image_') . '.png';
+        $imagePath = FCPATH . 'userfiles/employee_sign/' . $imageName;
+        file_put_contents($imagePath, $decodedImageData);
+
+        $imagePath = FCPATH . 'userfiles/employee_sign/thumbnail/' . $imageName;
+        file_put_contents($imagePath, $decodedImageData);
+
+        // echo $imageName;
+        // exit;
+        $this->employee->editsign($id,$imageName);
+        redirect('employee/update?id='.$id);
+    }
+
     public function updatepassword()
     {
 
@@ -1456,7 +1501,7 @@ JSOFT SOLUTION SDN BHD,</p>
             }
         } else {
             $head['usernm'] = $this->aauth->get_user()->username;
-            $head['title'] = $head['usernm'] . ' Profile';
+            $head['title'] = $head['usernm'] . $this->lang->line('Profile');
             $data['user'] = $this->employee->employee_details($id);
             $data['eid'] = intval($id);
             $this->load->view('fixed/header', $head);
@@ -1468,6 +1513,9 @@ JSOFT SOLUTION SDN BHD,</p>
     public function permissions()
     {
 
+        $c_module = 'settings';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Employee Permissions';
         $data['permission'] = $this->employee->employee_permissions();
@@ -2359,7 +2407,9 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->passport;
 
             }
-            $row[] = '<b style="color:red">' . $prd->passport_expiry . '</b>';
+
+            $passport_expiry_newDate = date("d-m-Y", strtotime($prd->passport_expiry));
+            $row[] = '<b style="color:red">' . $passport_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2446,7 +2496,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->passport;
 
             }
-            $row[] = '<b style="color:red">' . $prd->passport_expiry . '</b>';
+            $passport_expiry_newDate = date("d-m-Y", strtotime($prd->passport_expiry));
+            $row[] = '<b style="color:red">' . $passport_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2534,7 +2585,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->passport;
 
             }
-            $row[] = '<b style="color:red">' . $prd->passport_expiry . '</b>';
+            $passport_expiry_newDate = date("d-m-Y", strtotime($prd->passport_expiry));
+            $row[] = '<b style="color:red">' . $passport_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2622,7 +2674,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->passport;
 
             }
-            $row[] = '<b style="color:red">' . $prd->passport_expiry . '</b>';
+            $passport_expiry_newDate = date("d-m-Y", strtotime($prd->passport_expiry));
+            $row[] = '<b style="color:red">' . $passport_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2710,7 +2763,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->passport;
 
             }
-            $row[] = '<b style="color:red">' . $prd->passport_expiry . '</b>';
+            $passport_expiry_newDate = date("d-m-Y", strtotime($prd->passport_expiry));
+            $row[] = '<b style="color:red">' . $passport_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2796,7 +2850,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->permit;
 
             }
-            $row[] = '<b style="color:red">' . $prd->permit_expiry . '</b>';
+            $permit_expiry_newDate = date("d-m-Y", strtotime($prd->permit_expiry));
+            $row[] = '<b style="color:red">' . $permit_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2882,7 +2937,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->permit;
 
             }
-            $row[] = '<b style="color:red">' . $prd->permit_expiry . '</b>';
+            $permit_expiry_newDate = date("d-m-Y", strtotime($prd->permit_expiry));
+            $row[] = '<b style="color:red">' . $permit_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -2968,7 +3024,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->permit;
 
             }
-            $row[] = '<b style="color:red">' . $prd->permit_expiry . '</b>';
+            $permit_expiry_newDate = date("d-m-Y", strtotime($prd->permit_expiry));
+            $row[] = '<b style="color:red">' . $permit_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -3054,7 +3111,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->permit;
 
             }
-            $row[] = '<b style="color:red">' . $prd->permit_expiry . '</b>';
+            $permit_expiry_newDate = date("d-m-Y", strtotime($prd->permit_expiry));
+            $row[] = '<b style="color:red">' . $permit_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -3139,7 +3197,8 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = $prd->permit;
 
             }
-            $row[] = '<b style="color:red">' . $prd->permit_expiry . '</b>';
+            $permit_expiry_newDate = date("d-m-Y", strtotime($prd->permit_expiry));
+            $row[] = '<b style="color:red">' . $permit_expiry_newDate . '</b>';
 
             $row[] = $status;
 
@@ -3293,6 +3352,14 @@ JSOFT SOLUTION SDN BHD,</p>
         // if (empty($company)) {
         //     $company = ' ';
         // }
+
+        $gender = $this->input->post('gender');
+        $socso_number = $this->input->post('socso_number');
+        $kwsp_number = $this->input->post('kwsp_number');
+        $pcb_number = $this->input->post('pcb_number');
+        $join_date = $this->input->post('f_joined_date');
+        $employee_job_type = $this->input->post('f_employee_job_type');
+
         $passport_expiry = date_create_from_format("d-m-Y", $this->input->post('passport_expiry'))->format("Y-m-d");
         $permit_expiry = date_create_from_format("d-m-Y", $this->input->post('permit_expiry'))->format("Y-m-d");
 
@@ -3410,7 +3477,7 @@ JSOFT SOLUTION SDN BHD,</p>
                             (string) $this->aauth->get_user($a)->username,
                             $emp_name, $email, $roleid, $passport, $permit,
                             $country, $company, $type, $passport_expiry, $permit_expiry,
-                            $passport_filename, $visa_filename, $role_id);
+                            $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number,$join_date, $employee_job_type);
 
                     }
                 } else {
@@ -3424,7 +3491,7 @@ JSOFT SOLUTION SDN BHD,</p>
                 $insert = $this->employee->addInternational_new($d_user_id,
                     $emp_name, $roleid, $passport, $permit,
                     $country, $company, $type, $passport_expiry, $permit_expiry,
-                    $passport_filename, $visa_filename, $role_id);
+                    $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type);
 
             }
 
@@ -3561,6 +3628,13 @@ JSOFT SOLUTION SDN BHD,</p>
         $permit = $this->input->post('permit');
         $country = $this->input->post('country');
         $company = $this->input->post('company');
+
+        $gender = $this->input->post('gender');
+        $socso_number = $this->input->post('socso_number');
+        $kwsp_number = $this->input->post('kwsp_number');
+        $pcb_number = $this->input->post('pcb_number');
+        $join_date = $this->input->post('f_joined_date');
+        $employee_job_type = $this->input->post('f_employee_job_type');
         // $passport_expiry = $this->input->post('passport_expiry');
         // $permit_expiry = $this->input->post('permit_expiry');
         $passport_expiry = date_create_from_format("d-m-Y", $this->input->post('passport_expiry'))->format("Y-m-d");
@@ -3671,7 +3745,7 @@ JSOFT SOLUTION SDN BHD,</p>
                     $visa_filename = '';
                 }
 
-                $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename);
+                $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $gender, $socso_number, $kwsp_number, $pcb_number,$join_date, $employee_job_type);
                 //print_r($insert);
                 //die;
 
@@ -3847,6 +3921,32 @@ JSOFT SOLUTION SDN BHD,</p>
         }
     }
 
+    public function attendance_settings()
+    {
+        if ($this->input->post()) {
+            $data['total_working_hours'] = $this->input->post('total_working_hours');
+            $data['clock_in_time'] = $this->input->post('clock_in_time');
+            $data['clock_out_time'] = $this->input->post('clock_out_time');
+            $data['ot_allowance_per_hour'] = $this->input->post('ot_allowance_per_hour');
+            $data['clock_in_grace_period'] = $this->input->post('clock_in_grace_period');
+            $data['clock_in_checking_hours'] = $this->input->post('clock_in_checking_hours');
+            $att_sett_id = $this->input->post('att_sett_id');
+
+            if ($this->employee->addattendance_settings($data,$att_sett_id)) {
+                echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('ADDED') . "  <a href='attendance' class='btn btn-blue btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span>  </a> <a href='attendances' class='btn btn-grey btn-lg'><span class='fa fa-eye' aria-hidden='true'></span>  </a>"));
+            } else {
+                echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('ERROR')));
+            }
+        } else {
+            $data['settings'] = $this->employee->get_attendance_settings();
+            $head['usernm'] = $this->aauth->get_user()->username;
+            $head['title'] = 'Attendance Settings';
+            $this->load->view('fixed/header', $head);
+            $this->load->view('employee/attendance_settings', $data);
+            $this->load->view('fixed/footer');
+        }
+    }
+
     public function auto_attendance()
     {
         if ($this->input->post()) {
@@ -3889,10 +3989,22 @@ JSOFT SOLUTION SDN BHD,</p>
         $list = $this->employee->attendance_datatables($cid, $year, $month);
         $data = array();
         $no = $this->input->post('start');
-
+        // echo $this->db->last_query();
+        // exit;
+        // echo $this->db->last_query();
+        // echo "<pre>"; print_r($list); echo "</pre>";
+        // exit;
         foreach ($list as $obj) {
-            $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
-            $duration = date("H:i", $temptime);
+            if(!empty($obj->tto))
+            {
+                $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
+                $duration = date("H:i", $temptime);
+            }else{
+                $temptime = '---';
+                $duration = '---';
+            }
+            
+           
             $no++;
             $row = array();
             $row[] = $no;
@@ -3904,7 +4016,14 @@ JSOFT SOLUTION SDN BHD,</p>
             $row[] = $duration;
             //$row[] = $obj->actual_hours;
             $row[] = date("h:i A", strtotime($obj->tfrom));
-            $row[] = date("h:i A", strtotime($obj->tto));
+            // $row[] = date("h:i A", strtotime($obj->tto));
+            if(!empty($obj->tto))
+            {
+                $row[] = date("h:i A", strtotime($obj->tto));
+            }else{
+                $row[] = '---';
+            }
+
             $row[] = '<a href="#" data-object-id="' . $obj->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>&nbsp;<a href="' . base_url('employee/attendview') . '?id=' . $obj->emp . '"  class="btn btn-cyan btn-sm"><span class="fa fa-eye"></span></a>';
             $data[] = $row;
         }
@@ -3935,7 +4054,7 @@ JSOFT SOLUTION SDN BHD,</p>
         $list = $this->employee->list_employee();
         $html = '';
         foreach ($list as $item) {
-            $html .= '<option value="' . $item['id'] . '">' . $item['name'] . '</option>';
+            $html .= '<option value="' . $item['id'] . '" vehicle_id="'.$item['vehicle_id'].'">' . $item['name'] . '</option>';
         }
         echo $html;
     }
@@ -3946,11 +4065,13 @@ JSOFT SOLUTION SDN BHD,</p>
             $emp = $this->input->get('id');
             $data['emp'] = $this->employee->list_employee();
             $bdata = $this->employee->attend_break_three_month($emp);
+            // echo "<pre>"; print_r($bdata); echo "</pre>";
+            // exit;
             $data['employee_details'] = $this->employee->employee_details($emp);
             $clockout = '';
             $count = 1;
             $attend = '';
-            $nn_data = '';
+            $nn_data = array();
             foreach ($bdata as $temp) {
                 $duration = strtotime($temp['clockout']) - strtotime($temp['clockin']);
                 $duration = strtotime('00:00:00') + $duration;
@@ -3971,6 +4092,10 @@ JSOFT SOLUTION SDN BHD,</p>
                 $n_data['clockin_seconds'] = strtotime($clockin_fulltime);
                 $n_data['bdate'] = $temp['bdate'];
                 $n_data['activity'] = $temp['break'];
+                // echo $n_data;
+                // exit;
+                // echo "<pre>"; print_r($n_data); echo "</pre>";
+                // exit;
                 $nn_data[] = $n_data;
                 $attend .= "<tr><td>$count</td><td>$bdate</td><td>$activity</td><td>$clockin</td><td>$clockout</td></tr>";
                 $count++;
@@ -4090,14 +4215,48 @@ JSOFT SOLUTION SDN BHD,</p>
     public function attendreport()
     {
         $cid = $this->input->get('employee');
-        $year = $this->input->get('year');
-        $month = $this->input->get('month');
-        $list = $this->employee->attendance_datatables($cid, $year, $month);
+        $from_date = $this->input->get('from_date');
+        $to_date = $this->input->get('to_date');
+        $list = $this->employee->attendance_datatables_by_dates($cid, $from_date, $to_date);
+        $data['emp_list'] = $this->employee->list_employee();
+        $data['emp_details'] = $this->employee->employee_details($cid);
+        // echo "<pre>"; print_r($data['emp_details']); echo "</pre>";
+        // exit;
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
         // print_r($list);
+        $att_settings = $this->employee->get_attendance_settings();
 
+        if(!empty($att_settings))
+        {
+            $work_hours = $att_settings['total_working_hours'];
+            $ot_allowance = $att_settings['ot_allowance_per_hour'];
+        }else{
+            $work_hours = 0;
+            $ot_allowance = 0; 
+        }
+        $ot_allowance_amount = $att_settings['ot_allowance_per_hour'];
+            
         $table = '';
         $no = $this->input->post('start');
         foreach ($list as $obj) {
+
+            if(!empty($obj->tto))
+            {
+                $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
+                $duration = date("H:i", $temptime);
+            }else{
+                $temptime = '---';
+                $duration = '---';
+            }
+            
+
+            // $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
+            // $duration = date("H:i", $temptime);
+
+            $ot = (int)$duration - (int)$work_hours;
+            if ($ot > 0){  $ot = $ot; $ot_allowance = $ot * $ot_allowance_amount; }else{ $ot = 0; $ot_allowance = 0; }
+           
 
             $no++;
             $row = array();
@@ -4107,10 +4266,39 @@ JSOFT SOLUTION SDN BHD,</p>
             $table .= '<td data-sort="' . strtotime($obj->adate) . '" >' . dateformat($obj->adate) . '</td>';
             // $table.=  round((strtotime($obj->tto) - strtotime($obj->tfrom)) / 3600, 2);
             $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
-            $table .= '<td>----</td>';
+           
             $table .= '<td>' . date("h:i A", strtotime($obj->tfrom)) . '</td>';
-            $table .= '<td>' . date("h:i A", strtotime($obj->tto)) . '</td>';
-            $table .= '<td>' . date("H:i", $temptime) . '</td></tr>';
+
+            $table .= '<td><img height="50" width="50" src="' . base_url('userfiles/clock_in_photos/'.$obj->clock_in_photo) . '"/></td>';
+            $table .= '<td>' . $obj->clock_in_location. '</td>';
+            // $table .= '<td>' . date("h:i A", strtotime($obj->tto)) . '</td>';
+            if(!empty($obj->tto))
+            {
+                $table .= '<td>' . date("h:i A", strtotime($obj->tto)) . '</td>';
+                
+            }else{
+                $table .= '<td>---</td>';
+            }
+
+            if(!empty($obj->clock_out_photo))
+            {
+                $table .= '<td><img height="50" width="50" src="' . base_url('userfiles/clock_out_photos/'.$obj->clock_out_photo). '"/></td>';
+                
+            }else{
+                $table .= '<td>---</td>';
+            }
+
+            if(!empty($obj->clock_out_location))
+            {
+                $table .= '<td>' . $obj->clock_out_location . '</td>';
+                
+            }else{
+                $table .= '<td>---</td>';
+            }
+            $table .= '<td>' . date("H:i", $temptime) . '</td>';
+            $table .= '<td>' . $ot . '</td>';
+            $table .= '<td>' . $ot_allowance . '</td>';
+            $table .= '<td>----</td></tr>';
         }
         $data['report'] = $table;
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -4264,6 +4452,356 @@ JSOFT SOLUTION SDN BHD,</p>
         // } catch (\Mpdf\MpdfException $e) {
         //     echo 'PDF generation error: ' . $e->getMessage();
         // }
+
+    }
+
+
+    public function downloadEmployeeTemplate()
+    {
+        
+
+        $filePath = FCPATH . 'userfiles/employee/Employee-Management-Template.xlsx';
+
+        // Check if the file exists
+        if (file_exists($filePath)) {
+            // Load the download helper
+            $this->load->helper('download');
+
+            // Force download the file
+            force_download('Employee-Management-Template.xlsx', file_get_contents($filePath));
+        } else {
+            redirect('employee/addExcel');
+        }
+
+    }
+
+    public function documents()
+    {
+        $data['id'] = $this->input->get('id');
+        //$data['details'] = $this->customers->details($data['id']);
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->session->set_userdata("emp_id", $data['id']);
+        $head['title'] = 'Documents';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/documents', $data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function document_load_list()
+    {
+        $cid = $this->input->post('cid');
+        $list = $this->employee->document_datatables($cid);
+        $data = array();
+        $no = $this->input->post('start');
+        foreach ($list as $document) {
+            $row = array();
+            $no++;
+            $row[] = $no;
+            $row[] = $document->title;
+            $row[] = dateformat($document->cdate);
+
+            $row[] = '<a href="' . base_url('userfiles/documents/' . $document->filename) . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
+
+
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->employee->document_count_all($cid),
+            "recordsFiltered" => $this->employee->document_count_filtered($cid),
+            "data" => $data,
+        );
+        echo json_encode($output);
+    }
+
+    
+    public function adddocument()
+    {
+
+        // echo "<pre>"; print_r($_FILES); echo "</pre>";
+        // exit;
+        $data['id'] = $this->input->get('id');
+        $this->load->helper(array('form'));
+        $data['response'] = 3;
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Add Document';
+
+        $this->load->view('fixed/header', $head);
+
+        if ($this->input->post('title')) {
+            $title = $this->input->post('title', true);
+            $cid = $this->input->post('id');
+            $config['upload_path'] = './userfiles/documents';
+            $config['allowed_types'] = 'docx|docs|txt|pdf|xls';
+            $config['encrypt_name'] = TRUE;
+            //$config['max_size'] = 3000;
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('userfile')) {
+                $data['response'] = 0;
+                $data['responsetext'] = 'File Upload Error';
+                // $error = $this->upload->display_errors();
+                // echo $error;
+            } else {
+                $data['response'] = 1;
+                $data['responsetext'] = 'Document Uploaded Successfully. <a href="documents?id=' . $cid . '"
+                                       class="btn btn-indigo btn-md"><i
+                                                class="icon-folder"></i>
+                                    </a>';
+                $filename = $this->upload->data()['file_name'];
+                $this->employee->adddocument($title, $filename, $cid);
+            }
+            // exit;
+            $this->load->view('employee/adddocument', $data);
+        } else {
+
+
+            $this->load->view('employee/adddocument', $data);
+
+
+        }
+        $this->load->view('fixed/footer');
+
+
+    }
+
+    public function delete_document()
+    {
+        $id = $this->input->post('deleteid');
+        $cid = $this->session->userdata('emp_id');
+
+        if ($this->employee->deletedocument($id, $cid)) {
+            echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('DELETED')));
+        } else {
+            echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('ERROR')));
+        }
+    }
+
+
+    public function profile_download(){
+
+
+        $id = intval($this->input->get('id'));
+        $token = $this->input->get('token');
+
+        $data['employee'] = $this->employee->employee_details($id);
+        //$data['system_data'] = $this->db->get('gtg_system')->row_array();
+
+        $html = $this->load->view('employee/employee_profile_download', $data, true);
+
+        // echo $html;
+        // exit;
+        $this->load->library('pdf');
+
+        // Create an instance of Mpdf
+        $mpdf = new Mpdf();
+        //$mpdf->showImageErrors = true;
+        // Set margins
+        //$mpdf->SetMargins(40, 40, 40);
+
+        // Add a new page
+        $mpdf->AddPage();
+
+        // Write HTML content to the page
+        $mpdf->WriteHTML($html);
+
+        // If you want to force a download
+        $mpdf->Output('employee_profile.pdf', 'D');
+
+        // If you want to display in the browser
+        // $mpdf->Output('employee_profile.pdf', 'I');
+
+    }
+
+
+
+    public function attendreport_new()
+    {
+        if(!empty($_POST))
+        {
+        
+        $cid = $this->input->post('employee');
+        $from_date = $this->input->post('from_date');
+        $to_date = $this->input->post('to_date');
+        $list = $this->employee->attendance_report_new($cid, $from_date, $to_date);
+        $data['emp_list'] = $this->employee->list_employee();
+        $data['emp_details'] = $this->employee->employee_details($cid);
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        // print_r($list);
+        $att_settings = $this->employee->get_attendance_settings();
+
+        $categorizedResult = array();
+
+        foreach ($list as $row) {
+            $empId = $row['emp'];
+
+            // Create a new entry for emp if it doesn't exist
+            if (!isset($categorizedResult[$empId])) {
+                $categorizedResult[$empId] = array(
+                    'emp_id' => $empId,
+                    'entries' => array(),
+                );
+            }
+
+            // Add the row to the entries array
+            $categorizedResult[$empId]['entries'][] = $row;
+        }
+
+        // echo "<pre>"; print_r($categorizedResult); echo "</pre>";
+        // exit;
+        
+        if(!empty($att_settings))
+        {
+            $work_hours = $att_settings['total_working_hours'];
+            $clock_in_grace_period = $att_settings['clock_in_grace_period'];
+            $clock_in_time = $att_settings['clock_in_time'];
+            $clock_out_time = $att_settings['clock_out_time'];
+            
+           
+        }else{
+            
+            $work_hours = 0; 
+            $clock_in_grace_period = 0;
+            $clock_in_time = '00:00:00';
+            $clock_out_time = '00:00:00';
+        }
+
+
+        // $ot_allowance_amount = $att_settings['ot_allowance_per_hour'];
+         
+        
+        $table = '';
+        $n_data = array();
+        foreach ($categorizedResult as $empData) {
+
+            $data = array();
+            $ot_hours = 0;
+            $empId = $empData['emp_id'];
+            $entries = $empData['entries'];
+        
+            // Initialize variables to calculate totals
+            $totalAttendance = count($entries);
+            $totalMc = 0;
+            $totalOtHours = 0;
+            $lateCounter = 0;
+            $employee_exceeded_seconds = 0;
+            foreach ($entries as $entry) {
+                // echo $lateCounter."---";
+                
+                $data['department_name'] = $entry['department_name'];
+                $data['employee_type'] = $entry['employee_type']." - ".$entry['employee_job_type'];
+                $data['total_attendance'] = count($list);
+
+                $data['clock_in'] = $entry['first_tfrom'];
+                $data['clock_out'] = $entry['last_tto'];
+                $data['ofc_clock_in'] = date('H:i:s', strtotime($clock_in_time));
+                $data['ofc_clock_out'] = date('H:i:s',strtotime($clock_out_time));
+
+                $clockInTime = strtotime($data['ofc_clock_in']);
+                $clockOutTime = strtotime($data['ofc_clock_out']);
+            
+                // Calculate the difference in seconds
+                $diffInSeconds = $clockOutTime - $clockInTime;
+            
+                // Check if the difference exceeds the specified work hours
+                if ($diffInSeconds > $work_hours * 3600) {
+                    // Save the exceeded seconds
+                    $exceededSeconds = $diffInSeconds - ($work_hours * 3600);
+            
+                    // Add the exceeded seconds to the employee array
+                    $employee_exceeded_seconds += $exceededSeconds;
+                } else {
+                    // If not exceeded, set 0 seconds
+                    $employee_exceeded_seconds += 0;
+                }
+
+                
+                $clockInTime = strtotime($data['clock_in']);
+                $ofcClockInTime = strtotime($data['ofc_clock_in']);
+
+                // Check if clock_in is less than ofc_clock_in
+                if ($clockInTime > $ofcClockInTime) {
+                   
+                    $diffInMinutes = abs(($clockInTime - $ofcClockInTime) / 60);
+                    // echo "clockin is heigher -- ".$diffInMinutes;
+                    if ($diffInMinutes > $clock_in_grace_period) {
+                        // Increment the late counter
+                        $lateCounter++;
+                    }
+
+                }else{
+                    // echo "ofc clockin is heigher";
+                }
+
+               
+            }
+        
+            $exceededHours = floor($employee_exceeded_seconds / 3600);
+            $exceededMinutes = floor(($employee_exceeded_seconds % 3600) / 60);
+
+            if ($exceededHours > 0) {
+                $ot_final_hours = $exceededHours." hrs,".$exceededMinutes." mins";
+            } else if ($exceededMinutes > 0){
+                $ot_final_hours = $exceededMinutes." mins";
+            } else {
+                $ot_final_hours = "0 mins";
+            }
+
+            
+            if($lateCounter <= 0)
+            {
+                $kpi_indication = 'green';
+            }else if($lateCounter == 1)
+            {
+                $kpi_indication = 'yellow';
+            }else if($lateCounter > 1)
+            {
+                $kpi_indication = 'red';
+            }
+
+            $data['emp_id'] = $empId;
+            $data['emp_name'] = $entries[0]['name']; // Assuming the name 
+            $data['ot_hours'] = $ot_final_hours;
+            $data['late_attendances'] = $lateCounter;
+            $data['total_mc'] = 'NA';
+            $data['total_annual_leaves'] = 'NA';
+            $data['kpi_indication'] = $kpi_indication;
+            $n_data[] = $data;
+
+
+
+
+
+        }
+ 
+        // echo "<pre>"; print_r($n_data); echo "</pre>";
+        // exit;
+        $data['attendance_report'] = $n_data;
+        $data['report'] = $n_data;
+        $data['from_date'] = $from_date;
+        $data['to_date'] = $to_date;
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Attendance Report';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/attend_report_new', $data);
+        $this->load->view('fixed/footer');
+
+        }else{
+
+        $data['report'] = '';
+        $data['from_date'] = '';
+        $data['to_date'] = '';
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Attendance Report';
+        $data['emp_list'] = $this->employee->list_employee();
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/attend_report_new', $data);
+        $this->load->view('fixed/footer');
+
+        }
+               
 
     }
 }

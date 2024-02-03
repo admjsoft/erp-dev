@@ -32,7 +32,7 @@
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
                         <th><?php echo $this->lang->line('Salary') ?></th>
-                        <th>Role</th>
+                        <th><?php echo $this->lang->line('Role'); ?></th>
                         <th><?php echo $this->lang->line('Status') ?></th>
 
                         <th><?php echo $this->lang->line('Actions') ?></th>

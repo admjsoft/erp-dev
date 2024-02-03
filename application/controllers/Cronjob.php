@@ -12,6 +12,9 @@ class Cronjob extends CI_Controller
         $this->load->model('cronjob_model', 'cronjob');
         $this->load->library("Aauth");
         $this->li_a = 'advance';
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()
@@ -120,6 +123,9 @@ class Cronjob extends CI_Controller
 
         $this->load->model('employee_model', 'employee');
         $schedulers = $this->employee->getschedulerAllList();
+
+        // echo "<pre>"; print_r($schedulers); echo "</pre>";
+        // exit;
         if (!empty($schedulers)) {
             foreach ($schedulers as $schedular) {
                 $schedular_sub_modules = explode(',', $schedular['sub_module_names']);
@@ -136,6 +142,13 @@ class Cronjob extends CI_Controller
                         } else if ($schedular_sub_module == 'passport') {
 
                             $data = $this->check_passport_expiry($schedular);
+
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
+                        } else if ($schedular_sub_module == 'contract_reminder') {
+
+                            $data = $this->check_contract_expiry($schedular);
 
                             echo "<pre>";
                             print_r($data);
@@ -232,7 +245,7 @@ class Cronjob extends CI_Controller
                                 <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
                             </div>
                             <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
-                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
                                 <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your passport:</p>
                                 <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Passport Expiry Details.</p>
                                 '.$table.'
@@ -324,7 +337,7 @@ class Cronjob extends CI_Controller
                                     <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
                                 </div>
                                 <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
-                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
                                     <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your passport:</p>
                                     <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Passport Expiry Details.</p>
                                     '.$table.'
@@ -536,7 +549,7 @@ class Cronjob extends CI_Controller
                                 <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject1.'</h2>
                             </div>
                             <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
-                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
                                 <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your permit:</p>
                                 <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Permit Expiry Details.</p>
                                 '.$permit_table.'
@@ -628,7 +641,7 @@ class Cronjob extends CI_Controller
                                     <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject1.'</h2>
                                 </div>
                                 <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
-                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
                                     <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is some important information regarding your permit:</p>
                                     <p style="font-size: 16px; color: #555; line-height: 1.5;">Description: List of Employees Permit Expiry Details.</p>
                                     '.$permit_table.'
@@ -756,6 +769,181 @@ class Cronjob extends CI_Controller
         }
     }
 
+    public function check_contract_expiry($schedular)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_contract');
+        $this->db->where('status !=','COMPLETED');
+
+        $days = $schedular['days'];
+        // Calculate the date 30 days from today
+        $days_from_now = date('Y-m-d', strtotime('+' . $days . ' days'));
+
+        // Add a condition for "passport_expiry" within 30 days from today
+        $this->db->where('reminder_date =', $days_from_now);
+
+        $query = $this->db->get();
+        //echo "<br>".$this->db->last_query();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+        } else {
+            $result = array(); // No matching records found
+        }
+
+        // echo "<pre>";
+        // print_r($result);
+        // echo "</pre>";
+        // exit;
+
+        if(!empty($result))
+        {
+
+            foreach($result as $result_contract)
+            {
+            $email_authors = explode(",", $schedular['email_to']);
+            
+            if(!empty($email_authors))
+            {
+                $organization = $this->employee->getOrganizationDetails();
+
+                if (in_array("1", $email_authors)) {
+
+                    $adminemail = $organization->email;
+                    $mailto = $adminemail;
+                    $elements = array();
+                    $content = '';
+                    $subject = "Your contract is set to end on " . date('d-m-Y', strtotime($result_contract['end_date'])) . ". Please contact the administrator.";
+                    $mailtotitle = "";
+                    $table = '<table border=1><tr><th>Contract Name</th><th>Client Name</th><th>Start Date</th><th>End Date</th></tr>';
+                    $table .= '<tr><td>' . $result_contract['name'] . '</td><td>' . $result_contract['client_name'] . '</td><td>' . date('d-m-Y',strtotime($result_contract['start_date'])) . '</td><td>' . date('d-m-Y',strtotime($result_contract['end_date'])) . '</td></tr>';
+                    $table .= "</table>";
+
+                    $message = '<!DOCTYPE html>
+                    <html>
+                    <head>
+                    </head>
+                    <body>
+                        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                            <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                <h1 style="color: #fff; font-size: 28px;">Contract Details</h1>
+                            </div>
+                            <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
+                            </div>
+                            <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is The Contract Reminder Details:</p>
+                                '.$table.'
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>';
+
+                    //echo $message;
+                    //exit;
+
+                    $attachmenttrue = "true";
+                    $this->load->library('ultimatemailer');
+                    $this->db->select('host,port,auth,auth_type,username,password,sender');
+                    $this->db->from('gtg_smtp');
+                    $query = $this->db->get();
+                    $smtpresult = $query->row_array();
+                    $host = $smtpresult['host'];
+                    $port = $smtpresult['port'];
+                    $auth = $smtpresult['auth'];
+                    $auth_type = $smtpresult['auth_type'];
+                    $username = $smtpresult['username'];
+                    $password = $smtpresult['password'];
+                    $mailfrom = $smtpresult['sender'];
+                    $mailfromtilte = $this->config->item('ctitle');
+                    $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                        $mailtotitle, $subject, $message, $attachmenttrue, '');
+                    if ($mailer) {
+                        // foreach ($exppassportlist as $exppassport) {
+                        //     $data = array(
+                        //         'passport_email_sent' => 1,
+                        //     );
+                        //     $this->db->set($data);
+                        //     $this->db->where('id', $exppassport['id']);
+                        //     $this->db->update('gtg_employees');
+                        // }
+                    }
+                }
+    
+                if (in_array("2", $email_authors)) {
+                        
+                        $elements = array();
+                        $content = '';
+                        $subject = "Your contract is set to end on " . date('d-m-Y', strtotime($result_contract['end_date'])) . ". Please contact the administrator.";
+                        $mailtotitle = "";
+                        $table = '<table border=1><tr><th>Contract Name</th><th>Client Name</th><th>Start Date</th><th>End Date</th></tr>';
+                        $table .= '<tr><td>' . $result_contract['name'] . '</td><td>' . $result_contract['client_name'] . '</td><td>' . date('d-m-Y',strtotime($result_contract['start_date'])) . '</td><td>' . date('d-m-Y',strtotime($result_contract['end_date'])) . '</td></tr>';
+                        $table .= "</table>";
+                        $mailto = $result_contract['email'];
+                        $message = '<!DOCTYPE html>
+                        <html>
+                        <head>
+                        </head>
+                        <body>
+                            <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                                <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                    <h1 style="color: #fff; font-size: 28px;">Contract Details</h1>
+                                </div>
+                                <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                    <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
+                                </div>
+                                <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Customer,</p>
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is The Contract Reminder Details:</p>
+                                    '.$table.'
+                                    <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                    <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>';
+
+                    
+                    // echo $message;
+                    // exit;
+                        $attachmenttrue = "true";
+                        $this->load->library('ultimatemailer');
+                        $this->db->select('host,port,auth,auth_type,username,password,sender');
+                        $this->db->from('gtg_smtp');
+                        $query = $this->db->get();
+                        $smtpresult = $query->row_array();
+                        $host = $smtpresult['host'];
+                        $port = $smtpresult['port'];
+                        $auth = $smtpresult['auth'];
+                        $auth_type = $smtpresult['auth_type'];
+                        $username = $smtpresult['username'];
+                        $password = $smtpresult['password'];
+                        $mailfrom = $smtpresult['sender'];
+                        $mailfromtilte = $this->config->item('ctitle');
+                        $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                            $mailtotitle, $subject, $message, $attachmenttrue, '');
+                        if ($mailer) {
+                            // foreach ($exppassportlist as $exppassport) {
+                            //     $data = array(
+                            //         'passport_email_sent' => 1,
+                            //     );
+                            //     $this->db->set($data);
+                            //     $this->db->where('id', $exppassport['id']);
+                            //     $this->db->update('gtg_employees');
+                            // }
+                        }
+
+                }
+    
+               
+            } 
+            }          
+
+        }
+    }
     public function reminder()
     {
 

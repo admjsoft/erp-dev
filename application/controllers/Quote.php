@@ -17,6 +17,9 @@ class Quote extends CI_Controller
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         // }
         $this->li_a = 'sales';
+        $c_module = 'sales';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //create invoice
@@ -57,7 +60,7 @@ class Quote extends CI_Controller
         $data['invoice'] = $this->quote->quote_details($tid);
         $data['products'] = $this->quote->quote_products($tid);
         $data['currency'] = $this->quote->currencies();
-        $head['title'] = "Edit Quote #" . $data['invoice']['tid'];
+        $head['title'] =  $this->lang->line('Edit Quote')." #" . $data['invoice']['tid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->quote->warehouses();
         $this->load->model('plugins_model', 'plugins');
@@ -262,7 +265,7 @@ class Quote extends CI_Controller
         $data['attach'] = $this->quote->attach($tid);
         $data['employee'] = $this->quote->employee($data['invoice']['eid']);
 
-        $head['title'] = "Quote #" . $data['invoice']['tid'];
+        $head['title'] = $this->lang->line('Quote')." #". $data['invoice']['tid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
         if ($data['invoice']) $this->load->view('quotes/view', $data);
@@ -276,7 +279,7 @@ class Quote extends CI_Controller
         $tid = intval($this->input->get('id'));
 
         $data['id'] = $tid;
-        $data['title'] = "Quote $tid";
+        $data['title'] = $this->lang->line('Quote') . $tid;
         $data['invoice'] = $this->quote->quote_details($tid);
         $data['products'] = $this->quote->quote_products($tid);
         $data['employee'] = $this->quote->employee($data['invoice']['eid']);

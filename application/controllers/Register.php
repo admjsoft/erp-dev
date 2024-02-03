@@ -57,6 +57,7 @@ class Register extends CI_Controller
         if ($status) {
             echo json_encode(array('cash' => $status['cash'], 'card' => $status['card'], 'bank' => $status['bank'], 'change' => $status['r_change'], 'date' => $status['o_date']));
         }
+        
     }
 
 

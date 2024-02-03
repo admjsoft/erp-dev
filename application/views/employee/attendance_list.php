@@ -30,7 +30,7 @@
                         <th>#</th>
                         <th><?php echo $this->lang->line('Employee') ?></th>
                         <th><?php echo $this->lang->line('Date') ?></th>
-                        <th>Login Hours</th>
+                        <th><?php echo $this->lang->line('Login Hours') ?></th>
                         <th><?php echo $this->lang->line('ClockIn') ?></th>
                         <th><?php echo $this->lang->line('ClockOut') ?></th>
                         <th><?php echo $this->lang->line('Action') ?></th>

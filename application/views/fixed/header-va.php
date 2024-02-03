@@ -7,6 +7,9 @@ $query = $this->db->get();
 
 $result = $query->num_rows();
 
+// echo $c_module;
+// exit;
+
 ?>
 <link rel="stylesheet" type="text/css"
     href="<?=assets_url()?>app-assets/<?=LTR?>/core/menu/menu-types/vertical-menu-modern.css">
@@ -154,7 +157,7 @@ echo $loc['cname'];?></span>
                         </li>
 
 
-                        <?php if ($this->aauth->premission(157)) {?> <li class="nav-item d-none d-md-block nav-link "><a
+                        <?php if ($this->aauth->premission(11)) {?> <li class="nav-item d-none d-md-block nav-link "><a
                                 href="<?=base_url()?>pos_invoices/create" class="btn btn-info btn-md t_tooltip"
                                 title="Access POS"><i class="icon-handbag"></i><?php echo $this->lang->line('POS') ?>
                             </a>
@@ -2270,7 +2273,7 @@ $resultSet = $this->aauth->get_role_based_sidebar();
 // generateSidebar($resultSet);
 
 // Function to generate the sidebar recursively
-function generateSidebar($items, $parentId = null, $firstItem = true)
+function generateSidebar($items, $parentId = null, $firstItem = true,$c_module,$lang)
 {
     foreach ($items as $item) {
         if ($item['parent_id'] == $parentId) {
@@ -2279,7 +2282,7 @@ function generateSidebar($items, $parentId = null, $firstItem = true)
                 // Display alternative code for subscription_status == 0
                 echo '<li class="nav-item"><a href="#" title="subscribe">';
                 echo '<i class="icon-diamond"></i>';
-                echo '<span>' . $item['title']. '</span>&nbsp;';
+                echo '<span>' .  $lang->line($item['title']). '</span>&nbsp;';
                 echo '<svg xmlns="http://www.w3.org/2000/svg" height="1.5em" onclick="subscribemessage(\'Sales Module\');" viewBox="0 0 448 512">';
                 echo '<style>svg { fill: #dc1853; }</style>';
                 echo '<path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path>';
@@ -2299,10 +2302,19 @@ function generateSidebar($items, $parentId = null, $firstItem = true)
                     if ($hasChildren) {
                         $itemClass .= ' has-sub';
                     }
+                    //echo $c_module."====".$item['title'];
+                    if (!empty($item['title']) && !empty($c_module)) {
+                        // if (strtolower($item['title']) == strtolower($urlSegments)) {
+                        //     $itemClass .= ' open';
+                        // }
+                        if (strtolower($item['title']) == strtolower($c_module)) {
+                            $itemClass .= ' open';
+                        }
+                    }
                 }
 
                 echo '<li class="' . $itemClass . '">';
-                echo '<a href="' . base_url($item['url']) . '"><i class="' . $item['icon'] . '"></i>' . $item['title'] . '</a>';
+                echo '<a href="' . base_url($item['url']) . '"><i class="' . $item['icon'] . '"></i>   ' .  $lang->line($item['title']) . '</a>';
 
                 $hasChildren = false;
                 foreach ($items as $child) {
@@ -2314,7 +2326,7 @@ function generateSidebar($items, $parentId = null, $firstItem = true)
 
                 if ($hasChildren) {
                     echo '<ul class="menu-content">';
-                    generateSidebar($items, $item['id'], false); // Recursively generate child items
+                    generateSidebar($items, $item['id'], false,$c_module,$lang); // Recursively generate child items
                     echo '</ul>';
                 }
 
@@ -2325,8 +2337,12 @@ function generateSidebar($items, $parentId = null, $firstItem = true)
 }
 
 // Start generating the sidebar
-generateSidebar($resultSet);
+generateSidebar($resultSet,'','',$c_module,$this->lang);
 ?>
+
+<li class="nav-item <?php if (strtolower($c_module) == 'knowledgebase') {echo ' open'; } ?>"><a href="<?=base_url();?>knowledgebase/">
+    <i class="icon-key"></i><span><?=$this->lang->line('Knowledge Base')?></span></a>
+</li>
 
             </ul>
 

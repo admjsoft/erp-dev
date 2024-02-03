@@ -15,6 +15,9 @@ class Transactions extends CI_Controller
         }
         $this->load->library("Custom");
         $this->li_a = 'accounts';
+        $c_module = 'accounts';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

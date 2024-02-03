@@ -30,7 +30,7 @@
                     <div class="form-group row">
 
                         <label class="col-sm-2 col-form-label" for="product_cat_name">
-                        <?php if ($productcat['c_type']) { echo "Sub Category Name"; }else{ echo "Category Name"; } ?></label>
+                        <?php if ($productcat['c_type']) { echo $this->lang->line('Sub Category Name'); }else{ echo $this->lang->line('Category Name'); } ?></label>
 
                         <div class="col-sm-6">
                             <input type="text"
@@ -42,7 +42,7 @@
 
                     <div class="form-group row">
 
-                        <label class="col-sm-2 col-form-label">Description</label>
+                        <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Description'); ?></label>
 
                         <div class="col-sm-6">
 

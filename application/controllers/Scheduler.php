@@ -15,6 +15,9 @@ class Scheduler extends CI_Controller
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         // }
         $this->li_a = 'scheduler';
+        $c_module = 'scheduler';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function schedule()
@@ -119,8 +122,10 @@ class Scheduler extends CI_Controller
                 $sccheduleron = "Passport-Permit";
             } else if ($prd->scheduler_on == 1) {
                 $sccheduleron = "Passport";
-            } else {
+            } else if ($prd->scheduler_on == 2)  {
                 $sccheduleron = "Permit";
+            }else{
+                $sccheduleron = "Contract";
             }
 
             $row = array();

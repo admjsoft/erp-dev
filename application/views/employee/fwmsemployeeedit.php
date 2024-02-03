@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 <?php
 
 if(isset($_SESSION['status'])){
@@ -120,6 +125,23 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
             <?php } ?>
             <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Gender') ?>
+                </label>
+
+                <div class="col-sm-8">
+                    <span class="role_error"></span>
+
+                    <select name="gender" id="gender" class="form-control margin-bottom">
+                        <option value="">--Select Gender--</option>
+                        <option value="male" <?php if($employee->gender == 'male'){ echo "selected"; } ?>>Male
+                        </option>
+                        <option value="female" <?php if($employee->gender == 'female'){ echo "selected"; } ?>>
+                            FeMale</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
 
                 <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Passport Number') ?>
                     <span style="color:red">*</span></label>
@@ -213,6 +235,51 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
             <div class="form-group row">
 
+                <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Joined Date') ?>
+                </label>
+
+                <div class="col-sm-8">
+                    <span class="joined_date_error"></span>
+
+                    <input type="text" class="form-control margin-bottom b_input" placeholder="dd-mm-yy"
+                        name="f_joined_date" id="f_joined_date"
+                        value="<?php echo date('d-m-Y',strtotime($employee->joindate)); ?>" required>
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                    for="phone"><?php echo $this->lang->line('Socso Number') ?></label>
+
+                <div class="col-sm-5">
+                    <input type="text" placeholder="Socso Number" class="form-control margin-bottom" name="socso_number"
+                        value="<?php echo $employee->socso_number; ?>">
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label"
+                    for="phone"><?php echo $this->lang->line('KWSP Number') ?></label>
+
+                <div class="col-sm-5">
+                    <input type="text" placeholder="KWSP Number" class="form-control margin-bottom" name="kwsp_number"
+                        value="<?php echo $employee->kwsp_number; ?>">
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+
+                <label class="col-sm-2 col-form-label" for="phone"><?php echo $this->lang->line('PCB Number') ?></label>
+
+                <div class="col-sm-5">
+                    <input type="text" placeholder="PCB Number" class="form-control margin-bottom" name="pcb_number"
+                        value="<?php echo $employee->pcb_number; ?>">
+                </div>
+            </div>
+            <div class="form-group row">
+
                 <label class="col-sm-2 col-form-label"
                     for="name"><?php echo $this->lang->line('Upload Passport Document') ?></label>
 
@@ -222,9 +289,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         data-val-required="The ImageURLDetails field is required." name='passportfile'>
                     (jpg,JPEG,png,pdf)
                     <?php  if (file_exists(FCPATH . "userfiles/passport/" . $employee->passport_document)) { ?>
-                        <a class="ml-3" href="../userfiles/passport/<?php echo $employee->passport_document; ?>" target="_blank" ><?php echo $this->lang->line('View')." ".$this->lang->line('Passport Document'); ?></a>
+                    <a class="ml-3" href="../userfiles/passport/<?php echo $employee->passport_document; ?>"
+                        target="_blank"><?php echo $this->lang->line('View')." ".$this->lang->line('Passport Document'); ?></a>
 
-                    <?php } ?>    
+                    <?php } ?>
                 </div>
             </div>
             <div class="form-group row">
@@ -238,9 +306,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     (jpg,JPEG,png,pdf)
                     <?php  
                     if (file_exists(FCPATH . "userfiles/passport/" . $employee->visa_document)) { ?>
-                        <a class="ml-3" href="../userfiles/passport/<?php echo $employee->visa_document; ?>" target="_blank" ><?php echo $this->lang->line('View')." ".$this->lang->line('Visa Document'); ?></a>
+                    <a class="ml-3" href="../userfiles/passport/<?php echo $employee->visa_document; ?>"
+                        target="_blank"><?php echo $this->lang->line('View')." ".$this->lang->line('Visa Document'); ?></a>
 
-                    <?php } ?> 
+                    <?php } ?>
                 </div>
             </div>
 
@@ -278,6 +347,12 @@ $(document).ready(function() {
         changeMonth: true,
         changeYear: true
     });
+
+    $("#f_joined_date").datepicker({
+       dateFormat: "dd-mm-yy",
+       changeMonth: true,
+       changeYear: true
+   });
 
 });
 </script>

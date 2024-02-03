@@ -70,7 +70,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label for="cst" class="col-md-3"><?php echo $this->lang->line('Data Previleges') ?></label>
                         <div class="col-md3">
                             <select name="all_data_previleges" class="form-control">
-                                <option value="">--Select Data Previleges--</option>
+                                <option value="">--<?php echo $this->lang->line('Select Data Previleges'); ?>--</option>
                                 <option value="1" <?php if($role_list->all_data_previleges==1){echo"selected";}?>><?php echo $this->lang->line('All Users Data Previleges') ?></option>
                                 <option value="0" <?php if($role_list->all_data_previleges==0){echo"selected";}?> ><?php echo $this->lang->line('Self User Data Previleges') ?></option>
                             </select>
@@ -81,7 +81,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label for="cst" class="col-md-3"><?php echo $this->lang->line('Status') ?></label>
                         <div class="col-md3">
                             <select name="role_status" class="form-control">
-                                <option value="">--Select Status--</option>
+                                <option value="">--<?php echo $this->lang->line('Select Status'); ?>--</option>
                                 <option value="1" <?php if($role_list->status==1){echo"selected";}?>>Active</option>
                                 <option value="0" <?php if($role_list->status==0){echo"selected";}?>>InActive</option>
                             </select>

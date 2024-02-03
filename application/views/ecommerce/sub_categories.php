@@ -18,7 +18,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         <div class="row justify-content-center">
           <div class="col-md-2">
             <div class="form-group">
-              <label for="employee">Online Platform</label>
+              <label for="employee"><?php echo $this->lang->line('Online Platform'); ?></label>
               <select class="form-control" id="vendor_type">
                 <!-- <option value="">Select Vendor</option> -->
                 <?php if(!empty($vendors)){ foreach ($vendors as $vendor) { ?>
@@ -31,9 +31,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="status">Categories</label>
+              <label for="status"><?php echo $this->lang->line('Categories'); ?></label>
               <select class="form-control" id="category">
-                <option value="">Select Category</option>
+                <option value=""><?php echo $this->lang->line('Select Category'); ?></option>
                 <?php if(!empty($categories)){ foreach ($categories as $category) { ?>
                     <option value="<?php echo $category['id']; ?>" ><?php echo $category['title']; ?></option>
                 <?php } } ?>
@@ -43,7 +43,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
            <div class="col-md-2">
             <div class="form-group">
               <label for="submit">&nbsp;</label>
-              <button class="btn btn-primary form-control" id="search">Search</button>
+              <button class="btn btn-primary form-control" id="search"><?php echo $this->lang->line('Search'); ?></button>
             </div>
           </div>
         </div>

@@ -21,6 +21,9 @@ class Settings extends CI_Controller
         }
 
         $this->load->model('settings_model', 'settings');
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function company()

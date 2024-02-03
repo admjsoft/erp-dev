@@ -20,6 +20,9 @@ class Fwms extends CI_Controller
         }*/
         $this->load->library("Custom");
 		$this->li_a == "fwms";
+        $c_module = 'fwms';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 public function fwmsclients()
 {

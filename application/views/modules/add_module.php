@@ -20,8 +20,8 @@
                         for="product_catname"><?php echo $this->lang->line('Module Name'); ?></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Module Name"
-                            class="form-control margin-bottom  required" name="module_name" required>
+                        <input type="text" placeholder="Module Name" class="form-control margin-bottom  required"
+                            name="module_name" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -30,8 +30,8 @@
                         for="product_catname"><?php echo $this->lang->line('Module Url') ?></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Module Url"
-                            class="form-control margin-bottom " name="module_url" id="module_url" >
+                        <input type="text" placeholder="Module Url" class="form-control margin-bottom "
+                            name="module_url" id="module_url">
                     </div>
                 </div>
 
@@ -41,11 +41,12 @@
                         for="product_cat"><?php echo $this->lang->line('Module Activity Type') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="module_activity_type" id="module_activity_type" class="form-control required" required>
-                            <option value="">Select Activity Type</option>
-                            <option value="Page Display" selected>Page Display</option>
-                            <option value="Authorized Action">Action Authorization</option>
-                            <option value="Landing Page">Landing Page</option>
+                        <select name="module_activity_type" id="module_activity_type" class="form-control required"
+                            required>
+                            <option value=""><?php echo $this->lang->line('Select Activity Type'); ?></option>
+                            <option value="Page Display" selected><?php echo $this->lang->line('Page Display'); ?></option>
+                            <option value="Authorized Action"><?php echo $this->lang->line('Action Authorization'); ?></option>
+                            <option value="Landing Page"><?php echo $this->lang->line('Landing Page'); ?></option>
                         </select>
 
 
@@ -58,9 +59,9 @@
                         for="product_cat"><?php echo $this->lang->line('Module Parent') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="module_parent"  id="module_parent" class="form-control required" required>
-                        <!-- <option value=''>Please Select Parent</option> -->
-                        <option value='0'>No Parent Module</option>
+                        <select name="module_parent" id="module_parent" class="form-control required" required>
+                            <!-- <option value=''>Please Select Parent</option> -->
+                            <option value='0'><?php echo $this->lang->line('No Parent Module'); ?></option>
                             <?php
                             foreach ($side_bars as $row) {
                                 $cid = $row['id'];
@@ -81,10 +82,10 @@
 
                     <div class="col-sm-6">
                         <select name="module_type" id="module_type" class="form-control required" required>
-                            <option value="">Select Module Type</option>
-                            <option value="Sidebar" selected>Sidebar</option>
-                            <option value="Subheading">Subheading</option>
-                            <option value="Child Heading">Child Heading</option>
+                            <option value=""><?php echo $this->lang->line('Select Module Type'); ?></option>
+                            <option value="Sidebar" selected><?php echo $this->lang->line('Sidebar'); ?></option>
+                            <option value="Subheading"><?php echo $this->lang->line('Subheading'); ?></option>
+                            <option value="Child Heading"><?php echo $this->lang->line('Child Heading'); ?></option>
                         </select>
 
 
@@ -99,9 +100,9 @@
 
                     <div class="col-sm-6">
                         <select name="module_status" id="module_status" class="form-control required" required>
-                            <option value="">Select Module Status</option>
-                            <option value="Active" selected>Active</option>
-                            <option value="Inactive">In Active</option>
+                            <option value=""><?php echo $this->lang->line('Select Module Status'); ?></option>
+                            <option value="Active" selected><?php echo $this->lang->line('Active'); ?></option>
+                            <option value="Inactive"><?php echo $this->lang->line('In Active'); ?></option>
                         </select>
 
 
@@ -116,7 +117,7 @@
 
                     <div class="col-sm-6">
                         <select name="module_position" id="module_position" class="form-control required" required>
-                        <?php
+                            <?php
                             for($i=1;$i<=50;$i++) {
                                 echo "<option value='$i'>$i</option>";
                             }
@@ -134,8 +135,8 @@
                         for="product_cat"><?php echo $this->lang->line('Module Icon') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="module_icon" id="module_icon" class="form-control" >
-                            <option value=""> Select Module Icon</option>
+                        <select name="module_icon" id="module_icon" class="form-control">
+                            <option value=""> <?php echo $this->lang->line('Select Module Icon'); ?></option>
                             <?php
                             foreach ($iconOptions as $optionValue) {
                                 echo '<option value="' . $optionValue . '"><i class="' . $optionValue . '"></i> ' . $optionValue . '</option>';

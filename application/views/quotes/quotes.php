@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="col-md-1">
-                        <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
+                        <input type="button" name="search" id="search" value="<?php echo $this->lang->line('Search') ?>" class="btn btn-info btn-sm"/>
                     </div>
 
                 </div>

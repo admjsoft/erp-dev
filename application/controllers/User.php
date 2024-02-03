@@ -18,6 +18,9 @@ class User extends CI_Controller
         $this->load->model('employee_model', 'user_employee');
 	    $this->load->model('user_model', 'user');
         $this->captcha = $this->captcha_u->public_key()->captcha;
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()
@@ -49,24 +52,23 @@ class User extends CI_Controller
         if ($this->aauth->login($user, $password, $rem, $this->captcha)) {
 			
             $this->aauth->applog("[Logged In] $user");
-             $id=$this->aauth->get_user()->username;
+            $id=$this->aauth->get_user()->username;
             $data=$this->details_by_username($id);
           
             if(isset($data)){
-                  $data1 = array(
+                $data1 = array(
                 'login_status' =>1);
-    $this->db->where('id', $data['id']);
-       $this->db->update('gtg_users', $data1);	
-        //  echo   $this->db->last_query();
-            $this->session->set_userdata('login_name', $data['name']);
+                $this->db->where('id', $data['id']);
+                $this->db->update('gtg_users', $data1);	
+                //  echo   $this->db->last_query();
+                $this->session->set_userdata('login_name', $data['name']);
                 
-            }
-            else{
+            }else{
                 /*  $data1 = array(
                   'login_status' =>1);
                  $this->db->where('id', $id);
                  $this->db->update('gtg_users', $data1);	
-              echo$this->db->last_query();*/
+                 echo$this->db->last_query(); */
 
                 $this->session->set_userdata('login_name', $id);
             }
@@ -93,7 +95,7 @@ class User extends CI_Controller
         }
 
         $head['usernm'] = $this->aauth->get_user()->username;
-        $head['title'] = $head['usernm'] . ' Profile';
+        $head['title'] = $head['usernm'] . $this->lang->line('Profile');
         $this->load->model('employee_model', 'employee');
         $id = $this->aauth->get_user()->id;
         $data['employee'] = $this->employee->employee_details($id);
@@ -113,7 +115,7 @@ class User extends CI_Controller
 
 
         $head['usernm'] = $this->aauth->get_user()->username;
-        $head['title'] = $head['usernm'] . ' attendance ';
+        $head['title'] = $head['usernm'] . $this->lang->line('attendance');
 
 
         $this->load->view('fixed/header', $head);
@@ -127,7 +129,7 @@ class User extends CI_Controller
             redirect('/user/', 'refresh');
         }
         $head['usernm'] = $this->aauth->get_user()->username;
-        $head['title'] = $head['usernm'] . ' attendance ';
+        $head['title'] = $head['usernm'] . $this->lang->line('attendance');
 
         $this->load->view('fixed/header', $head);
         $this->load->view('user/holidays');
@@ -181,13 +183,13 @@ class User extends CI_Controller
             $country = $this->input->post('country', true);
             $postbox = $this->input->post('postbox', true);
             $lang = $this->input->post('language', true);
-            $this->employee->update_employee($id, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $this->aauth->get_user()->loc);
+            $this->employee->update_employee($id, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $this->aauth->get_user()->loc,$salary = 0, $department = -1, $commission = 0, $roleid = false, $gender='', $kwsp_number='', $socso_number='', $pcb_number='');
             $this->db->set('lang', $lang);
             $this->db->where('id', $id);
             $this->db->update('gtg_users');
         } else {
             $head['usernm'] = $this->aauth->get_user()->username;
-            $head['title'] = $head['usernm'] . ' Profile';
+            $head['title'] = $head['usernm'] . $this->lang->line('Profile');
             $this->load->library("Common");
             $data['langs'] = $this->common->current_language($this->aauth->get_user()->lang);
 
@@ -270,7 +272,7 @@ class User extends CI_Controller
             }
         } else {
             $head['usernm'] = $this->aauth->get_user()->username;
-            $head['title'] = $head['usernm'] . ' Profile';
+            $head['title'] = $head['usernm'] . $this->lang->line('Profile');
 
 
             $data['user'] = $this->employee->employee_details($id);
@@ -396,7 +398,7 @@ class User extends CI_Controller
         }
         $id = $this->aauth->get_user()->id;
         $head['usernm'] = $this->aauth->get_user()->username;
-        $head['title'] = $head['usernm'] . ' salary ';
+        $head['title'] = $head['usernm'] . $this->lang->line('salary');
         $this->load->model('employee_model', 'employee');
         $id = $this->aauth->get_user()->id;
         $data['employee_salary'] = $this->employee->salary_view($id);

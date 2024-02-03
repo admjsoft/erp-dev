@@ -8,7 +8,7 @@ if ($this->input->get('due')) {
     <div class="card">
         <div class="card-header">
             <h4 class="card-title"><a href="<?php echo base_url('customers') ?>" class="mr-5">
-            <?php echo $this->lang->line('Customers'); ?></a></h4>
+                    <?php echo $this->lang->line('Customers'); ?></a></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -24,14 +24,14 @@ if ($this->input->get('due')) {
                             <?php echo $this->lang->line('SMS Selected') ?></a></li>
                     <li><a href="#sendWhatsApp" data-toggle="modal" data-remote="false"
                             class="btn btn-danger btn-sm rounded multi_assign_button" style="display:none;"
-                            data-lang="<?php echo "WhatsApp Selected"; //  $this->lang->line('Delete Selected') ?>">
+                            data-lang="<?php echo $this->lang->line('WhatsApp Selected') ?>">
                             <span class="fa fa-mobile"></span>
-                            <?php echo  "WhatsApp Selected";  //$this->lang->line('Delete Selected') ?></a></li>
+                            <?php echo $this->lang->line('WhatsApp Selected') ?></a></li>
                     <li><a href="#save_to_contacts" data-toggle="modal" data-remote="false"
-                    class="btn btn-primary btn-sm rounded multi_assign_button" style="display:none;"
-                    data-lang="<?php echo "Save to Contacts"; //  $this->lang->line('Delete Selected') ?>">
-                    <span class="fa fa-save"></span>
-                    <?php echo  "Save to Contacts";  //$this->lang->line('Delete Selected') ?></a></li>
+                            class="btn btn-primary btn-sm rounded multi_assign_button" style="display:none;"
+                            data-lang="<?php echo $this->lang->line('Save to Contacts') ?>">
+                            <span class="fa fa-save"></span>
+                            <?php echo $this->lang->line('Save to Contacts') ?></a></li>
 
                     <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
@@ -76,7 +76,7 @@ if ($this->input->get('due')) {
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title">Delete Customer</h4>
+                <h4 class="modal-title"><?php echo $this->lang->line('Delete Customer'); ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
@@ -182,7 +182,7 @@ if ($this->input->get('due')) {
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo "WhatsApp Selected"; // $this->lang->line('SMS Selected') ?></h4>
+                <h4 class="modal-title"><?php echo $this->lang->line('WhatsApp Selected') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
@@ -224,7 +224,7 @@ if ($this->input->get('due')) {
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo "Save to Contacts"; // $this->lang->line('SMS Selected') ?></h4>
+                <h4 class="modal-title"><?php echo $this->lang->line('Save to Contacts') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
@@ -237,18 +237,17 @@ if ($this->input->get('due')) {
 
                     <div class="row">
                         <div class="col mb-1">
-                        <label for="shortnote">Please Select List for Contacts</label>
-                        <select multiple class="form-control margin-bottom b_input required " name="Recepients[]"
-                                                   id="recepients"  >
-                        <?php if(!empty($list_ids['lists'])) { foreach($list_ids['lists'] as $list) { ?>
-                        <option value='<?php echo $list['id']; ?>' ><?php echo $list['name']; ?></option>
-                        <?php } } ?>
-                        </select>
+                            <label for="shortnote"><?php echo $this->lang->line('Please Select List for Contacts'); ?></label>
+                            <select multiple class="form-control margin-bottom b_input required " name="Recepients[]"
+                                id="recepients">
+                                <?php if(!empty($list_ids['lists'])) { foreach($list_ids['lists'] as $list) { ?>
+                                <option value='<?php echo $list['id']; ?>'><?php echo $list['name']; ?></option>
+                                <?php } } ?>
+                            </select>
                         </div>
                     </div>
 
-                    <input type="hidden" id="ContactAddIds" name="ContactAddIds"
-                        value="" />
+                    <input type="hidden" id="ContactAddIds" name="ContactAddIds" value="" />
 
                     <input type="hidden" id="action-url" value="communication/send_general">
 
@@ -273,12 +272,12 @@ if ($this->input->get('due')) {
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo "Save to Contacts "; // $this->lang->line('SMS Selected') ?></h4>
+                <h4 class="modal-title"><?php echo $this->lang->line('Save to Contacts') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
             <div class="modal-body" id="save_to_contacts_response_body">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
@@ -372,7 +371,7 @@ $(document).ready(function() {
         if ($("#notify").length == 0) {
             $("#c_body").html(
                 '<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>'
-                );
+            );
         }
         jQuery.ajax({
             url: "<?php echo site_url('digitalmarketing/sendSelected')?>",
@@ -408,7 +407,7 @@ $(document).ready(function() {
         if ($("#notify").length == 0) {
             $("#c_body").html(
                 '<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>'
-                );
+            );
         }
 
         if (messaging_team_ids.length == 1) {
@@ -453,7 +452,7 @@ $(document).ready(function() {
         if ($("#notify").length == 0) {
             $("#c_body").html(
                 '<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>'
-                );
+            );
         }
         jQuery.ajax({
             url: "<?php echo site_url('digitalmarketing/sendWhatsappSelected')?>",
@@ -491,12 +490,13 @@ $(document).ready(function() {
         if ($("#notify").length == 0) {
             $("#c_body").html(
                 '<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>'
-                );
+            );
         }
         jQuery.ajax({
             url: "<?php echo site_url('digitalmarketing/saveContactsSelected')?>",
             type: 'POST',
-            data: $("input[name='cust[]']:checked").serialize() + '&' + $("#save_to_contacts_form")
+            data: $("input[name='cust[]']:checked").serialize() + '&' + $(
+                    "#save_to_contacts_form")
                 .serialize(),
             dataType: 'json',
             success: function(data) {
@@ -513,7 +513,7 @@ $(document).ready(function() {
                 });
                 $('#save_to_contacts_response_body').html(data.message);
                 $('#save_to_contacts_response').modal('show');
-                
+
                 // $("#notify .message").html("<strong>" + data.status + "</strong>: " + data
                 //     .message);
                 // $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();

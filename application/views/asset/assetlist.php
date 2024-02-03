@@ -42,6 +42,7 @@ if (isset($_SESSION['status'])) {
     /* padding: 1px; */
     line-height: 20px;
     padding-left: 5px;
+}
 </style>
     <script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
     <link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css" />
@@ -150,7 +151,7 @@ if (isset($_GET['succ'])) {
                             aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <p><?php echo $this->lang->line('delete this asset') ?>no Are you sure you want to delete this asset?</p>
+                <p><?php echo $this->lang->line('delete this asset') ?><?php echo $this->lang->line('no Are you sure you want to delete this asset?'); ?></p>
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="object-id" value="">
@@ -193,7 +194,7 @@ if (isset($_GET['succ'])) {
         <div class="modal-content">
             <div class="modal-header">
                 <div class="col-md-4">
-                    <h3 id="titleExtraBigModal" class="modal-title">Add Asset</h3>
+                    <h3 id="titleExtraBigModal" class="modal-title"><?php echo $this->lang->line('Add Asset'); ?></h3>
                 </div>
 				<div class="col-md-4" >
 				<span style="color:red" id="error-message"></span>

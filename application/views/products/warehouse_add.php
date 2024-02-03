@@ -1,5 +1,6 @@
 <article class="content">
     <div class="card card-block">
+        
         <div id="notify" class="alert alert-success" style="display:none;">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
 
@@ -12,6 +13,13 @@
 
                 <h5><?php echo $this->lang->line('Add New Product Warehouse') ?></h5>
                 <hr>
+                             <div class="row">
+                    
+                    <div class="col-12 text-right">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('productcategory/warehouse'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
 
                 <div class="form-group row">
 

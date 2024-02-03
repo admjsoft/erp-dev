@@ -22,7 +22,9 @@ class Chart extends CI_Controller
 
         $this->load->model('chart_model', 'chart');
         $this->li_a = 'data';
-
+        $c_module = 'data';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
 
     }
 

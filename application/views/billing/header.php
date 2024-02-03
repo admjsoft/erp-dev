@@ -42,7 +42,7 @@
     <link rel="stylesheet" type="text/css" href="<?= assets_url() ?>assets/css/style.css">
     <!-- END Custom CSS-->
     <script src="<?= assets_url() ?>app-assets/vendors/js/vendors.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body class="horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu"

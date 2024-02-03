@@ -98,11 +98,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="row"><div class="col-sm-12 p-1">
-                        <label>Name</label>
+                        <label><?php echo $this->lang->line('Name') ?></label>
                         <input type="text" id="breakname" class="form-control" name="name" value="">
                         </div>
                         <div class="col-3 py-1">
-                        <label>Hour</label>
+                        <label><?php echo $this->lang->line('Hour') ?></label>
                         <select id="breakhour"  class="form-control" name="hour">
                             <?php
                             for($i=0;$i<=12;$i++){
@@ -113,7 +113,7 @@
                         </select>
                         </div>
                         <div class="col-3 py-1 ">
-                        <label>Minutes</label>
+                        <label><?php echo $this->lang->line('Minutes') ?></label>
                         <select id="breakminut"  class="form-control" name="minut">
                             <?php
                             for($i=0;$i<=59;$i++){

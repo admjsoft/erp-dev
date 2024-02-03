@@ -30,6 +30,14 @@
 
                 <div class="message"></div>
             </div>
+            <div class="row mr-2">
+
+                <div class="col-12 text-right ">
+                    <!-- Small Button -->
+                    <a href="<?php echo base_url('export/export_employees_list'); ?>"> <button type="button"
+                            class="btn btn-sm btn-primary"><?php echo $this->lang->line('Download'); ?> </button></a>
+                </div>
+            </div>
             <div class="card-body">
                 <table id="emptable" class="table table-striped table-bordered zero-configuration" cellspacing="0"
                        width="100%">
@@ -37,8 +45,8 @@
                     <tr>
                         <th>#</th>
                         <th><?php echo $this->lang->line('Name') ?></th>
-                        <th>Role</th>
-						<th>Employee Type</th>
+                        <th><?php echo $this->lang->line('Role') ?></th>
+						<th><?php echo $this->lang->line('Employee Type') ?></th>
                         <th><?php echo $this->lang->line('Status') ?></th>
                         <th><?php echo $this->lang->line('Actions') ?></th>
 
@@ -108,17 +116,17 @@
                 responsive: true,
 				<?php datatable_lang();?>
 
-				dom: 'Blfrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        footer: true,
-                        exportOptions: {
-                            columns: [0, 1, 2, 3]
-                        }
-                    }
-                ],
-            });
+			//	dom: 'Blfrtip',
+            //     buttons: [
+            //         {
+            //             extend: 'excelHtml5',
+            //             footer: true,
+            //             exportOptions: {
+            //                 columns: [0, 1, 2, 3]
+            //             }
+            //         }
+            //     ],
+             });
 
 
         });

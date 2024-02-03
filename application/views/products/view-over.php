@@ -15,7 +15,9 @@
                                          <a class="dropdown-item" href="' . base_url() . 'products/poslabel?id=' . $product['pid'] . '" target="_blank"> Label - Compact</a>
 
                                     </div>
-                                </div>   <a class="btn btn-pink  btn-sm" href="' . base_url() . 'products/report_product?id=' . $product['pid'] . '" target="_blank"> <span class="icon-pie-chart2"></span> ' . $this->lang->line('Sales') . '</a> </td></tr>'; ?>
+                                </div>   <a class="btn btn-pink  btn-sm" href="' . base_url() . 'products/report_product?id=' . $product['pid'] . '" target="_blank"> <span class="icon-pie-chart2"></span> ' . $this->lang->line('Sales') . '</a>  <a style="display:none;" class="btn btn-pink  btn-sm get_product_details" href="#" p_id="' . $product['pid'] . '"  > <span class="icon-pie-chart2"></span> ' . $this->lang->line('Batches') . '</a>  <a class="btn btn-pink  btn-sm get_product_batch_details" style="display:none;" href="#" p_id="' . $product['pid'] . '"  > <span class="icon-pie-chart2"></span> ' . $this->lang->line('Detailed Stock Balance') . '</a> <a class="btn btn-pink  btn-sm" href="' . base_url() . 'products/detailed_stock_balance?id=' . $product['pid'] . '" target="_blank"> Detailed Stock Page</a></td>
+                                
+                                </tr>'; ?>
 </table>
 
 <?php if ($product_variations) {
@@ -40,7 +42,8 @@
                                          <a class="dropdown-item" href="' . base_url() . 'products/poslabel?id=' . $product_variation['pid'] . '" target="_blank"> Label - Compact</a>
 
                                     </div>
-                                </div>   <a class="btn btn-pink  btn-sm" href="' . base_url() . 'products/report_product?id=' . $product_variation['pid'] . '" target="_blank"> <span class="icon-pie-chart2"></span> ' . $this->lang->line('Sales') . '</a>  ' . $product_variation['product_name'] . '</td><td>Code : ' . $product_variation['product_code'] . '</td><td> ' . $this->lang->line('Stock') . ' : ' . $product_variation['qty'] . ' </td></tr>';
+                                </div>   <a class="btn btn-pink  btn-sm" href="' . base_url() . 'products/report_product?id=' . $product_variation['pid'] . '" target="_blank"> <span class="icon-pie-chart2"></span> ' . $this->lang->line('Sales') . '</a>  ' . $product_variation['product_name'] . '</td><td>Code : ' . $product_variation['product_code'] . '</td><td> ' . $this->lang->line('Stock') . ' : ' . $product_variation['qty'] . ' </td>
+                                </tr>';
         } ?>
     </table>
 <?php } ?>

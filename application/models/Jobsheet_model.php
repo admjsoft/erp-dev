@@ -5,8 +5,12 @@ class Jobsheet_model extends CI_Model
 {
     //documents list
 
-    var $doccolumn_order = array(null, 'job_name', 'created_at', null);
-    var $doccolumn_search = array('job_name', 'created_at');
+    var $doccolumn_order = array(null, null,'job_name','job_priority','created_at','status','assigned_name',null,null,null);
+    var $doccolumn_search = array('job_name','job_priority','created_at','status','gtg_employees.name','job_unique_id');
+    var $doccolumn_search_my = array('job_name','created_at','status','job_unique_id');
+    var $doccolumn_order_my = array('job_name','created_at','status','job_unique_id');
+    var $doccolumn_search_report = array('job_name','job_priority','created_at','status');
+    var $doccolumn_search_report_order = array(null,'job_name','job_priority','created_at','status');
 
 
     public function jobs()
@@ -46,8 +50,13 @@ class Jobsheet_model extends CI_Model
         }
     }
 
-    public function addtask($title, $description, $timeFrame, $create_user, $created_at, $cid, $cname, $location, $date, $time, $invoice)
+    public function addtask($title, $description, $timeFrame, $create_user, $created_at, $cid, $cname, $location, $date, $time, $invoice, $jobPriority, $do_number)
     {
+
+        $prefix = 'job-';
+        $uniqueId = $prefix . rand(10000, 99999);
+         
+        
             $data = array(
                 'job_name' => $title,
                 'job_description' => $description,
@@ -60,7 +69,10 @@ class Jobsheet_model extends CI_Model
                 'clocation' => $location,
                 'cdate' => $date,
                 'ctime'=> $time,
-                'cinvoice' => $invoice
+                'cinvoice' => $invoice,
+                'job_priority' => $jobPriority,
+                'do_number' => $do_number,
+                'job_unique_id' => $uniqueId
             );
 
             $cid=0;
@@ -70,7 +82,7 @@ class Jobsheet_model extends CI_Model
             return $cid;
     }
 
-    public function edittask($job_id, $title, $description, $timeFrame, $create_user, $created_at, $cid, $cname, $location, $date, $time, $invoice)
+    public function edittask($job_id, $title, $description, $timeFrame, $create_user, $created_at, $cid, $cname, $location, $date, $time, $invoice, $jobPriority)
     {
             $data = array(
                 'job_name' => $title,
@@ -84,7 +96,8 @@ class Jobsheet_model extends CI_Model
                 'clocation' => $location,
                 'cdate' => $date,
                 'ctime'=> $time,
-                'cinvoice' => $invoice
+                'cinvoice' => $invoice,
+                'job_priority' => $jobPriority
             );
 
             $cid=0;
@@ -111,18 +124,27 @@ class Jobsheet_model extends CI_Model
     private function jobsheet_datatables_query($filt,$status='',$employee = '',$start_date = '',$end_date = '')
     {
 
+        // echo $filt;
+        // exit;
         $this->db->select('gtg_job.*,gtg_employees.name as assigned_name');
         $this->db->from('gtg_job');
         $this->db->join('gtg_employees','gtg_job.userid = gtg_employees.id', 'left');
        
+        $status_array = ['1','2','3','4','6'];
+        $this->db->where_in('status', $status_array);
+
+        
         if ($filt == 'Assign') {
             $this->db->where('status=', '3');
         }else if($filt == 'Pending') {
             $this->db->where('status=', '2');
         }else if($filt == 'Completed') {
             $this->db->where('status=', '1');
+        }else if($filt == 'Work In Progress') {
+            $this->db->where('status=', '4');
+        }else if($filt == 'Re-Open') {
+            $this->db->where('status=', '6');
         }
-
 
         if ($status == 'Assign') {
             $this->db->where('status=', '3');
@@ -130,6 +152,10 @@ class Jobsheet_model extends CI_Model
             $this->db->where('status=', '2');
         }else if($status == 'Completed') {
             $this->db->where('status=', '1');
+        }else if($status == 'Work In Progress') {
+            $this->db->where('status=', '4');
+        }else if($status == 'Re-Open') {
+            $this->db->where('status=', '6');
         }
 
         if (!empty($employee)) {
@@ -152,12 +178,42 @@ class Jobsheet_model extends CI_Model
 
         foreach ($this->doccolumn_search as $item) // loop column
         {
-            $search = $this->input->post('search');
+        $search = $this->input->post('search');
         $value='';
+        // echo $search;
+        // echo "<pre>"; print_r($search); echo "</pre>";
+        // exit;
         if(!empty($search))
         {  $value = $search['value'];}
 
             if ($value) {
+
+                if($item == 'status')
+                {
+                     
+                    if (stripos('Unassigned', $value) !== false || stripos('assign', $value) !== false) {
+                        $value = '3';
+                    } else if (stripos('Pending', $value) !== false) {
+                        $value = '2';
+                    } else if (stripos('Completed', $value) !== false) {
+                        $value = '1';
+                    } else if (stripos('Work In Progress', $value) !== false) {
+                        $value = '4';
+                    } else if (stripos('Closed', $value) !== false) {
+                        $value = '5';
+                    } else if (stripos('Re-Open', $value) !== false) {
+                        $value = '6';
+                    }  else if (stripos('Re-Assign', $value) !== false) {
+                        $value = '7';
+                    }   
+
+
+                    // echo $value;
+                    // exit;
+                }
+
+                
+
                 if ($i === 0) {
                     $this->db->group_start();
                     $this->db->like($item, $value);
@@ -173,9 +229,14 @@ class Jobsheet_model extends CI_Model
         $search = $this->input->post('order');
         if ($search) {
             $this->db->order_by($this->doccolumn_order[$search['0']['column']], $search['0']['dir']);
-        } else if (isset($this->order)) {
+        } 
+        
+        if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
+        }else{
+            $this->db->order_by('created_at','DESC');
+            // $this->db->order_by('status',2);
         }
     }
     function jobsheet_count_filtered($filt='',$status='',$employee='',$start_date='',$end_date='')
@@ -236,10 +297,12 @@ class Jobsheet_model extends CI_Model
     public function thread_jobsheet_info($id)
     {
 
-        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type');
+        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
         $this->db->from('gtg_job');
         $this->db->join('gtg_employees', 'gtg_job.userid=gtg_employees.id', 'left');
         $this->db->join('gtg_jobtransaction', 'gtg_job.id=gtg_jobtransaction.jobid', 'left');
+        $this->db->join('gtg_vehicles', 'gtg_job.vehicle_id=gtg_vehicles.id', 'left');
+        $this->db->join('gtg_customers', 'gtg_job.cid=gtg_customers.id', 'left');
         $this->db->where('gtg_job.id', $id);
         $this->db->order_by('gtg_jobtransaction.id', 'DESC');
         $query = $this->db->get();
@@ -251,6 +314,15 @@ class Jobsheet_model extends CI_Model
         // $this->db->where('id', $id);
         // $query = $this->db->get();
         // return $query->row_array();
+    }
+
+    public function thread_jobsheet_images_info($id)
+    {
+        $this->db->select('*');
+        $this->db->from('gtg_job_images');
+        $this->db->where('job_id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     public function thread_user_info($id)
@@ -345,7 +417,7 @@ class Jobsheet_model extends CI_Model
         return $query->row_array();
     }
 
-    public function assigntask($empid, $jobid, $assign_by, $jobtype)
+    public function assigntask($empid, $jobid, $assign_by, $jobtype,$vehicle = '')
     {
         $status=false;
         $details=$this->thread_jobsheet_info($jobid);
@@ -360,6 +432,11 @@ class Jobsheet_model extends CI_Model
                 'updated_at' =>  $created_at,
                 'remarks' => ''
                 );
+
+                if(!empty($vehicle))
+                {
+                    $jobdata['vehicle_id'] = $vehicle;
+                }
                 $this->db->where('id', $jobid);
                 $result=$this->db->update('gtg_job', $jobdata);
                 if($result){
@@ -435,14 +512,20 @@ class Jobsheet_model extends CI_Model
 
         $this->db->from('gtg_job');
         $this->db->where('userid=', $this->aauth->get_user()->id);
+        
+        $status_array = ['1','2','3','4','6'];
+        $this->db->where_in('status', $status_array);
+
         if ($filt == 'Assign') {
             $this->db->where('status=', '3');
         }else if($filt == 'Pending') {
             $this->db->where('status=', '2');
         }else if($filt == 'Completed') {
             $this->db->where('status=', '1');
-        }else if($filt == 'WorkInProgress') {
+        }else if($filt == 'Work In Progress') {
             $this->db->where('status=', '4');
+        }else if($filt == 'Re-Open') {
+            $this->db->where('status=', '6');
         }
 
         if ($status == 'Assign') {
@@ -451,11 +534,15 @@ class Jobsheet_model extends CI_Model
             $this->db->where('status=', '2');
         }else if($status == 'Completed') {
             $this->db->where('status=', '1');
+        }else if($status == 'Work In Progress') {
+            $this->db->where('status=', '4');
+        }else if($status == 'Re-Open') {
+            $this->db->where('status=', '6');
         }
 
         $i = 0;
 
-        foreach ($this->doccolumn_search as $item) // loop column
+        foreach ($this->doccolumn_search_my as $item) // loop column
         {
 
             $search = $this->input->post('search');
@@ -463,6 +550,38 @@ class Jobsheet_model extends CI_Model
         if(!empty($search))
         {  $value = $search['value'];}
 
+            if($item == 'status')
+                {
+                     
+                    if (stripos('Unassigned', $value) !== false || stripos('assign', $value) !== false) {
+                        $value = '3';
+                    } else if (stripos('Pending', $value) !== false) {
+                        $value = '2';
+                    } else if (stripos('Completed', $value) !== false) {
+                        $value = '1';
+                    } else if (stripos('Work In Progress', $value) !== false) {
+                        $value = '4';
+                    }  else if (stripos('Re-Open', $value) !== false) {
+                        $value = '6';
+                    }
+                    // else if (stripos('Close', $value) !== false) {
+                    //     $value = '5';
+                    // } else if (stripos('ReOpen', $value) !== false) {
+                    //     $value = '6';
+                    // }  else if (stripos('ReAssign', $value) !== false) {
+                    //     $value = '7';
+                    // }   
+
+
+                    // echo $value;
+                    // exit;
+                }
+
+                // if($item == 'created_at')
+                // {
+                //     $value = date('d-m-Y H:i:s',strtotime($item));
+                // }
+                //echo $value; exit;
             if ($value) {
                 if ($i === 0) {
                     $this->db->group_start();
@@ -471,17 +590,21 @@ class Jobsheet_model extends CI_Model
                     $this->db->or_like($item, $value);
                 }
 
-                if (count($this->doccolumn_search) - 1 == $i) //last loop
+                if (count($this->doccolumn_order_my) - 1 == $i) //last loop
                     $this->db->group_end(); //close bracket
             }
             $i++;
         }
         $search = $this->input->post('order');
         if ($search) {
-            $this->db->order_by($this->doccolumn_order[$search['0']['column']], $search['0']['dir']);
-        } else if (isset($this->order)) {
+            $this->db->order_by($this->doccolumn_order_my[$search['0']['column']], $search['0']['dir']);
+        }  
+        
+        if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
+        }else{
+            $this->db->order_by('created_at','DESC');
         }
     }
 
@@ -543,6 +666,223 @@ class Jobsheet_model extends CI_Model
 */
 
 
+function jobsheet_datatables_report($filt, $status = '',$employee = '',$start_date = '',$end_date = '')
+{
+    $this->jobsheet_datatables_query_report($filt,$status,$employee,$start_date,$end_date);
+    if ($this->input->post('length') != -1)
+        $this->db->limit($this->input->post('length'), $this->input->post('start'));
+    $query = $this->db->get();
+    return $query->result();
+}
+private function jobsheet_datatables_query_report($filt,$status='',$employee = '',$start_date = '',$end_date = '')
+{
 
+    // echo $filt;
+    // exit;
+    $this->db->select('gtg_job.*,gtg_employees.name as assigned_name');
+    $this->db->from('gtg_job');
+    $this->db->join('gtg_employees','gtg_job.userid = gtg_employees.id', 'left');
+   
+    if ($filt == 'Assign') {
+        $this->db->where('status=', '3');
+    }else if($filt == 'Pending') {
+        $this->db->where('status=', '2');
+    }else if($filt == 'Completed') {
+        $this->db->where('status=', '1');
+    }
+
+
+    if ($status == 'Assign') {
+        $this->db->where('status=', '3');
+    }else if($status == 'Pending') {
+        $this->db->where('status=', '2');
+    }else if($status == 'Completed') {
+        $this->db->where('status=', '1');
+    }
+
+    if (!empty($employee)) {
+        $this->db->where('userid', $employee);
+    }
+
+    if (!empty($start_date) && !empty($end_date) ) {
+        $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+        $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+    }else if (!empty($start_date) && empty($end_date) ) {
+        $this->db->where('DATE(created_at) >=', datefordatabase($start_date));
+
+    }else if (empty($start_date) && !empty($end_date) ) {
+        $this->db->where('DATE(created_at) <=', datefordatabase($end_date));
+
+    }
+
+    $i = 0;
+
+    foreach ($this->doccolumn_search_report as $item) // loop column
+    {
+    $search = $this->input->post('search');
+    $value='';
+    // echo $search;
+    // echo "<pre>"; print_r($search); echo "</pre>";
+    // exit;
+    if(!empty($search))
+    {  $value = $search['value'];}
+
+        if ($value) {
+
+            if($item == 'status')
+            {
+                 
+                if (stripos('Unassigned', $value) !== false || stripos('assign', $value) !== false) {
+                    $value = '3';
+                } else if (stripos('Pending', $value) !== false) {
+                    $value = '2';
+                } else if (stripos('Completed', $value) !== false) {
+                    $value = '1';
+                } else if (stripos('Work In Progress', $value) !== false) {
+                    $value = '4';
+                } else if (stripos('Closed', $value) !== false) {
+                    $value = '5';
+                } else if (stripos('Re-Open', $value) !== false) {
+                    $value = '6';
+                }  else if (stripos('Re-Assign', $value) !== false) {
+                    $value = '7';
+                }   
+
+
+                // echo $value;
+                // exit;
+            }
+
+            
+
+            if ($i === 0) {
+                $this->db->group_start();
+                $this->db->like($item, $value);
+            } else {
+                $this->db->or_like($item, $value);
+            }
+
+            if (count($this->doccolumn_search_report) - 1 == $i) //last loop
+                $this->db->group_end(); //close bracket
+        }
+        $i++;
+    }
+    $search = $this->input->post('order');
+    if ($search) {
+        $this->db->order_by($this->doccolumn_search_report_order[$search['0']['column']], $search['0']['dir']);
+    } 
+    
+    if (isset($this->order)) {
+        $order = $this->order;
+        $this->db->order_by(key($order), $order[key($order)]);
+    }else{
+        $this->db->order_by('created_at','DESC');
+        //$this->db->order_by('status',2);
+    }
+}
+    function jobsheet_count_filtered_report($filt='',$status='',$employee='',$start_date='',$end_date='')
+    {
+        $this->jobsheet_datatables_query_report($filt,$status,$employee,$start_date,$end_date);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function jobsheet_count_all_report($filt='',$status='',$employee='',$start_date='',$end_date='')
+    {
+        $this->jobsheet_datatables_query_report($filt,$status,$employee,$start_date,$end_date);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+
+    function jobsheet_my_count_filtered_my($filt='',$status='')
+    {
+        $this->jobsheet_my_datatables_query($filt,$status);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function jobsheet_my_count_all_my($filt='',$status='')
+    {
+        $this->jobsheet_my_datatables_query($filt,$status);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function delete_document_image($ds_id)
+    {
+        $this->db->where('id', $ds_id);
+        $this->db->delete('gtg_job_images');
+    }
+
+    public function all_jobsheet_list()
+    {
+
+        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
+        $this->db->from('gtg_job');
+        $this->db->join('gtg_employees', 'gtg_job.userid=gtg_employees.id', 'left');
+        $this->db->join('gtg_jobtransaction', 'gtg_job.id=gtg_jobtransaction.jobid', 'left');
+        $this->db->join('gtg_vehicles', 'gtg_job.vehicle_id=gtg_vehicles.id', 'left');
+        $this->db->join('gtg_customers', 'gtg_job.cid=gtg_customers.id', 'left');
+        //$this->db->where('gtg_job.id', $id);
+        $this->db->order_by('gtg_jobtransaction.id', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+
+        // $this->db->select('*');
+        // $this->db->from('gtg_job');
+        // $this->db->from('gtg_job');
+        // $this->db->where('id', $id);
+        // $query = $this->db->get();
+        // return $query->row_array();
+    }
+
+
+    public function jobsheet_report_new($cid, $job_id, $start_date, $end_date)
+    {
+        // echo $cid;
+        // echo $job_id;
+        // echo $from_date;
+        // echo $to_date;
+        // exit;
+
+        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
+        $this->db->from('gtg_job');
+        $this->db->join('gtg_employees', 'gtg_job.userid=gtg_employees.id', 'left');
+        $this->db->join('gtg_jobtransaction', 'gtg_job.id=gtg_jobtransaction.jobid', 'left');
+        $this->db->join('gtg_vehicles', 'gtg_job.vehicle_id=gtg_vehicles.id', 'left');
+        $this->db->join('gtg_customers', 'gtg_job.cid=gtg_customers.id', 'left');
+        //$this->db->where('gtg_job.id', $id);
+
+        if (!empty($cid)) {
+            $this->db->where('gtg_job.cid', $cid);
+        }
+
+        if (!empty($job_id)) {
+            $this->db->where('gtg_job.job_unique_id', $job_id);
+        }
+    
+        if (!empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(gtg_job.created_at) >=', datefordatabase($start_date));
+            $this->db->where('DATE(gtg_job.created_at) <=', datefordatabase($end_date));
+    
+        }else if (!empty($start_date) && empty($end_date) ) {
+            $this->db->where('DATE(gtg_job.created_at) >=', datefordatabase($start_date));
+    
+        }else if (empty($start_date) && !empty($end_date) ) {
+            $this->db->where('DATE(gtg_job.created_at) <=', datefordatabase($end_date));
+    
+        }
+
+        $this->db->order_by('gtg_job.userid', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+        // $query->result_array();
+        // echo $this->db->last_query();
+        // exit;
+
+        
+    }
 
 }

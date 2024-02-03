@@ -109,6 +109,19 @@ if(isset($_SESSION['status'])){
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label"
+                                            for="Location"><?php echo $this->lang->line('Priority') ?></label>
+                                        <div class="col-sm-8">
+                                        <select id="priorityDropdown" class="form-control margin-bottom b_input" required name="job_priority">
+                                            <option value="low" <?php if($job_details['job_priority'] == 'low'){ echo "selected"; } ?>><?php echo $this->lang->line('Low') ?></option>
+                                            <option value="medium" <?php if($job_details['job_priority'] == 'medium'){ echo "selected"; } ?>><?php echo $this->lang->line('Medium') ?></option>
+                                            <option value="high" <?php if($job_details['job_priority'] == 'high'){ echo "selected"; } ?>><?php echo $this->lang->line('High') ?></option>
+                                            <option value="urgent" <?php if($job_details['job_priority'] == 'urgent'){ echo "selected"; } ?>><?php echo $this->lang->line('Urgent') ?></option>
+                                        </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label"
                                                for="Location"><?php echo $this->lang->line('Date') ?></label>
                                         <div class="col-sm-3">
                                             <input type="date" placeholder="date" id="date"

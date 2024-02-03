@@ -2,7 +2,7 @@
     <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Contacts<?php // echo $this->lang->line('Peppol Invoices') ?><a
+            <h4 class="card-title"><?php echo $this->lang->line('Contacts') ?><a
                     href="<?php echo base_url('digitalmarketing/contact_create'); ?>"
                     class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add New Contact'); ?></a></h4>
@@ -110,7 +110,7 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo "Save to Contacts"; // $this->lang->line('SMS Selected') ?></h4>
+                <h4 class="modal-title"><?php echo $this->lang->line('Save to Contacts') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
@@ -123,18 +123,17 @@
 
                     <div class="row">
                         <div class="col mb-1">
-                        <label for="shortnote">Please Select List</label>
-                        <select class="form-control margin-bottom b_input required " name="Recepients"
-                                                   id="recepients"  >
-                        <?php if(!empty($list_ids['lists'])) { foreach($list_ids['lists'] as $list) { ?>
-                        <option value='<?php echo $list['id']; ?>' ><?php echo $list['name']; ?></option>
-                        <?php } } ?>
-                        </select>
+                            <label for="shortnote"><?php echo $this->lang->line('Please Select List'); ?></label>
+                            <select class="form-control margin-bottom b_input required " name="Recepients"
+                                id="recepients">
+                                <?php if(!empty($list_ids['lists'])) { foreach($list_ids['lists'] as $list) { ?>
+                                <option value='<?php echo $list['id']; ?>'><?php echo $list['name']; ?></option>
+                                <?php } } ?>
+                            </select>
                         </div>
                     </div>
 
-                    <input type="hidden" id="ContactAddIds" name="ContactAddIds"
-                        value="" />
+                    <input type="hidden" id="ContactAddIds" name="ContactAddIds" value="" />
 
                     <input type="hidden" id="action-url" value="communication/send_general">
 
@@ -156,12 +155,12 @@
         <div class="modal-content">
             <div class="modal-header">
 
-                <h4 class="modal-title"><?php echo "Save to Contacts "; // $this->lang->line('SMS Selected') ?></h4>
+                <h4 class="modal-title"><?php echo $this->lang->line('Save to Contacts') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
             <div class="modal-body" id="save_to_contacts_response_body">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
@@ -207,7 +206,7 @@ $(document).ready(function() {
     });
 
 
-    
+
 
     var messaging_team_ids = new Array();
 
@@ -232,26 +231,27 @@ $(document).ready(function() {
             $('.multi_assign_button').hide();
         }
 
-       
+
         $('#ContactAddIds').val(messaging_team_ids);
 
         //  return;
     });
 
 
-    
+
     $('#save_to_contacts').on('click', '#save_to_contacts_selected', function(e) {
         e.preventDefault();
 
         if ($("#notify").length == 0) {
             $("#c_body").html(
                 '<div id="notify" class="alert" style="display:none;"><a href="#" class="close" data-dismiss="alert">&times;</a><div class="message"></div></div>'
-                );
+            );
         }
         jQuery.ajax({
             url: "<?php echo site_url('digitalmarketing/saveContactsToListSelected')?>",
             type: 'POST',
-            data: $("input[name='cust[]']:checked").serialize() + '&' + $("#save_to_contacts_form")
+            data: $("input[name='cust[]']:checked").serialize() + '&' + $(
+                    "#save_to_contacts_form")
                 .serialize(),
             dataType: 'json',
             success: function(data) {
@@ -268,7 +268,7 @@ $(document).ready(function() {
                 });
                 $('#save_to_contacts_response_body').html(data.message);
                 $('#save_to_contacts_response').modal('show');
-                
+
                 // $("#notify .message").html("<strong>" + data.status + "</strong>: " + data
                 //     .message);
                 // $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();

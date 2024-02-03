@@ -45,6 +45,9 @@ class Pos_invoices extends CI_Controller
         }
         $this->load->library("Custom");
         $this->li_a = 'sales';
+        $c_module = 'sales';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //create invoice
@@ -108,7 +111,7 @@ class Pos_invoices extends CI_Controller
         $data['currency'] = $this->invocies->currencies();
         $data['invoice'] = $this->invocies->draft_details($tid, $this->limited);
         if ($data['invoice']['id']) $data['products'] = $this->invocies->draft_products($tid);
-        $head['title'] = "Edit Invoice #$tid";
+        $head['title'] =  $this->lang->line('Edit Invoice')." #".$tid;
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->invocies->warehouses();
         $this->load->model('plugins_model', 'plugins');
@@ -159,7 +162,7 @@ class Pos_invoices extends CI_Controller
         $data['currency'] = $this->invocies->currencies();
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         if ($data['invoice']['id']) $data['products'] = $this->invocies->invoice_products($tid);
-        $head['title'] = "Edit Invoice #$tid";
+        $head['title'] = $this->lang->line('Edit Invoice')." #".$tid;
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->invocies->warehouses();
         $this->load->model('plugins_model', 'plugins');
@@ -229,11 +232,15 @@ class Pos_invoices extends CI_Controller
         $account = $this->input->post('account');
         $this->load->model('plugins_model', 'plugins');
         $empl_e = $this->plugins->universal_api(69);
+        $emp = 0;
         if ($empl_e['key1']) {
             $emp = $this->input->post('employee');
         } else {
             $emp = $this->aauth->get_user()->id;
         }
+        // echo $emp;
+        // exit;
+        
         if ($ptype == 4) {
             $p_amount = rev_amountExchange_s($this->input->post('p_amount'), $currency, $this->aauth->get_user()->loc);
             $pmethod = $this->input->post('p_method');
@@ -259,11 +266,14 @@ class Pos_invoices extends CI_Controller
             } else {
                 $discstatus = 1;
             }
-            if ($customer_id == 0) {
-                echo json_encode(array('status' => 'Error', 'message' =>
-                $this->lang->line('Please add a new client')));
-                exit;
-            }
+            //19-12-2024 pos bugs
+           
+            // if ($customer_id == 0) {
+            //     echo json_encode(array('status' => 'Error', 'message' =>
+            //     $this->lang->line('Please add a new client')));
+            //     exit;
+            // }
+            
             $this->db->trans_start();
             //products
             $transok = true;
@@ -305,6 +315,8 @@ class Pos_invoices extends CI_Controller
 
             $data = array('tid' => $invocieno, 'invoicedate' => $bill_date, 'invoiceduedate' => $bill_due_date, 'subtotal' => $subtotal, 'shipping' => $shipping, 'ship_tax' => $shipping_tax, 'ship_tax_type' => $ship_taxtype, 'discount_rate' => $disc_val, 'total' => $total, 'pmethod' => $pmethod, 'notes' => $notes, 'status' => $status, 'csd' => $customer_id, 'eid' => $emp, 'pamnt' => 0, 'taxstatus' => $tax, 'discstatus' => $discstatus, 'format_discount' => $discountFormat, 'refer' => $refer, 'term' => $pterms, 'multi' => $currency, 'i_class' => 1, 'loc' => $this->aauth->get_user()->loc);
 
+            // echo "<pre>"; print_r($data); echo "</pre>";
+            // exit;
 
             if ($this->db->insert('gtg_invoices', $data)) {
 
@@ -517,11 +529,14 @@ class Pos_invoices extends CI_Controller
             } else {
                 $discstatus = 1;
             }
-            if ($customer_id == 0) {
-                echo json_encode(array('status' => 'Error', 'message' =>
-                $this->lang->line('Please add a new client')));
-                exit;
-            }
+            // if ($customer_id == 0) {
+            //     echo json_encode(array('status' => 'Error', 'message' =>
+            //     $this->lang->line('Please add a new client')));
+            //     exit;
+            // }
+
+            //19-12-2024 pos bugs
+
             $this->db->trans_start();
             //products
             $transok = true;
@@ -702,11 +717,13 @@ class Pos_invoices extends CI_Controller
                 $discstatus = 1;
             }
 
-            if ($customer_id == 0) {
-                echo json_encode(array('status' => 'Error', 'message' =>
-                $this->lang->line('Please add a new client')));
-                exit;
-            }
+            // if ($customer_id == 0) {
+            //     echo json_encode(array('status' => 'Error', 'message' =>
+            //     $this->lang->line('')));
+            //     exit;
+            // }
+            //19-12-2024 pos bugs
+
             $this->db->trans_start();
             //products
             $transok = true;
@@ -953,7 +970,7 @@ class Pos_invoices extends CI_Controller
         $data['printer'] = $this->printer->check($data['invoice']['loc']);
 
         $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
-        $head['title'] = "Invoice " . $data['invoice']['tid'];
+        $head['title'] =  $this->lang->line('Invoice')." #".$data['invoice']['tid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
         if ($data['invoice']['id']) $this->load->view('pos/view', $data);
@@ -1068,11 +1085,12 @@ class Pos_invoices extends CI_Controller
             } else {
                 $discstatus = 1;
             }
-            if ($customer_id == 0) {
-                echo json_encode(array('status' => 'Error', 'message' =>
-                $this->lang->line('Please add a new client')));
-                exit;
-            }
+            // if ($customer_id == 0) {
+            //     echo json_encode(array('status' => 'Error', 'message' =>
+            //     $this->lang->line('Please add a new client')));
+            //     exit;
+            // }
+            //19-12-2024 pos bugs
             $this->db->trans_start();
             $transok = true;
             $bill_date = datefordatabase($invoicedate);
@@ -1338,7 +1356,7 @@ class Pos_invoices extends CI_Controller
         $tid = $this->input->get('id');
         if (!$tid > 0) $tid = $id;
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice')." #".$tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         if ($data['invoice']['id']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']['id']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
@@ -1464,7 +1482,7 @@ class Pos_invoices extends CI_Controller
                     $printer = new Printer($connector);
                     $this->pheight = 0;
                     $data['id'] = $tid;
-                    $data['title'] = "Invoice $tid";
+                    $data['title'] = $this->lang->line('Invoice')." #".$tid;
                     $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
                     if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
                     if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
@@ -1601,7 +1619,7 @@ class Pos_invoices extends CI_Controller
     {
         $tid = $this->input->get('id');
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] =  $this->lang->line('Invoice')." #".$tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         $data['round_off'] = $this->custom->api_config(4);
 
@@ -1761,7 +1779,7 @@ class Pos_invoices extends CI_Controller
         $tid = $id;
         $data['qrc'] = 'pos_' . date('Y_m_d_H_i_s') . '_.png';
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] =  $this->lang->line('Invoice')." #".$tid;
         $data['invoice'] = $this->invocies->invoice_details($tid);
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
@@ -1876,7 +1894,7 @@ class Pos_invoices extends CI_Controller
         $tid = $id;
         $data['qrc'] = $file_name . '.png';
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] =  $this->lang->line('Invoice')." #".$tid;
         $data['invoice'] = $this->invocies->invoice_details($tid);
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);

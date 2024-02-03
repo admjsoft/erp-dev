@@ -18,6 +18,9 @@ class Locations extends CI_Controller
         $this->li_a = 'company';
         $this->load->library("Common");
         $this->load->model('locations_model', 'locations');
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

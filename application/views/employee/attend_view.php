@@ -28,7 +28,7 @@
     <div class="row mb-2">
         <div class="col-md-4">
             <div class="form-control mb-2 text-center" id="ct6"> </div>
-            <small>Activity</small>
+            <small><?php echo $this->lang->line('Activity'); ?></small>
             <div class="mb-2 p-2 border-blue-grey">
                 <?php
                 foreach($bt as $item) {
@@ -133,10 +133,10 @@
         </div>
         <div class="col-md-8">
             <select name="activity_filter" id="activity_filter" class="form-control" onchange="getfilteredRecords();">
-                    <option value=''>--Select--</option>
-                                        <option value="day">Day</option>
-                                        <option value="week">Weekly</option>
-                                        <option value="month">Month</option>
+                    <option value=''>--<?php echo $this->lang->line('Select') ?>--</option>
+                    <option value="day"><?php echo $this->lang->line('Day') ?></option>
+                    <option value="week"><?php echo $this->lang->line('Weekly') ?></option>
+                    <option value="month"><?php echo $this->lang->line('Month') ?></option>
                 </select>
                 <input type="hidden" name="id" value="<?php echo $emp; ?>" id="id">
                 </br></br>

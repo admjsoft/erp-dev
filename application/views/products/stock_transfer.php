@@ -27,7 +27,7 @@
 
                         <div class="col-sm-6">
                             <select id="wfrom" name="from_warehouse" class="form-control">
-                                <option value='0'>Select</option>
+                                <option value='0'><?php echo $this->lang->line('Select'); ?></option>
                                 <?php
                                 foreach ($warehouse as $row) {
                                     $cid = $row['id'];
@@ -62,7 +62,7 @@
                         <div class="col-sm-6">
                             <input name="products_qty" class="form-control required" type="text">
 
-                            <small>Comma (,) separated</small>
+                            <small><?php echo $this->lang->line('Comma')." (,) ".$this->lang->line('separated'); ?></small>
 
 
                         </div>

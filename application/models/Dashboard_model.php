@@ -309,8 +309,8 @@ public function getsixtyDaysExpiryPermit()
 $sixtydays=date('Y-m-d',strtotime('+60 days'));
 	    $this->db->select('*');
         $this->db->from('gtg_employees');
- $this->db->where('passport_expiry>',$thirtydays);
-		 $this->db->where('passport_expiry<=',$sixtydays);
+ $this->db->where('permit_expiry>',$thirtydays);
+		 $this->db->where('permit_expiry<=',$sixtydays);
 		 $this->db->where('employee_type',"foreign");
 		$this->db->where('delete_status',0);
         $query = $this->db->get();
@@ -326,8 +326,8 @@ $sixtydays=date('Y-m-d',strtotime('+60 days'));
 
 	    $this->db->select('*');
         $this->db->from('gtg_employees');
-         $this->db->where('passport_expiry>',$sixtydays);
-		 $this->db->where('passport_expiry<=',$ninentydays);
+         $this->db->where('permit_expiry>',$sixtydays);
+		 $this->db->where('permit_expiry<=',$ninentydays);
 		 $this->db->where('employee_type',"foreign");
 		 	    $this->db->where('delete_status',0);
 
@@ -400,7 +400,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         return $result;
     }
 
-    public function clockin($id)
+    public function clockin($id,$clok_in_data)
     {
         $this->db->select('clock');
         $this->db->where('id', $id);
@@ -415,22 +415,43 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                 'clock' => 1,
                 'cdate' => $today,
                 'clockin' => strtotime($time),
-                'clockout' => 0
+                'clockout' => 0,
+                'clock_in_photo' => $clok_in_data['clock_in_photo'],
+                'clock_in_latitude' => $clok_in_data['clock_in_latitude'],
+                'clock_in_longitude' => $clok_in_data['clock_in_longitude'],
+                'clock_in_location' => $clok_in_data['clock_in_location'],
             );
            // $this->db->set($data);
             $this->db->where('id', $id);
             $this->db->update('gtg_employees',$data);
      	 
             $this->aauth->applog("[Employee ClockIn]  ID $id", $this->aauth->get_user()->username);
+
+
+            $data1 = array(
+                'emp' => $id,
+                'adate' => date('Y-m-d'),
+                'tfrom' => date("H:i:s"),
+                'tto' => '',
+                'note' => 'Self Attendance',
+                'actual_hours' => '',
+                'clock_in_photo' => $clok_in_data['clock_in_photo'],
+                'clock_in_latitude' => $clok_in_data['clock_in_latitude'],
+                'clock_in_longitude' => $clok_in_data['clock_in_longitude'],
+                'clock_in_location' => $clok_in_data['clock_in_location'],
+            );
+
+
+            $this->db->insert('gtg_attendance', $data1);
         }
  
         return true;
     }
 
-    public function clockout($id)
+    public function clockout($id,$clock_out_data)
     {
 
-        $this->db->select('clock,clockin');
+        $this->db->select('clock,clockin,clock_in_photo,clock_in_latitude,clock_in_longitude,clock_in_location,clock_out_photo,clock_out_latitude,clock_out_longitude,clock_out_location');
         $this->db->where('id', $id);
         $this->db->from('gtg_employees');
         $query = $this->db->get();
@@ -477,7 +498,11 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
             $data = array(
                 'clock' => 0,
                 'clockin' => 0,
-                'clockout' => strtotime($time)
+                'clockout' => strtotime($time),
+                'clock_out_photo' => $clock_out_data['clock_out_photo'],
+                'clock_out_latitude' => $clock_out_data['clock_out_latitude'],
+                'clock_out_longitude' => $clock_out_data['clock_out_longitude'],
+                'clock_out_location' => $clock_out_data['clock_out_location'],
             );
            $total_time = strtotime($time) - $emp['clockin'];
            // $total_time = time() - $emp['clockin'];
@@ -496,13 +521,52 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
             $this->db->from('gtg_attendance');
             $query = $this->db->get();
             $edate = $query->row_array();
+
+            // echo "<pre>"; print_r($query->row_array()); echo "</pre>";
+            // exit;
+
+            $this->db->select('clock,clockin,clock_in_photo,clock_in_latitude,clock_in_longitude,clock_in_location,clock_out_photo,clock_out_latitude,clock_out_longitude,clock_out_location');
+            $this->db->where('id', $id);
+            $this->db->from('gtg_employees');
+            $query = $this->db->get();
+            $emp = $query->row_array();
+            
             if ($edate['adate']) {
 
 
-                $this->db->set('actual_hours', "actual_hours+$total_time", FALSE);
-                $this->db->set('tto', date('H:i:s'));
+                // $this->db->set('actual_hours', "actual_hours+$total_time", FALSE);
+                // $this->db->set('clock_in_photo', $emp['clock_in_photo']);
+                // $this->db->set('clock_in_latitude', $emp['clock_in_latitude']);
+                // $this->db->set('clock_in_longitude', $emp['clock_in_longitude']);
+                // $this->db->set('clock_in_location', $emp['clock_in_location']);
+                // $this->db->set('clock_out_photo', $emp['clock_out_photo']);
+                // $this->db->set('clock_out_latitude', $emp['clock_out_latitude']);
+                // $this->db->set('clock_out_longitude', $emp['clock_out_longitude']);
+                // $this->db->set('clock_out_location', $emp['clock_out_location']);
+
+                // $this->db->where('id', $edate['id']);
+                // $this->db->update('gtg_attendance');
+
+                $data = array(
+                    'emp' => $id,
+                    'adate' => date('Y-m-d'),
+                    'tfrom' => date("H:i:s",$emp['clockin']),
+                    'tto' => date('H:i:s'),
+                    'note' => 'Self Attendance',
+                    'actual_hours' => date("H:i:s",$total_time),
+                    'clock_in_photo' => $emp['clock_in_photo'],
+                    'clock_in_latitude' => $emp['clock_in_latitude'],
+                    'clock_in_longitude' => $emp['clock_in_longitude'],
+                    'clock_in_location' => $emp['clock_in_location'],
+                    'clock_out_photo' => $emp['clock_out_photo'],
+                    'clock_out_latitude' => $emp['clock_out_latitude'],
+                    'clock_out_longitude' => $emp['clock_out_longitude'],
+                    'clock_out_location' => $emp['clock_out_location'],
+                );
+
                 $this->db->where('id', $edate['id']);
-                $this->db->update('gtg_attendance');
+                $this->db->update('gtg_attendance', $data);
+
             } else {
                 $data = array(
                     'emp' => $id,
@@ -510,7 +574,15 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                     'tfrom' => date("H:i:s",$emp['clockin']),
                     'tto' => date('H:i:s'),
                     'note' => 'Self Attendance',
-                    'actual_hours' => date("H:i:s",$total_time)
+                    'actual_hours' => date("H:i:s",$total_time),
+                    'clock_in_photo' => $emp['clock_in_photo'],
+                    'clock_in_latitude' => $emp['clock_in_latitude'],
+                    'clock_in_longitude' => $emp['clock_in_longitude'],
+                    'clock_in_location' => $emp['clock_in_location'],
+                    'clock_out_photo' => $emp['clock_out_photo'],
+                    'clock_out_latitude' => $emp['clock_out_latitude'],
+                    'clock_out_longitude' => $emp['clock_out_longitude'],
+                    'clock_out_location' => $emp['clock_out_location'],
                 );
 
 

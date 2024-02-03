@@ -13,6 +13,9 @@ class Modules extends CI_Controller {
             redirect('/user/', 'refresh');
         }
         $this->li_a = 'modules';
+        $c_module = 'modules';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index() {

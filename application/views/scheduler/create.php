@@ -63,6 +63,7 @@ if (isset($_SESSION['status'])) {
 
                                 <select name="days" id="days" class="form-control" style="width:200px;">
                                     <option value="">Select Period</option>
+                                    <option value="0"><?php echo $this->lang->line("Same Day"); ?>
                                     <option value="30">30 <?php echo $this->lang->line("Days"); ?>
                                     </option>
                                     <option value="60">60 <?php echo $this->lang->line("Days"); ?>
@@ -81,7 +82,7 @@ if (isset($_SESSION['status'])) {
                             <div class="col-md-3">
 
                                 <select class="form-control" name="module" id="module" style="width:200px;">
-                                    <option value="">Select Module</option>
+                                    <option value=""><?php echo $this->lang->line('Select Module'); ?></option>
                                     <?php
 foreach ($modules as $module) {
     ?>
@@ -100,9 +101,9 @@ foreach ($modules as $module) {
 
                                 <select class="form-multi-select form-control" name="email_to[]" id="email_to" multiple
                                     data-coreui-search="true" style="width:200px">
-                                    <option value="1">Admin</option>
-                                    <option value="2">Client</option>
-                                    <option value="3">Employee</option>
+                                    <option value="1"><?php echo $this->lang->line('Admin'); ?></option>
+                                    <option value="2"><?php echo $this->lang->line('Client'); ?></option>
+                                    <option value="3"><?php echo $this->lang->line('Employee'); ?></option>
                                 </select>
                             </div>
 
@@ -204,22 +205,22 @@ foreach ($modules as $module) {
                 //event.preventDefault();
                 var status = false;
 
-            } else{
+            } else {
                 $("#email_to").removeClass("empty");
             }
 
-             if (schedule_on == "") {
+            if (schedule_on == "") {
                 $("#schedule_on").addClass("empty");
-                
+
                 var status = false;
 
-            }else{
+            } else {
                 $("#schedule_on").removeClass("empty");
             }
             //alert(status);
             if (status) {
                 $('#form').submit();
-            }else{
+            } else {
                 event.preventDefault();
             }
 

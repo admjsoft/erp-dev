@@ -19,6 +19,9 @@ class Promo extends CI_Controller
         // }
         $this->load->library("Coupon");
         $this->li_a = 'promo';
+        $c_module = 'promo codes';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

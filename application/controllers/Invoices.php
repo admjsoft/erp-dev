@@ -1,10 +1,6 @@
 <?php
 
-
 defined('BASEPATH') or exit('No direct script access allowed');
-
-use Mike42\Escpos\PrintConnectors\FilePrintConnector;
-use Mike42\Escpos\Printer;
 
 class Invoices extends CI_Controller
 {
@@ -12,7 +8,8 @@ class Invoices extends CI_Controller
     {
         parent::__construct();
         $this->load->model('invoices_model', 'invocies');
-        $this->load->model('plugins_model', 'plugins');
+        $this->load->model('plugins_model', 'plugins');        
+        $this->load->model('transactions_model', 'transactions');
         $this->load->library("Aauth");
         $this->load->library('pdf');
 
@@ -23,13 +20,16 @@ class Invoices extends CI_Controller
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         // }
 
-        if (($this->aauth->get_user()->roleid == 5)||($this->aauth->get_user()->roleid == 4)) {
+        if (($this->aauth->get_user()->roleid == 5) || ($this->aauth->get_user()->roleid == 4)) {
             $this->limited = '';
         } else {
             $this->limited = $this->aauth->get_user()->id;
         }
         $this->load->library("Custom");
         $this->li_a = 'invoices';
+        $c_module = 'sales';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //create invoice
@@ -49,13 +49,13 @@ class Invoices extends CI_Controller
         $this->load->model('plugins_model', 'plugins');
         $data['exchange'] = $this->plugins->universal_api(5);
         $data['customergrouplist'] = $this->customers->group_list();
-        if(isset($_GET)) {
-            $custid=$this->input->get('cid');
-            $data['cust_details']=$this->customers->mydetails($custid);
-        }else{
-            $data['cust_details']=0;
+        if (isset($_GET)) {
+            $custid = $this->input->get('cid');
+            $data['cust_details'] = $this->customers->mydetails($custid);
+        } else {
+            $data['cust_details'] = 0;
         }
-       
+
         $data['lastinvoice'] = $this->invocies->lastinvoice();
         $data['warehouse'] = $this->invocies->warehouses();
         $data['terms'] = $this->invocies->billingterms();
@@ -83,14 +83,17 @@ class Invoices extends CI_Controller
         }
         $tid = intval($this->input->get('id'));
         $data['id'] = $tid;
-        $data['title'] = "Edit Invoice $tid";
+        $data['title'] = $this->lang->line('Edit Invoice') . $tid;
         $this->load->model('customers_model', 'customers');
         $data['customergrouplist'] = $this->customers->group_list();
         $data['terms'] = $this->invocies->billingterms();
         $data['currency'] = $this->invocies->currencies();
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
-        if ($data['invoice']['id']) $data['products'] = $this->invocies->items_with_product($tid);
-        $head['title'] = "Edit Invoice #$tid";
+        if ($data['invoice']['id']) {
+            $data['products'] = $this->invocies->items_with_product($tid);
+        }
+
+        $head['title'] = $this->lang->line('Edit Invoice')." #".$tid;
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->invocies->warehouses();
         $this->load->model('plugins_model', 'plugins');
@@ -103,17 +106,18 @@ class Invoices extends CI_Controller
         $data['custom_fields'] = $this->custom->add_fields(2);
         $data['custom_fields'] = $this->custom->view_edit_fields($tid, 2);
 
-
-
-
         $this->load->view('fixed/header', $head);
-        if ($data['invoice']['id']) $this->load->view('invoices/edit', $data);
+        if ($data['invoice']['id']) {
+            $this->load->view('invoices/edit', $data);
+        }
+
         $this->load->view('fixed/footer');
     }
 
     //invoices list
     public function index()
     {
+        
         $head['title'] = "Manage Invoices";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
@@ -124,7 +128,7 @@ class Invoices extends CI_Controller
     //action
     public function action()
     {
-         $currency = $this->input->post('mcurrency');
+        $currency = $this->input->post('mcurrency');
         $customer_id = $this->input->post('customer_id');
         $invocieno = $this->input->post('invocieno');
         $invoicedate = $this->input->post('invoicedate');
@@ -136,7 +140,10 @@ class Invoices extends CI_Controller
         $subtotal = rev_amountExchange_s($this->input->post('subtotal'), $currency, $this->aauth->get_user()->loc);
         $shipping = rev_amountExchange_s($this->input->post('shipping'), $currency, $this->aauth->get_user()->loc);
         $shipping_tax = rev_amountExchange_s($this->input->post('ship_tax'), $currency, $this->aauth->get_user()->loc);
-        if ($ship_taxtype == 'incl') $shipping = $shipping - $shipping_tax;
+        if ($ship_taxtype == 'incl') {
+            $shipping = $shipping - $shipping_tax;
+        }
+
         $refer = $this->input->post('refer', true);
         $total = rev_amountExchange_s($this->input->post('total'), $currency, $this->aauth->get_user()->loc);
         $project = $this->input->post('prjid');
@@ -152,7 +159,7 @@ class Invoices extends CI_Controller
         }
         if ($customer_id == 0) {
             echo json_encode(array('status' => 'Error', 'message' =>
-            $this->lang->line('Please add a new client')));
+                $this->lang->line('Please add a new client')));
             exit;
         }
 
@@ -189,9 +196,9 @@ class Invoices extends CI_Controller
             $invocieno = $query->row()->tid + 1;
         }
 
-        $data = array('tid' => $invocieno, 'invoicedate' => $bill_date, 
-		'invoiceduedate' => $bill_due_date, 
-		'subtotal' => $subtotal, 'shipping' => $shipping, 'ship_tax' => $shipping_tax, 'ship_tax_type' => $ship_taxtype, 'discount_rate' => $disc_val, 'total' => $total, 'notes' => $notes, 'csd' => $customer_id, 'eid' => $emp, 'taxstatus' => $tax, 'discstatus' => $discstatus, 'format_discount' => $discountFormat, 'refer' => $refer, 'term' => $pterms, 'multi' => $currency, 'loc' => $this->aauth->get_user()->loc);
+        $data = array('tid' => $invocieno, 'invoicedate' => $bill_date,
+            'invoiceduedate' => $bill_due_date,
+            'subtotal' => $subtotal, 'shipping' => $shipping, 'ship_tax' => $shipping_tax, 'ship_tax_type' => $ship_taxtype, 'discount_rate' => $disc_val, 'total' => $total, 'notes' => $notes, 'csd' => $customer_id, 'eid' => $emp, 'taxstatus' => $tax, 'discstatus' => $discstatus, 'format_discount' => $discountFormat, 'refer' => $refer, 'term' => $pterms, 'multi' => $currency, 'loc' => $this->aauth->get_user()->loc);
         $invocieno2 = $invocieno;
         if ($this->db->insert('gtg_invoices', $data)) {
             $invocieno = $this->db->insert_id();
@@ -231,23 +238,24 @@ class Invoices extends CI_Controller
                     'totaldiscount' => rev_amountExchange_s($ptotal_disc[$key], $currency, $this->aauth->get_user()->loc),
                     'product_des' => $product_des[$key],
                     'unit' => $product_unit[$key],
-                    'serial' => $product_serial[$key]
+                    'serial' => $product_serial[$key],
                 );
 
                 $productlist[$prodindex] = $data;
                 $i++;
                 $prodindex++;
                 $amt = numberClean($product_qty[$key]);
-                if ($product_id[$key] > 0) {
-                    $this->db->set('qty', "qty-$amt", FALSE);
-                    $this->db->where('pid', $product_id[$key]);
-                    $this->db->update('gtg_products');
-                    if ((numberClean($product_alert[$key]) - $amt) < 0 and $st_c == 0 and $this->common->zero_stock()) {
-                        echo json_encode(array('status' => 'Error', 'message' => 'Product - <strong>' . $product_name1[$key] . "</strong> - Low quantity. Available stock is  " . $product_alert[$key]));
-                        $transok = false;
-                        $st_c = 1;
-                    }
-                }
+                // removed for mdec demo dedution will be done at do level
+                // if ($product_id[$key] > 0) {
+                //     $this->db->set('qty', "qty-$amt", false);
+                //     $this->db->where('pid', $product_id[$key]);
+                //     $this->db->update('gtg_products');
+                //     if ((numberClean($product_alert[$key]) - $amt) < 0 and $st_c == 0 and $this->common->zero_stock()) {
+                //         echo json_encode(array('status' => 'Error', 'message' => 'Product - <strong>' . $product_name1[$key] . "</strong> - Low quantity. Available stock is  " . $product_alert[$key]));
+                //         $transok = false;
+                //         $st_c = 1;
+                //     }
+                // }
                 $itc += $amt;
             }
             if (count($product_serial) > 0) {
@@ -262,7 +270,7 @@ class Invoices extends CI_Controller
                 $this->db->update('gtg_invoices');
             } else {
                 echo json_encode(array('status' => 'Error', 'message' =>
-                "Please choose product from product list. Go to Item manager section if you have not added the products."));
+                    "Please choose product from product list. Go to Item manager section if you have not added the products."));
                 $transok = false;
             }
             $tnote = '#' . $invocieno . '-';
@@ -276,7 +284,7 @@ class Invoices extends CI_Controller
                     'date' => $bill_date,
                     'eid' => $emp,
                     'tid' => $invocieno,
-                    'loc' => $this->aauth->get_user()->loc
+                    'loc' => $this->aauth->get_user()->loc,
                 );
 
                 $dual = $this->custom->api_config(65);
@@ -291,24 +299,24 @@ class Invoices extends CI_Controller
                 $t_data['acid'] = $dual['key2'];
                 $t_data['account'] = $account_d['holder'];
                 $t_data['note'] = 'Debit ' . $tnote;
-                 
+
                 $this->db->insert('gtg_transactions', $t_data);
                 //account update
-                $this->db->set('lastbal', "lastbal-$total", FALSE);
+                $this->db->set('lastbal', "lastbal-$total", false);
                 $this->db->where('id', $dual['key2']);
                 $this->db->update('gtg_accounts');
             }
             if ($transok) {
                 $validtoken = hash_hmac('ripemd160', $invocieno, $this->config->item('encryption_key'));
                 $link = base_url('billing/view?id=' . $invocieno . '&token=' . $validtoken);
-                $viewlink = base_url('billing/view?id=' . $invocieno. '&token=' . $validtoken);
+                $viewlink = base_url('billing/view?id=' . $invocieno . '&token=' . $validtoken);
                 $printlink = base_url('billing/printinvoice?id=' . $invocieno . '&token=' . $validtoken);
                 echo json_encode(array('status' => 'Success', 'message' =>
-                $this->lang->line('Invoice Success') . " <a href='$viewlink' class='btn btn-primary btn-lg'><span class='fa fa-eye' aria-hidden='true'></span> " . $this->lang->line('View') . "  </a> &nbsp; &nbsp;<a href='$printlink' class='btn btn-blue btn-lg' target='_blank'><span class='fa fa-print' aria-hidden='true'></span> " . $this->lang->line('Print') . "  </a> &nbsp; &nbsp; <a href='$link' class='btn btn-purple btn-lg'><span class='fa fa-globe' aria-hidden='true'></span> " . $this->lang->line('Public View') . " </a> &nbsp; &nbsp; <a href='create' class='btn btn-warning btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span></a>"));
+                    $this->lang->line('Invoice Success') . " <a href='$viewlink' class='btn btn-primary btn-lg'><span class='fa fa-eye' aria-hidden='true'></span> " . $this->lang->line('View') . "  </a> &nbsp; &nbsp;<a href='$printlink' class='btn btn-blue btn-lg' target='_blank'><span class='fa fa-print' aria-hidden='true'></span> " . $this->lang->line('Print') . "  </a> &nbsp; &nbsp; <a href='$link' class='btn btn-purple btn-lg'><span class='fa fa-globe' aria-hidden='true'></span> " . $this->lang->line('Public View') . " </a> &nbsp; &nbsp; <a href='create' class='btn btn-warning btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span></a>"));
             }
         } else {
             echo json_encode(array('status' => 'Error', 'message' =>
-            "Invalid Entry!"));
+                "Invalid Entry!"));
             $transok = false;
         }
         if ($transok) {
@@ -372,32 +380,30 @@ class Invoices extends CI_Controller
             $this->custom->save_fields_data($invocieno, 2);
         }
     }
-     public function invoice_today()
-	 {
-		 
+    public function invoice_today()
+    {
+
         $head['title'] = "Manage Invoices";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
         $this->load->view('invoices/invoices_today');
         $this->load->view('fixed/footer');
-		 
-		 
-	 }
-	 public function invoice_month()
-	 {
-		 
+
+    }
+    public function invoice_month()
+    {
+
         $head['title'] = "Manage Invoices";
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
         $this->load->view('invoices/invoices_month');
         $this->load->view('fixed/footer');
-		 
-		 
-	 }
- public function ajax_today_list()
+
+    }
+    public function ajax_today_list()
     {
         $list = $this->invocies->get_today_datatables();
-		
+
         $data = array();
         $no = $this->input->post('start');
         foreach ($list as $invoices) {
@@ -423,10 +429,10 @@ class Invoices extends CI_Controller
         //output to json format
         echo json_encode($output);
     }
-	 public function ajax_month_list()
+    public function ajax_month_list()
     {
         $list = $this->invocies->get_month_datatables();
-		
+
         $data = array();
         $no = $this->input->post('start');
         foreach ($list as $invoices) {
@@ -455,7 +461,7 @@ class Invoices extends CI_Controller
     public function ajax_list()
     {
         $user_role = $this->aauth->get_user()->roleid;
-        $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        $role_details = $this->db->where('id', $user_role)->get('gtg_role')->result_array();
         $all_data_previleges = $role_details[0]['all_data_previleges'];
 
         if ($all_data_previleges) {
@@ -463,7 +469,7 @@ class Invoices extends CI_Controller
         } else {
             $this->limited = $this->aauth->get_user()->id;
         }
-        
+
         $list = $this->invocies->get_datatables($this->limited);
         $data = array();
         $no = $this->input->post('start');
@@ -494,16 +500,19 @@ class Invoices extends CI_Controller
     public function view()
     {
         $this->load->model('accounts_model');
-        $data['acclist'] = $this->accounts_model->accountslist((int)$this->aauth->get_user()->loc);
+        $data['acclist'] = $this->accounts_model->accountslist((int) $this->aauth->get_user()->loc);
         $tid = $this->input->get('id');
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         $data['attach'] = $this->invocies->attach($tid);
         $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1);
         $head['usernm'] = $this->aauth->get_user()->username;
-        $head['title'] = "Invoice " . $data['invoice']['tid'];
+        $head['title'] = $this->lang->line('Invoice')." " . $data['invoice']['tid'];
         $this->load->view('fixed/header', $head);
         $data['products'] = $this->invocies->invoice_products($tid);
-        if ($data['invoice']['id']) $data['activity'] = $this->invocies->invoice_transactions($tid);
+        if ($data['invoice']['id']) {
+            $data['activity'] = $this->invocies->invoice_transactions($tid);
+        }
+
         $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
         $data['custom_fields'] = $this->custom->view_fields_data($tid, 2);
         if ($data['invoice']['id']) {
@@ -519,14 +528,23 @@ class Invoices extends CI_Controller
         $tid = $this->input->get('id');
         $data['id'] = $tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
-        if ($data['invoice']['id']) $data['products'] = $this->invocies->invoice_products($tid);
-        if ($data['invoice']['id']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        if ($data['invoice']['id']) {
+            $data['products'] = $this->invocies->invoice_products($tid);
+        }
+
+        if ($data['invoice']['id']) {
+            $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        }
+
         if ($data['invoice']['i_class'] == 1) {
             $pref = prefix(7);
         } else {
             $pref = $this->config->item('prefix');
         }
-        if (CUSTOM) $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+        if (CUSTOM) {
+            $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+        }
+
         $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => $pref, 't_type' => 0);
         ini_set('memory_limit', '64M');
         if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
@@ -561,14 +579,14 @@ class Invoices extends CI_Controller
 
             if ($this->invocies->invoice_delete($id, $this->limited)) {
                 echo json_encode(array('status' => 'Success', 'message' =>
-                $this->lang->line('DELETED')));
+                    $this->lang->line('DELETED')));
             } else {
                 echo json_encode(array('status' => 'Error', 'message' =>
-                $this->lang->line('ERROR')));
+                    $this->lang->line('ERROR')));
             }
         } else {
             echo json_encode(array('status' => 'Error', 'message' =>
-            $this->lang->line('ERROR')));
+                $this->lang->line('ERROR')));
         }
     }
 
@@ -592,7 +610,10 @@ class Invoices extends CI_Controller
         $subtotal = rev_amountExchange_s($this->input->post('subtotal'), $currency, $this->aauth->get_user()->loc);
         $shipping = rev_amountExchange_s($this->input->post('shipping'), $currency, $this->aauth->get_user()->loc);
         $shipping_tax = rev_amountExchange_s($this->input->post('ship_tax'), $currency, $this->aauth->get_user()->loc);
-        if ($ship_taxtype == 'incl') $shipping = $shipping - $shipping_tax;
+        if ($ship_taxtype == 'incl') {
+            $shipping = $shipping - $shipping_tax;
+        }
+
         $refer = $this->input->post('refer', true);
         $total = rev_amountExchange_s($this->input->post('total'), $currency, $this->aauth->get_user()->loc);
         $disc_val = numberClean($this->input->post('disc_val'));
@@ -600,7 +621,10 @@ class Invoices extends CI_Controller
         $i = 0;
         if ($this->limited) {
             $employee = $this->invocies->invoice_details($iid, $this->limited);
-            if ($this->aauth->get_user()->id != $employee['eid']) exit();
+            if ($this->aauth->get_user()->id != $employee['eid']) {
+                exit();
+            }
+
         }
         if ($discountFormat == '0') {
             $discstatus = 0;
@@ -610,7 +634,7 @@ class Invoices extends CI_Controller
 
         if ($customer_id == 0) {
             echo json_encode(array('status' => 'Error', 'message' =>
-            $this->lang->line('Please add a new client')));
+                $this->lang->line('Please add a new client')));
             exit;
         }
         $this->db->trans_start();
@@ -623,7 +647,6 @@ class Invoices extends CI_Controller
         $data = array('invoicedate' => $bill_date, 'invoiceduedate' => $bill_due_date, 'subtotal' => $subtotal, 'shipping' => $shipping, 'ship_tax' => $shipping_tax, 'ship_tax_type' => $ship_taxtype, 'discount_rate' => $disc_val, 'discount' => $total_discount, 'tax' => $total_tax, 'total' => $total, 'notes' => $notes, 'csd' => $customer_id, 'items' => 0, 'taxstatus' => $tax, 'discstatus' => $discstatus, 'format_discount' => $discountFormat, 'refer' => $refer, 'term' => $pterms, 'multi' => $currency);
         $this->db->set($data);
         $this->db->where('id', $iid);
-
 
         if ($this->db->update('gtg_invoices', $data)) {
             //Product Data
@@ -667,7 +690,7 @@ class Invoices extends CI_Controller
                     'totaldiscount' => rev_amountExchange_s($ptotal_disc[$key], $currency, $this->aauth->get_user()->loc),
                     'product_des' => $product_des[$key],
                     'unit' => $product_unit[$key],
-                    'serial' => $product_serial[$key]
+                    'serial' => $product_serial[$key],
                 );
                 $productlist[$prodindex] = $data;
                 $i++;
@@ -675,7 +698,7 @@ class Invoices extends CI_Controller
 
                 $amt = numberClean(@$product_qty[$key]) - numberClean(@$old_product_qty[$key]);
                 if ($product_id[$key] > 0 and $amt) {
-                    $this->db->set('qty', "qty-$amt", FALSE);
+                    $this->db->set('qty', "qty-$amt", false);
                     $this->db->where('pid', $product_id[$key]);
                     $this->db->update('gtg_products');
 
@@ -698,10 +721,13 @@ class Invoices extends CI_Controller
                 $this->db->set(array('discount' => rev_amountExchange_s(amountFormat_general($total_discount), $currency, $this->aauth->get_user()->loc), 'tax' => rev_amountExchange_s(amountFormat_general($total_tax), $currency, $this->aauth->get_user()->loc), 'items' => $itc));
                 $this->db->where('id', $iid);
                 $this->db->update('gtg_invoices');
-                if ($transok)    echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('Invoice has  been updated') . " <a href='view?id=$iid' class='btn btn-info btn-lg'><span class='fa fa-eye' aria-hidden='true'></span> " . $this->lang->line('View') . " </a> "));
+                if ($transok) {
+                    echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('Invoice has  been updated') . " <a href='view?id=$iid' class='btn btn-info btn-lg'><span class='fa fa-eye' aria-hidden='true'></span> " . $this->lang->line('View') . " </a> "));
+                }
+
             } else {
                 echo json_encode(array('status' => 'Error', 'message' =>
-                $this->lang->line('ERROR')));
+                    $this->lang->line('ERROR')));
                 $transok = false;
             }
 
@@ -711,18 +737,20 @@ class Invoices extends CI_Controller
                     $prid = $myArray[0];
                     $dqty = numberClean($myArray[1]);
                     if ($prid > 0) {
-                        $this->db->set('qty', "qty+$dqty", FALSE);
+                        $this->db->set('qty', "qty+$dqty", false);
                         $this->db->where('pid', $prid);
                         $this->db->update('gtg_products');
                     }
                 }
             }
         } else {
-            if ($transok)   echo json_encode(array('status' => 'Error', 'message' =>
-            "Please add at least one product in invoice"));
+            if ($transok) {
+                echo json_encode(array('status' => 'Error', 'message' =>
+                    "Please add at least one product in invoice"));
+            }
+
             $transok = false;
         }
-
 
         if ($transok) {
             $this->custom->edit_save_fields_data($iid, 2);
@@ -755,82 +783,269 @@ class Invoices extends CI_Controller
 
     public function update_status()
     {
-        $tid = $this->input->post('tid');
-	 $pmethod = $this->input->post('pmethod');
-	 	 $note = $this->input->post('note');
-	 	 $amount = $this->input->post('amount');
-	 	 $amount = $this->input->post('amount');
- $cid = $this->input->post('cid');
-            $cname = $this->input->post('cname', true);
-	// echo"innn";
-	
-     $attach = $_FILES['userfile']['name'];
+        // $tid = $this->input->post('tid');
+        // $pmethod = $this->input->post('pmethod');
+        // $note = $this->input->post('note');
+        // $amount = $this->input->post('amount');
+        // $amount = $this->input->post('amount');
+        // $cid = $this->input->post('cid');
+        // $cname = $this->input->post('cname', true);
+        // // echo"innn";
+        // $acid = $this->input->post('status_account');
 
-	 $data['status'] = 'danger';
+        // $this->db->from('gtg_accounts');
+        // $this->db->where('id', $acid);
+        // $query = $this->db->get();
+        // $account = $query->row_array();
+
+
+        // $attach = $_FILES['userfile']['name'];
+
+        // $data['status'] = 'danger';
+        // $data['message'] = $this->lang->line('No file error');
+        // $config['upload_path'] = './userfiles/documents/';
+        // $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
+        // $config['encrypt_name'] = true;
+        // $config['max_size'] = 2669881;
+        // $config['file_name'] = time() . str_replace(' ', '_', $attach);
+        // $config['file_ext_tolower'] = true;
+        // $config['encrypt_name'] = false;
+        // $this->load->library('upload', $config);
+        // if (!$this->upload->do_upload('userfile')) {
+        //     //$error = array('status' => 'file', 'error' => $this->upload->display_errors());
+        //     // echo json_encode($error);
+        //     $filename = '';
+
+        // } else {
+        //     $data = array('upload_data' => $this->upload->data());
+        //     $filename = $data['upload_data']['file_name'];
+        // }
+        // $date = date("Y-m-d");
+        // $data = array(
+        //     'acid' => $acid,
+        //     'account' => $account['holder'],
+        //     'type' => "income",
+        //     'cat' => "Sales",
+        //     'debit' => '',
+        //     'credit' => $amount,
+        //     'payer' => $cname,
+        //     'payerid' => $cid,
+        //     'method' => $pmethod,
+        //     'date' => $date,
+        //     'tid' => $tid,
+        //     'eid' => $this->aauth->get_user()->id,
+        //     'note' => $note,
+        //     'payment_proof' => $filename,
+        // );
+
+        // $this->db->insert('gtg_transactions', $data);
+        // $this->db->select('SUM(credit) AS credit');
+        // $this->db->from('gtg_transactions');
+        // $this->db->where('gtg_transactions.tid', $tid);
+        // $query = $this->db->get();
+        // $sumamount = $query->row();
+        // $totalamnt = $sumamount->credit;
+        // $data = array('pamnt' => $totalamnt);
+        // $this->db->set($data);
+        // $this->db->where('id', $tid);
+        // $this->db->update('gtg_invoices');
+
+        // $status = $this->input->post('status');
+        // $data1 = array(
+        //     'status' => $status,
+        //     'pmethod' => $pmethod,
+
+        // );
+        // $this->db->set($data1);
+        // $this->db->where('id', $tid);
+        // $this->db->update('gtg_invoices');
+        // //  redirect('dashboard');
+        // redirect('invoices');
+        // // echo json_encode(array('status' => 'Success', 'message' =>
+        // //$this->lang->line('UPDATED'), 'pstatus' => $status));
+
+        $amount2 = 0;
+        $tid = $this->input->post('tid');
+        $amount = rev_amountExchange_s($this->input->post('amount', true), 0, $this->aauth->get_user()->loc);
+        $note = $this->input->post('note', true);
+        $pmethod = $this->input->post('pmethod', true);
+        $acid = $this->input->post('status_account', true);
+        $cid = $this->input->post('cid', true);
+        $cname = $this->input->post('cname', true);
+        $paydate = date("Y-m-d");
+
+
+        $this->db->select('holder');
+        $this->db->from('gtg_accounts');
+        $this->db->where('id', $acid);
+        $query = $this->db->get();
+        $account = $query->row_array();
+
+        if ($pmethod == 'Balance') {
+
+            $customer = $this->transactions->check_balance($cid);
+            if (rev_amountExchange_s($customer['balance'], 0, $this->aauth->get_user()->loc) >= $amount) {
+
+                $this->db->set('balance', "balance-$amount", FALSE);
+                $this->db->where('id', $cid);
+                $this->db->update('gtg_customers');
+            } else {
+
+                $amount = rev_amountExchange_s($customer['balance'], 0, $this->aauth->get_user()->loc);
+                $this->db->set('balance', 0, FALSE);
+                $this->db->where('id', $cid);
+                $this->db->update('gtg_customers');
+            }
+        }
+
+        $attach = $_FILES['userfile']['name'];
+
+        $data['status'] = 'danger';
         $data['message'] = $this->lang->line('No file error');
         $config['upload_path'] = './userfiles/documents/';
         $config['allowed_types'] = 'png|jpeg|jpg|JPEG|pdf';
-        $config['encrypt_name'] = TRUE;
+        $config['encrypt_name'] = true;
         $config['max_size'] = 2669881;
         $config['file_name'] = time() . str_replace(' ', '_', $attach);
-        $config['file_ext_tolower'] = TRUE;
-        $config['encrypt_name'] = FALSE;
+        $config['file_ext_tolower'] = true;
+        $config['encrypt_name'] = false;
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('userfile')) {
-           //$error = array('status' => 'file', 'error' => $this->upload->display_errors());
-           // echo json_encode($error);
-                    $filename ='';
+            //$error = array('status' => 'file', 'error' => $this->upload->display_errors());
+            // echo json_encode($error);
+            $filename = '';
 
-		} else {
+        } else {
             $data = array('upload_data' => $this->upload->data());
             $filename = $data['upload_data']['file_name'];
-		}
-		$date=date("Y-m-d");
-			 $data = array(
-                'acid' =>1,
-				'account' =>"Sales Account",
-                'type' =>"income",
-                'cat' => "Sales",
-                'debit' =>'',
-                'credit' => $amount,
-                'payer' =>$cname,
-				'payerid'=>$cid,
-				'method'=>$pmethod,
-				'date'=>$date,
-			    'tid'=>$tid,
-				'eid' => $this->aauth->get_user()->id,
-				'note'=>$note ,
-				'payment_proof'=>$filename
-				);
-			
-	            $this->db->insert('gtg_transactions', $data);
-		        $this->db->select('SUM(credit) AS credit');
-        $this->db->from('gtg_transactions');
-        $this->db->where('gtg_transactions.tid', $tid);
-			 $query = $this->db->get();
-         $sumamount= $query->row();
-		 $totalamnt=$sumamount->credit;
-        $data = array('pamnt'=>$totalamnt);
-        $this->db->set($data);
-        $this->db->where('id', $tid);
-        $this->db->update('gtg_invoices');	
-		
-			
-        $status = $this->input->post('status');
-		  $data1 = array(
-                'status' => $status,
-			  'pmethod' => $pmethod,
+        }
 
-            );
-            $this->db->set($data1);
+        $data = array(
+            'acid' => $acid,
+            'account' => $account['holder'],
+            'type' => 'Income',
+            'cat' => 'Sales',
+            'credit' => $amount,
+            'payer' => $cname,
+            'payerid' => $cid,
+            'method' => $pmethod,
+            'date' => $paydate,
+            'eid' => $this->aauth->get_user()->id,
+            'tid' => $tid,
+            'note' => $note,
+            'loc' => $this->aauth->get_user()->loc,
+            'payment_proof' => $filename,
+        );
+
+        $this->db->insert('gtg_transactions', $data);
+        $tttid = $this->db->insert_id();
+
+        $this->db->select('total,csd,pamnt');
+        $this->db->from('gtg_invoices');
         $this->db->where('id', $tid);
-        $this->db->update('gtg_invoices');
-      //  redirect('dashboard');
-redirect('invoices');
-       // echo json_encode(array('status' => 'Success', 'message' =>
-        //$this->lang->line('UPDATED'), 'pstatus' => $status));
+        $query = $this->db->get();
+        $invresult = $query->row();
+
+        $totalrm = $invresult->total - $invresult->pamnt;
+
+        if ($totalrm > $amount) {
+            $this->db->set('pmethod', $pmethod);
+            $this->db->set('pamnt', "pamnt+$amount", FALSE);
+
+            $this->db->set('status', 'partial');
+            $this->db->where('id', $tid);
+            $this->db->update('gtg_invoices');
+
+
+            //account update
+            $this->db->set('lastbal', "lastbal+$amount", FALSE);
+            $this->db->where('id', $acid);
+            $this->db->update('gtg_accounts');
+            $paid_amount = $invresult->pamnt + $amount;
+            $status = 'Partial';
+            $totalrm = $totalrm - $amount;
+        } else {
+            if ($totalrm < $amount) {
+                $diff = $totalrm - $amount;
+                $diff = abs($diff);
+                $amount2 = $amount;
+                $amount = $totalrm;
+                $this->db->set('balance', "balance+$diff", FALSE);
+                $this->db->where('id', $cid);
+                $this->db->update('gtg_customers');
+                $this->db->set('credit', "credit-$diff", FALSE);
+                $this->db->where('id', $tttid);
+                $this->db->update('gtg_transactions');
+            }
+            $this->db->set('pmethod', $pmethod);
+            $this->db->set('pamnt', "pamnt+$totalrm", FALSE);
+            $this->db->set('status', 'paid');
+            $this->db->where('id', $tid);
+            $this->db->update('gtg_invoices');
+            //account update
+            $this->db->set('lastbal', "lastbal+$totalrm", FALSE);
+            $this->db->where('id', $acid);
+            $this->db->update('gtg_accounts');
+            $totalrm = 0;
+            $status = 'Paid';
+        }
+        $amount += $amount2;
+
+        $activitym = "<tr><td>" . '<a href="' . base_url('invoices') . '/view_payslip?id=' . $tttid . '&inv=' . $tid . '" class="btn btn-blue btn-sm"><span class="fa fa-print" aria-hidden="true"></span></a> ' . substr($paydate, 0, 10) . "</td><td>$pmethod</td><td>" . amountExchange_s($amount, 0, $this->aauth->get_user()->loc) . "</td><td>$note</td></tr>";
+        $dual = $this->custom->api_config(65);
+        if ($dual['key1']) {
+
+            $this->db->select('holder');
+            $this->db->from('gtg_accounts');
+            $this->db->where('id', $dual['key2']);
+            $query = $this->db->get();
+            $account = $query->row_array();
+
+            $data['credit'] = 0;
+            $data['debit'] = $amount;
+            $data['type'] = 'Expense';
+            $data['acid'] = $dual['key2'];
+            $data['account'] = $account['holder'];
+            $data['note'] = 'Debit ' . $data['note'];
+
+            $this->db->insert('gtg_transactions', $data);
+
+            //account update
+            $this->db->set('lastbal', "lastbal-$amount", FALSE);
+            $this->db->where('id', $dual['key2']);
+            $this->db->update('gtg_accounts');
+        }
+
+        
+      
+
+        //$status = $this->input->post('status');
+        $data1 = array(
+            'status' => $status,
+            'pmethod' => $pmethod,
+
+        );
+        
+
+        $alert = $this->custom->api_config(66);
+        if ($alert['key1'] == 1) {
+            $this->load->model('communication_model');
+            $subject = $cname . ' ' . $this->lang->line('Transaction has been');
+            $body = $subject . '<br> ' . $this->lang->line('Credit') . ' ' . $this->lang->line('Amount') . ' ' . $amount . '<br> ' . $this->lang->line('Debit') . ' ' . $this->lang->line('Amount') . ' 0  <br> ID# ' . $tttid;
+            $out = $this->communication_model->send_corn_email($alert['url'], $alert['url'], $subject, $body, false, '');
+        }
+
+        if($this->db->set($data1)->where('id', $tid)->update('gtg_invoices'))
+        {
+            $this->session->set_flashdata('messagePr', 'Invoice Status Updated Successfully');
+        }else{
+            $this->session->set_flashdata('messagePr', 'Invoice Status Updated Failed');
+        }
+
+        
+        redirect('invoices');
+        
     }
-
 
     public function addcustomer()
     {
@@ -856,10 +1071,10 @@ redirect('invoices');
 
         $this->load->model('customers_model', 'customers');
         $insert1 = $this->customers->add($name, $company, $phone, $email, $address, $city, $region, $country, $postbox, $customergroup, $taxid, $name_s, $phone_s, $email_s, $address_s, $city_s, $region_s, $country_s, $postbox_s);
-        if(!$insert1){
+        if (!$insert1) {
             $data['status'] = 'danger';
             $data['message'] = $this->lang->line('Customer Add error');
-        }else{
+        } else {
             $data['status'] = 'Success';
             $data['message'] = "Customer Details Added Successfully!";
         }
@@ -877,9 +1092,9 @@ redirect('invoices');
         } else {
             $id = $this->input->get('id');
             $this->load->library("Uploadhandler_generic", array(
-                'accept_file_types' => '/\.(gif|jpe?g|png|docx|docs|txt|pdf|xls)$/i', 'upload_dir' => FCPATH . 'userfiles/attach/', 'upload_url' => base_url() . 'userfiles/attach/'
+                'accept_file_types' => '/\.(gif|jpe?g|png|docx|docs|txt|pdf|xls)$/i', 'upload_dir' => FCPATH . 'userfiles/attach/', 'upload_url' => base_url() . 'userfiles/attach/',
             ));
-            $files = (string)$this->uploadhandler_generic->filenaam();
+            $files = (string) $this->uploadhandler_generic->filenaam();
             if ($files != '') {
 
                 $this->invocies->meta_insert($id, 1, $files);
@@ -893,10 +1108,15 @@ redirect('invoices');
         $tid = $this->input->get('id');
 
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice')." ".$tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
-        if ($data['invoice']['id']) $data['products'] = $this->invocies->invoice_products($tid);
-        if ($data['invoice']['id']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        if ($data['invoice']['id']) {
+            $data['products'] = $this->invocies->invoice_products($tid);
+        }
+
+        if ($data['invoice']['id']) {
+            $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        }
 
         ini_set('memory_limit', '64M');
 
@@ -925,10 +1145,16 @@ redirect('invoices');
         $tid = $this->input->get('id');
 
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice')." ".$tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
-        if ($data['invoice']['id']) $data['products'] = $this->invocies->invoice_products($tid);
-        if ($data['invoice']['id']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        if ($data['invoice']['id']) {
+            $data['products'] = $this->invocies->invoice_products($tid);
+        }
+
+        if ($data['invoice']['id']) {
+            $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        }
+
         ini_set('memory_limit', '64M');
         $html = $this->load->view('invoices/proforma', $data, true);
         //PDF Rendering
@@ -943,7 +1169,6 @@ redirect('invoices');
         }
     }
 
-
     public function send_invoice_auto($invocieno, $invocieno2, $idate, $total, $multi)
     {
         $this->load->library('parser');
@@ -952,12 +1177,11 @@ redirect('invoices');
 
         $data = array(
             'Company' => $this->config->item('ctitle'),
-            'BillNumber' => $invocieno2
+            'BillNumber' => $invocieno2,
         );
-        $subject = $this->parser->parse_string($template['key1'], $data, TRUE);
+        $subject = $this->parser->parse_string($template['key1'], $data, true);
         $validtoken = hash_hmac('ripemd160', $invocieno, $this->config->item('encryption_key'));
         $link = base_url('billing/view?id=' . $invocieno . '&token=' . $validtoken);
-
 
         $data = array(
             'Company' => $this->config->item('ctitle'),
@@ -967,9 +1191,9 @@ redirect('invoices');
 <address>' . $this->config->item('address') . '<br>' . $this->config->item('address2') . '</address>
              ' . $this->lang->line('Phone') . ' : ' . $this->config->item('phone') . '<br>  ' . $this->lang->line('Email') . ' : ' . $this->config->item('email'),
             'DueDate' => dateformat($idate),
-            'Amount' => amountExchange($total, $multi)
+            'Amount' => amountExchange($total, $multi),
         );
-        $message = $this->parser->parse_string($template['other'], $data, TRUE);
+        $message = $this->parser->parse_string($template['other'], $data, true);
         return array('subject' => $subject, 'message' => $message);
     }
 
@@ -991,9 +1215,9 @@ redirect('invoices');
             'BillNumber' => $invocieno2,
             'URL' => $link,
             'DueDate' => dateformat($idate),
-            'Amount' => amountExchange($total, $multi)
+            'Amount' => amountExchange($total, $multi),
         );
-        $message = $this->parser->parse_string($template['other'], $data, TRUE);
+        $message = $this->parser->parse_string($template['other'], $data, true);
         return array('message' => $message);
     }
 
@@ -1002,7 +1226,9 @@ redirect('invoices');
         $id = $this->input->get('id');
         $inv = $this->input->get('inv');
         $data['invoice'] = $this->invocies->invoice_details($inv, $this->limited);
-        if (!$data['invoice']['id']) exit('Limited Permissions!');
+        if (!$data['invoice']['id']) {
+            exit('Limited Permissions!');
+        }
 
         $this->load->model('transactions_model', 'transactions');
         $head['title'] = "View Transaction";
@@ -1062,7 +1288,7 @@ redirect('invoices');
             $row[] = amountExchange($invoices->total, 0, $this->aauth->get_user()->loc);
             $row[] = amountExchange($invoices->pamnt, 0, $this->aauth->get_user()->loc);
             $row[] = '<span class="st-' . $invoices->status . '">' . $this->lang->line(ucwords($invoices->status)) . '</span>';
-            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-sm" title="View"><i class="fa fa-eye"></i></a>&nbsp;<a href="' . base_url("invoices/printinvoice?id=$invoices->id") . '&d=1" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a>  <a href="'.$invoices->document_url.'" tartget="_blank" class="btn btn-info btn-sm"  title="xml doc"><span class="fa fa-code"></span></a>     <a href="' . base_url("invoices/download_peppol_invoice?id=$invoices->id") . '"  class="btn btn-info btn-sm"  title="xml Download"><span class="fa fa-file"></span></a> <a href="#" data-object-id="' . $invoices->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            $row[] = '<a href="' . base_url("invoices/view?id=$invoices->id") . '" class="btn btn-success btn-sm" title="View"><i class="fa fa-eye"></i></a>&nbsp;<a href="' . base_url("invoices/printinvoice?id=$invoices->id") . '&d=1" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a>  <a href="' . $invoices->document_url . '" tartget="_blank" class="btn btn-info btn-sm"  title="xml doc"><span class="fa fa-code"></span></a>     <a href="' . base_url("invoices/download_peppol_invoice?id=$invoices->id") . '"  class="btn btn-info btn-sm"  title="xml Download"><span class="fa fa-file"></span></a> <a href="#" data-object-id="' . $invoices->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
             $data[] = $row;
         }
         $output = array(
@@ -1075,15 +1301,16 @@ redirect('invoices');
         echo json_encode($output);
     }
 
-    public function download_peppol_invoice(){
+    public function download_peppol_invoice()
+    {
         $invoice_id = $this->input->get('id');
         $invoice_details = $this->invocies->peppol_invoice_details($invoice_id);
 
-        $xmlUrl =  $invoice_details['document_url'];
+        $xmlUrl = $invoice_details['document_url'];
 
         // Fetch the XML data from the URL
         //$xmlData = file_get_contents($xmlUrl);
-        $xmlData ='';
+        $xmlData = '';
         $html = '<!DOCTYPE html>';
         $html .= '<html>';
         $html .= '<head>';
@@ -1097,7 +1324,7 @@ redirect('invoices');
 
         // Create an mPDF instance
         // $mpdf = new Mpdf();
-        
+
         $mpdf = $this->pdf->load_en();
         // Load HTML content into mPDF
         $mpdf->WriteHTML($html);
@@ -1108,7 +1335,22 @@ redirect('invoices');
         // Output the PDF to the browser or save to a file
         $mpdf->Output('peppol_invoice_document.pdf', 'D'); // 'D' to download the PDF, 'I' to display in the browser
 
- 
-
     }
+
+    public function convert_po()
+    {
+        $tid = $this->input->post('tid');
+        $person = $this->input->post('customer_id');
+
+
+        if ($this->invocies->convert_po($tid, $person)) {
+
+            echo json_encode(array('status' => 'Success', 'message' =>
+            $this->lang->line('Invoice to Purchase Order conversion')));
+        } else {
+            echo json_encode(array('status' => 'Error', 'message' =>
+            $this->lang->line('ERROR')));
+        }
+    }
+
 }

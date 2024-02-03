@@ -20,6 +20,13 @@
                 <div class="message"></div>
             </div>
             <div class="card-body">
+            <div class="row ">
+                    
+                    <div class="col-12 text-right mr-">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('transactions'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
                 <form method="post" id="data_form">
 
 
@@ -41,7 +48,7 @@
 
                         </div>
                         <div class="col-md-6"><input type="text" class="form-control" name="cst" id="trans-box"
-                                                     placeholder="Enter Person Name or Mobile Number to search (Optional)"
+                                                     placeholder="<?php echo $this->lang->line('Enter Person Name or Mobile Number to search (Optional)'); ?>"
                                                      autocomplete="off"/>
                             <div id="trans-box-result" class="sbox-result"></div>
                         </div>

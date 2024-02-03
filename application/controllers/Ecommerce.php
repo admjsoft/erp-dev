@@ -31,6 +31,9 @@ class Ecommerce extends CI_Controller
         }
         $this->load->library("Custom");
         $this->li_a = 'ecommerce';
+        $c_module = 'e-commerce';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //invoices list
@@ -68,7 +71,7 @@ class Ecommerce extends CI_Controller
                 if ($vendor_details['VendorName'] == 'POS') {
                     $post = array();
                     $analytics = $this->ecommerce->GetPosAnalytics($post);
-                    $data1['title'] = strtoupper($vendor_details['VendorName']) . " Sales";
+                    $data1['title'] = strtoupper($vendor_details['VendorName']) . $this->lang->line('Sales');
                     $data1['total_sales'] = $analytics['analytics'][0]['total_sales'];
                     $n_data[] = $data1;
                     $offline_sales += $data1['total_sales'];
@@ -82,7 +85,7 @@ class Ecommerce extends CI_Controller
 
                     // echo "<pre>"; print_r($analytics); echo "</pre>";
                     // exit;
-                    $data1['title'] = strtoupper($vendor_details['VendorName']) . " Sales";
+                    $data1['title'] = strtoupper($vendor_details['VendorName']) . $this->lang->line('Sales');
                     if(!empty($analytics))
                     {
                         $data1['total_sales'] = $analytics[0]['total_sales'];

@@ -19,6 +19,9 @@ class Accounts extends CI_Controller
         // }
         $this->load->model('accounts_model', 'accounts');
         $this->li_a = 'accounts';
+        $c_module = 'accounts';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

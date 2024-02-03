@@ -231,3 +231,227 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="expiry_products_modal">
+            <div class="modal-dialog modal-xl">
+                <!-- Add the modal-xl class -->
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="background-color:#B68DB8; width=100%">
+                        <h4 class="modal-title"><?php echo $this->lang->line('Product Details By DO') ?></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <!-- Table to display data -->
+                        <table class="table table-striped table-bordered zero-configuration"
+                            cellspacing="0" width="100%" id="expire_productstable">
+                            <thead style="background-color:#B68DB8 !important;">
+                                <tr>
+                                    <th>System Delivery Order ID</th>
+                                    <th>Supplier Delivery Order ID</th>
+                                    <th>Product Name</th>
+                                    <th>Product Code</th>
+                                    <th>Qty</th>
+                                    <th>Created Date</th>
+                                    <th>Expiry Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expiry-products-modal-body-content">
+                                <!-- Data will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="expiry_products_modal_with_sales">
+            <div class="modal-dialog modal-xl">
+                <!-- Add the modal-xl class -->
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="background-color:#B68DB8; width=100%">
+                        <h4 class="modal-title"><?php echo $this->lang->line('Detailed Stock Balance') ?></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <!-- Table to display data -->
+                        <table class="table table-striped table-bordered zero-configuration"
+                            cellspacing="0" width="100%" id="expire_productstable_sales">
+                            <thead style="background-color:#B68DB8 !important;">
+                                <tr>
+                                    <th>System Delivery Order ID</th>
+                                    <th>Supplier Delivery Order ID</th>
+                                    <th>Product Name</th>
+                                    <th>Product Code</th>
+                                    <th>Qty</th>
+                                    <th>Sold Qty</th>
+                                    <th>Remining Qty</th>
+                                    <th>Created Date</th>
+                                    <th>Expiry Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expiry-products-modal-body-content-with-sales">
+                                <!-- Data will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="do_sale_invoices_modal">
+            <div class="modal-dialog modal-xl">
+                <!-- Add the modal-xl class -->
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="background-color:#B68DB8; width=100%">
+                        <h4 class="modal-title"><?php echo $this->lang->line('Detailed Stock Balance') ?></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <!-- Table to display data -->
+                        <table class="table table-striped table-bordered zero-configuration"
+                            cellspacing="0" width="100%" id="do_sale_invoices">
+                            <thead style="background-color:#B68DB8 !important;">
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Invoice Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="do_sale_invoices_content">
+                                <!-- Data will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+            $(document).on('click', '.get_product_details', function() {
+            
+            var p_id = $(this).attr('p_id');
+                
+            $.ajax({
+                type: 'POST',        
+                dataType: 'json',
+                url: '<?php echo base_url('products/get_product_variant_details') ?>',
+                data: { p_id: p_id },
+                success: function (response) {
+    
+                    if(response.status == '200')
+                    {
+                      $('#expire_productstable').DataTable().destroy();
+                      $('#expiry-products-modal-body-content').html('');
+                      $('#expiry-products-modal-body-content').html(response.html);
+                      $('#expiry_products_modal').modal('show');
+                      $('#expire_productstable').DataTable();
+                    }else{
+                        //alert(response.message);
+                    }
+                    // Handle the response from the controller
+                    // console.log(response);
+                },
+                error: function (error) {
+                // console.error(error);
+                }
+            });
+        });
+
+
+        $(document).on('click', '.get_product_batch_details', function() {
+            
+            var p_id = $(this).attr('p_id');
+                
+            $.ajax({
+                type: 'POST',        
+                dataType: 'json',
+                url: '<?php echo base_url('products/get_product_batch_variant_details') ?>',
+                data: { p_id: p_id },
+                success: function (response) {
+    
+                    if(response.status == '200')
+                    {
+                      $('#expire_productstable_sales').DataTable().destroy();
+                      $('#expiry-products-modal-body-content-with-sales').html('');
+                      $('#expiry-products-modal-body-content-with-sales').html(response.html);
+                      $('#expiry_products_modal_with_sales').modal('show');
+                      $('expire_productstable_sales').DataTable();
+                    }else{
+                        //alert(response.message);
+                    }
+                    // Handle the response from the controller
+                    // console.log(response);
+                },
+                error: function (error) {
+                // console.error(error);
+                }
+            });
+        });
+
+
+        
+
+        $(document).on('click', '.get_delivery_order_sale_invoices', function() {
+            
+            var do_id = $(this).attr('do_id');
+                
+            $.ajax({
+                type: 'POST',        
+                dataType: 'json',
+                url: '<?php echo base_url('products/get_do_sale_invoices_details') ?>',
+                data: { do_id: do_id },
+                success: function (response) {
+    
+                    if(response.status == '200')
+                    {
+                      $('#do_sale_invoices').DataTable().destroy();
+                      $('#do_sale_invoices_content').html('');
+                      $('#do_sale_invoices_content').html(response.html);
+                      $('#do_sale_invoices_modal').modal('show');
+                      $('#do_sale_invoices').DataTable();
+                    }else{
+                        //alert(response.message);
+                    }
+                    // Handle the response from the controller
+                    // console.log(response);
+                },
+                error: function (error) {
+                // console.error(error);
+                }
+            });
+        });
+
+
+        
+
+
+
+        });
+        </script>

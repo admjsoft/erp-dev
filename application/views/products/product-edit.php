@@ -260,7 +260,7 @@
                         <div class="col-sm-2">
                             <input type="text" class="form-control required"
                                    placeholder="Expiry Date" name="wdate"
-                                   data-toggle="datepicker" autocomplete="false">
+                                   data-toggle="datepicker" autocomplete="false" >
                         </div>
                         <small>Do not change if not applicable</small>
                     </div>

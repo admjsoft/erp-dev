@@ -21,8 +21,8 @@
             <div class="card-body">
 
 
-                <span class="text-bold-600"><span class="icon-file-pdf"></span> To Export Data Check <a
-                            href="<?php echo base_url() ?>export/account">HERE</a></span>
+                <span class="text-bold-600"><span class="icon-file-pdf"></span> <?php echo $this->lang->line('To Export Data Check'); ?> <a
+                            href="<?php echo base_url() ?>export/account"><?php echo $this->lang->line('HERE'); ?></a></span>
                 <hr>
                 <div class="row sameheight-container">
                     <div class="col-md-6">
@@ -91,7 +91,7 @@
                                     <label class="col-sm-3 col-form-label" for="pay_cat"></label>
 
                                     <div class="col-sm-4">
-                                        <input type="submit" class="btn btn-primary btn-md" value="View">
+                                        <input type="submit" class="btn btn-primary btn-md" value="<?php echo $this->lang->line('View'); ?>">
 
 
                                     </div>

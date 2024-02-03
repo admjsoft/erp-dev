@@ -142,7 +142,7 @@ class Products_model extends CI_Model
         return $this->db->count_all_results();
     }
 
-    public function addnew($catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $v_type, $v_stock, $v_alert, $wdate, $code_type, $w_type = '', $w_stock = '', $w_alert = '', $sub_cat = '', $b_id = '', $serial = '')
+    public function addnew($catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $v_type, $v_stock, $v_alert, $wdate, $code_type, $w_type = '', $w_stock = '', $w_alert = '', $sub_cat = '', $b_id = '', $serial = '',$delivery_order_number='')
     {
         $ware_valid = $this->valid_warehouse($warehouse);
         if (!$sub_cat) $sub_cat = 0;
@@ -155,6 +155,10 @@ class Products_model extends CI_Model
         if (!$difference->d > 0) {
             $wdate = null;
         }
+
+        // echo $wdate;
+        // exit;
+
 
         if ($this->aauth->get_user()->loc) {
             if ($ware_valid['loc'] == $this->aauth->get_user()->loc or $ware_valid['loc'] == '0' or $warehouse == 0) {
@@ -211,27 +215,27 @@ class Products_model extends CI_Model
                     $this->aauth->applog("[New Product] -$product_name  -Qty-$product_qty ID " . $pid, $this->aauth->get_user()->username);
                    
                     
-                    $thirdparty_vendors = $this->db->select('Id, VendorName, Status')->get('merchant_thirdparty_vendors')->result_array();
+                    // $thirdparty_vendors = $this->db->select('Id, VendorName, Status')->get('merchant_thirdparty_vendors')->result_array();
                 
-                    if (!empty($thirdparty_vendors)) {
-                        foreach ($thirdparty_vendors as $th_vendor) {
-                            $th_data = array(
-                                "ItemId" => $pid,
-                                "ThirdPartyVendorId" => $th_vendor['Id'],
-                                "MerchantId" => '',
-                                "CityId" => '',
-                                "LocationId" => '',
-                                "SegmentId" => $catid,
-                                "SubSegmentId" => $sub_cat,
-                                "Price" => $product_price,
-                                "CrDate" => date('Y-m-d h:i:s', time()),
-                            );
-                            $th_f_data[] = $th_data;
-                        }
-                    }
+                    // if (!empty($thirdparty_vendors)) {
+                    //     foreach ($thirdparty_vendors as $th_vendor) {
+                    //         $th_data = array(
+                    //             "ItemId" => $pid,
+                    //             "ThirdPartyVendorId" => $th_vendor['Id'],
+                    //             "MerchantId" => '',
+                    //             "CityId" => '',
+                    //             "LocationId" => '',
+                    //             "SegmentId" => $catid,
+                    //             "SubSegmentId" => $sub_cat,
+                    //             "Price" => $product_price,
+                    //             "CrDate" => date('Y-m-d h:i:s', time()),
+                    //         );
+                    //         $th_f_data[] = $th_data;
+                    //     }
+                    // }
                 
-                    $this->db->insert_batch('merchant_items_thirdparty_pricing', $th_f_data);
-                
+                    // $this->db->insert_batch('merchant_items_thirdparty_pricing', $th_f_data);
+                    $this->create_delivery_order($pid,$product_qty,$delivery_order_number,$wdate);
                     echo json_encode(array('status' => 'Success', 'message' =>
                     $this->lang->line('ADDED') . "  <a href='add' class='btn btn-blue btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span>  </a> <a href='" . base_url('products') . "' class='btn btn-grey-blue btn-lg'><span class='fa fa-list-alt' aria-hidden='true'></span>  </a>"));
                 } else {
@@ -339,27 +343,27 @@ class Products_model extends CI_Model
                 $this->movers(1, $pid, $product_qty, 0, 'Stock Initialized');
                 $this->aauth->applog("[New Product] -$product_name  -Qty-$product_qty ID " . $pid, $this->aauth->get_user()->username);
                   
-                $thirdparty_vendors = $this->db->select('Id, VendorName, Status')->get('merchant_thirdparty_vendors')->result_array();
+                // $thirdparty_vendors = $this->db->select('Id, VendorName, Status')->get('merchant_thirdparty_vendors')->result_array();
                 
-                if (!empty($thirdparty_vendors)) {
-                    foreach ($thirdparty_vendors as $th_vendor) {
-                        $th_data = array(
-                            "ItemId" => $pid,
-                            "ThirdPartyVendorId" => $th_vendor['Id'],
-                            "MerchantId" => '',
-                            "CityId" => '',
-                            "LocationId" => '',
-                            "SegmentId" => $catid,
-                            "SubSegmentId" => $sub_cat,
-                            "Price" => $product_price,
-                            "CrDate" => date('Y-m-d h:i:s', time()),
-                        );
-                        $th_f_data[] = $th_data;
-                    }
-                }
+                // if (!empty($thirdparty_vendors)) {
+                //     foreach ($thirdparty_vendors as $th_vendor) {
+                //         $th_data = array(
+                //             "ItemId" => $pid,
+                //             "ThirdPartyVendorId" => $th_vendor['Id'],
+                //             "MerchantId" => '',
+                //             "CityId" => '',
+                //             "LocationId" => '',
+                //             "SegmentId" => $catid,
+                //             "SubSegmentId" => $sub_cat,
+                //             "Price" => $product_price,
+                //             "CrDate" => date('Y-m-d h:i:s', time()),
+                //         );
+                //         $th_f_data[] = $th_data;
+                //     }
+                // }
             
-                $this->db->insert_batch('merchant_items_thirdparty_pricing', $th_f_data);
-       
+                // $this->db->insert_batch('merchant_items_thirdparty_pricing', $th_f_data);
+                $this->create_delivery_order($pid,$product_qty,$delivery_order_number,$wdate);
                 echo json_encode(array('status' => 'Success', 'message' =>
                 $this->lang->line('ADDED') . "  <a href='add' class='btn btn-blue btn-lg'><span class='fa fa-plus-circle' aria-hidden='true'></span>  </a> <a href='" . base_url('products') . "' class='btn btn-grey-blue btn-lg'><span class='fa fa-list-alt' aria-hidden='true'></span>  </a>"));
             } else {
@@ -418,7 +422,7 @@ class Products_model extends CI_Model
         }
     }
 
-    public function edit($pid, $catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $code_type, $sub_cat = '', $b_id = '', $vari = null, $serial = null)
+    public function edit($pid, $catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $code_type, $sub_cat = '', $b_id = '', $vari = null, $serial = null, $wdate = '')
     {
         $this->db->select('qty');
         $this->db->from('gtg_products');
@@ -446,7 +450,8 @@ class Products_model extends CI_Model
                     'barcode' => $barcode,
                     'code_type' => $code_type,
                     'sub_id' => $sub_cat,
-                    'b_id' => $b_id
+                    'b_id' => $b_id,
+                    'expiry' => $wdate
                 );
 
                 $this->db->set($data);
@@ -486,7 +491,8 @@ class Products_model extends CI_Model
                 'barcode' => $barcode,
                 'code_type' => $code_type,
                 'sub_id' => $sub_cat,
-                'b_id' => $b_id
+                'b_id' => $b_id,
+                'expiry' => $wdate
             );
             $this->db->set($data);
             $this->db->where('pid', $pid);
@@ -800,4 +806,180 @@ FROM gtg_products $whr");
         );
         $this->db->insert('gtg_movers', $data);
     }
+
+
+    public function get_product_codes(){
+        $this->db->distinct();
+        $this->db->select('product_code');
+        $query = $this->db->get('gtg_products');
+        return $query->result_array();
+    }
+    public function get_expire_products_list($post = ''){
+
+        $this->db->select('p.pid,p.product_name,p.product_code, p.pcat,  SUM(p.qty) as qty, p.cr_date,p.expiry, c.title');
+        $this->db->from('gtg_products p');
+        $this->db->join('gtg_product_cat c', 'p.pcat = c.id', 'left');
+
+        if(!empty($post))
+        {
+            $cat_id = $post['cat_id'];
+            // $start_date = $post['start_date'];
+            // $end_date = $post['end_date'];
+            $product_code = $post['product_code'];
+        }
+
+        if(!empty($cat_id))
+        {
+            $this->db->where('p.pcat', $cat_id); // Replace $cat_id with the actual category ID
+        }
+
+        // Add conditions for start and end dates for expiry
+        // if (!empty($start_date)) {
+        //     $this->db->where('p.cr_date >=', $start_date);
+        // }
+
+        // if (!empty($end_date)) {
+        //     $this->db->where('p.cr_date <=', $end_date);
+        // }
+
+
+        if (!empty($product_code)) {
+            $this->db->where('p.product_code', $product_code);
+        }
+
+        $this->db->group_by('p.product_code');
+        $query = $this->db->get();
+
+        $result = $query->result_array();
+        return $result;
+
+        // Output the result or use it as needed
+
+    }
+
+
+
+    public function get_expire_products_variations_list($post = ''){
+
+        // $this->db->select('p.pid,p.product_name,p.product_code, p.pcat, p.qty, p.cr_date,p.expiry, c.title');
+        // $this->db->from('gtg_products p');
+        // $this->db->join('gtg_product_cat c', 'p.pcat = c.id', 'left');
+
+        $this->db->select('p.product_code, SUM(p.qty) as total_qty, p.product_name, p.cr_date, p.expiry, c.title');
+        $this->db->from('gtg_products p');
+        $this->db->join('gtg_product_cat c', 'p.pcat = c.id', 'left');
+        
+
+
+        if(!empty($post))
+        {
+            $cat_id = $post['cat_id'];
+            // $start_date = $post['start_date'];
+            // $end_date = $post['end_date'];
+            $product_code = $post['product_code'];
+        }
+
+        if(!empty($cat_id))
+        {
+            $this->db->where('p.pcat', $cat_id); // Replace $cat_id with the actual category ID
+        }
+
+        // Add conditions for start and end dates for expiry
+        // if (!empty($start_date)) {
+        //     $this->db->where('p.expiry >=', $start_date);
+        // }
+
+        // if (!empty($end_date)) {
+        //     $this->db->where('p.expiry <=', $end_date);
+        // }
+
+
+        if (!empty($product_code)) {
+            $this->db->where('p.product_code', $product_code);
+        }
+
+        $this->db->group_by('p.product_code');
+        $this->db->order_by('p.product_name');
+        $query = $this->db->get();
+
+        $result = $query->result_array();
+        return $result;
+
+        // Output the result or use it as needed
+
+    }
+
+    public function lastdo()
+    {
+        $this->db->select('parent_do_id');
+        $this->db->from('gtg_do_relations');
+        $this->db->order_by('parent_do_id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return ($query->row()->parent_do_id + 1 );
+        } else {
+            return 1000;
+        }
+    }
+
+
+    public function create_delivery_order($pid,$prodcut_qty,$delivery_order_number,$expire_date)
+    {
+        // echo $expire_date;
+        // exit;
+        
+        $supplier_do_no = $delivery_order_number;
+       
+        $lastdo = $this->lastdo();
+        $last_child_do = $lastdo."111";
+                     
+
+        $data['parent_delivery_order_id'] = $lastdo;
+        $data['delivery_order_id'] = $last_child_do;
+        $data['supplier_delivery_order_id'] = $supplier_do_no;
+        $data['po_id'] = 0;
+        $data['p_id'] = $pid;                
+        $data['do_expire_date'] = $expire_date; 
+
+        // $data['do_id'] = $lastdo + 1;
+        $data['qty'] = $prodcut_qty;
+        $data['type'] = 'cr';
+        //$n_data[] = $data;
+
+
+        if(!empty($data)){
+
+            
+            $rel_data['type'] = 'default_po';
+            $rel_data['parent_do_id'] = $lastdo;
+            $rel_data['do_id'] = $last_child_do;
+            $rel_data['po_id'] = 0;
+            $rel_data['supplier_do_id'] = $supplier_do_no;
+            $this->db->insert('gtg_do_relations',$rel_data);
+            // Decode the JSON data
+           
+            if($this->db->insert('gtg_do_delivered_items', $data))
+            {
+
+                
+
+                $resp_data['status'] = '200';
+                $resp_data['message'] = 'Delivery Order Created for Default Product Successfully';
+            } else {
+
+                $resp_data['status'] = '500';
+                $resp_data['message'] = 'Delivery Order for Default Product Creating Failed';
+            }
+
+            
+            
+        }else{
+            $resp_data['status'] = '500';
+            $resp_data['message'] = 'No product Deatils';
+        }
+
+        return json_encode($resp_data);
+    }
+
 }

@@ -246,9 +246,9 @@ class Quote_model extends CI_Model
                 );
                 $productlist[$prodindex] = $data;
                 $prodindex++;
-                $this->db->set('qty', "qty-$amt", FALSE);
-                $this->db->where('pid', $row['pid']);
-                $this->db->update('gtg_products');
+                // $this->db->set('qty', "qty-$amt", FALSE);
+                // $this->db->where('pid', $row['pid']);
+                // $this->db->update('gtg_products');
             }
 
 
@@ -327,9 +327,9 @@ class Quote_model extends CI_Model
                 );
                 $productlist[$prodindex] = $data;
                 $prodindex++;
-                $this->db->set('qty', "qty+$amt", FALSE);
-                $this->db->where('pid', $row['pid']);
-                $this->db->update('gtg_products');
+                // $this->db->set('qty', "qty+$amt", FALSE);
+                // $this->db->where('pid', $row['pid']);
+                // $this->db->update('gtg_products');
             }
 
 

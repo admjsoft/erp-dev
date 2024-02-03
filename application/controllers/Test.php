@@ -13,13 +13,14 @@ class Test extends CI_Controller {
 
 
     public function index() {
-        // Replace this with the URL of the XML file
-        $xmlUrl = 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7';
+        // // Replace this with the URL of the XML file
+        // $xmlUrl = 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7';
 
-        // Fetch the XML data from the URL
-        $xmlData = file_get_contents($xmlUrl);
+        // // Fetch the XML data from the URL
+        // $xmlData = file_get_contents($xmlUrl);
 
-        $this->generatePdfFromXml($xmlData);
+        // $this->generatePdfFromXml($xmlData);
+        echo date_default_timezone_get();
     }
 
     private function generatePdfFromXml($xmlData) {

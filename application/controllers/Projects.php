@@ -19,6 +19,9 @@ class Projects extends CI_Controller
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }*/
         $this->li_a = 'project';
+        $c_module = 'project';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
 
     }
 
@@ -32,7 +35,9 @@ class Projects extends CI_Controller
 		if(!empty($this->input->get('eid')))
 		{
         $data['eid'] = intval($this->input->get('eid'));
-		}
+		}else{
+        $data['eid'] = '0';
+        }
         $this->load->view('fixed/header', $head);
         $this->load->view('projects/index', $data);
         $this->load->view('fixed/footer');

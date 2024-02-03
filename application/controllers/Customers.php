@@ -20,6 +20,9 @@ class Customers extends CI_Controller
         $this->load->library("Custom");
         $this->li_a = 'crm';
 		$this->li_a == "fwms";
+        $c_module = 'crm';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()
@@ -57,10 +60,10 @@ class Customers extends CI_Controller
 	
 		public function import() {
 		
-		if($_FILES['file']['name']!="client_jsuiteTemplate.xlsx")
+		if($_FILES['file']['name']!="Customer-Management-Template.xlsx")
 		{
 			$data['status'] = 'danger';
-            $data['message'] = $this->lang->line('Client Template Error Use JsuiteTemplate');
+            $data['message'] = $this->lang->line('Client Template Error Use Jsuite Downloaded Template');
 			$_SESSION['status']=$data['status'];
             $_SESSION['message']=$data['message'];
             $this->session->mark_as_flash('status');
@@ -94,25 +97,27 @@ class Customers extends CI_Controller
 			//$temp_password="123456";
 			foreach($sheet_data as $key => $val) {
 			    // print_r($val);
-				if($key != 0) {
+				if($key > 1 ) {
 					$result 	= '';
 				
 					if($result) {
 					} else {
 						$list [] = [
-							'name'			=> $val[0],
-							'phone'			=> $val[1],
-							'address'		=> $val[2],
-							'city'			=> $val[3],
-							'region'		=> $val[4],
-							'country' 		=> $val[5],
-							'email'			=> $val[6],
-							'company'		=> $val[7],
+                            						
+							'company'		=> $val[0],
+							'name'			=> $val[1],
+                            'email'			=> $val[2],
+							'phone'			=> $val[3],
+							'address'		=> $val[4],
+							'city'			=> $val[5],
+							'region'		=> $val[6],
+							'country' 		=> $val[7],
+                            'customer_type' => $val[8],	
 
 						];
 						$list1 [] = [
-							'name'			=> $val[0],
-							'email'			=> $val[6],
+							'name'			=> $val[1],
+							'email'			=> $val[2],
 							'password'      => password_hash(123456, PASSWORD_DEFAULT),
 							'status'        =>'active',
 							'is_deleted'=>0,
@@ -130,7 +135,7 @@ class Customers extends CI_Controller
 				       if($result>0)
 					   {
 						 	$data['status'] = 'danger';
-                    $data['message'] =$result." Rows Are Dublicate";
+                    $data['message'] =$result." Rows Are Duplicate";
 						  
 						   
 					   }
@@ -671,7 +676,7 @@ public function deleteFwmsClient()
     {
         if ($this->aauth->premission(157)) {
             $id = $this->input->post('deleteid');
-            if ($id > 1) {
+            if ($id > 0) {
                 if ($this->customers->delete($id)) {
                     echo json_encode(array('status' => 'Success', 'message' => 'Customer details deleted Successfully!'));
                 } else {
@@ -1269,7 +1274,24 @@ public function referral()
 	
 }
 
+public function downloadCustomerTemplate()
+{
+    
 
+    $filePath = FCPATH . 'userfiles/customers/Customer-Management-Template.xlsx';
+
+    // Check if the file exists
+    if (file_exists($filePath)) {
+        // Load the download helper
+        $this->load->helper('download');
+
+        // Force download the file
+        force_download('Customer-Management-Template.xlsx', file_get_contents($filePath));
+    } else {
+        redirect('customers/addExcel');
+    }
+
+}
 
 
 }

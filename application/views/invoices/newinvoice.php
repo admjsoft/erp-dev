@@ -45,6 +45,13 @@
                 <div class="message"></div>
             </div>
             <div class="card-body">
+            <div class="row mr-2">
+                    
+                    <div class="col-12 text-right mr-">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('invoices'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
                 <form method="post" id="data_form" onSubmit="tinyMCE.triggerSave()">
                     <div class="row" >
                         <div class="col-sm-6 cmp-pnl">

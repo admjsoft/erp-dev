@@ -31,6 +31,25 @@ function selectCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 0, compa
     $(".sbox-result").hide();
     $("#customer").show();
 }
+
+function selectContractCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 0, company = '') {
+
+  
+    $('#contract_customer_id').val(cid);
+    $("#customer-box-contract").val(cname);
+    $("#customer-box-contract").val();
+
+    $("#customer-box-contract-email").val(email);
+    $("#customer-box-contract-email").val();
+
+    $("#customer-box-contract-phone").val(ph);
+    $("#customer-box-contract-phone").val();
+
+
+    $("#customer-box-result").hide();
+    $("#customer").show();
+}
+
 function selectEmployee(eid, ename, eadd1, eadd2, ph, email, discount = 0) {
     $('#employee_id').val(eid);
     $('#employee_discount').val(discount);
@@ -149,6 +168,48 @@ $(document).ready(function () {
         });
     });
 
+
+    $("#customer-box-contract").keyup(function () {
+        $('#contract_customer_id').val('');
+        $.ajax({
+            type: "GET",
+            url: baseurl + 'search_products/csearch_contract',
+            data: 'keyword=' + $(this).val() + '&' + crsf_token + '=' + crsf_hash,
+            beforeSend: function () {
+                $("#customer-box-contract").css("background", "#FFF url(" + baseurl + "assets/custom/load-ring.gif) no-repeat 165px");
+            },
+            success: function (data) {
+
+                if(data){
+                         
+                   
+                    // Parse the server response
+                    var parsedResponse = $.parseHTML(data);
+
+                    // Check if there is an <li> tag inside <ol> tag
+                    if ($(parsedResponse).find('li').length > 0) {
+                        $("#customer-box-result").show();
+                        $("#customer-box-result").html(data);
+                        $("#customer-box-contract").css("background", "none");
+                        //$('#job_sheet_add_client_btn').hide();
+                    } else {
+                        $("#customer-box-contract").css("background", "none");
+                        $("#customer-box-result").hide();
+                        //$('#job_sheet_add_client_btn').show();
+                        
+                    }
+                    
+                }else{
+                    $("#customer-box-contract").css("background", "none");
+                    $("#customer-box-result").hide();
+                    $('#job_sheet_add_client_btn').show();
+                }
+         
+
+            }
+        });
+    });
+
     var userfileElement = document.getElementById("userfile");
 
 if (userfileElement) {
@@ -200,7 +261,7 @@ if (userfileElement) {
                 imgElements.forEach(function(img) {
                     img.onerror = function() {
                         this.onerror = null;
-                        this.src = baseurl +'userfiles/product/default.png';
+                        this.src = baseurl +'default.png';
                     };
                 });
 
@@ -771,6 +832,7 @@ function cancelBill(acturl) {
     var errorNum = farmCheck();
     $("#cancel_bill").modal('hide');
     if (errorNum > 0) {
+        // alert('ddddd');
         $("#notify").removeClass("alert-success").addClass("alert-warning").fadeIn();
         $("#notify .message").html("<strong>Error</strong>");
         $("html, body").animate({scrollTop: $('#notify').offset().bottom}, 1000);
@@ -1041,6 +1103,7 @@ function removeObject(action, action_url) {
 //universal create
 
 $("#submit-data").on("click", function (e) {
+
     e.preventDefault();
     $(this).hide();
     var o_data = $("#data_form").find(':input').not('.no-serialize').serialize();
@@ -1382,6 +1445,7 @@ function saveMData(o_data, action_url) {
                     $('#pstatus').html(data.pstatus);
                     setTimeout(function () {
                         $("#notify").fadeOut();
+                        location.reload();
                     }, 3000);
                 } else {
                     $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
@@ -1438,6 +1502,7 @@ $(".delete-confirm").on("click", function () {
     var o_data = $('#mform_' + did).serialize();
     var action_url = $('#action-url_' + did).val();
     $('#d_' + $('#object-id_' + did).val()).remove();
+    alert('#d_' + $('#object-id_' + did).val());
     removeObject_c(o_data, action_url);
 });
 
@@ -1515,3 +1580,8 @@ $(document).on('click', ".apply_coupon", function (e) {
     });
 
 });
+
+setTimeout(function () {
+    $(".notify-alert").fadeOut();
+}, 3000);
+

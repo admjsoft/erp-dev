@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>View Email Campaign Details
+            <h4 class="card-title"><?php echo $this->lang->line('View Email Campaign Details') ?>
             </h4>
 
 
@@ -190,7 +190,7 @@ if(isset($_SESSION['status'])){
 
                                         <label class="col-sm-2 col-form-label"
                                             for="name"><?php echo $this->lang->line('Recepients Lists'); ?></label>
-                                       
+
                                         <div class="col-sm-8">
                                             <select multiple class="form-control margin-bottom b_input required "
                                                 name="Recepients[]" id="recepients">
@@ -208,14 +208,15 @@ if(isset($_SESSION['status'])){
 
                                         <label class="col-sm-2 col-form-label"
                                             for="name"><?php echo $this->lang->line('Message Content'); ?></label>
-                                        
-                                        <div class="col-sm-8 " >
-                                        <label class="col-form-label"
-                                            for="name"><?php echo "Message Content Changes Not Allowed Once Campaign Created"; // $this->lang->line('Title') ?></label>
 
-                                        <div style="border:1px solid #ccd6e6; border-radius:4px;"><?php echo $campaign_details['htmlContent']; ?>  
-                                                </div>
-                                                                               </div>
+                                        <div class="col-sm-8 ">
+                                            <label class="col-form-label"
+                                                for="name"><?php $this->lang->line('Message Content Changes Not Allowed Once Campaign Created') ?></label>
+
+                                            <div style="border:1px solid #ccd6e6; border-radius:4px;">
+                                                <?php echo $campaign_details['htmlContent']; ?>
+                                            </div>
+                                        </div>
                                     </div>
 
 
@@ -227,7 +228,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="campaign_id"
                                         value="<?php echo $campaign_details['id']; ?>" id="campaign_id">
                                     <?php /* ?>
-                                        <input type="button" id="update_product_btn"
+                                    <input type="button" id="update_product_btn"
                                         class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
                                         value="<?php //echo $this->lang->line('Add customer') ?>Update Campaign"
                                         data-loading-text="updating...">

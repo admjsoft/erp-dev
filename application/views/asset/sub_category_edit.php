@@ -28,11 +28,11 @@ echo form_open('', $attributes);
                 <input type="hidden" name="subcatid" value="<?php echo $sub_category->id; ?>"">
 
 <div class="form-group row">
-                                <label class="col-sm-2 col-form-label" for="name">Asset Category</label>
+                                <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Asset Category'); ?></label>
 
                                 <div class="col-sm-6">
                                  <select id="Category" class="form-control" style="width:100%;" data-val="true" data-val-required="The Category field is required." name="Category">
-                                                    <option disabled="" selected="">--- SELECT ---</option>
+                                                    <option disabled="" selected="">--- <?php echo $this->lang->line('SELECT'); ?> ---</option>
 	                                  <?php foreach ($categories as $catg) {
 ?>
 									  

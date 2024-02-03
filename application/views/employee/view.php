@@ -232,6 +232,34 @@
                                             </div>
                                         </div>
                                     </div>
+                                    </div>
+                                    <div class="row mb-2">
+
+                                    <div class="col-sm-6">
+                                        <div class="hero-widget well well-sm">
+
+
+                                            <div class="options">
+                                                <a href="<?php echo base_url('employee/documents?id=' . $eid) ?>"
+                                                   class="btn btn-pink btn-block"><i
+                                                            class="fa fa-files-o"></i> <?php echo $this->lang->line('Documents') ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="hero-widget well well-sm">
+
+
+                                            <div class="options">
+                                                <a href="<?php echo base_url('employee/profile_download?id=' . $eid) ?>"
+                                                   class="btn btn-purple btn-block"><i
+                                                            class="fa fa-address-book"></i> <?php echo $this->lang->line('Profile Download') ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -291,17 +319,17 @@
 
 
                         <div class="row">
-                            <div class="col mb-1"><label for="pmethod">Mark As</label>
-                                Do you want to calculate total income expenses of this employee ?
+                            <div class="col mb-1"><label for="pmethod"><?php echo $this->lang->line('Mark As'); ?></label>
+                            <?php echo $this->lang->line('Do you want to calculate total income expenses of this employee ?');?>
                             </div>
                         </div>
 
                         <div class="modal-footer">
                             <input type="hidden" class="form-control required"
                                    name="eid" id="invoiceid" value="<?php echo $eid ?>">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
                             <input type="hidden" id="action-url" value="employee/calc_income">
-                            <button type="button" class="btn btn-primary" id="submit_model2">Yes</button>
+                            <button type="button" class="btn btn-primary" id="submit_model2"><?php echo $this->lang->line('Yes'); ?></button>
                         </div>
                     </form>
                 </div>

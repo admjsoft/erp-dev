@@ -61,8 +61,11 @@ class Ultimatemailer
 
 //send the message, check for errors
         if (!$mail->send()) {
-            echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+              //  commented for mdec meeting
+           // echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+           return json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
         } else {
+                //  commented for mdec meeting
             echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
             return json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
         }

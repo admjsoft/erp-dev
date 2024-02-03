@@ -20,8 +20,8 @@
                         for="product_catname"><?php echo $this->lang->line('Module Name'); ?></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Module Name"
-                            class="form-control margin-bottom required" value="<?php echo $module_details[0]['title']; ?>" name="module_name" required>
+                        <input type="text" placeholder="Module Name" class="form-control margin-bottom required"
+                            value="<?php echo $module_details[0]['title']; ?>" name="module_name" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -30,8 +30,8 @@
                         for="product_catname"><?php echo $this->lang->line('Module Url') ?></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Module Url"
-                            class="form-control margin-bottom " value="<?php echo $module_details[0]['url']; ?>" name="module_url" id="module_url" required>
+                        <input type="text" placeholder="Module Url" class="form-control margin-bottom "
+                            value="<?php echo $module_details[0]['url']; ?>" name="module_url" id="module_url" required>
                     </div>
                 </div>
 
@@ -41,11 +41,18 @@
                         for="product_cat"><?php echo $this->lang->line('Module Activity Type') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="module_activity_type" id="module_activity_type" class="form-control required" required>
-                            <option value="">Select Activity Type</option>
-                            <option value="Page Display" <?php if($module_details[0]['module_type'] == 'Page Display'){ echo "selected"; } ?>>Page Display</option>
-                            <option value="Authorized Action" <?php if($module_details[0]['module_type'] == 'Authorized Action'){ echo "selected"; } ?>>Action Authorization</option>
-                            <option value="Landing Page" <?php if($module_details[0]['module_type'] == 'Landing Page'){ echo "selected"; } ?>>Landing Page</option>
+                        <select name="module_activity_type" id="module_activity_type" class="form-control required"
+                            required>
+                            <option value=""><?php echo $this->lang->line('Select Activity Type'); ?></option>
+                            <option value="Page Display"
+                                <?php if($module_details[0]['module_type'] == 'Page Display'){ echo "selected"; } ?>>
+                                <?php echo $this->lang->line('Page Display'); ?></option>
+                            <option value="Authorized Action"
+                                <?php if($module_details[0]['module_type'] == 'Authorized Action'){ echo "selected"; } ?>>
+                                <?php echo $this->lang->line('Action Authorization'); ?></option>
+                            <option value="Landing Page"
+                                <?php if($module_details[0]['module_type'] == 'Landing Page'){ echo "selected"; } ?>>
+                                <?php echo $this->lang->line('Landing Page'); ?></option>
                         </select>
 
 
@@ -58,11 +65,13 @@
                         for="product_cat"><?php echo $this->lang->line('Module Parent') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="module_parent"  id="module_parent" class="form-control required" required>
-                        <!-- <option value=''>Please Select Parent</option> -->
-                        <option value='0'>No Parent Module</option>
+                        <select name="module_parent" id="module_parent" class="form-control required" required>
+                            <!-- <option value=''>Please Select Parent</option> -->
+                            <option value='0'><?php echo $this->lang->line('No Parent Module'); ?></option>
                             <?php foreach ($side_bars as $row) { ?>
-                                <option value="<?php echo $row['id']; ?>" <?php if($module_details[0]['rel_parent_id'] == $row['id']){ echo "selected"; } ?>><?php echo $row['title']; ?></option>
+                            <option value="<?php echo $row['id']; ?>"
+                                <?php if($module_details[0]['rel_parent_id'] == $row['id']){ echo "selected"; } ?>>
+                                <?php echo $row['title']; ?></option>
                             <?php } ?>
                         </select>
 
@@ -77,10 +86,15 @@
 
                     <div class="col-sm-6">
                         <select name="module_type" id="module_type" class="form-control required" required>
-                            <option value="">Select Module Type</option>
-                            <option value="Sidebar" <?php if($module_details[0]['type'] == 'Sidebar'){ echo "selected"; } ?>>Sidebar</option>
-                            <option value="Subheading" <?php if($module_details[0]['type'] == 'Subheading'){ echo "selected"; } ?> >Subheading</option>
-                            <option value="Child Heading" <?php if($module_details[0]['type'] == 'Child Heading'){ echo "selected"; } ?>>Child Heading</option>
+                            <option value=""><?php echo $this->lang->line('Select Module Type'); ?></option>
+                            <option value="Sidebar"
+                                <?php if($module_details[0]['type'] == 'Sidebar'){ echo "selected"; } ?>><?php echo $this->lang->line('Sidebar'); ?>
+                            </option>
+                            <option value="Subheading"
+                                <?php if($module_details[0]['type'] == 'Subheading'){ echo "selected"; } ?>><?php echo $this->lang->line('Subheading'); ?>
+                            </option>
+                            <option value="Child Heading"
+                                <?php if($module_details[0]['type'] == 'Child Heading'){ echo "selected"; } ?>><?php echo $this->lang->line('Child Heading'); ?></option>
                         </select>
 
 
@@ -95,9 +109,13 @@
 
                     <div class="col-sm-6">
                         <select name="module_status" id="module_status" class="form-control required" required>
-                            <option value="">Select Module Status</option>
-                            <option value="Active" <?php if($module_details[0]['status'] == 'Active'){ echo "selected"; } ?>>Active</option>
-                            <option value="Inactive" <?php if($module_details[0]['status'] == 'Inactive'){ echo "selected"; } ?>>In Active</option>
+                            <option value=""><?php echo $this->lang->line('Select Module Status'); ?></option>
+                            <option value="Active"
+                                <?php if($module_details[0]['status'] == 'Active'){ echo "selected"; } ?>><?php echo $this->lang->line('Active'); ?>
+                            </option>
+                            <option value="Inactive"
+                                <?php if($module_details[0]['status'] == 'Inactive'){ echo "selected"; } ?>><?php echo $this->lang->line('In Active'); ?>
+                            </option>
                         </select>
 
 
@@ -112,9 +130,11 @@
 
                     <div class="col-sm-6">
                         <select name="module_position" id="module_position" class="form-control required" required>
-                        <?php for($i=1;$i<=50;$i++) { ?>
-                        <option value="<?php echo $i; ?>" <?php if($module_details[0]['display_order'] == $i){ echo "selected"; } ?>><?php echo $i; ?></option>
-                        <?php } ?>
+                            <?php for($i=1;$i<=50;$i++) { ?>
+                            <option value="<?php echo $i; ?>"
+                                <?php if($module_details[0]['display_order'] == $i){ echo "selected"; } ?>>
+                                <?php echo $i; ?></option>
+                            <?php } ?>
                         </select>
 
 
@@ -128,10 +148,12 @@
                         for="product_cat"><?php echo $this->lang->line('Module Icon') ?></label>
 
                     <div class="col-sm-6">
-                        <select name="module_icon" id="module_icon" class="form-control" >
-                            <option value=""> Select Module Icon</option>
+                        <select name="module_icon" id="module_icon" class="form-control">
+                            <option value=""> <?php echo $this->lang->line('Select Module Icon'); ?></option>
                             <?php foreach ($iconOptions as $optionValue) { ?>
-                            <option value="<?php echo $optionValue; ?>" <?php if($module_details[0]['icon'] == $optionValue){ echo "selected"; } ?>><?php echo $optionValue; ?></option>';
+                            <option value="<?php echo $optionValue; ?>"
+                                <?php if($module_details[0]['icon'] == $optionValue){ echo "selected"; } ?>>
+                                <?php echo $optionValue; ?></option>';
                             <?php } ?>
                         </select>
                     </div>

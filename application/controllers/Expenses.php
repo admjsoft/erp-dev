@@ -14,6 +14,9 @@ class Expenses extends CI_Controller
         }
         $this->load->library("Custom");
         $this->li_a = 'expenses';
+        $c_module = 'expenses';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
     // expenses update function
     public function update_i()

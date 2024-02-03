@@ -39,7 +39,7 @@
                      <input type="text" placeholder="Name"
                                            class="form-control margin-bottom required" id="name" name="name"   value="<?php echo $categorie->name;?>" >
                     </div>
-                </div>categorie
+                </div><?php echo $this->lang->line('categorie'); ?>
 
 
                 <div class="form-group row">

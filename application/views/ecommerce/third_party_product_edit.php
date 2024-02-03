@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit Product Details ( <?php echo $vendor_details[0]['VendorName']." ".$vendor_details[0]['Type'];  ?> )
+            <h4 class="card-title"><?php echo $this->lang->line('Edit Product Details') ?>( <?php echo $vendor_details[0]['VendorName']." ".$vendor_details[0]['Type'];  ?> )
             <a
                         href="<?php echo base_url('ecommerce/publishing') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
@@ -77,12 +77,12 @@ if(isset($_SESSION['status'])){
                                             <br>
                                             <span class="btn btn-success fileinput-button" style="width:100%">
                                                 <i class="glyphicon glyphicon-plus"></i>
-                                                <span>Select files...</span>
+                                                <span><?php echo $this->lang->line('Select files...'); ?></span>
                                                 <!-- The file input field used as target for the file upload widget -->
                                                 <input id="fileupload" type="file" name="files[]">
                                             </span>
                                             <br>
-                                            <pre>Allowed: gif, jpeg, png (Use light small weight images for fast loading - 200x200)</pre>
+                                            <pre><?php echo $this->lang->line('Allowed:')." gif, jpeg, png (".$this->lang->line('Use light small weight images for fast loading')." - 200x200)"; ?></pre>
                                             <br>
                                             <!-- The global progress bar -->
 
@@ -104,11 +104,11 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                            for="name"><?php echo "Categories"; // $this->lang->line('Title') ?></label>
+                                            for="name"><?php echo $this->lang->line('Categories') ?></label>
 
                                         <div class="col-sm-8">
                                             <select class="form-control" id="category">
-                                                <option value="">Select Category</option>
+                                                <option value=""><?php echo $this->lang->line('Select Category'); ?></option>
                                                 <?php  if(!empty($categories)){ foreach ($categories as $category) { ?>
                                                 <option value="<?php echo $category['id']; ?>" <?php if(in_array($category['id'],$p_cat_id)){ echo "selected"; } ?>>
                                                     <?php echo $category['name']; ?></option>
@@ -125,7 +125,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                             <select class="form-control" id="sub_category">
-                                                <option value="">Select Sub Category</option>
+                                                <option value=""><?php echo $this->lang->line('Select Sub Category'); ?></option>
                                             </select>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                             <select class="form-control" id="child_category">
-                                                <option value="">Select Child Category</option>
+                                                <option value=""><?php echo $this->lang->line('Select Child Category'); ?></option>
                                             </select>
                                         </div>
                                     </div>

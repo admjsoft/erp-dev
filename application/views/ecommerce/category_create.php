@@ -30,7 +30,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Create Category Details 
+                <h4 class="card-title"><?php echo $this->lang->line('Create Category Details'); ?> 
             </h4>
             
 
@@ -79,7 +79,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Category Description"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Category Description') ?></label>
 
                                         <div class="col-sm-8">
                                             <textarea type="text"   placeholder="Title"
@@ -101,7 +101,7 @@ if(isset($_SESSION['status'])){
                                     <input type="hidden" name="vendor_id" value="<?php echo $vendor_details[0]['Id']; ?>" id="vendor_id">
                                     <input type="button" id="update_product_btn"
                                            class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                           value="<?php //echo $this->lang->line('Add customer') ?>Create Category"
+                                           value="<?php echo $this->lang->line('Create Category') ?>"
                                            data-loading-text="updating...">
                                 </div>
                             </div>

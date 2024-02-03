@@ -19,6 +19,9 @@ class Paymentgateways extends CI_Controller
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

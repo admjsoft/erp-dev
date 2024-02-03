@@ -19,6 +19,9 @@ class Clientgroup extends CI_Controller
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         // }
         $this->li_a = 'crm';
+        $c_module = 'crm';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //groups

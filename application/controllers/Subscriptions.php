@@ -26,6 +26,9 @@ class Subscriptions extends CI_Controller
             $this->limited = '';
         }
         $this->li_a = 'sales';
+        $c_module = 'sales';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //create invoice
@@ -55,14 +58,14 @@ class Subscriptions extends CI_Controller
 
         $tid = intval($this->input->get('id'));
         $data['id'] = $tid;
-        $data['title'] = "Edit Invoice $tid";
+        $data['title'] = $this->lang->line('Edit Invoice') . $tid;
         $this->load->model('customers_model', 'customers');
         $data['customergrouplist'] = $this->customers->group_list();
         $data['terms'] = $this->invocies->billingterms();
         $data['currency'] = $this->invocies->currencies();
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
-        $head['title'] = "Edit Invoice #$tid";
+        $head['title'] = $this->lang->line('Edit Invoice')." #".$tid;
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->invocies->warehouses();
         $this->load->model('plugins_model', 'plugins');
@@ -295,7 +298,7 @@ class Subscriptions extends CI_Controller
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['activity'] = $this->invocies->invoice_transactions($tid);
         $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
-        $head['title'] = "Invoice " . $data['invoice']['tid'];
+        $head['title'] = $this->lang->line('Invoice') . $data['invoice']['tid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $this->load->view('fixed/header', $head);
         if ($data['invoice']) $this->load->view('subscriptions/view', $data);
@@ -308,7 +311,7 @@ class Subscriptions extends CI_Controller
 
         $tid = intval($this->input->get('id'));
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice'). $tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         if (CUSTOM) {
             $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
@@ -594,7 +597,7 @@ class Subscriptions extends CI_Controller
         $tid = intval($this->input->get('id'));
 
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice'). $tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
@@ -626,7 +629,7 @@ class Subscriptions extends CI_Controller
         $tid = intval($this->input->get('id'));
 
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice'). $tid;
         $data['invoice'] = $this->invocies->invoice_details($tid, $this->limited);
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);

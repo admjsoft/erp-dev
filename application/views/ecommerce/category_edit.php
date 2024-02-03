@@ -78,7 +78,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Category Description"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Category Description') ?></label>
 
                                         <div class="col-sm-8">
                                             <textarea type="text"   placeholder="Title"

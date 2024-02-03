@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Example</title>
+    <style>
+        #video-preview {
+            width: 100%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Camera Example</h1>
+
+    <video id="video-preview" autoplay playsinline></video>
+    <button onclick="switchCamera()">Switch Camera</button>
+
+    <script>
+        let currentStream;
+        let currentCamera = 'environment';
+
+        async function startCamera() {
+            try {
+                const constraints = {
+                    video: { facingMode: currentCamera }
+                };
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                currentStream = stream;
+
+                const videoPreview = document.getElementById('video-preview');
+                videoPreview.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        }
+
+        function switchCamera() {
+            currentCamera = currentCamera === 'environment' ? 'user' : 'environment';
+            stopCamera();
+            startCamera();
+        }
+
+        function stopCamera() {
+            if (currentStream) {
+                const tracks = currentStream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        }
+
+        // Start the camera when the page loads
+        startCamera();
+
+        // Ensure the camera is stopped when the page is closed or navigated away
+        window.addEventListener('beforeunload', stopCamera);
+    </script>
+</body>
+
+</html>

@@ -220,12 +220,12 @@ $(document).ready(function() {
                 <a href="<?php echo base_url(); ?>subscriptions/"> <i class="icon-android-calendar"></i><span class="menu-title"> <?php echo $this->lang->line('Subscriptions'); ?> </span></a>
             </li> */ ?>
  
-            <?php /* temprary hide
+            
             <li class="nav-item <?php if ($this->uri->segment(1) == "quote") {
                 echo 'active';
             } ?>">
                 <a href="<?php echo base_url(); ?>quote/"> <i class="icon-file"></i><span class="menu-title"> <?php echo $this->lang->line('Quotes'); ?> </span></a>
-            </li> */?>
+            </li> 
             <li class="nav-item <?php if($this->uri->segment(2) == "recharge") echo "active"; ?>">
                 <a href="<?php echo base_url("payments/recharge"); ?>"><i class="icon-credit-card2"></i>
                     <span><?php echo $this->lang->line('Recharge Account'); ?></span></a>

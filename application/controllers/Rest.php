@@ -225,7 +225,7 @@ class Rest extends REST_Controller
         $tid = $id;
         $data['qrc'] = 'pos_' . date('Y_m_d_H_i_s') . '_.png';
         $data['id'] = $tid;
-        $data['title'] = "Invoice $tid";
+        $data['title'] = $this->lang->line('Invoice') . $tid;
         $data['invoice'] = $this->invocies->invoice_details($tid);
         if ($data['invoice']) $data['products'] = $this->invocies->invoice_products($tid);
         if ($data['invoice']) $data['employee'] = $this->invocies->employee($data['invoice']['eid']);

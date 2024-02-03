@@ -42,6 +42,7 @@ if (isset($_SESSION['status'])) {
     /* padding: 1px; */
     line-height: 20px;
     padding-left: 5px;
+}
 </style>
    
 
@@ -110,7 +111,7 @@ if (isset($_SESSION['status'])) {
                             aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <p><?php echo $this->lang->line('delete this Comment') ?> Are you sure you want to delete this Comment?</p>
+                <p><?php echo $this->lang->line('delete this Comment') ?> <?php echo $this->lang->line('Are you sure you want to delete this Comment?'); ?></p>
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="object-id" value="">

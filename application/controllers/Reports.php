@@ -18,6 +18,9 @@ class Reports extends CI_Controller
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         }
         $this->li_a = 'data';
+        $c_module = 'accounts';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

@@ -13,8 +13,62 @@ class Contract_model extends CI_Model
 
     public function get_all_contracts()
     {
-        $query = $this->db->get('gtg_contract');
+        // $query = $this->db->get('gtg_contract');
+        // return $query->result_array();
+    //     $query = $this->db->query("
+    //     SELECT
+    //         gc.*,
+    //         gcs.id AS signing_id,
+    //         gcs.signed_date,
+    //         gcs.contract_remarks AS signing_remarks,
+    //         gcs.file_name AS signing_file_name,
+    //         gcs.file_type AS signing_file_type,
+    //         gcs.file_size AS signing_file_size,
+    //         gcs.upload_date AS signing_upload_date,
+    //         COUNT(gcs.id) AS signings_count
+    //     FROM
+    //         gtg_contract gc
+    //     LEFT JOIN (
+    //         SELECT
+    //             id,
+    //             contract_id,
+    //             signed_date,
+    //             contract_remarks,
+    //             file_name,
+    //             file_type,
+    //             file_size,
+    //             upload_date
+    //         FROM
+    //             gtg_contract_signings gs
+    //         WHERE
+    //             (contract_id, upload_date) IN (
+    //                 SELECT
+    //                     contract_id,
+    //                     MAX(upload_date) AS latest_upload_date
+    //                 FROM
+    //                     gtg_contract_signings
+    //                 GROUP BY
+    //                     contract_id
+    //             )
+    //     ) gcs ON gc.id = CAST(gcs.contract_id AS SIGNED)
+    //     GROUP BY
+    //         gc.id, gcs.id, gcs.signed_date, gcs.contract_remarks, gcs.file_name, gcs.file_type, gcs.file_size, gcs.upload_date
+    // ");
+    
+
+    $query = $this->db->query("SELECT
+    gc.*,
+    COUNT(gcs.id) AS signings_count
+FROM
+    gtg_contract gc
+LEFT JOIN
+    gtg_contract_signings gcs ON gc.id = CAST(gcs.contract_id AS SIGNED)
+GROUP BY
+    gc.id");
+    
+        
         return $query->result_array();
+
     }
 
     public function get_contract_by_id($contract_id)
@@ -41,7 +95,7 @@ class Contract_model extends CI_Model
     // Function to update contract details
     public function update_contract($contract_id, $contract_data)
     {
-        $this->db->where('contract_id', $contract_id);
+        $this->db->where('id', $contract_id);
         $this->db->update('gtg_contract', $contract_data);
     }
 

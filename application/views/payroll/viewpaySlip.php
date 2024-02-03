@@ -30,6 +30,13 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
         </div>
         <div class="card-body">
+        <div class="row ">
+                    
+                    <div class="col-12 text-right ">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('payroll/payroll'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('Generate Pay slip'); ?> </button></a>
+                    </div>
+                </div>
             <div id="notify" class="alert alert-success" style="display:none;">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
 
@@ -108,7 +115,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><?php echo $this->lang->line('Update Status') ?>no Update Status</h4>
+                    <h4 class="modal-title"><?php echo $this->lang->line('Update Status') ?><?php echo $this->lang->line('No Update Status'); ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                 </div>

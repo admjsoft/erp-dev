@@ -2,7 +2,7 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">E-commerce Online Platforms<?php // echo $this->lang->line('Peppol Invoices') ?><a
+            <h4 class="card-title"><?php echo $this->lang->line('E-commerce Online Platforms') ?><a
                         href="<?php echo base_url('ecommerce/online_platform_create') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add New Platform') ?></a></h4>

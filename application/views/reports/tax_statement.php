@@ -35,8 +35,8 @@
                                 <div class="col-sm-9">
                                     <select name="ty" class="form-control">
 
-                                        <option value='Sales'>Sales TAX Report</option>
-                                        <option value='Purchase'>Purchase TAX Report</option>
+                                        <option value='Sales'><?php echo $this->lang->line('Sales TAX Report'); ?></option>
+                                        <option value='Purchase'><?php echo $this->lang->line('Purchase TAX Report'); ?></option>
                                     </select>
 
 
@@ -90,7 +90,7 @@
                                 <label class="col-sm-3 col-form-label" for="pay_cat"></label>
 
                                 <div class="col-sm-4">
-                                    <input type="submit" class="btn btn-primary btn-md" value="View">
+                                    <input type="submit" class="btn btn-primary btn-md" value="<?php echo $this->lang->line('View'); ?>">
 
 
                                 </div>

@@ -18,9 +18,13 @@ class Products extends CI_Controller
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
         // }
         $this->load->model('products_model', 'products');
+        
         $this->load->model('categories_model');
         $this->load->library("Custom");
         $this->li_a = 'stock';
+        $c_module = 'stock';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()
@@ -31,6 +35,482 @@ class Products extends CI_Controller
         $this->load->view('products/products');
         $this->load->view('fixed/footer');
     }
+
+    public function expire_products_list()
+    {
+        $head['title'] = "Products";
+        $data['cat'] = $this->categories_model->category_stock();        
+        $data['product_codes'] = $this->products->get_product_codes();
+        $data['products'] = $this->products->get_expire_products_list();
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('products/expire_products_list',$data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function get_expire_products_list(){
+
+        $post = $this->input->post();
+        $data['products'] = $this->products->get_expire_products_list($post);
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/expiry_products_table',$data,TRUE);     
+        echo json_encode($resp_data);
+    }
+
+
+    public function expiry_product_variations_list()
+    {
+        $head['title'] = "Expiry Products Variations";
+        $data['cat'] = $this->categories_model->category_stock();        
+        $data['product_codes'] = $this->products->get_product_codes();
+        $data['products'] = $this->products->get_expire_products_variations_list();
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('products/expire_variations_products_list',$data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function get_expiry_product_variations_list(){
+
+        $post = $this->input->post();
+        $data['products'] = $this->products->get_expire_products_variations_list($post);
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/expiry_variations_products_table',$data,TRUE);     
+        echo json_encode($resp_data);
+    }
+
+
+    public function get_product_variant_details(){
+
+        $post = $this->input->post();
+        $id = $post['p_id'];
+        //$id = 1;
+
+        $product_details = $this->db->where('pid',$id)->get('gtg_products')->result_array();
+        $products_list = $this->db->where('product_code',$product_details[0]['product_code'])->get('gtg_products')->result_array();
+        $product_ids = array_column($products_list,'pid');
+
+        $this->db->select('gp.product_code,gddi.do_expire_date as product_expiry_date,gp.pid,gddi.supplier_delivery_order_id, gddi.return_qty, gddi.qty as delivered_qty, gddi.type as do_type, gddi.parent_delivery_order_id, gddi.delivery_order_id, gdr.cr_date as do_created_date, gp.product_name, gp.product_code, gp.qty as total_qty, gp.product_price, gp.fproduct_price, gp.warehouse,gdr.type');
+        $this->db->from('gtg_do_delivered_items gddi');
+        $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+        $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+        $this->db->where_in('gdr.type', array('po', 'default_po'));
+        // $this->db->where('gddi.invoice_id', 'invoice');
+        $this->db->where_in('gp.pid', $product_ids);
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+        // echo $this->db->last_query();
+        // exit;
+        // echo "<pre>"; print_r($result); echo "</pre>";
+        // exit;
+        
+        if(!empty($result))
+        {
+        //     $do_products = $result;
+        //     $products = $result;
+        //     $do_qty = 0;
+        //    if(!empty($products)) {  foreach($products as $product){ 
+        //     $do_qty += ((int)$product['delivered_qty'] - (int)$product['return_qty']);
+        //     }
+        //     }
+            
+        
+
+            // $this->db->select('gp.expiry as product_expiry_date, "Default Item from Warehouse" as supplier_delivery_order_id,gp.qty as delivered_qty,"0" as return_qty, gp.cr_date as do_created_date, gp.product_name, gp.product_code');
+            // $this->db->from('gtg_products gp'); // Add alias 'gp' for the table
+            // $this->db->join('gtg_do_delivered_items gddi', 'gddi.p_id = gp.pid', 'left'); // Join with gtg_do_delivered_items
+            // $this->db->where_in('gp.pid', $id);
+            // $query = $this->db->get();
+            // $result = $query->result_array();
+            //$id = array('1'); // Assuming $id is an array of values
+
+            // $this->db->select('gp.expiry as product_expiry_date, "Default Item from Warehouse" as supplier_delivery_order_id,gp.qty as delivered_qty,"0" as return_qty, gp.cr_date as do_created_date, gp.product_name, gp.product_code');
+            // $this->db->from('gtg_products gp'); // Add alias 'gp' for the table
+            // $this->db->where_in('gp.pid', $id);
+            // $query = $this->db->get();
+            // $result = $query->result_array();
+
+            // if(!empty($result)){ foreach($result as $rslt){ 
+            //     $nn_data['product_expiry_date'] = $rslt['product_expiry_date'];
+            //     $nn_data['supplier_delivery_order_id'] = $rslt['supplier_delivery_order_id'];
+            //     $nn_data['delivered_qty'] = $rslt['delivered_qty'] - $do_qty;
+            //     $nn_data['return_qty'] = 0;
+            //     $nn_data['do_created_date'] = $rslt['do_created_date'];
+            //     $nn_data['product_name'] = $rslt['product_name'];
+            //     $nn_data['product_code'] = $rslt['product_code'];
+            //     $n_data[] = $nn_data;
+            // }}
+
+            // $f_result = $n_data;
+            // $mergedArray = array_merge($f_result, $do_products);
+            // $data['products'] = $mergedArray;
+            $data['products'] = $result;
+            
+        }else{
+
+            // $this->db->select('gp.expiry as product_expiry_date, "Default Item from Warehouse" as supplier_delivery_order_id,gp.qty as delivered_qty,"0" as return_qty, gp.cr_date as do_created_date, gp.product_name, gp.product_code');
+            // $this->db->from('gtg_products gp'); // Add alias 'gp' for the table
+            // $this->db->join('gtg_do_delivered_items gddi', 'gddi.p_id = gp.pid', 'left'); // Join with gtg_do_delivered_items
+            // $this->db->where_in('gp.pid', $id);
+            // $query = $this->db->get();
+            // $result = $query->result_array();
+            
+            $data['products'] = array();
+
+        }
+        // echo "<pre>"; print_r($product_ids); echo "</pre>";
+        // echo "<pre>"; print_r($result); echo "</pre>";
+        // exit;
+        
+
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/expiry_product_details_table',$data,TRUE);     
+        echo json_encode($resp_data);
+    }
+
+
+    
+    public function get_product_batch_variant_details(){
+
+        $post = $this->input->post();
+        $id = $post['p_id'];
+        //$id = 1;
+
+        $product_details = $this->db->where('pid',$id)->get('gtg_products')->result_array();
+        $products_list = $this->db->where('product_code',$product_details[0]['product_code'])->get('gtg_products')->result_array();
+        $product_ids = array_column($products_list,'pid');
+
+        // $this->db->select('gp.product_code,gddi.do_expire_date as product_expiry_date,gp.pid,gddi.supplier_delivery_order_id, gddi.return_qty, gddi.qty as delivered_qty, gddi.type as do_type, gddi.parent_delivery_order_id, gddi.delivery_order_id, gdr.cr_date as do_created_date, gp.product_name, gp.product_code, gp.qty as total_qty, gp.product_price, gp.fproduct_price, gp.warehouse,gdr.type');
+        // $this->db->from('gtg_do_delivered_items gddi');
+        // $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+        // $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+        // $this->db->where('gdr.type', 'po');
+        // $this->db->where_in('gp.pid', $product_ids);
+        // $query = $this->db->get();
+        // $result = $query->result_array();
+
+        // $this->db->select('gp.product_code, gddi.do_expire_date as product_expiry_date, gp.pid, gddi.supplier_delivery_order_id, gddi.return_qty, gddi.qty as delivered_qty, gddi.type as do_type, gddi.parent_delivery_order_id, gddi.delivery_order_id, gdr.cr_date as do_created_date, gp.product_name, gp.product_code, gp.qty as total_qty, gp.product_price, gp.fproduct_price, gp.warehouse, gdr.type, SUM(gdpbh.used_qty) AS total_used_qty');
+        // $this->db->from('gtg_do_delivered_items gddi');
+        // $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+        // $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+        // $this->db->join('gtg_do_product_batches_history gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left'); // Include product_id in the join condition
+        // $this->db->where('gdr.type', 'invoice');
+        // $this->db->where_in('gp.pid', $product_ids);
+        // $this->db->group_by('gddi.delivery_order_id');
+        // $this->db->group_by('gddi.p_id'); // Group by product_id to get the sum of used_qty per product_id and delivery_order_id
+        // $query = $this->db->get();
+        // $result = $query->result_array();
+        // $this->db->select('gp.product_code, gddi.do_expire_date as product_expiry_date, gp.pid, gddi.supplier_delivery_order_id, gddi.return_qty, gddi.qty as delivered_qty, gddi.type as do_type, gddi.parent_delivery_order_id, gddi.delivery_order_id, gdr.cr_date as do_created_date, gp.product_name, gp.qty as total_qty, gp.product_price, gp.fproduct_price, gp.warehouse, gdr.type, SUM(gdpbh.used_qty) AS total_used_qty');
+        // $this->db->from('gtg_do_delivered_items gddi');
+        // $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+        // $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+        // $this->db->join('gtg_do_product_batches_history gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left');
+        // $this->db->where('gdr.type', 'invoice');
+        // $this->db->where_in('gp.pid', $product_ids);
+        // $this->db->group_by('gddi.delivery_order_id, gddi.p_id');
+        // $query = $this->db->get();
+        // $result = $query->result_array();
+
+
+        $this->db->select('
+                    gp.product_code,
+                    gddi.do_expire_date as product_expiry_date,
+                    gp.pid,
+                    gddi.supplier_delivery_order_id,
+                    gddi.return_qty,
+                    gddi.qty as delivered_qty,
+                    gddi.type as do_type,
+                    gddi.parent_delivery_order_id,
+                    gddi.delivery_order_id,
+                    gdr.cr_date as do_created_date,
+                    gp.product_name,
+                    gp.product_code,
+                    gp.qty as total_qty,
+                    gp.product_price,
+                    gp.fproduct_price,
+                    gp.warehouse,
+                    gdr.type,
+                    COALESCE(gdpbh.total_used_qty, 0) AS total_used_qty
+                ');
+
+                $this->db->from('gtg_do_delivered_items gddi');
+                $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+                $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+                $this->db->join('(SELECT delivery_order_id, p_id, SUM(used_qty) AS total_used_qty FROM gtg_do_product_batches_history GROUP BY delivery_order_id, p_id) gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left'); // Subquery to get the sum of used_qty
+                $this->db->where_in('gdr.type', array('po', 'default_po'));
+                $this->db->where_in('gp.pid', $product_ids);
+                $this->db->group_by('gddi.delivery_order_id');
+                $this->db->group_by('gddi.p_id');
+
+                $query = $this->db->get();
+                $result = $query->result_array();
+
+        
+        if(!empty($result))
+        {
+            $data['products'] = $result;
+            
+        }else{
+
+            // $this->db->select('gp.expiry as product_expiry_date, "Default Item from Warehouse" as supplier_delivery_order_id,gp.qty as delivered_qty,"0" as return_qty, gp.cr_date as do_created_date, gp.product_name, gp.product_code');
+            // $this->db->from('gtg_products gp'); // Add alias 'gp' for the table
+            // $this->db->join('gtg_do_delivered_items gddi', 'gddi.p_id = gp.pid', 'left'); // Join with gtg_do_delivered_items
+            // $this->db->where_in('gp.pid', $id);
+            // $query = $this->db->get();
+            // $result = $query->result_array();
+            
+            $data['products'] = array();
+
+        }
+        
+
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/expiry_product_details_table_with_sales',$data,TRUE);     
+        echo json_encode($resp_data);
+    }
+
+
+    
+    
+    public function detailed_stock_balance(){
+
+        $id = $this->input->get('id');
+        // $id = $post['p_id'];
+        //$id = 1;
+        $data['cat'] = $this->categories_model->category_stock();        
+        $data['product_codes'] = $this->products->get_product_codes();
+       
+        if(!empty($id))
+        {
+            $product_details = $this->db->where('pid',$id)->get('gtg_products')->result_array();
+            $products_list = $this->db->where('product_code',$product_details[0]['product_code'])->get('gtg_products')->result_array();
+            $product_ids = array_column($products_list,'pid');
+        }else{
+
+            $products_list = $this->db->get('gtg_products')->result_array();
+            $product_ids = array_column($products_list,'pid');
+        }
+        
+        $this->db->select('
+                    gp.product_code,
+                    gddi.do_expire_date as product_expiry_date,
+                    gp.pid,
+                    gddi.supplier_delivery_order_id,
+                    gddi.return_qty,
+                    gddi.qty as delivered_qty,
+                    gddi.type as do_type,
+                    gddi.parent_delivery_order_id,
+                    gddi.delivery_order_id,
+                    gdr.cr_date as do_created_date,
+                    gp.product_name,
+                    gp.product_code,
+                    gp.qty as total_qty,
+                    gp.product_price,
+                    gp.fproduct_price,
+                    gp.warehouse,
+                    gdr.type,
+                    gdr.parent_do_id,
+                    COALESCE(gdpbh.total_used_qty, 0) AS total_used_qty
+                ');
+
+                $this->db->from('gtg_do_delivered_items gddi');
+                $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+                $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+                $this->db->join('(SELECT delivery_order_id, p_id, SUM(used_qty) AS total_used_qty FROM gtg_do_product_batches_history GROUP BY delivery_order_id, p_id) gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left'); // Subquery to get the sum of used_qty
+                $this->db->where_in('gdr.type', array('po', 'default_po'));
+                $this->db->where_in('gp.pid', $product_ids);
+                $this->db->group_by('gddi.delivery_order_id');
+                $this->db->group_by('gddi.p_id');
+
+                $query = $this->db->get();
+                $result = $query->result_array();
+
+        
+        if(!empty($result))
+        {
+            $data['products'] = $result;
+            
+        }else{
+
+
+            $data['products'] = array();
+
+        }
+        $head['title'] = "Product Categories";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('products/detailed_stock_balance',$data);  
+        $this->load->view('fixed/footer');
+    }
+
+
+    public function get_detailed_stock_balance(){
+
+        $post = $this->input->post();
+        if(!empty($post))
+        {
+            $cat_id = $post['cat_id'];
+            $start_date = $post['start_date'];
+            $end_date = $post['end_date'];
+            $product_code = $post['product_code'];
+        }
+
+        if(!empty($cat_id))
+        {
+            $this->db->where('pcat', $cat_id); // Replace $cat_id with the actual category ID
+        }
+
+        // Add conditions for start and end dates for expiry
+       
+
+
+        if (!empty($product_code)) {
+            $this->db->where('product_code', $product_code);
+        }
+
+
+        //$product_details = $this->db->where('pid',$id)->get('gtg_products')->result_array();
+        $products_list = $this->db->get('gtg_products')->result_array();
+        $product_ids = array_column($products_list,'pid');
+//          echo $this->db->last_query();
+//         echo "<pre>"; print_r($products_list); echo "</pre>";
+//         exit;
+        if(!empty($product_ids))
+        {
+        $this->db->select('
+                    gp.product_code,
+                    gddi.do_expire_date as product_expiry_date,
+                    gp.pid,
+                    gddi.supplier_delivery_order_id,
+                    gddi.return_qty,
+                    gddi.qty as delivered_qty,
+                    gddi.type as do_type,
+                    gddi.parent_delivery_order_id,
+                    gddi.delivery_order_id,
+                    gdr.cr_date as do_created_date,
+                    gp.product_name,
+                    gp.product_code,
+                    gp.qty as total_qty,
+                    gp.product_price,
+                    gp.fproduct_price,
+                    gp.warehouse,
+                    gdr.type,
+                    COALESCE(gdpbh.total_used_qty, 0) AS total_used_qty
+                ');
+
+                $this->db->from('gtg_do_delivered_items gddi');
+                $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+                $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+                $this->db->join('(SELECT delivery_order_id, p_id, SUM(used_qty) AS total_used_qty FROM gtg_do_product_batches_history GROUP BY delivery_order_id, p_id) gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left'); // Subquery to get the sum of used_qty
+                $this->db->where_in('gdr.type', array('po', 'default_po'));
+                $this->db->where_in('gp.pid', $product_ids);
+                $this->db->group_by('gddi.delivery_order_id');
+
+                if (!empty($start_date)) {
+                    $this->db->where('gddi.do_expire_date >=', $start_date);
+                }
+        
+                if (!empty($end_date)) {
+                    $this->db->where('gddi.do_expire_date <=', $end_date);
+                }
+
+                $this->db->group_by('gddi.p_id');
+
+                $query = $this->db->get();
+                $result = $query->result_array();
+
+        
+        if(!empty($result))
+        {
+            $data['products'] = $result;
+            
+        }else{
+
+
+            $data['products'] = array();
+
+        }
+    }else{
+        $data['products'] = array();
+    }
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/detailed_stock_balance_table',$data,TRUE);     
+        echo json_encode($resp_data);
+
+    }
+
+
+
+
+    public function get_do_sale_invoices_details(){
+        
+        $post = $this->input->post();
+        $do_id = $post['do_id'];
+        $p_id = $post['p_id'];
+
+        $this->db->select('gi.id AS invoice_id, gi.tid AS invoice_tid, gi.invoicedate, gc.name,dh.used_qty');
+        $this->db->from('gtg_do_product_batches_history dh');
+        $this->db->join('gtg_invoices gi', 'gi.id = dh.invoice_id', 'left');
+        $this->db->join('gtg_customers gc', 'gi.csd=gc.id', 'left');
+        $this->db->where('dh.delivery_order_id', $do_id); // Add WHERE condition
+        $this->db->group_by('gi.id');
+
+        $query = $this->db->get();
+        $data['invoices'] = $query->result_array();
+
+       
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/get_batch_sale_invoices',$data,TRUE);     
+        echo json_encode($resp_data);
+
+
+    }
+    
+    public function get_single_product_variant_details(){
+
+        $post = $this->input->post();
+        $product_code = $post['p_id'];
+        //$id = 1;
+
+        // $product_details = $this->db->where('pid',$id)->get('gtg_products')->result_array();
+        // $product_code = $product_details[0]['product_code'];
+        if(!empty($post['expire_month']))
+        {
+
+            $expire_month =  $post['expire_month'];
+        }else{
+            $expire_month = '';
+        }
+
+        $this->db->select('gp.expiry as product_expiry_date,gp.product_name,gp.product_code,gp.cr_date,gddi.serial,  TIMESTAMPDIFF(MONTH, CURDATE(), gp.expiry) as months_left');
+        $this->db->from('gtg_products gp');
+        $this->db->join('gtg_product_serials gddi', 'gddi.product_id = gp.pid', 'left'); // Join with gtg_do_delivered_items
+        //$this->db->where_in('gp.pid', $id);
+        $this->db->where('gp.product_code', $product_code);
+
+        if ($expire_month) {
+            $expiry_date_condition = date('Y-m-d', strtotime('+' . $expire_month . ' months'));
+            $this->db->where('gp.expiry <=', $expiry_date_condition);
+        }
+
+        //$this->db->group_by('gp.pid');
+        $query = $this->db->get();
+        $data['products'] = $query->result_array();
+        $data['product_code'] = $product_code;
+
+        // echo $this->db->last_query();
+        // exit;
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
+        
+       
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/get_single_product_variant_details',$data,TRUE);     
+        echo json_encode($resp_data);
+    }
+
+
 
     public function cat()
     {
@@ -52,6 +532,7 @@ class Products extends CI_Controller
         $data['variables'] = $this->units->variables_list();
         $head['title'] = "Add Product";
         $head['usernm'] = $this->aauth->get_user()->username;
+
         $this->load->view('fixed/header', $head);
         $this->load->view('products/product-add', $data);
         $this->load->view('fixed/footer');
@@ -132,8 +613,9 @@ class Products extends CI_Controller
         $sub_cat = $this->input->post('sub_cat');
         $brand = $this->input->post('brand');
         $serial = $this->input->post('product_serial');
+        $delivery_order_number = $this->input->post('delivery_order_number', true);
         if ($catid) {
-            $this->products->addnew($catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $v_type, $v_stock, $v_alert, $wdate, $code_type, $w_type, $w_stock, $w_alert, $sub_cat, $brand, $serial);
+            $this->products->addnew($catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $v_type, $v_stock, $v_alert, $wdate, $code_type, $w_type, $w_stock, $w_alert, $sub_cat, $brand, $serial,$delivery_order_number);
         }
     }
 
@@ -226,6 +708,8 @@ class Products extends CI_Controller
         $sub_cat = $this->input->post('sub_cat');
         if (!$sub_cat) $sub_cat = 0;
         $brand = $this->input->post('brand');
+        
+        $wdate = datefordatabase($this->input->post('wdate'));
         $vari = array();
         $vari['v_type'] = $this->input->post('v_type');
         $vari['v_stock'] = $this->input->post('v_stock');
@@ -237,7 +721,7 @@ class Products extends CI_Controller
         $serial['new'] = $this->input->post('product_serial');
         $serial['old'] = $this->input->post('product_serial_e');
         if ($pid) {
-            $this->products->edit($pid, $catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $code_type, $sub_cat, $brand, $vari, $serial);
+            $this->products->edit($pid, $catid, $warehouse, $product_name, $product_code, $product_price, $factoryprice, $taxrate, $disrate, $product_qty, $product_qty_alert, $product_desc, $image, $unit, $barcode, $code_type, $sub_cat, $brand, $vari, $serial,$wdate);
         }
     }
 
@@ -752,4 +1236,208 @@ class Products extends CI_Controller
             $this->load->view('fixed/footer');
         }
     }
+
+    public function detailed_product_expiry_list(){
+
+        // $data['cat'] = $this->categories_model->category_stock();        
+        // $data['product_codes'] = $this->products->get_product_codes();
+    
+        // $this->db->select('gp.expiry as product_expiry_date,gp.product_name,gp.product_code,gp.cr_date,c.title,  TIMESTAMPDIFF(MONTH, CURDATE(), gp.expiry) as months_left');
+        // $this->db->from('gtg_products gp');
+        // $this->db->join('gtg_product_cat c', 'gp.pcat = c.id', 'left');
+        // $query = $this->db->get();
+        // $data['products'] = $query->result_array();
+        // $head['title'] = "Product Categories";
+        // $head['usernm'] = $this->aauth->get_user()->username;
+        // $this->load->view('fixed/header', $head);
+        // $this->load->view('products/detailed_product_expiry_list',$data);  
+        // $this->load->view('fixed/footer');
+
+    
+        $data['cat'] = $this->categories_model->category_stock();        
+        $data['product_codes'] = $this->products->get_product_codes();
+
+        $products_list = $this->db->get('gtg_products')->result_array();
+        $product_ids = array_column($products_list,'pid');
+
+        if(!empty($products_list))
+        {
+
+        //$product_details = $this->db->where('pid',$id)->get('gtg_products')->result_array();
+        
+//   
+        $this->db->select('
+                    gp.product_code,
+                    gddi.do_expire_date as product_expiry_date,
+                    gp.pid,
+                    gddi.supplier_delivery_order_id,
+                    gddi.return_qty,
+                    gddi.qty as delivered_qty,
+                    gddi.type as do_type,
+                    gddi.parent_delivery_order_id,
+                    gddi.delivery_order_id,
+                    gddi.do_expire_date,
+                    gdr.cr_date as do_created_date,
+                    gp.product_name,
+                    gp.product_code,
+                    gp.qty as total_qty,
+                    gp.product_price,
+                    gp.fproduct_price,
+                    gp.warehouse,
+                    gdr.type,
+                    gdr.parent_do_id,
+                    c.title,
+                    COALESCE(gdpbh.total_used_qty, 0) AS total_used_qty
+                ');
+
+                $this->db->from('gtg_do_delivered_items gddi');
+                $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+                $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+                $this->db->join('gtg_product_cat c', 'gp.pcat = c.id', 'left');
+                $this->db->join('(SELECT delivery_order_id, p_id, SUM(used_qty) AS total_used_qty FROM gtg_do_product_batches_history GROUP BY delivery_order_id, p_id) gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left'); // Subquery to get the sum of used_qty
+                $this->db->where_in('gdr.type', array('po', 'default_po'));
+                $this->db->where_in('gp.pid', $product_ids);
+              
+              
+
+                $this->db->group_by('gddi.delivery_order_id');
+                $this->db->group_by('gddi.p_id');
+
+                $query = $this->db->get();
+                $result = $query->result_array();
+
+        
+                if(!empty($result))
+                {
+                    $data['products'] = $result;
+                    
+                }else{
+
+
+                    $data['products'] = array();
+
+                }
+            }else{
+                $data['products'] = array();
+
+            }
+        $head['title'] = "Product Categories";
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $this->load->view('fixed/header', $head);
+        $this->load->view('products/detailed_product_expiry_list',$data);  
+        $this->load->view('fixed/footer');
+    }
+ 
+ 
+    public function get_detailed_product_expiry_list(){
+
+        
+        //$id = $this->input->get('id');
+        // $id = $post['p_id'];
+        //$id = 1;
+        // $data['cat'] = $this->categories_model->category_stock();        
+        // $data['product_codes'] = $this->products->get_product_codes();
+    
+
+        $data['cat'] = $this->categories_model->category_stock();        
+        $data['product_codes'] = $this->products->get_product_codes();
+       
+        $post = $this->input->post();
+        if(!empty($post))
+        {
+            $cat_id = $post['cat_id'];
+            $start_date = $post['start_date'];
+            $end_date = $post['end_date'];
+            $product_code = $post['product_code'];
+        }
+
+        if(!empty($cat_id))
+        {
+            $this->db->where('pcat', $cat_id); // Replace $cat_id with the actual category ID
+        }
+
+        // Add conditions for start and end dates for expiry
+       
+
+
+        if (!empty($product_code)) {
+            $this->db->where('product_code', $product_code);
+        }
+
+        $products_list = $this->db->get('gtg_products')->result_array();
+        $product_ids = array_column($products_list,'pid');
+
+        
+        if(!empty($products_list))
+        {
+               
+        
+        $this->db->select('
+                    gp.product_code,
+                    gddi.do_expire_date as product_expiry_date,
+                    gp.pid,
+                    gddi.supplier_delivery_order_id,
+                    gddi.return_qty,
+                    gddi.qty as delivered_qty,
+                    gddi.type as do_type,
+                    gddi.parent_delivery_order_id,
+                    gddi.delivery_order_id,
+                    gddi.do_expire_date,
+                    gdr.cr_date as do_created_date,
+                    gp.product_name,
+                    gp.product_code,
+                    gp.qty as total_qty,
+                    gp.product_price,
+                    gp.fproduct_price,
+                    gp.warehouse,
+                    gdr.type,
+                    gdr.parent_do_id,
+                    c.title,
+                    COALESCE(gdpbh.total_used_qty, 0) AS total_used_qty
+                ');
+
+                $this->db->from('gtg_do_delivered_items gddi');
+                $this->db->join('gtg_do_relations gdr', 'gddi.delivery_order_id = gdr.do_id');
+                $this->db->join('gtg_products gp', 'gddi.p_id = gp.pid');
+                $this->db->join('gtg_product_cat c', 'gp.pcat = c.id', 'left');
+                $this->db->join('(SELECT delivery_order_id, p_id, SUM(used_qty) AS total_used_qty FROM gtg_do_product_batches_history GROUP BY delivery_order_id, p_id) gdpbh', 'gddi.delivery_order_id = gdpbh.delivery_order_id AND gddi.p_id = gdpbh.p_id', 'left'); // Subquery to get the sum of used_qty
+                $this->db->where_in('gdr.type', array('po', 'default_po'));
+                $this->db->where_in('gp.pid', $product_ids);
+
+                if (!empty($start_date)) {
+                    $this->db->where('gddi.do_expire_date >=', $start_date);
+                }
+        
+                if (!empty($end_date)) {
+                    $this->db->where('gddi.do_expire_date <=', $end_date);
+                }
+
+                $this->db->group_by('gddi.delivery_order_id');
+                $this->db->group_by('gddi.p_id');
+
+                $query = $this->db->get();
+                $result = $query->result_array();
+
+        
+                if(!empty($result))
+                {
+                    $data['products'] = $result;
+                    
+                }else{
+
+
+                    $data['products'] = array();
+
+                }
+            }else{
+                $data['products'] = array();
+
+            }
+            
+        $resp_data['status'] = '200';
+        $resp_data['html'] = $this->load->view('products/detailed_product_expiry_list_table',$data,TRUE);     
+        echo json_encode($resp_data);
+
+    }
+       
 }

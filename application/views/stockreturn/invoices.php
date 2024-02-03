@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="col-md-1">
-                        <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
+                        <input type="button" name="search" id="search" value="<?php echo $this->lang->line('Search'); ?>" class="btn btn-info btn-sm"/>
                     </div>
 
                 </div>
@@ -46,7 +46,7 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th>Order #</th>
+                        <th><?php echo $this->lang->line('Order'); ?> #</th>
                         <th><?php echo $this->lang->line('Supplier') ?></th>
                         <th><?php echo $this->lang->line('Date') ?></th>
                         <th><?php echo $this->lang->line('Amount') ?></th>
@@ -89,8 +89,8 @@
             <div class="modal-footer">
                 <input type="hidden" id="object-id" value="">
                 <input type="hidden" id="action-url" value="stockreturn/delete_i">
-                <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete-confirm">Delete</button>
-                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete-confirm"><?php echo $this->lang->line('Delete'); ?></button>
+                <button type="button" data-dismiss="modal" class="btn"><?php echo $this->lang->line('Cancel'); ?></button>
             </div>
         </div>
     </div>

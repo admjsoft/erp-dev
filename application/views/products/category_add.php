@@ -6,7 +6,13 @@
             <div class="message"></div>
         </div>
         <div class="card-body">
-
+        <div class="row">
+                    
+                    <div class="col-12 text-right">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('productcategory'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
 
             <form method="post" id="data_form" class="form-horizontal">
 
@@ -19,7 +25,7 @@
                            for="product_catname"><?php echo $this->lang->line('Category Name') ?></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Product Category Name"
+                        <input type="text" placeholder="<?php echo $this->lang->line('Category Name') ?>"
                                class="form-control margin-bottom  required" name="product_catname">
                     </div>
                 </div>
@@ -29,7 +35,7 @@
                            for="product_catname"><?php echo $this->lang->line('Description') ?></label>
 
                     <div class="col-sm-6">
-                        <input type="text" placeholder="Product Category Short Description"
+                        <input type="text" placeholder="<?php echo $this->lang->line('Product Category Short Description') ?>"
                                class="form-control margin-bottom required" name="product_catdesc">
                     </div>
                 </div>

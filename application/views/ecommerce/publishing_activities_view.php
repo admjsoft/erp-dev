@@ -1,14 +1,14 @@
-<p class="mb-2 fw-bold">Changes made:</p>
+<p class="mb-2 fw-bold"><?php echo $this->lang->line('Changes made:'); ?></p>
 <div class="table-responsive">
             <!-- Table-->
             <table class="table alert-table">
               <thead>
                 <tr class="text-start">
-                  <th class="w-auto">S.No</th>
-                  <th>Section</th>
-                  <th>Previous Value</th>
-                  <th>New Value</th>
-                  <th>Status</th>
+                  <th class="w-auto"><?php echo $this->lang->line('S.No'); ?></th>
+                  <th><?php echo $this->lang->line('Section'); ?></th>
+                  <th><?php echo $this->lang->line('Previous Value'); ?></th>
+                  <th><?php echo $this->lang->line('New Value'); ?></th>
+                  <th><?php echo $this->lang->line('Status'); ?></th>
                 </tr>
               </thead>
               <tbody>

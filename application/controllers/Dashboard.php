@@ -17,6 +17,9 @@ class Dashboard extends CI_Controller
         $this->load->model('dashboard_model');
         $this->load->model('tools_model');
         $this->load->model('employee_model');
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
 
     }
 
@@ -113,9 +116,16 @@ class Dashboard extends CI_Controller
             $this->db->order_by('id', 'ASC');
             $this->db->limit(1);
             $query = $this->db->get('sidebaritems');
+
+            // echo $this->db->last_query();
+            // exit;
+
             $out = $query->row_array();
             $url = $out['url'];
 
+            $this->session->set_flashdata('messagePr', $this->session->flashdata("messagePr"));
+
+            
             if(!empty($url))
             {
                 redirect($url);
@@ -176,17 +186,59 @@ class Dashboard extends CI_Controller
     }
     public function clock_in()
     {
+        if(!empty($_POST)){
 
-        $id = $this->aauth->get_user()->id;
-        if ($this->aauth->auto_attend()) {
-            $this->dashboard_model->clockin($id);
+
+              // Handle the uploaded image
+              $imageData = $this->input->post('image');
+              $decodedImageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
+              $imageName = uniqid('image_') . '.png';
+              $imagePath = FCPATH . 'userfiles/clock_in_photos/' . $imageName;
+              file_put_contents($imagePath, $decodedImageData);
+  
+              // Get location details
+              $data['clock_in_photo'] = $imageName;
+              $data['clock_in_latitude'] = $this->input->post('latitude_details');
+              $data['clock_in_longitude'] = $this->input->post('longitude_details');
+              $data['clock_in_location'] = $this->input->post('Location_details');
+            
+            //   echo "<pre>"; print_r($data); echo "</pre>";
+            //   exit;
+              // You can now use $imageName, $latitude, $longitude, $locationDetails as needed
+              // For example, you might want to save this information in the database.
+  
+              // Respond with a success message
+            //   $response = array('status' => 'success', 'message' => 'Image uploaded successfully');
+            //   echo json_encode($response);
+            // } else {
+            //     // Handle non-POST requests accordingly
+            //     show_error('Invalid request method.');
+            // }
+
+            $id = $this->aauth->get_user()->id;
+            if ($this->aauth->auto_attend()) {
+                $this->dashboard_model->clockin($id,$data);
+            }
+
+            //redirect('dashboard');
+            $response['success'] = true;
+            $response['redirect_url'] = site_url('dashboard');
+            $this->session->set_flashdata('messagePr', 'Clock In Details Updated Successfully!..');
+            echo json_encode($response);
+            
+        }else{
+            
+            $head['title'] = 'Attendance Clock In';
+            $this->load->view('fixed/header', $head);
+            $this->load->view('employee/attendance_clock_in');
+            $this->load->view('fixed/footer');
         }
-
-        redirect('dashboard');
+        
     }
 
     public function clock_out()
     {
+    if(!empty($_POST)){
         $linkid = $this->input->get('id');
         if (isset($linkid)) {
             $id = $linkid;
@@ -195,10 +247,37 @@ class Dashboard extends CI_Controller
             $id = $this->aauth->get_user()->id;
 
         }
+
+        $imageData = $this->input->post('image');
+        $decodedImageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
+        $imageName = uniqid('image_') . '.png';
+        $imagePath = FCPATH . 'userfiles/clock_out_photos/' . $imageName;
+        file_put_contents($imagePath, $decodedImageData);
+
+        // Get location details
+        $data['clock_out_photo'] = $imageName;
+        $data['clock_out_latitude'] = $this->input->post('latitude_details');
+        $data['clock_out_longitude'] = $this->input->post('longitude_details');
+        $data['clock_out_location'] = $this->input->post('Location_details');
+      
+     
+
         if ($this->aauth->auto_attend()) {
-            $this->dashboard_model->clockout($id);
+            $this->dashboard_model->clockout($id,$data);
         }
-        redirect('dashboard');
+        
+        $response['success'] = true;
+        $response['redirect_url'] = site_url('dashboard');
+        $this->session->set_flashdata('messagePr', 'Clock Out Details Updated Successfully!..');
+        echo json_encode($response);
+
+    }else{
+            
+        $head['title'] = 'Attendance Clock Out';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/attendance_clock_out');
+        $this->load->view('fixed/footer');
+    }
     }
     public function break_in()
     {
@@ -230,7 +309,9 @@ class Dashboard extends CI_Controller
     public function settings()
     {
         //$this->load->model('employee_model', 'employee');
-
+        $c_module = 'settings';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Dashboard Permissions';
         // $data['permission'] = $this->employee->employee_permissions();
@@ -254,7 +335,9 @@ class Dashboard extends CI_Controller
 
     public function subscribe()
     {
-
+        $c_module = 'settings';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = 'Subscribe Settings';
         $data['permission'] = $this->dashboard_model->subscribe_permissions();

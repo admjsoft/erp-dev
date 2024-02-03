@@ -72,19 +72,19 @@
 
 
                     <div class="col-sm-2"><label class="col-form-label"
-                                                 for="width">Width</label>
+                                                 for="width"><?php echo $this->lang->line('Width') ?></label>
                         <input name="width" class="form-control required" type="number" value="100">
                         <small>in MM</small>
 
                     </div>
                     <div class="col-sm-2"><label class="col-form-label"
-                                                 for="width">Height</label>
+                                                 for="width"><?php echo $this->lang->line('Height') ?></label>
                         <input name="height" class="form-control required" type="number" value="70">
                         <small>in MM</small>
 
                     </div>
                     <div class="col-sm-2"><label class="col-form-label"
-                                                 for="padding">Padding</label>
+                                                 for="padding"><?php echo $this->lang->line('Padding') ?></label>
                         <input name="padding" class="form-control required" type="number" value="10">
                         <small>in PX</small>
 
@@ -119,7 +119,7 @@
                         </select>
                     </div>
                     <div class="col-sm-2"><label class="col-form-label"
-                                                 for="width">BarCode height</label>
+                                                 for="width"><?php echo $this->lang->line('BarCode height'); ?></label>
                         <select class="form-control" name="bar_height">
                             <option value=".5">50%</option>
                             <option value=".6" selected>60%</option>
@@ -132,7 +132,7 @@
 
 
                     <div class="col-sm-2"><label class="col-form-label"
-                                                 for="width">Total Rows</label>
+                                                 for="width"><?php echo $this->lang->line('Total Rows'); ?></label>
                         <select class="form-control" name="total_rows">
                             <option value="0">1</option>
                             <option value="1">2</option>
@@ -148,7 +148,7 @@
                         </select>
                     </div>
                     <div class="col-sm-2"><label class="col-form-label"
-                                                 for="width">Total Cols</label>
+                                                 for="width"><?php echo $this->lang->line('Total Cols'); ?></label>
                         <select class="form-control" name="items_per_row">
                            <option value="0">1</option>
                             <option value="1">2</option>

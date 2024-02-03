@@ -1,22 +1,30 @@
 <?php
  ?>
 <style>
-    select#status, .inphtml{width: 100%; border: 1px   solid #ccc; border-radius:3px;padding: 10px;}
-    #doct{
+select#status,
+.inphtml {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+#doct {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    }
-	.modal {
-   position: absolute;
-   top: 0%;
-   left: 20%;
-   width: 60%;
-   height: 70%;
+}
+
+.modal {
+    position: absolute;
+    top: 0%;
+    left: 20%;
+    width: 60%;
+    height: 70%;
 }
 </style>
 <div class="content-body">
-<div id="c_body"></div>
+    <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Asset Status') ?></h5>
@@ -30,7 +38,7 @@
             </div>
         </div>
         <div class="card-body">
-		   <?php
+            <?php
 if(isset($_SESSION['status'])){
  echo '<div class="alert alert-'.$_SESSION['status'].'">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -45,27 +53,25 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <div class="message"></div>
             </div>
-<h3 class="title">
-                                            <a href='#'
-                                                                                          class="btn btn-primary btn-sm rounded"
-                                                                                          data-toggle="modal"
-                                                                                          data-target="#addCategory">
-                                                <?php echo $this->lang->line('Add Asset Status') ?>
-                                            </a></h3>
+            <h3 class="title">
+                <a href='#' class="btn btn-primary btn-sm rounded" data-toggle="modal" data-target="#addCategory">
+                    <?php echo $this->lang->line('Add Asset Status') ?>
+                </a>
+            </h3>
 
             <hr>
             <table id="trans_table" class="table table-striped table-bordered zero-configuration" cellspacing="0"
-                   width="100%">
+                width="100%">
                 <thead>
                     <tr>
-					                        <th><?php echo $this->lang->line('No') ?></th>
+                        <th><?php echo $this->lang->line('No') ?></th>
 
                         <th><?php echo $this->lang->line('Name') ?></th>
                         <th><?php echo $this->lang->line('Description') ?></th>
-						<th><?php echo $this->lang->line('Created Date') ?></th>
-						<th><?php echo $this->lang->line('Actions') ?></th>
+                        <th><?php echo $this->lang->line('Created Date') ?></th>
+                        <th><?php echo $this->lang->line('Actions') ?></th>
 
-                   
+
                     </tr>
                 </thead>
                 <tbody>
@@ -73,11 +79,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <tfoot>
                     <tr>
-					     <th><?php echo $this->lang->line('No') ?></th>
+                        <th><?php echo $this->lang->line('No') ?></th>
                         <th><?php echo $this->lang->line('Name') ?></th>
                         <th><?php echo $this->lang->line('Description') ?></th>
-						<th><?php echo $this->lang->line('Created Date') ?></th>
-						<th><?php echo $this->lang->line('Actions') ?></th>
+                        <th><?php echo $this->lang->line('Created Date') ?></th>
+                        <th><?php echo $this->lang->line('Actions') ?></th>
 
                     </tr>
                 </tfoot>
@@ -89,9 +95,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="modal fade" id="addCategory" role="dialog">
     <div class="modal-dialog modal-xl">
         <div class="modal-content ">
-            <form method="post" id="product_action" class="form-horizontal" action="<?php echo base_url("asset/create_asset_status") ?>" onsubmit="return validateForm(event);">
+            <form method="post" id="product_action" class="form-horizontal"
+                action="<?php echo base_url("asset/create_asset_status") ?>" onsubmit="return validateForm(event);">
                 <!-- Modal Header -->
-                
+
 
                 <!-- Modal Body -->
                 <div class="modal-body">
@@ -100,237 +107,236 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label"
-                                       for="name"><?php echo $this->lang->line('Name') ?><span style="color:red">*</span></label>
+                                    for="name"><?php echo $this->lang->line('Name') ?><span
+                                        style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
-																			<span class="name_error"></span>
+                                    <span class="name_error"></span>
 
-                                    <input type="text" placeholder="Name"
-                                           class="form-control margin-bottom" id="name" name="name" >
+                                    <input type="text" placeholder="Name" class="form-control margin-bottom" id="name"
+                                        name="name">
                                 </div>
                             </div>
 
                             <div class="form-group row">
 
                                 <label class="col-sm-2 col-form-label"
-                                       for="phone"><?php echo $this->lang->line('Description') ?> <span style="color:red">*</span></label>
+                                    for="phone"><?php echo $this->lang->line('Description') ?> <span
+                                        style="color:red">*</span></label>
 
                                 <div class="col-sm-10">
-																								<span class="desc_error"></span>
+                                    <span class="desc_error"></span>
 
-                                    <input type="text" placeholder="Description"
-                                           class="form-control margin-bottom" name="description" id="description">
+                                    <input type="text" placeholder="Description" class="form-control margin-bottom"
+                                        name="description" id="description">
                                 </div>
                             </div>
-                            
-
-                                </div>
-
-                     
-                       
 
 
                         </div>
 
+
+
+
+
                     </div>
-					 <div class="modal-footer">
+
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default"
-                            data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
-                    <input type="submit" id="submit" class="btn btn-primary submitBtn" value="ADD"/>
+                        data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                    <input type="submit" id="submit" class="btn btn-primary submitBtn" value="<?php echo $this->lang->line('ADD'); ?>" />
                 </div>
-                </div>
-                <!-- Modal Footer -->
-               
-            </form>
         </div>
+        <!-- Modal Footer -->
+
+        </form>
     </div>
 </div>
- <form>
-<div id="delete_model" class="modal fade">
-    <div class="modal-dialog">
+</div>
+<form>
+    <div id="delete_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p><?php echo $this->lang->line('delete this asset') ?><?php echo $this->lang->line('no Are you sure you want to delete this Status?'); ?></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="object-id" value="">
+                    <input type="hidden" id="action-url" value="asset/deleteStatus">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary"
+                        id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
+                    <button type="button" data-dismiss="modal"
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="modal fade bd-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?php echo $this->lang->line('Edit Asset Status'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php echo $this->lang->line('Close') ?></span>
+                </button>
             </div>
-            <div class="modal-body">
-                <p><?php echo $this->lang->line('delete this asset') ?>no Are you sure you want to delete this Status?</p>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" id="object-id" value="">
-                <input type="hidden" id="action-url" value="asset/deleteStatus">
-                <button type="button" data-dismiss="modal" class="btn btn-primary"
-                        id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
-                <button type="button" data-dismiss="modal"
-                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
-            </div>
-        </div>
-    </div>
-</div>
-</form>
-<div class="modal fade bd-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-     <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel"><?php echo $this->lang->line('Edit Asset Status'); ?></h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only"><?php echo $this->lang->line('Close') ?></span>
-                    </button>
-                </div>
-     <div class="modal-body" id="status">
-	 
-	 
-	 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#trans_table').removeAttr('width').DataTable( {
-              fixedColumns: true,
-            "processing": true,
-            "serverSide": true,
-            "stateSave": true,
-            responsive: true,
-            <?php datatable_lang(); ?>
-			 'order': [],
-            "ajax": {
-                "url": "<?php echo site_url('asset/getassetstatus')?>",
-                "type": "POST",
-                'data': {'<?=$this->security->get_csrf_token_name()?>': crsf_hash}
-            },
-            "columnDefs": [
-                {
-                    "targets": [0],
-                    "orderable": true,
-                },
-            ],
-           
-        });
+            <div class="modal-body" id="status">
 
 
-
-    });
-      function AddEdit(val)
-		{
-//$('#bd-example-modal-lg').modal('show'); 
- $.ajax({
-                "url": "<?php echo site_url('asset/getAssetStatusForEdit') ?>",
-                "type": "POST",
-                'data': {
-                    '<?=$this->security->get_csrf_token_name() ?>': crsf_hash,
-                    'id':val
+            </div>
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $('#trans_table').removeAttr('width').DataTable({
+                    fixedColumns: true,
+                    "processing": true,
+                    "serverSide": true,
+                    "stateSave": true,
+                    responsive: true,
+                    <?php datatable_lang(); ?> 'order': [],
+                    "ajax": {
+                        "url": "<?php echo site_url('asset/getassetstatus')?>",
+                        "type": "POST",
+                        'data': {
+                            '<?=$this->security->get_csrf_token_name()?>': crsf_hash
+                        }
                     },
-                    success: function(result){
-                       var data=JSON.parse(result);
-                       //var file=baseurl+"userfiles/documents/"+data.doc;
-                     //console.log(result);
-                   $("#status").html(data);
-					$('#bd-example-modal-lg').modal('show');
-					//$("#barcode").val(data.url);
+                    "columnDefs": [{
+                        "targets": [0],
+                        "orderable": true,
+                    }, ],
 
-              
-                }
+                });
+
+
+
             });
-			
-		}
-		
-		  function Save()
-		{
-			
-             var name=$('#Name').val(); 
-			 var id=$('#Id').val(); 
-			 var descrption=$('#Description').val(); 
 
-			 if(name=="")
-			 {
-          $(".text-danger").html("Field is Required");				 
-
-return false;
-				 
-			 }
-			 if(descrption=="")
-			 {
-				          $(".text-danger1").html("Field is Required");				 
-return false;
-
-				 
-			 }
-
- $.ajax({
-                "url": "<?php echo site_url('asset/updateStatus') ?>",
-                "type": "POST",
-                'data': {
-                    '<?=$this->security->get_csrf_token_name() ?>': crsf_hash,
-                    'name':name,'descrption':descrption,'id':id
+            function AddEdit(val) {
+                //$('#bd-example-modal-lg').modal('show'); 
+                $.ajax({
+                    "url": "<?php echo site_url('asset/getAssetStatusForEdit') ?>",
+                    "type": "POST",
+                    'data': {
+                        '<?=$this->security->get_csrf_token_name() ?>': crsf_hash,
+                        'id': val
                     },
-                    success: function(result){
-                       var data=JSON.parse(result);
-                       //var file=baseurl+"userfiles/documents/"+data.doc;
-                     //console.log(result);
-                   //$("#status").html(data);
-					$('#bd-example-modal-lg').modal('hide');
-					//$("#barcode").val(data.url);
-                   if (data.status == "Success") {
-                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
-                    $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
-                    $("html, body").scrollTop($("body").offset().top);
-                    $("#data_form").hide();
-					setTimeout(function() {
-    location.reload();
-}, 1000);
-                } else {
-                    $("#notify .message").html("<strong>" + data.status + "</strong>: " + data.message);
-                    $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
-                    $("html, body").scrollTop($("body").offset().top);
-                    $("#data_form").hide();
-					setTimeout(function() {
-    location.reload();
-}, 1000);
-                }
-              
-                }
-            });
-			
-		}
-		
-		 function  validateForm(e){
-     
-		 
-			 $("#name").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".name_error").text("this field is required");
-				//	$('input:radio[name=chooseradio]').val(['foreign']);
-//$("#foreign_content").css("display", "block");
-					        e.preventDefault();
+                    success: function(result) {
+                        var data = JSON.parse(result);
+                        //var file=baseurl+"userfiles/documents/"+data.doc;
+                        //console.log(result);
+                        $("#status").html(data);
+                        $('#bd-example-modal-lg').modal('show');
+                        //$("#barcode").val(data.url);
+
+
+                    }
+                });
+
+            }
+
+            function Save() {
+
+                var name = $('#Name').val();
+                var id = $('#Id').val();
+                var descrption = $('#Description').val();
+
+                if (name == "") {
+                    $(".text-danger").html("Field is Required");
+
+                    return false;
 
                 }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-								
+                if (descrption == "") {
+                    $(".text-danger1").html("Field is Required");
+                    return false;
 
-                }    
-            }) .trigger("focusout");
-		 $("#description").focusout(function() { 
-                if($(this).val()=='') { 
-                    $(this).css('border', 'solid 2px red'); 
-					$(".desc_error").text("this field is required");
-				//	$('input:radio[name=chooseradio]').val(['foreign']);
-//$("#foreign_content").css("display", "block");
-					        e.preventDefault();
 
                 }
-                else {
-                      
-                    // If it is not blank.
-                    $(this).css('border', 'solid 2px green');    
-								
 
-                }    
-            }) .trigger("focusout");
-	  }
-	 
-		
-</script>
+                $.ajax({
+                    "url": "<?php echo site_url('asset/updateStatus') ?>",
+                    "type": "POST",
+                    'data': {
+                        '<?=$this->security->get_csrf_token_name() ?>': crsf_hash,
+                        'name': name,
+                        'descrption': descrption,
+                        'id': id
+                    },
+                    success: function(result) {
+                        var data = JSON.parse(result);
+                        //var file=baseurl+"userfiles/documents/"+data.doc;
+                        //console.log(result);
+                        //$("#status").html(data);
+                        $('#bd-example-modal-lg').modal('hide');
+                        //$("#barcode").val(data.url);
+                        if (data.status == "Success") {
+                            $("#notify .message").html("<strong>" + data.status + "</strong>: " + data
+                                .message);
+                            $("#notify").removeClass("alert-danger").addClass("alert-success").fadeIn();
+                            $("html, body").scrollTop($("body").offset().top);
+                            $("#data_form").hide();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            $("#notify .message").html("<strong>" + data.status + "</strong>: " + data
+                                .message);
+                            $("#notify").removeClass("alert-success").addClass("alert-danger").fadeIn();
+                            $("html, body").scrollTop($("body").offset().top);
+                            $("#data_form").hide();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        }
+
+                    }
+                });
+
+            }
+
+            function validateForm(e) {
+
+
+                $("#name").focusout(function() {
+                    if ($(this).val() == '') {
+                        $(this).css('border', 'solid 2px red');
+                        $(".name_error").text("this field is required");
+                        //	$('input:radio[name=chooseradio]').val(['foreign']);
+                        //$("#foreign_content").css("display", "block");
+                        e.preventDefault();
+
+                    } else {
+
+                        // If it is not blank.
+                        $(this).css('border', 'solid 2px green');
+
+
+                    }
+                }).trigger("focusout");
+                $("#description").focusout(function() {
+                    if ($(this).val() == '') {
+                        $(this).css('border', 'solid 2px red');
+                        $(".desc_error").text("this field is required");
+                        //	$('input:radio[name=chooseradio]').val(['foreign']);
+                        //$("#foreign_content").css("display", "block");
+                        e.preventDefault();
+
+                    } else {
+
+                        // If it is not blank.
+                        $(this).css('border', 'solid 2px green');
+
+
+                    }
+                }).trigger("focusout");
+            }
+            </script>

@@ -141,12 +141,12 @@ function draw_data(status = '') {
                 status: status
             }
     },
-    "columnDefs": [
-        {
-            "targets": [0],
-            "orderable": false,
-        },
-    ],
+    // "columnDefs": [
+    //     {
+    //         "targets": [0],
+    //         "orderable": false,
+    //     },
+    // ],
     "columns": [
                 { "data": 0 }, // Assuming the first column is at index 0
                 { "data": 1 },
@@ -155,7 +155,7 @@ function draw_data(status = '') {
                 { "data": 4 }
                 
             ],
-    "order": [[2, "desc"]],
+    // "order": [[2, "desc"]],
     "rowCallback": function(row, data) {
     if (data[5] == '1') { // Assuming status value is at index 3
         //alert(data[6]);

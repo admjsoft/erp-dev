@@ -52,7 +52,7 @@
                 }
                 elseif($thread_info['status']==4){
                     //$temp=$this->lang->line('Unassigned');
-                    $temp = "WorkInProgress";
+                    $temp = "Work In Progress";
                 }
                 echo $temp; 
                 echo '</span>';

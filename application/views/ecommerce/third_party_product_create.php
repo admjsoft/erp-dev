@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Add Product Details 
+                <h4 class="card-title"><?php echo $this->lang->line('Add Product Details') ?> 
                 <a
                         href="<?php echo base_url('ecommerce/publishing') ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
@@ -72,7 +72,7 @@ if(isset($_SESSION['status'])){
                                                 <input id="fileupload" type="file" name="files[]">
                                             </span>
                                             <br>
-                                            <pre>Allowed: gif, jpeg, png (Use light small weight images for fast loading - 200x200)</pre>
+                                            <pre><?php echo $this->lang->line('Allowed:')." gif, jpeg, png (".$this->lang->line('Use light small weight images for fast loading')." - 200x200)"; ?></pre>
                                             <br>
                                             <!-- The global progress bar -->
 
@@ -99,7 +99,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                         <select class="form-control" id="category">
-                                            <option value="">Select Category</option>
+                                            <option value=""><?php echo $this->lang->line('Select Category'); ?></option>
                                             <?php if(!empty($categories)){ foreach ($categories as $category) { ?>
                                                 <option value="<?php echo $category['id']; ?>" ><?php echo $category['name']; ?></option>
                                             <?php } } ?>
@@ -115,7 +115,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                         <select class="form-control" id="sub_category">
-                                            <option value="">Select Sub Category</option>
+                                            <option value=""><?php echo $this->lang->line('Select Sub Category'); ?></option>
                                         </select>
                                         </div>
                                     </div>
@@ -126,7 +126,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                             <select class="form-control" id="child_category">
-                                                <option value="">Select Child Category</option>
+                                                <option value=""><?php echo $this->lang->line('Select Child Category'); ?></option>
                                             </select>
                                         </div>
                                         </div>

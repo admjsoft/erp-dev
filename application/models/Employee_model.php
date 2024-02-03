@@ -22,9 +22,10 @@ class Employee_model extends CI_Model
 
     public function list_employee()
     {
-        $this->db->select('gtg_employees.*,gtg_users.banned,gtg_users.roleid,gtg_users.loc,gtg_role.role_name');
+        $this->db->select('gtg_employees.*,gtg_users.banned,gtg_users.roleid,gtg_users.loc,gtg_role.role_name,gtg_vehicles.id as vehicle_id');
         $this->db->from('gtg_employees');
         $this->db->join('gtg_role', 'gtg_role.id = gtg_employees.degis', 'left');
+        $this->db->join('gtg_vehicles', 'gtg_employees.id = gtg_vehicles.emp_id', 'left');
 
         //  $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
         $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
@@ -113,12 +114,14 @@ class Employee_model extends CI_Model
 
     public function employee_details($id)
     {
-        $this->db->select('gtg_employees.*,gtg_users.email,gtg_users.loc,gtg_users.roleid,gtg_countries.country_name');
+        $this->db->select('gtg_employees.*,gtg_users.email,gtg_users.loc,gtg_users.roleid,gtg_countries.country_name,gtg_hrm.val1 as department_name,gtg_customers.picture as client_photo');
         $this->db->from('gtg_employees');
         $this->db->where('gtg_employees.id', $id);
         $this->db->join('gtg_countries', 'gtg_countries.id = gtg_employees.country', 'left');
-
         $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
+        $this->db->join('gtg_hrm', 'gtg_employees.dept = gtg_hrm.id', 'left');
+        $this->db->join('gtg_customers', 'gtg_employees.company = gtg_customers.id', 'left');
+
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -151,7 +154,7 @@ class Employee_model extends CI_Model
         return $query->result_array();
     }
 
-    public function update_employee($id, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary = 0, $department = -1, $commission = 0, $roleid = false)
+    public function update_employee($id, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary = 0, $department = -1, $commission = 0, $roleid = false, $gender, $kwsp_number, $socso_number, $pcb_number, $join_date, $employee_job_type)
     {
         $this->db->select('salary');
         $this->db->from('gtg_employees');
@@ -175,7 +178,15 @@ class Employee_model extends CI_Model
             'postbox' => $postbox,
             'salary' => $salary,
             'c_rate' => $commission,
+            'join_date' => $join_date,            
+            'employee_job_type' => $employee_job_type
         );
+
+        if(!empty($gender)) { $data['gender'] = $gender; }
+        if(!empty($socso_number)) { $data['socso_number'] = $socso_number; }
+        if(!empty($kwsp_number)) { $data['kwsp_number'] = $kwsp_number; }
+        if(!empty($pcb_number)) { $data['pcb_number'] = $pcb_number; }
+        
         if ($department > -1) {
             $data = array(
                 'name' => $name,
@@ -190,7 +201,15 @@ class Employee_model extends CI_Model
                 'salary' => $salary,
                 'dept' => $department,
                 'c_rate' => $commission,
+                'join_date' => $join_date,
+                'employee_job_type' => $employee_job_type
             );
+
+            if(!empty($gender)) { $data['gender'] = $gender; }
+            if(!empty($socso_number)) { $data['socso_number'] = $socso_number; }
+            if(!empty($kwsp_number)) { $data['kwsp_number'] = $kwsp_number; }
+            if(!empty($pcb_number)) { $data['pcb_number'] = $pcb_number; }
+            
         }
 
         $this->db->set($data);
@@ -426,7 +445,7 @@ class Employee_model extends CI_Model
         $this->db->where('eid', $this->eid);
         return $this->db->count_all_results();
     }
-    public function add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $user_role)
+    public function add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $user_role, $join_date, $employee_job_type)
     {
         $data = array(
             'id' => $d_user_id,
@@ -441,6 +460,8 @@ class Employee_model extends CI_Model
             'salary' => $salary,
             'degis' => $user_role,
             'c_rate' => $commission,
+            'joindate' => $join_date,
+            'employee_job_type' => $employee_job_type
         );
 
         if ($this->db->insert('gtg_employees', $data)) {
@@ -454,7 +475,7 @@ class Employee_model extends CI_Model
     }
 
     public function add_employee($id, $username, $name, $roleid, $phone, $address, $city, $region,
-        $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $email, $password, $user_role) {
+        $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $email, $password, $user_role,$gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type) {
         $data = array(
             'id' => $id,
             'username' => $username,
@@ -468,9 +489,16 @@ class Employee_model extends CI_Model
             'dept' => $department,
             'degis' => $user_role,
             'salary' => $salary,
+            'gender' => $gender,
+            'socso_number' => $socso_number,
+            'kwsp_number' => $kwsp_number,
+            'pcb_number' => $pcb_number,
             'c_rate' => $commission,
+            'joindate' => $join_date,
+            'employee_job_type' => $employee_job_type
         );
 
+        
         // echo "dddd";
         // exit;
 
@@ -485,7 +513,7 @@ class Employee_model extends CI_Model
 
             $this->db->update('gtg_users');
 
-            $message = "<!DOCTYPE html><html><head><title>Email Notification</title></head><body><h2>Welcome to Our Platform!</h2><p>Thank you for signing up. Below are your login credentials:</p><table><tr><td>User Name:</td><td><strong>'.$email.'</strong></td></tr><tr><td>Password:</td><td><strong>'.$password.'</strong></td></tr></table><p>Please use the provided email and password to log into our platform.</p><p>If you have any questions or need assistance, feel free to contact our support team.</p><p>Thank you!</p></body></html>";
+            $message = "<!DOCTYPE html><html><head><title>Email Notification</title></head><body><h2>Welcome to Our Platform!</h2><p>Thank you for signing up. Below are your login credentials:</p><table><tr><td>User Name:</td><td><strong> $email </strong></td></tr><tr><td>Password:</td><td><strong> $password </strong></td></tr></table><p>Please use the provided email and password to log into our platform.</p><p>If you have any questions or need assistance, feel free to contact our support team.</p><p>Thank you!</p></body></html>";
 
             $this->send_email($email, $name, '[Profile Created]', $message, $attachmenttrue = false, $attachment = '');
 
@@ -594,12 +622,18 @@ class Employee_model extends CI_Model
         $this->db->insert('gtg_role', $data);
         $id = $this->db->insert_id();
         if ($id) {
+            
             $table = 'sidebaritems'; // Replace with your table name
+            $column = "r_$id";
+            if (!$this->db->field_exists($column, $table)) {
             $query = "ALTER TABLE $table ADD r_$id INT(11) DEFAULT 0";
             if ($this->db->query($query)) {
                 return true;
             } else {
                 return false;
+            }
+            }else{
+                return true;
             }
         } else {
             return false;
@@ -929,6 +963,40 @@ class Employee_model extends CI_Model
         return true;
     }
 
+    public function addattendance_settings($data,$att_sett_id)
+    {
+        if(!empty($att_sett_id))
+        {
+            if($this->db->where('id',$att_sett_id)->update('gtg_attendance_settings',$data))
+            {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+
+            if($this->db->insert('gtg_attendance_settings', $data))
+            {
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        
+
+    }
+
+    public function get_attendance_settings()
+    {
+        
+        $this->db->select('*');
+        $this->db->from('gtg_attendance_settings');
+        $query = $this->db->get();
+        return $query->row_array();
+
+    }
+
     public function deleteattendance($id)
     {
 
@@ -945,6 +1013,17 @@ class Employee_model extends CI_Model
     public function attendance_datatables($cid, $year, $month)
     {
         $this->attendance_datatables_query($cid, $year, $month);
+        if ($this->input->post('length') != -1) {
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        }
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function attendance_datatables_by_dates($cid, $from_date, $to_date)
+    {
+        $this->attendance_datatables_by_dates_query($cid, $from_date, $to_date);
         if ($this->input->post('length') != -1) {
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
         }
@@ -1054,11 +1133,75 @@ class Employee_model extends CI_Model
         $search = $this->input->post('order');
         if ($search) {
             $this->db->order_by($this->acolumn_order[$search['0']['column']], $search['0']['dir']);
-        } else if (isset($this->acolumn_order)) {
-            $order = $this->acolumn_order;
-            $this->db->order_by(key($order), $order[key($order)]);
+        // } else if (isset($this->acolumn_order)) {
+        //     $order = $this->acolumn_order;
+        //     $this->db->order_by(key($order), $order[key($order)]);
+        }else{
+            $this->db->order_by("CAST(gtg_attendance.adate AS DATE)", "DESC");
         }
     }
+
+
+    private function attendance_datatables_by_dates_query($cid = 0, $from_date = 0, $to_date = 0)
+    {
+
+        $this->db->select('gtg_attendance.*,gtg_employees.name');
+        $this->db->from('gtg_attendance');
+        $this->db->join('gtg_employees', 'gtg_employees.id=gtg_attendance.emp', 'left');
+        if ($this->aauth->get_user()->loc) {
+            $this->db->join('gtg_users', 'gtg_users.id=gtg_attendance.emp', 'left');
+            $this->db->where('gtg_users.loc', $this->aauth->get_user()->loc);
+        }
+        if ($cid) {$this->db->where('gtg_attendance.emp', $cid);}
+        if (!empty($from_date) && !empty($to_date)) 
+        {
+            $this->db->where('gtg_attendance.adate >=', $from_date);
+            $this->db->where('gtg_attendance.adate <=', $to_date);
+        }else if (!empty($from_date))
+        {
+            $this->db->where('gtg_attendance.adate >=', $from_date);
+        }else if (!empty($to_date))
+        {
+            $this->db->where('gtg_attendance.adate <=', $to_date);
+        }
+        
+
+        $i = 0;
+
+        foreach ($this->acolumn_search as $item) // loop column
+        {
+            $search = $this->input->post('search');
+            if ($search) {
+                $value = $search['value'];
+            } else { $value = 0;}
+            if ($value) {
+
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $value);
+                } else {
+                    $this->db->or_like($item, $value);
+                }
+
+                if (count($this->acolumn_search) - 1 == $i) //last loop
+                {
+                    $this->db->group_end();
+                }
+                //close bracket
+            }
+            $i++;
+        }
+        $search = $this->input->post('order');
+        if ($search) {
+            $this->db->order_by($this->acolumn_order[$search['0']['column']], $search['0']['dir']);
+        // } else if (isset($this->acolumn_order)) {
+        //     $order = $this->acolumn_order;
+        //     $this->db->order_by(key($order), $order[key($order)]);
+        }else{
+            $this->db->order_by("CAST(gtg_attendance.adate AS DATE)", "DESC");
+        }
+    }
+
 
     public function attendance_count_filtered($cid, $year, $month)
     {
@@ -1099,7 +1242,7 @@ class Employee_model extends CI_Model
     public function addInternational_new($d_user_id,
         $emp_name, $roleid, $passport, $permit,
         $country, $company, $type, $passport_expiry, $permit_expiry,
-        $passport_filename, $visa_filename, $role_id) {
+        $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $emp_job_type) {
 
         $data = array(
             'id' => $d_user_id,
@@ -1114,6 +1257,12 @@ class Employee_model extends CI_Model
             'passport_document' => $passport_filename,
             'visa_document' => $visa_filename,
             'degis' => $role_id,
+            'gender' => $gender,
+            'socso_number' => $socso_number,
+            'kwsp_number' => $kwsp_number,
+            'pcb_number' => $pcb_number,
+            'join_date' => $join_date,
+            'employee_job_type' => $emp_job_type
 
         );
 
@@ -1134,7 +1283,7 @@ class Employee_model extends CI_Model
     }
 
     public function addInternational($id, $username, $emp_name, $email, $roleid, $passport, $permit,
-        $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $role_id) {
+        $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $emp_job_type) {
         $data = array(
             'id' => $id,
             'username' => $emp_name,
@@ -1150,6 +1299,12 @@ class Employee_model extends CI_Model
             'passport_document' => $passport_filename,
             'visa_document' => $visa_filename,
             'degis' => $role_id,
+            'gender' => $gender,
+            'socso_number' => $socso_number,
+            'kwsp_number' => $kwsp_number,
+            'pcb_number' => $pcb_number,
+            'join_date' => $join_date,
+            'employee_job_type' => $emp_job_type
 
         );
 
@@ -1166,7 +1321,7 @@ class Employee_model extends CI_Model
 
     }
 
-    public function updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename)
+    public function updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type)
     {
         $type = "foreign";
         $data = array(
@@ -1180,6 +1335,12 @@ class Employee_model extends CI_Model
             'permit_expiry' => $permit_expiry,
             'passport_expiry' => $passport_expiry,
             'employee_type' => $type,
+            'gender' => $gender,
+            'socso_number' => $socso_number,
+            'kwsp_number' => $kwsp_number,
+            'pcb_number' => $pcb_number,
+            'join_date' => $join_date,            
+            'employee_job_type' => $employee_job_type
         );
 
         if(!empty($passport_filename))
@@ -1626,12 +1787,12 @@ class Employee_model extends CI_Model
 
         } else if ($permit_sixty_expiry) {
 
-            $this->db->where('passport_expiry>', $thirtydays);
-            $this->db->where('passport_expiry<=', $sixtydays);
+            $this->db->where('permit_expiry>', $thirtydays);
+            $this->db->where('permit_expiry<=', $sixtydays);
 
         } else if ($permit_ninety_expiry) {
-            $this->db->where('passport_expiry>', $sixtydays);
-            $this->db->where('passport_expiry<=', $ninentydays);
+            $this->db->where('permit_expiry>', $sixtydays);
+            $this->db->where('permit_expiry<=', $ninentydays);
         }
 
         //$this->db->order_by('gtg_employees.id', 'DESC');
@@ -2010,4 +2171,157 @@ class Employee_model extends CI_Model
         // Now you can use $data['table'] to display the HTML table in your view.
 
     }
+
+
+    function document_datatables($cid)
+    {
+        $this->document_datatables_query($cid);
+        if ($this->input->post('length') != -1)
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    private function document_datatables_query($cid)
+    {
+
+        $this->db->from('gtg_documents');
+        $this->db->where('fid', $cid);
+        $this->db->where('rid', 0);
+        $this->db->where('emp_doc', 1);
+        $i = 0;
+
+        foreach ($this->doccolumn_search as $item) // loop column
+        {
+            $search = $this->input->post('search');
+            $value = $search['value'];
+            if ($value) {
+
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $value);
+                } else {
+                    $this->db->or_like($item, $value);
+                }
+
+                if (count($this->doccolumn_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        $search = $this->input->post('order');
+        if ($search) {
+            $this->db->order_by($this->doccolumn_order[$search['0']['column']], $search['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function document_count_filtered($cid)
+    {
+        $this->document_datatables_query($cid);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function document_count_all($cid)
+    {
+        $this->document_datatables_query($cid);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    function adddocument($title, $filename, $cid)
+    {
+        $this->aauth->applog("[Client Doc Added]  DocId $title CID " . $cid, $this->aauth->get_user()->username);
+        $data = array('title' => $title, 'filename' => $filename, 'cdate' => date('Y-m-d'), 'cid' => $this->aauth->get_user()->id, 'fid' => $cid, 'rid' => 0, 'emp_doc' => 1);
+        return $this->db->insert('gtg_documents', $data);
+    }
+
+    function deletedocument($id, $cid)
+    {
+        $this->db->select('filename');
+        $this->db->from('gtg_documents');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        // $this->db->trans_start();
+        if ($this->db->delete('gtg_documents', array('id' => $id, 'fid' => $cid, 'rid' => 0, 'emp_doc' => 1))) {
+
+            // if (@unlink(FCPATH . 'userfiles/documents/' . $result['filename'])) {
+            //     $this->aauth->applog("[Employee Doc Deleted]  DocId $id CID " . $cid, $this->aauth->get_user()->username);
+            //     //$this->db->trans_complete();
+            //     return true;
+            // } else {
+            //     $this->db->trans_rollback();
+            //     return false;
+            // }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function attendance_report_new($cid, $from_date, $to_date){
+
+        $attenadance_settings = $this->get_attendance_settings();
+
+        // echo $cid;
+        // echo $from_date;
+        // echo $to_date;
+
+        if (!empty($cid)) { 
+            
+            $employee_list[] = $cid;
+        }else{
+            $employee_data = $this->list_employee();                        
+            $employee_list = array_column($employee_data, 'id');
+            
+        }
+
+        // print_r($employee_list);
+        // exit;
+        
+        if (!empty($employee_list)) {
+            $this->db->select('gtg_attendance.*, gtg_employees.name,gtg_employees.employee_type,gtg_employees.employee_job_type, gtg_countries.country_name, gtg_hrm.val1 as department_name');
+        
+            $this->db->select('SUM(CASE WHEN tfrom IS NOT NULL AND tto IS NOT NULL THEN TIME_TO_SEC(TIMEDIFF(tto, tfrom)) ELSE 0 END) AS total_seconds', FALSE);
+        
+            $this->db->select('COUNT(DISTINCT gtg_attendance.adate) AS total_days');
+        
+            $this->db->select('(SELECT SEC_TO_TIME(MIN(TIME_TO_SEC(tfrom))) FROM gtg_attendance g2 WHERE g2.adate = gtg_attendance.adate) AS first_tfrom', FALSE);
+        
+            $this->db->select('(CASE WHEN MIN(tto) IS NOT NULL AND MAX(tto) IS NOT NULL THEN SEC_TO_TIME(MAX(TIME_TO_SEC(tto))) ELSE "" END) AS last_tto', FALSE);
+        
+            $this->db->from('gtg_attendance');
+            $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'left');
+            $this->db->join('gtg_countries', 'gtg_countries.id = gtg_employees.country', 'left');
+            $this->db->join('gtg_hrm', 'gtg_employees.dept = gtg_hrm.id', 'left');
+            $this->db->where_in('gtg_attendance.emp', $employee_list);
+        
+            if (!empty($from_date) && !empty($to_date)) {
+                $this->db->where('gtg_attendance.adate >=', $from_date);
+                $this->db->where('gtg_attendance.adate <=', $to_date);
+            } elseif (!empty($from_date)) {
+                $this->db->where('gtg_attendance.adate >=', $from_date);
+            } elseif (!empty($to_date)) {
+                $this->db->where('gtg_attendance.adate <=', $to_date);
+            }
+        
+            $this->db->group_by('gtg_attendance.adate');
+            $this->db->order_by("CAST(gtg_attendance.adate AS DATE)", "DESC");
+            $this->db->order_by('gtg_attendance.created', 'ASC');
+        
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+        
+        
+        // echo $this->db->last_query();
+        // exit;
+        
+    }
+
+    // SELECT `gtg_attendance`.*, `gtg_employees`.`name`, `gtg_countries`.`country_name`, `gtg_hrm`.`val1` as `department_name` FROM `gtg_attendance` LEFT JOIN `gtg_employees` ON `gtg_employees`.`id` = `gtg_attendance`.`emp` LEFT JOIN `gtg_countries` ON `gtg_countries`.`id` = `gtg_employees`.`country` LEFT JOIN `gtg_hrm` ON `gtg_employees`.`dept` = `gtg_hrm`.`id` WHERE `gtg_attendance`.`emp` IN('3') AND `gtg_attendance`.`adate` >= '2024-01-24' AND `gtg_attendance`.`adate` <= '2024-01-30' ORDER BY CAST(gtg_attendance.adate AS DATE) DESC; 
 }

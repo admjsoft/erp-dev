@@ -122,7 +122,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 					 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
-                    <input type="submit" id="submit" class="btn btn-primary submitBtn" value="ADD"/>
+                    <input type="submit" id="submit" class="btn btn-primary submitBtn" value="<?php echo $this->lang->line('ADD'); ?>"/>
                 </div>
                 </div>
                 <!-- Modal Footer -->

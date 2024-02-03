@@ -2,11 +2,11 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Settings<?php // echo $this->lang->line('Peppol Invoices') ?>
+            <h4 class="card-title"><?php echo $this->lang->line('Settings') ?>
                     <?php if(empty($dg_settings)){ ?><a
                         href="<?php echo base_url('digitalmarketing/settings_create'); ?>"
                         class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo "Add Settings"//$this->lang->line('Add new') ?></a>
+                    <?php echo $this->lang->line('Add Settings') ?></a>
                     <?php } ?></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">

@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
+                        <input type="button" name="search" id="search" value="<?php echo $this->lang->line('Search') ?>" class="btn btn-info btn-sm"/>
                     </div>
 
                 </div>
@@ -44,7 +44,7 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th> #</th>
+                        <th><?php echo $this->lang->line('Subscription') ?>#</th>
                         <th><?php echo $this->lang->line('Customer') ?></th>
                         <th><?php echo $this->lang->line('Renew Date') ?></th>
                         <th><?php echo $this->lang->line('Amount') ?></th>
@@ -59,7 +59,7 @@
                     <tfoot>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th> #</th>
+                        <th><?php echo $this->lang->line('Subscription') ?>#</th>
                         <th><?php echo $this->lang->line('Customer') ?></th>
                         <th><?php echo $this->lang->line('Date') ?></th>
 

@@ -20,6 +20,9 @@ class Templates extends CI_Controller
 
         }
         $this->load->model('templates_model', 'templates');
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
 
     }
 

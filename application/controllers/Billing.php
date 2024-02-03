@@ -1,29 +1,31 @@
 <?php
 
-
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once APPPATH . 'third_party/vendor/autoload.php';
-
 
 use Omnipay\Omnipay;
 use PayPal\Api\Amount;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
-use PayPal\Api\PaymentExecution;
+
 
 class Billing extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->config->set_item('csrf_protection', FALSE);
+        $this->config->set_item('csrf_protection', false);
         $this->load->model('invoices_model', 'invocies');
         $this->load->model('billing_model', 'billing');
         $this->load->model('customers_model', 'customers');
         $this->load->model('settings_model', 'adminemail');
-        $this->load->model('communication_model');
+        $this->load->model('communication_model');        
+        $this->load->model('contract_model');
+        $this->load->model('digitalsignature_model');
+        $this->load->model('uploads_model');
         $this->load->library("Aauth");
         $this->load->library("Custom");
 
@@ -48,15 +50,18 @@ class Billing extends CI_Controller
             $data['products'] = $this->invocies->invoice_products($tid);
             $data['activity'] = $this->invocies->invoice_transactions($tid);
             $data['attach'] = $this->invocies->attach($tid);
-            if (CUSTOM) $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+            if (CUSTOM) {
+                $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+            }
+
             $data['gateway'] = $this->billing->gateway_list('Yes');
 
             $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
-           // $data['customers']=$this->aauth->get_user()->roleid;
-         //   if(isset($this->session->userdata('user_details')[0]->cid))
-            $data['customers']=$this->customers->mydetails($data['invoice']['cid']);
+            // $data['customers']=$this->aauth->get_user()->roleid;
+            //   if(isset($this->session->userdata('user_details')[0]->cid))
+            $data['customers'] = $this->customers->mydetails($data['invoice']['cid']);
             $head['usernm'] = '';
-            $head['title'] = "Invoice " . $data['invoice']['tid'];
+            $head['title'] = $this->lang->line('Invoice') . $data['invoice']['tid'];
 
             $this->load->view('billing/header', $head);
             $this->load->view('billing/view', $data);
@@ -83,7 +88,7 @@ class Billing extends CI_Controller
             $data['attach'] = $this->quote->attach($tid);
             $data['products'] = $this->quote->quote_products($tid);
             $data['employee'] = $this->quote->employee($data['invoice']['eid']);
-            $head['title'] = "Quote " . $data['invoice']['tid'];
+            $head['title'] = $this->lang->line('Quote') . $data['invoice']['tid'];
             $head['usernm'] = '';
             $this->load->view('billing/header', $head);
             $this->load->view('billing/quoteview', $data);
@@ -112,7 +117,7 @@ class Billing extends CI_Controller
             // $data['online_pay'] = $this->purchase->online_pay_settings();
             $data['products'] = $this->purchase->purchase_products($tid);
             $data['activity'] = $this->purchase->purchase_transactions($tid);
-            $head['title'] = "Purchase " . $data['invoice']['tid'];
+            $head['title'] = $this->lang->line('Purchase') . $data['invoice']['tid'];
             $data['employee'] = $this->purchase->employee($data['invoice']['eid']);
             $head['usernm'] = '';
             $this->load->view('billing/header', $head);
@@ -141,7 +146,7 @@ class Billing extends CI_Controller
             // $data['online_pay'] = $this->purchase->online_pay_settings();
             $data['products'] = $this->stockreturn->purchase_products($tid);
             $data['activity'] = $this->stockreturn->purchase_transactions($tid);
-            $head['title'] = "Order " . $data['invoice']['tid'];
+            $head['title'] = $this->lang->line('Order') . $data['invoice']['tid'];
             $data['employee'] = $this->stockreturn->employee($data['invoice']['eid']);
             $head['usernm'] = '';
             $this->load->view('billing/header', $head);
@@ -149,7 +154,6 @@ class Billing extends CI_Controller
             $this->load->view('billing/footer');
         }
     }
-
 
     public function gateway()
     {
@@ -163,13 +167,12 @@ class Billing extends CI_Controller
         $validtoken = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
         if (hash_equals($token, $validtoken)) {
             switch ($pay_gateway) {
-                case 1 :
+                case 1:
                     $this->card();
                     break;
             }
         }
     }
-
 
     public function printinvoice()
     {
@@ -182,14 +185,13 @@ class Billing extends CI_Controller
         if (hash_equals($token, $validtoken)) {
             $data['id'] = $tid;
             $data['invoice'] = $this->invocies->invoice_details($tid);
-            $data['title'] = "Invoice " . $data['invoice']['tid'];
+            $data['title'] =  $this->lang->line('Invoice') . $data['invoice']['tid'];
             $data['products'] = $this->invocies->invoice_products($tid);
             $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
             if (CUSTOM) {
                 $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
                 $data['i_custom_fields'] = $this->custom->view_fields_data($tid, 2, 1);
             }
-
 
             $data['round_off'] = $this->custom->api_config(4);
             if ($data['invoice']['i_class'] == 1) {
@@ -232,6 +234,517 @@ class Billing extends CI_Controller
         }
     }
 
+    public function printdo()
+    {
+
+        $this->load->model('purchase_model', 'purchase');
+        $this->load->model('invoices_model', 'invocies');
+        $this->load->library("Aauth");        
+        $this->load->library("Custom");
+        
+        if (!$this->input->get()) {
+            exit();
+        }
+        $tid = intval($this->input->get('id'));
+        $token = $this->input->get('token');
+        $type = $this->input->get('type');
+        $p_do_id = $this->input->get('do_id');
+
+        if ($type == 'invoice') {
+            // echo "adfsdfs";
+            // exit;
+            $validtoken = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+            if (hash_equals($token, $validtoken)) {
+                $data['id'] = $tid;
+
+                $sql = "SELECT parent_do_id, GROUP_CONCAT(DISTINCT CONCAT(do_id, '#', cr_date) ORDER BY cr_date ASC) AS do_ids_and_dates, MAX(type) AS do_type, MAX(cr_date) AS max_cr_date, MAX(po_id) AS max_po_id, MAX(invoice_id) AS max_invoice_id FROM gtg_do_relations WHERE parent_do_id = '$p_do_id' GROUP BY parent_do_id ";
+                $result = $this->db->query($sql);
+                $parent_delivery_orders = $result->result_array();
+                // /echo $this->db->last_query();
+
+                // echo "<pre>"; print_r($parent_delivery_orders); echo "</pre>";
+                // exit;
+
+                foreach ($parent_delivery_orders as $row) {
+                    // Explode do_ids into an array
+
+                    if ($row['do_type'] == 'po') {
+                        $data['invoice'] = $this->purchase->purchase_details($row['max_po_id']);
+
+                    } else if ($row['do_type'] == 'invoice') {
+
+                        $data['invoice'] = $this->invocies->invoice_details($row['max_invoice_id'], $this->limited);
+                    }
+
+                    $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1);
+                    $doIdsArray = explode(',', $row['do_ids_and_dates']);
+                    $parent_delivery_order_id = $row['parent_do_id'];
+                    // print_r($doIdsArray);
+                    // exit;
+                    // Fetch individual cr_dates based on do_ids
+
+                    // Iterate over the do_ids array
+                    foreach ($doIdsArray as $doId) {
+                        // Create an array for each iteration
+
+                        $do_data = explode('#', $doId);
+                        // print_r($do_data);
+                        $delivery_order_id = $do_data[0];
+                        $cr_date = $do_data[1];
+
+                        if ($row['do_type'] == 'po') {
+
+                            // $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product FROM gtg_do_delivered_items ddi LEFT JOIN gtg_purchase_items gp ON ddi.p_id = gp.id WHERE ddi.delivery_order_id = '.$delivery_order_id.' AND ddi.parent_delivery_order_id = '.$parent_delivery_order_id.'';
+                            // $po_result = $this->db->query($po_sql);
+                            // $delivery_orders = $po_result->result_array();
+
+                        } else if ($row['do_type'] == 'invoice') {
+                            $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product,gp.qty as ordered_qty FROM gtg_do_delivered_items ddi LEFT JOIN gtg_invoice_items gp ON ddi.p_id = gp.pid WHERE ddi.delivery_order_id = ' . $delivery_order_id . ' AND ddi.parent_delivery_order_id = ' . $parent_delivery_order_id . '';
+                            $po_result = $this->db->query($po_sql);
+                            $delivery_orders = $po_result->result_array();
+
+                        } else if ($row['do_type'] == 'do') {
+                            $do_sql = 'SELECT qty as delivered_qty, "do" as do_type, product FROM gtg_delivery_order_items ';
+                            $do_result = $this->db->query($do_sql);
+                            $delivery_orders = $do_result->result_array();
+
+                        }
+
+                        // Use the corresponding cr_date based on the key
+                        //$cr_date = isset($crDatesArray[$key]) ? $crDatesArray[$key] : null;
+
+                        $iterationData = [
+                            'parent_do_id' => $row['parent_do_id'],
+                            'do_id' => $delivery_order_id,
+                            'cr_date' => $cr_date,
+                            'do_type' => $row['do_type'],
+                            'max_po_id' => $row['max_po_id'],
+                            'max_invoice_id' => $row['max_invoice_id'],
+                            'delivery_order' => $delivery_orders,
+                        ];
+
+                        // Add the array to the output data
+                        $outputData[] = $iterationData;
+                    }
+
+                }
+
+                $data['do_list'] = $outputData;
+                $data['do_option'] = $do_option;
+                $data['do_type'] = $do_type;
+
+                $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => $pref, 't_type' => 0);
+                ini_set('memory_limit', '64M');
+                if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+                    $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
+                } else {
+                    $html = $this->load->view('print_files/do-a4_v' . INVV, $data, true);
+                    //    $html=str_replace("strong","span",$html);
+                    //     $html=str_replace("<h","<span",$html);
+                }
+
+                // echo $html;
+                // exit;
+                //PDF Rendering
+                $this->load->library('pdf');
+                if (INVV == 1) {
+                    $header = $this->load->view('print_files/do-header_v' . INVV, $data, true);
+
+                    //  $header=str_replace("<h","<span",$header);
+                    $pdf = $this->pdf->load_split(array('margin_top' => 40));
+                    $pdf->SetHTMLHeader($header);
+                }
+                if (INVV == 2) {
+                    $pdf = $this->pdf->load_split(array('margin_top' => 5));
+                }
+                $pdf->SetHTMLFooter('<div style="text-align: right;font-family: serif; font-size: 8pt; color: #5C5C5C; font-style: italic;margin-top:-6pt;">{PAGENO}/{nbpg} #' . $data['invoice']['tid'] . '</div>');
+                $pdf->WriteHTML($html);
+                if ($this->input->get('d')) {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'D');
+                } else {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'I');
+                }
+            }
+
+        } else if ($type == 'po') {
+
+            $validtoken = hash_hmac('ripemd160', 'p' . $tid, $this->config->item('encryption_key'));
+
+            if (hash_equals($token, $validtoken)) {
+                
+                $data['id'] = $tid;
+
+                $sql = "SELECT parent_do_id, GROUP_CONCAT(DISTINCT CONCAT(do_id, '#', cr_date) ORDER BY cr_date ASC) AS do_ids_and_dates, MAX(type) AS do_type, MAX(cr_date) AS max_cr_date, MAX(po_id) AS max_po_id, MAX(invoice_id) AS max_invoice_id FROM gtg_do_relations WHERE parent_do_id = '$p_do_id' GROUP BY parent_do_id ";
+                $result = $this->db->query($sql);
+                $parent_delivery_orders = $result->result_array();
+                // /echo $this->db->last_query();
+
+                // echo "<pre>"; print_r($parent_delivery_orders); echo "</pre>";
+                // exit;
+
+                foreach ($parent_delivery_orders as $row) {
+                    // Explode do_ids into an array
+
+                    if ($row['do_type'] == 'po') {
+                        $data['invoice'] = $this->purchase->purchase_details($row['max_po_id']);
+
+                    } else if ($row['do_type'] == 'invoice') {
+
+                        $data['invoice'] = $this->invocies->invoice_details($row['max_invoice_id'], $this->limited);
+                    }
+
+                    $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1);
+                    $doIdsArray = explode(',', $row['do_ids_and_dates']);
+                    $parent_delivery_order_id = $row['parent_do_id'];
+                    // print_r($doIdsArray);
+                    // exit;
+                    // Fetch individual cr_dates based on do_ids
+
+                    // Iterate over the do_ids array
+                    foreach ($doIdsArray as $doId) {
+                        // Create an array for each iteration
+
+                        $do_data = explode('#', $doId);
+                        // print_r($do_data);
+                        $delivery_order_id = $do_data[0];
+                        $cr_date = $do_data[1];
+
+                        if ($row['do_type'] == 'po') {
+
+                            // $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product FROM gtg_do_delivered_items ddi LEFT JOIN gtg_purchase_items gp ON ddi.p_id = gp.id WHERE ddi.delivery_order_id = '.$delivery_order_id.' AND ddi.parent_delivery_order_id = '.$parent_delivery_order_id.'';
+                            // $po_result = $this->db->query($po_sql);
+                            // $delivery_orders = $po_result->result_array();
+                            $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product,gp.qty as ordered_qty FROM gtg_do_delivered_items ddi LEFT JOIN gtg_purchase_items gp ON ddi.p_id = gp.pid WHERE ddi.delivery_order_id = ' . $delivery_order_id . ' AND ddi.parent_delivery_order_id = ' . $parent_delivery_order_id . '';
+                            $po_result = $this->db->query($po_sql);
+                            $delivery_orders = $po_result->result_array();
+
+
+                        } else if ($row['do_type'] == 'invoice') {
+                            $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product,gp.qty as ordered_qty FROM gtg_do_delivered_items ddi LEFT JOIN gtg_invoice_items gp ON ddi.p_id = gp.pid WHERE ddi.delivery_order_id = ' . $delivery_order_id . ' AND ddi.parent_delivery_order_id = ' . $parent_delivery_order_id . '';
+                            $po_result = $this->db->query($po_sql);
+                            $delivery_orders = $po_result->result_array();
+
+                        } else if ($row['do_type'] == 'do') {
+                            $do_sql = 'SELECT qty as delivered_qty, "do" as do_type, product FROM gtg_delivery_order_items ';
+                            $do_result = $this->db->query($do_sql);
+                            $delivery_orders = $do_result->result_array();
+
+                        }
+
+                        // Use the corresponding cr_date based on the key
+                        //$cr_date = isset($crDatesArray[$key]) ? $crDatesArray[$key] : null;
+
+                        $iterationData = [
+                            'parent_do_id' => $row['parent_do_id'],
+                            'do_id' => $delivery_order_id,
+                            'cr_date' => $cr_date,
+                            'do_type' => $row['do_type'],
+                            'max_po_id' => $row['max_po_id'],
+                            'max_invoice_id' => $row['max_invoice_id'],
+                            'delivery_order' => $delivery_orders,
+                        ];
+
+                        // Add the array to the output data
+                        $outputData[] = $iterationData;
+                    }
+
+                }
+
+                $data['do_list'] = $outputData;
+                $data['do_option'] = $do_option;
+                $data['do_type'] = $do_type;
+
+                $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => $pref, 't_type' => 0);
+                ini_set('memory_limit', '64M');
+                if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+                    $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
+                } else {
+                    $html = $this->load->view('print_files/do-a4_v' . INVV, $data, true);
+                    //    $html=str_replace("strong","span",$html);
+                    //     $html=str_replace("<h","<span",$html);
+                }
+
+                // echo $html;
+                // exit;
+                //PDF Rendering
+                $this->load->library('pdf');
+                if (INVV == 1) {
+                    $header = $this->load->view('print_files/do-header_v' . INVV, $data, true);
+
+                    //  $header=str_replace("<h","<span",$header);
+                    $pdf = $this->pdf->load_split(array('margin_top' => 40));
+                    $pdf->SetHTMLHeader($header);
+                }
+                if (INVV == 2) {
+                    $pdf = $this->pdf->load_split(array('margin_top' => 5));
+                }
+                $pdf->SetHTMLFooter('<div style="text-align: right;font-family: serif; font-size: 8pt; color: #5C5C5C; font-style: italic;margin-top:-6pt;">{PAGENO}/{nbpg} #' . $data['invoice']['tid'] . '</div>');
+                $pdf->WriteHTML($html);
+                if ($this->input->get('d')) {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'D');
+                } else {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'I');
+                }
+            }
+
+            }
+    
+        }
+ 
+
+    public function printsubdo()
+    {
+        if (!$this->input->get()) {
+            exit();
+        }
+        $tid = intval($this->input->get('id'));
+        $token = $this->input->get('token');
+        $type = $this->input->get('type');
+        $p_do_id = $this->input->get('do_id');
+        $sub_do_id = $this->input->get('sub_do_id');
+
+        if ($type == 'invoice') {
+            // echo "adfsdfs";
+            // exit;
+            $validtoken = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+            if (hash_equals($token, $validtoken)) {
+                $data['id'] = $tid;
+
+                $sql = "SELECT parent_do_id, GROUP_CONCAT(DISTINCT CONCAT(do_id, '#', cr_date) ORDER BY cr_date ASC) AS do_ids_and_dates, MAX(type) AS do_type, MAX(cr_date) AS max_cr_date, MAX(po_id) AS max_po_id, MAX(invoice_id) AS max_invoice_id FROM gtg_do_relations WHERE parent_do_id = '$p_do_id' AND do_id = '$sub_do_id' GROUP BY parent_do_id ";
+                $result = $this->db->query($sql);
+                $parent_delivery_orders = $result->result_array();
+                // /echo $this->db->last_query();
+
+                // echo "<pre>"; print_r($parent_delivery_orders); echo "</pre>";
+                // exit;
+
+                foreach ($parent_delivery_orders as $row) {
+                    // Explode do_ids into an array
+
+                    if ($row['do_type'] == 'po') {
+                        $data['invoice'] = $this->purchase->purchase_details($row['max_po_id']);
+
+                    } else if ($row['do_type'] == 'invoice') {
+
+                        $data['invoice'] = $this->invocies->invoice_details($row['max_invoice_id'], $this->limited);
+                    }
+
+                    $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1);
+
+                    $doIdsArray = explode(',', $row['do_ids_and_dates']);
+                    $parent_delivery_order_id = $row['parent_do_id'];
+                    // print_r($doIdsArray);
+                    // exit;
+                    // Fetch individual cr_dates based on do_ids
+
+                    // Iterate over the do_ids array
+                    foreach ($doIdsArray as $doId) {
+                        // Create an array for each iteration
+
+                        $do_data = explode('#', $doId);
+                        // print_r($do_data);
+                        $delivery_order_id = $do_data[0];
+                        $cr_date = $do_data[1];
+
+                        if ($row['do_type'] == 'po') {
+
+                            // $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product FROM gtg_do_delivered_items ddi LEFT JOIN gtg_purchase_items gp ON ddi.p_id = gp.id WHERE ddi.delivery_order_id = '.$delivery_order_id.' AND ddi.parent_delivery_order_id = '.$parent_delivery_order_id.'';
+                            // $po_result = $this->db->query($po_sql);
+                            // $delivery_orders = $po_result->result_array();
+
+                        } else if ($row['do_type'] == 'invoice') {
+                            $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product,gp.qty as ordered_qty FROM gtg_do_delivered_items ddi LEFT JOIN gtg_invoice_items gp ON ddi.p_id = gp.pid WHERE ddi.delivery_order_id = ' . $delivery_order_id . ' AND ddi.parent_delivery_order_id = ' . $parent_delivery_order_id . '';
+                            $po_result = $this->db->query($po_sql);
+                            $delivery_orders = $po_result->result_array();
+
+                        } else if ($row['do_type'] == 'do') {
+                            $do_sql = 'SELECT qty as delivered_qty, "do" as do_type, product FROM gtg_delivery_order_items ';
+                            $do_result = $this->db->query($do_sql);
+                            $delivery_orders = $do_result->result_array();
+
+                        }
+
+                        // Use the corresponding cr_date based on the key
+                        //$cr_date = isset($crDatesArray[$key]) ? $crDatesArray[$key] : null;
+
+                        $iterationData = [
+                            'parent_do_id' => $row['parent_do_id'],
+                            'do_id' => $delivery_order_id,
+                            'cr_date' => $cr_date,
+                            'do_type' => $row['do_type'],
+                            'max_po_id' => $row['max_po_id'],
+                            'max_invoice_id' => $row['max_invoice_id'],
+                            'delivery_order' => $delivery_orders,
+                        ];
+
+                        // Add the array to the output data
+                        $outputData[] = $iterationData;
+                    }
+
+                }
+
+                $data['do_list'] = $outputData;
+                $data['do_option'] = $do_option;
+                $data['do_type'] = $do_type;
+
+                $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => $pref, 't_type' => 0);
+                ini_set('memory_limit', '64M');
+                if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+                    $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
+                } else {
+                    $html = $this->load->view('print_files/subdo-a4_v' . INVV, $data, true);
+                    //    $html=str_replace("strong","span",$html);
+                    //     $html=str_replace("<h","<span",$html);
+                }
+
+                // echo $html;
+                // exit;
+                //PDF Rendering
+                $this->load->library('pdf');
+                if (INVV == 1) {
+                    $header = $this->load->view('print_files/do-header_v' . INVV, $data, true);
+
+                    //  $header=str_replace("<h","<span",$header);
+                    $pdf = $this->pdf->load_split(array('margin_top' => 40));
+                    $pdf->SetHTMLHeader($header);
+                }
+                if (INVV == 2) {
+                    $pdf = $this->pdf->load_split(array('margin_top' => 5));
+                }
+                $pdf->SetHTMLFooter('<div style="text-align: right;font-family: serif; font-size: 8pt; color: #5C5C5C; font-style: italic;margin-top:-6pt;">{PAGENO}/{nbpg} #' . $data['invoice']['tid'] . '</div>');
+                $pdf->WriteHTML($html);
+                if ($this->input->get('d')) {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'D');
+                } else {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'I');
+                }
+            }
+
+        } else if ($type == 'po') {
+
+            $validtoken = hash_hmac('ripemd160', 'p' . $tid, $this->config->item('encryption_key'));
+
+            if (hash_equals($token, $validtoken)) {
+                $this->load->model('purchase_model', 'purchase');
+
+                $data['id'] = $tid;
+
+                $sql = "SELECT parent_do_id, GROUP_CONCAT(DISTINCT CONCAT(do_id, '#', cr_date) ORDER BY cr_date ASC) AS do_ids_and_dates, MAX(type) AS do_type, MAX(cr_date) AS max_cr_date, MAX(po_id) AS max_po_id, MAX(invoice_id) AS max_invoice_id FROM gtg_do_relations WHERE parent_do_id = '$p_do_id' AND do_id = '$sub_do_id' GROUP BY parent_do_id ";
+                $result = $this->db->query($sql);
+                $parent_delivery_orders = $result->result_array();
+                // /echo $this->db->last_query();
+
+                // echo "<pre>"; print_r($parent_delivery_orders); echo "</pre>";
+                // exit;
+
+                foreach ($parent_delivery_orders as $row) {
+                    // Explode do_ids into an array
+
+                    if ($row['do_type'] == 'po') {
+                        $data['invoice'] = $this->purchase->purchase_details($row['max_po_id']);
+
+                    } else if ($row['do_type'] == 'invoice') {
+
+                        $data['invoice'] = $this->invocies->invoice_details($row['max_invoice_id'], $this->limited);
+                    }
+
+                    $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1);
+
+                    $doIdsArray = explode(',', $row['do_ids_and_dates']);
+                    $parent_delivery_order_id = $row['parent_do_id'];
+                    // print_r($doIdsArray);
+                    // exit;
+                    // Fetch individual cr_dates based on do_ids
+
+                    // Iterate over the do_ids array
+                    foreach ($doIdsArray as $doId) {
+                        // Create an array for each iteration
+
+                        $do_data = explode('#', $doId);
+                        // print_r($do_data);
+                        $delivery_order_id = $do_data[0];
+                        $cr_date = $do_data[1];
+
+                        if ($row['do_type'] == 'po') {
+
+                            // $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product FROM gtg_do_delivered_items ddi LEFT JOIN gtg_purchase_items gp ON ddi.p_id = gp.id WHERE ddi.delivery_order_id = '.$delivery_order_id.' AND ddi.parent_delivery_order_id = '.$parent_delivery_order_id.'';
+                            // $po_result = $this->db->query($po_sql);
+                            // $delivery_orders = $po_result->result_array();
+                            $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product,gp.qty as ordered_qty FROM gtg_do_delivered_items ddi LEFT JOIN gtg_purchase_items gp ON ddi.p_id = gp.pid WHERE ddi.delivery_order_id = ' . $delivery_order_id . ' AND ddi.parent_delivery_order_id = ' . $parent_delivery_order_id . '';
+                            $po_result = $this->db->query($po_sql);
+                            $delivery_orders = $po_result->result_array();
+
+
+                        } else if ($row['do_type'] == 'invoice') {
+                            $po_sql = 'SELECT ddi.qty as delivered_qty, ddi.return_qty, ddi.return_type, ddi.description, ddi.type as do_type, gp.product,gp.qty as ordered_qty FROM gtg_do_delivered_items ddi LEFT JOIN gtg_invoice_items gp ON ddi.p_id = gp.pid WHERE ddi.delivery_order_id = ' . $delivery_order_id . ' AND ddi.parent_delivery_order_id = ' . $parent_delivery_order_id . '';
+                            $po_result = $this->db->query($po_sql);
+                            $delivery_orders = $po_result->result_array();
+
+                        } else if ($row['do_type'] == 'do') {
+                            $do_sql = 'SELECT qty as delivered_qty, "do" as do_type, product FROM gtg_delivery_order_items ';
+                            $do_result = $this->db->query($do_sql);
+                            $delivery_orders = $do_result->result_array();
+
+                        }
+
+                        // Use the corresponding cr_date based on the key
+                        //$cr_date = isset($crDatesArray[$key]) ? $crDatesArray[$key] : null;
+
+                        $iterationData = [
+                            'parent_do_id' => $row['parent_do_id'],
+                            'do_id' => $delivery_order_id,
+                            'cr_date' => $cr_date,
+                            'do_type' => $row['do_type'],
+                            'max_po_id' => $row['max_po_id'],
+                            'max_invoice_id' => $row['max_invoice_id'],
+                            'delivery_order' => $delivery_orders,
+                        ];
+
+                        // Add the array to the output data
+                        $outputData[] = $iterationData;
+                    }
+
+                }
+
+                $data['do_list'] = $outputData;
+                $data['do_option'] = $do_option;
+                $data['do_type'] = $do_type;
+
+                $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => $pref, 't_type' => 0);
+                ini_set('memory_limit', '64M');
+                if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+                    $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
+                } else {
+                    $html = $this->load->view('print_files/subdo-a4_v' . INVV, $data, true);
+                    //    $html=str_replace("strong","span",$html);
+                    //     $html=str_replace("<h","<span",$html);
+                }
+
+                // echo $html;
+                // exit;
+                //PDF Rendering
+                $this->load->library('pdf');
+                if (INVV == 1) {
+                    $header = $this->load->view('print_files/do-header_v' . INVV, $data, true);
+
+                    //  $header=str_replace("<h","<span",$header);
+                    $pdf = $this->pdf->load_split(array('margin_top' => 40));
+                    $pdf->SetHTMLHeader($header);
+                }
+                if (INVV == 2) {
+                    $pdf = $this->pdf->load_split(array('margin_top' => 5));
+                }
+                $pdf->SetHTMLFooter('<div style="text-align: right;font-family: serif; font-size: 8pt; color: #5C5C5C; font-style: italic;margin-top:-6pt;">{PAGENO}/{nbpg} #' . $data['invoice']['tid'] . '</div>');
+                $pdf->WriteHTML($html);
+                if ($this->input->get('d')) {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'D');
+                } else {
+                    $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'I');
+                }
+        }
+    }
+
+    }
 
     public function printquote()
     {
@@ -246,7 +759,7 @@ class Billing extends CI_Controller
         if (hash_equals($token, $validtoken)) {
             $this->load->model('quote_model', 'quote');
             $data['id'] = $tid;
-            $data['title'] = "Quote $tid";
+            $data['title'] = $this->lang->line('Quote').$tid;
             $data['invoice'] = $this->quote->quote_details($tid);
             $data['products'] = $this->quote->quote_products($tid);
             $data['employee'] = $this->quote->employee($data['invoice']['eid']);
@@ -254,20 +767,20 @@ class Billing extends CI_Controller
             $data['general'] = array('title' => $this->lang->line('Quote'), 'person' => $this->lang->line('Customer'), 'prefix' => prefix(1), 't_type' => 1);
             //commented by siva
             //$data['custom_modify'] = '1';
-           // $data['c_custom_fields'] = array();
+            // $data['c_custom_fields'] = array();
             if (CUSTOM) {
                 $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
-            }else{
+            } else {
                 $data['c_custom_fields'] = array();
             }
-            
+
             ini_set('memory_limit', '64M');
 
             if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
-			
+
                 $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
             } else {
-								
+
                 $html = $this->load->view('print_files/invoice-a4_v' . INVV, $data, true);
             }
 
@@ -292,12 +805,9 @@ class Billing extends CI_Controller
                 $pdf->Output('Quote_#' . $tid . '.pdf', 'I');
             }
 
-
         }
 
-
     }
-
 
     public function printorder()
     {
@@ -313,21 +823,20 @@ class Billing extends CI_Controller
             $this->load->model('purchase_model', 'purchase');
 
             $data['id'] = $tid;
-            $data['title'] = "Invoice $tid";
+            $data['title'] = $this->lang->line('Invoice') . $tid;
             $data['invoice'] = $this->purchase->purchase_details($tid);
             $data['products'] = $this->purchase->purchase_products($tid);
             $data['employee'] = $this->purchase->employee($data['invoice']['eid']);
             $data['round_off'] = $this->custom->api_config(4);
             $data['general'] = array('title' => $this->lang->line('Purchase Order'), 'person' => $this->lang->line('Supplier'), 'prefix' => prefix(2), 't_type' => 0);
             //$data['custom_modify'] = '1';
-            
+
             if (CUSTOM) {
                 $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
-            }else{
+            } else {
                 $data['c_custom_fields'] = array();
             }
 
-            
             ini_set('memory_limit', '64M');
             if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
                 $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
@@ -356,7 +865,6 @@ class Billing extends CI_Controller
                 $pdf->Output('Purchase_#' . $tid . '.pdf', 'I');
             }
 
-
         }
 
     }
@@ -372,7 +880,7 @@ class Billing extends CI_Controller
         if (hash_equals($token, $validtoken)) {
             $this->load->model('stockreturn_model', 'stockreturn');
             $data['id'] = $tid;
-            $data['title'] = "Invoice $tid";
+            $data['title'] = $this->lang->line('Invoice') . $tid;
             $data['invoice'] = $this->stockreturn->purchase_details($tid);
             $data['products'] = $this->stockreturn->purchase_products($tid);
             $data['employee'] = $this->stockreturn->employee($data['invoice']['eid']);
@@ -381,10 +889,9 @@ class Billing extends CI_Controller
 
             if (CUSTOM) {
                 $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
-            }else{
+            } else {
                 $data['c_custom_fields'] = array();
             }
-            
 
             if ($ty < 2) {
                 if ($data['invoice']['i_class'] == 1) {
@@ -395,7 +902,6 @@ class Billing extends CI_Controller
             } else {
                 $data['general'] = array('title' => $this->lang->line('Credit Note'), 'person' => $this->lang->line('Customer'), 'prefix' => prefix(4), 't_type' => 0);
             }
-
 
             ini_set('memory_limit', '64M');
             if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
@@ -423,7 +929,6 @@ class Billing extends CI_Controller
         }
     }
 
-
     public function card()
     {
         $this->load->library('session');
@@ -432,10 +937,10 @@ class Billing extends CI_Controller
             $response[] = $_REQUEST;
             if (isset($_REQUEST['Status'])) {
                 $data['response'] = $response;
-                if($_REQUEST['Status'] > 0){
+                if ($_REQUEST['Status'] > 0) {
                     $this->progress_invoice_ipay88();
-                }else{
-                    $htmlcode='<!DOCTYPE html><html lang="en">
+                } else {
+                    $htmlcode = '<!DOCTYPE html><html lang="en">
                     <head><meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>Payment - Error</title>
@@ -443,9 +948,9 @@ class Billing extends CI_Controller
                     </head><body>
                     <div class="card alert alert-danger" style="margin: 15px auto;max-width: 700px;">
                         <div class="card-body">
-                            <h4 class="card-title">Error - '.$_REQUEST['RefNo'].'</h4>
-                            <p class="card-text">'.$_REQUEST['ErrDesc'].'</p>
-                            <a class="card-link" href="'.substr_replace(base_url(), '', -1).'/crm/invoices">Back to Invoice</a>
+                            <h4 class="card-title">Error - ' . $_REQUEST['RefNo'] . '</h4>
+                            <p class="card-text">' . $_REQUEST['ErrDesc'] . '</p>
+                            <a class="card-link" href="' . substr_replace(base_url(), '', -1) . '/crm/invoices">Back to Invoice</a>
                         </div>
                     </div>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></body></html>';
@@ -457,12 +962,12 @@ class Billing extends CI_Controller
         }
 
         if (!$this->input->get()) {
-            $data['tid'] =  $this->session->has_userdata('tid');
-            $data['token'] =  $this->session->has_userdata('token');
-            $data['itype'] =  'inv';
-            $data['gid'] =  9;
+            $data['tid'] = $this->session->has_userdata('tid');
+            $data['token'] = $this->session->has_userdata('token');
+            $data['itype'] = 'inv';
+            $data['gid'] = 9;
             exit();
-        }else{
+        } else {
             $data['tid'] = $this->input->get('id');
             $this->session->set_userdata('tid', $this->input->get('id'));
             $data['token'] = $this->input->get('token');
@@ -482,14 +987,13 @@ class Billing extends CI_Controller
             exit();
         }
 
-
         if ($data['itype'] == 'inv') {
             $validtoken = hash_hmac('ripemd160', $data['tid'], $this->config->item('encryption_key'));
             if (hash_equals($data['token'], $validtoken)) {
                 $data['invoice'] = $this->invocies->invoice_details($data['tid'], '', false);
                 $data['company'] = location($data['invoice']['loc']);
-                $this->session->set_userdata('invoice', $data['invoice'] );
-                $this->session->set_userdata('company', $data['company'] );
+                $this->session->set_userdata('invoice', $data['invoice']);
+                $this->session->set_userdata('company', $data['company']);
             } else {
                 exit();
             }
@@ -522,17 +1026,17 @@ class Billing extends CI_Controller
             case 9:
                 $fname = 'ipay88';
                 break;
-            default :
+            default:
                 $fname = 'ipay88';
                 break;
         }
         $online_pay = $this->billing->online_pay_settings();
         $pay_settings = $this->billing->pay_settings();
 
-        $data['pay_setting']=$pay_settings;
+        $data['pay_setting'] = $pay_settings;
 
         $data['gateway'] = $this->billing->gateway($data['gid']);
-        $response=array();
+        $response = array();
 
         if ($online_pay['enable'] == 1) {
             $this->load->view('billing/header');
@@ -543,25 +1047,26 @@ class Billing extends CI_Controller
         }
     }
 
-    public function walletpay(){
-        $cid=$_POST['cid'];
-        $customer=$this->customers->mydetails($cid);
-        $id=$_POST['id'];
-        $tid=$_POST['tid'];
-        $amount=$_POST['amount'];
-        $pmethod=$_POST['pmethod'];
-        if($_POST['pmethod']=="Balance"){
-            $pmethod="Wallet";
+    public function walletpay()
+    {
+        $cid = $_POST['cid'];
+        $customer = $this->customers->mydetails($cid);
+        $id = $_POST['id'];
+        $tid = $_POST['tid'];
+        $amount = $_POST['amount'];
+        $pmethod = $_POST['pmethod'];
+        if ($_POST['pmethod'] == "Balance") {
+            $pmethod = "Wallet";
         }
-        $shortnote="";
-        if(isset($_POST['shortnote'])){
-            $shortnote=" customer note:".$_POST['shortnote'];
+        $shortnote = "";
+        if (isset($_POST['shortnote'])) {
+            $shortnote = " customer note:" . $_POST['shortnote'];
         }
-        $multi=$_POST['multi'];
-        $loc=$_POST['loc'];
-        $account=$customer['balance'];
-        if($account<$amount){
-            $htmlcode='<!DOCTYPE html><html lang="en">
+        $multi = $_POST['multi'];
+        $loc = $_POST['loc'];
+        $account = $customer['balance'];
+        if ($account < $amount) {
+            $htmlcode = '<!DOCTYPE html><html lang="en">
                     <head><meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>Payment - Error</title>
@@ -569,25 +1074,25 @@ class Billing extends CI_Controller
                     </head><body>
                     <div class="card alert alert-danger" style="margin: 15px auto;max-width: 700px;">
                         <div class="card-body">
-                            <h4 class="card-title">Error - '.$tid.'</h4>
+                            <h4 class="card-title">Error - ' . $tid . '</h4>
                             <p class="card-text">You Wallet Balence is low.</p>
-                            <a class="card-link" href="'.substr_replace(base_url(), '', -1).'/crm/invoices">Back to Invoice</a>
+                            <a class="card-link" href="' . substr_replace(base_url(), '', -1) . '/crm/invoices">Back to Invoice</a>
                         </div>
                     </div>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></body></html>';
 
             echo $htmlcode;
-        }else{
+        } else {
 
-            $note = $pmethod.' for invoice #' . $tid.", amount: ".$amount;
+            $note = $pmethod . ' for invoice #' . $tid . ", amount: " . $amount;
 
             $amount = number_format($amount, 2, '.', '');
 
-            $amount_o=$amount;
+            $amount_o = $amount;
             $amount_o = rev_amountExchange_s($amount_o, $multi, $loc);
 
-            if ($this->billing->paynow($id, $amount_o, $note." ".$shortnote, $pmethod, $customer['loc'])) {
-                $htmlcode='<!DOCTYPE html><html lang="en">
+            if ($this->billing->paynow($id, $amount_o, $note . " " . $shortnote, $pmethod, $customer['loc'])) {
+                $htmlcode = '<!DOCTYPE html><html lang="en">
                     <head><meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>Payment - Success</title>
@@ -595,9 +1100,9 @@ class Billing extends CI_Controller
                     </head><body>
                     <div class="card alert alert-success" style="margin: 15px auto;max-width: 700px;">
                         <div class="card-body">
-                            <h4 class="card-title">Payment For - '.$tid.'</h4>
-                            <p class="card-text"><h3>Thanks For The Payment</h3><br/>'.$note.'</p>
-                            <a class="card-link" href="'.substr_replace(base_url(), '', -1).'/crm/invoices">Back to Invoice</a>
+                            <h4 class="card-title">Payment For - ' . $tid . '</h4>
+                            <p class="card-text"><h3>Thanks For The Payment</h3><br/>' . $note . '</p>
+                            <a class="card-link" href="' . substr_replace(base_url(), '', -1) . '/crm/invoices">Back to Invoice</a>
                         </div>
                     </div>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></body></html>';
@@ -606,7 +1111,8 @@ class Billing extends CI_Controller
             }
         }
     }
-    public function progress_invoice_ipay88(){
+    public function progress_invoice_ipay88()
+    {
         $pmethod = 'Card';
         $pay = array(
             array("paymethod" => "Credit Card (MYR)", "payid" => "2"),
@@ -643,20 +1149,22 @@ class Billing extends CI_Controller
             array("paymethod" => "Credit Card (AUD)", "payid" => "39"),
             array("paymethod" => "Credit Card (MYR)", "payid" => "40"),
             array("paymethod" => "Credit Card (EUR)", "payid" => "41"),
-            array("paymethod" => "Credit Card (HKD)", "payid" => "42")
+            array("paymethod" => "Credit Card (HKD)", "payid" => "42"),
         );
         foreach ($pay as $value) {
-            if($value['payid']==$_REQUEST['PaymentId'])
-                $pmethod=$value['paymethod'];
+            if ($value['payid'] == $_REQUEST['PaymentId']) {
+                $pmethod = $value['paymethod'];
+            }
+
         }
         $pay_settings = $this->billing->pay_settings();
-        $test=$pay_settings['prefix'];
-        $tid=$_REQUEST['RefNo'];
-        if(!empty($test)){
-            $tid=substr($_REQUEST['RefNo'],strlen($test));
+        $test = $pay_settings['prefix'];
+        $tid = $_REQUEST['RefNo'];
+        if (!empty($test)) {
+            $tid = substr($_REQUEST['RefNo'], strlen($test));
         }
 
-        $hash= hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+        $hash = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
         $itype = 'inv';
         if ($itype == 'inv') {
             $customer = $this->invocies->invoice_table_details($tid, null, false);
@@ -664,14 +1172,14 @@ class Billing extends CI_Controller
                 exit();
             }
         }
-        $note = $pmethod.' for #' . $_REQUEST['RefNo']." by ipay88 transid:".$_REQUEST['TransId'];
+        $note = $pmethod . ' for #' . $_REQUEST['RefNo'] . " by ipay88 transid:" . $_REQUEST['TransId'];
         //$note = $pmethod.' for #' . $_REQUEST['RefNo']." by ipay88 transid:".$_REQUEST['TransId'].",  bankmid:".$_REQUEST['BankMID'].", bank name:".$_REQUEST['S_bankname'].", country:".$_REQUEST['S_country'];
         $amount = number_format($_REQUEST['Amount'], 2, '.', '');
-        $amount_o=$amount;
+        $amount_o = $amount;
         $amount_o = rev_amountExchange_s($amount_o, $customer['multi'], $customer['loc']);
 
         if ($this->billing->paynow($customer['id'], $amount_o, $note, $pmethod, $customer['loc'])) {
-            $htmlcode='<!DOCTYPE html><html lang="en">
+            $htmlcode = '<!DOCTYPE html><html lang="en">
                     <head><meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>Payment - Error</title>
@@ -682,13 +1190,13 @@ class Billing extends CI_Controller
                             <h4 class="card-title">Payment Successful</h4>
                             <div class="table-responsive mx-1 my-1">
                                 <table class="table">
-                                    <tr><td>Date</td><td>'.$_REQUEST['TranDate'].'</td></tr>
-                                    <tr><td>Invoice No</td><td>'.$_REQUEST['RefNo'].'</td></tr>
-                                    <tr><td>Transaction Id</td><td>'.$_REQUEST['TransId'].'</td></tr>
-                                    <tr><td>Amount</td><td>'.$_REQUEST['Amount'].'</td></tr>
+                                    <tr><td>Date</td><td>' . $_REQUEST['TranDate'] . '</td></tr>
+                                    <tr><td>Invoice No</td><td>' . $_REQUEST['RefNo'] . '</td></tr>
+                                    <tr><td>Transaction Id</td><td>' . $_REQUEST['TransId'] . '</td></tr>
+                                    <tr><td>Amount</td><td>' . $_REQUEST['Amount'] . '</td></tr>
                                 </table>
                             </div>
-                            <a class="card-link" href="'.substr_replace(base_url(), '', -1).'/crm/invoices">Back to Invoice</a>
+                            <a class="card-link" href="' . substr_replace(base_url(), '', -1) . '/crm/invoices">Back to Invoice</a>
                         </div>
                     </div>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></body></html>';
@@ -803,7 +1311,6 @@ class Billing extends CI_Controller
         }
     }
 
-
     private function stripe($token, $amount, $gateway_data, $tid, $customer, $currency = '', $token_id = '')
     {
         require_once APPPATH . 'third_party/stripe-php/vendor/autoload.php';
@@ -855,7 +1362,6 @@ class Billing extends CI_Controller
 
     }
 
-
     private function authorizenet($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer)
     {
         $gateway = Omnipay::create('AuthorizeNet_AIM');
@@ -864,7 +1370,7 @@ class Billing extends CI_Controller
         $gateway->setDeveloperMode($gateway_data['dev_mode']);
         $meta = array(
             'Name' => $customer['name'],
-            'email' => $customer['email']
+            'email' => $customer['email'],
         );
         try {
             return $gateway->purchase(
@@ -873,12 +1379,12 @@ class Billing extends CI_Controller
                         'number' => $cardNumber,
                         'expiryMonth' => $nmonth,
                         'expiryYear' => $nyear,
-                        'cvv' => $cardCVC
+                        'cvv' => $cardCVC,
                     ),
                     'amount' => $amount,
                     'currency' => $gateway_data['currency'],
                     'description' => 'Paid for ' . $customer['name'] . ' INV#' . $tid,
-                    'metadata' => $meta
+                    'metadata' => $meta,
 
                 )
             )->send();
@@ -886,7 +1392,6 @@ class Billing extends CI_Controller
             return 0;
         }
     }
-
 
     private function pinpay($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer)
     {
@@ -929,10 +1434,8 @@ class Billing extends CI_Controller
 
     }
 
-
     private function securepay($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data)
     {
-
 
         $gateway = \Omnipay\Omnipay::create('SecurePay_SecureXML');
         $gateway->setMerchantId($gateway_data['key1']);
@@ -963,7 +1466,6 @@ class Billing extends CI_Controller
     private function twocheckout($auth_token, $amount, $tid, $gateway_data, $customer)
     {
 
-
         $gateway = Omnipay::create('TwoCheckoutPlus_Token');
         $gateway->setAccountNumber($gateway_data['extra']);
         $gateway->setTestMode($gateway_data['dev_mode']);
@@ -980,7 +1482,6 @@ class Billing extends CI_Controller
             "phoneNumber" => $customer['phone'],
         );
 
-
         $purchase_request_data = array(
             'card' => $formData,
             'token' => $auth_token,
@@ -991,9 +1492,7 @@ class Billing extends CI_Controller
         );
         return $gateway->purchase($purchase_request_data)->send();
 
-
     }
-
 
     private function paypal($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer)
     {
@@ -1017,7 +1516,7 @@ class Billing extends CI_Controller
             'billingCountry' => $customer['country'],
             'billingCity' => $customer['city'],
             'billingPostcode' => $customer['postbox'],
-            'billingState' => $customer['region']
+            'billingState' => $customer['region'],
         ));
 
         try {
@@ -1045,11 +1544,10 @@ class Billing extends CI_Controller
 
     }
 
-
     public function recharge()
     {
-        if($this->session->userdata('user_details')){
-        $data['customers']=$this->customers->mydetails($this->session->userdata('user_details')[0]->cid);
+        if ($this->session->userdata('user_details')) {
+            $data['customers'] = $this->customers->mydetails($this->session->userdata('user_details')[0]->cid);
         }
         if (!$this->input->get()) {
             exit();
@@ -1058,7 +1556,7 @@ class Billing extends CI_Controller
         if ($online_pay['enable'] == 0) {
             exit();
         }
-        $data['pay_setting']=$this->billing->pay_settings();
+        $data['pay_setting'] = $this->billing->pay_settings();
         $data['id'] = base64_decode($this->input->get('id', true));
 
         $data['amount'] = $this->input->get('amount', true);
@@ -1093,7 +1591,7 @@ class Billing extends CI_Controller
             case 9:
                 $fname = 'ipay88';
                 break;
-            default :
+            default:
                 $fname = 'ipay88';
                 break;
         }
@@ -1108,13 +1606,14 @@ class Billing extends CI_Controller
         }
     }
 
-    public function recharge_response(){
+    public function recharge_response()
+    {
         $response = array();
         if (isset($_REQUEST)) {
             $response = $_REQUEST;
             if (isset($response['Status'])) {
                 $data['response'] = $response;
-                if($response['Status'] > 0){
+                if ($response['Status'] > 0) {
                     $pmethod = 'Card';
                     $pay = array(
                         array("paymethod" => "Credit Card (MYR)", "payid" => "2"),
@@ -1151,21 +1650,22 @@ class Billing extends CI_Controller
                         array("paymethod" => "Credit Card (AUD)", "payid" => "39"),
                         array("paymethod" => "Credit Card (MYR)", "payid" => "40"),
                         array("paymethod" => "Credit Card (EUR)", "payid" => "41"),
-                        array("paymethod" => "Credit Card (HKD)", "payid" => "42")
+                        array("paymethod" => "Credit Card (HKD)", "payid" => "42"),
                     );
                     foreach ($pay as $value) {
-                        if($value['payid']==$response['PaymentId'])
-                            $pmethod=$value['paymethod'];
+                        if ($value['payid'] == $response['PaymentId']) {
+                            $pmethod = $value['paymethod'];
+                        }
+
                     }
-                $string=$response['RefNo'];
-                $amount=$response['Amount'];
-                $tid=substr($string, 0, -12) ;
-                $transid=$response['TransId'];
-                $transdate='';
-                if(isset($response['TranDate']))
-                {$transdate=$response['TranDate'];}
-                if ($this->billing->recharge_complete($tid, $amount)) {
-                    $htmlcode='<!DOCTYPE html><html lang="en">
+                    $string = $response['RefNo'];
+                    $amount = $response['Amount'];
+                    $tid = substr($string, 0, -12);
+                    $transid = $response['TransId'];
+                    $transdate = '';
+                    if (isset($response['TranDate'])) {$transdate = $response['TranDate'];}
+                    if ($this->billing->recharge_complete($tid, $amount)) {
+                        $htmlcode = '<!DOCTYPE html><html lang="en">
                     <head><meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>Payment - Successful</title>
@@ -1176,50 +1676,50 @@ class Billing extends CI_Controller
                             <h4 class="card-title">Payment Successful</h4>
                             <div class="table-responsive mx-1 my-1">
                                 <table class="table">
-                                    <tr><td>Date</td><td>'.$transdate.'</td></tr>
-                                    <tr><td>Invoice No</td><td>'.$response['RefNo'].'</td></tr>
-                                    <tr><td>Transaction Id</td><td>'.$response['TransId'].'</td></tr>
-                                    <tr><td>Amount</td><td>'.$amount.'</td></tr>
+                                    <tr><td>Date</td><td>' . $transdate . '</td></tr>
+                                    <tr><td>Invoice No</td><td>' . $response['RefNo'] . '</td></tr>
+                                    <tr><td>Transaction Id</td><td>' . $response['TransId'] . '</td></tr>
+                                    <tr><td>Amount</td><td>' . $amount . '</td></tr>
                                 </table>
                             </div>
-                            <a class="card-link" href="'.substr_replace(base_url(), '', -1).'/crm/payments/recharge">Back to Recharge Page</a>
+                            <a class="card-link" href="' . substr_replace(base_url(), '', -1) . '/crm/payments/recharge">Back to Recharge Page</a>
                         </div>
                     </div>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></body></html>';
-                echo $htmlcode;
-                $customer=$this->customers->mydetails($tid);
-                $mailtoc=$this->adminemail->get_email_id();
-                $email = $customer['email'];
-                $name = $customer['name'];
-                $mailtotilte = "Jsuite Cloud";
-                $cid = $tid;
-                $message="Hi ".$name.",<br><br>Your recharge wallet account is successful.
+                        echo $htmlcode;
+                        $customer = $this->customers->mydetails($tid);
+                        $mailtoc = $this->adminemail->get_email_id();
+                        $email = $customer['email'];
+                        $name = $customer['name'];
+                        $mailtotilte = "Jsuite Cloud";
+                        $cid = $tid;
+                        $message = "Hi " . $name . ",<br><br>Your recharge wallet account is successful.
                 <br> Details are:->
                 <table border='0px'>
-                <tr><td>transaction id:</td><td>".$transid."</td></tr>
-                <tr><td>ref no:</td><td>".$string."</td></tr>
-                <tr><td>customer name:</td><td>".$name."</td></tr>
-                <tr><td>amount:</td><td>".$amount."</td></tr>
-                <tr><td>method:</td><td>".$pmethod."</td></tr>
-                <tr><td>email:</td><td>".$email."</td></tr>
+                <tr><td>transaction id:</td><td>" . $transid . "</td></tr>
+                <tr><td>ref no:</td><td>" . $string . "</td></tr>
+                <tr><td>customer name:</td><td>" . $name . "</td></tr>
+                <tr><td>amount:</td><td>" . $amount . "</td></tr>
+                <tr><td>method:</td><td>" . $pmethod . "</td></tr>
+                <tr><td>email:</td><td>" . $email . "</td></tr>
                 </table>";
 
-                $subject="wallet recharged by Customer:".$name." id:".$cid;
-                $attachmenttrue = false;
-                $attachment = '';
-                ob_start();
-                $status= $this->communication_model->send_email($mailtoc, $mailtotilte, $subject, $message, $attachmenttrue, $attachment);
-                $status= $this->communication_model->send_email($email, $name, $subject, $message, $attachmenttrue, $attachment);
-                ob_end_clean();
+                        $subject = "wallet recharged by Customer:" . $name . " id:" . $cid;
+                        $attachmenttrue = false;
+                        $attachment = '';
+                        ob_start();
+                        $status = $this->communication_model->send_email($mailtoc, $mailtotilte, $subject, $message, $attachmenttrue, $attachment);
+                        $status = $this->communication_model->send_email($email, $name, $subject, $message, $attachmenttrue, $attachment);
+                        ob_end_clean();
 
-                    if(isset($_REQUEST)){
-                        unset($_REQUEST);
+                        if (isset($_REQUEST)) {
+                            unset($_REQUEST);
+                        }
+                        exit;
+
                     }
-                exit;
-
-            }
-                }else{
-                    $htmlcode='<!DOCTYPE html><html lang="en">
+                } else {
+                    $htmlcode = '<!DOCTYPE html><html lang="en">
                     <head><meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>Payment - Error</title>
@@ -1227,22 +1727,22 @@ class Billing extends CI_Controller
                     </head><body>
                     <div class="card alert alert-danger" style="margin: 15px auto;max-width: 700px;">
                         <div class="card-body">
-                            <h4 class="card-title">Error - '.$response['RefNo'].'</h4>
-                            <p class="card-text">'.$response['ErrDesc'].'</p>
-                            <a class="card-link" href="'.substr_replace(base_url(), '', -1).'/crm/payments/recharge">Back to Recharge Page</a>
+                            <h4 class="card-title">Error - ' . $response['RefNo'] . '</h4>
+                            <p class="card-text">' . $response['ErrDesc'] . '</p>
+                            <a class="card-link" href="' . substr_replace(base_url(), '', -1) . '/crm/payments/recharge">Back to Recharge Page</a>
                         </div>
                     </div>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></body></html>';
 
                     echo $htmlcode;
-                    if(isset($_REQUEST)){
+                    if (isset($_REQUEST)) {
                         unset($_REQUEST);
                     }
                     exit;
                 }
             }
         }
-        if(isset($_REQUEST)){
+        if (isset($_REQUEST)) {
             unset($_REQUEST);
         }
         exit;
@@ -1251,96 +1751,93 @@ class Billing extends CI_Controller
     public function process_recharge()
     {
         /*
-        if (!$this->input->post()) {
-            exit();
-        }
+    if (!$this->input->post()) {
+    exit();
+    }
 
-        $tid = $this->input->post('id', true);
-        $amount = number_format($this->input->post('amount', true), 2, '.', '');
-        $gateway = $this->input->post('gateway', true);
-        $cardNumber = $this->input->post('cardNumber', true);
-        $cardExpiry = $this->input->post('cardExpiry', true);
-        $cardCVC = $this->input->post('cardCVC', true);
+    $tid = $this->input->post('id', true);
+    $amount = number_format($this->input->post('amount', true), 2, '.', '');
+    $gateway = $this->input->post('gateway', true);
+    $cardNumber = $this->input->post('cardNumber', true);
+    $cardExpiry = $this->input->post('cardExpiry', true);
+    $cardCVC = $this->input->post('cardCVC', true);
 
-        $nmonth = substr($cardExpiry, 0, 2);
-        $nyear = '20' . substr($cardExpiry, 5, 2);
+    $nmonth = substr($cardExpiry, 0, 2);
+    $nyear = '20' . substr($cardExpiry, 5, 2);
 
+    $pmethod = 'Card';
 
-        $pmethod = 'Card';
+    $amount_o = $amount;
 
-        $amount_o = $amount;
+    $gateway_data = $this->billing->gateway($gateway);
+    $surcharge = ($amount * $gateway_data['surcharge']) / 100;
+    $amount_t = $amount + $surcharge;
+    $this->load->model('customers_model', 'customers');
+    $customer = $this->customers->details($tid, false);
+    $note = 'Recharge Card Payment for Customer' . $customer['email'];
 
-        $gateway_data = $this->billing->gateway($gateway);
-        $surcharge = ($amount * $gateway_data['surcharge']) / 100;
-        $amount_t = $amount + $surcharge;
-        $this->load->model('customers_model', 'customers');
-        $customer = $this->customers->details($tid, false);
-        $note = 'Recharge Card Payment for Customer' . $customer['email'];
+    $amount = number_format($amount_t, 2, '.', '');
 
+    switch ($gateway) {
 
-        $amount = number_format($amount_t, 2, '.', '');
+    case 1:
+    //       $response = $this->stripe($this->input->post('stripeToken', true), $amount, $gateway_data, $tid, $customer);
 
+    $response = $this->stripe($this->input->post('paymentMethodId', true), number_format($amount, 0, '', ''), $gateway_data, $tid, $customer, '', $this->input->post('paymentIntentId', true));
 
-        switch ($gateway) {
+    break;
+    case 2:
+    $response = $this->authorizenet($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer);
+    break;
+    case 3:
+    $response = $this->pinpay($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer);
+    break;
+    case 4:
+    $response = $this->paypal($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer);
+    break;
+    case 5:
+    $response = $this->securepay($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data);
+    break;
+    case 6:
+    $response = $this->twocheckout($this->input->post('auth_token', true), $amount, $tid, $gateway_data, $customer);
+    break;
 
-            case 1:
-                //       $response = $this->stripe($this->input->post('stripeToken', true), $amount, $gateway_data, $tid, $customer);
+    }
 
-                $response = $this->stripe($this->input->post('paymentMethodId', true), number_format($amount, 0, '', ''), $gateway_data, $tid, $customer, '', $this->input->post('paymentIntentId', true));
+    // Process response
+    if ($gateway > 1) {
+    if ($response->isSuccessful()) {
 
-                break;
-            case 2:
-                $response = $this->authorizenet($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer);
-                break;
-            case 3:
-                $response = $this->pinpay($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer);
-                break;
-            case 4:
-                $response = $this->paypal($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data, $customer);
-                break;
-            case 5:
-                $response = $this->securepay($cardNumber, $nmonth, $nyear, $cardCVC, $amount, $tid, $gateway_data);
-                break;
-            case 6:
-                $response = $this->twocheckout($this->input->post('auth_token', true), $amount, $tid, $gateway_data, $customer);
-                break;
+    if ($this->billing->recharge_done($tid, $amount_o)) {
+    header('Content-Type: application/json');
+    echo json_encode(array('status' => 'Success', 'message' =>
+    $this->lang->line('Thank you for the payment') . " <a href='" . base_url('crm/payments/recharge') . "' class='btn btn-info btn-lg'><span class='icon-file-text2' aria-hidden='true'></span> " . $this->lang->line('View') . "</a>"));
+    }
 
-        }
+    } elseif ($response->isRedirect()) {
 
-        // Process response
-        if ($gateway > 1) {
-            if ($response->isSuccessful()) {
+    // Redirect to offsite payment gateway
+    $response->redirect();
 
-                if ($this->billing->recharge_done($tid, $amount_o)) {
-                    header('Content-Type: application/json');
-                    echo json_encode(array('status' => 'Success', 'message' =>
-                        $this->lang->line('Thank you for the payment') . " <a href='" . base_url('crm/payments/recharge') . "' class='btn btn-info btn-lg'><span class='icon-file-text2' aria-hidden='true'></span> " . $this->lang->line('View') . "</a>"));
-                }
+    } else {
 
-            } elseif ($response->isRedirect()) {
+    // Payment failed
+    echo json_encode(array('status' => 'Error', 'message' =>
+    $this->lang->line('Payment failed')));
+    }
+    } elseif ($gateway == 1 and @$response['status'] == 'succeeded') {
+    $amount_o = $amount_o / 100;
+    if ($this->billing->recharge_done($tid, $amount_o)) {
+    header('Content-Type: application/json');
+    echo json_encode(array('status' => 'Success', 'message' =>
+    $this->lang->line('Thank you for the payment') . " <a href='" . base_url('crm/payments/recharge') . "' class='btn btn-info btn-lg'><span class='icon-file-text2' aria-hidden='true'></span> " . $this->lang->line('View') . "</a>"));
+    }
+    } elseif ($gateway == 1 and @$response['status'] == 'error') {
+    header('Content-Type: application/json');
+    echo json_encode(array('error' => $response['message']));
+    }
 
-                // Redirect to offsite payment gateway
-                $response->redirect();
-
-            } else {
-
-                // Payment failed
-                echo json_encode(array('status' => 'Error', 'message' =>
-                    $this->lang->line('Payment failed')));
-            }
-        } elseif ($gateway == 1 and @$response['status'] == 'succeeded') {
-            $amount_o = $amount_o / 100;
-            if ($this->billing->recharge_done($tid, $amount_o)) {
-                header('Content-Type: application/json');
-                echo json_encode(array('status' => 'Success', 'message' =>
-                    $this->lang->line('Thank you for the payment') . " <a href='" . base_url('crm/payments/recharge') . "' class='btn btn-info btn-lg'><span class='icon-file-text2' aria-hidden='true'></span> " . $this->lang->line('View') . "</a>"));
-            }
-        } elseif ($gateway == 1 and @$response['status'] == 'error') {
-            header('Content-Type: application/json');
-            echo json_encode(array('error' => $response['message']));
-        }
-
-*/
+     */
     }
 
     public function secureprocess()
@@ -1371,7 +1868,7 @@ class Billing extends CI_Controller
             $hash = hash("sha512", $retHashSeq);
             if ($hash != $posted_hash) {
                 echo "Invalid Transaction. Please try again";
-            } elseif($status=='success') {
+            } elseif ($status == 'success') {
 
                 //tt
                 $tid = $this->input->get('inv', true);
@@ -1390,12 +1887,11 @@ class Billing extends CI_Controller
                     }
                 }
             } else {
-                   $tid = $this->input->get('inv', true);
-                   $validtoken = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+                $tid = $this->input->get('inv', true);
+                $validtoken = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
                 echo "Invalid Transaction. Please try again";
-                    redirect(base_url('billing/view?id=' . $tid . '&token=' . $validtoken));
+                redirect(base_url('billing/view?id=' . $tid . '&token=' . $validtoken));
             }
-
 
         } else {
             $data['gateway_data'] = $this->billing->gateway($gid);
@@ -1403,7 +1899,6 @@ class Billing extends CI_Controller
             $this->load->view('gateways/card_razor_verify', $data);
         }
     }
-
 
     public function gateway_process()
     {
@@ -1417,13 +1912,12 @@ class Billing extends CI_Controller
             'client_id' => $gateway_data['key1'],
             'client_secret' => $gateway_data['key2'],
             'return_url' => base_url('billing/gateway_response'),
-            'cancel_url' => base_url('billing/view?id=' . $invoice . '&token=' . $token)
+            'cancel_url' => base_url('billing/view?id=' . $invoice . '&token=' . $token),
         ];
 
         $this->load->library("Paypal_gateway", $paypalConfig);
 
         $apiContext = $this->paypal_gateway->getApiContext();
-
 
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
@@ -1486,7 +1980,6 @@ class Billing extends CI_Controller
             exit(1);
         }
 
-
     }
 
     public function gateway_response()
@@ -1500,7 +1993,7 @@ class Billing extends CI_Controller
             'client_id' => $gateway_data['key1'],
             'client_secret' => $gateway_data['key2'],
             'return_url' => base_url('billing/gateway_response'),
-            'cancel_url' => base_url('billing/view?id=105&token=ee2f511d44dd7f0212d46b92f2d6022754574bb3')
+            'cancel_url' => base_url('billing/view?id=105&token=ee2f511d44dd7f0212d46b92f2d6022754574bb3'),
         ];
         $this->load->library("Paypal_gateway", $paypalConfig);
         $apiContext = $this->paypal_gateway->getApiContext();
@@ -1517,7 +2010,7 @@ class Billing extends CI_Controller
                     'transaction_id' => $payment->getId(),
                     'payment_amount' => $payment->transactions[0]->amount->total,
                     'payment_status' => $payment->getState(),
-                    'invoice_id' => $payment->transactions[0]->invoice_number
+                    'invoice_id' => $payment->transactions[0]->invoice_number,
                 ];
                 $validtoken = hash_hmac('ripemd160', $data['invoice_id'], $this->config->item('encryption_key'));
                 $paypalConfig['bill_url'] = base_url('billing/view?id=' . $data['invoice_id'] . '&token=' . $validtoken);
@@ -1575,7 +2068,7 @@ class Billing extends CI_Controller
         echo json_encode(['publishableKey' => $data['gateway']['key2']]);
     }
 
-    function generateResponse($intent)
+    public function generateResponse($intent)
     {
         switch ($intent->status) {
             case "requires_action":
@@ -1584,13 +2077,13 @@ class Billing extends CI_Controller
                 return [
                     'requiresAction' => true,
                     'paymentIntentId' => $intent->id,
-                    'clientSecret' => $intent->client_secret
+                    'clientSecret' => $intent->client_secret,
                 ];
             case "requires_payment_method":
             case "requires_source":
                 // Card was not properly authenticated, suggest a new payment method
                 return [
-                    'error' => "Your card was denied, please provide a new payment method"
+                    'error' => "Your card was denied, please provide a new payment method",
                 ];
             case "succeeded":
                 // Payment is complete, authentication not required
@@ -1615,53 +2108,49 @@ class Billing extends CI_Controller
         // if($invoice_status == 'due')
         // {
 
-        if($type != 'canceled')
-        {
+        if ($type != 'canceled') {
             $email = 'sprasad96@gmail.com';
 
             $c_data = [
                 "emails" => [$email],
                 "eIdentifiers" => [["scheme" => "NL:KVK", "id" => "60881119"],
-                ["scheme" => "NL:VAT", "id" => "NL123456789B45"]],
+                    ["scheme" => "NL:VAT", "id" => "NL123456789B45"]],
             ];
 
-        }else if($type == 'reciever'){
+        } else if ($type == 'reciever') {
             $email = 'mr.s.sivaprasad@gmail.com';
             $c_data = [
                 "emails" => [$email],
                 "eIdentifiers" => [],
             ];
 
-        }else if($type == 'customer'){
+        } else if ($type == 'customer') {
             $email = $data['c_custom_fields']['email'];
             //$email = 'sivaprasadsunkara@live.com';
             $c_data = [
                 "emails" => [$email],
-                "eIdentifiers" => []
+                "eIdentifiers" => [],
             ];
 
         }
-        if(!empty($data['invoice']['postbox']) && mb_strlen($data['invoice']['postbox']) > 2)
-        {
+        if (!empty($data['invoice']['postbox']) && mb_strlen($data['invoice']['postbox']) > 2) {
             $postbox = $data['invoice']['postbox'];
-        }else{
-            $postbox = $data['invoice']['postbox']."...";
+        } else {
+            $postbox = $data['invoice']['postbox'] . "...";
         }
 
-        if(!empty($data['invoice']['address']) && mb_strlen($data['invoice']['address']) > 2)
-        {
+        if (!empty($data['invoice']['address']) && mb_strlen($data['invoice']['address']) > 2) {
             $address = $data['invoice']['address'];
-        }else{
-            $address = $data['invoice']['address']."...";
+        } else {
+            $address = $data['invoice']['address'] . "...";
         }
 
-        if(!empty($data['invoice']['city']) && mb_strlen($data['invoice']['city']) > 2)
-        {
+        if (!empty($data['invoice']['city']) && mb_strlen($data['invoice']['city']) > 2) {
             $city = $data['invoice']['city'];
-        }else{
-            $city = $data['invoice']['city']."...";
+        } else {
+            $city = $data['invoice']['city'] . "...";
         }
-        
+
         $arrayVar = [
             "legalEntityId" => 215184,
             "routing" => $c_data,
@@ -1720,28 +2209,28 @@ class Billing extends CI_Controller
             ],
         ];
 
-        $jsonArray = json_encode($arrayVar,TRUE);
+        $jsonArray = json_encode($arrayVar, true);
         // echo $jsonArray;
         // exit;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://api.storecove.com/api/v2/document_submissions',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST, false,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>$jsonArray,
-        CURLOPT_HTTPHEADER => array(
-            'Accept: application/json',
-            'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
-            'Content-Type: application/json'
-        ),
+            CURLOPT_URL => 'https://api.storecove.com/api/v2/document_submissions',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST, false,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $jsonArray,
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
+                'Content-Type: application/json',
+            ),
         ));
 
         $response = curl_exec($curl);
@@ -1753,8 +2242,7 @@ class Billing extends CI_Controller
         // exit;
         // print_r($errors);
         // exit;
-        if(empty($errors))
-        {
+        if (empty($errors)) {
 
             $response = json_decode($response, true);
             $guid = $response['guid'];
@@ -1788,27 +2276,27 @@ class Billing extends CI_Controller
             $ccc_url = "https://api.storecove.com/api/v2/document_submissions/325c39cc-197c-430e-98e0-f2ab7bd604ae/evidence";
             //$ccc1_url = '"https://api.storecove.com/api/v2/document_submissions/"'.$guid.'"/evidence"';
 
-        //    echo $ccc_url."<br>";
-        //    echo $ccc1_url;
-        //    exit;
+            //    echo $ccc_url."<br>";
+            //    echo $ccc1_url;
+            //    exit;
             //echo $ccc_url;
-            
+
             curl_setopt_array($curl, array(
-            CURLOPT_URL => $ccc_url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYPEER, false,
-            CURLOPT_SSL_VERIFYHOST, false,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json',
-                'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
-                'Content-Type: application/json'
-            ),
+                CURLOPT_URL => $ccc_url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_SSL_VERIFYPEER, false,
+                CURLOPT_SSL_VERIFYHOST, false,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'Accept: application/json',
+                    'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
+                    'Content-Type: application/json',
+                ),
             ));
 
             $response1 = curl_exec($curl);
@@ -1822,20 +2310,17 @@ class Billing extends CI_Controller
             // echo "<pre>"; echo $errors1; echo "</pre>";
 
             $response1 = json_decode($response1, true);
-          
-            
+
             //echo "<pre>"; print_r($response1); echo "</pre>";
             //exit;
-            
-            if(empty($errors1))
-            {            
-                
-                $documents =  $response1['documents'];
 
-                if(!empty($documents)){
-                    foreach($documents as $doc){
-                        if($doc['mime_type'] == 'application/xml')
-                        {
+            if (empty($errors1)) {
+
+                $documents = $response1['documents'];
+
+                if (!empty($documents)) {
+                    foreach ($documents as $doc) {
+                        if ($doc['mime_type'] == 'application/xml') {
                             $data1['document_url'] = $doc['document'];
                             $data1['document_expire_date'] = $doc['expires_at'];
                         }
@@ -1849,38 +2334,326 @@ class Billing extends CI_Controller
             $data1['invoice_id'] = $p_invoice_id;
             $data1['invoice_sent_date'] = $p_invoice_sent_date;
             $data1['invoice_json'] = $p_invoice_json;
-//exit;     
-            if($this->db->where('invoice_id',$p_invoice_id)->get('gtg_peppol_invoices')->num_rows() > 0)
-            {   
+//exit;
+            if ($this->db->where('invoice_id', $p_invoice_id)->get('gtg_peppol_invoices')->num_rows() > 0) {
                 // echo $this->db->last_query();
                 // exit;
-                if($this->db->where('invoice_id',$p_invoice_id)->update('gtg_peppol_invoices', $data1)){
-                
-                $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
-                }else{
+                if ($this->db->where('invoice_id', $p_invoice_id)->update('gtg_peppol_invoices', $data1)) {
+
+                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
+                } else {
 
                     $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
                 }
 
-            }else{
-                if($this->db->insert('gtg_peppol_invoices', $data1)){
-                
-                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
-                }else{
-    
-                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
-                }    
-            }
-            
+            } else {
+                if ($this->db->insert('gtg_peppol_invoices', $data1)) {
 
-        }else{
-            
+                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully');
+                } else {
+
+                    $this->session->set_flashdata('messagePr', 'Invoice Sent Successfully, But Storing Failed');
+                }
+            }
+
+        } else {
+
             $this->session->set_flashdata('messagePr', 'Invoice Sent Failed');
         }
-    // }else{
-    //         $this->session->set_flashdata('messagePr', 'Invoice Can\'t be Sent, Invoice status is '.$invoice_status);
-    // }
-        redirect(base_url() . 'invoices/view?id='.$tid, 'refresh');
+        // }else{
+        //         $this->session->set_flashdata('messagePr', 'Invoice Can\'t be Sent, Invoice status is '.$invoice_status);
+        // }
+        redirect(base_url() . 'invoices/view?id=' . $tid, 'refresh');
     }
+
+
+    
+    public function contract_share_view()
+    {
+       
+
+        $contract_id = $this->input->get('id');
+        $token = $this->input->get('token');
+        $validtoken = hash_hmac('ripemd160', $contract_id, $this->config->item('encryption_key'));
+        if (hash_equals($token, $validtoken)) {
+             // Load the contract details from the contract_model
+             $contract = $this->contract_model->get_contract_by_id($contract_id);
+             
+             $data['system_data'] = $this->db->get('gtg_system')->result_array();  
+             $data['contract_signings'] = $this->db->where('contract_id',$contract_id)->order_by('signed_date','DESC')->get('gtg_contract_signings')->result_array();        
+             $data['contract'] = $contract;
+
+            if ($contract) {
+                // Load the associated upload files from the uploads_model
+                $data['upload_files'] = $this->uploads_model->get_upload_files_by_contract_id($contract_id);
         
+                $head['usernm'] = '';
+                $head['title'] = 'Contract Sharing';
+                // $data = array();
+                $this->load->view('billing/header', $head);
+                $this->load->view('billing/contract_share_view', $data);
+                $this->load->view('billing/footer');
+
+
+            } else {
+                // Handle contract not found error
+                echo "Contract not found.";
+            }
+        }
+    }
+
+
+    public function digital_signature_share_view()
+    {
+       
+
+        $ds_id = $this->input->get('id');
+        $token = $this->input->get('token');
+        $validtoken = hash_hmac('ripemd160', $ds_id, $this->config->item('encryption_key'));
+        if (hash_equals($token, $validtoken)) {
+             // Load the contract details from the contract_model
+             $digital_signature = $this->digitalsignature_model->get_digital_signature_by_id($ds_id);
+             
+             $data['system_data'] = $this->db->get('gtg_system')->result_array();  
+             $data['ds_signings'] = $this->db->where('ds_id',$ds_id)->order_by('signed_date','DESC')->get('gtg_digital_signature_signings')->result_array();        
+             $data['digital_signatures'] = $digital_signature;
+
+            if ($digital_signature) {
+
+                $head['title'] = 'Digital Signing';
+                // $data = array();
+                $this->load->view('billing/header', $head);
+                $this->load->view('billing/digital_signature_share_view', $data);
+                $this->load->view('billing/footer');
+
+
+            } else {
+                // Handle contract not found error
+                echo "Digital Signature not found.";
+            }
+        }
+    }
+    
+    public function save_signing_details(){
+
+        $contract_id = $this->input->post('contract_id');
+
+        $contract = $this->contract_model->get_contract_by_id($contract_id);
+        $contract_docs =  $this->db->where('contract_id',$contract_id)->get('gtg_uploads')->result_array();
+       
+        // echo "<pre>"; print_r($contract_signings); echo "</pre>";
+        // exit;
+        if(!empty($this->input->post('contract_remarks')))
+        {
+            
+            $contract_remarks = $this->input->post('contract_remarks');
+            
+        }else{
+            
+            $contract_remarks = '';
+        }
+
+
+        $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+        $config['upload_path'] = './userfiles/contract_docs';
+
+        $file_name = explode('.',$_FILES['file']['name']);
+        $media_type = $file_name[1];
+        if(!empty($file_name))
+        {
+            
+            $config['file_name'] = preg_replace('/\s+/', '_', $file_name[0].strtotime("now").".".$file_name[1]);
+        }
+        
+
+        $this->load->library('upload', $config);
+
+        // Check if the file is uploaded successfully
+        if ($this->upload->do_upload('file')) {
+            $file_data = $this->upload->data();
+            
+            // Access other form data
+            $contract_id = $this->input->post('contract_id');
+            $contract_remarks = $this->input->post('contract_remarks');
+
+            $name = preg_replace('/\s+/', '_', $file_name[0].strtotime("now").".".$file_name[1]);
+            $file_path = base_url().'userfiles/contract_docs/'.$name;
+
+
+            $data = array(
+                'file_name' => $file_data['file_name'],
+                'file_type' => $file_data['file_type'],
+                'file_size' => $file_data['file_size'],
+                'file_path' => $file_path,
+                'upload_date' => date('Y-m-d H:i:s')
+            );
+
+           
+        } else {
+            // Handle upload errors
+           
+            $response['status'] = 500;
+            $response['message'] = "File Upload Error";
+                
+            echo json_encode($response);
+        }
+
+        $data['signed_date'] = date('Y-m-d h:i:s');
+        $data['contract_remarks'] = $contract_remarks;
+        $data['contract_id'] = $contract_id;       
+
+        // Send the email
+        if ($this->db->insert('gtg_contract_signings',$data)) {
+
+            $contract_signings_count =  $this->db->where('contract_id',$contract_id)->get('gtg_contract_signings')->num_rows();
+            $contract_signings = $this->db->where('contract_id',$contract_id)->order_by('signed_date','DESC')->get('gtg_contract_signings')->result_array();        
+
+            if($contract['sharing_count'] <= $contract_signings_count)
+            {
+                $c_data['status'] = 'COMPLETED';
+
+            }else{
+                
+                $c_data['status'] = 'INPROGRESS';
+            }
+            
+            if ($this->db->where('id',$contract_id)->update('gtg_contract',$c_data)) {
+
+
+                // saving document to client docs
+            if(!empty($contract['client_id']))
+            {
+                //if(!empty($contract_docs)){ foreach($contract_docs as $con_docs){ 
+
+                    $f_data['title'] = $contract['name'];
+                    $f_data['filename'] = $contract_signings[0]['file_path'];
+                    $f_data['cdate'] = date('d-m-Y',strtotime($contract['cr_date']));
+                    $f_data['cid'] = $contract['client_id'];
+                    $f_data['userid'] = 0;
+                    $f_data['rid'] = 1;
+                    $f_data['contract_id'] = $contract_id;
+
+                    $ff_data[] = $f_data;
+                //}}
+               
+                // echo "<pre>"; print_r($ff_data); echo "</pre>";
+                // exit;
+                $this->db->insert_batch('gtg_documents', $ff_data);
+            }
+    
+
+            
+                $response['status'] = 200;
+                $response['message'] = "Contract Signing Details Saved Successfully";
+                
+            } else {
+                
+                $response['status'] = 500;
+                $response['message'] = "Contract Signing Details Saving Failed";
+
+            }
+
+        } else {
+            
+                $response['status'] = 200;
+                $response['message'] = "Contract Signing Details Saving Failed";
+        }
+
+        echo json_encode($response);
+
+    }
+
+    public function save_ds_signing_details(){
+
+        $ds_id = $this->input->post('ds_id');
+
+        $digital_signature = $this->digitalsignature_model->get_digital_signature_by_id($ds_id);
+      
+
+        $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+        $config['upload_path'] = './userfiles/ds_docs';
+
+        $file_name = explode('.',$_FILES['pdfData']['name']);
+        $media_type = $file_name[1];
+        if(!empty($file_name))
+        {
+            
+            $config['file_name'] = preg_replace('/\s+/', '_', $file_name[0].strtotime("now").".".$file_name[1]);
+        }
+        
+
+        $this->load->library('upload', $config);
+
+        // Check if the file is uploaded successfully
+        if ($this->upload->do_upload('pdfData')) {
+            $file_data = $this->upload->data();
+            
+            // Access other form data
+            $ds_id = $this->input->post('ds_id');
+            $name = preg_replace('/\s+/', '_', $file_name[0].strtotime("now").".".$file_name[1]);
+            $file_path = base_url().'userfiles/ds_docs/'.$name;
+
+
+            $data = array(
+                'file_name' => $file_data['file_name'],
+                'file_type' => $file_data['file_type'],
+                'file_size' => $file_data['file_size'],
+                'file_path' => $file_path,
+                'upload_date' => date('Y-m-d H:i:s')
+            );
+
+           
+        } else {
+            // Handle upload errors
+            // $error_message = $this->upload->display_errors();
+            // echo "File Upload Error: " . $error_message;
+            $response['status'] = 500;
+            $response['message'] = "File Upload Error";
+                
+            echo json_encode($response);
+        }
+
+        $data['signed_date'] = date('Y-m-d h:i:s');
+        $data['ds_id'] = $ds_id;       
+
+        // Send the email
+        if ($this->db->insert('gtg_digital_signature_signings',$data)) {
+
+            //$ds_signings_count =  $this->db->where('ds_id',$ds_id)->get('gtg_digital_signature_signings')->num_rows();
+            $ds_signings = $this->db->where('ds_id',$ds_id)->order_by('signed_date','DESC')->get('gtg_digital_signature_signings')->result_array();        
+            $ds_signings_count = count($ds_signings);
+            if($digital_signature['sharing_count'] <= $ds_signings_count)
+            {
+                $c_data['status'] = 'COMPLETED';
+
+            }else{
+                
+                $c_data['status'] = 'INPROGRESS';
+            }
+            
+            if ($this->db->where('id',$ds_id)->update('gtg_digital_signatures',$c_data)) {
+
+
+                // saving document to client docs
+                $response['status'] = 200;
+                $response['message'] = "Digtial Signing Details Saved Successfully";
+                
+            } else {
+                
+                $response['status'] = 500;
+                $response['message'] = "Digtial Signing Details Saving Failed";
+
+            }
+
+        } else {
+            
+                $response['status'] = 200;
+                $response['message'] = "Digtial Signing Details Saving Failed";
+        }
+
+        echo json_encode($response);
+
+    }
+
+    
 }

@@ -190,7 +190,7 @@ if(isset($_SESSION['status'])){
 
                                         <label class="col-sm-2 col-form-label"
                                             for="name"><?php echo $this->lang->line('Recepients Lists'); ?></label>
-                                        
+
                                         <div class="col-sm-8">
                                             <select multiple class="form-control margin-bottom b_input required "
                                                 name="Recepients[]" id="recepients">
@@ -208,14 +208,15 @@ if(isset($_SESSION['status'])){
 
                                         <label class="col-sm-2 col-form-label"
                                             for="name"><?php echo $this->lang->line('Message Content'); ?></label>
-                                        
-                                        <div class="col-sm-8 " >
-                                        <label class="col-form-label"
-                                            for="name"><?php echo "Message Content Changes Not Allowed Once Campaign Created"; // $this->lang->line('Title') ?></label>
 
-                                        <div style="border:1px solid #ccd6e6; border-radius:4px;"><?php echo $campaign_details['htmlContent']; ?>  
-                                                </div>
-                                                                               </div>
+                                        <div class="col-sm-8 ">
+                                            <label class="col-form-label"
+                                                for="name"><?php $this->lang->line('Message Content Changes Not Allowed Once Campaign Created') ?></label>
+
+                                            <div style="border:1px solid #ccd6e6; border-radius:4px;">
+                                                <?php echo $campaign_details['htmlContent']; ?>
+                                            </div>
+                                        </div>
                                     </div>
 
 
@@ -228,7 +229,7 @@ if(isset($_SESSION['status'])){
                                         value="<?php echo $campaign_details['id']; ?>" id="campaign_id">
                                     <input type="button" id="update_product_btn"
                                         class="btn btn-lg btn btn-primary margin-bottom round float-xs-right mr-2"
-                                        value="<?php //echo $this->lang->line('Add customer') ?>Update Campaign"
+                                        value="<?php echo $this->lang->line('Update Campaign') ?>"
                                         data-loading-text="updating...">
                                 </div>
                             </div>
@@ -259,53 +260,54 @@ $(document).ready(function() {
         var campaign_id = $('#campaign_id').val();
         //var template = $('#template').val();
 
-           if(campaign_name!= '' && sender_name!= '' && schedule_date!= '' &&  receipents!= '' && campaign_tag!= '' && sender_email!= '' && email_preview_text!= '' && reply_to!= '' && subject!= '')
-           {
+        if (campaign_name != '' && sender_name != '' && schedule_date != '' && receipents != '' &&
+            campaign_tag != '' && sender_email != '' && email_preview_text != '' && reply_to != '' &&
+            subject != '') {
 
-        //     if(template != '' || message_content != '')
-        //     {
+            //     if(template != '' || message_content != '')
+            //     {
 
 
-        $.ajax({
+            $.ajax({
 
-            url: "<?php echo site_url('digitalmarketing/email_campaign_save') ?>",
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                campaign_name: campaign_name,
-                campaign_tag: campaign_tag,
-                sender_name: sender_name,
-                sender_email: sender_email,
-                email_preview_text: email_preview_text,
-                reply_to: reply_to,
-                subject: subject,
-                schedule_date: schedule_date,
-                //message_content: message_content,
-                receipents: receipents,
-                campaign_id: campaign_id,
-                //template: template
-            },
-            success: function(data) {
-                alert(data.message);
-                if(data.status == '200')
-                {
-                    setTimeout(function() {
-                    window.location.href = "<?php echo site_url('digitalmarketing/email_marketing_campaigns') ?>";
-                    }, 2000); // 5000 milliseconds (5 seconds)
+                url: "<?php echo site_url('digitalmarketing/email_campaign_save') ?>",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    campaign_name: campaign_name,
+                    campaign_tag: campaign_tag,
+                    sender_name: sender_name,
+                    sender_email: sender_email,
+                    email_preview_text: email_preview_text,
+                    reply_to: reply_to,
+                    subject: subject,
+                    schedule_date: schedule_date,
+                    //message_content: message_content,
+                    receipents: receipents,
+                    campaign_id: campaign_id,
+                    //template: template
+                },
+                success: function(data) {
+                    alert(data.message);
+                    if (data.status == '200') {
+                        setTimeout(function() {
+                            window.location.href =
+                                "<?php echo site_url('digitalmarketing/email_marketing_campaigns') ?>";
+                        }, 2000); // 5000 milliseconds (5 seconds)
+                    }
+                },
+                error: function(data) {
+                    //console.log(data);
+                    alert(data.message);
                 }
-            },
-            error: function(data) {
-                //console.log(data);
-                alert(data.message);
-            }
 
 
-        });
+            });
 
-        // }else{
-        //     alert('Please Select Message Content or Template');
-        // }
-        }else{
+            // }else{
+            //     alert('Please Select Message Content or Template');
+            // }
+        } else {
             alert('Please Enter All Fields');
         }
 

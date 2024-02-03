@@ -46,6 +46,22 @@ class Emailinvoice extends CI_Controller
                 $validtoken = hash_hmac('ripemd160', 's' . $id, $this->config->item('encryption_key'));
                 $link = base_url('billing/stockreturn?id=' . $id . '&token=' . $validtoken);
                 break;
+            case 'contract':
+                $this->load->model('contract_model', 'contract');
+                $invoice = $this->contract->get_contract_by_id($id);
+                // $validtoken = hash_hmac('ripemd160', 's' . $id, $this->config->item('encryption_key'));
+                $link = $invoice['share_link'];
+                $invoice['tid'] = $invoice['contract_unique_id'];
+                $invoice['name'] = ' ';
+                break;
+            case 'digital_signature':
+                $this->load->model('digitalsignature_model', 'digitalsignature_model');
+                $invoice = $this->digitalsignature_model->get_digital_signature_by_id($id);
+                // $validtoken = hash_hmac('ripemd160', 's' . $id, $this->config->item('encryption_key'));
+                $link = $invoice['share_link'];
+                $invoice['tid'] = $invoice['ds_unique_id'];
+                $invoice['name'] = ' ';
+                break;    
             default :
                 $this->load->model('invoices_model', 'invoices');
                 $invoice = $this->invoices->invoice_details($id);
@@ -81,8 +97,18 @@ class Emailinvoice extends CI_Controller
                 $template = $this->templates->template_info(13);
                 $invoice['multi'] = 0;
                 break;
+            case 'contract':
+                $template = $this->templates->template_info(71);
+                $invoice['multi'] = 0;
+                break;
+            case 'digital_signature':
+                $template = $this->templates->template_info(72);
+                $invoice['multi'] = 0;
+                break;    
         }
 
+        // echo "<pre>"; print_r($invoice); echo "</pre>";
+        // exit;
 
         $data = array(
             'Company' => $this->config->item('ctitle'),
@@ -99,8 +125,7 @@ class Emailinvoice extends CI_Controller
             'CompanyDetails' => '<h6><strong>' . $this->config->item('ctitle') . ',</strong></h6>
 <address>' . $this->config->item('address') . '<br>' . $this->config->item('address2') . '</address>
              ' . $this->lang->line('Phone') . ' : ' . $this->config->item('phone') . '<br>  ' . $this->lang->line('Email') . ' : ' . $this->config->item('email'),
-            'DueDate' => dateformat($invoice['invoiceduedate']),
-            'Amount' => amountExchange($invoice['total'], $invoice['multi'], $invoice['loc'])
+            
         );
         $message = $this->parser->parse_string($template['other'], $data, TRUE);
 

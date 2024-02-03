@@ -84,8 +84,7 @@ select#status,
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <p><?php echo $this->lang->line('delete this expense') ?>Are you sure you want to delete this
-                        Payslip?</p>
+                    <p><?php echo $this->lang->line('delete this expense') ?> <?php echo $this->lang->line('Are you sure you want to delete this Payslip?'); ?></p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="object-id" value="">
@@ -105,7 +104,7 @@ select#status,
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><?php echo $this->lang->line('Update Status') ?>no Update Status</h4>
+                    <h4 class="modal-title"><?php echo $this->lang->line('Update Status') ?><?php echo $this->lang->line('No Update Status') ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>

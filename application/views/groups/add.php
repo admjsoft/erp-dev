@@ -20,6 +20,13 @@
             </div>
             <div class="card-body">
 
+            <div class="row">
+                    
+                    <div class="col-12 text-right">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('clientgroup'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
 
                 <form method="post" id="data_form" class="form-horizontal">
 

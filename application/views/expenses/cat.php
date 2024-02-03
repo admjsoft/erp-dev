@@ -8,8 +8,7 @@
         <div class="card-body">
             <h5 class="title">
                 <?php echo $this->lang->line('Claims Categories') ?><a
-                        href="<?php echo base_url('expenses/createcat') ?>"
-                        class="btn btn-primary btn-sm rounded ml-2">
+                    href="<?php echo base_url('expenses/createcat') ?>" class="btn btn-primary btn-sm rounded ml-2">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h5>
@@ -17,13 +16,13 @@
             <p>&nbsp;</p>
             <table class="table display" cellspacing="0" width="100%">
                 <thead>
-                <tr>
-                    <th><?php echo $this->lang->line('Name') ?></th>
-                    <th><?php echo $this->lang->line('Action') ?></th>
-                </tr>
+                    <tr>
+                        <th><?php echo $this->lang->line('Name') ?></th>
+                        <th><?php echo $this->lang->line('Action') ?></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($catlist as $row) {
+                    <?php foreach ($catlist as $row) {
                     $cid = $row['id'];
                     echo "<tr><td>" . $row['name'] . "</td><td><a href='" . base_url("expenses/editcat?id=$cid") . "' class='btn btn-warning btn-xs'><i class='icon-pencil'></i> " . $this->lang->line('Edit') . "</a>&nbsp;<a href='#' data-object-id='" . $cid . "' class='btn btn-danger btn-xs delete-object' title='Delete'><i class='fa fa-trash'></i></a></td></tr>";
                 }
@@ -42,7 +41,7 @@
 
                 <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                        aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <p><?php echo $this->lang->line('delete this Expenses Category') ?></p>
@@ -51,9 +50,9 @@
                 <input type="hidden" id="object-id" value="">
                 <input type="hidden" id="action-url" value="expenses/delete_cat">
                 <button type="button" data-dismiss="modal" class="btn btn-primary"
-                        id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
+                    id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
                 <button type="button" data-dismiss="modal"
-                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                    class="btn"><?php echo $this->lang->line('Cancel') ?></button>
             </div>
         </div>
     </div>

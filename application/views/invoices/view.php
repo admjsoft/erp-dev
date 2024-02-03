@@ -40,10 +40,11 @@
                                 class="btn btn-warning mb-1">
                                 <i class="fa fa-pencil"></i> <?php echo $this->lang->line('Edit Invoice') ?>
                             </a>
+                            <?php /* ?>
                             <a href="#part_payment" data-toggle="modal" data-remote="false" data-type="reminder"
                                 class="btn btn-large btn-info mb-1" title="Partial Payment"><span
                                     class="fa fa-money"></span> <?php echo $this->lang->line('Make Payment') ?> </a>
-
+                            <?php */ ?>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-facebook dropdown-toggle mb-1"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -70,15 +71,15 @@
                                 </div>
 
                             </div>
-
+                           
                             <!-- SMS -->
                             <div class="btn-group">
-                                
+
                                 <button type="button" class="btn btn-blue dropdown-toggle mb-1" data-toggle="modal"
                                     aria-haspopup="true" aria-expanded="false" data-target="#exampleModal1">
                                     <span class="fa fa-mobile"></span> SMS
                                 </button>
-                                
+
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -155,6 +156,7 @@
                                     class="fa fa-minus-circle"> </i> <?php echo $this->lang->line('Cancel') ?>
                             </a>
 
+                            <?php /* if ($this->aauth->premission(9)) { ?>
                             <div class="btn-group ">
                                 <button type="button" class="btn btn-success mb-1 btn-min-width dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
@@ -170,12 +172,20 @@
                                         to mr.s.sprasad96@gmail.com</a>
                                     <div class="dropdown-divider"></div>
                                     <?php */ ?>
+                                    <?php /* ?>
                                     <a class="dropdown-item"
                                         href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=customer">Send
                                         to Peppol Customer EmailId ( <?php echo $invoice['email'] ?> )</a>
 
                                 </div>
                             </div>
+                            <?php } */ ?>
+                            <?php if($invoice['status'] == 'paid'){ ?>
+                            <a id="open_supplier_modal" href="#" inv_d_id="<?php echo $invoice['tid']; ?>" inv_id="<?php echo $invoice['iid']; ?>"
+                                class="btn btn-large btn-blue-grey mb-1" title="Convert to Purchase"><span
+                                    class="fa fa-share"></span> <?php echo $this->lang->line('Create Purchase Order') ?>
+                            </a>
+                            <?php } ?>
 
                             <?php /* temprary hide
                             <div class="btn-group ">
@@ -203,7 +213,13 @@
                             </div>
                         </div> */ ?>
 
-
+                        <?php if($invoice['status'] == 'paid'){ ?>
+                            <a href="<?php echo base_url('deliveryorder/create_invoice_delivery_order?id='.$invoice['iid']); ?>" class="btn btn-warning mb-1" ><i
+                                        class="fa fa-briefcase"> </i> <?php echo $this->lang->line('Generate DO') ?>
+                            </a>
+                            <?php } ?>
+                            
+                            
 
 
                     </div><?php if ($invoice['multi'] > 0) {
@@ -229,10 +245,13 @@
                     <h2><?php echo $this->lang->line('INVOICE') ?></h2>
                     <p class="pb-1"> <?php echo $this->config->item('prefix') . ' ' . $invoice['tid'] . '</p>
                             <p class="pb-1">' . $this->lang->line('Reference') . ':' . $invoice['refer'] . '</p>'; ?>
+
+                     <h2><?php echo $this->lang->line('Payment Status') ?> : <strong
+                                            id="pstatus"><?php echo $this->lang->line(ucwords($invoice['status'])) ?></strong></h2>        
+
                     <ul class="px-0 list-unstyled">
                         <li><?php echo $this->lang->line('Gross Amount') ?></li>
                         <li class="lead text-bold-800">
-                            <?php echo amountExchange($invoice['total'], 0, $this->aauth->get_user()->loc) ?></li>
                     </ul>
                 </div>
             </div>
@@ -400,10 +419,12 @@
 
                         <div class="row">
                             <div class="col-md-8">
-                                <p class="lead"><?php echo $this->lang->line('Payment Status') ?>:
+                            <?php /* ?>
+                            <p class="lead"><?php echo $this->lang->line('Payment Status') ?>:
                                     <u><strong
                                             id="pstatus"><?php echo $this->lang->line(ucwords($invoice['status'])) ?></strong></u>
                                 </p>
+                                <?php */ ?>
                                 <p class="lead"><?php echo $this->lang->line('Payment Method') ?>: <u><strong
                                             id="pmethod"><?php echo $this->lang->line($invoice['pmethod']) ?></strong></u>
                                 </p>
@@ -472,9 +493,9 @@
                             </table>
                         </div>
                         <div class="text-xs-center">
-                        <p><?php echo $this->lang->line('Authorized person') ?></p>                        
-                        <?php if(!empty($employee)){ ?>
-                            
+                            <p><?php echo $this->lang->line('Authorized person') ?></p>
+                            <?php if(!empty($employee)){ ?>
+
                             <?php /* echo '<img src="' . base_url('userfiles/employee_sign/' . $employee['sign']) . '" alt="signature" class="height-100"/>
                                     <h6>(' . $employee['name'] . ')</h6>
                                     <p class="text-muted">' . user_role($employee['roleid']) . '</p>'; */ ?>
@@ -484,9 +505,9 @@
                                     <p class="text-muted">' . (!empty($employee['roleid']) ? user_role($employee['roleid']) : '') . '</p>';
                                 ?>
 
-                        <?php }else{ ?>
+                            <?php }else{ ?>
                             <p>Not Available</p>
-                        <?php } ?>  
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -926,6 +947,63 @@ $(document).on('click', ".aj_delete", function(e) {
     </div>
 </div>
 
+<div id="pop_model3" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title"><?php echo $this->lang->line('Change Status') ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form id="form_model3">
+
+
+                    <div class="row">
+                        <div class="col mb-1"><?php echo $this->lang->line('Convert to Purchase') ?>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="frmSearch col-sm-12"><label for="cst"
+                                class="caption"><?php echo $this->lang->line('Search Supplier') ?> </label>
+                            <input type="text" class="form-control" name="cst" id="supplier-box"
+                                placeholder="Enter Supplier Name or Mobile Number to search" autocomplete="off" />
+
+                            <div id="supplier-box-result"></div>
+                        </div>
+
+                    </div>
+                    <div id="customer">
+                        <div class="clientinfo">
+                            <?php echo $this->lang->line('Supplier Details') ?>
+                            <hr>
+                            <input type="hidden" name="customer_id" id="customer_id" value="0">
+                            <div id="customer_name"></div>
+                        </div>
+                        <div class="clientinfo">
+
+                            <div id="customer_address1"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" class="form-control required" name="tid" id="invoiceid"
+                            value="<?php echo $invoice['iid'] ?>">
+                        <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                        <input type="hidden" id="action-url" value="invoices/convert_po">
+                        <button type="button" class="btn btn-primary"
+                            id="submit_model3"><?php echo $this->lang->line('Yes') ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id="pop_model" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -949,7 +1027,7 @@ $(document).on('click', ".aj_delete", function(e) {
                     action="<?php echo base_url("invoices/update_status") ?>">
                     <div class="row">
                         <div class="col mb-1"><label for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
-                            <select id="invoice_status_dd" name="status" class="form-control mb-1"
+                            <select id="invoice_status_dd" name="status" class="form-control "
                                 <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
                                 <?php /* ?>
                                 <option value="due" <?php if($invoice['status'] == 'due'){ echo "selected"; } ?>>
@@ -978,7 +1056,7 @@ $(document).on('click', ".aj_delete", function(e) {
                     <div class="row">
                         <div class="col mb-1"><label
                                 for="pmethod"><?php echo $this->lang->line('Payment Method') ?></label>
-                            <select name="pmethod" class="form-control mb-1"
+                            <select name="pmethod" class="form-control"
                                 <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
                                 <option value="Cash"><?php echo $this->lang->line('Cash') ?></option>
                                 <option value="Card"><?php echo $this->lang->line('Card') ?></option>
@@ -990,9 +1068,24 @@ $(document).on('click', ".aj_delete", function(e) {
                     </div>
 
                     <div class="row">
+                        <div class="col mb-1">
+                            <label for="account"><?php echo $this->lang->line('Account') ?></label>
+
+                            <select name="status_account" class="form-control">
+                                <?php foreach ($acclist as $a_row) {
+                                    echo '<option value="' . $a_row['id'] . '">' . $a_row['holder'] . ' / ' . $a_row['acn'] . '</option>';
+                                }
+                                ?>
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
                         <div class="col mb-1"><label
                                 for="pmethod"><?php echo $this->lang->line('Amount') ?></label></br>
-                            <input type="text" name="amount" id="amount" class="form-control"
+                            <input type="text" name="amount" id="amount" class="form-control" value="<?php echo ($invoice['total'] - $invoice['pamnt']); ?>"
                                 <?php if($invoice['status'] == 'paid'){ echo "readonly"; } ?>>
 
                         </div>
@@ -1073,9 +1166,37 @@ function checkConditionAndRedirect(status) {
         window.location.href = "<?php echo base_url('invoices/').'edit?id=' . $invoice['iid']; ?>";
     } else {
         // Condition failed, show an alert
-        alert("cannot edit inovice due to status is paid.");
+        //alert("cannot edit inovice due to status is paid.");
+        Swal.fire({
+            icon: "error",
+            title: "cannot edit inovice due to status is paid.",
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
 }
+
+
+$(document).on('click', "#open_supplier_modal", function (e) {
+
+    var invoice_id = $(this).attr('inv_id');
+    var invoice_d_id = $(this).attr('inv_d_id');
+    Swal.fire({
+        title: "Do you want to Purchase for this Invoice #"+invoice_d_id,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            window.location.href = '<?php echo base_url('purchase/create_from_invoice') ?>?id=' + invoice_id;
+        } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+        }
+    });
+});
+
+
+
 </script>
 
 

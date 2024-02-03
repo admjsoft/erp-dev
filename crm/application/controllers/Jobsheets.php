@@ -257,7 +257,7 @@ class Jobsheets extends CI_Controller
         }
         elseif($status==4){
 
-            $temp = "WorkInProgress";
+            $temp = "Work In Progress";
         }
 
         if(!empty($remarks))
@@ -349,7 +349,7 @@ class Jobsheets extends CI_Controller
                // $temp.="unassigned";
             }
             elseif($jobsheet->status==4){
-                $temp.='WorkInProgress';
+                $temp.='Work In Progress';
                    // $temp.="unassigned";
                 }
 

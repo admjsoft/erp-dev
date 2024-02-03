@@ -15,6 +15,9 @@ class Tools extends CI_Controller
 
         $this->load->model('tools_model', 'tools');
         $this->li_a = 'misc';
+        $c_module = 'project';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
 
     }
 
@@ -229,6 +232,9 @@ class Tools extends CI_Controller
 
     public function setgoals()
     {
+        $c_module = 'dashboard';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
         if ($this->aauth->get_user()->roleid < 5) {
 
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');

@@ -38,7 +38,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="submit">&nbsp;</label>
-                    <button class="btn btn-primary form-control" id="search">Search</button>
+                    <button class="btn btn-primary form-control" id="search"><?php echo $this->lang->line('Search'); ?></button>
                 </div>
             </div>
         </div>

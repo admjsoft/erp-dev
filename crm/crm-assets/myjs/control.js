@@ -33,7 +33,7 @@ function isNumber(evt) {
 
 $(document).ready(function () {
 
-    $("#customer-box").keyup(function () {
+    $("#").keyup(function () {
         $.ajax({
             type: "GET",
             url: baseurl + 'search_products/csearch',

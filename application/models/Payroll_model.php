@@ -83,7 +83,7 @@ class Payroll_model extends CI_Model
     public $rorder = array('gtg_payslip.id' => 'desc');
     private function _get_datatables_query_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb)
     {
-        $conditions = "staffName" . $salary . $allowance . $commissions . $claims . $bonus . $ot . $epf . $socso . $pcb . "," . "netPay";
+        $conditions = "staffName" . $salary . $allowance . $commissions . $claims . $bonus . $ot . $epf . $socso . $pcb . "," . "netPay,year,monthText";
         $this->db->select($conditions);
         $this->db->from('gtg_payslip');
 
@@ -301,9 +301,9 @@ class Payroll_model extends CI_Model
         return $query->result();
     }
 
-    public function paymentVoucherDesign($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy)
+    public function paymentVoucherDesign($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy, $logged_in_user,$logged_in_user_sign)
     {
-        $checkIcon = '<img src="../userfiles/theme/check.png">';
+        $checkIcon = '<img src="../userfiles/theme/check.png" style="height:15px !important; width:20px; !important">';
         if ($methodOfPayment == 0) {
             //  $tickCash = "&#10004;";
             $tickCash = $checkIcon;
@@ -328,7 +328,7 @@ class Payroll_model extends CI_Model
         $heroFont = "font-size:30";
         $mainFont = "font-size:14";
         $content = "
-  <div style='border: 2px solid black;width:100%;height:396px;padding:5px'>
+  <div style='border: 2px solid black;width:100%;height:396px;padding:5px; margin-top:5px;'>
   <table style='width:100%;'>
     <tr>
       <td style='text-align:center;" . $heroFont . ";'>
@@ -362,13 +362,13 @@ class Payroll_model extends CI_Model
   </table>
   <table style='width:100%;border-top:1px solid black;border-right:1px solid black;border-collapse: collapse;'>
     <tr>
-      <td style='width:50%;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
+      <td style='width:33%; height:50px;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
         Cash: " . $tickCash . "
       </td>
-      <td style='width:50%;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
+      <td style='width:33%; height:50px;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
         Cheque: " . $tickCheck . "
       </td>
-      <td style='width:34%;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
+      <td style='width:33%;height:50px;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
         Fund Transfer: " . $tickFund . "
       </td>
     </tr>
@@ -406,7 +406,8 @@ class Payroll_model extends CI_Model
         Paid By:<br>&nbsp;&nbsp;&nbsp;&nbsp;" . $paidBy . "<br><img style='height:60px;max-width:100pt'  src='" . $orgLogoSrc . "' alt='logo' /><br><br><br>
       </td>
       <td style='width:33.33%;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
-        Signature<br><br><br><br>
+        Signature<br>&nbsp;&nbsp;&nbsp;&nbsp;" . $logged_in_user . "<br><img style='height:60px;max-width:100pt'  src='" . $logged_in_user_sign . "' alt='logo' /><br><br><br>
+        
       </td>
     </tr>
   </table>
@@ -416,7 +417,7 @@ class Payroll_model extends CI_Model
 
     }
 
-    public function buildpaymentVoucher($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy)
+    public function buildpaymentVoucher($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy, $logged_in_user,$logged_in_user_sign)
     {
 
         $paymentVoucherDirectory = "./paymentVoucher";
@@ -428,19 +429,19 @@ class Payroll_model extends CI_Model
 
         $paymentVoucherName = "P" . rand(1000000, 9999999) . ".pdf";
         $refNo = substr($paymentVoucherName, 0, (strrpos($paymentVoucherName, ".")));
-        $paymentVoucherPDF = $this->generatePaymentVoucherPDF($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy);
+        $paymentVoucherPDF = $this->generatePaymentVoucherPDF($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy, $logged_in_user,$logged_in_user_sign);
         $paymentVoucherPDF->output($paymentVoucherDirectory . "/" . $paymentVoucherName, 'F');
 
         return $paymentVoucherName;
 
     }
 
-    public function generatePaymentVoucherPDF($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy)
+    public function generatePaymentVoucherPDF($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy,$logged_in_user,$logged_in_user_sign)
     {
 
         $this->load->library('pdf');
 
-        $content = $this->paymentVoucherDesign($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy);
+        $content = $this->paymentVoucherDesign($refNo, $amount, $date, $methodOfPayment, $to, $theSumOf, $being, $payee, $approvedBy, $paidBy, $logged_in_user,$logged_in_user_sign);
         $pdf = $this->pdf->load();
         //generate the PDF!
         $pdf->WriteHTML($content, 2);
@@ -963,4 +964,386 @@ class Payroll_model extends CI_Model
         return array('status' => 'Success', 'message' => $this->lang->line('DELETED'));
     }
 
+
+    public function generatePayslipPDFNew($n_data)
+    {
+        $this->load->library('pdf');
+
+        $htmlStart = "<html>";
+
+        //$headStart = "<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">";
+        //<link href='https://".$_SERVER['HTTP_HOST'].$config['appRoot']."/adminTheme/custom-css/custom-css.css' rel='stylesheet'>
+        $style = "
+    <style>
+    @page { size: landscape; }
+      p{
+          font-size:11px;
+      }
+      h3{
+          font-size:19px;
+      }
+      h2{
+          font-size:19px;
+      }
+      .row{
+          border:1px solid black;
+          border-bottom:0px;
+      }
+      .col{
+          text-align:center;
+      }
+    </style>";
+
+        //$headEnd = "</head>";
+        $bodyStart = "<body>";
+        $bodyEnd = "</body>";
+        $htmlEnd = "</html>";
+
+        $monthText = $n_data['monthText'];
+        $staffName = $n_data['staffName'];
+        $employeeId = $n_data['staffId'];
+        $designation = $n_data['designation'];
+        $department = $n_data['department'];
+        $salaryMonth = $n_data['salaryMonth'];
+        $epf = $n_data['epf'];
+        $socso = $n_data['socso'];
+        $socsoEmp = $n_data['socsoEmp'];
+
+        $pcb = $n_data['pcb'];
+        $year = $n_data['year'];
+        $totalDeduction = $n_data['totalDeduction'];
+        if (isset($n_data['staffloan']) && $n_data['staffloan'] == 1) {
+            $loadAmount = 0;
+            if (isset($n_data['loanAmount'])) {
+                $loadAmount = $n_data['loanAmount'];}
+            $emi = 0;
+            if (isset($n_data['emi'])) {
+                $emi = $n_data['emi'];}
+            $pending = 0;
+            if (isset($n_data['pending'])) {
+                $pending = $n_data['pending'];}
+
+            $date4 = date("Y-m-d");
+            if (isset($n_data['start_date'])) {
+                $date4 = $n_data['start_date'];}
+            $date2 = date("Y-m-d");
+            $ts1 = strtotime($date4);
+            $ts2 = strtotime($date2);
+
+            $year1 = date('Y', $ts1);
+            $year2 = date('Y', $ts2);
+
+            $month1 = date('m', $ts1);
+            $month2 = date('m', $ts2);
+
+            $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+            // $diffe=$loadAmount/$emi;
+            if ($diff > 0 && $pending >= 0) {
+                $condition = true;
+                //  $diffe-$diff;
+            }
+        }
+        $allowance = $n_data['allowance'];
+        $claims = $n_data['claims'];
+        $commissions = $n_data['commissions'];
+        $ot = $n_data['ot'];
+        $bonus = 0;
+        if (isset($n_data['bonus'])) {
+            $bonus = $n_data['bonus'];}
+        $deduction = 0;
+        if (isset($n_data['deduction'])) {
+            $deduction = $n_data['deduction'];}
+
+        $totalEarning = $n_data['totalEarning'];
+
+        $datePayment = $n_data['datePayment'];
+        $bankName = $n_data['bankName'];
+        $bankAcc = $n_data['bankAcc'];
+        $netPay = $n_data['netPay'];
+
+        $eis = $n_data['eis'];
+        $epfEmp = $n_data['epfEmp'];
+        $epfEmpyr = $n_data['epfEmpyr'];
+
+        $nasionalityCheck = $n_data['nasionalityCheck'];
+        $epfRight = $epfEmp;
+        $epfLeft = $epfEmpyr;
+        if ($nasionalityCheck == 2) {
+            $socso = "-";
+            $eis = "-";
+        }
+        $adisplay = "";
+        $ndisplay = "";
+        $edisplay = "";
+        $ddisplay = "";
+        //$adisplay.="<p style='text-align:right;'>&nbsp;</p>";
+        if ($deduction != 0) {
+            $ndisplay .= "<p>DEDUCTION</p>";
+            $adisplay .= "<p>-</p>";
+            $edisplay .= "<p>-</p>";
+            $ddisplay .= "<p>" . $this->pointNumber($deduction) . "</p>";
+        }
+        if ($allowance != 0) {
+            $ndisplay .= "<p>ALLOWANCE</p>";
+            $adisplay .= "<p>" . $this->pointNumber($allowance) . "</p>";
+            $edisplay .= "<p>-</p>";
+            $ddisplay .= "<p>-</p>";
+        }
+        if ($claims != 0) {
+            $ndisplay .= "<p>CLAIMS</p>";
+            $adisplay .= "<p>" . $this->pointNumber($claims) . "</p>";
+            $edisplay .= "<p>-</p>";
+            $ddisplay .= "<p>-</p>";
+
+        }
+        if ($commissions != 0) {
+            $ndisplay .= "<p>COMMISSIONS</p>";
+            $adisplay .= "<p>" . $this->pointNumber($commissions) . "</p>";
+            $edisplay .= "<p>-</p>";
+            $ddisplay .= "<p>-</p>";
+        }
+        if ($ot != 0) {
+            $ndisplay .= "<p>OT</p>";
+            $adisplay .= "<p>" . $this->pointNumber($ot) . "</p>";
+            $edisplay .= "<p>-</p>";
+            $ddisplay .= "<p>-</p>";
+        }
+        if ($bonus != 0) {
+            $ndisplay .= "<p>BONUS</p>";
+            $adisplay .= "<p>" . $this->pointNumber($bonus) . "</p>";
+            $edisplay .= "<p>-</p>";
+            $ddisplay .= "<p>-</p>";
+        }
+
+        $slip = "
+    <div style='border: 4px double black;width:100%;height:396px;padding:5px'>
+    <table style='border-collapse: collapse;width:100%'>
+        <!--<tr class='row'>
+            <td class='col' colspan='3' style='width:100%;'><img style='width:100%;' src='' ></td>
+        </tr> -->
+     <tr class='row'>
+            <td class='col' style='width:20%;'><img style='width:20%;' src='" . $n_data['logoimage'] . "' ></td>
+            <td class='col' style='width:50%;'><h3 style='margin-bottom:2px'>SALARY SLIP</h3><h7>" . $monthText . " " . $year . "</h7></td>
+            <td class='col' style='width:30%;border-left:1px solid black;'><h2>CONFIDENTIAL</h2></td>
+        </tr>
+    </table>
+    <table style='border-collapse: collapse;width:100%'>
+        <tr class='row'>
+            <td style='width:50%'>
+                <p>Name: " . $staffName . "</p>
+                <p>Employee ID: " . $employeeId . "</p>
+            </td>
+            <td style='width:50%;border-left:1px solid black;'>";
+        if (isset($department) && !empty($designation)) {
+            $slip .= "<p>Designation: " . $designation . "</p>";}
+        if (isset($department) && !empty($department)) {
+            $slip .= "<p>Department: " . $department . "</p>";}
+        $slip .= "<p>Salary Month: RM " . $this->pointNumber($totalEarning) . "</p>";
+        //$slip.="<p>Salary Month: ".$monthText." ".$year."</p>";
+        $slip .= "</td>
+        </tr>
+    </table>
+    <table style='border-collapse: collapse;width:100%'>
+        <tr class='row'>
+            <td style='color:white;background:#00B5B8;width:50%;border-left:1px solid black;text-align:center'><p><b>Description</b></p></td>
+            <td style='color:white;background:#00B5B8;width:25%;border-left:1px solid black;text-align:center'><p><b>Earnings</b></p></td>
+            <td style='color:white;background:#00B5B8;width:25%;border-left:1px solid black;text-align:center'><p><b>Deductions</b></p></td>
+        </tr>
+    </table>
+    <table style='border-collapse: collapse;width:100%'>
+        <tr class='row'>
+            <td style='width:50%;'>
+                <p>Basic Salary</p>
+                <p>EPF(%)</p>
+                <p>SOCSO</p>
+                <p>PCB</p>
+                <p>EIS</p>";
+        if ((isset($n_data['staffloan']) && ($n_data['staffloan'] == 1)) && (($condition == true) && ($emi != 0))) {
+            $slip .= '<p>EMI</p>';
+        }
+        $slip .= "" . $ndisplay . "
+            </td>
+            <td style='width:25%;border-left:1px solid black;text-align:right'> <p>RM " . $this->pointNumber($salaryMonth) . "</p>
+                <p>-</p>
+                <p>-</p>
+                <p>-</p>
+                <p>-</p>";
+        if ((isset($n_data['staffloan']) && ($n_data['staffloan'] == 1)) && (($condition == true) && ($emi != 0))) {
+            $slip .= '<p>-</p>';
+        }
+        $slip .= "" . $adisplay . "
+            </td>
+            <td style='width:13%;border-left:1px solid black;text-align:right;vertical-align: top;' > <p>Employer</p>
+                <p>" . $this->pointNumber($epfLeft) . "</p>
+                <p>" . $this->pointNumber($socso) . "</p>
+                <p>-</p>
+                <p>" . $this->pointNumber($eis) . "</p>";
+        if ((isset($n_data['staffloan']) && ($n_data['staffloan'] == 1)) && (($condition == true) && ($emi != 0))) {
+            $slip .= "<p>-</p>";
+        }
+        $slip .= $edisplay . "
+            </td>
+            <td style='width:12%;border-left:1px solid black;text-align:right;vertical-align: top;' ><p>Employee</p>
+                <p>" . $this->pointNumber($epfRight) . "</p>
+                <p>" . $this->pointNumber($socsoEmp) . "</p>
+                <p>" . $this->pointNumber($pcb) . "</p>
+                <p>" . $this->pointNumber($eis) . "</p>";
+        if ((isset($n_data['staffloan']) && ($n_data['staffloan'] == 1)) && (($condition == true) && ($emi != 0))) {
+            $slip .= "<p>" . $this->pointNumber($emi) . "</p>";
+        }
+        $slip .= $ddisplay . "
+            </td>
+        </tr>
+    </table>
+    <table style='border-collapse: collapse;width:100%'>
+        <tr class='row'>
+            <td style='width:50%;'>
+                <p>Total</p>
+            </td>
+            <td style='width:25%;border-left:1px solid black;text-align:right'> <p>RM " . $this->pointNumber($totalEarning) . "</p>
+            </td>
+            <td style='width:25%;border-left:1px solid black;text-align:right'> <p>RM " . $this->pointNumber($totalDeduction) . "</p>
+            </td>
+        </tr>
+    </table>
+    <table style='border-collapse: collapse;width:100%'>
+        <tr class='row' style='border-bottom:1px solid black'>
+            <td style='width:50%;'>
+                <p>Salary Slip Date: " . $datePayment . "</p>
+                <p>Bank Name: " . $bankName . "</p>
+                <p>Bank Account Name: " . $staffName . "</p>
+                <p>Bank Account: " . $bankAcc . "</p>
+            </td>
+            <td style='width:50%;border-left:1px solid black;padding:0px'>
+                <table style='border-collapse: collapse;width:100%'>
+                    <tr style='border-bottom:1px solid black'>
+                        <td style='background:#26C0C3;color:white;text-align:center;border-top:1px solid black;border-bottom:1px solid black;'><p>NET PAY</p></td>
+                    </tr>
+                    <tr style='background:#26C0C3;border-bottom:1px solid black'>
+                        <td style='text-align:center;border-bottom:1px solid black;color:#fff;'><p>RM " . $this->pointNumber($netPay) . "</p></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table style='border-collapse: collapse;width:100%'>
+        <tr>
+            <td style='width:100%;text-align:center'>
+                <p><b><i>This is a computer generated document</i></b></p>
+            </td>
+        </tr>
+    </table>
+    </div>
+    ";
+
+        //$payslip = $htmlStart;
+        //$payslip.= $headStart;
+        $payslip = $style;
+        //$payslip.=$headEnd;
+        //$payslip.=$bodyStart;
+        $payslip .= $slip;
+        //$payslip.=$bodyEnd;
+        //$payslip.=$htmlEnd;
+        //echo $payslip;
+
+        $pdf = $this->pdf->load();
+        //generate the PDF!
+        $pdf->WriteHTML($payslip);
+
+        //$html2pdf->output();
+
+        return $pdf;
+
+    }
+
+
+    public function get_payroll_export_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb, $datesearch, $year)
+    {
+
+        if (empty($year)) {
+            if (strpos($datesearch, '-')) {
+                $exp = explode("-", $datesearch);
+                $year = $exp[0];
+                $month = (int) $exp[1];
+            }
+
+        } else {
+            $year = $datesearch;
+            $month = '';
+        }
+        $this->opt = 'all';
+        $this->_get_payroll_export_query_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb);
+        if (empty($month)) {
+            $this->db->where('year', $year);
+        } else {
+            $this->db->where('year', $year);
+            $this->db->where('month', $month);
+        }
+
+        $length = 10;
+        $start = 0;
+        if ($staffid != 0) {
+            $this->db->where('staffId', $staffid);
+        }
+
+        if ($length != -1) {
+            $this->db->limit($length, $start);
+        }
+
+        $query = $this->db->get();
+        //print_r($this->db->last_query());
+        return $query->result_array();
+    }
+
+
+    private function _get_payroll_export_query_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb)
+    {
+        $conditions = "gtg_payslip.staffName" . $salary . $allowance . $commissions . $claims . $bonus . $ot . $epf . $socso . $pcb . "," . "gtg_payslip.netPay,gtg_payslip.year,gtg_payslip.monthText,gtg_payroll_settings.*,gtg_employees.employee_job_type,gtg_employees.join_date,gtg_employees.passport,gtg_employees.employee_type";
+        $this->db->select($conditions);
+        $this->db->join('gtg_payroll_settings', 'gtg_payslip.staffId=gtg_payroll_settings.staff_id', 'left');
+        $this->db->join('gtg_employees', 'gtg_payslip.staffId=gtg_employees.id', 'left');
+        $this->db->from('gtg_payslip');
+
+        if ($this->aauth->get_user()->loc) {
+            $this->db->where('loc', $this->aauth->get_user()->loc);
+        }
+
+        $i = 0;
+
+        foreach ($this->rcolumn_search as $item) // loop column
+        {
+            if (isset($this->input->post('search')['value'])) {
+                $searchvalue = $this->input->post('search')['value'];
+            } else {
+                $searchvalue = '';
+            }
+            if ($searchvalue) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+
+                if (count($this->rcolumn_search) - 1 == $i) //last loop
+                {
+                    $this->db->group_end();
+                }
+                //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->rcolumn_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->rorder)) {
+            $order = $this->rorder;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+    
 }

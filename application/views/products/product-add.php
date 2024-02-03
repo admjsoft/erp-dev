@@ -20,10 +20,25 @@
             <div class="message"></div>
         </div>
         <div class="card-body">
+                <div class="row">
+                    
+                    <div class="col-12 text-right">
+                        <!-- Small Button -->
+                        <a href="<?php echo base_url('products'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
+                    </div>
+                </div>
             <form method="post" id="data_form">
 
 
                 <input type="hidden" name="act" value="add_product">
+
+
+                <div class="form-group row">
+                    <div class="col-sm-6 offset-sm-6">
+                        <label class="col-form-label" for="product_code"><?php echo $this->lang->line('Batch No')." / ".$this->lang->line('Do No'); ?> *</label>
+                        <input type="text" placeholder="<?php echo $this->lang->line('Batch No')." / ".$this->lang->line('Do No'); ?>" class="form-control required" name="delivery_order_number">
+                    </div>
+                </div>
 
 
                 <div class="form-group row">
@@ -212,7 +227,7 @@
                     </div>
                     <div class="col-sm-4">
                         <input type="text" placeholder="BarCode" class="form-control margin-bottom" name="barcode">
-                        <small>Leave blank if you want auto generated in EAN13.</small>
+                        <small><?php echo $this->lang->line('Leave blank if you want auto generated in') ?> EAN13.</small>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -220,7 +235,7 @@
                     <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Description') ?></label>
 
                     <div class="col-sm-6">
-                        <textarea placeholder="Description" class="form-control margin-bottom"
+                        <textarea placeholder="<?php echo $this->lang->line('Description') ?>" class="form-control margin-bottom"
                             name="product_desc"></textarea>
                     </div>
                 </div>
@@ -228,13 +243,13 @@
 
                     <label class="col-sm-2 control-label"
                         for="edate"><?php echo $this->lang->line('Valid') . ' (' . $this->lang->line('To Date') ?>
-                        )</label>
+                        ) *</label>
 
                     <div class="col-sm-6">
-                        <input type="text" class="form-control required" placeholder="Expiry Date" name="wdate"
-                            data-toggle="datepicker" autocomplete="false">
+                        <input type="date" class="form-control required" placeholder="Expiry Date" name="wdate"
+                        <?php /* data-toggle="datepicker"    */ ?>>
                     </div>
-                    <small>Do not change if not applicable</small>
+                    <small><?php echo $this->lang->line('Do not change if not applicable'); ?></small>
                 </div>
                 <?php
                 foreach ($custom_fields as $row) {
@@ -271,7 +286,7 @@
                             <input id="fileupload" type="file" name="files[]">
                         </span>
                         <br>
-                        <pre>Allowed: gif, jpeg, png (Use light small weight images for fast loading - 200x200)</pre>
+                        <pre><?php echo $this->lang->line('Allowed')." : gif, jpeg, png (".$this->lang->line('Use light small weight images for fast loading')." - 200x200)"; ?></pre>
                         <br>
                         <!-- The global progress bar -->
 

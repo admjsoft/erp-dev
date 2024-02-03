@@ -2,7 +2,7 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Peppol Invoices<?php // echo $this->lang->line('Peppol Invoices') ?></h4>
+            <h4 class="card-title"><?php echo $this->lang->line('Peppol Invoices') ?></h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="col-md-1">
-                        <input type="button" name="search" id="search" value="Search" class="btn btn-info btn-sm"/>
+                        <input type="button" name="search" id="search" value="<?php echo $this->lang->line('Search') ?>" class="btn btn-info btn-sm"/>
                     </div>
 
                 </div>
@@ -41,9 +41,9 @@
                     <thead>
                     <tr>
                         <th><?php echo $this->lang->line('No') ?></th>
-                        <th> #</th>
+                        <th><?php echo $this->lang->line('Invoice') ?>#</th>
                         <th><?php echo $this->lang->line('Customer') ?></th>
-                        <th>Sent Date <?php // echo $this->lang->line('Date') ?></th>
+                        <th><?php echo $this->lang->line('Sent Date') ?></th>
                         <th><?php echo $this->lang->line('Amount') ?></th>
                         <th><?php echo $this->lang->line('Payment') ?></th>
                         <th><?php echo $this->lang->line('Status') ?></th>

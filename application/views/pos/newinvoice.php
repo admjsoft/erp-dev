@@ -21,8 +21,7 @@
                         <div class="clientinfo">
 
                             <input type="hidden" name="customer_id" id="customer_id" value="">
-                            <div id="customer_name"><?php echo $this->lang->line('Default'); ?>: <strong>Walk
-                                    In </strong></div>
+                            <div id="customer_name"><?php echo $this->lang->line('Default'); ?>: <strong><?php echo $this->lang->line('Walk In') ?> </strong></div>
                         </div>
 
 

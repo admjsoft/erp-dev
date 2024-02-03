@@ -20,7 +20,9 @@ class Events extends CI_Controller
         // }
         $this->load->model('events_model');
         $this->li_a = 'misc';
-
+        $c_module = 'misc';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
 

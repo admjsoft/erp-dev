@@ -14,7 +14,10 @@ class Stockreturn extends CI_Controller
         if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
-        $this->li_a = 'stock';
+        $this->li_a = 'supplier';
+        $c_module = 'supplier';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     //create invoice
@@ -100,7 +103,7 @@ class Stockreturn extends CI_Controller
         $data['terms'] = $this->stockreturn->billingterms();
         $data['invoice'] = $this->stockreturn->purchase_details($tid);
         $data['products'] = $this->stockreturn->purchase_products($tid);
-        $head['title'] = "Stock return Order " . $data['invoice']['iid'];
+        $head['title'] = $this->lang->line('Stock return Order') . $data['invoice']['iid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->stockreturn->warehouses();
         $this->load->library("Common");
@@ -122,7 +125,7 @@ class Stockreturn extends CI_Controller
         $data['terms'] = $this->stockreturn->billingterms();
         $data['invoice'] = $this->stockreturn->purchase_details($tid);
         $data['products'] = $this->stockreturn->purchase_products($tid);;
-        $head['title'] = "Stock return Order " . $data['invoice']['iid'];
+        $head['title'] = $this->lang->line('Stock return Order') . $data['invoice']['iid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->stockreturn->warehouses();
         $this->load->library("Common");
@@ -144,7 +147,7 @@ class Stockreturn extends CI_Controller
         $data['terms'] = $this->stockreturn->billingterms();
         $data['invoice'] = $this->stockreturn->purchase_details($tid);
         $data['products'] = $this->stockreturn->purchase_products($tid);;
-        $head['title'] = "Credit Note " . $data['invoice']['iid'];
+        $head['title'] = $this->lang->line('Credit Note') . $data['invoice']['iid'];
         $head['usernm'] = $this->aauth->get_user()->username;
         $data['warehouse'] = $this->stockreturn->warehouses();
         $this->load->library("Common");
@@ -369,7 +372,7 @@ class Stockreturn extends CI_Controller
         $data['attach'] = $this->stockreturn->attach($tid);
         $data['employee'] = $this->stockreturn->employee($data['invoice']['eid']);
         $head['usernm'] = $this->aauth->get_user()->username;
-        $head['title'] = "Stock return Order " . $data['invoice']['iid'];
+        $head['title'] = $this->lang->line('Stock return Order') . $data['invoice']['iid'];
         if (($data['invoice']['i_class'] != 2 && $this->aauth->premission(2)) or ($data['invoice']['i_class'] == 2 && $this->aauth->premission(1))) {
             $this->load->view('fixed/header', $head);
             if ($data['invoice']['tid']) $this->load->view('stockreturn/view', $data);
@@ -383,7 +386,7 @@ class Stockreturn extends CI_Controller
         $tid = $this->input->get('id');
         $ty = $this->input->get('ty');
         $data['id'] = $tid;
-        $data['title'] = "Stock Return $tid";
+        $data['title'] = $this->lang->line('Stock return') . $tid;
         $data['invoice'] = $this->stockreturn->purchase_details($tid);
         $data['products'] = $this->stockreturn->purchase_products($tid);
         $data['employee'] = $this->stockreturn->employee($data['invoice']['eid']);

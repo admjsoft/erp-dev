@@ -61,6 +61,18 @@ class Invoices_model extends CI_Model
         return $query->row_array();
     }
 
+
+    public function invoice_customer_details($id)
+    {
+        $this->db->select('gtg_invoices.id,gtg_invoices.id AS iid,gtg_customers.id AS cid,gtg_customers.name');
+        $this->db->from($this->table);       
+        $this->db->join('gtg_customers', 'gtg_invoices.csd = gtg_customers.id', 'left');
+        $this->db->where('gtg_invoices.id', $id);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+
     public function invoice_table_details($tid, $eid = '', $p = true)
     {
         $this->db->select('*');
@@ -83,6 +95,18 @@ class Invoices_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function invoice_original_products($id)
+    {
+
+        $this->db->select('gtg_products.pid,gtg_products.taxrate,gtg_products.disrate,gtg_products.product_name,gtg_products.product_price,gtg_products.fproduct_price');
+        $this->db->from('gtg_invoice_items');
+        $this->db->where('tid', $id);
+        $this->db->join('gtg_products', 'gtg_products.pid = gtg_invoice_items.pid', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
 
     public function items_with_product($id)
     {
@@ -682,4 +706,79 @@ class Invoices_model extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+
+    public function invoice_do_products($id)
+    {
+        $this->db->select('gtg_invoice_items.*, SUM(gtg_do_delivered_items.qty) AS total_delivery_qty, SUM(gtg_do_delivered_items.return_qty) AS return_qty');
+        $this->db->from('gtg_invoice_items');
+        $this->db->join('gtg_do_delivered_items', 'gtg_invoice_items.tid = gtg_do_delivered_items.invoice_id AND gtg_invoice_items.pid = gtg_do_delivered_items.p_id', 'left');
+        $this->db->where('gtg_invoice_items.tid', $id);
+        $this->db->group_by('gtg_invoice_items.id, gtg_invoice_items.tid, gtg_invoice_items.pid, gtg_invoice_items.product, gtg_invoice_items.qty');
+        $query = $this->db->get();        
+        // Fetch the result
+        return $query->result_array();
+    }
+
+    public function convert_po($id, $person)
+    {
+
+        $invoice = $this->invoice_details($id);
+        $products = $this->invoice_products($id);
+
+
+        
+        $this->db->trans_start();
+        $this->db->select('tid');
+        $this->db->from('gtg_purchase');
+        $this->db->order_by('tid', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $iid = $query->row()->tid + 1;
+        } else {
+            $iid = 1000;
+        }
+        $productlist = array();
+        $prodindex = 0;
+        if ($invoice['loc'] == $this->aauth->get_user()->loc) {
+            $data = array('tid' => $iid, 'invoicedate' => $invoice['invoicedate'], 'invoiceduedate' => $invoice['invoicedate'], 'subtotal' => $invoice['invoicedate'], 'shipping' => $invoice['shipping'], 'discount' => $invoice['discount'], 'tax' => $invoice['tax'], 'total' => $invoice['total'], 'notes' => $invoice['notes'], 'csd' => $person, 'eid' => $invoice['eid'], 'items' => $invoice['items'], 'taxstatus' => $invoice['taxstatus'], 'discstatus' => $invoice['discstatus'], 'format_discount' => $invoice['format_discount'], 'refer' => $invoice['refer'], 'term' => $invoice['term'], 'multi' => $invoice['multi'], 'loc' => $invoice['loc']);
+            $this->db->insert('gtg_purchase', $data);
+            $iid = $this->db->insert_id();
+            foreach ($products as $row) {
+                $amt = $row['qty'];
+                $data = array(
+                    'tid' => $iid,
+                    'pid' => $row['pid'],
+                    'product' => $row['product'],
+                    'code' => $row['code'],
+                    'qty' => $amt,
+                    'price' => $row['price'],
+                    'tax' => $row['tax'],
+                    'discount' => $row['discount'],
+                    'subtotal' => $row['subtotal'],
+                    'totaltax' => $row['totaltax'],
+                    'totaldiscount' => $row['totaldiscount'],
+                    'product_des' => $row['product_des'],
+                    'unit' => $row['unit']
+                );
+                $productlist[$prodindex] = $data;
+                $prodindex++;
+                $this->db->set('qty', "qty+$amt", FALSE);
+                $this->db->where('pid', $row['pid']);
+                $this->db->update('gtg_products');
+            }
+
+
+            $this->db->insert_batch('gtg_purchase_items', $productlist);
+            return true;
+
+
+
+           
+        } else {
+
+            return false;
+        }
+    }
+
 }

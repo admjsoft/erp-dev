@@ -29,7 +29,7 @@ if(isset($_SESSION['status'])){
 
     <div class="card">
         <div class="card-header">
-                <h4 class="card-title"><?php //echo $this->lang->line('Add New Task') ?>Edit SubCategory Details 
+                <h4 class="card-title"><?php echo $this->lang->line('Edit SubCategory Details') ?> 
             </h4>
             
 
@@ -82,7 +82,7 @@ if(isset($_SESSION['status'])){
 
                                         <div class="col-sm-8">
                                             <select class="form-control" id="category_id" name="category_id">
-                                                <option value="">Select Category</option>
+                                                <option value=""><?php echo $this->lang->line('Select Category'); ?></option>
                                                 <?php if(!empty($categories)){ foreach ($categories as $category) { ?>
                                                     <option value="<?php echo $category['id']; ?>" <?php if($category['id'] == $sub_category_details['parent']){ echo "selected"; } ?>><?php echo $category['name']; ?></option>
                                                 <?php } } ?>
@@ -94,7 +94,7 @@ if(isset($_SESSION['status'])){
                                     <div class="form-group row mt-1">
 
                                         <label class="col-sm-2 col-form-label"
-                                               for="name"><?php echo "Sub Category Description"; // $this->lang->line('Title') ?></label>
+                                               for="name"><?php echo $this->lang->line('Sub Category Description') ?></label>
 
                                         <div class="col-sm-8">
                                             <textarea type="text"   placeholder="Title"

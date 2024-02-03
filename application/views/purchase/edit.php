@@ -314,7 +314,7 @@
                                             <fieldset class="right-radio">
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" class="custom-control-input" name="update_stock"
-                                                           id="customRadioRight1" value="yes" checked="">
+                                                           id="customRadioRight1" value="yes" >
                                                     <label class="custom-control-label"
                                                            for="customRadioRight1"><?php echo $this->lang->line('Yes') ?></label>
                                                 </div>
@@ -322,7 +322,7 @@
                                             <fieldset class="right-radio">
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" class="custom-control-input" name="update_stock"
-                                                           id="customRadioRight2" value="no">
+                                                           id="customRadioRight2" value="no" checked="">
                                                     <label class="custom-control-label"
                                                            for="customRadioRight2"><?php echo $this->lang->line('No') ?></label>
                                                 </div>
