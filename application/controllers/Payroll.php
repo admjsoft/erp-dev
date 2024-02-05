@@ -1102,22 +1102,23 @@ public function payrollReportGenerate()
 
         $data['staffid']='0';
     }
-$data['salary']=$this->input->post('salary');
-$data['allowance']=$this->input->post('allowance');
-$data['commissions']=$this->input->post('commissions');
-$data['claims']=$this->input->post('claims');
-$data['bonus']=$this->input->post('bonus');
-$data['ot']=$this->input->post('ot');
-$data['epf']=$this->input->post('epf');
-$data['socso']=$this->input->post('socso');
-$data['pcb']=$this->input->post('pcb');
-$data['dateYear']=$this->input->post('dateYear');
-$data['dateMonth']=$this->input->post('dateMonth');
-// $n_data = json_encode($data);;
-//$no=$this->lang->line('No');
-$data['payroll_filters'] = json_encode($data);
-$html="<tr><th>".$this->lang->line('No')."</th></tr>";
-$data['html']=$html;
+
+        $data['salary']=$this->input->post('salary');
+        $data['allowance']=$this->input->post('allowance');
+        $data['commissions']=$this->input->post('commissions');
+        $data['claims']=$this->input->post('claims');
+        $data['bonus']=$this->input->post('bonus');
+        $data['ot']=$this->input->post('ot');
+        $data['epf']=$this->input->post('epf');
+        $data['socso']=$this->input->post('socso');
+        $data['pcb']=$this->input->post('pcb');
+        $data['dateYear']=$this->input->post('dateYear');
+        $data['dateMonth']=$this->input->post('dateMonth');
+        // $n_data = json_encode($data);
+        //$no=$this->lang->line('No');
+        $data['payroll_filters'] = json_encode($data);
+        $html="<tr><th>".$this->lang->line('No')."</th></tr>";
+        $data['html']=$html;
 
 
         $this->load->library("Custom");
@@ -1139,19 +1140,16 @@ $data['html']=$html;
 public function payrollReportGenerateAjax()
 {
 	
-	  /// print_r($this->input->post());
+	//echo "<pre>"; print_r($this->input->post()); echo "<pre>"; 
 			//$datesearch=$this->input->post('datesearch');
-			 if($this->input->post('timeCategory')){
+	if(!empty($this->input->post('timeCategory'))){
 		$datesearch=$this->input->post('dateYear');
-        
-       $year= $this->input->post('dateYear');
-    }
-
-    else{
+         $year= $this->input->post('dateYear');
+    }else{
 		
 		$datesearch=$this->input->post('dateMonth');
 		$year='';
-		}
+	}
 			$staffid=$this->input->post('staffid');
 if(!empty($this->input->post('salary'))){
 
@@ -1221,7 +1219,9 @@ else{
 	}
 
  $list = $this->payroll->get_datatables_new($staffid,$salary,$allowance,$commissions,$claims,$bonus,$ot,$epf,$socso,$pcb,$datesearch,$year);
-    // echo "<pre>"; print_r($list); echo "</pre>";
+//  echo $this->db->last_query();
+//  exit; 
+ // echo "<pre>"; print_r($list); echo "</pre>";
     // exit;
 
  $data = array();
@@ -2102,8 +2102,8 @@ public function verify_payslip(){
         }
     
      $list = $this->payroll->get_payroll_export_new($staffid,$salary,$allowance,$commissions,$claims,$bonus,$ot,$epf,$socso,$pcb,$datesearch,$year);
-        echo "<pre>"; print_r($list); echo "</pre>";
-        exit;
+        // echo "<pre>"; print_r($list); echo "</pre>";
+        // exit;
     
      $data = array();
             // $no = $_POST['start'];

@@ -1199,7 +1199,10 @@ class Export extends CI_Controller
       
         public function export_jobsheet_report()
         {
+
+            // echo "<pre>"; print_r($_POST); echo "</pre>";
             $cid = $this->input->post('employee');
+            $customer_id = $this->input->post('customer');
             $job_id = $this->input->post('job_id');
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
@@ -1207,7 +1210,10 @@ class Export extends CI_Controller
             $data['from_date'] = $from_date;
             $data['to_date'] = $to_date;
             // print
-            $list = $this->jobsheet->jobsheet_report_new($cid, $job_id, $from_date, $to_date);
+            $list = $this->jobsheet->jobsheet_report_new($cid, $job_id, $from_date, $to_date,$customer_id);
+
+            // echo "<pre>"; print_r($list); echo "</pre>";
+            // exit;
 
             if(!empty($list))
             {
@@ -1760,7 +1766,7 @@ class Export extends CI_Controller
             //     // ... (more objects if needed)
             // ];
 
-           
+           $originalArray = $gorup_data_array;
             $styleArray = [
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
@@ -2169,7 +2175,6 @@ class Export extends CI_Controller
                     
                 }
             }
-
 
             // Create a writer and output the spreadsheet to the browser
             $writer = new Xlsx($spreadsheet);

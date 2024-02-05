@@ -266,17 +266,25 @@ class Payroll_model extends CI_Model
     public function get_datatables_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb, $datesearch, $year)
     {
 
+        // echo $year."----</ br>";
+        // echo $datesearch."---</ br>";
+
         if (empty($year)) {
-            if (strpos($datesearch, '-')) {
-                $exp = explode("-", $datesearch);
-                $year = $exp[0];
-                $month = (int) $exp[1];
-            }
+
+            // if (strpos($datesearch, '-')) {
+            //     $exp = explode("-", $datesearch);
+            //     $year = $exp[0];
+            //     $month = (int) $exp[1];
+            // }
+            $year = date('Y');
+            $month = $datesearch;
 
         } else {
             $year = $datesearch;
             $month = '';
         }
+
+        // exit;
         $this->opt = 'all';
         $this->_get_datatables_query_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb);
         if (empty($month)) {
@@ -1260,17 +1268,28 @@ class Payroll_model extends CI_Model
     public function get_payroll_export_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb, $datesearch, $year)
     {
 
+        // if (empty($year)) {
+        //     if (strpos($datesearch, '-')) {
+        //         $exp = explode("-", $datesearch);
+        //         $year = $exp[0];
+        //         $month = (int) $exp[1];
+        //     }
+
+        // } else {
+        //     $year = $datesearch;
+        //     $month = '';
+        // }
+
         if (empty($year)) {
-            if (strpos($datesearch, '-')) {
-                $exp = explode("-", $datesearch);
-                $year = $exp[0];
-                $month = (int) $exp[1];
-            }
+
+            $year = date('Y');
+            $month = $datesearch;
 
         } else {
             $year = $datesearch;
             $month = '';
         }
+
         $this->opt = 'all';
         $this->_get_payroll_export_query_new($staffid, $salary, $allowance, $commissions, $claims, $bonus, $ot, $epf, $socso, $pcb);
         if (empty($month)) {

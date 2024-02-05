@@ -1333,6 +1333,14 @@ public function addReferral($rname,$company,$contact,$email,$remarks)
 	
 }
 
+public function list_customers()
+{
+    $this->db->select('id,name');
+    $this->db->from('gtg_customers');
+    return $this->db->get()->result_array();
+    
+}
+
 	
 }
 

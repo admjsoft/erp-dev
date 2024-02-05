@@ -14,7 +14,8 @@ class Jobsheets extends CI_Controller
         $this->load->model('jobsheet_model', 'jobsheet');
         $this->load->model('employee_model', 'employee');
         $this->load->model('purchase_model', 'purchase');
-        $this->load->model('invoices_model', 'invocies');        
+        $this->load->model('invoices_model', 'invocies');
+        $this->load->model('customers_model', 'customers');        
         $this->load->model('deliveryorder_model', 'deliveryorder');
 
         $this->load->library("Aauth");
@@ -159,7 +160,7 @@ class Jobsheets extends CI_Controller
         // }
         $create_user=$this->aauth->get_user()->id;
         $uploaddoc=false;
-        $created_at=date("Y-m-d")." ".date("h:i:s");
+        $created_at=date("Y-m-d")." ".date("H:i:s");
         $jobid=$this->jobsheet->addtask($title, $description, $timeFrame, $create_user, $created_at, $cid, $cname, $location, $date, $time, $invoice,$jobPriority, $do_number);
         $message="";
         if( $jobid>0) {
@@ -248,7 +249,7 @@ class Jobsheets extends CI_Controller
         }
         $create_user=$this->aauth->get_user()->id;
         $uploaddoc=false;
-        $created_at=date("Y-m-d")." ".date("h:i:s");
+        $created_at=date("Y-m-d")." ".date("H:i:s");
         $jobid=$this->jobsheet->edittask($job_id, $title, $description, $timeFrame, $create_user, $created_at, $cid, $cname, $location, $date, $time, $invoice, $jobPriority);
         $message="";
         if( $jobid>0) {
@@ -675,7 +676,7 @@ class Jobsheets extends CI_Controller
             $this->db->set('remarks', $remarks);
         }
 
-
+        $this->db->set('updated_at', $time_stamp);
         $this->db->set('status', $status);
         $this->db->where('id', $jid);
         $this->db->update('gtg_job');       
@@ -1222,15 +1223,21 @@ class Jobsheets extends CI_Controller
     {
         if(!empty($_POST))
         {
+
+            // echo "<pre>"; print_r($_POST); echo "</pre>";
+            // exit;
+
             $cid = $this->input->post('employee');
             $job_id = $this->input->post('job_id');
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
+            $customer_id = $this->input->post('customer');
+
             $data['emp_list'] = $this->employee->list_employee();
             $data['from_date'] = $from_date;
             $data['to_date'] = $to_date;
             // print
-            $list = $this->jobsheet->jobsheet_report_new($cid, $job_id, $from_date, $to_date);
+            $list = $this->jobsheet->jobsheet_report_new($cid, $job_id, $from_date, $to_date, $customer_id);
 
             if(!empty($list))
             {
@@ -1411,6 +1418,10 @@ class Jobsheets extends CI_Controller
             $head['usernm'] = $this->aauth->get_user()->username;
             $head['title'] = 'JobSheet Report';
             $data['emp_list'] = $this->employee->list_employee();
+            $data['cust_list'] = $this->customers->list_customers();
+            $data['job_list'] = $this->jobsheet->list_job_ids();
+            //  echo "<pre>"; print_r($data); echo "</pre>";
+            //  exit;
             $this->load->view('fixed/header', $head);
             $this->load->view('jobsheet/jobsheet_report_new', $data);
             $this->load->view('fixed/footer');

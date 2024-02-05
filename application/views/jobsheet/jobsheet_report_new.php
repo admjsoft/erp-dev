@@ -32,7 +32,7 @@
                             </select>
                         </div>
                         <?php */ ?>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Employee') ?></label>
                                 <input type="text" name="employee_list" id="employee_list"
@@ -51,7 +51,26 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="employee"><?php echo $this->lang->line('Select Customer') ?></label>
+                                <input type="text" name="customers_list" id="customers_list"
+                                    class="form-control employee emp-list"
+                                    placeholder="<?php echo $this->lang->line('Enter Customer Name') ?>"
+                                    list="datalistOptionsCust" />
+                                <datalist id="datalistOptionsCust">
+                                    <!-- <option emp_id="" value="All Employees"> -->
+                                    <!-- Replace these options with your actual autocomplete options -->
+                                    <?php if(!empty($cust_list)) { foreach( $cust_list as $c_list){ ?>
+                                    <option cust_id="<?php echo $c_list['id']; ?>"
+                                        value="<?php echo $c_list['name']; ?>">
+                                        <?php }} ?>
+                                        <!-- Add more options as needed -->
+                                </datalist>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Job Id') ?></label>
                                 <input type="text" name="job_list" id="job_list" class="form-control employee emp-list"
@@ -60,9 +79,9 @@
                                 <datalist id="datalistOptions1">
                                     <!-- <option emp_id="" value="All Employees"> -->
                                     <!-- Replace these options with your actual autocomplete options -->
-                                    <?php if(!empty($emp_list)) { foreach( $emp_list as $e_list){ ?>
-                                    <option job_id="<?php echo $e_list['id']; ?>"
-                                        value="<?php echo $e_list['name']; ?>">
+                                    <?php if(!empty($job_list)) { foreach( $job_list as $j_list){ ?>
+                                    <option job_id="<?php echo $j_list['id']; ?>"
+                                        value="<?php echo $j_list['job_unique_id']; ?>">
                                         <?php }} ?>
                                         <!-- Add more options as needed -->
                                 </datalist>
@@ -82,7 +101,8 @@
                         </div>
 
                         <input type="hidden" id="employee_selected_id" name="employee" value="" />
-                        <input type="hidden" id="job_selected_id" name="employee" value="" />
+                        <input type="hidden" id="customer_selected_id" name="customer" value="" />
+                        <input type="hidden" id="job_selected_id" name="job_id" value="" />
                         <input type="hidden" id="from_date" name="from_date"
                             value="<?php if(!empty($from_date)){ echo $from_date; } ?>">
                         <input type="hidden" id="to_date" name="to_date"
@@ -100,7 +120,8 @@
                 <div class=" text-right ">
                     <!-- Small Button -->
                     <form action="<?php echo base_url('export/export_jobsheet_report'); ?>" method="post">
-                        <input type="hidden" id="download_employee_selected_id" name="employee" value="" />
+                        <input type="hidden" id="download_employee_selected_id" name="employee" value="" />                        
+                        <input type="hidden" id="download_customer_selected_id" name="customer" value="" />
                         <input type="hidden" id="download_from_date" name="from_date"
                             value="<?php if(!empty($from_date)){ echo $from_date; } ?>">
                         <input type="hidden" id="download_to_date" name="to_date"
@@ -211,6 +232,29 @@
                 var empId = selectedOption.getAttribute('emp_id');
                 $('#employee_selected_id').val(empId);
                 $('#download_employee_selected_id').val(empId);
+                // Display emp_id using alert
+                //alert('Selected Employee ID: ' + empId);
+
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var customerInput = document.querySelector('#customers_list');
+
+        // Add an event listener for input change
+        customerInput.addEventListener('input', function() {
+            // Retrieve the selected option
+            var selectedOption = document.querySelector('#datalistOptions option[value="' +
+            customerInput.value + '"]');
+
+            // Check if an option is selected
+            if (selectedOption) {
+                // alert(selectedOption);
+                // Get the emp_id attribute value
+                var custId = selectedOption.getAttribute('cust_id');
+                $('#customer_selected_id').val(custId);
+                $('#download_customer_selected_id').val(custId);
                 // Display emp_id using alert
                 //alert('Selected Employee ID: ' + empId);
 

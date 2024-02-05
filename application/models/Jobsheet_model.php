@@ -235,7 +235,7 @@ class Jobsheet_model extends CI_Model
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }else{
-            $this->db->order_by('created_at','DESC');
+            $this->db->order_by('updated_at','DESC');
             // $this->db->order_by('status',2);
         }
     }
@@ -421,7 +421,7 @@ class Jobsheet_model extends CI_Model
     {
         $status=false;
         $details=$this->thread_jobsheet_info($jobid);
-        $created_at=date("Y-m-d")." ".date("h:i:s");
+        $created_at=date("Y-m-d")." ".date("H:i:s");
         $data = array('jobid' => $jobid, 'assign_type' => $jobtype, 'assign_by' => $assign_by, 'assign_date' =>$created_at, 'status' => 0, 'staffid'=>$empid, 'updated_at' => $created_at,'created_at'=>$created_at);
         $res= $this->db->insert('gtg_jobtransaction', $data);
             if($res){
@@ -467,7 +467,7 @@ class Jobsheet_model extends CI_Model
             {
                 $status=false;
                 $details=$this->thread_jobsheet_info($jobid);
-                $created_at=date("Y-m-d")." ".date("h:i:s");
+                $created_at=date("Y-m-d")." ".date("H:i:s");
                 $data = array('jobid' => $jobid, 'assign_type' => $jobtype, 'assign_by' => $assign_by, 'assign_date' =>$created_at, 'status' => 0, 'staffid'=>$empid, 'updated_at' => $created_at,'created_at'=>$created_at);
                 $res= $this->db->insert('gtg_jobtransaction', $data);
                     if($res){
@@ -604,7 +604,7 @@ class Jobsheet_model extends CI_Model
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }else{
-            $this->db->order_by('created_at','DESC');
+            $this->db->order_by('updated_at','DESC');
         }
     }
 
@@ -777,7 +777,7 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
         $order = $this->order;
         $this->db->order_by(key($order), $order[key($order)]);
     }else{
-        $this->db->order_by('created_at','DESC');
+        $this->db->order_by('updated_at','DESC');
         //$this->db->order_by('status',2);
     }
 }
@@ -839,7 +839,7 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
     }
 
 
-    public function jobsheet_report_new($cid, $job_id, $start_date, $end_date)
+    public function jobsheet_report_new($cid, $job_id, $start_date, $end_date, $customer_id)
     {
         // echo $cid;
         // echo $job_id;
@@ -847,7 +847,7 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
         // echo $to_date;
         // exit;
 
-        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
+        $this->db->select('gtg_job.*,gtg_employees.name AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
         $this->db->from('gtg_job');
         $this->db->join('gtg_employees', 'gtg_job.userid=gtg_employees.id', 'left');
         $this->db->join('gtg_jobtransaction', 'gtg_job.id=gtg_jobtransaction.jobid', 'left');
@@ -859,8 +859,12 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
             $this->db->where('gtg_job.cid', $cid);
         }
 
+        if (!empty($customer_id)) {
+            $this->db->where('gtg_customers.id', $customer_id);
+        }
+
         if (!empty($job_id)) {
-            $this->db->where('gtg_job.job_unique_id', $job_id);
+            $this->db->where('gtg_job.id', $job_id);
         }
     
         if (!empty($start_date) && !empty($end_date) ) {
@@ -884,5 +888,14 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
 
         
     }
+
+    public function list_job_ids()
+    {
+        $this->db->select('id,job_unique_id');
+        $this->db->from('gtg_job');
+        return $this->db->get()->result_array();
+        
+    }
+
 
 }

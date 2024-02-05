@@ -2609,7 +2609,12 @@ $lang['Job Sheet Details Report'] = "Job Sheet Details Report";
 $lang['JobSheet KPI Report'] = "JobSheet KPI Report";
 $lang["Reply Shouldn't be Empty"] = "Reply Shouldn't be Empty";
 $lang['Update Details'] = "Update Details";
-$lang[''] = "";
+$lang['Select Customer'] = "Select Customer";
+$lang['Enter Customer Name'] = "Enter Customer Name";
+$lang['Select Customer'] = "Select Customer";
+$lang['Select Customer'] = "Select Customer";
+$lang['Select Customer'] = "Select Customer";
+$lang['Select Customer'] = "Select Customer";
 
 
  
