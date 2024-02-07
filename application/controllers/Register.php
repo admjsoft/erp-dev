@@ -18,6 +18,9 @@ class Register extends CI_Controller
         $this->load->library("Registerlog");
         $this->load->model('register_model', 'register');
         $this->li_a = 'data';
+        $c_module = 'data';
+        // Make the variable available to all views
+        $this->load->vars('c_module', $c_module);
     }
 
     public function index()

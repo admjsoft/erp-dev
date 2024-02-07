@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 21, 2023 at 03:02 PM
+-- Generation Time: Feb 07, 2024 at 07:27 PM
 -- Server version: 8.0.31
 -- PHP Version: 7.4.33
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `erp_latest_changes`
+-- Database: `erp_db_init_script`
 --
 
 -- --------------------------------------------------------
@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `asset_categories`;
 CREATE TABLE IF NOT EXISTS `asset_categories` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -47,8 +47,8 @@ DROP TABLE IF EXISTS `asset_comments`;
 CREATE TABLE IF NOT EXISTS `asset_comments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `asset_id` int NOT NULL,
-  `comments` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `comment_by` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `comments` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `comment_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -64,10 +64,10 @@ DROP TABLE IF EXISTS `asset_history`;
 CREATE TABLE IF NOT EXISTS `asset_history` (
   `id` int NOT NULL AUTO_INCREMENT,
   `asset_id` int NOT NULL,
-  `assign_asset_employee` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `assign_asset_employee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `emp_id` int NOT NULL,
-  `action` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `note_history` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `note_history` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -82,26 +82,26 @@ CREATE TABLE IF NOT EXISTS `asset_history` (
 DROP TABLE IF EXISTS `asset_management`;
 CREATE TABLE IF NOT EXISTS `asset_management` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `asset_id` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `barcode` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `asset_modelno` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `asset_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `barcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `asset_modelno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `unit_price` int NOT NULL,
   `asset_status` int NOT NULL,
-  `date_of_purchase` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `date_of_purchase` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `category` int NOT NULL,
   `subcategory` int DEFAULT NULL,
   `supplier` int DEFAULT NULL,
   `department` int NOT NULL,
   `sub_department` int DEFAULT NULL,
-  `date_of_manufacture` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `year_of_valuation` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `warrenty_month` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `depreciation_month` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `location` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `image_url` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `note` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `date_of_manufacture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `year_of_valuation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `warrenty_month` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `depreciation_month` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `assign_employee` int DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -117,22 +117,11 @@ CREATE TABLE IF NOT EXISTS `asset_management` (
 DROP TABLE IF EXISTS `asset_status`;
 CREATE TABLE IF NOT EXISTS `asset_status` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `asset_status`
---
-
-INSERT INTO `asset_status` (`id`, `name`, `description`, `created_at`) VALUES
-(1, 'Miscellaneous', 'Miscellaneous', '2023-05-12 07:04:09'),
-(2, 'Expired', 'Expired', '2023-05-12 07:04:26'),
-(3, 'Damage', 'Damage', '2023-05-12 07:04:53'),
-(4, 'test', 'test', '2023-05-12 05:21:32'),
-(5, 'New', '', '2023-05-19 04:22:44');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -144,8 +133,8 @@ DROP TABLE IF EXISTS `asset_sub_categories`;
 CREATE TABLE IF NOT EXISTS `asset_sub_categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `asset_category` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -163,43 +152,7 @@ CREATE TABLE IF NOT EXISTS `chart_data` (
   `month` varchar(50) NOT NULL,
   `profit` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `chart_data`
---
-
-INSERT INTO `chart_data` (`id`, `year`, `month`, `profit`) VALUES
-(1, '2017', 'January', '50000'),
-(2, '2017', 'February', '45000'),
-(3, '2017', 'March', '60000'),
-(4, '2017', 'April', '52000'),
-(5, '2017', 'May', '67000'),
-(6, '2017', 'June', '74000'),
-(7, '2017', 'July', '71000'),
-(8, '2017', 'August', '76000'),
-(9, '2017', 'September', '80000'),
-(10, '2017', 'October', '86000'),
-(11, '2017', 'November', '88000'),
-(12, '2017', 'December', '76000'),
-(13, '2018', 'January', '92000'),
-(14, '2018', 'February', '96000'),
-(15, '2018', 'March', '105000'),
-(16, '2018', 'April', '112000'),
-(17, '2018', 'May', '120000'),
-(18, '2018', 'June', '128000'),
-(19, '2018', 'July', '116000'),
-(20, '2018', 'August', '112000'),
-(21, '2018', 'September', '129000'),
-(22, '2018', 'October', '139000'),
-(23, '2018', 'November', '140000'),
-(24, '2018', 'December', '146000'),
-(25, '2019', 'January', '151000'),
-(26, '2019', 'February', '146000'),
-(27, '2019', 'March', '160000'),
-(28, '2019', 'April', '164000'),
-(29, '2019', 'May', '185000'),
-(30, '2019', 'June', '176000');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -222,8 +175,10 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('0d815a636150deec75a16cf23fe95ecdbbcc1ced', '2001:d08:d2:57ef:bc3a:bbb7:851a:f982', 1702973314, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730323937333331313b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('4dccf6f23e7281af7cb5af456c2ecc56839f04b8', '2001:d08:d2:57ef:bc3a:bbb7:851a:f982', 1702971784, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730323937313738343b);
+('941vdvt3mqkloga1au7qplem2t1vj618', '127.0.0.1', 1707325794, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373332353739343b),
+('irkbmc9guan2h5pb93eed9k6ferulav2', '127.0.0.1', 1707281618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373238313631373b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
+('sd7qi9vj8c2oipc2n9v8gbu2onrfa6n2', '127.0.0.1', 1707290093, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373239303039323b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
+('vt9h91dfokfo4vkv59vi7bqmihsb947e', '127.0.0.1', 1707308119, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373330383131383b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b);
 
 -- --------------------------------------------------------
 
@@ -234,8 +189,8 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 DROP TABLE IF EXISTS `digital_marketing_settings`;
 CREATE TABLE IF NOT EXISTS `digital_marketing_settings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `api_key` text COLLATE utf8mb4_general_ci NOT NULL,
+  `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `api_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -256,60 +211,14 @@ INSERT INTO `digital_marketing_settings` (`id`, `name`, `api_key`, `cr_date`) VA
 DROP TABLE IF EXISTS `digital_marketing_transactional_report`;
 CREATE TABLE IF NOT EXISTS `digital_marketing_transactional_report` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type` text COLLATE utf8mb4_general_ci NOT NULL,
-  `customer_source` text COLLATE utf8mb4_general_ci NOT NULL,
-  `customer_ids` text COLLATE utf8mb4_general_ci NOT NULL,
-  `subject` text COLLATE utf8mb4_general_ci NOT NULL,
-  `message` text COLLATE utf8mb4_general_ci NOT NULL,
+  `type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `customer_source` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `customer_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `subject` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `digital_marketing_transactional_report`
---
-
-INSERT INTO `digital_marketing_transactional_report` (`id`, `type`, `customer_source`, `customer_ids`, `subject`, `message`, `cr_date`) VALUES
-(1, 'email', 'sprasad96@gmail.com', '84', 'hiii', '<p>ffff<br></p>', '2023-07-31 12:20:46'),
-(2, 'sms', '9639639636', '84', '', 'hiiiiiiiiiii', '2023-07-31 12:24:33'),
-(3, 'whatsapp', '123213424,9639639636', '84,83', '', 'hihihihi', '2023-07-31 12:26:08'),
-(4, 'email', 'sprasad96@gmail.com', '84', 'hii', '<p>siva sent mail<br></p>', '2023-08-08 04:28:25'),
-(5, 'email', 'sprasad96@gmail.com', '84', 'hiii', '<p>siva sent mail1<br></p>', '2023-08-08 04:30:40'),
-(6, 'email', 'sprasad96@gmail.com', '84', 'hiii', '<p>awdkjhaskjd<br></p>', '2023-08-08 04:31:03'),
-(7, 'email', 'sprasad96@gmail.com', '84', 'asdasasd', '', '2023-08-08 04:32:40'),
-(8, 'email', 'sprasad96@gmail.com', '84', 'asdasasd', '', '2023-08-08 04:32:59'),
-(9, 'email', 'sprasad96@gmail.com', '84', 'hii', '<p>hjgjhg&nbsp;&nbsp;&nbsp; hjghj<br></p>', '2023-08-08 04:42:26'),
-(10, 'email', 'sprasad96@gmail.com', '84', 'hiiii', '', '2023-08-08 04:57:42'),
-(11, 'email', 'sprasad96@gmail.com', '84', 'qwereqw', '<p>hjgjhg&nbsp;&nbsp;&nbsp; hjghjqelrjl &nbsp;&nbsp;&nbsp; wjle q<br></p>', '2023-08-08 04:59:19'),
-(12, 'email', 'sprasad96@gmail.com', '84', 'hiii', 'siva praass<br>', '2023-08-08 05:02:48'),
-(13, 'email', 'sprasad96@gmail.com', '84', 'hiii test', '<p>sp test<br></p>', '2023-08-08 05:04:55'),
-(14, 'email', 'sprasad96@gmail.com', '84', 'hiii testdsa sd', '<p>sp testsa sda<br></p>', '2023-08-08 05:05:28'),
-(15, 'sms', '9639639636', '84', '', 'hhisidsd', '2023-08-08 05:38:09'),
-(16, 'sms', '919182288185', '84', '', 'hiii', '2023-08-08 05:40:58'),
-(17, 'sms', '919182288185', '84', '', 'hiii siva', '2023-08-08 05:42:10'),
-(18, 'sms', '919182288185', '84', '', 'hiii siva', '2023-08-08 05:42:36'),
-(19, 'sms', '919182288185', '84', '', 'hiii siva', '2023-08-08 05:43:18'),
-(20, 'sms', '919182288185', '84', '', 'hiii siva..', '2023-08-08 05:44:15'),
-(21, 'sms', '919182288185', '84', '', 'hiii siva..', '2023-08-08 05:44:51'),
-(22, 'sms', '919182288185', '84', '', 'hiii siva..', '2023-08-08 05:45:29'),
-(23, 'sms', '919182288185', '84', '', 'hiii siva..', '2023-08-08 05:45:54'),
-(24, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:14:40'),
-(25, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:16:25'),
-(26, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:16:44'),
-(27, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:17:32'),
-(28, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:18:18'),
-(29, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:18:27'),
-(30, 'whatsapp', '123213424,919182288185', '84,83', '', 'sadasd', '2023-08-08 06:18:36'),
-(31, 'email', 'sprasad96@gmail.com', '84', 'hii', '<p>hi siva<br></p>', '2023-08-10 04:38:30'),
-(32, 'sms', '919182288185', '84', '', 'hi siva', '2023-08-10 04:38:48'),
-(33, 'whatsapp', '919182288185', '84', '', 'hiii', '2023-08-10 10:36:53'),
-(34, 'sms', '919182288185', '84', '', 'hiii', '2023-08-10 10:39:07'),
-(35, 'whatsapp', '919182288185', '84', '', 'hiiiii', '2023-08-10 10:39:17'),
-(36, 'whatsapp', '919182288185', '84', '', 'hi siva', '2023-08-10 10:46:49'),
-(37, 'email', 'sprasad96@gmail.com', '84', 'hi', '<p>test mail<br></p>', '2023-08-15 01:56:28'),
-(38, 'sms', '919182288185', '84', '', 'hi siva', '2023-08-15 01:56:40'),
-(39, 'whatsapp', '919182288185', '84', '', 'hi siva wa', '2023-08-15 01:56:56'),
-(40, 'whatsapp', '919182288185', '84', '', 'hi wa message', '2023-08-15 01:58:25');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -351,13 +260,47 @@ CREATE TABLE IF NOT EXISTS `gtg_attendance` (
   `emp` int NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `adate` date NOT NULL,
-  `tfrom` time NOT NULL,
-  `tto` time DEFAULT NULL,
+  `tfrom` text NOT NULL,
+  `tto` text,
   `note` int DEFAULT NULL,
   `actual_hours` varchar(255) DEFAULT NULL,
+  `clock_in_latitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_in_longitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_in_location` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_in_photo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_out_latitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_out_longitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_out_location` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `clock_out_photo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`id`),
   KEY `emp` (`emp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gtg_attendance_settings`
+--
+
+DROP TABLE IF EXISTS `gtg_attendance_settings`;
+CREATE TABLE IF NOT EXISTS `gtg_attendance_settings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `total_working_hours` int NOT NULL,
+  `clock_in_time` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_time` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ot_allowance_per_hour` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_grace_period` int NOT NULL,
+  `clock_in_checking_hours` int NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gtg_attendance_settings`
+--
+
+INSERT INTO `gtg_attendance_settings` (`id`, `total_working_hours`, `clock_in_time`, `clock_out_time`, `ot_allowance_per_hour`, `clock_in_grace_period`, `clock_in_checking_hours`, `created_date`) VALUES
+(1, 5, '04:43', '10:45', '2', 10, 2, '2024-01-08 07:42:43');
 
 -- --------------------------------------------------------
 
@@ -455,7 +398,9 @@ CREATE TABLE IF NOT EXISTS `gtg_config` (
 
 INSERT INTO `gtg_config` (`id`, `type`, `val1`, `val2`, `val3`, `val4`, `rid`, `other`) VALUES
 (1, 2, 'yes', '22', 'inclusive', 'inclusive', 0, 0),
-(2, 2, 'no', '10', 'inclusive', 'yes', 0, 0);
+(2, 2, 'no', '10', 'inclusive', 'yes', 0, 0),
+(3, 2, 'afsafs', '45', 'yes', 'yes', 0, 0),
+(4, 2, 'yes11', '222', 'yes', 'yes', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -466,22 +411,22 @@ INSERT INTO `gtg_config` (`id`, `type`, `val1`, `val2`, `val3`, `val4`, `rid`, `
 DROP TABLE IF EXISTS `gtg_contract`;
 CREATE TABLE IF NOT EXISTS `gtg_contract` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `client_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `pic` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(60) COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `client_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pic` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `reminder_date` date NOT NULL,
-  `remarks` text COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('PENDING','INPROGRESS','COMPLETED') COLLATE utf8mb4_general_ci NOT NULL,
+  `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('PENDING','INPROGRESS','COMPLETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `share_link` text COLLATE utf8mb4_general_ci NOT NULL,
-  `contract_unique_id` text COLLATE utf8mb4_general_ci NOT NULL,
+  `share_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contract_unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sharing_count` int NOT NULL,
   `client_id` int NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `cr_date` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -494,16 +439,16 @@ CREATE TABLE IF NOT EXISTS `gtg_contract` (
 DROP TABLE IF EXISTS `gtg_contract_signings`;
 CREATE TABLE IF NOT EXISTS `gtg_contract_signings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `contract_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `signed_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `contract_remarks` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text COLLATE utf8mb4_general_ci NOT NULL,
-  `upload_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text COLLATE utf8mb4_general_ci NOT NULL,
+  `contract_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `signed_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contract_remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -799,35 +744,35 @@ CREATE TABLE IF NOT EXISTS `gtg_currencies` (
 DROP TABLE IF EXISTS `gtg_customers`;
 CREATE TABLE IF NOT EXISTS `gtg_customers` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `roc` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `incharge` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `city` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `region` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `country` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `postbox` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(60) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `picture` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `roc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `incharge` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `region` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `postbox` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `picture` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
   `gid` int NOT NULL DEFAULT '1',
-  `company` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taxid` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `name_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `city_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `region_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `country_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `postbox_s` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taxid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `region_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `country_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `postbox_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `balance` decimal(16,2) DEFAULT '0.00',
   `loc` int DEFAULT '0',
-  `docid` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `custom1` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `docid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `custom1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `discount_c` decimal(16,2) DEFAULT NULL,
   `reg_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `customer_type` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `customer_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `gid` (`gid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -847,7 +792,7 @@ CREATE TABLE IF NOT EXISTS `gtg_custom_data` (
   `data` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fid` (`field_id`,`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -976,15 +921,15 @@ CREATE TABLE IF NOT EXISTS `gtg_delivery_order_items` (
 DROP TABLE IF EXISTS `gtg_digital_signatures`;
 CREATE TABLE IF NOT EXISTS `gtg_digital_signatures` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `file_name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text COLLATE utf8mb4_general_ci NOT NULL,
+  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sharing_count` int NOT NULL,
-  `share_link` text COLLATE utf8mb4_general_ci NOT NULL,
-  `ds_unique_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `status` text COLLATE utf8mb4_general_ci NOT NULL,
+  `share_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ds_unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `file_type` text COLLATE utf8mb4_general_ci NOT NULL,
+  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -997,13 +942,13 @@ CREATE TABLE IF NOT EXISTS `gtg_digital_signatures` (
 DROP TABLE IF EXISTS `gtg_digital_signature_signings`;
 CREATE TABLE IF NOT EXISTS `gtg_digital_signature_signings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `ds_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `signed_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text COLLATE utf8mb4_general_ci NOT NULL,
-  `upload_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text COLLATE utf8mb4_general_ci NOT NULL,
+  `ds_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `signed_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1017,7 +962,7 @@ DROP TABLE IF EXISTS `gtg_documents`;
 CREATE TABLE IF NOT EXISTS `gtg_documents` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) DEFAULT NULL,
-  `filename` text,
+  `filename` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `cdate` date NOT NULL,
   `permission` int DEFAULT NULL,
   `cid` int NOT NULL,
@@ -1026,6 +971,7 @@ CREATE TABLE IF NOT EXISTS `gtg_documents` (
   `complaintid` varchar(250) DEFAULT '0',
   `userid` int DEFAULT NULL,
   `contract_id` int NOT NULL DEFAULT '0',
+  `emp_doc` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -1070,13 +1016,13 @@ CREATE TABLE IF NOT EXISTS `gtg_do_product_batches_history` (
   `po_id` int NOT NULL,
   `invoice_id` int NOT NULL,
   `p_id` int NOT NULL,
-  `supplier_delivery_order_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `delivery_order_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `parent_delivery_order_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `available_quantity` text COLLATE utf8mb4_general_ci NOT NULL,
-  `do_expire_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `used_qty` text COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `supplier_delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `parent_delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `available_quantity` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `do_expire_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `used_qty` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cr_date` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1089,13 +1035,13 @@ CREATE TABLE IF NOT EXISTS `gtg_do_product_batches_history` (
 DROP TABLE IF EXISTS `gtg_do_relations`;
 CREATE TABLE IF NOT EXISTS `gtg_do_relations` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type` text COLLATE utf8mb4_general_ci NOT NULL COMMENT 'invoice,po,do',
-  `do_id` text COLLATE utf8mb4_general_ci NOT NULL,
+  `type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'invoice,po,do',
+  `do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `po_id` int NOT NULL,
   `invoice_id` int NOT NULL,
-  `parent_do_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `supplier_do_id` text COLLATE utf8mb4_general_ci NOT NULL,
+  `parent_do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `supplier_do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1178,18 +1124,18 @@ CREATE TABLE IF NOT EXISTS `gtg_draft_items` (
 DROP TABLE IF EXISTS `gtg_employees`;
 CREATE TABLE IF NOT EXISTS `gtg_employees` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `address` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `city` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `region` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `country` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `postbox` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phonealt` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `picture` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
-  `sign` varchar(100) COLLATE utf8mb4_general_ci DEFAULT 'sign.png',
+  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `region` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `postbox` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phonealt` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `picture` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
+  `sign` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'sign.png',
   `joindate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `dept` int DEFAULT NULL,
   `degis` int DEFAULT NULL,
@@ -1198,22 +1144,33 @@ CREATE TABLE IF NOT EXISTS `gtg_employees` (
   `clockin` int DEFAULT NULL,
   `clockout` int DEFAULT NULL,
   `c_rate` decimal(16,2) DEFAULT NULL,
-  `cdate` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `company` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `passport` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `permit` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `employee_type` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `passport_expiry` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `permit_expiry` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `passport_document` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `visa_document` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `cdate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `passport` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `permit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `employee_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `passport_expiry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `permit_expiry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `passport_document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `visa_document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `delete_status` int NOT NULL,
   `passport_email_sent` int NOT NULL,
   `permit_email_sent` int NOT NULL,
-  `gender` text COLLATE utf8mb4_general_ci NOT NULL,
-  `socso_number` text COLLATE utf8mb4_general_ci NOT NULL,
-  `kwsp_number` text COLLATE utf8mb4_general_ci NOT NULL,
-  `pcb_number` text COLLATE utf8mb4_general_ci NOT NULL,
+  `gender` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `socso_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `kwsp_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pcb_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `employee_job_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `join_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1237,14 +1194,7 @@ CREATE TABLE IF NOT EXISTS `gtg_events` (
   PRIMARY KEY (`id`),
   KEY `rel` (`rel`),
   KEY `rid` (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_events`
---
-
-INSERT INTO `gtg_events` (`id`, `title`, `description`, `color`, `start`, `end`, `allDay`, `rel`, `rid`) VALUES
-(1, '[Project] Website Development ', 'High priority. Start date: 2023-07-19 00:00:00 End Date: 2023-08-18 00:00:00', '#264150', '2023-07-19 00:00:00', '2023-08-18 00:00:00', 'true', 1, 2);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -1296,7 +1246,7 @@ DROP TABLE IF EXISTS `gtg_fws_documents`;
 CREATE TABLE IF NOT EXISTS `gtg_fws_documents` (
   `id` int NOT NULL AUTO_INCREMENT,
   `employee_id` int NOT NULL,
-  `document` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `delete_status` int NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1464,8 +1414,8 @@ DROP TABLE IF EXISTS `gtg_job`;
 CREATE TABLE IF NOT EXISTS `gtg_job` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ref_no` varchar(20) DEFAULT NULL,
-  `job_name` varchar(50) DEFAULT NULL,
-  `job_description` varchar(50) DEFAULT NULL,
+  `job_name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `job_description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `userid` int DEFAULT NULL,
   `cid` int DEFAULT NULL,
   `cname` varchar(150) DEFAULT NULL,
@@ -1485,6 +1435,13 @@ CREATE TABLE IF NOT EXISTS `gtg_job` (
   `created_at` datetime DEFAULT NULL,
   `signature` text NOT NULL,
   `signature_date` text NOT NULL,
+  `job_priority` text NOT NULL,
+  `vehicle_id` int NOT NULL DEFAULT '0',
+  `do_number` text,
+  `job_clock_out_photo` text,
+  `job_clock_out_location` text,
+  `work_in_progress_start_time` text,
+  `job_unique_id` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -1551,6 +1508,24 @@ CREATE TABLE IF NOT EXISTS `gtg_jobupdateimage` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gtg_job_images`
+--
+
+DROP TABLE IF EXISTS `gtg_job_images`;
+CREATE TABLE IF NOT EXISTS `gtg_job_images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `job_id` int NOT NULL,
+  `job_clock_in_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `job_clock_in_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `job_clock_in_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `job_clock_in_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `gtg_locations`
 --
 
@@ -1586,24 +1561,20 @@ CREATE TABLE IF NOT EXISTS `gtg_log` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_log`
 --
 
 INSERT INTO `gtg_log` (`id`, `note`, `created`, `user`) VALUES
-(1, '[Logged In] admin@admin.com', '2023-12-19 07:56:52', ''),
-(2, '[Logged Out] ', '2023-12-19 07:59:46', ''),
-(3, '[Logged In] admin@admin.com', '2023-12-19 08:01:31', ''),
-(4, '[Logged Out] admin', '2023-12-19 08:01:36', ''),
-(5, '[Logged In] admin@admin.com', '2023-12-19 08:02:11', ''),
-(6, '[Logged Out] admin', '2023-12-19 08:07:21', ''),
-(7, '[Logged In] admin@admin.com', '2023-12-19 08:07:24', ''),
-(8, '[Logged Out] admin', '2023-12-19 08:07:32', ''),
-(9, '[Logged In] admin@admin.com', '2023-12-19 08:08:06', ''),
-(10, '[Logged Out] admin', '2023-12-19 08:08:12', ''),
-(11, '[Logged In] admin@admin.com', '2023-12-19 08:08:22', '');
+(1, '[Logged In] admin@admin.com', '2024-02-07 04:28:44', ''),
+(2, '[Logged In] admin@admin.com', '2024-02-07 07:14:39', ''),
+(3, '[Logged In] admin@admin.com', '2024-02-07 12:13:32', ''),
+(4, '[Logged Out] admin', '2024-02-07 12:13:44', ''),
+(5, '[Logged In] admin@admin.com', '2024-02-07 12:14:56', ''),
+(6, '[Logged In] admin@admin.com', '2024-02-07 17:09:44', ''),
+(7, '[Logged Out] admin', '2024-02-07 17:09:47', '');
 
 -- --------------------------------------------------------
 
@@ -1618,14 +1589,14 @@ CREATE TABLE IF NOT EXISTS `gtg_login_attempts` (
   `timestamp` datetime DEFAULT NULL,
   `login_attempts` tinyint DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_login_attempts`
 --
 
 INSERT INTO `gtg_login_attempts` (`id`, `ip_address`, `timestamp`, `login_attempts`) VALUES
-(1, '2001:d08:d2:57ef:bc3a:bbb7:851a:f982', '2023-12-19 07:46:51', 3);
+(6, '127.0.0.1', '2024-02-08 01:09:51', 1);
 
 -- --------------------------------------------------------
 
@@ -1644,7 +1615,165 @@ CREATE TABLE IF NOT EXISTS `gtg_metadata` (
   PRIMARY KEY (`id`),
   KEY `type` (`type`),
   KEY `rid` (`rid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `gtg_metadata`
+--
+
+INSERT INTO `gtg_metadata` (`id`, `type`, `rid`, `col1`, `col2`, `d_date`) VALUES
+(1, 9, 1, '2', NULL, '2023-02-10'),
+(2, 9, 2, '2000', NULL, '2023-02-10'),
+(3, 21, 1, '500', '2023-02-10 04:48:19 Account Recharge by admin', '0000-00-00'),
+(4, 9, 3, '200', NULL, '2023-02-13'),
+(5, 71, 3, '1', '2', '2023-02-13'),
+(6, 71, 3, '1', '2', '2023-02-23'),
+(7, 9, 4, '1', NULL, '2023-03-09'),
+(8, 9, 5, '1', NULL, '2023-03-13'),
+(9, 21, 10, '2', '2023-03-21 09:25:44 Account Recharge by admin', '0000-00-00'),
+(10, 9, 6, '1', NULL, '2023-04-04'),
+(11, 9, 7, '99', NULL, '2023-04-06'),
+(12, 9, 8, '423', NULL, '2023-04-06'),
+(13, 9, 9, '2344', NULL, '2023-04-06'),
+(14, 9, 10, '12', NULL, '2023-04-06'),
+(15, 1, 10, '682605RadSystems.lnk', NULL, '0000-00-00'),
+(16, 9, 11, '13', NULL, '2023-04-06'),
+(17, 9, 12, '200', NULL, '2023-04-18'),
+(18, 9, 13, '22', NULL, '2023-04-18'),
+(19, 9, 14, '60', NULL, '2023-04-18'),
+(20, 9, 15, '150', NULL, '2023-04-18'),
+(21, 9, 16, '100', NULL, '2023-04-18'),
+(22, 9, 17, '4324', NULL, '2023-04-18'),
+(23, 9, 18, '50', NULL, '2023-04-19'),
+(24, 9, 19, '30', NULL, '2023-04-19'),
+(25, 9, 20, '50', NULL, '2023-04-19'),
+(26, 9, 21, '100', NULL, '2023-05-04'),
+(27, 9, 22, '700', NULL, '2023-05-05'),
+(28, 9, 23, '590', NULL, '2023-05-09'),
+(29, 9, 24, '5', NULL, '2023-05-12'),
+(30, 9, 25, '300', NULL, '2023-05-16'),
+(31, 9, 26, '150', NULL, '2023-05-17'),
+(32, 21, 13, '10000', '2023-05-17 04:28:08 Account Recharge by admin', '0000-00-00'),
+(33, 9, 27, '1', NULL, '2023-05-17'),
+(35, 9, 29, '1', NULL, '2023-05-17'),
+(36, 9, 30, '0', NULL, '2023-05-18'),
+(37, 9, 1, '2', NULL, '2023-05-18'),
+(38, 9, 31, '55', NULL, '2023-05-18'),
+(39, 9, 32, '200', NULL, '2023-05-19'),
+(40, 9, 33, '0', NULL, '2023-05-31'),
+(41, 9, 34, '1', NULL, '2023-05-31'),
+(43, 9, 36, '1', NULL, '2023-05-31'),
+(44, 9, 37, '1', NULL, '2023-05-31'),
+(45, 9, 38, '1500', NULL, '2023-06-07'),
+(46, 9, 39, '2000', NULL, '2023-06-07'),
+(47, 9, 40, '1000', NULL, '2023-06-12'),
+(48, 9, 41, '1', NULL, '2023-06-12'),
+(49, 9, 42, '500', NULL, '2023-06-13'),
+(50, 9, 43, '5', NULL, '2023-06-14'),
+(51, 9, 44, '400', NULL, '2023-06-14'),
+(52, 9, 45, '300', NULL, '2023-06-15'),
+(53, 9, 46, '0', NULL, '2023-06-15'),
+(54, 9, 47, '2500', NULL, '2023-06-16'),
+(55, 9, 48, '2500', NULL, '2023-06-16'),
+(56, 9, 49, '2500', NULL, '2023-06-16'),
+(57, 9, 50, '2500', NULL, '2023-06-16'),
+(58, 9, 51, '2500', NULL, '2023-06-16'),
+(59, 9, 2, '2000', NULL, '2023-06-21'),
+(60, 9, 52, '0', NULL, '2023-06-21'),
+(61, 9, 53, '18', NULL, '2023-06-21'),
+(62, 9, 54, '700', NULL, '2023-06-27'),
+(63, 9, 55, '6', NULL, '2023-06-27'),
+(64, 9, 56, '11', NULL, '2023-06-27'),
+(65, 9, 57, '11', NULL, '2023-06-28'),
+(66, 9, 58, '11', NULL, '2023-06-28'),
+(67, 9, 59, '11', NULL, '2023-06-28'),
+(68, 9, 60, '12', NULL, '2023-06-28'),
+(69, 9, 61, '6', NULL, '2023-06-28'),
+(70, 9, 62, '11', NULL, '2023-06-28'),
+(71, 9, 63, '6', NULL, '2023-06-28'),
+(72, 9, 64, '6', NULL, '2023-06-29'),
+(73, 9, 65, '6', NULL, '2023-06-29'),
+(74, 9, 66, '0', NULL, '2023-06-29'),
+(75, 9, 67, '6', NULL, '2023-06-29'),
+(76, 9, 68, '0', NULL, '2023-06-29'),
+(77, 9, 69, '0', NULL, '2023-06-29'),
+(79, 9, 71, '21', NULL, '2023-07-05'),
+(80, 9, 72, '47', NULL, '2023-07-05'),
+(81, 9, 73, '52', NULL, '2023-07-05'),
+(82, 9, 74, '0', NULL, '2023-07-05'),
+(83, 9, 75, '78', NULL, '2023-07-05'),
+(84, 9, 76, '104', NULL, '2023-07-05'),
+(85, 9, 77, '73', NULL, '2023-07-05'),
+(86, 9, 78, '26', NULL, '2023-07-05'),
+(87, 9, 79, '125', NULL, '2023-07-05'),
+(88, 9, 80, '26', NULL, '2023-07-06'),
+(89, 9, 81, '2930', NULL, '2023-07-06'),
+(90, 9, 82, '100', NULL, '2023-07-10'),
+(91, 9, 83, '100', NULL, '2023-07-10'),
+(92, 9, 84, '-308', NULL, '2023-07-10'),
+(93, 9, 85, '-86', NULL, '2023-07-10'),
+(94, 9, 86, '300', NULL, '2023-07-11'),
+(95, 9, 87, '300', NULL, '2023-07-11'),
+(96, 9, 88, '300', NULL, '2023-07-11'),
+(97, 9, 89, '0', NULL, '2023-07-11'),
+(98, 9, 90, '120', NULL, '2023-07-11'),
+(99, 9, 91, '10', NULL, '2023-07-11'),
+(100, 9, 92, '300', NULL, '2023-07-14'),
+(101, 9, 93, '200', NULL, '2023-07-14'),
+(102, 9, 94, '300', NULL, '2023-07-14'),
+(103, 9, 95, '2300', NULL, '2023-07-14'),
+(104, 9, 96, '500', NULL, '2023-07-17'),
+(105, 9, 97, '1300', NULL, '2023-07-17'),
+(108, 9, 100, '5000', NULL, '2023-07-19'),
+(109, 21, 74, '6000', '2023-07-19 06:27:07 Account Recharge by admin', '0000-00-00'),
+(110, 1, 96, '164742EMP (1).jpg', NULL, '0000-00-00'),
+(111, 21, 75, '2000', '2023-07-19 09:25:53 Account Recharge by admin', '0000-00-00'),
+(112, 9, 101, '-127', NULL, '2023-07-19'),
+(114, 9, 103, '0', NULL, '2023-07-19'),
+(115, 9, 104, '24000', NULL, '2023-07-19'),
+(116, 9, 105, '100', NULL, '2023-09-13'),
+(117, 9, 106, '1000', NULL, '2023-09-13'),
+(118, 9, 107, '2000', NULL, '2023-09-13'),
+(120, 9, 109, '0', NULL, '2023-10-05'),
+(121, 9, 110, '0', NULL, '2023-10-05'),
+(122, 9, 111, '0', NULL, '2023-10-05'),
+(123, 9, 112, '-154', NULL, '2023-10-10'),
+(124, 9, 3, '200', NULL, '2023-10-11'),
+(125, 9, 4, '1', NULL, '2023-10-11'),
+(126, 9, 5, '1', NULL, '2023-10-11'),
+(127, 9, 6, '0', NULL, '2023-10-11'),
+(128, 9, 7, '0', NULL, '2023-10-11'),
+(129, 9, 8, '423', NULL, '2023-10-11'),
+(130, 9, 9, '0', NULL, '2023-10-11'),
+(131, 9, 10, '0', NULL, '2023-10-11'),
+(132, 9, 11, '13', NULL, '2023-10-11'),
+(133, 9, 12, '200', NULL, '2023-10-11'),
+(134, 9, 13, '22', NULL, '2023-10-11'),
+(135, 9, 14, '60', NULL, '2023-10-11'),
+(136, 9, 15, '150', NULL, '2023-10-11'),
+(137, 9, 16, '100', NULL, '2023-10-11'),
+(138, 9, 17, '4324', NULL, '2023-10-11'),
+(139, 9, 18, '50', NULL, '2023-10-11'),
+(140, 9, 19, '30', NULL, '2023-10-11'),
+(141, 9, 20, '50', NULL, '2023-10-11'),
+(142, 9, 21, '100', NULL, '2023-10-11'),
+(143, 9, 22, '700', NULL, '2023-10-11'),
+(144, 9, 23, '590', NULL, '2023-10-11'),
+(145, 9, 24, '5', NULL, '2023-10-11'),
+(146, 9, 25, '300', NULL, '2023-10-11'),
+(147, 9, 26, '150', NULL, '2023-10-11'),
+(148, 9, 113, '100', NULL, '2023-11-15'),
+(149, 9, 1, '0', NULL, '2023-11-16'),
+(150, 9, 113, '180', NULL, '2023-11-17'),
+(151, 9, 114, '50', NULL, '2023-11-22'),
+(152, 9, 115, '20', NULL, '2023-11-22'),
+(153, 9, 27, '1', NULL, '2023-12-19'),
+(154, 9, 116, '-77', NULL, '2023-12-19'),
+(155, 9, 28, '0', NULL, '2023-12-19'),
+(156, 9, 117, '-77', NULL, '2023-12-19'),
+(157, 9, 118, '280', NULL, '2023-12-19'),
+(158, 9, 29, '1', NULL, '2023-12-19'),
+(159, 9, 119, '280', NULL, '2023-12-19');
 
 -- --------------------------------------------------------
 
@@ -1706,6 +1835,22 @@ CREATE TABLE IF NOT EXISTS `gtg_notes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gtg_office_forms`
+--
+
+DROP TABLE IF EXISTS `gtg_office_forms`;
+CREATE TABLE IF NOT EXISTS `gtg_office_forms` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `form_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `form_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `gtg_payroll_settings`
 --
 
@@ -1720,14 +1865,14 @@ CREATE TABLE IF NOT EXISTS `gtg_payroll_settings` (
   `epf_employer` int NOT NULL,
   `sosco_employer_percent` int NOT NULL,
   `sosco_employee_percent` int NOT NULL,
-  `sosco_employer` int NOT NULL,
-  `sosco_employee` int NOT NULL,
-  `pcb` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `eis` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `bank` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `accountno` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `nationality` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `tax_no` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `sosco_employer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sosco_employee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pcb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `eis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `bank` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `accountno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nationality` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tax_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -1785,28 +1930,14 @@ CREATE TABLE IF NOT EXISTS `gtg_peppol_invoices` (
   `id` int NOT NULL AUTO_INCREMENT,
   `invoice_sent_date` date NOT NULL,
   `invoice_id` int NOT NULL,
-  `invoice_json` text COLLATE utf8mb4_general_ci NOT NULL,
-  `evidence_json` text COLLATE utf8mb4_general_ci NOT NULL,
-  `document_url` text COLLATE utf8mb4_general_ci NOT NULL,
-  `document_expire_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `guid` text COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `invoice_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `evidence_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `document_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `document_expire_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `guid` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cr_date` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `gtg_peppol_invoices`
---
-
-INSERT INTO `gtg_peppol_invoices` (`id`, `invoice_sent_date`, `invoice_id`, `invoice_json`, `evidence_json`, `document_url`, `document_expire_date`, `guid`, `cr_date`) VALUES
-(2, '2023-05-15', 47, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(3, '2023-05-15', 1, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(4, '2023-05-15', 11, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(5, '2023-05-15', 16, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(6, '2023-05-15', 12, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(7, '2023-05-15', 12, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(8, '2023-07-19', 16, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"202112007\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"ManyMarkets Inc.\",\"address\":{\"street1\":\"Street 123\",\"zip\":\"1111AA\",\"city\":\"Here\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '', 'https://dj-temp.s3.eu-west-1.amazonaws.com/887c10443bfc285600aa9584899406a3b9ab85355dc7914107e7d636f530434835d706908ea31ee88cbb65d8697debf1ad91a20d21012322390e394f90ba42ec?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI5G5MTYS7SBP4ZEQ%2F20230723%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230723T091351Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=9839a7cb26543e11fb1eb91c7e46f9adaa5e8a69e9d2caf0c7b70d0c409fafe7', '', '', '0000-00-00 00:00:00'),
-(9, '2023-08-18', 94, '{\"legalEntityId\":215184,\"routing\":{\"emails\":[\"sprasad96@gmail.com\"],\"eIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"document\":{\"documentType\":\"invoice\",\"invoice\":{\"invoiceNumber\":\"74680727\",\"issueDate\":\"2021-12-07\",\"documentCurrencyCode\":\"EUR\",\"taxSystem\":\"tax_line_percentages\",\"accountingCustomerParty\":{\"party\":{\"companyName\":\"Jsoftsolution\",\"address\":{\"street1\":\"414 Krishna enclave\",\"zip\":\"53453\",\"city\":\"Mohali\",\"country\":\"NL\"}},\"publicIdentifiers\":[{\"scheme\":\"NL:KVK\",\"id\":\"60881119\"},{\"scheme\":\"NL:VAT\",\"id\":\"NL123456789B45\"}]},\"invoiceLines\":[{\"description\":\"The things you purchased\",\"amountExcludingVat\":10,\"tax\":{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\"}}],\"taxSubtotals\":[{\"percentage\":0,\"category\":\"reverse_charge\",\"country\":\"NL\",\"taxableAmount\":10,\"taxAmount\":0}],\"paymentMeansArray\":[{\"account\":\"NL50ABNA0552321249\",\"holder\":\"Storecove\",\"code\":\"credit_transfer\"}],\"amountIncludingVat\":10}}}', '0', '', '', '0f9ef503-e0ce-447c-93d6-49255feacc42', '0000-00-00 00:00:00');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2181,16 +2312,16 @@ CREATE TABLE IF NOT EXISTS `gtg_quotes_items` (
 DROP TABLE IF EXISTS `gtg_referral`;
 CREATE TABLE IF NOT EXISTS `gtg_referral` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `referral_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contact_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `emailid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subscription` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `start_date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `end_date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `admin_remarks` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reffered_by` varchar(115) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `referral_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contact_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `emailid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subscription` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `end_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `admin_remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reffered_by` varchar(115) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int NOT NULL DEFAULT '0',
   `delete_status` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -2275,12 +2406,12 @@ INSERT INTO `gtg_restkeys` (`id`, `user_id`, `key`, `level`, `ignore_limits`, `i
 DROP TABLE IF EXISTS `gtg_role`;
 CREATE TABLE IF NOT EXISTS `gtg_role` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `role_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` int NOT NULL,
   `delete_status` int NOT NULL,
   `all_data_previleges` int NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `gtg_role`
@@ -2288,15 +2419,13 @@ CREATE TABLE IF NOT EXISTS `gtg_role` (
 
 INSERT INTO `gtg_role` (`id`, `role_name`, `status`, `delete_status`, `all_data_previleges`) VALUES
 (1, 'Inventory Manager', 1, 0, 0),
-(2, 'Sales Person', 1, 0, 1),
+(2, 'driver', 1, 0, 1),
 (3, 'Sales Manager', 1, 0, 1),
 (4, 'ADMIN', 1, 0, 1),
 (5, 'Business Owner', 1, 0, 1),
 (6, 'Project Manager', 1, 0, 1),
 (7, 'Marketing ', 1, 0, 1),
-(8, 'General Workers', 1, 0, 1),
-(14, 'jkdddd', 1, 0, 1),
-(15, 'ssss', 1, 0, 1);
+(8, 'General Workers', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2307,7 +2436,7 @@ INSERT INTO `gtg_role` (`id`, `role_name`, `status`, `delete_status`, `all_data_
 DROP TABLE IF EXISTS `gtg_schedular_sub_modules`;
 CREATE TABLE IF NOT EXISTS `gtg_schedular_sub_modules` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `Name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ModuleId` int NOT NULL,
   `CrDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
@@ -2497,7 +2626,21 @@ CREATE TABLE IF NOT EXISTS `gtg_supplier` (
   `loc` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `gid` (`gid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `gtg_supplier`
+--
+
+INSERT INTO `gtg_supplier` (`id`, `name`, `phone`, `address`, `city`, `region`, `country`, `postbox`, `email`, `picture`, `gid`, `company`, `taxid`, `loc`) VALUES
+(1, 'rahul', '9841204881', '', '', '', '', '', 'hariinraj29@gmail.com', 'example.png', 1, 'reno', '', 0),
+(2, 'Windy', '0122555412', '4th, Wisma Academy, Lot 4A, Jalan 19/1,', 'Petaling Jaya', 'Selangor', 'Malaysia', '46300', 'windy@ingrammicro.com', 'example.png', 1, 'Ingram Micro Malaysia Sdn. Bhd', '', 0),
+(3, 'Mr Ng', '01223232323', 'Suite 2B-20-1, 20th Floor, Block 2B, Plaza Sentral', 'Wilayah Persekutuan', 'Kuala Lumpur', 'Malaysia', '50470', 'sales@jsoftsolution.com.my', 'example.png', 1, 'iPay88 Malaysia', '', 0),
+(4, 'mr sry', '0123434343', 'H1-6, Block H1, Level 6, SetiaWalk, Persiaran Wawa', ' Pusat Bandar Puchong', 'Selangor', 'Malaysia', '47100', 'exabyte@exabyte.com', 'example.png', 1, 'Exabytes', '', 0),
+(5, 'Chandran', '0355699951', '27, Jalan Pendidik U1/31, Hicom-glenmarie Industri', 'Shah Alam', 'Selangor', 'Malaysia', '40150', 'cbg@cbg.com', 'example.png', 1, 'CBG Infotech', '', 0),
+(6, 'Ng', '03-6286 8222', 'Lot 3, Jalan Teknologi 3/5, Taman Sains Selangor.', 'Kota Damansara', 'Selangor', 'Malaysia', '47810', 'Yuni@vstecs berhad', 'example.png', 1, 'VSTECS Berhad', '', 0),
+(7, 'hjgj', 'jhg', 'hgjh', 'gjh', 'ghjg', 'hjg', 'j', 'jhgj', 'example.png', 1, 'jhgjhg', 'j', 0),
+(8, 'hghjg', 'jhg', 'ghj', 'ghj', 'ghj', 'ghj', 'ghj', 'jhghj', 'example.png', 1, 'hjgjg', 'gjh', 0);
 
 -- --------------------------------------------------------
 
@@ -2534,7 +2677,7 @@ CREATE TABLE IF NOT EXISTS `gtg_system` (
 --
 
 INSERT INTO `gtg_system` (`id`, `cname`, `address`, `city`, `region`, `country`, `postbox`, `phone`, `email`, `taxid`, `tax`, `currency`, `currency_format`, `prefix`, `dformat`, `zone`, `logo`, `lang`, `foundation`) VALUES
-(1, 'JSOFT SOLUTION SDN BHD', '16-03-C', 'Ara Damansara', 'Petaling Jaya ', 'Malaysia ', '47320', '0125509210', 'sprasad96@gmail.com', 'JSX003456', -1, 'MYR', 0, 'JS', 1, 'Asia/Kuala_Lumpur', '1685513389420555249.png', 'english', '2022-04-14');
+(1, 'JSOFT SOLUTION SDN BHD', '16-03-C', 'Ara Damansara', 'Petaling Jaya ', 'Malaysia ', '47320', '0125509210', 'sprasad96@gmail.com', 'JSX003456', -1, 'MYR', 0, 'JS', 1, 'Asia/Kuala_Lumpur', '1706503657879730312(1).jpeg', 'english', '2022-04-14');
 
 -- --------------------------------------------------------
 
@@ -2650,7 +2793,105 @@ CREATE TABLE IF NOT EXISTS `gtg_transactions` (
   KEY `acid` (`acid`),
   KEY `eid` (`eid`),
   KEY `tid` (`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `gtg_transactions`
+--
+
+INSERT INTO `gtg_transactions` (`id`, `acid`, `account`, `type`, `cat`, `debit`, `credit`, `payer`, `payerid`, `method`, `date`, `tid`, `eid`, `note`, `payment_proof`, `ext`, `loc`) VALUES
+(1, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1900.00', 'Walk-in Client', 1, 'Cash', '2023-02-10', 2, 6, 'Payment for invoice #1002', '', 0, 0),
+(2, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Walk-in Client', 1, 'Card', '2023-02-13', 1, 6, 'Payment for invoice #1001', '', 0, 0),
+(3, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Shafeek Ajmal', 1, 'Card', '2023-02-23', 3, 3, 'Card Payment for #1003', '', 0, 0),
+(4, 1, 'Sales Account', 'Income', 'Sales', '0.00', '99.00', 'Shafeek Ajmal', 1, 'Card', '2023-02-23', 3, 3, 'Card Payment for #1003', '', 0, 0),
+(5, 1, 'Sales Account', 'Income', 'Sales', '0.00', '99.00', 'Shafeek Ajmal', 1, 'Card', '2023-03-10', 3, 3, 'Card Payment for #1003', '', 0, 0),
+(6, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.50', 'Shafeek Ajmal', 1, 'Balance', '2023-03-13', 1, 6, 'Payment for invoice #1001', '', 0, 0),
+(7, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01 customer note:Payment for invoice #1001', '', 0, 0),
+(8, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01 customer note:test', '', 0, 0),
+(9, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01  customer note:final', '', 0, 0),
+(10, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01  customer note:final', '', 0, 0),
+(11, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.01  customer note:final', '', 0, 0),
+(12, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.01  customer note:final', '', 0, 0),
+(13, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.01  customer note:final', '', 0, 0),
+(14, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.43', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.43  customer note:Payment for invoice #1001', '', 0, 0),
+(15, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 5, 3, 'Wallet Payment for invoice #1005, amount: 0.01  customer note:Payment for invoice #1005', '', 0, 0),
+(16, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Shafeek Ajmal', 1, 'Card', '2023-03-13', 5, 3, 'Card for #SRN1005 by ipay88 transid:T184069815623', '', 0, 0),
+(17, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-14', 5, 3, 'Wallet Payment for invoice #1005, amount: 01  customer note:Payment for invoice #1005', '', 0, 0),
+(18, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet', '2023-03-21', 5, 3, 'Wallet for invoice #1005, amount: 0.01  customer note:Payment for invoice #1005', '', 0, 0),
+(19, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Jsoftsolution', 10, 'Wallet', '2023-03-21', 4, 3, 'Wallet for invoice #1004, amount: 0.01  customer note:Payment for invoice #1004', '', 0, 0),
+(20, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Jsoftsolution', 10, 'Wallet', '2023-03-21', 4, 3, 'Wallet for invoice #1004, amount: 0.01  customer note:Payment for invoice #1004', '', 0, 0),
+(21, 1, 'Sales Account', 'Income', 'Sales', '0.00', '5.00', 'Shafeek Ajmal', 1, 'Wallet', '2023-05-12', 24, 1, 'Wallet for invoice #1024, amount: 5.00  customer note:Payment for invoice #1024', '', 0, 0),
+(22, 1, 'Sales Account', 'Income', 'Sales', '0.00', '42.00', 'Testing2', 13, 'Wallet', '2023-05-17', 22, 1, 'Wallet for invoice #1022, amount: 42.00  customer note:Payment for invoice #1022', '', 0, 0),
+(23, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Testing2', 13, 'Maybank2U', '2023-05-17', 27, 1, 'Maybank2U for #SRN1027 by ipay88 transid:T195717025523', '', 0, 0),
+(25, 1, 'Sales Account', 'Income', 'Sales', '0.00', '157.50', 'Shafeek Ajmal', 1, 'Cash', '2023-05-18', 31, 1, '#1001-Cash', '', 0, 0),
+(26, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Testing2', 13, 'Maybank2U', '2023-05-31', 27, 1, 'Maybank2U for #SRN1027 by ipay88 transid:T198480583823', '', 0, 0),
+(27, 1, 'Sales Account', 'Income', 'Sales', '0.00', '5.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-14', 43, 1, '#1002-Cash', '', 0, 0),
+(28, 1, 'Sales Account', 'Expense', 'Expenses', '1000.00', '0.00', 'exabyte sdn hd ', 0, 'Bank', '2023-06-15', 0, 6, 'buy a server ', '', 1, 0),
+(29, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '1000.00', 'Windy ', 2, 'Cash', '2023-06-20', 0, 6, 'Bought PC', '', 1, 0),
+(30, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '1000.00', 'Windy ', 2, 'Cash', '2023-06-20', 0, 6, 'Bought PC', '', 1, 0),
+(31, 1, 'Sales Account', 'Expense', 'Expenses', '1000.00', '0.00', 'Windy ', 2, 'Cash', '2023-06-20', 0, 6, 'Bought PC', '', 1, 0),
+(32, 1, 'Sales Account', 'Income', 'Sales', '0.00', '18.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-21', 53, 24, '#1003-Cash', '', 0, 0),
+(33, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-27', 55, 1, '#1004-Cash', '', 0, 0),
+(34, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-27', 56, 1, '#1005-Cash', '', 0, 0),
+(35, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 57, 1, '#1006-Cash', '', 0, 0),
+(36, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 58, 1, '#1007-Cash', '', 0, 0),
+(37, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 59, 1, '#1008-Cash', '', 0, 0),
+(38, 1, 'Sales Account', 'Income', 'Sales', '0.00', '12.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 60, 1, '#1009-Cash', '', 0, 0),
+(39, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 61, 1, '#1010-Cash', '', 0, 0),
+(40, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 62, 1, '#1011-Cash', '', 0, 0),
+(41, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 63, 1, '#1012-Cash', '', 0, 0),
+(42, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-29', 64, 1, '#1013-Cash', '', 0, 0),
+(43, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-29', 65, 1, '#1014-Cash', '', 0, 0),
+(44, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-29', 67, 1, '#1015-Cash', '', 0, 0),
+(45, 1, 'Sales Account', 'Income', 'Sales', '0.00', '21.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 71, 1, '#1016-Cash', '', 0, 0),
+(46, 1, 'Sales Account', 'Income', 'Sales', '0.00', '47.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 72, 1, '#1017-Cash', '', 0, 0),
+(47, 1, 'Sales Account', 'Income', 'Sales', '0.00', '52.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 73, 1, '#1018-Cash', '', 0, 0),
+(48, 1, 'Sales Account', 'Income', 'Sales', '0.00', '78.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 75, 1, '#1019-Cash', '', 0, 0),
+(49, 1, 'Sales Account', 'Income', 'Sales', '0.00', '104.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 76, 1, '#1020-Cash', '', 0, 0),
+(50, 1, 'Sales Account', 'Income', 'Sales', '0.00', '73.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 77, 1, '#1021-Cash', '', 0, 0),
+(51, 1, 'Sales Account', 'Income', 'Sales', '0.00', '26.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 78, 1, '#1022-Cash', '', 0, 0),
+(52, 1, 'Sales Account', 'Income', 'Sales', '0.00', '125.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 79, 1, '#1023-Cash', '', 0, 0),
+(53, 1, 'Sales Account', 'Income', 'Sales', '0.00', '26.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-06', 80, 1, '#1024-Cash', '', 0, 0),
+(54, 1, 'Sales Account', 'Income', 'Sales', '0.00', '173.72', 'Shafeek Ajmal', 1, 'Cash', '2023-07-10', 84, 1, '#1025-Cash', '', 0, 0),
+(55, 1, 'Sales Account', 'Income', 'Sales', '0.00', '219.42', 'Shafeek Ajmal', 1, 'Cash', '2023-07-10', 85, 1, '#1026-Cash', '', 0, 0),
+(56, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1360.00', 'Raj', 11, 'Cash', '2023-07-17', 97, 6, 'Payment for invoice #1063', '', 0, 0),
+(57, 1, 'Sales Account', 'Income', 'Sales', '0.00', '4770.00', 'Sharon', 74, 'Wallet', '2023-07-19', 100, 40, 'Wallet for invoice #1066, amount: 4770.00  customer note:Payment for invoice #1066', '', 0, 0),
+(58, 1, 'Sales Account', 'Income', 'Sales', '0.00', '378.75', 'Shafeek Ajmal', 1, 'Cash', '2023-07-19', 101, 40, '#1027-Cash', '', 0, 0),
+(59, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Bank', '2023-09-12', 103, 6, 'Payment for invoice #1067', '', 0, 0),
+(60, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Card', '2023-09-12', 103, 6, 'Payment for invoice #1067', '', 0, 0),
+(61, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Balance', '2023-09-12', 103, 6, 'Payment for invoice #1067', '', 0, 0),
+(62, 1, 'Sales Account', 'Transfer', '', '0.00', '10.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred by Sales Account', '', 9, 0),
+(63, 1, 'Sales Account', 'Transfer', '', '10.00', '0.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred to Sales Account', '', 9, 0),
+(64, 1, 'Sales Account', 'Transfer', '', '0.00', '100.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred by Sales Account', '', 9, 0),
+(65, 1, 'Sales Account', 'Transfer', '', '100.00', '0.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred to Sales Account', '', 9, 0),
+(66, 1, 'Sales Account', 'Income', 'Sales', '0.00', '86.00', 'Hasan Prasetyo', 12, 'Cash', '2023-10-10', 112, 53, '#1028-Cash', '', 0, 0),
+(67, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 107, 6, '', '', 0, 0),
+(68, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 107, 6, '', '', 0, 0),
+(69, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'sivaprasad', 84, 'Balance', '2023-10-17', 106, 6, '', '', 0, 0),
+(70, 1, 'Sales Account', 'Income', 'Sales', '0.00', '500.00', 'sivaprasad', 84, 'Cash', '2023-10-17', 106, 6, '', '', 0, 0),
+(71, 1, 'Sales Account', 'Income', 'Sales', '0.00', '598.00', 'sivaprasad', 84, 'Cash', '2023-10-17', 106, 6, '', '', 0, 0),
+(72, 1, 'Sales Account', 'Income', 'Sales', '0.00', '10.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 105, 6, '', '', 0, 0),
+(73, 1, 'Sales Account', 'Income', 'Sales', '0.00', '10.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 105, 6, '', '', 0, 0),
+(74, 1, 'Sales Account', 'Income', 'Sales', '0.00', '70.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 105, 6, '', '', 0, 0),
+(75, 1, 'Sales Account', 'Income', 'Sales', '0.00', '500.00', 'G Krishna', 16, 'Cash', '2023-10-17', 104, 6, '', '', 0, 0),
+(76, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'mr sry', 4, 'Cash', '2023-10-17', 7, 6, '', '', 0, 0),
+(77, 1, 'Sales Account', 'Income', 'Sales', '150.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-16', 8, 6, '', '', 0, 0),
+(78, 1, 'Sales Account', 'Expense', 'Purchase', '1938.50', '0.00', 'mr sry', 4, 'Bank', '2023-11-17', 9, 6, 'Payment for purchase #1009', '', 1, 0),
+(79, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-19', 6, 6, '', '', 0, 0),
+(80, 1, 'Sales Account', 'Income', 'Sales', '500.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-19', 5, 6, 'kjhjkhkjhk', '', 0, 0),
+(81, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-20', 9, 6, '', '', 0, 0),
+(82, 1, 'Sales Account', 'Income', 'Sales', '0.00', '300.00', 'Shafeek Ajmal', 1, 'Cash', '2023-11-22', 114, 6, '', '', 0, 0),
+(83, 1, 'Sales Account', 'Income', 'Sales', '3800.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-22', 16, 6, '', '', 0, 0),
+(84, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '100.00', 'Shafeek Ajmal ', 1, 'Cash', '2023-11-29', 0, 6, 'shshs', '', 0, 0),
+(85, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '20.00', 'mr sry ', 4, 'Cash', '2023-11-16', 0, 6, '', '', 1, 0),
+(86, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '20.00', 'mr sry ', 4, 'Cash', '2023-11-16', 0, 6, 'dwfdeq', '', 1, 0),
+(87, 1, 'Sales Account', 'Income', 'Sales', '0.00', '500.00', 'Shafeek Ajmal', 1, 'Cash', '2023-11-29', 115, 6, '', '', 0, 0),
+(88, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '100.00', 'Shafeek Ajmal ', 1, 'Cash', '2023-11-29', 0, 6, 'ddd', '', 0, 0),
+(89, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '100.00', 'Windy ', 2, 'Cash', '2023-11-17', 0, 6, 'eee', '', 1, 0),
+(90, 1, 'Sales Account', 'Income', 'Sales', '0.00', '43.00', NULL, 0, 'Cash', '2023-12-19', 116, 58, '#1029-Cash', '', 0, 0),
+(91, 1, 'Sales Account', 'Income', 'Sales', '0.00', '43.00', NULL, 0, 'Cash', '2023-12-19', 117, 58, '#1030-Cash', '', 0, 0),
+(92, 1, 'Sales Account', 'Income', 'Sales', '0.00', '297.00', NULL, 0, 'Cash', '2023-12-19', 118, 58, '#1031-Cash', '', 0, 0),
+(93, 1, 'Sales Account', 'Income', 'Sales', '0.00', '297.00', NULL, 0, 'Cash', '2023-12-19', 119, 58, '#1032-Cash', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2663,7 +2904,15 @@ CREATE TABLE IF NOT EXISTS `gtg_trans_cat` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `gtg_trans_cat`
+--
+
+INSERT INTO `gtg_trans_cat` (`id`, `name`) VALUES
+(2, 'Expenses'),
+(3, 'Other');
 
 -- --------------------------------------------------------
 
@@ -2706,14 +2955,22 @@ DROP TABLE IF EXISTS `gtg_uploads`;
 CREATE TABLE IF NOT EXISTS `gtg_uploads` (
   `id` int NOT NULL AUTO_INCREMENT,
   `contract_id` int NOT NULL,
-  `file_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `file_size` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `upload_date` text COLLATE utf8mb4_general_ci NOT NULL,
+  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gtg_uploads`
+--
+
+INSERT INTO `gtg_uploads` (`id`, `contract_id`, `file_name`, `file_path`, `file_type`, `file_size`, `created_at`, `upload_date`) VALUES
+(6, 9, 'Error_ERP1702514982.pdf', 'https://localhost/erp-dev/userfiles/contract_docs/Error_ERP1702514982.pdf', 'application/pdf', 790, '2023-12-14 00:49:42', '2023-12-14 00:49:42'),
+(7, 10, 'Error_ERP1702515356.pdf', 'https://localhost/erp-dev/userfiles/contract_docs/Error_ERP1702515356.pdf', 'application/pdf', 790, '2023-12-14 00:55:56', '2023-12-14 00:55:56');
 
 -- --------------------------------------------------------
 
@@ -2752,7 +3009,47 @@ CREATE TABLE IF NOT EXISTS `gtg_users` (
 --
 
 INSERT INTO `gtg_users` (`id`, `email`, `pass`, `username`, `banned`, `last_login`, `last_activity`, `date_created`, `forgot_exp`, `remember_time`, `remember_exp`, `verification_code`, `totp_secret`, `ip_address`, `roleid`, `picture`, `loc`, `lang`, `login_status`) VALUES
-(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2023-12-19 08:08:22', '2023-12-19 08:08:22', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '2001:d08:d2:57ef:bc3a:bbb7:851a:f982', 5, '1667294757148617952.jpeg', 0, 'english', 0);
+(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 01:09:44', '2024-02-08 01:09:44', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gtg_vehicles`
+--
+
+DROP TABLE IF EXISTS `gtg_vehicles`;
+CREATE TABLE IF NOT EXISTS `gtg_vehicles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `registration_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `make` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `model` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `year_of_manufacture` int DEFAULT NULL,
+  `color` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vin` varchar(17) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `engine_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `chassis_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fuel_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `transmission_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `odometer_reading` int DEFAULT NULL,
+  `insurance_details` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `registration_date` date DEFAULT NULL,
+  `owner_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `owner_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `service_history` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `additional_features` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `delete_status` int NOT NULL DEFAULT '0',
+  `emp_id` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gtg_vehicles`
+--
+
+INSERT INTO `gtg_vehicles` (`id`, `registration_number`, `make`, `model`, `year_of_manufacture`, `color`, `vin`, `engine_number`, `chassis_number`, `fuel_type`, `transmission_type`, `odometer_reading`, `insurance_details`, `registration_date`, `owner_name`, `owner_contact`, `service_history`, `additional_features`, `delete_status`, `emp_id`) VALUES
+(1, 'jhgjhg', 'aaaqqq', 'hjj', 0, 'jhdddd', 'hjgjgjhg', NULL, NULL, 'Petrol', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
+(2, 'mhj', 'kjh', 'gjhg', 2023, 'jh', 'ghjgj', NULL, NULL, 'Diesel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0),
+(3, '4567890', 'ppppp', 'qqqqq', 0, 'RED', 'jgg', NULL, NULL, 'Diesel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 43);
 
 -- --------------------------------------------------------
 
@@ -2788,17 +3085,45 @@ CREATE TABLE IF NOT EXISTS `merchant_items_thirdparty_pricing` (
   `ItemId` int NOT NULL,
   `MerchantId` int NOT NULL,
   `ThirdPartyVendorId` int NOT NULL,
-  `ThirdPartyVendorItemId` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ThirdPartyVendorItemId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `CityId` int NOT NULL,
   `LocationId` int NOT NULL,
   `SegmentId` int NOT NULL,
   `SubSegmentId` int NOT NULL,
-  `Price` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Price` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `SegmentStatus` int NOT NULL DEFAULT '0',
   `ItemStatus` int NOT NULL DEFAULT '1',
   `CrDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `merchant_items_thirdparty_pricing`
+--
+
+INSERT INTO `merchant_items_thirdparty_pricing` (`Id`, `ItemId`, `MerchantId`, `ThirdPartyVendorId`, `ThirdPartyVendorItemId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `Price`, `SegmentStatus`, `ItemStatus`, `CrDate`) VALUES
+(1, 1, 1, 3, '', 0, 0, 26, 38, '50', 0, 1, '2023-07-19 15:02:33'),
+(2, 1, 1, 4, '26552', 0, 0, 26, 38, '23', 0, 1, '2023-08-24 07:55:18'),
+(10, 2, 1, 4, '2', 0, 0, 26, 38, '23', 0, 1, '2023-07-19 08:46:18'),
+(9, 2, 1, 3, '', 0, 0, 26, 38, '21', 0, 1, '2023-06-27 17:29:14'),
+(23, 5, 0, 3, '26477', 0, 0, 2, 5, '300', 0, 1, '2023-08-18 16:00:56'),
+(12, 3, 1, 4, '3', 0, 0, 3, 5, '25', 0, 1, '2023-07-19 08:46:31'),
+(11, 3, 1, 3, '', 0, 0, 3, 5, '26', 0, 1, '2023-07-02 07:37:46'),
+(24, 5, 0, 4, '', 0, 0, 2, 5, '225', 0, 1, '2023-08-23 07:43:36'),
+(19, 7, 0, 3, '26479', 0, 0, 3, 4, '43', 0, 1, '2023-08-18 16:01:01'),
+(20, 7, 0, 4, '', 0, 0, 3, 4, '15', 0, 1, '2023-08-23 07:43:38'),
+(21, 4, 0, 3, '', 0, 0, 2, 5, '58', 0, 1, '2023-07-10 07:56:24'),
+(22, 4, 0, 4, '', 0, 0, 2, 5, '15', 0, 1, '2023-08-23 07:46:21'),
+(25, 6, 0, 3, '', 0, 0, 2, 5, '200', 0, 1, '2023-07-10 07:56:24'),
+(26, 6, 0, 4, '', 0, 0, 2, 5, '100', 0, 1, '2023-08-23 08:46:52'),
+(27, 7, 0, 3, '', 0, 0, 2, 6, '10', 0, 1, '2023-07-10 02:20:51'),
+(28, 7, 0, 4, '7', 0, 0, 2, 6, '10', 0, 1, '2023-07-19 08:46:57'),
+(29, 8, 0, 3, '', 0, 0, 2, 6, '25', 0, 1, '2023-07-10 02:21:36'),
+(30, 8, 0, 4, '26417', 0, 0, 2, 6, '25', 0, 1, '2023-08-14 09:30:30'),
+(32, 8, 0, 3, '', 0, 0, 3, 4, '15', 0, 1, '2023-07-23 02:43:23'),
+(33, 8, 0, 4, '', 0, 0, 3, 4, '15', 0, 1, '2023-07-23 02:43:23'),
+(34, 14, 0, 3, '', 0, 0, 8, 0, '100', 0, 1, '2023-11-21 18:45:23'),
+(35, 14, 0, 4, '', 0, 0, 8, 0, '100', 0, 1, '2023-11-21 18:45:23');
 
 -- --------------------------------------------------------
 
@@ -2809,17 +3134,25 @@ CREATE TABLE IF NOT EXISTS `merchant_items_thirdparty_pricing` (
 DROP TABLE IF EXISTS `merchant_thirdparty_vendors`;
 CREATE TABLE IF NOT EXISTS `merchant_thirdparty_vendors` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `VendorName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `VendorName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `Status` int NOT NULL DEFAULT '1',
   `CrDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Type` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `WebSiteUrl` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ConsumerKey` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ConsumerSecret` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `WebSiteType` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `WebSiteUrl` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ConsumerKey` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ConsumerSecret` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `WebSiteType` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `PlatformType` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `merchant_thirdparty_vendors`
+--
+
+INSERT INTO `merchant_thirdparty_vendors` (`Id`, `VendorName`, `Status`, `CrDate`, `Type`, `WebSiteUrl`, `ConsumerKey`, `ConsumerSecret`, `WebSiteType`, `PlatformType`) VALUES
+(3, 'POS', 1, '2023-07-10 08:30:55', 'Offline', '', '', '', '', 0),
+(4, 'JStore', 1, '2023-09-04 09:52:34', 'Online', 'https://jstore.my', 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de', 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d', 'wordpress', 1);
 
 -- --------------------------------------------------------
 
@@ -2935,7 +3268,7 @@ INSERT INTO `modules` (`id`, `module`, `description`) VALUES
 DROP TABLE IF EXISTS `modules_new`;
 CREATE TABLE IF NOT EXISTS `modules_new` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -2967,22 +3300,30 @@ INSERT INTO `modules_new` (`id`, `name`, `status`) VALUES
 DROP TABLE IF EXISTS `publishing_activity`;
 CREATE TABLE IF NOT EXISTS `publishing_activity` (
   `Id` int NOT NULL AUTO_INCREMENT,
-  `SessionId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `ItemId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `ThirdPartyVenderId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `MerchantId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `CityId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `LocationId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `SegmentId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `SubSegmentId` text COLLATE utf8mb4_general_ci NOT NULL,
-  `ActionType` text COLLATE utf8mb4_general_ci NOT NULL,
-  `Action` text COLLATE utf8mb4_general_ci NOT NULL,
-  `PreviousValue` text COLLATE utf8mb4_general_ci NOT NULL,
-  `NewValue` text COLLATE utf8mb4_general_ci NOT NULL,
-  `Query` text COLLATE utf8mb4_general_ci NOT NULL,
-  `CrDate` text COLLATE utf8mb4_general_ci NOT NULL,
+  `SessionId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ItemId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ThirdPartyVenderId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `MerchantId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CityId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `LocationId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `SegmentId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `SubSegmentId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ActionType` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Action` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PreviousValue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `NewValue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Query` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CrDate` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `publishing_activity`
+--
+
+INSERT INTO `publishing_activity` (`Id`, `SessionId`, `ItemId`, `ThirdPartyVenderId`, `MerchantId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `ActionType`, `Action`, `PreviousValue`, `NewValue`, `Query`, `CrDate`) VALUES
+(1, '97843', '1', '4', '3', '5', '10', '3', '4', 'PriceInsert', 'Price Insert new price value 32', '', '32', 'INSERT INTO `merchant_items_thirdparty_pricing` (`ItemId`, `ThirdPartyVenderId`, `MerchantId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `Price`, `CrDate`) VALUES (1, 4, 3, 5, 10, 3, 4, 32,\'2023-07-04 07:02:39\')', '2023-07-04 07:02:39'),
+(2, '97843', '1', '4', '3', '5', '10', '3', '4', 'PriceInsert', 'Price Insert new price value 35', '', '35', 'INSERT INTO `merchant_items_thirdparty_pricing` (`ItemId`, `ThirdPartyVenderId`, `MerchantId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `Price`, `CrDate`) VALUES (1, 4, 3, 5, 10, 3, 4, 35,\'2023-07-04 07:05:26\')', '2023-07-04 07:05:26');
 
 -- --------------------------------------------------------
 
@@ -2993,18 +3334,18 @@ CREATE TABLE IF NOT EXISTS `publishing_activity` (
 DROP TABLE IF EXISTS `scheduler`;
 CREATE TABLE IF NOT EXISTS `scheduler` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `run_scheduler_expiry_date` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `run_scheduler_expiry_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `module` int NOT NULL,
-  `scheduler_on` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `minutes` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `hours` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `days` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `month` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `day` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `Schdeuleno_days` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `email_to` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `scheduler_on` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `minutes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `hours` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `days` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `month` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `day` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Schdeuleno_days` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` int NOT NULL DEFAULT '1',
-  `created_at` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -3030,7 +3371,7 @@ CREATE TABLE IF NOT EXISTS `sidebarhierarchy` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `child_id` (`child_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=171 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sidebarhierarchy`
@@ -3072,9 +3413,9 @@ INSERT INTO `sidebarhierarchy` (`id`, `parent_id`, `child_id`) VALUES
 (33, 36, 37),
 (34, 37, 38),
 (35, 37, 39),
-(36, 37, 40),
+(36, 36, 40),
 (37, 36, 41),
-(38, 41, 42),
+(172, 201, 206),
 (39, 43, 44),
 (40, 44, 45),
 (41, 44, 46),
@@ -3206,7 +3547,9 @@ INSERT INTO `sidebarhierarchy` (`id`, `parent_id`, `child_id`) VALUES
 (167, 17, 196),
 (168, 17, 197),
 (169, 136, 199),
-(170, 136, 200);
+(170, 136, 200),
+(171, 201, 204),
+(173, 36, 207);
 
 -- --------------------------------------------------------
 
@@ -3218,14 +3561,14 @@ DROP TABLE IF EXISTS `sidebaritems`;
 CREATE TABLE IF NOT EXISTS `sidebaritems` (
   `id` int NOT NULL AUTO_INCREMENT,
   `parent_id` int DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `icon` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `permissions` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `type` enum('Sidebar','Subheading','Child Heading') COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('Active','Inactive') COLLATE utf8mb4_general_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `permissions` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `type` enum('Sidebar','Subheading','Child Heading') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `display_order` int NOT NULL,
-  `module_type` text COLLATE utf8mb4_general_ci NOT NULL,
+  `module_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `r_1` int NOT NULL DEFAULT '0',
   `r_2` int NOT NULL DEFAULT '0',
   `r_3` int NOT NULL DEFAULT '0',
@@ -3236,219 +3579,220 @@ CREATE TABLE IF NOT EXISTS `sidebaritems` (
   `r_8` int NOT NULL DEFAULT '0',
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `subscription_status` int NOT NULL DEFAULT '1',
-  `r_17` int DEFAULT '0',
-  `r_14` int NOT NULL DEFAULT '0',
-  `r_15` int NOT NULL DEFAULT '0',
-  `r_16` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=202 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sidebaritems`
 --
 
-INSERT INTO `sidebaritems` (`id`, `parent_id`, `title`, `url`, `icon`, `permissions`, `type`, `status`, `display_order`, `module_type`, `r_1`, `r_2`, `r_3`, `r_4`, `r_5`, `r_6`, `r_7`, `r_8`, `cr_date`, `subscription_status`, `r_17`, `r_14`, `r_15`, `r_16`) VALUES
-(1, 0, 'Dashboard', 'dashboard', 'icon-speedometer', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 05:48:10', 1, 0, 0, 0, 1),
-(2, 0, 'Sales', ' ', 'icon-basket-loaded', NULL, 'Sidebar', 'Active', 2, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:49:41', 1, 1, 0, 0, 1),
-(3, 2, 'Quotes', ' ', 'icon-call-out', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:51:50', 0, 1, 0, 0, 1),
-(4, 0, 'New Quote', 'quote/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:55:09', 0, 1, 0, 0, 1),
-(5, 0, 'Manage Quotes', 'quote', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:55:57', 0, 1, 0, 0, 1),
-(6, 2, 'Invoices', ' ', 'icon-basket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:57:20', 0, 1, 0, 0, 1),
-(7, 6, 'New Invoice', 'invoices/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 06:01:11', 0, 1, 0, 0, 1),
-(8, 6, 'Manage Invoices', 'invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 06:02:00', 0, 1, 0, 0, 1),
-(9, 6, 'Peppol Invoices', 'invoices/peppol_invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:17:55', 0, 1, 0, 0, 1),
-(10, 2, 'Pos Invoices', '', 'icon-paper-plane', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:19:58', 0, 1, 0, 0, 1),
-(11, 10, 'New Pos Invoice', 'pos_invoices/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:23:16', 0, 1, 0, 0, 1),
-(12, 10, 'Manage Pos Invoices', 'pos_invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:23:56', 0, 1, 0, 0, 1),
-(13, 2, 'Subscriptions', '', 'ft-radio', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:25:41', 0, 1, 0, 0, 1),
-(14, 13, 'New Subscription', 'subscriptions/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:26:52', 0, 1, 0, 0, 1),
-(15, 13, 'Subscriptions', 'subscriptions', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:28:24', 0, 1, 0, 0, 1),
-(16, 2, 'Credit Notes', 'stockreturn/creditnotes', 'icon-screen-tablet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:29:28', 0, 1, 0, 0, 1),
-(17, 0, 'Stock', '', 'ft-layers', NULL, 'Sidebar', 'Active', 3, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:32:59', 1, 1, 0, 0, 1),
-(18, 17, 'Items Manager', '', 'ft-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:35:39', 0, 1, 0, 0, 1),
-(19, 18, 'New Product', 'products/add', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:36:41', 0, 1, 0, 0, 1),
-(20, 18, 'Manage Products', 'products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:37:29', 0, 1, 0, 0, 1),
-(21, 17, 'Product Categories', 'productcategory', 'ft-umbrella', NULL, 'Subheading', 'Active', 2, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:38:39', 0, 1, 0, 0, 1),
-(22, 17, 'WareHouses', 'productcategory/warehouse', 'ft-sliders', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:41:33', 0, 1, 0, 0, 1),
-(23, 17, 'Stock Transfer', 'products/stock_transfer', 'ft-wind', NULL, 'Subheading', 'Active', 5, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:42:07', 0, 1, 0, 0, 1),
-(24, 194, 'Purchase Order', '', 'icon-handbag', NULL, 'Subheading', 'Active', 2, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:42:40', 0, 1, 0, 0, 1),
-(25, 24, 'New Order', 'purchase/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:43:16', 0, 1, 0, 0, 1),
-(26, 24, 'Manage Orders', 'purchase', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:43:50', 0, 1, 0, 0, 1),
-(27, 194, 'Stock Return', '', 'icon-puzzle', NULL, 'Subheading', 'Active', 5, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:48:39', 0, 1, 0, 0, 1),
-(28, 27, 'Supplier Records', 'stockreturn', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:49:12', 0, 1, 0, 0, 1),
-(29, 27, 'Customer Records', 'stockreturn/customer', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:02', 0, 1, 0, 0, 1),
-(30, 194, 'Suppliers', '', 'ft-target', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:22', 0, 1, 0, 0, 1),
-(31, 30, 'New Supplier', 'supplier/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:49', 0, 1, 0, 0, 1),
-(32, 30, 'Manage Suppliers', 'supplier', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:51:23', 0, 1, 0, 0, 1),
-(33, 17, 'Products Label', '', 'fa fa-barcode', NULL, 'Subheading', 'Active', 3, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:51:49', 0, 1, 0, 0, 1),
-(34, 33, 'Custome Label', 'products/custom_label', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:52:43', 0, 1, 0, 0, 1),
-(35, 33, 'Standard Label', 'products/standard_label', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:53:06', 0, 1, 0, 0, 1),
-(36, 0, 'Job Sheet', '', 'icon-diamond', NULL, 'Sidebar', 'Active', 5, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:00:22', 1, 1, 0, 0, 1),
-(37, 36, 'Task Manager', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:01:47', 0, 0, 0, 0, 1),
-(38, 37, 'Create Task', 'jobsheets/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:02:54', 0, 0, 0, 0, 1),
-(39, 37, 'View Task', 'jobsheets', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:03:34', 0, 0, 0, 0, 1),
-(40, 37, 'Reports', 'jobsheets/reports', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:04:47', 0, 0, 0, 0, 1),
-(41, 36, 'My Task', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:05:13', 0, 1, 0, 0, 1),
-(42, 41, 'Task List', 'jobsheets/myjobs', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:06:04', 0, 1, 0, 0, 1),
-(43, 0, 'CRM', '', 'ft-users', NULL, 'Sidebar', 'Active', 6, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:10:18', 1, 0, 0, 0, 1),
-(44, 43, 'Clients', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:11:20', 0, 0, 0, 0, 1),
-(45, 44, 'New Client', 'customers/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:12:59', 0, 0, 0, 0, 1),
-(46, 44, 'Manage Clients', 'customers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:13:25', 0, 0, 0, 0, 1),
-(47, 43, 'Client groups', 'clientgroup', 'icon-grid', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:14:32', 0, 0, 0, 0, 1),
-(48, 43, 'Support Tickets', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:15:05', 0, 0, 0, 0, 1),
-(49, 48, 'UnSolved', 'tickets/?filter=unsolved', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:15:56', 0, 0, 0, 0, 1),
-(50, 48, 'Manage Tickets', 'tickets', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:16:48', 0, 0, 0, 0, 1),
-(51, 0, 'File Manager', '', 'fa fa-folder-o', NULL, 'Sidebar', 'Active', 7, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:17:54', 1, 0, 0, 0, 0),
-(52, 51, 'My Drive', 'filemanager', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:19:01', 0, 0, 0, 0, 0),
-(53, 51, 'Shared Folders', 'filemanager/sharedfolders', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:19:33', 0, 0, 0, 0, 0),
-(54, 51, 'Shared Files', 'filemanager/sharedfiles', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:20:04', 0, 0, 0, 0, 0),
-(55, 0, 'Project', '', 'icon-briefcase', NULL, 'Sidebar', 'Active', 8, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:34:39', 1, 0, 0, 0, 0),
-(56, 55, 'Project Management', '', 'icon-calendar', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:36:52', 0, 0, 0, 0, 0),
-(57, 56, 'New Project', 'projects/addproject', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:37:51', 0, 0, 0, 0, 0),
-(58, 56, 'Manage Projects', 'projects', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:38:22', 0, 0, 0, 0, 0),
-(59, 55, 'To Do List', 'tools/todo', 'icon-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:40:24', 0, 0, 0, 0, 0),
-(60, 0, 'Accounts', '', 'icon-calculator', NULL, 'Sidebar', 'Active', 9, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:52:52', 1, 0, 0, 0, 1),
-(61, 60, 'Accounts', '', 'icon-book-open', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:54:04', 0, 0, 0, 0, 1),
-(62, 61, 'Manage Accounts', 'accounts', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:55:11', 0, 0, 0, 0, 1),
-(63, 61, 'Balance Sheet', 'accounts/balancesheet', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:56:02', 0, 0, 0, 0, 1),
-(64, 61, 'Account Statements', 'reports/accountstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:56:43', 0, 0, 0, 0, 1),
-(65, 60, 'Transactions', '', 'icon-wallet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:57:14', 0, 0, 0, 0, 1),
-(66, 65, 'View Transactions', 'transactions', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:02:10', 0, 0, 0, 0, 1),
-(67, 65, 'New Transaction', 'transactions/add', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:02:41', 0, 0, 0, 0, 1),
-(68, 65, 'New Transfer', 'transactions/transfer', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:03:26', 0, 0, 0, 0, 1),
-(69, 65, 'Income', 'transactions/income', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:04:11', 0, 0, 0, 0, 1),
-(70, 65, 'Expense', 'transactions/expense', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:04:35', 0, 0, 0, 0, 1),
-(71, 65, 'Client Transactions', 'customers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:05:16', 0, 0, 0, 0, 1),
-(72, 0, 'Promo Codes', '', 'icon-trophy', NULL, 'Sidebar', 'Active', 10, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:18:56', 1, 0, 0, 0, 0),
-(73, 72, 'Coupons', '', 'icon-trophy', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:20:17', 0, 0, 0, 0, 0),
-(74, 73, 'New Promo', 'promo/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:20:51', 0, 0, 0, 0, 0),
-(75, 73, 'Manage Promo', 'promo', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:21:45', 0, 0, 0, 0, 0),
-(76, 0, 'Data & Reports', '', 'icon-pie-chart', NULL, 'Sidebar', 'Active', 11, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:23:45', 1, 0, 0, 0, 1),
-(77, 76, 'Business Registers', '', 'icon-eyeglasses', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:26:30', 0, 0, 0, 0, 1),
-(78, 76, 'Statements', '', 'icon-doc', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:27:12', 0, 0, 0, 0, 1),
-(79, 78, 'Account Statements', 'reports/accountstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:28:13', 0, 0, 0, 0, 1),
-(80, 78, 'Customer Account Statements', 'reports/customerstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:28:54', 0, 0, 0, 0, 1),
-(81, 78, 'Supplier Account Statement', 'reports/supplierstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:31:35', 0, 0, 0, 0, 1),
-(82, 78, 'Tax Statements', 'reports/taxstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:32:05', 0, 0, 0, 0, 1),
-(83, 78, 'Product Sales Reports', 'pos_invoices/extended', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:32:50', 0, 0, 0, 0, 1),
-(84, 76, 'Graphical Reports', '', 'icon-bar-chart', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:34:55', 0, 0, 0, 0, 1),
-(85, 84, 'Product Categories', 'chart/product_cat', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:36:44', 0, 0, 0, 0, 1),
-(86, 84, 'Trending Products', 'chart/trending_products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:37:16', 0, 0, 0, 0, 1),
-(87, 84, 'Profit', 'chart/profit', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:37:53', 0, 0, 0, 0, 1),
-(88, 84, 'Top Customers', 'chart/topcustomers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:38:18', 0, 0, 0, 0, 1),
-(89, 84, 'Income vs Expenses', 'chart/incvsexp', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:39:45', 0, 0, 0, 0, 1),
-(90, 84, 'Income', 'chart/income', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:40:18', 0, 0, 0, 0, 1),
-(91, 84, 'Expenses', 'chart/expenses', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:40:56', 0, 0, 0, 0, 1),
-(92, 76, 'Summary & Report', '', 'icon-bulb', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:41:41', 0, 0, 0, 0, 1),
-(93, 92, 'Statistics', 'reports/statistics', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:38:23', 0, 0, 0, 0, 1),
-(94, 92, 'Profit', 'reports/profitstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:39:27', 0, 0, 0, 0, 1),
-(95, 92, 'Calculate Income', 'reports/incomestatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:40:11', 0, 0, 0, 0, 1),
-(96, 92, 'Calculate Expenses', 'reports/expensestatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:41:06', 0, 0, 0, 0, 1),
-(97, 92, 'Sales', 'reports/sales', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:41:39', 0, 0, 0, 0, 1),
-(98, 92, 'Products', 'reports/products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:42:32', 0, 0, 0, 0, 1),
-(99, 92, 'Employee Sales Commission', 'reports/commission', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:43:13', 0, 0, 0, 0, 1),
-(100, 0, 'Miscellaneous', '', 'icon-note', NULL, 'Sidebar', 'Active', 12, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:45:07', 1, 0, 0, 0, 0),
-(101, 100, 'Notes', 'tools/notes', 'icon-note', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:46:21', 0, 0, 0, 0, 0),
-(102, 100, 'Calendar', 'events', 'icon-calendar', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:46:49', 0, 0, 0, 0, 0),
-(103, 100, 'Documents', 'tools/documents', 'icon-doc', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:48:25', 0, 0, 0, 0, 0),
-(104, 0, 'E-Commerce', '', 'icon-basket', NULL, 'Sidebar', 'Active', 13, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:05:53', 1, 0, 0, 0, 0),
-(105, 104, 'Online Platforms', 'ecommerce/online_platforms', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:02', 0, 0, 0, 0, 0),
-(106, 104, 'Categories', 'ecommerce/categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:30', 0, 0, 0, 0, 0),
-(107, 104, 'Sub Categories', 'ecommerce/sub_categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:54', 0, 0, 0, 0, 0),
-(108, 104, 'Publishing', 'ecommerce/publishing', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:08:16', 0, 0, 0, 0, 0),
-(109, 104, 'Analytics', 'ecommerce/analytics', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:08:46', 0, 0, 0, 0, 0),
-(110, 0, 'HRM', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 14, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:09:37', 1, 0, 0, 0, 1),
-(111, 110, 'Employees', '', 'ft-users', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:10:22', 0, 0, 0, 0, 1),
-(112, 111, 'Employees List', 'employee', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:11:27', 0, 0, 0, 0, 1),
-(113, 111, 'Salaries', 'employee/salaries', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:11:53', 0, 0, 0, 0, 1),
-(114, 201, 'Attendance', 'employee/attendances', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:12:34', 0, 0, 0, 0, 1),
-(115, 201, 'Attendance Report', 'employee/attendreport', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:13:07', 0, 0, 0, 0, 1),
-(116, 201, 'Break Setting', 'employee/attendbreaksetting', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:13:37', 0, 0, 0, 0, 1),
-(117, 201, 'Break Status', 'employee/attendview', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:14:17', 0, 0, 0, 0, 1),
-(118, 201, 'Holidays', 'employee/holidays', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:14:56', 0, 0, 0, 0, 1),
-(119, 110, 'Departments', 'employee/departments', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:15:36', 0, 0, 0, 0, 1),
-(120, 110, 'Roles', 'employee/roles', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:16:03', 0, 0, 0, 0, 1),
-(121, 0, 'FWMS', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 15, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:27:25', 1, 0, 0, 0, 0),
-(122, 121, 'Clients', 'fwms/fwmsclients', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:28:17', 0, 0, 0, 0, 0),
-(123, 121, 'Employees', 'fwms/fwmsemployees', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:28:51', 0, 0, 0, 0, 0),
-(124, 121, 'Report', 'fwms/fwmsreport', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:29:24', 0, 0, 0, 0, 0),
-(125, 0, 'Scheduler', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 16, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:30:04', 1, 0, 0, 0, 0),
-(126, 125, 'Schedule', 'scheduler/schedule', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:30:40', 0, 0, 0, 0, 0),
-(127, 125, 'Schedule List', 'scheduler/scheduleList', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:31:15', 0, 0, 0, 0, 0),
-(128, 0, 'Asset Management', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 17, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:31:39', 1, 0, 0, 0, 0),
-(129, 128, 'View Assets', 'asset/assetlist', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:32:19', 0, 0, 0, 0, 0),
-(130, 128, 'Asset History', 'asset/asset_history', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:32:59', 0, 0, 0, 0, 0),
-(131, 128, 'Asset Category', 'asset/assetcategory', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:33:28', 0, 0, 0, 0, 0),
-(132, 128, 'Asset Sub Category', 'asset/assetsubcategory', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:33:55', 0, 0, 0, 0, 0),
-(133, 128, 'Asset Status', 'asset/assetStatus', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:34:21', 0, 0, 0, 0, 0),
-(134, 128, 'Comments', 'asset/comments', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:34:44', 0, 0, 0, 0, 0),
-(135, 128, 'Print BarCode', 'asset/printBarcode', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:35:14', 0, 0, 0, 0, 0),
-(136, 0, 'Payroll', '', 'fa fa-money', NULL, 'Sidebar', 'Active', 18, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:35:29', 1, 1, 0, 0, 1),
-(137, 136, 'Settings', 'payroll/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:44:42', 0, 0, 0, 0, 1),
-(138, 136, 'Generate Pay slip', 'payroll/payroll', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:45:25', 0, 0, 0, 0, 1),
-(139, 136, 'View Payslips', 'payroll/viewpaySlip', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:46:14', 0, 1, 0, 0, 1),
-(140, 136, 'Payroll Report', 'payroll/payrollReport', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:46:42', 0, 0, 0, 0, 1),
-(141, 0, 'Claims', '', 'fa fa-money', NULL, 'Sidebar', 'Active', 19, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:47:28', 1, 1, 0, 0, 1),
-(142, 141, 'Add Claims', 'expenses/add', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:47:52', 0, 1, 0, 0, 1),
-(143, 141, 'Claims', 'expenses', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:48:27', 0, 1, 0, 0, 1),
-(144, 141, 'Reports', 'expenses/reports', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:49:14', 0, 0, 0, 0, 1),
-(145, 141, 'Add Category', 'expenses/createcat', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:50:07', 0, 0, 0, 0, 1),
-(146, 141, 'Category List', 'expenses/categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:50:34', 0, 0, 0, 0, 1),
-(147, 0, 'Settings', '', 'icon-settings', NULL, 'Sidebar', 'Active', 20, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:52:11', 1, 0, 0, 0, 0),
-(148, 147, 'Permissions', 'employee/permissions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:57:01', 0, 0, 0, 0, 0),
-(149, 147, 'Dashboard Settings', 'dashboard/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:57:29', 0, 0, 0, 0, 0),
-(150, 147, 'Subscribe Settings', 'dashboard/subscribe', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:58:06', 0, 0, 0, 0, 0),
-(151, 0, 'Modules', '', 'icon-power', NULL, 'Sidebar', 'Active', 21, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:06:51', 1, 0, 0, 0, 0),
-(152, 151, 'Modules List', 'modules/modules_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:09:38', 0, 0, 0, 0, 0),
-(153, 151, 'Add Module', 'modules/add', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:10:54', 0, 0, 0, 0, 0),
-(154, 151, 'Module Permissions', 'modules/module_permissions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:12:08', 0, 0, 0, 0, 0),
-(156, 151, 'Subscriptions', 'modules/subscriptions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-02 05:36:07', 0, 0, 0, 0, 0),
-(157, 0, 'Delete', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:37:35', 1, 1, 0, 0, 1),
-(158, 0, 'Reports', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:38:31', 1, 0, 0, 0, 1),
-(159, 0, 'Edit', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:40:28', 1, 1, 0, 0, 1),
-(160, 1, 'Sales Dashboard', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:28:35', 0, 0, 0, 0, 1),
-(161, 1, 'FWMS Dashboard', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:28:58', 0, 0, 0, 0, 1),
-(162, 1, 'Payroll Dashboard Report', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:29:30', 0, 0, 0, 0, 1),
-(163, 1, 'JobSheet Dashboard Report', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:29:50', 0, 0, 0, 0, 1),
-(164, 2, 'Sales Landing Page', 'invoices', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 1, 0, 0, 0, 0, 0, 0, '2023-10-03 05:26:35', 0, 1, 0, 0, 0),
-(165, 17, 'Stock Landing Page', 'products', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:27:10', 0, 0, 0, 0, 0),
-(166, 36, 'JobSheet Landing Page', 'jobsheets', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:28:28', 0, 0, 0, 0, 0),
-(167, 43, 'CRM Landing Page', 'customers', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:29:22', 0, 0, 0, 0, 0),
-(168, 0, 'Digital Marketing', '', 'icon-basket-loaded', NULL, 'Sidebar', 'Active', 22, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-03 09:32:03', 1, 0, 0, 0, 0),
-(173, 168, 'Customer List', 'digitalmarketing/customers_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:14:46', 0, 0, 0, 0, 0),
-(169, 0, 'Contract', 'contract', 'ft-file-text', NULL, 'Sidebar', 'Active', 23, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:29:09', 1, 0, 0, 0, 0),
-(170, 141, 'Claim Landing Page ', 'expenses', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-04 03:35:31', 0, 0, 0, 0, 0),
-(171, 0, 'Payroll Landing Page ', 'viewpaySlip', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:37:38', 1, 0, 0, 0, 0),
-(172, 0, 'Attendance Landing Page ', 'employee/attendances', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:48:05', 1, 0, 0, 0, 0),
-(174, 168, 'Contact Management', 'digitalmarketing/contacts', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:16:20', 0, 0, 0, 0, 0),
-(175, 168, 'List Management', 'digitalmarketing/lists', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:18:38', 0, 0, 0, 0, 0),
-(176, 168, 'Folder Management', 'digitalmarketing/folders', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:22:23', 0, 0, 0, 0, 0),
-(177, 168, 'Transactional', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:23:14', 0, 0, 0, 0, 0),
-(178, 177, 'Emails', 'digitalmarketing/transactions/email', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:24:46', 0, 0, 0, 0, 0),
-(179, 177, 'SMS', 'digitalmarketing/transactions/sms', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:25:11', 0, 0, 0, 0, 0),
-(180, 177, 'Whatsapp', 'digitalmarketing/transactions/whatsapp', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:25:37', 0, 0, 0, 0, 0),
-(181, 168, 'SMS Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:31', 0, 0, 0, 0, 0),
-(182, 168, 'Email Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:58', 0, 0, 0, 0, 0),
-(183, 168, 'Whatsapp Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:27:25', 0, 0, 0, 0, 0),
-(184, 168, 'Settings', 'digitalmarketing/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:28:36', 0, 0, 0, 0, 0),
-(185, 181, 'Campaigns ', 'digitalmarketing/sms_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:29:55', 0, 0, 0, 0, 0),
-(186, 182, 'Campaigns', 'digitalmarketing/email_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:31:29', 0, 0, 0, 0, 0),
-(187, 183, 'Campaigns ', 'https://erp-dev.jsuitecloud.com/digitalmarketing/whatsapp_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:32:46', 0, 0, 0, 0, 0),
-(194, 0, 'Supplier', '', 'ft-sliders', NULL, 'Sidebar', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-21 14:42:58', 1, 0, 0, 0, 0),
-(188, 194, 'Customer DO', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:54:56', 1, 0, 0, 0, 0),
-(189, 188, 'Create Delivery Order', 'deliveryorder/create_delivery_order', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:07', 1, 0, 0, 0, 0),
-(190, 188, 'Manage Delivery Orders', 'deliveryorder/list', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:47', 1, 0, 0, 0, 0),
-(191, 194, 'Supplier DO', 'deliveryorder/recieved_list', 'ft-umbrella', NULL, 'Subheading', 'Active', 3, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 14:05:50', 1, 0, 0, 0, 0),
-(192, 191, 'Manage Delivery Orders', 'deliveryorder/recieved_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 14:10:00', 1, 0, 0, 0, 0),
-(193, 17, 'Product Details', 'products/expire_products_list', 'ft-list', NULL, 'Subheading', 'Active', 6, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 20:08:49', 1, 0, 0, 0, 0),
-(195, 17, 'Expiry Products', 'products/expiry_product_variations_list', 'ft-users', NULL, 'Subheading', 'Active', 10, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-22 08:58:06', 1, 0, 0, 0, 0),
-(196, 17, 'Product Expiry By DO', 'products/detailed_product_expiry_list', 'ft-list', NULL, 'Subheading', 'Active', 16, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-27 17:35:36', 1, 0, 0, 0, 0),
-(197, 17, 'Stock Balance', 'products/detailed_stock_balance', 'icon-bulb', NULL, 'Subheading', 'Active', 12, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-28 02:50:31', 1, 0, 0, 0, 0),
-(198, 0, 'Digital Signature', 'digitalsignature', 'icon-trophy', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-08 11:43:08', 1, 0, 0, 0, 0),
-(199, 136, 'Bulk Payroll', 'payroll/bulk_payroll', 'ft-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-11 15:07:07', 1, 0, 0, 0, 0),
-(200, 136, 'Import PaySlip', 'payroll/ImportPaySlip', 'icon-wallet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-11 15:09:22', 1, 0, 0, 0, 0),
-(201, 0, 'Attendance', '', 'ft-users', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-18 03:47:19', 1, 0, 0, 0, 0);
+INSERT INTO `sidebaritems` (`id`, `parent_id`, `title`, `url`, `icon`, `permissions`, `type`, `status`, `display_order`, `module_type`, `r_1`, `r_2`, `r_3`, `r_4`, `r_5`, `r_6`, `r_7`, `r_8`, `cr_date`, `subscription_status`) VALUES
+(1, 0, 'Dashboard', 'dashboard', 'icon-speedometer', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 05:48:10', 1),
+(2, 0, 'Sales', ' ', 'icon-basket-loaded', NULL, 'Sidebar', 'Active', 2, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:49:41', 1),
+(3, 2, 'Quotes', ' ', 'icon-call-out', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:51:50', 0),
+(4, 0, 'New Quote', 'quote/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:55:09', 0),
+(5, 0, 'Manage Quotes', 'quote', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:55:57', 0),
+(6, 2, 'Invoices', ' ', 'icon-basket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:57:20', 0),
+(7, 6, 'New Invoice', 'invoices/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 06:01:11', 0),
+(8, 6, 'Manage Invoices', 'invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 06:02:00', 0),
+(9, 6, 'Peppol Invoices', 'invoices/peppol_invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:17:55', 0),
+(10, 2, 'Pos Invoices', '', 'icon-paper-plane', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:19:58', 0),
+(11, 10, 'New Pos Invoice', 'pos_invoices/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:23:16', 0),
+(12, 10, 'Manage Pos Invoices', 'pos_invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:23:56', 0),
+(13, 2, 'Subscriptions', '', 'ft-radio', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:25:41', 0),
+(14, 13, 'New Subscription', 'subscriptions/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:26:52', 0),
+(15, 13, 'Subscriptions', 'subscriptions', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:28:24', 0),
+(16, 2, 'Credit Notes', 'stockreturn/creditnotes', 'icon-screen-tablet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:29:28', 0),
+(17, 0, 'Inventory Management', '', 'ft-layers', NULL, 'Sidebar', 'Active', 3, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:32:59', 1),
+(18, 17, 'Items Manager', '', 'ft-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:35:39', 0),
+(19, 18, 'New Product', 'products/add', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:36:41', 0),
+(20, 18, 'Manage Products', 'products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:37:29', 0),
+(21, 17, 'Product Categories', 'productcategory', 'ft-umbrella', NULL, 'Subheading', 'Active', 2, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:38:39', 0),
+(22, 17, 'WareHouses', 'productcategory/warehouse', 'ft-sliders', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:41:33', 0),
+(23, 17, 'Stock Transfer', 'products/stock_transfer', 'ft-wind', NULL, 'Subheading', 'Active', 5, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:42:07', 0),
+(24, 194, 'Purchase Order', '', 'icon-handbag', NULL, 'Subheading', 'Active', 2, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:42:40', 0),
+(25, 24, 'New Order', 'purchase/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:43:16', 0),
+(26, 24, 'Manage Orders', 'purchase', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:43:50', 0),
+(27, 194, 'Stock Return', '', 'icon-puzzle', NULL, 'Subheading', 'Active', 5, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:48:39', 0),
+(28, 27, 'Supplier Records', 'stockreturn', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:49:12', 0),
+(29, 27, 'Customer Records', 'stockreturn/customer', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:02', 0),
+(30, 194, 'Suppliers', '', 'ft-target', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:22', 0),
+(31, 30, 'New Supplier', 'supplier/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:49', 0),
+(32, 30, 'Manage Suppliers', 'supplier', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:51:23', 0),
+(33, 17, 'Products Label', '', 'fa fa-barcode', NULL, 'Subheading', 'Active', 3, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:51:49', 0),
+(34, 33, 'Custome Label', 'products/custom_label', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:52:43', 0),
+(35, 33, 'Standard Label', 'products/standard_label', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:53:06', 0),
+(36, 0, 'Job Sheet', '', 'icon-diamond', NULL, 'Sidebar', 'Active', 5, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:00:22', 1),
+(37, 36, 'Task Manager', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:01:47', 0),
+(38, 37, 'Create Task', 'jobsheets/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:02:54', 0),
+(39, 37, 'View Task', 'jobsheets', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:03:34', 0),
+(40, 36, 'Reports', 'jobsheets/reports', 'ft-sliders', NULL, 'Subheading', 'Active', 20, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:04:47', 0),
+(41, 36, 'My Task', 'jobsheets/myjobs', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:05:13', 0),
+(206, 201, 'Attendance KPI', '/employee/attendreport_new', '', NULL, 'Subheading', 'Active', 50, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-02-05 05:55:13', 1),
+(43, 0, 'CRM', '', 'ft-users', NULL, 'Sidebar', 'Active', 6, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:10:18', 1),
+(44, 43, 'Clients', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:11:20', 0),
+(45, 44, 'New Client', 'customers/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:12:59', 0),
+(46, 44, 'Manage Clients', 'customers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:13:25', 0),
+(47, 43, 'Client groups', 'clientgroup', 'icon-grid', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:14:32', 0),
+(48, 43, 'Support Tickets', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:15:05', 0),
+(49, 48, 'UnSolved', 'tickets/?filter=unsolved', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:15:56', 0),
+(50, 48, 'Manage Tickets', 'tickets', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:16:48', 0),
+(51, 0, 'File Manager', '', 'fa fa-folder-o', NULL, 'Sidebar', 'Active', 7, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:17:54', 1),
+(52, 51, 'My Drive', 'filemanager', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:19:01', 0),
+(53, 51, 'Shared Folders', 'filemanager/sharedfolders', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:19:33', 0),
+(54, 51, 'Shared Files', 'filemanager/sharedfiles', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:20:04', 0),
+(55, 0, 'Project', '', 'icon-briefcase', NULL, 'Sidebar', 'Active', 8, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:34:39', 1),
+(56, 55, 'Project Management', '', 'icon-calendar', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:36:52', 0),
+(57, 56, 'New Project', 'projects/addproject', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:37:51', 0),
+(58, 56, 'Manage Projects', 'projects', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:38:22', 0),
+(59, 55, 'To Do List', 'tools/todo', 'icon-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:40:24', 0),
+(60, 0, 'Accounts', '', 'icon-calculator', NULL, 'Sidebar', 'Active', 9, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:52:52', 1),
+(61, 60, 'Accounts', '', 'icon-book-open', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:54:04', 0),
+(62, 61, 'Manage Accounts', 'accounts', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:55:11', 0),
+(63, 61, 'Balance Sheet', 'accounts/balancesheet', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:56:02', 0),
+(64, 61, 'Account Statements', 'reports/accountstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:56:43', 0),
+(65, 60, 'Transactions', '', 'icon-wallet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:57:14', 0),
+(66, 65, 'View Transactions', 'transactions', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:02:10', 0),
+(67, 65, 'New Transaction', 'transactions/add', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:02:41', 0),
+(68, 65, 'New Transfer', 'transactions/transfer', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:03:26', 0),
+(69, 65, 'Income', 'transactions/income', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:04:11', 0),
+(70, 65, 'Expense', 'transactions/expense', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:04:35', 0),
+(71, 65, 'Client Transactions', 'customers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:05:16', 0),
+(72, 0, 'Promo Codes', '', 'icon-trophy', NULL, 'Sidebar', 'Active', 10, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:18:56', 1),
+(73, 72, 'Coupons', '', 'icon-trophy', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:20:17', 0),
+(74, 73, 'New Promo', 'promo/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:20:51', 0),
+(75, 73, 'Manage Promo', 'promo', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:21:45', 0),
+(76, 0, 'Data & Reports', '', 'icon-pie-chart', NULL, 'Sidebar', 'Active', 11, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:23:45', 1),
+(77, 76, 'Business Registers', '', 'icon-eyeglasses', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:26:30', 0),
+(78, 76, 'Statements', '', 'icon-doc', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:27:12', 0),
+(79, 78, 'Account Statements', 'reports/accountstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:28:13', 0),
+(80, 78, 'Customer Account Statements', 'reports/customerstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:28:54', 0),
+(81, 78, 'Supplier Account Statement', 'reports/supplierstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:31:35', 0),
+(82, 78, 'Tax Statements', 'reports/taxstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:32:05', 0),
+(83, 78, 'Product Sales Reports', 'pos_invoices/extended', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:32:50', 0),
+(84, 76, 'Graphical Reports', '', 'icon-bar-chart', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:34:55', 0),
+(85, 84, 'Product Categories', 'chart/product_cat', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:36:44', 0),
+(86, 84, 'Trending Products', 'chart/trending_products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:37:16', 0),
+(87, 84, 'Profit', 'chart/profit', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:37:53', 0),
+(88, 84, 'Top Customers', 'chart/topcustomers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:38:18', 0),
+(89, 84, 'Income vs Expenses', 'chart/incvsexp', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:39:45', 0),
+(90, 84, 'Income', 'chart/income', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:40:18', 0),
+(91, 84, 'Expenses', 'chart/expenses', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:40:56', 0),
+(92, 76, 'Summary & Report', '', 'icon-bulb', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:41:41', 0),
+(93, 92, 'Statistics', 'reports/statistics', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:38:23', 0),
+(94, 92, 'Profit', 'reports/profitstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:39:27', 0),
+(95, 92, 'Calculate Income', 'reports/incomestatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:40:11', 0),
+(96, 92, 'Calculate Expenses', 'reports/expensestatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:41:06', 0),
+(97, 92, 'Sales', 'reports/sales', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:41:39', 0),
+(98, 92, 'Products', 'reports/products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:42:32', 0),
+(99, 92, 'Employee Sales Commission', 'reports/commission', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:43:13', 0),
+(100, 0, 'Miscellaneous', '', 'icon-note', NULL, 'Sidebar', 'Active', 12, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:45:07', 1),
+(101, 100, 'Notes', 'tools/notes', 'icon-note', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:46:21', 0),
+(102, 100, 'Calendar', 'events', 'icon-calendar', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:46:49', 0),
+(103, 100, 'Documents', 'tools/documents', 'icon-doc', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:48:25', 0),
+(104, 0, 'E-Commerce', '', 'icon-basket', NULL, 'Sidebar', 'Active', 13, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:05:53', 1),
+(105, 104, 'Online Platforms', 'ecommerce/online_platforms', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:02', 0),
+(106, 104, 'Categories', 'ecommerce/categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:30', 0),
+(107, 104, 'Sub Categories', 'ecommerce/sub_categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:54', 0),
+(108, 104, 'Publishing', 'ecommerce/publishing', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:08:16', 0),
+(109, 104, 'Analytics', 'ecommerce/analytics', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:08:46', 0),
+(110, 0, 'Human Resources', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 14, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:09:37', 1),
+(111, 110, 'Employees', '', 'ft-users', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:10:22', 0),
+(112, 111, 'Employees List', 'employee', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:11:27', 0),
+(113, 111, 'Salaries', 'employee/salaries', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:11:53', 0),
+(114, 201, 'Attendance', 'employee/attendances', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:12:34', 0),
+(115, 201, 'Attendance Report', 'employee/attendreport', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:13:07', 0),
+(116, 201, 'Break Setting', 'employee/attendbreaksetting', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:13:37', 0),
+(117, 201, 'Break Status', 'employee/attendview', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:14:17', 0),
+(118, 201, 'Holidays', 'employee/holidays', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:14:56', 0),
+(119, 110, 'Departments', 'employee/departments', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:15:36', 0),
+(120, 110, 'Roles', 'employee/roles', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:16:03', 0),
+(121, 0, 'FWMS', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 15, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:27:25', 1),
+(122, 121, 'Clients', 'fwms/fwmsclients', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:28:17', 0),
+(123, 121, 'Employees', 'fwms/fwmsemployees', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:28:51', 0),
+(124, 121, 'Report', 'fwms/fwmsreport', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:29:24', 0),
+(125, 0, 'Scheduler', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 16, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:30:04', 1),
+(126, 125, 'Schedule', 'scheduler/schedule', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:30:40', 0),
+(127, 125, 'Schedule List', 'scheduler/scheduleList', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:31:15', 0),
+(128, 0, 'Asset Management', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 17, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:31:39', 1),
+(129, 128, 'View Assets', 'asset/assetlist', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:32:19', 0),
+(130, 128, 'Asset History', 'asset/asset_history', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:32:59', 0),
+(131, 128, 'Asset Category', 'asset/assetcategory', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:33:28', 0),
+(132, 128, 'Asset Sub Category', 'asset/assetsubcategory', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:33:55', 0),
+(133, 128, 'Asset Status', 'asset/assetStatus', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:34:21', 0),
+(134, 128, 'Comments', 'asset/comments', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:34:44', 0),
+(135, 128, 'Print BarCode', 'asset/printBarcode', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:35:14', 0),
+(136, 0, 'Payroll', '', 'fa fa-money', NULL, 'Sidebar', 'Active', 18, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:35:29', 1),
+(137, 136, 'Settings', 'payroll/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:44:42', 0),
+(138, 136, 'Generate Pay slip', 'payroll/payroll', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:45:25', 0),
+(139, 136, 'View Payslips', 'payroll/viewpaySlip', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:46:14', 0),
+(140, 136, 'Payroll Report', 'payroll/payrollReport', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:46:42', 0),
+(141, 0, 'Claims', '', 'fa fa-money', NULL, 'Sidebar', 'Active', 19, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:47:28', 1),
+(142, 141, 'Add Claims', 'expenses/add', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:47:52', 0),
+(143, 141, 'Claims', 'expenses', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:48:27', 0),
+(144, 141, 'Reports', 'expenses/reports', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:49:14', 0),
+(145, 141, 'Add Category', 'expenses/createcat', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:50:07', 0),
+(146, 141, 'Category List', 'expenses/categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:50:34', 0),
+(147, 0, 'Settings', '', 'icon-settings', NULL, 'Sidebar', 'Active', 20, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:52:11', 1),
+(148, 147, 'Permissions', 'employee/permissions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:57:01', 0),
+(149, 147, 'Dashboard Settings', 'dashboard/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:57:29', 0),
+(150, 147, 'Subscribe Settings', 'dashboard/subscribe', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:58:06', 0),
+(151, 0, 'Modules', '', 'icon-power', NULL, 'Sidebar', 'Active', 21, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:06:51', 1),
+(152, 151, 'Modules List', 'modules/modules_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:09:38', 0),
+(153, 151, 'Add Module', 'modules/add', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:10:54', 0),
+(154, 151, 'Module Permissions', 'modules/module_permissions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:12:08', 0),
+(156, 151, 'Subscriptions', 'modules/subscriptions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-02 05:36:07', 0),
+(157, 0, 'Delete', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:37:35', 1),
+(158, 0, 'Reports', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:38:31', 1),
+(159, 0, 'Edit', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:40:28', 1),
+(160, 1, 'Sales Dashboard', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:28:35', 0),
+(161, 1, 'FWMS Dashboard', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:28:58', 0),
+(162, 1, 'Payroll Dashboard Report', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:29:30', 0),
+(163, 1, 'JobSheet Dashboard Report', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:29:50', 0),
+(164, 2, 'Sales Landing Page', 'invoices', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 1, 0, 0, 0, 0, 0, 0, '2023-10-03 05:26:35', 0),
+(165, 17, 'Stock Landing Page', 'products', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:27:10', 0),
+(166, 36, 'JobSheet Landing Page', 'jobsheets', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:28:28', 0),
+(167, 43, 'CRM Landing Page', 'customers', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:29:22', 0),
+(168, 0, 'Digital Marketing', '', 'icon-basket-loaded', NULL, 'Sidebar', 'Active', 22, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-03 09:32:03', 1),
+(173, 168, 'Customer List', 'digitalmarketing/customers_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:14:46', 0),
+(169, 0, 'Contract Management', 'contract', 'ft-file-text', NULL, 'Sidebar', 'Active', 23, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:29:09', 1),
+(170, 141, 'Claim Landing Page ', 'expenses', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-04 03:35:31', 0),
+(171, 0, 'Payroll Landing Page ', 'viewpaySlip', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:37:38', 1),
+(172, 0, 'Attendance Landing Page ', 'employee/attendances', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:48:05', 1),
+(174, 168, 'Contact Management', 'digitalmarketing/contacts', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:16:20', 0),
+(175, 168, 'List Management', 'digitalmarketing/lists', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:18:38', 0),
+(176, 168, 'Folder Management', 'digitalmarketing/folders', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:22:23', 0),
+(177, 168, 'Transactional', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:23:14', 0),
+(178, 177, 'Emails', 'digitalmarketing/transactions/email', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:24:46', 0),
+(179, 177, 'SMS', 'digitalmarketing/transactions/sms', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:25:11', 0),
+(180, 177, 'Whatsapp', 'digitalmarketing/transactions/whatsapp', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:25:37', 0),
+(181, 168, 'SMS Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:31', 0),
+(182, 168, 'Email Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:58', 0),
+(183, 168, 'Whatsapp Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:27:25', 0),
+(184, 168, 'Settings', 'digitalmarketing/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:28:36', 0),
+(185, 181, 'Campaigns', 'digitalmarketing/sms_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:29:55', 0),
+(186, 182, 'Campaigns', 'digitalmarketing/email_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:31:29', 0),
+(187, 183, 'Campaigns', 'digitalmarketing/whatsapp_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:32:46', 0),
+(194, 0, 'Purchasing', '', 'ft-sliders', NULL, 'Sidebar', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-21 14:42:58', 1),
+(188, 194, 'Customer DO', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:54:56', 1),
+(189, 188, 'Create Delivery Order', 'deliveryorder/create_delivery_order', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:07', 1),
+(190, 188, 'Manage Delivery Orders', 'deliveryorder/list', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:47', 1),
+(191, 194, 'Supplier DO', 'deliveryorder/recieved_list', 'ft-umbrella', NULL, 'Subheading', 'Active', 3, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 14:05:50', 1),
+(192, 191, 'Manage Delivery Orders', 'deliveryorder/recieved_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 14:10:00', 1),
+(193, 17, 'Product Details', 'products/expire_products_list', 'ft-list', NULL, 'Subheading', 'Active', 6, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 20:08:49', 1),
+(195, 17, 'Expiry Products', 'products/expiry_product_variations_list', 'ft-users', NULL, 'Subheading', 'Active', 10, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-22 08:58:06', 1),
+(196, 17, 'Product Expiry By DO', 'products/detailed_product_expiry_list', 'ft-list', NULL, 'Subheading', 'Active', 16, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-27 17:35:36', 1),
+(197, 17, 'Stock Balance', 'products/detailed_stock_balance', 'icon-bulb', NULL, 'Subheading', 'Active', 12, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-28 02:50:31', 1),
+(198, 0, 'Digital Signature', 'digitalsignature', 'icon-trophy', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-08 11:43:08', 1),
+(199, 136, 'Bulk Payroll', 'payroll/bulk_payroll', 'ft-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-11 15:07:07', 1),
+(200, 136, 'Import PaySlip', 'payroll/ImportPaySlip', 'icon-wallet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-11 15:09:22', 1),
+(201, 0, 'Attendance', '', 'ft-users', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-18 03:47:19', 1),
+(202, 0, 'Vehicles', '/vehicles', 'ft-wind', NULL, 'Sidebar', 'Active', 49, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-01-21 04:09:29', 1),
+(203, 0, 'Office Forms', '/officeforms', 'ft-umbrella', NULL, 'Sidebar', 'Active', 50, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-01-21 04:10:26', 1),
+(204, 201, 'Attendance Settings', '/employee/attendance_settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-01-24 08:02:00', 1),
+(205, 0, 'Do Image Upload', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 0, 0, 0, 0, 0, 0, 0, '2024-01-31 18:59:20', 1),
+(207, 36, 'JobSheet KPI', 'jobsheets/jobsheet_report_new', '', NULL, 'Subheading', 'Active', 50, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-02-05 05:57:03', 1);
 
 -- --------------------------------------------------------
 

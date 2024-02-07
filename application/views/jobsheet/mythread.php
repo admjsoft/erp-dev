@@ -387,7 +387,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <div class="form-group row">
 
@@ -469,7 +469,7 @@
             </div> -->
                 <?php }?>
 
-             
+
 
                 <?php // if($thread_info['status'] == 1){ ?>
 
@@ -656,7 +656,7 @@
                         </a>
                         <?php } ?>
                     </div>
-                    </div>
+                </div>
 
                 <div class="form-group row">
 
@@ -1692,7 +1692,7 @@ uploadButton.addEventListener('click', () => {
                             var im_status = 1;
                             //alert('DO Captured Details Updated Successfully');
                             location.reload();
-                            
+
                         } else {
                             // Display validation errors
                             // $('#validation_errors').html(data.validation_errors).show();
@@ -1716,7 +1716,7 @@ uploadButton.addEventListener('click', () => {
         }
 
 
-    }else{
+    } else {
         var im_status = 1;
     }
 
@@ -1729,7 +1729,7 @@ uploadButton.addEventListener('click', () => {
         formData.append('userfile', attachmentInput.files[0]);
         formData.append('content', contentTextarea.value);
         formData.append('job_id', job_id);
-        
+
         // Add any additional data you need
 
         if (attachmentInput.files.length > 0 || contentTextarea.value.trim() !== '') {
@@ -1746,7 +1746,7 @@ uploadButton.addEventListener('click', () => {
                         // window.location.href = data.redirect_url;
                         // location.reload();
                         var a_status = 1;
-                        
+
                         alert('Attachment Details has been Updated');
                         location.reload();
                     } else {
@@ -1763,7 +1763,7 @@ uploadButton.addEventListener('click', () => {
             // Handle validation or prompt the user
         }
 
-    }else{
+    } else {
         var a_status = 1;
     }
 
@@ -1795,7 +1795,7 @@ uploadButton.addEventListener('click', () => {
                         // window.location.href = data.redirect_url;
                         // location.reload();
                         var s_status = 1;
-                        
+
                         alert('Signature Details has been Updated');
                         //location.reload();
                     } else {
@@ -1816,65 +1816,64 @@ uploadButton.addEventListener('click', () => {
 
 
 
-    }else{
+    } else {
         var s_status = 1;
     }
- 
+
+    var mm_status = 1;
+    //const attachmentInput = document.getElementById('userfile_attachment');
+    const contentTextarea = document.getElementById('message_content');
+    var job_id = $('#c_job_id').val();
+    const formData = new FormData();
+    //formData.append('userfile', attachmentInput.files[0]);
+    formData.append('content', contentTextarea.value);
+    formData.append('job_id', job_id);
+
+    // Add any additional data you need
+
+    if (contentTextarea.value.trim() != '') {
+        // alert('holy');
+        const from_url = "<?php echo base_url('jobsheets/conversation_attachment_upload'); ?>";
+
+        fetch(from_url, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect to the success page
+                    // window.location.href = data.redirect_url;
+                    // location.reload();
+                    var mm_status = 1;
+                    alert('Conversation Details has been Updated');
+                    //location.reload();
+                } else {
+                    var mm_status = 0;
+                    // Display validation errors
+                    // $('#validation_errors').html(data.validation_errors).show();
+                }
+            })
+            .catch(error => {
+                console.error('Error uploading data:', error);
+            });
+    } else {
+        // alert('Please Capture Photo, Select Attachment, or Enter Message');
+        // Handle validation or prompt the user
         var mm_status = 1;
-        //const attachmentInput = document.getElementById('userfile_attachment');
-        const contentTextarea = document.getElementById('message_content');
-        var job_id = $('#c_job_id').val();
-        const formData = new FormData();
-        //formData.append('userfile', attachmentInput.files[0]);
-        formData.append('content', contentTextarea.value);
-        formData.append('job_id', job_id);
-                
-        // Add any additional data you need
+        // alert('fuck');
+    }
 
-        if (contentTextarea.value.trim() != '') {
-            // alert('holy');
-            const from_url = "<?php echo base_url('jobsheets/conversation_attachment_upload'); ?>";
+    // alert(mm_status);
 
-            fetch(from_url, {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Redirect to the success page
-                        // window.location.href = data.redirect_url;
-                        // location.reload();
-                        var mm_status = 1;
-                        alert('Conversation Details has been Updated');
-                        //location.reload();
-                    } else {
-                        var mm_status = 0;
-                        // Display validation errors
-                        // $('#validation_errors').html(data.validation_errors).show();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error uploading data:', error);
-                });
-        } else {
-           // alert('Please Capture Photo, Select Attachment, or Enter Message');
-            // Handle validation or prompt the user
-            var mm_status = 1;
-            // alert('fuck');
-        }
+    // console.log(mm_status);
+    // console.log(s_status);
+    // console.log(a_status);
+    // console.log(im_status);
+    if (mm_status == 1 && s_status == 1 && a_status == 1 && im_status == 1) {
+        location.reload();
+    }
 
-        // alert(mm_status);
-
-        // console.log(mm_status);
-        // console.log(s_status);
-        // console.log(a_status);
-        // console.log(im_status);
-        if(mm_status == 1 && s_status == 1 && a_status == 1 && im_status == 1)
-        {
-            location.reload();
-        }
-        
 
 });
 

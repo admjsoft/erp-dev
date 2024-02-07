@@ -292,7 +292,9 @@ class Products extends CI_Controller
             $product_ids = array_column($products_list,'pid');
         }
         
-        $this->db->select('
+        if(!empty($product_ids))
+        {
+            $this->db->select('
                     gp.product_code,
                     gddi.do_expire_date as product_expiry_date,
                     gp.pid,
@@ -326,6 +328,10 @@ class Products extends CI_Controller
                 $query = $this->db->get();
                 $result = $query->result_array();
 
+        }else{
+                $result = array();
+        }
+        
         
         if(!empty($result))
         {

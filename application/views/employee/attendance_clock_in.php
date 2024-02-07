@@ -13,7 +13,7 @@
                 <h5><?php echo $this->lang->line('Attendance Clock In') ?></h5>
                 <hr>
 
-
+                <?php /* ?>
                 <div class="form-group row">
 
                     <label class="col-sm-4 control-label" for="from"><?php echo $this->lang->line('Capture Image') ?>
@@ -29,13 +29,74 @@
 
                     </div>
                 </div>
+                <?php */ ?>
+
+                <div class="form-group row" >
+                    <label class="col-sm-2 control-label"
+                        for="from"><Strong><?php echo $this->lang->line('Capture Image') ?> <span
+                                style="color:red">*</span></Strong></label>
+
+                    <div class="col-sm-10">
+                        <div class="row">
+                           
+                            <div class="col-sm-6" style="max-width: 400px;">
+                                <div id="video_block" style="border: 1px solid #ccc; padding: 5px;">
+                                    <video id="video" style="width: 100%; height: auto; display: block;"
+                                        autoplay></video>
+                                </div>
+                                <img id="capturedImage"
+                                    style="display:none; border: 1px solid #ccc; padding: 5px; width: 100%; height: auto; "
+                                    class="img-fluid">
+                                <canvas id="canvas" width="400" height="320"
+                                    style="display:none; border: 1px solid #ccc; padding: 5px; width: 100%; height: auto;"></canvas>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-sm-12">
+                                <button class="btn btn-sm btn-info" id="captureButton">Capture Image</button>
+                                <!-- <button class="btn btn-sm btn-info" id="cameraReverseButton"
+                                    onclick="switchCamera()">Switch
+                                    Camera</button> -->
+                                <button class="btn btn-sm btn-info" id="retakeButton"
+                                    style="display:none;">Retake</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+<!-- 
                 <div class="form-group row">
 
                     <label class="col-sm-4 control-label"
-                        for="todate"><?php echo $this->lang->line('Capture Location') ?>
+                        for="todate"><?php // echo $this->lang->line('Capture Location') ?>
                         <span style="color:red">*</span></label>
 
                     <div class="col-sm-4">
+                        <div class="input-group bootstrap-timepicker timepicker">
+                            <p id="location" style="display:none;"></p>
+
+                            <button class="btn btn-sm btn-info mt-2" id="getLocationButton" style="display:none;">Get
+                                Location Details</button>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="form-group row" >
+
+                    <label class="col-sm-2 control-label"
+                        for="todate"><Strong><?php echo $this->lang->line('Current Location') ?>
+                            <span style="color:red">*</span></Strong></label>
+
+                    <div class="col-sm-10">
                         <div class="input-group bootstrap-timepicker timepicker">
                             <p id="location" style="display:none;"></p>
 
@@ -47,9 +108,9 @@
 
                 <div class="form-group row">
 
-                    <label class="col-sm-4 col-form-label"></label>
+                    <label class="col-sm-2 control-label"></label>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-10">
                         <input type="button" id="uploadButton" class="btn btn-success margin-bottom"
                             value="<?php  echo $this->lang->line('Clock In');   ?>" data-loading-text="Adding...">
                         <input type="hidden" value="employee/attendance_settings" id="action-url">
@@ -97,12 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hide the camera and capture button
         video.style.display = 'none';
         captureButton.style.display = 'none';
-
+        $('#video_block').hide();
         // Show the captured image and buttons
         capturedImage.style.display = 'block';
         retakeButton.style.display = 'inline-block';
         // getLocationButton.style.display = 'inline-block';
         uploadButton.style.display = 'inline-block';
+
+        
     });
 
     const getLocation = () => {
@@ -123,19 +186,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(data => {
                         if (data.status === 'OK' && data.results.length > 0) {
                             const address = data.results[1].formatted_address;
-                            if(address == '')
-                            {
-                            const address = data.results[0].formatted_address;
+                            if (address == '') {
+                                const address = data.results[0].formatted_address;
                             }
-                            locationElement.textContent = `Location: ${address}`;
+                            locationElement.textContent = `${address}`;
                             locationElement.style.display = 'block';
 
                             // Set the values of hidden input fields
                             latitudeInput.value = latitude;
                             longitudeInput.value = longitude;
                             locationDetailsInput.value = address;
-                            
-                        $('#getLocationButton').hide();
+
+                            $('#getLocationButton').hide();
 
                         } else {
                             console.error('Error fetching location details:', data.status);
@@ -158,14 +220,17 @@ document.addEventListener('DOMContentLoaded', () => {
     retakeButton.addEventListener('click', () => {
         // Show the camera and capture button
         video.style.display = 'block';
+        $('#video_block').show();
         captureButton.style.display = 'inline-block';
 
         // Hide the captured image, buttons, and location
         capturedImage.style.display = 'none';
         retakeButton.style.display = 'none';
         // getLocationButton.style.display = 'none';
-        uploadButton.style.display = 'none';
-        locationElement.style.display = 'none';
+        // uploadButton.style.display = 'none';
+        //locationElement.style.display = 'none';
+
+
     });
 
     uploadButton.addEventListener('click', () => {
@@ -218,11 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     $('#getLocationButton').click(function() {
-    getLocation();
-});
+        getLocation();
+    });
 
 });
-
-
-
 </script>

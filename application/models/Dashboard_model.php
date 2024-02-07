@@ -434,7 +434,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                 'tfrom' => date("H:i:s"),
                 'tto' => '',
                 'note' => 'Self Attendance',
-                'actual_hours' => '',
+                'actual_hours' => 0,
                 'clock_in_photo' => $clok_in_data['clock_in_photo'],
                 'clock_in_latitude' => $clok_in_data['clock_in_latitude'],
                 'clock_in_longitude' => $clok_in_data['clock_in_longitude'],
@@ -456,6 +456,10 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         $this->db->from('gtg_employees');
         $query = $this->db->get();
         $emp = $query->row_array();
+
+        // echo "<pre>"; print_r($emp); echo "</pre>";
+        // exit;
+
         $time=date('H:i:s');
         if ($emp['clock']) {
 
@@ -496,17 +500,25 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                 
 
             $data = array(
-                'clock' => 0,
-                'clockin' => 0,
+                 'clock' => 0,
+                // 'clockin' => 0,
                 'clockout' => strtotime($time),
                 'clock_out_photo' => $clock_out_data['clock_out_photo'],
                 'clock_out_latitude' => $clock_out_data['clock_out_latitude'],
                 'clock_out_longitude' => $clock_out_data['clock_out_longitude'],
                 'clock_out_location' => $clock_out_data['clock_out_location'],
             );
-           $total_time = strtotime($time) - $emp['clockin'];
+            $total_time = strtotime($time) - $emp['clockin'];
+            $total_clockin_time = strtotime('00:00:00') + $total_time;
+            // $hours = floor($total_time / 3600);
+            // $minutes = floor(($total_time % 3600) / 60);
+            // $seconds = $total_time % 60;
+            // $total_clockin_time = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+            
            // $total_time = time() - $emp['clockin'];
 
+        //    echo $total_time;
+        //    exit;
             $this->db->set($data);
             $this->db->where('id', $id);
 
@@ -519,6 +531,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
             $this->db->where('emp', $id);
             $this->db->where('DATE(adate)', date('Y-m-d'));
             $this->db->from('gtg_attendance');
+            $this->db->order_by('id','DESC');
             $query = $this->db->get();
             $edate = $query->row_array();
 
@@ -546,14 +559,14 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
 
                 // $this->db->where('id', $edate['id']);
                 // $this->db->update('gtg_attendance');
-
+                // $total_clockin_time = strtotime('00:00:00') + $total_time;
                 $data = array(
                     'emp' => $id,
                     'adate' => date('Y-m-d'),
                     'tfrom' => date("H:i:s",$emp['clockin']),
                     'tto' => date('H:i:s'),
                     'note' => 'Self Attendance',
-                    'actual_hours' => date("H:i:s",$total_time),
+                    'actual_hours' => $total_clockin_time,
                     'clock_in_photo' => $emp['clock_in_photo'],
                     'clock_in_latitude' => $emp['clock_in_latitude'],
                     'clock_in_longitude' => $emp['clock_in_longitude'],
@@ -574,7 +587,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                     'tfrom' => date("H:i:s",$emp['clockin']),
                     'tto' => date('H:i:s'),
                     'note' => 'Self Attendance',
-                    'actual_hours' => date("H:i:s",$total_time),
+                    'actual_hours' => $total_clockin_time,
                     'clock_in_photo' => $emp['clock_in_photo'],
                     'clock_in_latitude' => $emp['clock_in_latitude'],
                     'clock_in_longitude' => $emp['clock_in_longitude'],
@@ -588,7 +601,13 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
 
                 $this->db->insert('gtg_attendance', $data);
             }
+
+            // echo "<pre>"; print_r($data); echo "</pre>";
+            // exit;
         }
+
+    //    echo $this->db->last_query();
+    //    exit;
         return true;
     }
 

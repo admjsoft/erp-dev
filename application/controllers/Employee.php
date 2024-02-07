@@ -3997,10 +3997,10 @@ JSOFT SOLUTION SDN BHD,</p>
         foreach ($list as $obj) {
             if(!empty($obj->tto))
             {
-                $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
-                $duration = date("H:i", $temptime);
+                //$temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
+                $duration = date("H:i:s", $obj->actual_hours);
             }else{
-                $temptime = '---';
+                //$temptime = '---';
                 $duration = '---';
             }
             
@@ -4243,10 +4243,10 @@ JSOFT SOLUTION SDN BHD,</p>
 
             if(!empty($obj->tto))
             {
-                $temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
-                $duration = date("H:i", $temptime);
+                //$temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
+                $duration = date("H:i", $obj->actual_hours);
             }else{
-                $temptime = '---';
+                //$temptime = '---';
                 $duration = '---';
             }
             
@@ -4295,7 +4295,7 @@ JSOFT SOLUTION SDN BHD,</p>
             }else{
                 $table .= '<td>---</td>';
             }
-            $table .= '<td>' . date("H:i", $temptime) . '</td>';
+            $table .= '<td>' . date("H:i:s", $obj->actual_hours) . '</td>';
             $table .= '<td>' . $ot . '</td>';
             $table .= '<td>' . $ot_allowance . '</td>';
             $table .= '<td>----</td></tr>';
