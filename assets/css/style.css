@@ -251,11 +251,11 @@ ballsWaveG{
 .sub_c {
     background-color: #fff !important;
 }
-#customer-box-result ol,#supplier-box-result ol {
+#customer-box-result ol,#supplier-box-result ol, #customer-box-kpi-result ol, #employee-box-kpi-result ol, #job-box-kpi-result ol {
   color: #ccc;
   list-style-type: none;
 }
-#customer-box-result ol li,#supplier-box-result ol li  {
+#customer-box-result ol li,#supplier-box-result ol li, #customer-box-kpi-result ol li,  #employee-box-kpi-result ol li,  #job-box-kpi-result ol li  {
   position: relative;
   font-size:16px;
   font-weight:600;
@@ -263,13 +263,13 @@ ballsWaveG{
   margin-bottom: 5px;
 }
 
-#customer-box-result p,#supplier-box-result p {
+#customer-box-result p,#supplier-box-result p, #customer-box-kpi-result p, #employee-box-kpi-result p, #job-box-kpi-result p {
   font-size: 14px;
   padding-left: 14px;
   color: #555;
 }
 
-#customer-box-result span,#supplier-box-result span {
+#customer-box-result span,#supplier-box-result span, #customer-box-kpi-result span, #employee-box-kpi-result span, #job-box-kpi-result span {
   position: absolute;
 }
 .ui-front li {

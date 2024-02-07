@@ -180,7 +180,7 @@ if (status != '') {
     miniDash();
     /*
         $.ajax({
-        url: "<?php echo site_url('employee/employee_list') ?>",
+        url: "<?php // echo site_url('employee/employee_list') ?>",
         type: 'POST',
         success: function (data) {
             $('.emp-list').append(data);

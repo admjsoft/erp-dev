@@ -35,7 +35,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Employee') ?></label>
-                                <input type="text" name="employee_list" id="employee_list"
+                                <?php /* ?><input type="text" name="employee_list" id="employee_list"
                                     class="form-control employee emp-list"
                                     placeholder="<?php echo $this->lang->line('Enter Employee Name') ?>"
                                     list="datalistOptions" />
@@ -48,13 +48,29 @@
                                         <?php }} ?>
                                         <!-- Add more options as needed -->
                                 </datalist>
+                                
+                                <select name="employee_list" id="employee_list" class="form-control employee emp-list">
+                                    <option value="">Select Employee</option> <!-- Add a default option -->
+                                    <?php if (!empty($emp_list)) {
+                                        foreach ($emp_list as $e_list) { ?>
+                                    <option value="<?php echo $e_list['id']; ?>"><?php echo $e_list['name']; ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                                <?php */ ?>
+                                <input type="text" class="form-control" name="cst" id="employee-box-kpi"
+                                        placeholder="Enter Employee Name"
+                                        autocomplete="off" value="<?php if(!empty($employee_name)){ echo $employee_name; } ?>"/>
+
+                                <div id="employee-box-kpi-result"></div>
+
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Customer') ?></label>
-                                <input type="text" name="customers_list" id="customers_list"
+                                <?php /* ?><input type="text" name="customers_list" id="customers_list"
                                     class="form-control employee emp-list"
                                     placeholder="<?php echo $this->lang->line('Enter Customer Name') ?>"
                                     list="datalistOptionsCust" />
@@ -63,15 +79,38 @@
                                     <!-- Replace these options with your actual autocomplete options -->
                                     <?php if(!empty($cust_list)) { foreach( $cust_list as $c_list){ ?>
                                     <option cust_id="<?php echo $c_list['id']; ?>"
-                                        value="<?php echo $c_list['name']; ?>">
+                                        value="<?php echo $c_list['name']."(".$c_list['company'].")"; ?>">
                                         <?php }} ?>
                                         <!-- Add more options as needed -->
                                 </datalist>
+
+                                <select name="customers_list" id="customers_list"
+                                    class="form-control employee emp-list">
+                                    <option value="">Select Customer</option> <!-- Add a default option -->
+                                    <?php if (!empty($cust_list)) {
+                                        foreach ($cust_list as $c_list) { ?>
+                                    <option value="<?php echo $c_list['id']; ?>">
+                                        <?php echo $c_list['name']." (".$c_list['company'].")"; ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                                <?php */ ?>
+                                <!-- <div class="frmSearch col-sm-12">
+                                    <label for="cst" class="caption"><?php // echo $this->lang->line('Search Client') ?></label> -->
+                                    <input type="text" class="form-control" name="cst" id="customer-box-kpi"
+                                        placeholder="Enter Customer Name or Company Name to search"
+                                        autocomplete="off" value="<?php if(!empty($customer_name)){ echo $customer_name; } ?>"/>
+
+                                    <div id="customer-box-kpi-result"></div>
+                                <!-- </div> -->
+
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
+                            <label for="employee"><?php echo $this->lang->line('Select Job Id / DO') ?></label>
+                                <?php /* ?>
                                 <label for="employee"><?php echo $this->lang->line('Select Job Id') ?></label>
                                 <input type="text" name="job_list" id="job_list" class="form-control employee emp-list"
                                     placeholder="<?php echo $this->lang->line('Enter Job Id') ?>"
@@ -85,10 +124,28 @@
                                         <?php }} ?>
                                         <!-- Add more options as needed -->
                                 </datalist>
+                                
+                                <label for="job_list"><?php echo $this->lang->line('Select Job Id') ?></label>
+                                <select name="job_list" id="job_list" class="form-control employee emp-list">
+                                    <option value="">Select Job Id</option> <!-- Add a default option -->
+                                    <?php if (!empty($job_list)) {
+                                        foreach ($job_list as $j_list) { ?>
+                                    <option value="<?php echo $j_list['id']; ?>"><?php echo $j_list['job_unique_id']; ?>
+                                    </option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                                <?php */ ?>
+                                <input type="text" class="form-control" name="cst" id="job-box-kpi"
+                                        placeholder="Enter Job Id Or DO Number"
+                                        autocomplete="off" value="<?php if(!empty($job_unique_id)){ echo $job_unique_id; } ?>"/>
+
+                                    <div id="job-box-kpi-result"></div>
+
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Date Range') ?></label>
 
@@ -100,15 +157,19 @@
                             </div>
                         </div>
 
-                        <input type="hidden" id="employee_selected_id" name="employee" value="" />
-                        <input type="hidden" id="customer_selected_id" name="customer" value="" />
-                        <input type="hidden" id="job_selected_id" name="job_id" value="" />
+                        <input type="hidden" id="employee_selected_id" name="employee" value="<?php if(!empty($employee_id)){ echo $employee_id; } ?>" />
+                        <input type="hidden" id="customer_selected_id" name="customer" value="<?php if(!empty($customer_id)){ echo $customer_id; } ?>" />
+                        <input type="hidden" id="job_selected_id" name="job_id" value="<?php if(!empty($job_id)){ echo $job_id; } ?>" />
+                        <input type="hidden" id="employee_selected_name" name="employee_name" value="<?php if(!empty($employee_name)){ echo $employee_name; } ?>" />
+                        <input type="hidden" id="customer_selected_name" name="customer_name" value="<?php if(!empty($customer_name)){ echo $customer_name; } ?>" />
+                        <input type="hidden" id="job_selected_unique_id" name="job_unique_id" value="<?php if(!empty($job_unique_id)){ echo $job_unique_id; } ?>" />
+
                         <input type="hidden" id="from_date" name="from_date"
                             value="<?php if(!empty($from_date)){ echo $from_date; } ?>">
                         <input type="hidden" id="to_date" name="to_date"
                             value="<?php if(!empty($to_date)){ echo $to_date; } ?>">
 
-                        <div class="col-md-2 ">
+                        <div class="col-md-1 ">
                             <label for="submit">&nbsp;</label>
                             <button class="btn btn-success col-12"
                                 type="post"><?php echo $this->lang->line('Search') ?></button>
@@ -120,7 +181,7 @@
                 <div class=" text-right ">
                     <!-- Small Button -->
                     <form action="<?php echo base_url('export/export_jobsheet_report'); ?>" method="post">
-                        <input type="hidden" id="download_employee_selected_id" name="employee" value="" />                        
+                        <input type="hidden" id="download_employee_selected_id" name="employee" value="" />
                         <input type="hidden" id="download_customer_selected_id" name="customer" value="" />
                         <input type="hidden" id="download_from_date" name="from_date"
                             value="<?php if(!empty($from_date)){ echo $from_date; } ?>">
@@ -133,7 +194,7 @@
                         </button></a>
                     </form>
                 </div>
-                
+
                 <table id="htable" class="table table-striped table-bordered zero-configuration" cellspacing="0"
                     width="100%">
                     <thead>
@@ -157,31 +218,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <?php if(!empty($jobsheet_report)){ $jr = 1; foreach($jobsheet_report as $job_data) { ?>
-                                <tr>
-                                    <td># <?php echo $jr; ?></td>
-                                    <td><?php echo $job_data['cid']; ?></td>
-                                    <td><?php echo $job_data['assigned_employee_name']; ?></td>
-                                    <td><?php echo $job_data['created_date_time']; ?></td>
-                                    <td><?php echo $job_data['estimated_completed_date']; ?></td>
-                                    <td><?php echo $job_data['status']; ?></td>
-                                    <td><?php echo $job_data['assigned_hours']; ?></td>
-                                    <td><?php echo $job_data['client_name']; ?></td>
-                                    <td><?php echo $job_data['duration']; ?></td>
-                                    <td><?php echo $job_data['remarks']; ?></td>
-                                    <td><?php echo $job_data['total_assigned_tasks']; ?></td>
-                                    <td><?php echo $job_data['total_completed_tasks']; ?></td>
-                                    <td><?php echo $job_data['total_pending_tasks']; ?></td>
-                                    <td><?php echo $job_data['total_work_in_progress_and_reopen']; ?></td>
-                                    <td><?php echo $job_data['total_working_duration']; ?></td>
-                                    <td><?php echo $job_data['kpi_indication']; ?></td>
+                        <?php if(!empty($jobsheet_report)){ $jr = 1; foreach($jobsheet_report as $job_data) { ?>
+                        <tr>
+                            <td># <?php echo $jr; ?></td>
+                            <td><?php echo $job_data['cid']; ?></td>
+                            <td><?php echo $job_data['assigned_employee_name']; ?></td>
+                            <td><?php echo $job_data['created_date_time']; ?></td>
+                            <td><?php echo $job_data['estimated_completed_date']; ?></td>
+                            <td><?php echo $job_data['status']; ?></td>
+                            <td><?php echo $job_data['assigned_hours']; ?></td>
+                            <td><?php echo $job_data['client_name']; ?></td>
+                            <td><?php echo $job_data['duration']; ?></td>
+                            <td><?php echo $job_data['remarks']; ?></td>
+                            <td><?php echo $job_data['total_assigned_tasks']; ?></td>
+                            <td><?php echo $job_data['total_completed_tasks']; ?></td>
+                            <td><?php echo $job_data['total_pending_tasks']; ?></td>
+                            <td><?php echo $job_data['total_work_in_progress_and_reopen']; ?></td>
+                            <td><?php echo $job_data['total_working_duration']; ?></td>
+                            <td><?php echo $job_data['kpi_indication']; ?></td>
 
-                                </tr>
-                            <?php $jr++; }} ?>
+                        </tr>
+                        <?php $jr++; }} ?>
                     </tbody>
 
                     <tfoot>
-                       
+
                     </tfoot>
                 </table>
 
@@ -200,90 +261,90 @@
 
 
         });
-        $.ajax({
+        // $.ajax({
 
-            url: "<?php echo site_url('employee/employee_list') ?>",
-            type: 'POST',
-            success: function(data) {
-                $('.emp-list').append(data);
-            },
-            error: function(data) {
-                //console.log(data);
-                console.log("Error not get emp list")
-            }
+        //     url: "<?php // echo site_url('employee/employee_list') ?>",
+        //     type: 'POST',
+        //     success: function(data) {
+        //         $('.emp-list').append(data);
+        //     },
+        //     error: function(data) {
+        //         //console.log(data);
+        //         console.log("Error not get emp list")
+        //     }
 
-        });
+        // });
     });
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var employeeInput = document.querySelector('#employee_list');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var employeeInput = document.querySelector('#employee_list');
 
-        // Add an event listener for input change
-        employeeInput.addEventListener('input', function() {
-            // Retrieve the selected option
-            var selectedOption = document.querySelector('#datalistOptions option[value="' +
-                employeeInput.value + '"]');
+    //     // Add an event listener for input change
+    //     employeeInput.addEventListener('input', function() {
+    //         // Retrieve the selected option
+    //         var selectedOption = document.querySelector('#datalistOptions option[value="' +
+    //             employeeInput.value + '"]');
 
-            // Check if an option is selected
-            if (selectedOption) {
-                // alert(selectedOption);
-                // Get the emp_id attribute value
-                var empId = selectedOption.getAttribute('emp_id');
-                $('#employee_selected_id').val(empId);
-                $('#download_employee_selected_id').val(empId);
-                // Display emp_id using alert
-                //alert('Selected Employee ID: ' + empId);
+    //         // Check if an option is selected
+    //         if (selectedOption) {
+    //             // alert(selectedOption);
+    //             // Get the emp_id attribute value
+    //             var empId = selectedOption.getAttribute('emp_id');
+    //             $('#employee_selected_id').val(empId);
+    //             $('#download_employee_selected_id').val(empId);
+    //             // Display emp_id using alert
+    //             //alert('Selected Employee ID: ' + empId);
 
-            }
-        });
-    });
+    //         }
+    //     });
+    // });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var customerInput = document.querySelector('#customers_list');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var customerInput = document.querySelector('#customers_list');
 
-        // Add an event listener for input change
-        customerInput.addEventListener('input', function() {
-            // Retrieve the selected option
-            var selectedOption = document.querySelector('#datalistOptions option[value="' +
-            customerInput.value + '"]');
+    //     // Add an event listener for input change
+    //     customerInput.addEventListener('input', function() {
+    //         // Retrieve the selected option
+    //         var selectedOption = document.querySelector('#datalistOptionsCust option[value="' +
+    //         customerInput.value + '"]');
 
-            // Check if an option is selected
-            if (selectedOption) {
-                // alert(selectedOption);
-                // Get the emp_id attribute value
-                var custId = selectedOption.getAttribute('cust_id');
-                $('#customer_selected_id').val(custId);
-                $('#download_customer_selected_id').val(custId);
-                // Display emp_id using alert
-                //alert('Selected Employee ID: ' + empId);
+    //         // Check if an option is selected
+    //         if (selectedOption) {
+    //             // alert(selectedOption);
+    //             // Get the emp_id attribute value
+    //             var custId = selectedOption.getAttribute('cust_id');
+    //             $('#customer_selected_id').val(custId);
+    //             $('#download_customer_selected_id').val(custId);
+    //             // Display emp_id using alert
+    //             //alert('Selected Employee ID: ' + empId);
 
-            }
-        });
-    });
+    //         }
+    //     });
+    // });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var jobInput = document.querySelector('#job_list');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var jobInput = document.querySelector('#job_list');
 
-        // Add an event listener for input change
-        jobInput.addEventListener('input', function() {
-            // Retrieve the selected option
-            var selectedOption1 = document.querySelector('#datalistOptions1 option[value="' +
-                jobInput.value + '"]');
+    //     // Add an event listener for input change
+    //     jobInput.addEventListener('input', function() {
+    //         // Retrieve the selected option
+    //         var selectedOption1 = document.querySelector('#datalistOptions1 option[value="' +
+    //             jobInput.value + '"]');
 
-            // Check if an option is selected
-            if (selectedOption1) {
-                // alert(selectedOption);
-                // Get the emp_id attribute value
-                var jobId = selectedOption1.getAttribute('job_id');
-                $('#download_job_id').val(jobId);
-                $('#job_selected_id').val(jobId);
-                // Display emp_id using alert
-                //alert('Selected Employee ID: ' + empId);
+    //         // Check if an option is selected
+    //         if (selectedOption1) {
+    //             // alert(selectedOption);
+    //             // Get the emp_id attribute value
+    //             var jobId = selectedOption1.getAttribute('job_id');
+    //             $('#download_job_id').val(jobId);
+    //             $('#job_selected_id').val(jobId);
+    //             // Display emp_id using alert
+    //             //alert('Selected Employee ID: ' + empId);
 
-            }
-        });
-    });
+    //         }
+    //     });
+    // });
     </script>
     <script type="text/javascript">
     $(function() {
@@ -301,7 +362,7 @@
         }
 
         function cb(start, end) {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
             $('#from_date').val(start.format('YYYY-MM-DD'));
             $('#to_date').val(end.format('YYYY-MM-DD'));
             $('#download_from_date').val(start.format('YYYY-MM-DD'));

@@ -226,15 +226,16 @@ class Jobsheet_model extends CI_Model
             }
             $i++;
         }
-        $search = $this->input->post('order');
-        if ($search) {
-            $this->db->order_by($this->doccolumn_order[$search['0']['column']], $search['0']['dir']);
-        } 
+        // $search = $this->input->post('order');
+        // if ($search) {
+        //     $this->db->order_by($this->doccolumn_order[$search['0']['column']], $search['0']['dir']);
+        // } 
         
         if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }else{
+            $this->db->order_by("CASE WHEN status = '2' THEN 0 ELSE 1 END", 'ASC'); // Order by 'Pending' first
             $this->db->order_by('updated_at','DESC');
             // $this->db->order_by('status',2);
         }
@@ -297,7 +298,7 @@ class Jobsheet_model extends CI_Model
     public function thread_jobsheet_info($id)
     {
 
-        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
+        $this->db->select('gtg_job.*,gtg_employees.name AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
         $this->db->from('gtg_job');
         $this->db->join('gtg_employees', 'gtg_job.userid=gtg_employees.id', 'left');
         $this->db->join('gtg_jobtransaction', 'gtg_job.id=gtg_jobtransaction.jobid', 'left');
@@ -306,6 +307,8 @@ class Jobsheet_model extends CI_Model
         $this->db->where('gtg_job.id', $id);
         $this->db->order_by('gtg_jobtransaction.id', 'DESC');
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // exit;
         return $query->row_array();
 
         // $this->db->select('*');
@@ -595,16 +598,22 @@ class Jobsheet_model extends CI_Model
             }
             $i++;
         }
-        $search = $this->input->post('order');
-        if ($search) {
-            $this->db->order_by($this->doccolumn_order_my[$search['0']['column']], $search['0']['dir']);
-        }  
+        // $search = $this->input->post('order');
+        // if ($search) {
+        //     $this->db->order_by($this->doccolumn_order_my[$search['0']['column']], $search['0']['dir']);
+        // }  
         
         if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         }else{
-            $this->db->order_by('updated_at','DESC');
+            //$this->db->order_by('updated_at','DESC');
+            // $this->db->order_by('updated_at','DESC');
+            // $this->db->order_by("CASE WHEN status = '2' THEN 0 ELSE 1 END, updated_at", 'ASC');
+                        
+            $this->db->order_by("CASE WHEN status = '2' THEN 0 ELSE 1 END", 'ASC'); // Order by 'Pending' first
+            $this->db->order_by('updated_at', 'DESC');
+
         }
     }
 
@@ -632,14 +641,14 @@ class Jobsheet_model extends CI_Model
             $data = array('jid' => $thread_id, 'message' => $message, 'cid' => 0, 'eid' => 0,'aid'=> $this->aauth->get_user()->id, 'cdate' => date('Y-m-d H:i:s'), 'attach' => $filename);
 
         }
-        
-        if ($this->ticket()->key2) {
+        // removed due to unsataility issues
+        // if ($this->ticket()->key2) {
 
-            $customer = $this->thread_jobsheet_info($thread_id);
-            $email = $this->thread_user_info($customer['userid']);
+        //     $customer = $this->thread_jobsheet_info($thread_id);
+        //     $email = $this->thread_user_info($customer['userid']);
 
-            $this->send_email($email['email'], $customer['cname'], '[Job Updated] #' . $thread_id, $message . $this->ticket()->other, $attachmenttrue = false, $attachment = '');
-        }
+        //     $this->send_email($email['email'], $customer['cname'], '[Job Updated] #' . $thread_id, $message . $this->ticket()->other, $attachmenttrue = false, $attachment = '');
+        // }
         return $this->db->insert('gtg_jobsheets_th', $data);
     }
 /*
@@ -768,15 +777,16 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
         }
         $i++;
     }
-    $search = $this->input->post('order');
-    if ($search) {
-        $this->db->order_by($this->doccolumn_search_report_order[$search['0']['column']], $search['0']['dir']);
-    } 
+    // $search = $this->input->post('order');
+    // if ($search) {
+    //     $this->db->order_by($this->doccolumn_search_report_order[$search['0']['column']], $search['0']['dir']);
+    // } 
     
     if (isset($this->order)) {
         $order = $this->order;
         $this->db->order_by(key($order), $order[key($order)]);
     }else{
+        $this->db->order_by("CASE WHEN status = '2' THEN 0 ELSE 1 END", 'ASC'); // Order by 'Pending' first
         $this->db->order_by('updated_at','DESC');
         //$this->db->order_by('status',2);
     }
@@ -819,7 +829,7 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
     public function all_jobsheet_list()
     {
 
-        $this->db->select('gtg_job.*,gtg_employees.username AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
+        $this->db->select('gtg_job.*,gtg_employees.name AS assigned_employee_name,gtg_jobtransaction.assign_type as assigned_employee_job_type,gtg_vehicles.vin as vehicle_number,gtg_customers.picture as client_photo');
         $this->db->from('gtg_job');
         $this->db->join('gtg_employees', 'gtg_job.userid=gtg_employees.id', 'left');
         $this->db->join('gtg_jobtransaction', 'gtg_job.id=gtg_jobtransaction.jobid', 'left');
@@ -856,7 +866,7 @@ private function jobsheet_datatables_query_report($filt,$status='',$employee = '
         //$this->db->where('gtg_job.id', $id);
 
         if (!empty($cid)) {
-            $this->db->where('gtg_job.cid', $cid);
+            $this->db->where('gtg_employees.id', $cid);
         }
 
         if (!empty($customer_id)) {

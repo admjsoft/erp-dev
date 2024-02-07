@@ -387,20 +387,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-
-                    <label class="col-sm-2 control-label" for="todate"></label>
-
-                    <div class="col-sm-10">
-                        <?php if ($thread_info['status'] != 1) { ?>
-                        <a href="#pop_model" data-toggle="modal" data-remote="false" class="btn  btn-cyan mb-1 "
-                            title="Change Status">
-                            <span class="icon-tab"></span>
-                            <?php echo $this->lang->line('Change Status'); ?>
-                        </a>
-                        <?php } ?>
-                    </div>
-                </div>
+                
 
                 <div class="form-group row">
 
@@ -482,7 +469,7 @@
             </div> -->
                 <?php }?>
 
-
+             
 
                 <?php // if($thread_info['status'] == 1){ ?>
 
@@ -655,11 +642,27 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group row">
 
-                    <label class="col-sm-2 control-label" for="from"></label>
+                    <!-- <label class="col-sm-2 control-label" for="todate"></label> -->
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-12 text-center">
+                        <?php if ($thread_info['status'] != 1) { ?>
+                        <a href="#pop_model" data-toggle="modal" data-remote="false" class="btn  btn-cyan mb-1 "
+                            title="Change Status">
+                            <span class="icon-tab"></span>
+                            <?php echo $this->lang->line('Change Status'); ?>
+                        </a>
+                        <?php } ?>
+                    </div>
+                    </div>
+
+                <div class="form-group row">
+
+                    <!-- <label class="col-sm-2 control-label" for="from"></label> -->
+
+                    <div class="col-sm-12 text-center">
                         <button id="uploadButton" class="btn btn-primary">Update Details</button>
 
                     </div>
@@ -1687,12 +1690,12 @@ uploadButton.addEventListener('click', () => {
                             // window.location.href = data.redirect_url;
                             // location.reload();
                             var im_status = 1;
-                            alert('DO Captured Details Updated Successfully');
+                            //alert('DO Captured Details Updated Successfully');
                             location.reload();
                             
                         } else {
                             // Display validation errors
-                            $('#validation_errors').html(data.validation_errors).show();
+                            // $('#validation_errors').html(data.validation_errors).show();
                             var im_status = 0;
                         }
                     })
@@ -1749,7 +1752,7 @@ uploadButton.addEventListener('click', () => {
                     } else {
                         // Display validation errors
                         var a_status = 0;
-                        $('#validation_errors').html(data.validation_errors).show();
+                        // $('#validation_errors').html(data.validation_errors).show();
                     }
                 })
                 .catch(error => {
@@ -1794,11 +1797,11 @@ uploadButton.addEventListener('click', () => {
                         var s_status = 1;
                         
                         alert('Signature Details has been Updated');
-                        location.reload();
+                        //location.reload();
                     } else {
                         // Display validation errors
                         var s_status = 0;
-                        $('#validation_errors').html(data.validation_errors).show();
+                        // $('#validation_errors').html(data.validation_errors).show();
                     }
                 })
                 .catch(error => {
@@ -1817,7 +1820,7 @@ uploadButton.addEventListener('click', () => {
         var s_status = 1;
     }
  
-
+        var mm_status = 1;
         //const attachmentInput = document.getElementById('userfile_attachment');
         const contentTextarea = document.getElementById('message_content');
         var job_id = $('#c_job_id').val();
@@ -1828,7 +1831,8 @@ uploadButton.addEventListener('click', () => {
                 
         // Add any additional data you need
 
-        if (contentTextarea.value.trim() !== '') {
+        if (contentTextarea.value.trim() != '') {
+            // alert('holy');
             const from_url = "<?php echo base_url('jobsheets/conversation_attachment_upload'); ?>";
 
             fetch(from_url, {
@@ -1841,13 +1845,13 @@ uploadButton.addEventListener('click', () => {
                         // Redirect to the success page
                         // window.location.href = data.redirect_url;
                         // location.reload();
-                        var m_status = 1;
+                        var mm_status = 1;
                         alert('Conversation Details has been Updated');
-                        location.reload();
+                        //location.reload();
                     } else {
-                        var m_status = 0;
+                        var mm_status = 0;
                         // Display validation errors
-                        $('#validation_errors').html(data.validation_errors).show();
+                        // $('#validation_errors').html(data.validation_errors).show();
                     }
                 })
                 .catch(error => {
@@ -1856,13 +1860,20 @@ uploadButton.addEventListener('click', () => {
         } else {
            // alert('Please Capture Photo, Select Attachment, or Enter Message');
             // Handle validation or prompt the user
-            var m_status = 1;
+            var mm_status = 1;
+            // alert('fuck');
         }
 
-        // if(m_status == 1 || s_status == 1 || a_status == 1 || im_status == 1)
-        // {
-        //     location.reload();
-        // }
+        // alert(mm_status);
+
+        // console.log(mm_status);
+        // console.log(s_status);
+        // console.log(a_status);
+        // console.log(im_status);
+        if(mm_status == 1 && s_status == 1 && a_status == 1 && im_status == 1)
+        {
+            location.reload();
+        }
         
 
 });

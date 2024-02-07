@@ -50,6 +50,40 @@ function selectContractCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 
     $("#customer").show();
 }
 
+function selectKpiCustomer(cid, cname, company = '') {
+
+  
+    $('#customer_selected_id').val(cid);
+    $("#download_customer_selected_id").val(cid);
+    $('#customer_selected_name').val(cname);
+    $('#customer-box-kpi').val(cname);
+    $("#customer-box-kpi-result").hide();
+    //$("#customer").show();
+}
+
+function selectKpiEmployee(cid, cname) {
+
+  
+    $('#employee_selected_id').val(cid);
+    $("#download_employee_selected_id").val(cid);
+    $('#employee_selected_name').val(cname);
+    $('#employee-box-kpi').val(cname);
+    $("#employee-box-kpi-result").hide();
+    //$("#customer").show();
+}
+
+function selectKpiJob(cid, job_unique_id, do_number, search_key) {
+
+  
+    $('#job_selected_id').val(cid);
+    $("#download_job_id").val(cid);
+    $('#job_selected_unique_id').val(job_unique_id);
+    $('#job-box-kpi').val(job_unique_id);
+    $("#job-box-kpi-result").hide();
+    //$("#customer").show();
+}
+
+
 function selectEmployee(eid, ename, eadd1, eadd2, ph, email, discount = 0) {
     $('#employee_id').val(eid);
     $('#employee_discount').val(discount);
@@ -209,6 +243,138 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
+
+    
+    $("#customer-box-kpi").keyup(function () {
+        $('#customer_selected_id').val('');
+        $('#download_customer_selected_id').val('');
+        $.ajax({
+            type: "GET",
+            url: baseurl + 'search_products/csearch_customer_kpi',
+            data: 'keyword=' + $(this).val() + '&' + crsf_token + '=' + crsf_hash,
+            beforeSend: function () {
+                $("#customer-box-kpi-result").css("background", "#FFF url(" + baseurl + "assets/custom/load-ring.gif) no-repeat 165px");
+            },
+            success: function (data) {
+
+                if(data){
+                         
+                   
+                    // Parse the server response
+                    var parsedResponse = $.parseHTML(data);
+
+                    // Check if there is an <li> tag inside <ol> tag
+                    if ($(parsedResponse).find('li').length > 0) {
+                        $("#customer-box-kpi-result").show();
+                        $("#customer-box-kpi-result").html(data);
+                        $("#customer-box-kpi").css("background", "none");
+                        //$('#job_sheet_add_client_btn').hide();
+                    } else {
+                        $("#customer-box-kpi").css("background", "none");
+                        $("#customer-box-kpi-result").hide();
+                        //$('#job_sheet_add_client_btn').show();
+                        
+                    }
+                    
+                }else{
+                    $("#customer-box-kpi").css("background", "none");
+                    $("#customer-box-kpi-result").hide();
+                    //$('#job_sheet_add_client_btn').show();
+                }
+         
+
+            }
+        });
+    });
+
+
+    $("#employee-box-kpi").keyup(function () {
+        $('#employee_selected_id').val('');
+        $('#download_employee_selected_id').val('');
+        $.ajax({
+            type: "GET",
+            url: baseurl + 'search_products/csearch_employee_kpi',
+            data: 'keyword=' + $(this).val() + '&' + crsf_token + '=' + crsf_hash,
+            beforeSend: function () {
+                $("#employee-box-kpi-result").css("background", "#FFF url(" + baseurl + "assets/custom/load-ring.gif) no-repeat 165px");
+            },
+            success: function (data) {
+
+                if(data){
+                         
+                   
+                    // Parse the server response
+                    var parsedResponse = $.parseHTML(data);
+
+                    // Check if there is an <li> tag inside <ol> tag
+                    if ($(parsedResponse).find('li').length > 0) {
+                        $("#employee-box-kpi-result").show();
+                        $("#employee-box-kpi-result").html(data);
+                        $("#employee-box-kpi").css("background", "none");
+                        //$('#job_sheet_add_client_btn').hide();
+                    } else {
+                        $("#employee-box-kpi").css("background", "none");
+                        $("#employee-box-kpi-result").hide();
+                        //$('#job_sheet_add_client_btn').show();
+                        
+                    }
+                    
+                }else{
+                    $("#employee-box-kpi").css("background", "none");
+                    $("#employee-box-kpi-result").hide();
+                    //$('#job_sheet_add_client_btn').show();
+                }
+         
+
+            }
+        });
+    });
+
+    $("#job-box-kpi").keyup(function () {
+        $('#job_selected_id').val('');
+        $('#download_job_id').val('');
+        $.ajax({
+            type: "GET",
+            url: baseurl + 'search_products/csearch_job_kpi',
+            data: 'keyword=' + $(this).val() + '&' + crsf_token + '=' + crsf_hash,
+            beforeSend: function () {
+                $("#job-box-kpi-result").css("background", "#FFF url(" + baseurl + "assets/custom/load-ring.gif) no-repeat 165px");
+            },
+            success: function (data) {
+
+                if(data){
+                         
+                   
+                    // Parse the server response
+                    var parsedResponse = $.parseHTML(data);
+
+                    // Check if there is an <li> tag inside <ol> tag
+                    if ($(parsedResponse).find('li').length > 0) {
+                        $("#job-box-kpi-result").show();
+                        $("#job-box-kpi-result").html(data);
+                        $("#job-box-kpi").css("background", "none");
+                        //$('#job_sheet_add_client_btn').hide();
+                    } else {
+                        $("#job-box-kpi").css("background", "none");
+                        $("#job-box-kpi-result").hide();
+                        //$('#job_sheet_add_client_btn').show();
+                        
+                    }
+                    
+                }else{
+                    $("#job-box-kpi").css("background", "none");
+                    $("#job-box-kpi-result").hide();
+                    //$('#job_sheet_add_client_btn').show();
+                }
+         
+
+            }
+        });
+    });
+    
 
     var userfileElement = document.getElementById("userfile");
 

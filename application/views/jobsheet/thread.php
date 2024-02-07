@@ -334,20 +334,7 @@
                 </div>
                 <?php } ?>
 
-                <div class="form-group row">
-
-                    <label class="col-sm-2 control-label" for="todate"></label>
-
-                    <div class="col-sm-10">
-                        <?php if ($thread_info['status'] != 1) { ?>
-                        <a href="#pop_model" data-toggle="modal" data-remote="false" class="btn  btn-cyan mb-1 "
-                            title="Change Status">
-                            <span class="icon-tab"></span>
-                            <?php echo $this->lang->line('Change Status'); ?>
-                        </a>
-                        <?php } ?>
-                    </div>
-                </div>
+               
                 <?php if($thread_info['status']==1 && !empty($thread_info['signature'])){ ?>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label"><Strong>Signature : </Strong></label>
@@ -366,10 +353,26 @@
                     </div>
                 </div>
                 <?php } ?>
+
+                <div class="form-group row">
+
+                <!-- <label class="col-sm-2 control-label" for="todate"></label> -->
+
+                <div class="col-sm-12 text-center">
+                    <?php // if ($thread_info['status'] != 1) { ?>
+                    <a href="#pop_model" data-toggle="modal" data-remote="false" class="btn  btn-cyan mb-1 "
+                        title="Change Status">
+                        <span class="icon-tab"></span>
+                        <?php echo $this->lang->line('Change Status'); ?>
+                    </a>
+                    <?php // } ?>
+                </div>
+                </div>
+
                 <?php if($thread_info['status']!=1) { ?>
                 <div class="form-group row ">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-4">
+                    <!-- <label class="col-sm-2 col-form-label"></label> -->
+                    <div class="col-sm-12 text-center">
                         <input type="submit" id="document_add" class="btn btn-primary margin-bottom"
                             value="<?php echo $this->lang->line('Update Details') ?>" data-loading-text="Updating...">
                     </div>

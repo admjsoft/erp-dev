@@ -1403,8 +1403,8 @@ class Export extends CI_Controller
             $sheet->setCellValue('I2', 'Duration');        
             $sheet->setCellValue('H2', 'Final Remarks');
             $sheet->setCellValue('J2', 'Total Assigned Tasks');
-            $sheet->setCellValue('K2', 'Total Pending Tasks');
-            $sheet->setCellValue('L2', 'Total Completed Tasks');
+            $sheet->setCellValue('K2', 'Total Completed Tasks');
+            $sheet->setCellValue('L2', 'Total Pending Tasks');
             $sheet->setCellValue('M2', 'Total Work In Progress & Others');
             $sheet->setCellValue('N2', 'Total Work Hours');
             $sheet->setCellValue('O2', 'KPI Indication');

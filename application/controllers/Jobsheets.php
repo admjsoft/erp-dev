@@ -559,13 +559,13 @@ class Jobsheets extends CI_Controller
         $jid = $this->input->post('jid');
         $status = $this->input->post('status');
         $remarks = $this->input->post('remarks');
-        $time_stamp = '';
+        $time_stamp = date('Y-m-d H:i:s');
         
         
         if($status==1){
             $temp="Completed";
-            $time_stamp = date('Y-m-d H:i:s');
-            $this->db->set('compl   eted_time', $time_stamp);
+            //$time_stamp = date('Y-m-d H:i:s');
+            $this->db->set('completed_time', $time_stamp);
             
         }elseif($status==2){
             $temp="Pending";
@@ -576,7 +576,7 @@ class Jobsheets extends CI_Controller
         elseif($status==4){
 
             $temp = "Work In Progress";
-            $time_stamp = date('Y-m-d H:i:s');
+            //$time_stamp = date('Y-m-d H:i:s');
             $this->db->set('work_in_progress_start_time', $time_stamp);
 
         }elseif($status==5){
@@ -604,6 +604,7 @@ class Jobsheets extends CI_Controller
                 if($this->db->where('job_id',$jid)->get('gtg_job_images')->num_rows() > 0)
                 {
                     $this->db->set('status', $status);
+                    $this->db->set('updated_at', $time_stamp);
                     $this->db->where('id', $jid);
                     $this->db->update('gtg_job');       
                     echo json_encode(array('status' => 'Success', 'message' =>
@@ -617,14 +618,16 @@ class Jobsheets extends CI_Controller
             
             } else{
 
-                    $this->db->set('status', $status);
+                    $this->db->set('status', $status);                    
+                    $this->db->set('updated_at', $time_stamp);
                     $this->db->where('id', $jid);
                     $this->db->update('gtg_job');       
                     echo json_encode(array('status' => 'Success', 'message' =>
                     $this->lang->line('UPDATED'), 'pstatus' => $temp));
             }
         }else{
-            $this->db->set('status', $status);
+            $this->db->set('status', $status);            
+            $this->db->set('updated_at', $time_stamp);
             $this->db->where('id', $jid);
             $this->db->update('gtg_job');
             echo json_encode(array('status' => 'Success', 'message' =>
@@ -639,12 +642,12 @@ class Jobsheets extends CI_Controller
         $jid = $this->input->post('jid');
         $status = $this->input->post('status');
         $remarks = $this->input->post('remarks');
-        $time_stamp = '';
+        $time_stamp = date('Y-m-d H:i:s');
         
         
         if($status==1){
             $temp="Completed";
-            $time_stamp = date('Y-m-d H:i:s');
+            //$time_stamp = date('Y-m-d H:i:s');
             $this->db->set('completed_time', $time_stamp);
             
         }elseif($status==2){
@@ -656,7 +659,7 @@ class Jobsheets extends CI_Controller
         elseif($status==4){
 
             $temp = "Work In Progress";
-            $time_stamp = date('Y-m-d H:i:s');
+            //$time_stamp = date('Y-m-d H:i:s');
             $this->db->set('work_in_progress_start_time', $time_stamp);
 
         }elseif($status==5){
@@ -772,8 +775,8 @@ class Jobsheets extends CI_Controller
         $list = $this->jobsheet->jobsheet_my_datatables($filt,$status);
         $data = array();
         $no = $this->input->post('start');
-//print_r($list);
-//die();
+// print_r($list);
+// die();
         foreach ($list as $jobsheet) {
             $row = array();
             $no++;
@@ -983,10 +986,10 @@ class Jobsheets extends CI_Controller
 
                 if (!$this->upload->do_upload('userfile')) {
                     $data['success'] = false;
-                    $data['responsetext'] = $this->lang->line('File upload error');
+                    //$data['responsetext'] = $this->lang->line('File upload error');
                 } else {
                     $data['success'] = true;
-                    $data['responsetext'] = $this->lang->line('Reply success');
+                    //$data['responsetext'] = $this->lang->line('Reply success');
                     $filename = $this->upload->data()['file_name'];
                     $this->jobsheet->addjobsheetreply($thread_id, $message, $filename);
                 }
@@ -995,10 +998,10 @@ class Jobsheets extends CI_Controller
                 {
                     $this->jobsheet->addjobsheetreply($thread_id, $message, '');
                     $data['success'] = true;
-                    $data['responsetext'] = $this->lang->line('Reply success');
+                    //$data['responsetext'] = $this->lang->line('Reply success');
                 }else{
                     $data['success'] = false;
-                    $data['responsetext'] = $this->lang->line("Reply Shouldn't be Empty");
+                    //$data['responsetext'] = $this->lang->line("Reply Shouldn't be Empty");
                 }
                 
             }
@@ -1233,12 +1236,20 @@ class Jobsheets extends CI_Controller
             $to_date = $this->input->post('to_date');
             $customer_id = $this->input->post('customer');
 
+            $employee_name = $this->input->post('employee_name');
+            $customer_name = $this->input->post('customer_name');
+            $job_unique_id = $this->input->post('job_unique_id');
+
+           
+
             $data['emp_list'] = $this->employee->list_employee();
             $data['from_date'] = $from_date;
             $data['to_date'] = $to_date;
             // print
             $list = $this->jobsheet->jobsheet_report_new($cid, $job_id, $from_date, $to_date, $customer_id);
 
+            // echo $this->db->last_query();
+            // exit;
             if(!empty($list))
             {
                 foreach ($list as $row) {
@@ -1399,6 +1410,12 @@ class Jobsheets extends CI_Controller
         // echo "<pre>"; print_r($n_data); echo "</pre>";
 
         // exit;
+        $data['customer_id'] = $customer_id;
+        $data['job_id'] = $job_id;
+        $data['employee_id'] = $cid;
+        $data['employee_name'] = $employee_name;
+        $data['customer_name'] = $customer_name;
+        $data['job_unique_id'] = $job_unique_id;
         $data['jobsheet_report'] = $n_data;
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;

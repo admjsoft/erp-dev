@@ -163,6 +163,99 @@ class Search_products extends CI_Controller
         }
     }
 
+
+    public function csearch_customer_kpi()
+    {
+        $result = array();
+        $out = array();
+        $name = $this->input->get('keyword', true);
+        $whr = '';
+        if ($this->aauth->get_user()->loc) {
+            $whr = ' (loc=' . $this->aauth->get_user()->loc . ' OR loc=0) AND ';
+            if (!BDATA) $whr = ' (loc=' . $this->aauth->get_user()->loc . ' ) AND ';
+        } elseif (!BDATA) {
+            $whr = ' (loc=0) AND ';
+        }
+        if ($name) {
+            $query = $this->db->query("SELECT id,name,company FROM gtg_customers WHERE $whr (UPPER(name)  LIKE '%" . strtoupper($name) . "%' OR UPPER(company)  LIKE '" . strtoupper($name) . "%') LIMIT 6");
+            $result = $query->result_array();
+            echo '<ol>';
+            $i = 1;
+            foreach ($result as $row) {
+
+                //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><span>$i</span><p>" . $row['name'] . " &nbsp; &nbsp  " . $row['phone'] . "</p></li>";
+                //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><div class='row'><div class='col-md-4'>$i</div><div class='col-md-4'>" . $row['name'] . "</div><div class='col-md-4'>" . $row['phone'] . "</div></div></li>";
+                echo "<li onClick=\"selectKpiCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['company'] . "')\"><div class='row'><div class='col-md-12' style='color: #333333;'>" . $row['name'] . "</div></div></li>";
+
+                $i++;
+            }
+            echo '</ol>';
+        }
+    }
+
+    public function csearch_employee_kpi()
+    {
+        $result = array();
+        $out = array();
+        $name = $this->input->get('keyword', true);
+        $whr = '';
+        // if ($this->aauth->get_user()->loc) {
+        //     $whr = ' (loc=' . $this->aauth->get_user()->loc . ' OR loc=0) AND ';
+        //     if (!BDATA) $whr = ' (loc=' . $this->aauth->get_user()->loc . ' ) AND ';
+        // } elseif (!BDATA) {
+        //     $whr = ' (loc=0) AND ';
+        // }
+        if ($name) {
+            $query = $this->db->query("SELECT id,name,company FROM gtg_employees WHERE $whr (UPPER(name)  LIKE '%" . strtoupper($name) . "%') LIMIT 6");
+            $result = $query->result_array();
+            echo '<ol>';
+            $i = 1;
+            foreach ($result as $row) {
+
+                //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><span>$i</span><p>" . $row['name'] . " &nbsp; &nbsp  " . $row['phone'] . "</p></li>";
+                //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><div class='row'><div class='col-md-4'>$i</div><div class='col-md-4'>" . $row['name'] . "</div><div class='col-md-4'>" . $row['phone'] . "</div></div></li>";
+                echo "<li onClick=\"selectKpiEmployee('" . $row['id'] . "','" . $row['name'] . "')\"><div class='row'><div class='col-md-12' style='color: #333333;'>" . $row['name'] . "</div></div></li>";
+
+                $i++;
+            }
+            echo '</ol>';
+        }
+    }
+
+    public function csearch_job_kpi()
+    {
+        $result = array();
+        $out = array();
+        $name = $this->input->get('keyword', true);
+        $whr = '';
+        // if ($this->aauth->get_user()->loc) {
+        //     $whr = ' (loc=' . $this->aauth->get_user()->loc . ' OR loc=0) AND ';
+        //     if (!BDATA) $whr = ' (loc=' . $this->aauth->get_user()->loc . ' ) AND ';
+        // } elseif (!BDATA) {
+        //     $whr = ' (loc=0) AND ';
+        // }
+        if ($name) {
+            $query = $this->db->query("SELECT id,job_unique_id,do_number FROM gtg_job WHERE $whr (UPPER(do_number)  LIKE '%" . strtoupper($name) . "%' OR UPPER(job_unique_id)  LIKE '" . strtoupper($name) . "%') LIMIT 6");
+            $result = $query->result_array();
+            echo '<ol>';
+            $i = 1;
+            foreach ($result as $row) {
+
+                //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><span>$i</span><p>" . $row['name'] . " &nbsp; &nbsp  " . $row['phone'] . "</p></li>";
+                //echo "<li onClick=\"selectCustomer('" . $row['id'] . "','" . $row['name'] . " ','" . $row['address'] . "','" . $row['city'] . "','" . $row['phone'] . "','" . $row['email'] . "','" . amountFormat_general($row['discount_c']) . "')\"><div class='row'><div class='col-md-4'>$i</div><div class='col-md-4'>" . $row['name'] . "</div><div class='col-md-4'>" . $row['phone'] . "</div></div></li>";
+                if (!empty($row['do_number'])) {
+                    echo "<li onClick=\"selectKpiJob('" . $row['id'] . "','" . $row['job_unique_id'] . "','" . $row['do_number'] . "','" . $name . "')\"><div class='row'><div class='col-md-12' style='color: #333333;'>" . $row['job_unique_id'] . "-(" . $row['do_number'] . ")</div></div></li>";
+                }else{
+                    echo "<li onClick=\"selectKpiJob('" . $row['id'] . "','" . $row['job_unique_id'] . "','" . $row['do_number'] . "','" . $name . "')\"><div class='row'><div class='col-md-12' style='color: #333333;'>" . $row['job_unique_id'] . "</div></div></li>";
+    
+                }
+                
+                $i++;
+            }
+            echo '</ol>';
+        }
+    }
+
     public function party_search()
     {
         $result = array();
