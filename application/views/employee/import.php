@@ -90,8 +90,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <div class="col-md-12 mx-auto text-center">
                             <p class="text-center">Please provide Excel Sheet format as following Columns </p>
                             <p class="text-center">
-                                username,email,name,address,city,region,country,phone,employee_type,gender(male,female),socso
-                                number,kwcp number,pcb number, joined date</p>
+                                username,email,name,address,city,region,country,phone,employee type(domestic,foreign),gender(male,female),socso
+                                number,kwcp number,pcb number, joined date, role(ADMIN, General Workers)</p>
                         </div>
                     </div>
 

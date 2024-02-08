@@ -283,6 +283,10 @@ class Employee extends CI_Controller
             $sheet_data = $spreadsheet->getActiveSheet()->toArray();
             $list = [];
 
+            
+            $rolesArray = $this->employee->role_list();
+            $countriesArray = $this->employee->country_list();
+
             foreach ($sheet_data as $key => $val) {
 
                 if ($key > 1) {
@@ -290,6 +294,67 @@ class Employee extends CI_Controller
 
                     if ($result) {
                     } else {
+
+
+                        $roleNameToFind = $val[14];
+
+                        // Initialize variable to store the found role ID
+                        $foundRoleId = null;
+
+                        // Loop through the array to find the role ID
+                        foreach ($rolesArray as $role) {
+                            // if ($role['role_name'] === $roleNameToFind) {
+                            //     $foundRoleId = $role['id'];
+                            //     break; // Break the loop once the role is found
+                            // }
+                            $normalizedRoleName = str_replace(' ', '', strtolower($role['role_name']));
+                            $normalizedRoleNameToFind = str_replace(' ', '', strtolower($roleNameToFind));
+                            
+                            if ($normalizedRoleName === $normalizedRoleNameToFind) {
+                                $foundRoleId = $role['id'];
+                                break; // Break the loop once the role is found
+                            }
+                        }
+
+                        if ($foundRoleId !== null) {
+                            $role = $foundRoleId;
+                        } else {
+                            $role = 8;
+                        }
+
+
+                        $countryNameToFind = $val[6];
+
+                        $foundCountryId = null;
+
+                        // Loop through the array to find the role ID
+                        foreach ($countriesArray as $country) {
+                            // if ($role['role_name'] === $roleNameToFind) {
+                            //     $foundRoleId = $role['id'];
+                            //     break; // Break the loop once the role is found
+                            // }
+                            $normalizedCountryName = str_replace(' ', '', strtolower($country->country_name));
+                            $normalizedCountryNameToFind = str_replace(' ', '', strtolower($countryNameToFind));
+                            
+                            if ($normalizedCountryName === $normalizedCountryNameToFind) {
+                                $foundCountryId = $country->id;
+                                break; // Break the loop once the role is found
+                            }
+                        }
+
+                        if ($foundCountryId !== null) {
+                            $country = $foundCountryId;
+                        } else {
+                            $country = 134;
+                        }
+
+                        if ($val[8] !== 'foreign') {
+                            $employee_type = 'foreign';
+                        } else {
+                            $employee_type = '';
+                        }
+
+
                         $list[] = [
                             'username' => $val[0],
                             'email' => $val[1],
@@ -297,21 +362,22 @@ class Employee extends CI_Controller
                             'address' => $val[3],
                             'city' => $val[4],
                             'region' => $val[5],
-                            'country' => $val[6],
+                            'country' => $country,
                             'phone' => $val[7],
-                            'employee_type' => $val[8],
+                            'employee_type' => $employee_type,
                             'gender' => strtolower($val[9]),
                             'socso_number' => $val[10],
                             'kwsp_number' => $val[11],
                             'pcb_number' => $val[12],
                             'joindate' => $val[13],
+                            'degis' => $role,
 
                         ];
                         $list1[] = [
                             'name' => $val[2],
                             'email' => $val[1],
                             'pass' => '123456',
-                            'roleid' => '8',
+                            'roleid' => $role,
 
                         ];
                     }
