@@ -318,6 +318,11 @@ class Employee extends CI_Controller
                 }
             }
 
+
+            // echo "<pre>"; print_r($list); echo "</pre>";
+            // echo "<pre>"; print_r($list1); echo "</pre>";
+            // exit;
+
             if (file_exists($file_name)) {
                 unlink($file_name);
             }

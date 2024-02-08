@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 07, 2024 at 07:27 PM
+-- Generation Time: Feb 08, 2024 at 07:02 AM
 -- Server version: 8.0.31
 -- PHP Version: 7.4.33
 
@@ -175,10 +175,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('941vdvt3mqkloga1au7qplem2t1vj618', '127.0.0.1', 1707325794, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373332353739343b),
-('irkbmc9guan2h5pb93eed9k6ferulav2', '127.0.0.1', 1707281618, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373238313631373b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('sd7qi9vj8c2oipc2n9v8gbu2onrfa6n2', '127.0.0.1', 1707290093, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373239303039323b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('vt9h91dfokfo4vkv59vi7bqmihsb947e', '127.0.0.1', 1707308119, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373330383131383b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b);
+('15bd263jdiv31dhk05qa06pcrr1a3s1g', '127.0.0.1', 1707372404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373337323430333b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b);
 
 -- --------------------------------------------------------
 
@@ -1174,6 +1171,25 @@ CREATE TABLE IF NOT EXISTS `gtg_employees` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Triggers `gtg_employees`
+--
+DROP TRIGGER IF EXISTS `set_auto_increment_for_employees`;
+DELIMITER $$
+CREATE TRIGGER `set_auto_increment_for_employees` BEFORE INSERT ON `gtg_employees` FOR EACH ROW BEGIN
+    DECLARE max_id INT;
+
+    -- Get the current maximum ID
+    SELECT MAX(id) INTO max_id FROM gtg_employees;
+
+    -- If there are no existing records or the maximum ID is less than 7, set the auto-increment to 7
+    IF max_id IS NULL OR max_id < 7 THEN
+        SET NEW.id = 7;
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -1561,7 +1577,7 @@ CREATE TABLE IF NOT EXISTS `gtg_log` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_log`
@@ -1574,7 +1590,21 @@ INSERT INTO `gtg_log` (`id`, `note`, `created`, `user`) VALUES
 (4, '[Logged Out] admin', '2024-02-07 12:13:44', ''),
 (5, '[Logged In] admin@admin.com', '2024-02-07 12:14:56', ''),
 (6, '[Logged In] admin@admin.com', '2024-02-07 17:09:44', ''),
-(7, '[Logged Out] admin', '2024-02-07 17:09:47', '');
+(7, '[Logged Out] admin', '2024-02-07 17:09:47', ''),
+(8, '[Logged In] admin@admin.com', '2024-02-08 04:40:11', ''),
+(9, '[Logged Out] ', '2024-02-08 04:47:43', ''),
+(10, '[Logged In] admin@admin.com', '2024-02-08 04:50:34', ''),
+(11, '[Logged Out] admin', '2024-02-08 04:50:38', ''),
+(12, '[Logged In] admin@admin.com', '2024-02-08 04:51:27', ''),
+(13, '[Logged Out] admin', '2024-02-08 04:54:29', ''),
+(14, '[Logged In] admin@admin.com', '2024-02-08 04:54:33', ''),
+(15, '[Logged Out] admin', '2024-02-08 04:55:33', ''),
+(16, '[Logged In] admin@admin.com', '2024-02-08 04:55:37', ''),
+(17, '[Logged Out] admin', '2024-02-08 05:17:32', ''),
+(18, '[Logged In] admin@admin.com', '2024-02-08 05:21:01', ''),
+(19, '[Logged In] admin@admin.com', '2024-02-08 05:21:09', ''),
+(20, '[Logged In] admin@admin.com', '2024-02-08 05:23:26', ''),
+(21, '[Logged In] admin@admin.com', '2024-02-08 06:06:22', '');
 
 -- --------------------------------------------------------
 
@@ -1589,7 +1619,7 @@ CREATE TABLE IF NOT EXISTS `gtg_login_attempts` (
   `timestamp` datetime DEFAULT NULL,
   `login_attempts` tinyint DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_login_attempts`
@@ -3002,14 +3032,30 @@ CREATE TABLE IF NOT EXISTS `gtg_users` (
   PRIMARY KEY (`id`),
   KEY `email` (`email`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_users`
 --
 
 INSERT INTO `gtg_users` (`id`, `email`, `pass`, `username`, `banned`, `last_login`, `last_activity`, `date_created`, `forgot_exp`, `remember_time`, `remember_exp`, `verification_code`, `totp_secret`, `ip_address`, `roleid`, `picture`, `loc`, `lang`, `login_status`) VALUES
-(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 01:09:44', '2024-02-08 01:09:44', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0);
+(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 14:06:22', '2024-02-08 14:06:22', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0),
+(7, 'alvin6241@gmail.com', '3e1340c771fff1153aa60137dc8c0265d5914e5de769b59183085b78d950b31b', 'Alvin A/L Adaikalasamy', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(8, 'dzulhelmie7@gmail.com', '8e7d10c7c802e6cc70ddc57bcb1477eb8f3083b0f088f9427e4d56600b065bbe', 'Dzul Helmie Bin Ahmd Damanhuri', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(9, 'fathivans92@gmail.com', '5ea379e79219f971019cf6f7ee7b5edc7c1e8d65aee2370cc6249f1302d3f3ca', 'Muhammad Fathi Bin Jamaludin', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(10, 'flavianbiswas@gmail.com', 'ca16350c55ced81d071bd550cbc5e92ad319ab41b84ed342a96cf79e4d03f02a', 'Flavian Biswas', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(11, 'hethis86@gmail.com', '391ed40ef01e7c09b0c27d97adba46d9aa04e52e1a3c9c7561185393b84d223c', 'Hethiswara Retnam A/L Kanagaretnam', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(12, 'kailashbhawar536@gmail.com', '9a90741a24c29a3511cad6568e6a7d1fa2ea09b8c86a50d09d1fef74f4bf840f', 'Kailash', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(13, 'kannan3avsi@gmail.com', '0d9f89182b7572de5694a769bc9073d204754bad5bc043c69acafcaf484922fe', 'Kannan a/l Bijekumar', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(14, 'karthiksubramaniam1992@gmail.com', '2a74b4a28f00408c278c6620a81f507dd1a74a7e0237eab83c4a967665968f48', 'Karthik A/L Subramaniam', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(15, 'kg@avsolutions.com.my', '196075d3b960128ae4a5cf79596d3d06ed482c5535c813ec0c7dbc2e6be032be', 'Kumuthan A/L Govindasamy', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(16, 'prakash@avsolutions.com.my', '8c04f0d45d99fb3c09f7c82165b9672b53145f042c0d27a0067b25103c26408f', 'Jeyaprakash A/L Jeyakumar', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(17, 'ragu@avsolutions.com.my', '1cb4df1f9cc3eff69f9fa98a554c0cac43000c0fa999e7e51bd80fc23ab644a1', 'Velayuthan A/L Bala Krishnan', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(18, 'rakeshdhimanrd34@gmail.com', '5b3a57853d818af459519d72f1c55bb1fb8cee2ff49838ff0b79b051ffe5e66d', 'Rakesh Kumar', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(19, 'imran.shaharudin@gmail.com', '42ed0e47de05a088ae5285d52a55f453d226953c47bd1ed03ff6a6bfb3a7d2e6', 'Shah Imran bin Shaharudin ', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(20, 'sivamac360@gmail.com', 'da42e6365c0273267ee7fd7dbce9e95436291c91d308dda4a16ea52da52419ae', 'Sanderasegaran A/L Kumaran', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(21, 'taufiq@avsolutions.com.my', '1ec551e2917d5181571c9a5c6e36ed78930f3213ec89c9e38a3487f764a25dcf', 'Muhammad Taufiq Bin Md Yasin', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
+(22, 'accounts@avsolutions.com.my', '2e9912f1c79be0226ccebedc0805a3b717b9bd56e0bed763c15770860ce109ab', 'William Hong', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0);
 
 -- --------------------------------------------------------
 

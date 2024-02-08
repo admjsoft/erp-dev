@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 07, 2024 at 04:14 AM
+-- Generation Time: Feb 08, 2024 at 07:04 AM
 -- Server version: 8.0.31
 -- PHP Version: 7.4.33
 
@@ -283,28 +283,9 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('10ghrpqo7seuu1hvt095k3bdu9uat4ka', '127.0.0.1', 1707214358, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373231343335373b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('19tlpkp1bhj8s63lm4jsfn0plijpueeo', '127.0.0.1', 1707119228, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373131393232373b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('1m9ia18stnvh122u1sfe1oefdv3ieqeb', '::1', 1707212453, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373231323435313b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('2i1bshe1grd0f02dr9aeqf6fo8nuq2sa', '127.0.0.1', 1707151496, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373135313439363b),
-('34itag470brm8pf8u8uj6672hofvj7j1', '::1', 1707206629, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373230363632373b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('3ob3k5mfk0fo8oh5tqk4pupn3rjfdg3o', '127.0.0.1', 1707235664, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373233353636333b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('54kpqjdfpo9ts044qjl3uu2uuklgn2h9', '::1', 1707229945, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373232393934353b),
-('5srcu9dhpp9eqlb9vumv06kdleiqdeb1', '127.0.0.1', 1707151785, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373135313738343b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('9m86oil7tu8c2epuk9lal3e9s5bkq0sk', '127.0.0.1', 1707205183, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373230353138333b),
-('a6hvbvhgeie8q5iulbv6ojssgvscb56l', '127.0.0.1', 1707233142, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373233333134323b),
-('ami0d14fld5j1kgo00uiinat7g4f7thb', '127.0.0.1', 1707128886, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373132383838363b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('f3h92qbojcaqgpt6feg22o2pu173sng0', '127.0.0.1', 1707125109, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373132353130393b),
-('fqjnn6bjfdvcd22frh6dqec4p6rr7sqk', '127.0.0.1', 1707114792, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373131343739323b),
-('jc83g44aqtdu7fqdhni0ri9cg3ao2nc2', '127.0.0.1', 1707210796, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373231303739363b),
-('mbmhs3q5ojnvdnshqe9crgrj1cgvcrb1', '127.0.0.1', 1707230030, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373233303033303b),
-('ok0qet6ev7u4mokp972p1829au88792l', '::1', 1707236055, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373233363035353b),
-('okrd2t5t7ieilbiqtgm1tb62vouairq6', '127.0.0.1', 1707230410, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373233303431303b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('orjtohiubssh87pdpeko5efjvg9ji7cn', '127.0.0.1', 1707119086, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373131393038363b),
-('rjqe35h0c0n8gmkmibpgjetehon5pdmn', '::1', 1707128707, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373132383730363b69647c733a313a2233223b757365726e616d657c733a343a2261626364223b656d61696c7c733a31343a226162636440676d61696c2e636f6d223b735f726f6c657c733a333a22725f32223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a393a22416a6d616c536f6674223b),
-('ru1aqf77trk2k5e79rrveiadrnefkblt', '127.0.0.1', 1707211702, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373231313730313b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('tteocng3t968bhis72es5t3thrhmkk0e', '127.0.0.1', 1707192078, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373139323037383b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('tutsk6lf702fe5hacttpsmb23pi3kn9n', '::1', 1707229945, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373232393934353b);
+('15bd263jdiv31dhk05qa06pcrr1a3s1g', '127.0.0.1', 1707372343, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373337323334333b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
+('4bcfbjlvoamu206dqs3r6dgrm013h951', '127.0.0.1', 1707375718, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373337353731373b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
+('5hoqak04iu6cq6njn34initbvban0u36', '127.0.0.1', 1707366221, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373336363232313b);
 
 -- --------------------------------------------------------
 
@@ -435,7 +416,7 @@ CREATE TABLE IF NOT EXISTS `gtg_attendance` (
   `tfrom` text NOT NULL,
   `tto` text,
   `note` int DEFAULT NULL,
-  `actual_hours` varchar(255) DEFAULT NULL,
+  `actual_hours` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `clock_in_latitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `clock_in_longitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `clock_in_location` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
@@ -446,42 +427,20 @@ CREATE TABLE IF NOT EXISTS `gtg_attendance` (
   `clock_out_photo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`id`),
   KEY `emp` (`emp`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_attendance`
 --
 
 INSERT INTO `gtg_attendance` (`id`, `emp`, `created`, `adate`, `tfrom`, `tto`, `note`, `actual_hours`, `clock_in_latitude`, `clock_in_longitude`, `clock_in_location`, `clock_in_photo`, `clock_out_latitude`, `clock_out_longitude`, `clock_out_location`, `clock_out_photo`) VALUES
-(60, 67, '2024-01-10 04:39:44', '2024-01-10', '04:11:23', '10:11:27', 0, '00:00:04', '', '', '', '', '', '', '', ''),
-(61, 3, '2024-01-18 03:27:25', '2024-01-18', '03:18:22', '03:27:25', 0, '367', '', '', '', '', '', '', '', ''),
-(62, 3, '2024-01-20 09:51:35', '2024-01-20', '04:15:06', '09:42:52', 0, '698', '3.1684699', '101.5333286', '40150, Jalan Uranus U5/125, Seksyen U5, 40150 Shah Alam, Selangor, Malaysia', 'C:\\wamp64\\www\\erp-dev\\userfiles\\clock_in_photos\\image_65ab979d05d49.png', '3.1683424', '101.5332159', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'C:\\wamp64\\www\\erp-dev\\userfiles\\clock_in_photos\\image_65ab959bd5255.png'),
-(71, 3, '2024-01-22 07:16:39', '2024-01-22', '07:16:21', '07:16:39', 0, '00:00:17', '3.1134915', '101.5775538', '4H7H+92 Petaling Jaya, Selangor, Malaysia', 'C:\\wamp64\\www\\erp-dev\\userfiles/clock_in_photos/image_65ae1645df5fb.png', '3.1135691', '101.5775618', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'C:\\wamp64\\www\\erp-dev\\userfiles/clock_out_photos/image_65ae15bc29d6e.png'),
-(75, 3, '2024-01-23 05:41:10', '2024-01-23', '07:30:00', '13:41:10', 0, '07:30:21', '3.1683766', '101.5332293', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65af5161ac786.png', '3.1683966', '101.5332465', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65af51768e9dc.png'),
-(76, 3, '2024-01-23 05:43:50', '2024-01-23', '13:43:50', '', 0, '', '3.1684516', '101.5332601', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65af5216e8d65.png', NULL, NULL, NULL, NULL),
-(77, 6, '2024-01-24 06:53:34', '2024-01-24', '14:53:34', '', 0, '', '3.1135239', '101.5775311', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0b3ee37a45.png', NULL, NULL, NULL, NULL),
-(78, 6, '2024-01-24 06:53:37', '2024-01-24', '14:53:37', '', 0, '', '3.1135239', '101.5775311', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0b3f1b804c.png', NULL, NULL, NULL, NULL),
-(79, 6, '2024-01-24 06:53:38', '2024-01-24', '14:53:38', '', 0, '', '3.1135239', '101.5775311', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0b3f2a5c42.png', NULL, NULL, NULL, NULL),
-(80, 6, '2024-01-24 06:53:38', '2024-01-24', '14:53:38', '', 0, '', '3.1135239', '101.5775311', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0b3f2d5a10.png', NULL, NULL, NULL, NULL),
-(81, 6, '2024-01-24 06:53:39', '2024-01-24', '14:53:39', '', 0, '', '3.1135239', '101.5775311', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0b3f3e70f9.png', NULL, NULL, NULL, NULL),
-(82, 3, '2024-01-30 11:41:00', '2024-01-24', '04:30:00', '17:51:14', 0, '07:31:10', '3.1136333', '101.5775061', '4H7H+F2 Petaling Jaya, Selangor, Malaysia', 'image_65b0dd4ccf182.png', '3.1136308', '101.5775084', '4H7H+F2 Petaling Jaya, Selangor, Malaysia', 'image_65b0dd92ba50f.png'),
-(83, 3, '2024-01-24 09:35:53', '2024-01-24', '17:35:53', '', 0, '', '3.11362', '101.5775195', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0d9f9f0d29.png', NULL, NULL, NULL, NULL),
-(84, 3, '2024-01-24 09:41:52', '2024-01-24', '17:41:52', '', 0, '', '3.1135197', '101.5775379', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0db605b940.png', NULL, NULL, NULL, NULL),
-(85, 3, '2024-01-24 09:46:12', '2024-01-24', '17:46:12', '', 0, '', '3.1136349', '101.5775103', '4H7H+F2 Petaling Jaya, Selangor, Malaysia', 'image_65b0dc63f2ec2.png', NULL, NULL, NULL, NULL),
-(86, 3, '2024-01-24 09:50:05', '2024-01-24', '17:50:05', '', 0, '', '3.1136333', '101.5775061', '4H7H+F2 Petaling Jaya, Selangor, Malaysia', 'image_65b0dd4ccf182.png', NULL, NULL, NULL, NULL),
-(87, 3, '2024-01-24 09:52:44', '2024-01-24', '17:52:44', '', 0, '', '3.1136301', '101.5775054', '4H7H+F2 Petaling Jaya, Selangor, Malaysia', 'image_65b0ddec1dbc8.png', NULL, NULL, NULL, NULL),
-(88, 6, '2024-01-24 10:13:54', '2024-01-24', '18:13:54', '', 0, '', '3.1136155', '101.5775123', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2e2984d1.png', NULL, NULL, NULL, NULL),
-(89, 6, '2024-01-24 10:13:58', '2024-01-24', '18:13:58', '', 0, '', '3.1136155', '101.5775123', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2e6a58a2.png', NULL, NULL, NULL, NULL),
-(90, 6, '2024-01-24 10:13:59', '2024-01-24', '18:13:59', '', 0, '', '3.1136155', '101.5775123', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2e7cb871.png', NULL, NULL, NULL, NULL),
-(91, 6, '2024-01-24 10:14:00', '2024-01-24', '18:14:00', '', 0, '', '3.1136155', '101.5775123', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2e803749.png', NULL, NULL, NULL, NULL),
-(92, 6, '2024-01-24 10:14:02', '2024-01-24', '18:14:02', '', 0, '', '3.1136155', '101.5775123', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2ea14dca.png', NULL, NULL, NULL, NULL),
-(93, 6, '2024-01-24 10:14:02', '2024-01-24', '18:14:02', '', 0, '', '3.1136155', '101.5775123', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2ea44127.png', NULL, NULL, NULL, NULL),
-(94, 6, '2024-01-24 10:14:09', '2024-01-24', '18:14:09', '', 0, '', '3.1136198', '101.5775089', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2f131ad6.png', NULL, NULL, NULL, NULL),
-(95, 6, '2024-01-24 10:14:21', '2024-01-24', '18:14:21', '', 0, '', '3.1136198', '101.5775089', '4H7H+C2 Petaling Jaya, Selangor, Malaysia', 'image_65b0e2fd650b1.png', NULL, NULL, NULL, NULL),
-(96, 3, '2024-01-30 12:12:11', '2024-01-25', '04:30:00', '14:29:32', 0, '04:06:48', '3.1136301', '101.5775054', '4H7H+F2 Petaling Jaya, Selangor, Malaysia', 'image_65b0ddec1dbc8.png', '3.1683491', '101.5332591', '40150, Jalan Uranus U5/125, Seksyen U5, 40150 Shah Alam, Selangor, Malaysia', 'image_65b1ffccaa364.png'),
-(97, 3, '2024-01-30 08:11:59', '2024-01-30', '07:30:00', '16:11:59', 0, '07:35:31', '3.1136421', '101.5775004', '2, Jalan PJU 1a/2, Pusat Perdagangan Dana 1, 47301 Petaling Jaya, Selangor, Malaysia', 'image_65b8ae04709fe.png', '3.1135204', '101.5775019', 'Jalan Tanpa Nama, Pusat Perdagangan Dana 1, 47301 Petaling Jaya, Selangor, Malaysia', 'image_65b8af4fb77f1.png'),
-(98, 3, '2024-01-30 08:30:13', '2024-01-30', '16:30:00', '17:30:00', 0, '', '3.1136421', '101.5775004', '2, Jalan PJU 1a/2, Pusat Perdagangan Dana 1, 47301 Petaling Jaya, Selangor, Malaysia', 'image_65b8ae04709fe.png', NULL, NULL, NULL, NULL),
-(99, 3, '2024-02-05 09:26:11', '2024-02-05', '17:26:11', '', 0, '', '3.11296', '101.5742464', '4H7F+5M Petaling Jaya, Selangor, Malaysia', 'image_65c0a9b350817.png', NULL, NULL, NULL, NULL);
+(10, 3, '2024-02-07 18:50:18', '2024-02-08', '02:50:12', '02:50:18', 0, '1707321606', '3.1683551', '101.533282', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d0e453415.png', '3.1683551', '101.533282', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d0ea8bf5b.png'),
+(15, 3, '2024-02-07 18:55:13', '2024-02-08', '02:55:13', '', 0, '0', '3.1683719', '101.5332842', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d211cad6c.png', NULL, NULL, NULL, NULL),
+(16, 3, '2024-02-07 18:58:09', '2024-02-08', '02:58:09', '', 0, '0', '3.1683384', '101.5332393', '40150, Jalan Uranus U5/125, Seksyen U5, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d2c1623bf.png', NULL, NULL, NULL, NULL),
+(17, 3, '2024-02-07 19:01:07', '2024-02-08', '03:01:07', '', 0, '0', '3.168322', '101.5332506', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d37394c82.png', NULL, NULL, NULL, NULL),
+(18, 3, '2024-02-07 19:04:12', '2024-02-08', '03:03:14', '03:04:12', 0, '1707321658', '3.1682983', '101.5332037', '40150, Jalan Uranus U5/125, Seksyen U5, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d3f266466.png', '3.1683478', '101.5332675', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d42c06c84.png'),
+(19, 3, '2024-02-07 19:09:19', '2024-02-08', '03:05:38', '03:09:19', 0, '1707321821', '3.168322', '101.5332288', '40150, Jalan Uranus U5/125, Seksyen U5, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d48277446.png', '3.1684099', '101.5333125', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d55fea73a.png'),
+(20, 3, '2024-02-07 19:36:05', '2024-02-08', '03:36:05', '', 0, '0', '3.1685096', '101.5334452', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3dba508802.png', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -493,9 +452,9 @@ DROP TABLE IF EXISTS `gtg_attendance_settings`;
 CREATE TABLE IF NOT EXISTS `gtg_attendance_settings` (
   `id` int NOT NULL AUTO_INCREMENT,
   `total_working_hours` int NOT NULL,
-  `clock_in_time` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_time` text COLLATE utf8mb4_general_ci NOT NULL,
-  `ot_allowance_per_hour` text COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_time` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_time` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ot_allowance_per_hour` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `clock_in_grace_period` int NOT NULL,
   `clock_in_checking_hours` int NOT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -731,8 +690,8 @@ CREATE TABLE IF NOT EXISTS `gtg_contract` (
   `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` enum('PENDING','INPROGRESS','COMPLETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `share_link` text COLLATE utf8mb4_general_ci NOT NULL,
-  `contract_unique_id` text COLLATE utf8mb4_general_ci NOT NULL,
+  `share_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contract_unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sharing_count` int NOT NULL,
   `client_id` int NOT NULL,
   `cr_date` timestamp NOT NULL,
@@ -759,14 +718,14 @@ INSERT INTO `gtg_contract` (`id`, `name`, `start_date`, `end_date`, `client_name
 DROP TABLE IF EXISTS `gtg_contract_signings`;
 CREATE TABLE IF NOT EXISTS `gtg_contract_signings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `contract_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `signed_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `contract_remarks` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text COLLATE utf8mb4_general_ci NOT NULL,
-  `upload_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text COLLATE utf8mb4_general_ci NOT NULL,
+  `contract_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `signed_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `contract_remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1347,15 +1306,15 @@ CREATE TABLE IF NOT EXISTS `gtg_delivery_order_items` (
 DROP TABLE IF EXISTS `gtg_digital_signatures`;
 CREATE TABLE IF NOT EXISTS `gtg_digital_signatures` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `file_name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text COLLATE utf8mb4_general_ci NOT NULL,
+  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sharing_count` int NOT NULL,
-  `share_link` text COLLATE utf8mb4_general_ci NOT NULL,
-  `ds_unique_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `status` text COLLATE utf8mb4_general_ci NOT NULL,
+  `share_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ds_unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `file_type` text COLLATE utf8mb4_general_ci NOT NULL,
+  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1550,12 +1509,12 @@ CREATE TABLE IF NOT EXISTS `gtg_do_product_batches_history` (
   `po_id` int NOT NULL,
   `invoice_id` int NOT NULL,
   `p_id` int NOT NULL,
-  `supplier_delivery_order_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `delivery_order_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `parent_delivery_order_id` text COLLATE utf8mb4_general_ci NOT NULL,
-  `available_quantity` text COLLATE utf8mb4_general_ci NOT NULL,
-  `do_expire_date` text COLLATE utf8mb4_general_ci NOT NULL,
-  `used_qty` text COLLATE utf8mb4_general_ci NOT NULL,
+  `supplier_delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `parent_delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `available_quantity` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `do_expire_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `used_qty` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1584,7 +1543,7 @@ CREATE TABLE IF NOT EXISTS `gtg_do_relations` (
   `po_id` int NOT NULL,
   `invoice_id` int NOT NULL,
   `parent_do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `supplier_do_id` text COLLATE utf8mb4_general_ci NOT NULL,
+  `supplier_do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1787,23 +1746,23 @@ CREATE TABLE IF NOT EXISTS `gtg_employees` (
   `delete_status` int NOT NULL,
   `passport_email_sent` int NOT NULL,
   `permit_email_sent` int NOT NULL,
-  `gender` text COLLATE utf8mb4_general_ci NOT NULL,
+  `gender` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `socso_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `kwsp_number` text COLLATE utf8mb4_general_ci NOT NULL,
-  `pcb_number` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_latitude` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_longitude` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_location` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_photo` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_latitude` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_longitude` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_location` text COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_photo` text COLLATE utf8mb4_general_ci NOT NULL,
+  `kwsp_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pcb_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_in_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `clock_out_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `employee_job_type` text COLLATE utf8mb4_general_ci NOT NULL,
-  `join_date` text COLLATE utf8mb4_general_ci NOT NULL,
+  `employee_job_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `join_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `gtg_employees`
@@ -1812,7 +1771,7 @@ CREATE TABLE IF NOT EXISTS `gtg_employees` (
 INSERT INTO `gtg_employees` (`id`, `username`, `email`, `name`, `address`, `city`, `region`, `country`, `postbox`, `phone`, `phonealt`, `picture`, `sign`, `joindate`, `dept`, `degis`, `salary`, `clock`, `clockin`, `clockout`, `c_rate`, `cdate`, `company`, `passport`, `permit`, `employee_type`, `passport_expiry`, `permit_expiry`, `passport_document`, `visa_document`, `delete_status`, `passport_email_sent`, `permit_email_sent`, `gender`, `socso_number`, `kwsp_number`, `pcb_number`, `clock_in_latitude`, `clock_in_longitude`, `clock_in_location`, `clock_in_photo`, `clock_out_latitude`, `clock_out_longitude`, `clock_out_location`, `clock_out_photo`, `cr_date`, `employee_job_type`, `join_date`) VALUES
 (1, 'testing', 'udhayase@gmail.com', 'fsdfdsf', 'fsdfa', 'fdsafsaff', NULL, 'fafd', 'fds', '4242342', '', 'example.png', '1688989228930689739 (1).png', '2023-07-10 11:40:28', 0, NULL, '1000.00', NULL, NULL, NULL, '1.00', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-01-29 07:16:29', '', ''),
 (2, 'ajmal', 'udhayase@gmail.com', 'Shafeek Ajmal', '414 Krishna enclave', 'Mohali', NULL, 'India', '', '0000000000', '', '16861129861475570024.png', '16889964661844041341 (1).jpeg', '2023-07-10 13:41:08', 1, NULL, '0.00', NULL, NULL, NULL, '0.00', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-01-29 07:16:29', '', ''),
-(3, 'abcd', 'udhayase@gmail.com', 'AjmalSoft', '414 Krishna enclave', 'Mohali', NULL, 'United States', '53453', '8968022885', '', '1686070936115891243.png', '1686070952299397313.png', '2024-02-05 09:26:11', 5, NULL, '0.00', 1, 1707125171, 0, '0.00', '2024-02-05', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '3.11296', '101.5742464', '4H7F+5M Petaling Jaya, Selangor, Malaysia', 'image_65c0a9b350817.png', '3.1135204', '101.5775019', 'Jalan Tanpa Nama, Pusat Perdagangan Dana 1, 47301 Petaling Jaya, Selangor, Malaysia', 'image_65b8af4fb77f1.png', '2024-01-29 07:16:29', '', ''),
+(3, 'abcd', 'udhayase@gmail.com', 'AjmalSoft', '414 Krishna enclave', 'Mohali', NULL, 'United States', '53453', '8968022885', '', '1686070936115891243.png', '1686070952299397313.png', '2024-02-07 19:36:05', 5, NULL, '0.00', 1, 1707334565, 0, '0.00', '2024-02-08', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '3.1685096', '101.5334452', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3dba508802.png', '3.1684099', '101.5333125', '37, Jalan Uranus Ah U5/Aj, Subang Pelangi, 40150 Shah Alam, Selangor, Malaysia', 'image_65c3d55fea73a.png', '2024-01-29 07:16:29', '', ''),
 (4, 'myname', 'udhayase@gmail.com', 'krish81', '414 Krishna enclave', 'Mumbai', NULL, 'India', '65464', '1234343', '', 'example.png', 'sign.png', '2023-05-18 13:20:46', 0, NULL, '0.00', NULL, NULL, NULL, '0.00', '', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-01-29 07:16:29', '', ''),
 (27, 'jenifer', '', 'jenifer', 'klang', 'klang', NULL, '', '', '', '', 'example.png', 'sign.png', '2023-06-20 23:31:42', 6, NULL, '1000.00', 0, 0, 1687303902, '5.00', '2023-06-20', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-01-29 07:16:29', '', ''),
 (28, 'Alvin', '', 'Alvin', 'no 36 anna street', 'Melaka Tengah', NULL, '1', '45000', '60146291291', '', 'example.png', 'sign.png', '2023-10-04 05:08:37', 3, 1, '2000.00', 0, 0, 1688568233, '0.00', '2023-07-05', '', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '2024-01-29 07:16:29', '', ''),
@@ -1868,7 +1827,58 @@ INSERT INTO `gtg_employees` (`id`, `username`, `email`, `name`, `address`, `city
 (80, 'Shah Imran', 'imran.shaharudin@gmail.com', 'Shah Imran bin Shaharudin ', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 953 7890', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-01-31 17:30:17', '', ''),
 (81, 'Siva', 'sivamac360@gmail.com', 'Sanderasegaran A/L Kumaran', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 200 2360', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-01-31 17:30:17', '', ''),
 (82, 'Taufiq', 'taufiq@avsolutions.com.my', 'Muhammad Taufiq Bin Md Yasin', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0182741837', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-01-31 17:30:17', '', ''),
-(83, 'William', 'accounts@avsolutions.com.my', 'William Hong', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0164559135', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-01-31 17:30:17', '', '');
+(83, 'William', 'accounts@avsolutions.com.my', 'William Hong', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0164559135', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-01-31 17:30:17', '', ''),
+(84, 'Alvin', 'alvin6241@gmail.com', 'Alvin A/L Adaikalasamy', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '011-2618 0017', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(85, 'Dzul Helmie', 'dzulhelmie7@gmail.com', 'Dzul Helmie Bin Ahmd Damanhuri', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '011 11194686', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(86, 'Fathi', 'fathivans92@gmail.com', 'Muhammad Fathi Bin Jamaludin', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '01160806351', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(87, 'Flavian', 'flavianbiswas@gmail.com', 'Flavian Biswas', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0123658905', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(88, 'Hethis', 'hethis86@gmail.com', 'Hethiswara Retnam A/L Kanagaretnam', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 340 8905', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(89, 'Kailash', 'kailashbhawar536@gmail.com', 'Kailash', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '01111560293', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(90, 'Kanna', 'kannan3avsi@gmail.com', 'Kannan a/l Bijekumar', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 284 0022', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(91, 'Karthik', 'karthiksubramaniam1992@gmail.com', 'Karthik A/L Subramaniam', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '014 9258913', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(92, 'KG', 'kg@avsolutions.com.my', 'Kumuthan A/L Govindasamy', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 3298905', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(93, 'Prakash', 'prakash@avsolutions.com.my', 'Jeyaprakash A/L Jeyakumar', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 225 1948', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(94, 'Ragu', 'ragu@avsolutions.com.my', 'Velayuthan A/L Bala Krishnan', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 232 1477', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(95, 'Rakesh', 'rakeshdhimanrd34@gmail.com', 'Rakesh Kumar', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '011 28857712', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(96, 'Shah Imran', 'imran.shaharudin@gmail.com', 'Shah Imran bin Shaharudin ', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 953 7890', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(97, 'Siva', 'sivamac360@gmail.com', 'Sanderasegaran A/L Kumaran', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 200 2360', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(98, 'Taufiq', 'taufiq@avsolutions.com.my', 'Muhammad Taufiq Bin Md Yasin', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0182741837', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(99, 'William', 'accounts@avsolutions.com.my', 'William Hong', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0164559135', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 04:26:08', '', ''),
+(100, 'Alvin', 'alvin6241@gmail.com', 'Alvin A/L Adaikalasamy', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '011-2618 0017', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(101, 'Dzul Helmie', 'dzulhelmie7@gmail.com', 'Dzul Helmie Bin Ahmd Damanhuri', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '011 11194686', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(102, 'Fathi', 'fathivans92@gmail.com', 'Muhammad Fathi Bin Jamaludin', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '01160806351', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(103, 'Flavian', 'flavianbiswas@gmail.com', 'Flavian Biswas', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0123658905', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(104, 'Hethis', 'hethis86@gmail.com', 'Hethiswara Retnam A/L Kanagaretnam', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 340 8905', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(105, 'Kailash', 'kailashbhawar536@gmail.com', 'Kailash', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '01111560293', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(106, 'Kanna', 'kannan3avsi@gmail.com', 'Kannan a/l Bijekumar', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 284 0022', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(107, 'Karthik', 'karthiksubramaniam1992@gmail.com', 'Karthik A/L Subramaniam', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '014 9258913', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(108, 'KG', 'kg@avsolutions.com.my', 'Kumuthan A/L Govindasamy', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 3298905', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(109, 'Prakash', 'prakash@avsolutions.com.my', 'Jeyaprakash A/L Jeyakumar', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 225 1948', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(110, 'Ragu', 'ragu@avsolutions.com.my', 'Velayuthan A/L Bala Krishnan', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '012 232 1477', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(111, 'Rakesh', 'rakeshdhimanrd34@gmail.com', 'Rakesh Kumar', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '011 28857712', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(112, 'Shah Imran', 'imran.shaharudin@gmail.com', 'Shah Imran bin Shaharudin ', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 953 7890', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(113, 'Siva', 'sivamac360@gmail.com', 'Sanderasegaran A/L Kumaran', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '016 200 2360', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(114, 'Taufiq', 'taufiq@avsolutions.com.my', 'Muhammad Taufiq Bin Md Yasin', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0182741837', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', ''),
+(115, 'William', 'accounts@avsolutions.com.my', 'William Hong', 'No 2, Jalan Tembaga SD 5/2F', 'Bandar Sri Damansara', 'Kuala Lumpur', 'Malaysia', NULL, '0164559135', NULL, 'example.png', 'sign.png', '0000-00-00 00:00:00', NULL, NULL, '0.00', NULL, NULL, NULL, NULL, '', '', '', '', 'Permanent', '', '', '', '', 0, 0, 0, 'male', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', '', '', '2024-02-08 06:05:42', '', '');
+
+--
+-- Triggers `gtg_employees`
+--
+DROP TRIGGER IF EXISTS `set_auto_increment_for_employees`;
+DELIMITER $$
+CREATE TRIGGER `set_auto_increment_for_employees` BEFORE INSERT ON `gtg_employees` FOR EACH ROW BEGIN
+    DECLARE max_id INT;
+
+    -- Get the current maximum ID
+    SELECT MAX(id) INTO max_id FROM gtg_employees;
+
+    -- If there are no existing records or the maximum ID is less than 7, set the auto-increment to 7
+    IF max_id IS NULL OR max_id < 7 THEN
+        SET NEW.id = 7;
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -2828,11 +2838,11 @@ DROP TABLE IF EXISTS `gtg_job_images`;
 CREATE TABLE IF NOT EXISTS `gtg_job_images` (
   `id` int NOT NULL AUTO_INCREMENT,
   `job_id` int NOT NULL,
-  `job_clock_in_photo` text COLLATE utf8mb4_general_ci NOT NULL,
-  `job_clock_in_location` text COLLATE utf8mb4_general_ci NOT NULL,
+  `job_clock_in_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `job_clock_in_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `job_clock_in_latitude` text COLLATE utf8mb4_general_ci NOT NULL,
-  `job_clock_in_longitude` text COLLATE utf8mb4_general_ci NOT NULL,
+  `job_clock_in_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `job_clock_in_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -2929,7 +2939,7 @@ CREATE TABLE IF NOT EXISTS `gtg_log` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3331 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3399 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_log`
@@ -6269,7 +6279,75 @@ INSERT INTO `gtg_log` (`id`, `note`, `created`, `user`) VALUES
 (3327, '[Logged In] admin@admin.com', '2024-02-06 14:31:52', ''),
 (3328, '[Logged In] admin@admin.com', '2024-02-06 14:34:16', ''),
 (3329, '[Logged In] admin@admin.com', '2024-02-06 14:42:14', ''),
-(3330, '[Logged Out] admin', '2024-02-06 16:14:15', '');
+(3330, '[Logged Out] admin', '2024-02-06 16:14:15', ''),
+(3331, '[Logged In] admin@admin.com', '2024-02-07 04:47:28', ''),
+(3332, '[Logged In] abcd@gmail.com', '2024-02-07 17:10:21', ''),
+(3333, '[Logged In] admin@admin.com', '2024-02-07 17:10:59', ''),
+(3334, '[Employee ClockOut]  ID 3', '2024-02-07 17:11:14', 'abcd'),
+(3335, '[Employee ClockIn]  ID 3', '2024-02-07 17:13:09', 'abcd'),
+(3336, '[Employee ClockOut]  ID 3', '2024-02-07 17:14:20', 'abcd'),
+(3337, '[Employee ClockIn]  ID 3', '2024-02-07 17:21:28', 'abcd'),
+(3338, '[Employee ClockOut]  ID 3', '2024-02-07 17:22:20', 'abcd'),
+(3339, '[Employee ClockOut]  ID 3', '2024-02-07 17:26:20', 'abcd'),
+(3340, '[Employee ClockOut]  ID 3', '2024-02-07 17:26:22', 'abcd'),
+(3341, '[Employee ClockOut]  ID 3', '2024-02-07 17:26:28', 'abcd'),
+(3342, '[Employee ClockOut]  ID 3', '2024-02-07 17:26:29', 'abcd'),
+(3343, '[Employee ClockOut]  ID 3', '2024-02-07 17:26:29', 'abcd'),
+(3344, '[Employee ClockOut]  ID 3', '2024-02-07 17:27:02', 'abcd'),
+(3345, '[Employee ClockOut]  ID 3', '2024-02-07 17:27:07', 'abcd'),
+(3346, '[Employee ClockOut]  ID 3', '2024-02-07 17:27:08', 'abcd'),
+(3347, '[Employee ClockOut]  ID 3', '2024-02-07 17:27:34', 'abcd'),
+(3348, '[Employee ClockOut]  ID 3', '2024-02-07 17:27:36', 'abcd'),
+(3349, '[Employee ClockOut]  ID 3', '2024-02-07 17:27:43', 'abcd'),
+(3350, '[Employee ClockOut]  ID 3', '2024-02-07 17:28:58', 'abcd'),
+(3351, '[Employee ClockOut]  ID 3', '2024-02-07 17:29:41', 'abcd'),
+(3352, '[Employee ClockOut]  ID 3', '2024-02-07 17:29:53', 'abcd'),
+(3353, '[Employee ClockOut]  ID 3', '2024-02-07 17:30:06', 'abcd'),
+(3354, '[Logged Out] abcd', '2024-02-07 17:30:52', ''),
+(3355, '[Logged In] abcd@gmail.com', '2024-02-07 17:30:56', ''),
+(3356, '[Employee ClockOut]  ID 3', '2024-02-07 17:31:07', 'abcd'),
+(3357, '[Employee ClockOut]  ID 3', '2024-02-07 17:31:09', 'abcd'),
+(3358, '[Employee ClockIn]  ID 3', '2024-02-07 17:34:49', 'abcd'),
+(3359, '[Employee ClockOut]  ID 3', '2024-02-07 17:36:55', 'abcd'),
+(3360, '[Employee ClockIn]  ID 3', '2024-02-07 17:39:09', 'abcd'),
+(3361, '[Employee ClockOut]  ID 3', '2024-02-07 17:40:54', 'abcd'),
+(3362, '[Employee ClockIn]  ID 3', '2024-02-07 17:44:30', 'abcd'),
+(3363, '[Employee ClockOut]  ID 3', '2024-02-07 17:54:24', 'abcd'),
+(3364, '[Employee ClockIn]  ID 3', '2024-02-07 17:58:11', 'abcd'),
+(3365, '[Employee ClockOut]  ID 3', '2024-02-07 17:58:24', 'abcd'),
+(3366, '[Employee ClockIn]  ID 3', '2024-02-07 18:00:04', 'abcd'),
+(3367, '[Employee ClockOut]  ID 3', '2024-02-07 18:00:16', 'abcd'),
+(3368, '[Employee ClockIn]  ID 3', '2024-02-07 18:10:37', 'abcd'),
+(3369, '[Employee ClockOut]  ID 3', '2024-02-07 18:11:09', 'abcd'),
+(3370, '[Employee ClockIn]  ID 3', '2024-02-07 18:16:19', 'abcd'),
+(3371, '[Employee ClockOut]  ID 3', '2024-02-07 18:22:44', 'abcd'),
+(3372, '[Employee ClockIn]  ID 3', '2024-02-07 18:44:16', 'abcd'),
+(3373, '[Employee ClockOut]  ID 3', '2024-02-07 18:44:34', 'abcd'),
+(3374, '[Employee ClockIn]  ID 3', '2024-02-07 18:48:10', 'abcd'),
+(3375, '[Employee ClockOut]  ID 3', '2024-02-07 18:48:21', 'abcd'),
+(3376, '[Employee ClockIn]  ID 3', '2024-02-07 18:50:12', 'abcd'),
+(3377, '[Employee ClockOut]  ID 3', '2024-02-07 18:50:18', 'abcd'),
+(3378, '[Employee ClockIn]  ID 3', '2024-02-07 18:55:13', 'abcd'),
+(3379, '[Employee ClockOut]  ID 3', '2024-02-07 18:57:20', 'abcd'),
+(3380, '[Employee ClockIn]  ID 3', '2024-02-07 18:58:09', 'abcd'),
+(3381, '[Employee ClockOut]  ID 3', '2024-02-07 18:59:00', 'abcd'),
+(3382, '[Employee ClockIn]  ID 3', '2024-02-07 19:01:07', 'abcd'),
+(3383, '[Employee ClockOut]  ID 3', '2024-02-07 19:01:28', 'abcd'),
+(3384, '[Employee ClockIn]  ID 3', '2024-02-07 19:03:14', 'abcd'),
+(3385, '[Employee ClockOut]  ID 3', '2024-02-07 19:04:12', 'abcd'),
+(3386, '[Employee ClockIn]  ID 3', '2024-02-07 19:05:38', 'abcd'),
+(3387, '[Employee ClockOut]  ID 3', '2024-02-07 19:09:19', 'abcd'),
+(3388, '[Logged In] abcd@gmail.com', '2024-02-07 19:09:38', ''),
+(3389, '[Employee ClockIn]  ID 3', '2024-02-07 19:36:05', 'abcd'),
+(3390, '[Logged In] admin@admin.com', '2024-02-07 19:36:20', ''),
+(3391, '[Logged Out] admin', '2024-02-07 19:39:18', ''),
+(3392, '[Logged Out] abcd', '2024-02-07 19:39:43', ''),
+(3393, '[Logged In] admin@admin.com', '2024-02-08 04:20:30', ''),
+(3394, '[Logged Out] admin', '2024-02-08 04:53:09', ''),
+(3395, '[Logged In] admin@admin.com', '2024-02-08 04:53:13', ''),
+(3396, '[Logged Out] admin', '2024-02-08 04:55:10', ''),
+(3397, '[Logged In] admin@admin.com', '2024-02-08 04:55:14', ''),
+(3398, '[Logged In] admin@admin.com', '2024-02-08 07:00:13', '');
 
 -- --------------------------------------------------------
 
@@ -6284,7 +6362,7 @@ CREATE TABLE IF NOT EXISTS `gtg_login_attempts` (
   `timestamp` datetime DEFAULT NULL,
   `login_attempts` tinyint DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1754 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1764 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_login_attempts`
@@ -6586,8 +6664,8 @@ CREATE TABLE IF NOT EXISTS `gtg_notes` (
 DROP TABLE IF EXISTS `gtg_office_forms`;
 CREATE TABLE IF NOT EXISTS `gtg_office_forms` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `form_name` text COLLATE utf8mb4_general_ci NOT NULL,
-  `form_url` text COLLATE utf8mb4_general_ci NOT NULL,
+  `form_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `form_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` int NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -6619,8 +6697,8 @@ CREATE TABLE IF NOT EXISTS `gtg_payroll_settings` (
   `epf_employer` int NOT NULL,
   `sosco_employer_percent` int NOT NULL,
   `sosco_employee_percent` int NOT NULL,
-  `sosco_employer` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `sosco_employee` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `sosco_employer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sosco_employee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pcb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `eis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `bank` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -8033,7 +8111,7 @@ CREATE TABLE IF NOT EXISTS `gtg_uploads` (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `file_size` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `upload_date` text COLLATE utf8mb4_general_ci NOT NULL,
+  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -8084,9 +8162,9 @@ CREATE TABLE IF NOT EXISTS `gtg_users` (
 INSERT INTO `gtg_users` (`id`, `email`, `pass`, `username`, `banned`, `last_login`, `last_activity`, `date_created`, `forgot_exp`, `remember_time`, `remember_exp`, `verification_code`, `totp_secret`, `ip_address`, `roleid`, `picture`, `loc`, `lang`, `login_status`) VALUES
 (1, 'testing@gmail.com', '6bb5b4afb231da6a4c8439e5b9b967ec7a1faf47f31f4a743fa8ef5735c55e62', 'testing', 0, '2023-05-16 01:03:17', '2023-05-16 01:03:17', '2023-01-29 20:06:02', NULL, NULL, NULL, NULL, NULL, '113.211.101.190', 5, '16806759151426990786.png', 0, 'english', 0),
 (2, 'ajmal@jsoftsolution.com.my', '8d86167f21aa93362ca383bae8cb2ba7ff23b77712c08e0d68cc24b0754f1ec2', 'ajmal', 0, '2023-06-12 02:23:58', '2023-06-12 02:23:58', '2023-02-02 08:31:56', NULL, NULL, NULL, NULL, NULL, '121.121.85.171', 4, '16861129861475570024.png', 0, 'english', 1),
-(3, 'abcd@gmail.com', 'd5c97e5827ac9609231ec60907bd423377f3023acbb45f9701357d4f1aa2bce8', 'abcd', 0, '2024-02-06 10:58:04', '2024-02-06 10:58:04', '2023-02-05 12:37:38', NULL, '2024-02-08 00:00:00', 'waqcVRAEB07DGImH', NULL, NULL, '127.0.0.1', 2, '1686070936115891243.png', 0, 'english', 1),
+(3, 'abcd@gmail.com', 'd5c97e5827ac9609231ec60907bd423377f3023acbb45f9701357d4f1aa2bce8', 'abcd', 0, '2024-02-08 03:09:38', '2024-02-08 03:09:38', '2023-02-05 12:37:38', NULL, '2024-02-08 00:00:00', 'waqcVRAEB07DGImH', NULL, NULL, '127.0.0.1', 2, '1686070936115891243.png', 0, 'english', 1),
 (4, 'myname@gmail.com', 'e40570440e412408307f64e060e5949192b7c5ba9965b7e40a2a437628077b57', 'myname', 0, '2023-06-07 16:17:13', '2023-06-07 16:17:13', '2023-03-14 07:31:37', NULL, NULL, NULL, NULL, NULL, '14.192.213.86', 4, '16806759931752597390.png', 0, 'english', 1),
-(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-06 22:42:14', '2024-02-06 22:42:14', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '::1', 5, '1667294757148617952.jpeg', 0, 'english', 0),
+(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 15:00:13', '2024-02-08 15:00:13', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0),
 (7, 'salesperson@abc.om', '3ed55a7943024f5fdf89c6aeb593c6622463e980e97f6f201f91ae5f30f42f99', 'salesperson', 0, '2022-04-15 03:48:18', '2022-04-15 03:48:19', '2022-04-15 03:34:03', NULL, NULL, NULL, NULL, NULL, '::1', 1, 'example.png', 0, 'english', 0),
 (8, 'krish@jsoftsolution.com.my', '90e002a56457d390a2ddbddf807135a242d3d7bace8ddd9e7350cfa086c53c48', 'krish', 0, '2022-11-02 03:53:04', '2022-11-02 03:53:04', '2022-11-01 07:37:14', NULL, NULL, NULL, NULL, NULL, '2001:d08:2297:282d:26:1694:74b0:b196', 3, '16672918891901802524.jpeg', 0, 'english', 0),
 (9, 'raj@jsoftsolution.com.my', '660807946ad1865ba31d990c14dce2a5af394a19a69cdb830db743806df5202a', 'raj', 0, '2023-01-23 05:32:17', '2023-01-23 05:32:17', '2022-12-23 10:34:36', NULL, NULL, NULL, NULL, NULL, '::1', 4, 'example.png', 0, 'english', 0),
@@ -8171,23 +8249,23 @@ INSERT INTO `gtg_users` (`id`, `email`, `pass`, `username`, `banned`, `last_logi
 DROP TABLE IF EXISTS `gtg_vehicles`;
 CREATE TABLE IF NOT EXISTS `gtg_vehicles` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `registration_number` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `make` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `model` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `registration_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `make` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `model` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `year_of_manufacture` int DEFAULT NULL,
-  `color` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vin` varchar(17) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `engine_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `chassis_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `fuel_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `transmission_type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `color` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vin` varchar(17) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `engine_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `chassis_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `fuel_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `transmission_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `odometer_reading` int DEFAULT NULL,
-  `insurance_details` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `insurance_details` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `registration_date` date DEFAULT NULL,
-  `owner_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_contact` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `service_history` text COLLATE utf8mb4_general_ci,
-  `additional_features` text COLLATE utf8mb4_general_ci,
+  `owner_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `owner_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `service_history` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `additional_features` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `delete_status` int NOT NULL DEFAULT '0',
   `emp_id` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -8712,14 +8790,14 @@ DROP TABLE IF EXISTS `sidebaritems`;
 CREATE TABLE IF NOT EXISTS `sidebaritems` (
   `id` int NOT NULL AUTO_INCREMENT,
   `parent_id` int DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `icon` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `permissions` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `type` enum('Sidebar','Subheading','Child Heading') COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('Active','Inactive') COLLATE utf8mb4_general_ci NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `permissions` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `type` enum('Sidebar','Subheading','Child Heading') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `display_order` int NOT NULL,
-  `module_type` text COLLATE utf8mb4_general_ci NOT NULL,
+  `module_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `r_1` int NOT NULL DEFAULT '0',
   `r_2` int NOT NULL DEFAULT '0',
   `r_3` int NOT NULL DEFAULT '0',
@@ -8922,9 +9000,9 @@ INSERT INTO `sidebaritems` (`id`, `parent_id`, `title`, `url`, `icon`, `permissi
 (182, 168, 'Email Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:58', 0),
 (183, 168, 'Whatsapp Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:27:25', 0),
 (184, 168, 'Settings', 'digitalmarketing/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:28:36', 0),
-(185, 181, 'Campaigns ', 'digitalmarketing/sms_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:29:55', 0),
+(185, 181, 'Campaigns', 'digitalmarketing/sms_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:29:55', 0),
 (186, 182, 'Campaigns', 'digitalmarketing/email_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:31:29', 0),
-(187, 183, 'Campaigns ', 'https://erp-dev.jsuitecloud.com/digitalmarketing/whatsapp_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:32:46', 0),
+(187, 183, 'Campaigns', 'digitalmarketing/whatsapp_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:32:46', 0),
 (194, 0, 'Purchasing', '', 'ft-sliders', NULL, 'Sidebar', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-21 14:42:58', 1),
 (188, 194, 'Customer DO', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:54:56', 1),
 (189, 188, 'Create Delivery Order', 'deliveryorder/create_delivery_order', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:07', 1),
