@@ -1294,7 +1294,7 @@ public function add_batch($data,$data1)
  {
 	 foreach($data as $key=>$value)
 		{
-		$result[$value['name']]=$value;	
+		$result[$value['email']]=$value;	
 			
 			
 		}
@@ -1306,11 +1306,12 @@ public function add_batch($data,$data1)
 	
 	 foreach($data1 as $key=>$value)
 		{
-		$result1[$value['name']]=$value;	
+		$result1[$value['email']]=$value;	
 			
 			
 		}
 	$this->db->insert_batch('users', $result1);
+    
     return $count;
 	}
 

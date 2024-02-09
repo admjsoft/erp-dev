@@ -95,8 +95,10 @@ class Customers extends CI_Controller
 			$sheet_data 	= $spreadsheet->getActiveSheet()->toArray();
 			$list 			= [];
 			//$temp_password="123456";
+            // echo "<pre>"; print_r($sheet_data); echo "</pre>"; 
+            // exit;
 			foreach($sheet_data as $key => $val) {
-			    // print_r($val);
+			    
 				if($key > 1 ) {
 					$result 	= '';
 				
@@ -127,15 +129,20 @@ class Customers extends CI_Controller
 					}
 				}
 			}
+
+            // echo "<pre>"; print_r($list); echo "</pre>";
+            // exit;
+
 			if(file_exists($file_name))
 				unlink($file_name);
 			if(count($list) > 0) {
-				$result 	= $this->customers->add_batch($list,$list1);
+				$result = $this->customers->add_batch($list,$list1);
+                
 				if($result) {
 				       if($result>0)
 					   {
 						 	$data['status'] = 'danger';
-                    $data['message'] =$result." Rows Are Duplicate";
+                            $data['message'] =$result." Rows Are Duplicate";
 						  
 						   
 					   }
@@ -146,14 +153,17 @@ class Customers extends CI_Controller
 					   }
 	 
 				}  else {
-					 $data['status'] = 'danger';
-                    $data['message'] = $this->lang->line('ERROR');
+                    $data['status'] = 'success';
+                    $data['message'] = $this->lang->line('UPDATED');
 					
 				}
 			} else {
 				
 			}
 		}
+
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
 		    $_SESSION['status']=$data['status'];
             $_SESSION['message']=$data['message'];
             $this->session->mark_as_flash('status');

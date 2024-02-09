@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 08, 2024 at 07:02 AM
+-- Generation Time: Feb 08, 2024 at 05:07 PM
 -- Server version: 8.0.31
 -- PHP Version: 7.4.33
 
@@ -175,7 +175,8 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('15bd263jdiv31dhk05qa06pcrr1a3s1g', '127.0.0.1', 1707372404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373337323430333b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b);
+('15bd263jdiv31dhk05qa06pcrr1a3s1g', '127.0.0.1', 1707372404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373337323430333b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
+('945s4a159l9e9hvlp0k9blt5sc0tks6o', '127.0.0.1', 1707384599, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373338343539383b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b);
 
 -- --------------------------------------------------------
 
@@ -297,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `gtg_attendance_settings` (
 --
 
 INSERT INTO `gtg_attendance_settings` (`id`, `total_working_hours`, `clock_in_time`, `clock_out_time`, `ot_allowance_per_hour`, `clock_in_grace_period`, `clock_in_checking_hours`, `created_date`) VALUES
-(1, 5, '04:43', '10:45', '2', 10, 2, '2024-01-08 07:42:43');
+(1, 9, '09:00', '18:00', '0', 15, 1, '2024-01-08 07:42:43');
 
 -- --------------------------------------------------------
 
@@ -1134,7 +1135,7 @@ CREATE TABLE IF NOT EXISTS `gtg_employees` (
   `picture` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
   `sign` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'sign.png',
   `joindate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `dept` int DEFAULT NULL,
+  `dept` int DEFAULT '1',
   `degis` int DEFAULT NULL,
   `salary` decimal(16,2) DEFAULT '0.00',
   `clock` int DEFAULT NULL,
@@ -1343,7 +1344,14 @@ CREATE TABLE IF NOT EXISTS `gtg_hrm` (
   `val2` varchar(255) DEFAULT NULL,
   `val3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `gtg_hrm`
+--
+
+INSERT INTO `gtg_hrm` (`id`, `typ`, `rid`, `val1`, `val2`, `val3`) VALUES
+(1, 3, 0, 'Operations', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1577,7 +1585,7 @@ CREATE TABLE IF NOT EXISTS `gtg_log` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_log`
@@ -1604,7 +1612,8 @@ INSERT INTO `gtg_log` (`id`, `note`, `created`, `user`) VALUES
 (18, '[Logged In] admin@admin.com', '2024-02-08 05:21:01', ''),
 (19, '[Logged In] admin@admin.com', '2024-02-08 05:21:09', ''),
 (20, '[Logged In] admin@admin.com', '2024-02-08 05:23:26', ''),
-(21, '[Logged In] admin@admin.com', '2024-02-08 06:06:22', '');
+(21, '[Logged In] admin@admin.com', '2024-02-08 06:06:22', ''),
+(22, '[Logged In] admin@admin.com', '2024-02-08 09:29:12', '');
 
 -- --------------------------------------------------------
 
@@ -1619,7 +1628,7 @@ CREATE TABLE IF NOT EXISTS `gtg_login_attempts` (
   `timestamp` datetime DEFAULT NULL,
   `login_attempts` tinyint DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `gtg_login_attempts`
@@ -3039,7 +3048,7 @@ CREATE TABLE IF NOT EXISTS `gtg_users` (
 --
 
 INSERT INTO `gtg_users` (`id`, `email`, `pass`, `username`, `banned`, `last_login`, `last_activity`, `date_created`, `forgot_exp`, `remember_time`, `remember_exp`, `verification_code`, `totp_secret`, `ip_address`, `roleid`, `picture`, `loc`, `lang`, `login_status`) VALUES
-(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 14:06:22', '2024-02-08 14:06:22', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0),
+(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 17:29:12', '2024-02-08 17:29:12', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0),
 (7, 'alvin6241@gmail.com', '3e1340c771fff1153aa60137dc8c0265d5914e5de769b59183085b78d950b31b', 'Alvin A/L Adaikalasamy', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
 (8, 'dzulhelmie7@gmail.com', '8e7d10c7c802e6cc70ddc57bcb1477eb8f3083b0f088f9427e4d56600b065bbe', 'Dzul Helmie Bin Ahmd Damanhuri', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
 (9, 'fathivans92@gmail.com', '5ea379e79219f971019cf6f7ee7b5edc7c1e8d65aee2370cc6249f1302d3f3ca', 'Muhammad Fathi Bin Jamaludin', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),

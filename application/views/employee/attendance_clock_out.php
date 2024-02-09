@@ -180,9 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'OK' && data.results.length > 0) {
-                            const address = data.results[1].formatted_address;
+                            const address = data.results[0].formatted_address;
                             if (address == '') {
-                                const address = data.results[0].formatted_address;
+                                const address = data.results[1].formatted_address;
                             }
                             locationElement.textContent = `${address}`;
                             locationElement.style.display = 'block';
