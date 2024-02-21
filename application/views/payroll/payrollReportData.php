@@ -25,8 +25,8 @@ $dateMonth=$dateMonth;
 <div class="content-body">
     <div id="c_body"></div>
     <div class="card">
-        <div class="card-header">
-            <h5><?php echo $this->lang->line('Payroll Report') ?></h5>
+        <div class="card-header" style="background-color : #4DD5E7;">
+            <h5><Strong><?php echo $this->lang->line('Payroll Report') ?></Strong></h5>
             <hr>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
@@ -50,30 +50,31 @@ $dateMonth=$dateMonth;
             <div class="card-body" id="card-body">
 
                 <?php
-if(isset($_SESSION['status'])){
- echo '<div class="alert alert-'.$_SESSION['status'].'">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    if(isset($_SESSION['status'])){
+                    echo '<div class="alert alert-'.$_SESSION['status'].'">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a>
 
-            <div class="message">' .$_SESSION['message']. '</div>
-        </div>';
-unset($_SESSION['status']);unset($_SESSION['message']);
-} ?>
+                                <div class="message">' .$_SESSION['message']. '</div>
+                            </div>';
+                    unset($_SESSION['status']);unset($_SESSION['message']);
+                    } ?>
                 <h4 style="text-align: center;"><u><?php //echo $this->lang->line('Payslip Report') ?> <?php 
-// if(!empty($dateYear)){
-// echo " For The Year $dateYear ";}
- //else{
-	 // $month=date('M Y', strtotime($dateMonth));
+                    // if(!empty($dateYear)){
+                    // echo " For The Year $dateYear ";}
+                    //else{
+                        // $month=date('M Y', strtotime($dateMonth));
 
-	 // echo " For The Month  $month "; }
- ?></u>
+                        // echo " For The Month  $month "; }
+                    ?></u>
 
                 </h4>
 
                 <div class=" text-right ">
                     <!-- Small Button -->
                     <form action="<?php echo base_url('export/export_payroll_report'); ?>" method="post">
-                        <input type="hidden" id="employee_payroll_data" name="employee_payroll_data" value='<?php echo $payroll_filters; ?>' />
-                       
+                        <input type="hidden" id="employee_payroll_data" name="employee_payroll_data"
+                            value='<?php echo $payroll_filters; ?>' />
+
                         <button type="submit"
                             class="btn btn-sm btn-primary"><?php echo $this->lang->line('Download'); ?>
                         </button></a>
@@ -108,7 +109,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 </table>
 
+                <div id="total_payroll_calculations">
+            </div>    
             </div>
+
+
+            
 
 
 
@@ -203,10 +209,17 @@ $(document).ready(function() {
                 '<?=$this->security->get_csrf_token_name()?>': crsf_hash
             },
             "drawCallback": function(data) {
-                alert("inn");
-                console.log(data);
+                // alert("inn");
+                // console.log(data);
                 //do whatever  
             }
+        },
+        "initComplete": function(settings, json) {
+            // Access the total_html field in the response
+            var totalHtml = json.total_html;
+            //console.log(totalHtml);
+            $('#total_payroll_calculations').html('');
+            $('#total_payroll_calculations').html(totalHtml);
         },
         "columnDefs": [{
                 "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],

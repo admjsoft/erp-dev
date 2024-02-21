@@ -27,6 +27,7 @@ if(isset($_SESSION['status'])){
     unset($_SESSION['status']);unset($_SESSION['message']);
     } ?>
 
+<p id="statusMsg"></p>
     <div class="card">
         <div class="card-header">
             <h4 class="card-title p-1" style="background-color : #4DD5E7;">
@@ -331,7 +332,7 @@ if(isset($_SESSION['status'])){
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="alert alert-dismissible fade show " role="alert">
-                        <p id="statusMsg"></p>
+                        <!-- <p id="statusMsg"></p> -->
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

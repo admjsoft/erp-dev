@@ -15,14 +15,17 @@ class Digitalsignature_model extends CI_Model
     {
        
         $query = $this->db->query("SELECT
-            gc.*,
-            COUNT(gcs.id) AS signings_count
+        gc.*,
+        COUNT(gcs.id) AS signings_count
         FROM
             gtg_digital_signatures gc
         LEFT JOIN
             gtg_digital_signature_signings gcs ON gc.id = CAST(gcs.ds_id AS SIGNED)
         GROUP BY
-            gc.id");    
+            gc.id
+        ORDER BY
+            gc.cr_date DESC;
+        ");    
         return $query->result_array();
 
     }

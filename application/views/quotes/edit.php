@@ -81,7 +81,9 @@
                                 <div type="text" id="customer_phone">Phone: <strong>' . $invoice['phone'] . '</strong><br>Email: <strong>' . $invoice['email'] . '</strong></div>
                             </div>'; ?>
                                         <hr>
-                                        <div id="customer_pass"></div><?php echo $this->lang->line('Warehouse') ?>
+                                        <div id="customer_pass"></div>
+                                        <?php /* echo $this->lang->line('Warehouse') ?>
+                                        
                                         <select
                                                 id="s_warehouses"
                                                 class="selectpicker form-control">
@@ -91,6 +93,8 @@
                                             } ?>
 
                                         </select>
+                                        */ ?>
+                                        <input type="hidden" value="0" id="s_warehouses" />
                                     </div>
 
 

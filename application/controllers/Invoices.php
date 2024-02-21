@@ -99,8 +99,8 @@ class Invoices extends CI_Controller
         $this->load->model('plugins_model', 'plugins');
         $data['exchange'] = $this->plugins->universal_api(5);
         $this->load->library("Common");
-        $data['taxlist'] = $this->common->taxlist_edit($data['invoice']['taxstatus']);
-
+        //$data['taxlist'] = $this->common->taxlist_edit($data['invoice']['taxstatus']);
+        $data['taxlist'] = $this->common->taxlist($this->config->item('tax'));
         $this->load->library("Common");
         $data['custom_fields_c'] = $this->custom->add_fields(1);
         $data['custom_fields'] = $this->custom->add_fields(2);
@@ -1353,4 +1353,212 @@ class Invoices extends CI_Controller
         }
     }
 
+    public function peppol_xml()
+    {
+        $url = 'https://dj-temp.s3.eu-west-1.amazonaws.com/72c3b7833912d5f402cd02504aab543d6892838cbc38971977558b24ef521d40f87c1120330b168a55bbca614cd61a8c9a7e7888f3d385359ae4a0c9f7b72d3e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNX7AQGFKQNQEUWQ%2F20240214%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240214T015627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4928b1e280a3a741b1ecc816c789b51b8edabfe0eea6906bcf0b2bc060226112';
+
+        // Fetch the XML data
+        $xmlData = file_get_contents($url);
+        
+        // Load XML string
+        $xml = simplexml_load_string($xmlData);
+        
+        // Register namespaces
+        $xml->registerXPathNamespace('cbc', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $xml->registerXPathNamespace('cac', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        
+        // Retrieve specific elements using XPath
+        $UBLVersionID = $xml->xpath('//cbc:UBLVersionID')[0];
+        $CustomizationID = $xml->xpath('//cbc:CustomizationID')[0];
+        $ProfileID = $xml->xpath('//cbc:ProfileID')[0];
+        $ID = $xml->xpath('//cbc:ID')[0];
+        $IssueDate = $xml->xpath('//cbc:IssueDate')[0];
+        $InvoiceTypeCode = $xml->xpath('//cbc:InvoiceTypeCode')[0];
+        $DocumentCurrencyCode = $xml->xpath('//cbc:DocumentCurrencyCode')[0];
+        $StreetName = $xml->xpath('//cbc:StreetName')[0];
+        $CityName = $xml->xpath('//cbc:CityName')[0];
+        $PostalZone = $xml->xpath('//cbc:PostalZone')[0];
+        $CountryCode = $xml->xpath('//cac:Country/cbc:IdentificationCode')[0];
+        $CompanyName = $xml->xpath('//cac:PartyName/cbc:Name')[0];
+        $CompanyID = $xml->xpath('//cac:PartyLegalEntity/cbc:CompanyID')[0];
+        $ContactEmail = $xml->xpath('//cac:Contact/cbc:ElectronicMail')[0];
+        $PaymentMeansCode = $xml->xpath('//cbc:PaymentMeansCode')[0];
+        $PaymentID = $xml->xpath('//cbc:PaymentID')[0];
+        $FinancialAccountID = $xml->xpath('//cac:PayeeFinancialAccount/cbc:ID')[0];
+        $FinancialAccountName = $xml->xpath('//cac:PayeeFinancialAccount/cbc:Name')[0];
+        $InvoicedQuantity = $xml->xpath('//cbc:InvoicedQuantity')[0];
+        $LineExtensionAmount = $xml->xpath('//cbc:LineExtensionAmount')[0];
+        $ItemName = $xml->xpath('//cac:Item/cbc:Name')[0];
+        $PriceAmount = $xml->xpath('//cbc:PriceAmount')[0];
+        
+        // Output retrieved dataecho "UBLVersionID: $UBLVersionID<br>";
+        echo "CustomizationID: $CustomizationID<br>";
+        echo "ProfileID: $ProfileID<br>";
+        echo "ID: $ID<br>";
+        echo "IssueDate: $IssueDate<br>";
+        echo "InvoiceTypeCode: $InvoiceTypeCode<br>";
+        echo "DocumentCurrencyCode: $DocumentCurrencyCode<br>";
+        echo "StreetName: $StreetName<br>";
+        echo "CityName: $CityName<br>";
+        echo "PostalZone: $PostalZone<br>";
+        echo "CountryCode: $CountryCode<br>";
+        echo "CompanyName: $CompanyName<br>";
+        echo "CompanyID: $CompanyID<br>";
+        echo "ContactEmail: $ContactEmail<br>";
+        echo "PaymentMeansCode: $PaymentMeansCode<br>";
+        echo "PaymentID: $PaymentID<br>";
+        echo "FinancialAccountID: $FinancialAccountID<br>";
+        echo "FinancialAccountName: $FinancialAccountName<br>";
+        echo "InvoicedQuantity: $InvoicedQuantity<br>";
+        echo "LineExtensionAmount: $LineExtensionAmount<br>";
+        echo "ItemName: $ItemName<br>";
+        echo "PriceAmount: $PriceAmount<br>";
+
+        
+
+        // Start iterating from the root element
+        //iterateXML($xml);
+
+        // $url = 'https://dj-temp.s3.eu-west-1.amazonaws.com/72c3b7833912d5f402cd02504aab543d6892838cbc38971977558b24ef521d40f87c1120330b168a55bbca614cd61a8c9a7e7888f3d385359ae4a0c9f7b72d3e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNX7AQGFKQNQEUWQ%2F20240214%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240214T015627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4928b1e280a3a741b1ecc816c789b51b8edabfe0eea6906bcf0b2bc060226112';
+
+        // // Fetch the XML data
+        // $xmlData = file_get_contents($url);
+        
+        // // Load XML string
+        // $xml = simplexml_load_string($xmlData);
+        
+        // // Register namespaces
+        // $xml->registerXPathNamespace('cbc', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        // $xml->registerXPathNamespace('cac', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        
+        // // Retrieve specific elements using XPath
+        // $UBLVersionID = $xml->xpath('//cbc:UBLVersionID')[0];
+        // $CustomizationID = $xml->xpath('//cbc:CustomizationID')[0];
+        // $ProfileID = $xml->xpath('//cbc:ProfileID')[0];
+        // $ID = $xml->xpath('//cbc:ID')[0];
+        // $IssueDate = $xml->xpath('//cbc:IssueDate')[0];
+        // $InvoiceTypeCode = $xml->xpath('//cbc:InvoiceTypeCode')[0];
+        // $DocumentCurrencyCode = $xml->xpath('//cbc:DocumentCurrencyCode')[0];
+        
+        // // Output retrieved data
+        // echo "UBLVersionID: $UBLVersionID\n";
+        // echo "CustomizationID: $CustomizationID\n";
+        // echo "ProfileID: $ProfileID\n";
+        // echo "ID: $ID\n";
+        // echo "IssueDate: $IssueDate\n";
+        // echo "InvoiceTypeCode: $InvoiceTypeCode\n";
+        // echo "DocumentCurrencyCode: $DocumentCurrencyCode\n";
+        
+
+
+        // $url = 'https://dj-temp.s3.eu-west-1.amazonaws.com/72c3b7833912d5f402cd02504aab543d6892838cbc38971977558b24ef521d40f87c1120330b168a55bbca614cd61a8c9a7e7888f3d385359ae4a0c9f7b72d3e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNX7AQGFKQNQEUWQ%2F20240214%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240214T015627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4928b1e280a3a741b1ecc816c789b51b8edabfe0eea6906bcf0b2bc060226112';
+
+        // $response = file_get_contents($url);
+
+        // // Split the response by spaces to separate individual elements
+        // $elements = explode(' ', $response);
+
+        // // Create a SimpleXMLElement object
+        // $xml = new SimpleXMLElement('<root></root>');
+
+        // // Iterate over the elements and add them as child nodes to the root element
+        // foreach ($elements as $element) {
+        //     // Split each element into tag name and content (if applicable)
+        //     $parts = explode(':', $element, 2);
+        //     $tagName = $parts[0];
+        //     $textContent = isset($parts[1]) ? $parts[1] : '';
+
+        //     // Add the element as a child node to the root element
+        //     $child = $xml->addChild($tagName, $textContent);
+        // }
+
+        // // Print the XML structure
+        // echo $xml->asXML();
+
+
+        // URL of the XML data
+        // $url = 'https://dj-temp.s3.eu-west-1.amazonaws.com/72c3b7833912d5f402cd02504aab543d6892838cbc38971977558b24ef521d40f87c1120330b168a55bbca614cd61a8c9a7e7888f3d385359ae4a0c9f7b72d3e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNX7AQGFKQNQEUWQ%2F20240214%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240214T015627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4928b1e280a3a741b1ecc816c789b51b8edabfe0eea6906bcf0b2bc060226112';
+    
+        // //$url = 'https://dj-temp.s3.eu-west-1.amazonaws.com/72c3b7833912d5f402cd02504aab543d6892838cbc38971977558b24ef521d40f87c1120330b168a55bbca614cd61a8c9a7e7888f3d385359ae4a0c9f7b72d3e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNX7AQGFKQNQEUWQ%2F20240214%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240214T015627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4928b1e280a3a741b1ecc816c789b51b8edabfe0eea6906bcf0b2bc060226112';
+
+        // $response = file_get_contents($url);
+
+        // // Wrap the plain text content with XML tags
+        // $xmlString = '<root>' . $response . '</root>';
+
+        // echo $response;
+        // exit;
+        // // Parse the XML string
+        // $xml = simplexml_load_string($xmlString);
+
+        // // Check if XML parsing was successful
+        // if ($xml !== false) {
+        //     // XML parsing successful, you can now work with the XML data
+        //     print_r($xml);
+        // } else {
+        //     // Error occurred while parsing XML
+        //     echo 'Error parsing XML';
+        // }
+
+
+        // $url = 'https://dj-temp.s3.eu-west-1.amazonaws.com/72c3b7833912d5f402cd02504aab543d6892838cbc38971977558b24ef521d40f87c1120330b168a55bbca614cd61a8c9a7e7888f3d385359ae4a0c9f7b72d3e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARNX7AQGFKQNQEUWQ%2F20240214%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240214T015627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4928b1e280a3a741b1ecc816c789b51b8edabfe0eea6906bcf0b2bc060226112';
+
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // $response = curl_exec($ch);
+
+        // if ($response === false) {
+        //     echo 'Error fetching XML: ' . curl_error($ch);
+        // } else {
+        //     // Parse XML response
+        //     echo $response;
+        //     // $xml = simplexml_load_string($response);
+        //     // print_r($xml); // Print XML data to check if it's parsed correctly
+        // }
+
+        // curl_close($ch);
+
+
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch, CURLOPT_HEADER, false);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // $response = curl_exec($ch);
+
+        // if ($response === false) {
+        //     echo 'Error fetching XML: ' . curl_error($ch);
+        // } else {
+        //     // Parse XML response
+        //     $xml = simplexml_load_string($response);
+        //     echo $xml;
+        //     print_r($xml); // Print XML data to check if it's parsed correctly
+        // }
+
+        // curl_close($ch);
+
+        //Fetch XML data from the URL
+        // $opts = [
+        //     "http" => [
+        //         "header" => "Content-Type: application/xml\r\n"
+        //     ]
+        // ];
+        // $context = stream_context_create($opts);
+        // $xmlData = file_get_contents($url, false, $context);
+        // echo $xmlData;
+        // exit;
+        // // Parse the XML
+        // $xml = simplexml_load_string($xmlData);
+        // echo $xml;
+        // // Pass XML data to the view
+        // $data['xml'] = $xml;
+
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
+        // // Load the view
+        // $this->load->view('xml_to_html_view', $data);
+    }
 }

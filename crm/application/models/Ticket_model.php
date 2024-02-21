@@ -104,8 +104,9 @@ class Ticket_model extends CI_Model
         $thread_id = $this->db->insert_id();
 
         $multi = array();
-
-        if (is_array($filename)) {
+        if(is_array($filename))
+        {
+        if (!empty($filename)) {
             $i = 2;
             foreach ($filename as $file) {
                 $multi[] = array('tid' => $thread_id, 'message' => $message, 'cid' => $this->session->userdata('user_details')[0]->cid, 'eid' => 0, 'cdate' => date('Y-m-d H:i:s'), 'attach' => $file);
@@ -114,6 +115,10 @@ class Ticket_model extends CI_Model
             }
         } else {
             $data = array('tid' => $thread_id, 'message' => $message, 'cid' => $this->session->userdata('user_details')[0]->cid, 'eid' => 0, 'cdate' => date('Y-m-d H:i:s'), 'attach' => '');
+        }
+        }else{
+            $data = array('tid' => $thread_id, 'message' => $message, 'cid' => $this->session->userdata('user_details')[0]->cid, 'eid' => 0, 'cdate' => date('Y-m-d H:i:s'), 'attach' => '');
+
         }
 
         if ($this->ticket()->key2) {

@@ -264,7 +264,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Job Type') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <span class="role_error"></span>
 
                             <select name="f_employee_job_type" id="f_employee_job_type" class="form-control margin-bottom">
@@ -296,7 +296,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="phone"><?php echo $this->lang->line('Socso Number') ?></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Socso Number" class="form-control margin-bottom"
                                 name="socso_number" value="">
                         </div>
@@ -323,6 +323,34 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <input type="text" placeholder="PCB Number" class="form-control margin-bottom"
                                 name="pcb_number" value="">
                         </div>
+                    </div>
+
+                     
+                    <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('Bank Name') ?>
+                        <span style="color:red">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="<?php echo $this->lang->line('Bank Name') ?>" value="" class="form-control margin-bottom"
+                                name="bank_name">
+                        </div>
+                       
+
+                    </div>
+
+                    
+                    <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('Bank Account Number') ?>
+                        <span style="color:red">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="<?php echo $this->lang->line('Bank Account Number') ?>" value="" class="form-control margin-bottom"
+                                name="bank_account_number">
+                        </div>
+                       
+
                     </div>
 
                     <div class="form-group row">
@@ -367,7 +395,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('UserName') ?>
                             <small class="error">(<?php echo $this->lang->line('Use Only'); ?> a-z0-9)</small></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" class="form-control margin-bottom" name="username"
                                 placeholder="username">
                         </div>
@@ -376,7 +404,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                         <label class="col-sm-2 col-form-label"
                             for="name"><?php echo $this->lang->line('Email') ?></label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="email" placeholder="email" class="form-control margin-bottom" name="email"
                                 placeholder="email">
                         </div>
@@ -385,7 +413,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Gender') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <span class="role_error"></span>
 
                             <select name="gender" id="gender" class="form-control margin-bottom">
@@ -402,7 +430,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <small>(<?php echo $this->lang->line('min length'); ?>
                                 6|<?php echo $this->lang->line('max length'); ?> 20|a-zA-Z0-9@$)</small>
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Password" class="form-control margin-bottom" name="password"
                                 placeholder="password">
                         </div>
@@ -417,7 +445,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Name') ?> <span
                                 style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Name" class="form-control margin-bottom required"
                                 name="name"
                                 onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)"
@@ -426,10 +454,21 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                     </div>
                     <div class="form-group row">
 
+                        <label class="col-sm-2 col-form-label" for="address"><?php echo $this->lang->line('IC Number') ?>
+                            <span style="color:red">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="<?php echo $this->lang->line('IC Number') ?>" class="form-control margin-bottom required"
+                                name="ic_number">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
                         <label class="col-sm-2 col-form-label" for="address"><?php echo $this->lang->line('Address') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="address" class="form-control margin-bottom required"
                                 name="address">
                         </div>
@@ -439,7 +478,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('City') ?> <span
                                 style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="City" class="form-control margin-bottom required"
                                 name="city"
                                 onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
@@ -450,7 +489,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('Region') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Region" class="form-control margin-bottom required"
                                 name="region"
                                 onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode == 32)">
@@ -461,7 +500,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="country"><?php echo $this->lang->line('Country') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <select name="country" class="form-control margin-bottom b_input required" id="country">
                                 <option value="">--<?php echo $this->lang->line('Select Country'); ?>--</option>
 
@@ -479,7 +518,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('UserRole') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <select name="roleid" class="form-control margin-bottom required">
                                 <option value="">--<?php echo $this->lang->line('Select Role'); ?>--</option>
                                 <?php foreach($role_list as $role)
@@ -499,7 +538,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="name"><?php echo $this->lang->line('Business Location') ?></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <select name="location" class="form-control margin-bottom">
                                 <option value="0"><?php echo $this->lang->line('Default') ?></option>
                                 <?php $loc = locations();
@@ -517,7 +556,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="postbox"><?php echo $this->lang->line('Postbox') ?></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Postbox" class="form-control margin-bottom" name="postbox">
                         </div>
                     </div>
@@ -526,7 +565,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="phone"><?php echo $this->lang->line('Phone') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <input type="number" pattern="[0-9]*" inputmode="numeric" placeholder="phone"
                                 placeholder="phone" class="form-control margin-bottom required" name="phone">
                         </div>
@@ -536,7 +575,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="phone"><?php echo $this->lang->line('Salary') ?></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Salary" onkeypress="return isNumber(event)"
                                 class="form-control margin-bottom" name="salary" value="0">
                         </div>
@@ -546,7 +585,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Job Type') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <span class="role_error"></span>
 
                             <select name="employee_job_type" id="employee_job_type" class="form-control margin-bottom">
@@ -566,7 +605,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         for="name"><?php echo $this->lang->line('Joined Date') ?> <span
                             style="color:red">*</span></label>
 
-                    <div class="col-sm-5">
+                    <div class="col-sm-8">
                         <span class="joined_date_error"></span>
 
                         <input type="text" class="form-control margin-bottom b_input" placeholder="dd-mm-yy"
@@ -580,7 +619,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="phone"><?php echo $this->lang->line('Socso Number') ?></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="Socso Number" class="form-control margin-bottom"
                                 name="socso_number" value="">
                         </div>
@@ -591,7 +630,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="phone"><?php echo $this->lang->line('KWSP Number') ?></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="KWSP Number" class="form-control margin-bottom"
                                 name="kwsp_number" value="">
                         </div>
@@ -603,7 +642,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label"
                             for="phone"><?php echo $this->lang->line('PCB Number') ?></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <input type="text" placeholder="PCB Number" class="form-control margin-bottom"
                                 name="pcb_number" value="">
                         </div>
@@ -614,21 +653,50 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('Commission') ?>
                             %</label>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-8">
                             <input type="number" placeholder="Commission %" value="0" class="form-control margin-bottom"
                                 name="commission">
+                                <label class=" col-form-label" ><?php echo $this->lang->line('It will based on each invoice amount - inclusive all taxes,shipping,discounts'); ?>
+                    </label>
                         </div>
-                        <small
-                            class="col"><?php echo $this->lang->line('It will based on each invoice amount - inclusive all taxes,shipping,discounts'); ?>
-                        </small>
+                        
 
                     </div>
+
+                    
+                    <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('Bank Name') ?>
+                        <span style="color:red">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="<?php echo $this->lang->line('Bank Name') ?>" value="" class="form-control margin-bottom"
+                                name="bank_name">
+                        </div>
+                       
+
+                    </div>
+
+                    
+                    <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label" for="city"><?php echo $this->lang->line('Bank Account Number') ?>
+                        <span style="color:red">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" placeholder="<?php echo $this->lang->line('Bank Account Number') ?>" value="" class="form-control margin-bottom"
+                                name="bank_account_number">
+                        </div>
+                       
+
+                    </div>
+
                     <div class="form-group row">
 
                         <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Department') ?>
                             <span style="color:red">*</span></label>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <select name="department" class="form-control margin-bottom required">
 
                                 <option value="0">

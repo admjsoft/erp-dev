@@ -73,6 +73,66 @@ class Ultimatemailer
 
     }
 
+
+    function load_no_response($host, $port, $auth,$auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotilte, $subject, $message, $attachmenttrue, $attachment)
+    {
+        include_once APPPATH . '/third_party/PHPMailer/vendor/autoload.php';
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        $mail->CharSet = "UTF-8";
+
+        $mail->isSMTP();
+//Enable SMTP debugging
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+        $mail->SMTPDebug = 0;
+//Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+
+        $mail->Host = $host;
+
+        $mail->Port = $port;
+
+        $mail->SMTPAuth = $auth;
+
+        if($auth_type!='none') { $mail->SMTPSecure = $auth_type; }
+
+        $mail->Username = $username;
+//Password to use for SMTP authentication
+        $mail->Password = $password;
+//Set who the message is to be sent from
+        $mail->setFrom($mailfrom, $mailfromtilte);
+//Set an alternative reply-to address
+//$mail->addReplyTo('replyto@example.com', 'First Last');
+//Set who the message is to be sent to
+        $mail->addAddress($mailto, $mailtotilte);
+//Set the subject line
+        $mail->Subject = $subject;
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+        $mail->msgHTML($message);
+//Replace the plain text body with one created manually
+        $mail->AltBody = 'This is a html email';
+//Attach an image file
+        if ($attachmenttrue == true) {
+            $mail->addAttachment($attachment);
+        }
+
+//send the message, check for errors
+        if (!$mail->send()) {
+              //  commented for mdec meeting
+           // echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+           return json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+        } else {
+                //  commented for mdec meeting
+            //echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+            return json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+        }
+
+
+    }
+
     function corn_mail($host, $port, $auth,$auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotilte, $subject, $message, $attachmenttrue, $attachment)
     {
         include_once APPPATH . '/third_party/PHPMailer/vendor/autoload.php';

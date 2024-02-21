@@ -7,9 +7,9 @@
 <div class="content-body">
     <div id="c_body"></div>
     <div class="card">
-        <div class="card-header">
-            <h5><?php echo $this->lang->line('Add') . ' ' . $this->lang->line('Payroll') . ' ' . $this->lang->line('Settings') ?>
-            </h5>
+        <div class="card-header" style="background-color : #4DD5E7;">
+            <h5><Strong><?php echo $this->lang->line('Add') . ' ' . $this->lang->line('Payroll') . ' ' . $this->lang->line('Settings') ?>
+            </Strong></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -22,9 +22,9 @@
         <div class="card-content">
             <div class="row mr-2">
 
-                <div class="col-12 text-right ">
+                <div class="col-12 text-right mt-2">
                     <!-- Small Button -->
-                    <a href="<?php echo base_url('payroll/viewpaySlip'); ?>"> <button type="button"
+                    <a href="<?php echo base_url('payroll/settings_list'); ?>"> <button type="button"
                             class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
                 </div>
             </div>
@@ -42,7 +42,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <form method="post" id="data_form" class="form-horizontal" onSubmit="return validate(event);"
                     enctype="multipart/form-data" action="<?php echo base_url("payroll/save_settings") ?>">
 
-                    <hr>
+                    <!-- <hr> -->
 
                     <div class="form-group row">
 
@@ -76,11 +76,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <span class="basic_error"></span>
 
                             <input type="number" class="form-control" name="basic" id="basic"
-                                oninput="calculateEpf(),calculateTotalSocsoEmpPer(),calculateemployerpercent()"
                                 placeholder="Basic Salary" autocomplete="off" />
 
                             <div id="trans-box-result" class="sbox-result"></div>
                         </div>
+                        <!-- oninput="calculateEpf(),calculateTotalSocsoEmpPer(),calculateemployerpercent()" -->
 
 
                     </div>
@@ -93,7 +93,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                             <select onchange="calculateEpf()" name="epf" id="epf" class="form-control">
                                 <option value="">--<?php echo $this->lang->line('Select'); ?> %--</option>
-                                <option value="9">9%</option>
+                                <option value="0"><?php echo $this->lang->line('Not Applicable'); ?></option>
                                 <option value="11">11%</option>
                                 <option value="13">13%</option>
                             </select>
@@ -108,11 +108,12 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <div class="col-sm-6">
                             <span class="epfEmployee_percent_error"></span>
 
-                            <select onchange="calculateEpf()" name="epfEmployee" id="epfEmployee" class="form-control">
+                          <select onchange="calculateEpf()" name="epfEmployee" id="epfEmployee" class="form-control">
                                 <option value="">--<?php echo $this->lang->line('Select'); ?> %--</option>
-                                <option value="9">9%</option>
+                                <option value="0"><?php echo $this->lang->line('Not Applicable'); ?></option>
                                 <option value="11">11%</option>
-                            </select>
+                                <option value="13">13%</option>
+                            </select> 
                         </div>
                     </div>
                     <div class="form-group row">
@@ -155,13 +156,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <span class="soscoempyr_percent_error"></span>
 
                             <div class="input-group">
-
+<!-- 
                                 <select onchange="calculateTotalSocsoEmpPer()" name="socsoEmployerPer"
                                     id="socsoEmployerPer" class="form-control">
-                                    <option value="">--<?php echo $this->lang->line('Select'); ?> %--</option>
+                                    <option value="">--<?php // echo $this->lang->line('Select'); ?> %--</option>
                                     <option value="1.25">1.25%</option>
                                     <option value="1.75">1.75%</option>
-                                </select>
+                                </select> -->
+                                <input type="text" placeholder="" onchange="calculateTotalSocsoEmpPer()"  name="socsoEmployerPer" id="socsoEmployerPer" class="form-control" autocomplete="off">
                                 
                             </div>
                             <label class="col-form-label"><a target="_blank" href="https://www.perkeso.gov.my/kadar-caruman.html">Click here for Socso Calculation</a></label>
@@ -178,11 +180,13 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <span class="soscoemployee_percent_error"></span>
 
                             <div class="input-group">
-                                <select onchange="calculateTotalSocsoEmpPer()" name="socsoEmpPer" id="socsoEmpPer"
+                                <!-- <select onchange="calculateTotalSocsoEmpPer()" name="socsoEmpPer" id="socsoEmpPer"
                                     class="form-control">
-                                    <option value="">--<?php echo $this->lang->line('Select'); ?> %--</option>
+                                    <option value="">--<?php // echo $this->lang->line('Select'); ?> %--</option>
                                     <option value="0.5">0.5%</option>
-                                </select>
+                                </select> -->
+                                
+                                <input type="text" placeholder=""  onchange="calculateTotalSocsoEmpPer()"  name="socsoEmpPer" id="socsoEmpPer" class="form-control" autocomplete="off" />
                             </div>
                         </div>
                     </div>
@@ -264,8 +268,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <div class="col-sm-6">
                             <span class="nationality_error"></span>
                             <select name="nationality" class="form-control" id="nationality" required>
-                                <option value='1' selected><?php echo $this->lang->line('Malaysian'); ?></option>
-                                <option value='2'><?php echo $this->lang->line('Foreigner'); ?></option>
+                                <?php if(!empty($countries)){ foreach($countries as $country){ ?>
+                                    <option value='<?php echo $country->id; ?>' <?php if($country->id == 134){ echo "selected"; } ?>><?php echo $country->country_name; ?></option>
+                                <?php }} ?>
+                                <!-- <option value='1' selected><?php echo $this->lang->line('Malaysian'); ?></option>
+                                <option value='2'><?php // echo $this->lang->line('Foreigner'); ?></option> -->
                             </select>
                         </div>
                     </div>
@@ -792,4 +799,41 @@ function getSettings(val) {
 
 
 }
+
+$(document).on('change', '#staff', function() {
+    var employee_id = $('#staff').val();
+
+    if (employee_id != '') {
+
+        // $('#products_invoices').DataTable().destroy();
+        //draw_products_data(start_date, end_date);
+        $.ajax({
+
+            url: "<?php echo site_url('payroll/get_selected_employee_details_from_settings') ?>",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                employee_id: employee_id
+            },
+            success: function(resp) {
+                if (resp.status == '200') {
+                    $('#bankName').val('');
+                    $('#bankAcc').val('');
+                    $('#bankName').val(resp.bank_name);
+                    $('#bankAcc').val(resp.bank_account_number);
+                }
+
+            },
+            error: function(resp) {
+                //console.log(data);
+                console.log("Error not get emp list")
+            }
+
+
+        });
+
+    } else {
+        alert("Date range is Required");
+    }
+});
 </script>

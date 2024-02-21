@@ -118,8 +118,11 @@
                         </div>
                         <hr>
                     </div>
-
+                    <?php if(!empty($signings)) { ?>
+                    <div class="col-sm-12 stat-col">
                     <h4><?php echo $this->lang->line('Remarks') ?></h4>
+                    </div>
+                    <?php } ?>
                     <?php if(!empty($signings)) { foreach($signings as $sign_d){ ?>
                     <div class="col-sm-12 stat-col">
                         <div class="stat">
@@ -146,7 +149,7 @@
 
                     <?php } ?>
                     <!-- Display associated upload files -->
-                    <div class="row">
+                    <!-- <div class="row"> -->
                         <div class="col-md-12">
                             <div class="stat">
                                 <h4>Uploaded Files</h4>
@@ -207,13 +210,13 @@
                                 <?php */ ?>
                                 <div class="form-group row ml-3 mt-5">
                                     <label
-                                        class="col-sm-4 col-form-label"><?php echo $this->lang->line('Document Preview'); ?></label>
+                                        class="col-sm-2 col-form-label"><?php echo $this->lang->line('Document Preview'); ?></label>
                                     <div class="col-sm-6" id="file-preview">
                                     </div>
                                 </div>
 
                             </div>
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

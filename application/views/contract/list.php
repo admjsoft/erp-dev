@@ -70,7 +70,7 @@
 <div class="content-body">
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Contract') ?> <a href="<?php echo base_url('contract/create') ?>"
+            <h5><?php echo $this->lang->line('Contract Management') ?> <a href="<?php echo base_url('contract/create') ?>"
                     class="btn btn-primary btn-sm rounded">
                     <?php echo $this->lang->line('Add new') ?></a></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
@@ -188,6 +188,21 @@
                                         class='btn btn-warning btn-sm'><i class='fa fa-pencil'></i>
                                         <?php echo $this->lang->line('Edit'); ?></a>
                                     <?php // } ?>
+                                    <?php  if($row['status'] == 'COMPLETED'){ ?>
+                                    &nbsp;
+                                    <a href='<?php echo $row['latest_file_path']; ?>' download class='btn btn-danger btn-sm' title='Download'><i class='fa fa-download'></i></a>
+                                    
+                                    &nbsp;
+                                    <a href='javascript:void(0);' ds_id="<?php echo $row['id']; ?>"
+                                        class='btn btn-info btn-sm employee_share' title='Employees'><i
+                                            class='fa fa-share'>Emplyees</i></a>
+
+                                    &nbsp;
+                                    <a href='javascript:void(0);' ds_id="<?php echo $row['id']; ?>"
+                                        class='btn btn-primary btn-sm customer_share' title='Customers'><i
+                                            class='fa fa-share'>Customers</i></a>
+
+                                    <?php  } ?>
                                     &nbsp;<a href='#' data-object-id="<?php echo $contract_id; ?>"
                                         class='btn btn-danger btn-sm delete-object' title='Delete'><i
                                             class='fa fa-trash'></i></a>
@@ -343,6 +358,63 @@
     <input type="hidden" id="contract_title" name="contract_title" value="" />
 
 
+    <?php echo form_open('contract/employee_share'); ?>
+    <div id="multiple_assign_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Multiple Task <?php echo $this->lang->line('Assign') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p><?php echo $this->lang->line('Employee') ?></p>
+                    <select name="employee_id" class="form-control employee emp-list">
+                        <option>-- <?php echo $this->lang->line('Select Employee') ?> --</option>
+                    </select>
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="c_ds_id" class="jobid" name="c_ds_id" value="">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $this->lang->line('Send') ?>" />
+                    <button type="button" data-dismiss="modal"
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <?php echo form_open('contract/customer_share'); ?>
+    <div id="cust_multiple_assign_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Multiple Task <?php echo $this->lang->line('Assign') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p><?php echo $this->lang->line('Customers') ?></p>
+                    <select name="customer_id" class="form-control customer_id cust-list">
+                        <option>-- <?php echo $this->lang->line('Select Customer') ?> --</option>
+                    </select>
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="cc_ds_id" class="jobid" name="cc_ds_id" value="">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $this->lang->line('Send') ?>" />
+                    <button type="button" data-dismiss="modal"
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
 
     <script type="text/javascript">
     $(document).ready(function() {
@@ -353,6 +425,38 @@
         });
 
     });
+    $(document).ready(function() {
+        $.ajax({
+
+            url: "<?php echo site_url('employee/employee_list') ?>",
+            type: 'POST',
+            success: function(data) {
+                $('.emp-list').append(data);
+            },
+            error: function(data) {
+                //console.log(data);
+                console.log("Error not get employee list")
+            }
+
+        });
+
+        $.ajax({
+
+            url: "<?php echo site_url('customers/get_all_customers') ?>",
+            type: 'POST',
+            success: function(data) {
+                $('.cust-list').append(data);
+            },
+            error: function(data) {
+                //console.log(data);
+                console.log("Error not get customer list")
+            }
+
+            });
+
+    });
+
+
 
 
     //datatables
@@ -529,6 +633,21 @@
 
         });
 
+
+    });
+
+    $(document).on('click', '.employee_share', function() {
+    var ds_id = $(this).attr('ds_id');
+    $('#c_ds_id').val(ds_id);
+    $('#multiple_assign_model').modal('show');
+
+    });
+
+    $(document).on('click', '.customer_share', function() {
+
+    var ds_id = $(this).attr('ds_id');
+    $('#cc_ds_id').val(ds_id);
+    $('#cust_multiple_assign_model').modal('show');
 
     });
     </script>

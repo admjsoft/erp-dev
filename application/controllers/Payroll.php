@@ -5,6 +5,7 @@ require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Payroll extends CI_Controller
 {
@@ -37,7 +38,7 @@ public function settings()
         $head['title'] = "Add Payroll Settings";
         $head['usernm'] = $this->aauth->get_user()->username;
 		 $this->load->model('employee_model', 'employee');
-
+         $data['countries'] = $this->employee->country_list();
 		$data['employee'] = $this->employee->list_all_employee();
 
 		
@@ -45,6 +46,21 @@ public function settings()
         $this->load->view('payroll/settings', $data);
         $this->load->view('fixed/footer');	
 }
+
+public function settings_list()
+{
+       
+        $head['title'] = "Settings List";
+        $head['usernm'] = $this->aauth->get_user()->username;
+		$data['settings_list'] = $this->payroll->get_settings_datatables();
+
+		
+        $this->load->view('fixed/header', $head);
+        $this->load->view('payroll/settings_list', $data);
+        $this->load->view('fixed/footer');	
+}
+
+
 public function save_settings()
 {
 		
@@ -369,7 +385,7 @@ public function payslip()
 	    //ORGANIZATION DETAILS
     $orgId = $_SESSION['loggedin'];
     $organization =$this->payroll->getOrganizationDetails($orgId);
-    $address = "<p style='font-size:10px;width:196px;position:relative;float: left;margin: 0;'>".$organization->address.",".$organization->city.",".$organization->region."<br>".$organization->country.",".$organization->postbox."</p>";
+    $address = "<p style='font-size:12px;width:196px;position:relative;float: left;margin: 0;'>".$organization->address.",".$organization->city.",".$organization->region."<br>".$organization->country.",".$organization->postbox."</p>";
 
 	
     $payroll = $this->payroll->getSettings($staffId);
@@ -377,11 +393,14 @@ public function payslip()
     $nasionalityCheck = $payroll->nationality;
 		    if(isset($nasionalityCheck))
 			{
-    if ($nasionalityCheck==1) {
+    if ($nasionalityCheck==134) {
       $nasionality = "Malaysian";
-    }elseif ($nasionalityCheck==2) {
+    }else {
       $nasionality = "Foreigner";
-    }
+     }
+    // if ($nasionalityCheck==2) {
+    //     $nasionality = "Foreigner";
+    //   }
 			}
 	    if(isset($payroll->tax_no))
 		{
@@ -424,7 +443,7 @@ public function payslip()
 	if(isset($payroll->nationality))
 	  {
 $totalDeductionCalc='';
-  if ($nasionalityCheck==1) {
+  if ($nasionalityCheck==134) {
       $console = "<script>console.log('nasionality=0')</script>";
       $totalDeductionCalc = $this->payroll->checknum($socsoEmp) + $this->payroll->checknum($pcbCalc)+$this->payroll->checknum($eis)+$this->payroll->checknum($epfEmp)+ $this->payroll->checknum($deduction);
       $epfRight=number_format($epfEmp,2,".","");
@@ -438,7 +457,8 @@ $totalDeductionCalc='';
       $eisLeft=number_format($eis,2,".","");
 
 
-    }elseif($nasionalityCheck==2){
+    // }elseif($nasionalityCheck==2){
+    }else{
       $console = "<script>console.log('nasionality=1')</script>";
       $totalDeductionCalc = $this->payroll->checknum($pcbCalc) + $this->payroll->checknum($epfEmp)+ $this->payroll->checknum($deduction);
 
@@ -485,8 +505,8 @@ $totalDeductionCalc='';
         }
     }*/
 
-    $totalDeduction = number_format($totalDeductionCalc,2,".","");
-    $netPayCalc = $totalEarning - $totalDeductionCalc;
+    $totalDeduction = number_format(floatval($totalDeductionCalc),2,".","");
+    $netPayCalc = $totalEarning - floatval($totalDeductionCalc);
 
     $netPay = number_format($netPayCalc,2,".","");
 
@@ -538,8 +558,8 @@ $totalDeductionCalc='';
  //define session value to be used in phpfunctions/pdf/payslipPDF.php
     $_SESSION['nasionalityCheck'] = $nasionalityCheck;
     $_SESSION['address'] = $organization->address.",".$organization->city.",".$organization->region.",".$organization->country.", ".$organization->postbox;
-   $_SESSION['monthText'] = $monthText;
-   $_SESSION['monthvalue'] = $monthvalue;
+    $_SESSION['monthText'] = $monthText;
+    $_SESSION['monthvalue'] = $monthvalue;
 
     $_SESSION['staffName'] = $staffName;
     $_SESSION['staffId'] = $staffId;
@@ -621,7 +641,7 @@ $totalDeductionCalc='';
     }
 
 	
-    $slip=$console."<div class='p-3' style='border: 4px double black;width:100%;'>";
+    $slip=$console."<div class='p-2' style='border: 4px double black;width:100%;'>";
     $slip.="";
 //     <div class="row pt-3 pr-3 pl-3">
 //   <div class="p-3" style="border:1px solid black;width:70%">
@@ -632,7 +652,7 @@ $totalDeductionCalc='';
 //         <center><h2 style="font-size:20px;"><b>CONFIDENTIAL</b></h2></center>
 //     </div>
 // </div>
-    $slip.='<div class="row pt-3 pr-3 pl-3"><div class="p-3" style="border: 1px solid black; width: 70%; overflow: hidden; text-align: center;">
+    $slip.='<div class="row pt-3 pr-3 pl-3"><div class="p-2" style="border: 1px solid black; width: 70%; overflow: hidden; text-align: center;">
     <h3 style="margin-bottom: 10px;"><b>SALARY SLIP</b></h3>
       <div style="text-align: center;">
             <h7><b>'.$monthText.' '.$year.'</b></h7>
@@ -646,12 +666,12 @@ $totalDeductionCalc='';
         
         <div style="clear: both;"></div>
         <div style="float: left; text-align: left; width: 40%; margin-top:10px">
-            <p style="font-size: 10px; margin: 0;">'.$address.'</p>
+            <p style="font-size: 12px; margin: 0;">'.$address.'</p>
         </div>
     </div>
     
 </div>
-<div class="p-3" style="background:#00B5B8;color:#fff;border:1px solid black;width:30%;border-left:0px;">
+<div class="p-2" style="background:#00B5B8;color:#fff;border:1px solid black;width:30%;border-left:0px;">
             <center><h2 style="font-size:20px;"><b>CONFIDENTIAL</b></h2></center>
         </div>
         </div>
@@ -662,18 +682,20 @@ $totalDeductionCalc='';
 
 
 <div class="row pb-0 pr-3 pl-3">
-    <div class="p-3" style="border:1px solid black;border-top:0px;width:50%">
+    <div class="p-2" style="border:1px solid black;border-top:0px;width:50%">
         <p style="margin-bottom:2px" >Name: '.$staffName.'</p>
         <p style="margin-bottom:2px" >Employee ID: '. $employeeId .'</p>
         <p style="margin-bottom:2px">Tax ID: '.$taxId.'</p>
         <p style="margin-bottom:2px">Nationality: '.$nasionality.'</p>
     </div>
 
-    <div class="p-3" style="border:1px solid black;border-top:0px;width:50%;border-left:0px;">';
+    <div class="p-2" style="border:1px solid black;border-top:0px;width:50%;border-left:0px;">';
         if(isset($designation)&&!empty($designation)){$slip.='<p>Designation: '.$designation.'</p>';}
 		if(isset($department)&&!empty($department)){$slip.='<p>Department: '.$department.'</p>';}
 	//	$slip.='<p>Salary For Month: '.$salaryMonth.'</p>';
-		$slip.='<p>Salary Month: RM '.$this->payroll->pointNumber($totalEarning).'</p>';
+		// $slip.='<p>Salary Month: RM '.$this->payroll->pointNumber($totalEarning).'</p>';
+        $slip.='<p>Salary Month: '.$monthText.' '.$year.'</p>';
+        
     $slip.='</div>
 
 </div>
@@ -688,7 +710,7 @@ $totalDeductionCalc='';
 </div>
 
     <div class="row pb-0 pr-3 pl-3">
-        <div class="p-1" style="border:1px solid black;border-top:0px;width:50%">
+        <div class="p-2" style="border:1px solid black;border-top:0px;width:50%">
         <p>Basic Salary</p>
         <p>EPF(%)</p>
         <p>SOCSO</p>
@@ -755,7 +777,7 @@ $totalDeductionCalc='';
     </div>
 
     <div class="row pb-0 pr-3 pl-3">
-        <div class="p-3" style="border:1px solid black;border-top:0px;width:50%">
+        <div class="p-2" style="border:1px solid black;border-top:0px;width:50%">
             <p>Salary Slip Date: '.$datePayment.'</p>
             <p>Bank Name: '.$bankName.'</p>
             <p>Bank Account Name: '.$staffName.'</p>
@@ -846,6 +868,13 @@ if(empty($check)){
       mkdir($payslipDirectory,0755,TRUE);
     } 
 }
+
+$orgId = $_SESSION['loggedin'];
+$organization =$this->payroll->getOrganizationDetails($orgId);
+$org_name = $organization->cname;
+$address = $organization->address." ".$organization->city." ".$organization->region."<br>".$organization->country." ".$organization->postbox;
+
+
 $payslipPDF=$this->payroll->generatePayslipPDF();
 $payslipName = "P".rand(1000000,9999999).".pdf";
 		$payslipPDF->output($payslipDirectory."/".$payslipName,'F');
@@ -855,6 +884,8 @@ $payslipName = "P".rand(1000000,9999999).".pdf";
          $mailtotitle="";
 		 $subject="payslip";
 		 $message="Hii $staffName This is Your  $monthText $year payslip";
+         $message .= "<br><br><br>".$org_name."<br>";
+         $message .= $address;
 		 $attachmenttrue="true";
 		 $attachment=$payslipDirectory."/".$payslipName;
         $this->load->library('ultimatemailer');
@@ -880,7 +911,7 @@ if(!$feedback){
 					
 					else{
 				$data['status'] = 'success';
-                    $data['message'] = $this->lang->line('Pay slip for')." ".$employee_details['name']."".$this->lang->line('Created');
+                    $data['message'] = $this->lang->line('Pay slip for')." ".$employee_details['name']." ".$this->lang->line('Created');
 }
         $_SESSION['status']=$data['status'];
         $_SESSION['message']=$data['message'];
@@ -920,6 +951,13 @@ public function viewpaySlip()
         echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('DELETED')));
         //echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('Error In Delete')));
     }
+
+    public function deletePayroll_settings() {
+        $id = $this->input->post('deleteid');
+        $delete = $this->payroll->deletePayrollSettings($id);
+        echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('DELETED')));
+        //echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('Error In Delete')));
+    }
 	
 	public function paysliplist()
 {
@@ -946,15 +984,15 @@ public function viewpaySlip()
             $row = array();
             $pid = $prd->id;
             //$row[] = dateformat($prd->created_at);
-			$row[]= $no;
-            $row[] = $prd->staffName;
-            $row[] = $prd->salaryMonth;
-            $row[] = $prd->netPay;
-			$row[] = $prd->totalEarning;
-            $row[] = $prd->totalDeduction;
-		    $row[] = $type;
-            $row[] = $prd->monthText;
-			$row[] = $prd->year;
+            $row[] = !empty($no) ? $no : '---';
+            $row[] = !empty($prd->staffName) ? $prd->staffName : '---';
+            $row[] = !empty($prd->salaryMonth) ? $prd->salaryMonth : '---';
+            $row[] = ($prd->totalEarning !== null && $prd->totalEarning !== '') ? $prd->totalEarning : '---';
+            $row[] = ($prd->totalDeduction !== null && $prd->totalDeduction !== '') ? $prd->totalDeduction : '---';
+            $row[] = ($prd->netPay !== null && $prd->netPay !== '') ? $prd->netPay : '---';
+            $row[] = !empty($type) ? $type : '---';
+            $row[] = !empty($prd->monthText) ? $prd->monthText : '---';
+            $row[] = !empty($prd->year) ? $prd->year : '---';
 
            // $row[] = dateformat($prd->receipt_date);
            // $row[] = amountExchange($prd->receipt_amount, 0, $this->aauth->get_user()->loc);
@@ -978,6 +1016,58 @@ public function viewpaySlip()
 	
 }
 
+
+public function settingslist()
+{
+	     //$ttype = $this->input->get('type');
+         $list = $this->payroll->get_settings_datatables();
+         $data = array();
+        // $no = $_POST['start'];
+         $no = $this->input->post('start');
+         $temp='';
+		 $type='';
+        foreach ($list as $prd) {
+			
+			
+            $no++;
+            $row = array();
+            $pid = $prd->id;
+            //$row[] = dateformat($prd->created_at);
+			$row[]= $no;
+            $row[] = $prd->employee_name;
+            $row[] = $prd->basic_salary;
+			$row[] = $prd->epf_percent;
+            $row[] = $prd->epf_employee_percent;
+            $row[] = $prd->sosco_employer_percent ;
+		    $row[] = $prd->sosco_employee_percent;
+            $row[] = $prd->pcb;
+			$row[] = $prd->eis;
+            $row[] = $prd->bank;
+            $row[] = $prd->accountno;
+            $row[] = $prd->country_name;
+            $row[] = $prd->tax_no;
+
+           // $row[] = dateformat($prd->receipt_date);
+           // $row[] = amountExchange($prd->receipt_amount, 0, $this->aauth->get_user()->loc);
+           // $row[] = amountExchange($prd->tax_amount, 0, $this->aauth->get_user()->loc);
+            // $row[] = '<a href="' . base_url("payroll/viewslip?id=$pid&typeid=$typeid") . '" class="btn btn-success btn-sm" title="View" target="_blank"><i class="fa fa-eye"></i></a>&nbsp;
+			// <a href="' . base_url("payroll/downloadpayslip?id=$pid&typeid=$typeid") . '" class="btn btn-info btn-sm"  title="Download"><span class="fa fa-download"></span></a>&nbsp;<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+            //$row[] =$temp;
+            /*
+              $row[] = '<a href="' . base_url() . 'expenses/view?id=' . $pid . '" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span>  ' . $this->lang->line('View') . '</a> <a href="' . base_url() . 'expenses/print_t?id=' . $pid . '" class="btn btn-info btn-sm"  title="Print"><span class="fa fa-print"></span></a>&nbsp; &nbsp;<a  href="#" data-object-id="' . $pid . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+              */
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->payroll->settings_count_all(),
+            "recordsFiltered" => $this->payroll->settings_count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        echo json_encode($output);
+	
+}
 public function viewslip()
 {
 	
@@ -999,6 +1089,7 @@ public function viewslip()
 	}
 		   $filePath ="../".$folder.$fileName; 
 		 
+           
 	 $output= '<iframe src="'.$filePath.'"
                 width="100%"
                 height="100%">
@@ -1233,6 +1324,17 @@ $no = $this->input->post('start');
         $temp='';
 		$type='';
 
+        $salary_total = 0;
+        $allowance_total = 0;
+        $commissions_total = 0;
+        $claims_total = 0;
+        $bonus_total = 0;
+        $ot_total = 0;
+        $epf_total = 0;
+        $socso_total = 0;
+        $pcb_total = 0;
+        $netpay_total = 0;
+
         foreach ($list as $datavalue) {
 
 		
@@ -1248,48 +1350,56 @@ $no = $this->input->post('start');
         if(!empty($this->input->post('salary'))){
 
             $row[]=$datavalue->salaryMonth;
+            $salary_total += $datavalue->salaryMonth;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('allowance'))){
 
              $row[]=$datavalue->allowance;
+             $allowance_total += $datavalue->allowance;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('commissions'))){
 
              $row[]=$datavalue->commissions;
+             $commissions_total += $datavalue->commissions;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('claims'))){
 
              $row[]=$datavalue->claims;
+             $claims_total += $datavalue->claims;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('bonus'))){
 
              $row[]=$datavalue->bonus;
+             $bonus_total += $datavalue->bonus;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('ot'))){
 
             $row[]=$datavalue->ot;
+            $ot_total += $datavalue->ot;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('epf'))){
 
              $row[]=$datavalue->epf;
+             $epf_total += $datavalue->epf;
 		}else{
             $row[]= '---';
         }
         if(!empty($this->input->post('socso'))){
 
             $row[]=$datavalue->socso;
+            $socso_total += $datavalue->socso;
 		}else{
             $row[]= '---';
         }
@@ -1297,6 +1407,7 @@ $no = $this->input->post('start');
         if(!empty($this->input->post('pcb'))){
 
                 $row[]=$datavalue->pcb;
+                $pcb_total += $datavalue->pcb;
 
         }else{
             $row[]= '---';
@@ -1305,6 +1416,7 @@ $no = $this->input->post('start');
         if(!empty($datavalue->netPay)){
 
                 $row[]=$datavalue->netPay;
+                $netpay_total += $datavalue->netPay;
 
         }else{
             $row[]= '---';
@@ -1316,11 +1428,25 @@ $no = $this->input->post('start');
 			
         }
 		
-            $output = array(
-            "draw" => $_POST['draw'],
-            "recordsTotal" => $this->payroll->count_all(),
-            "recordsFiltered" => $this->payroll->count_filtered(),
-            "data" => $data,
+        $c_data['allowance'] = $allowance_total;
+        $c_data['commissions'] = $commissions_total;
+        $c_data['claims'] = $claims_total;
+        $c_data['bonus'] = $bonus_total;
+        $c_data['ot'] = $ot_total;
+        $c_data['epf'] = $epf_total;
+        $c_data['socso'] = $socso_total;
+        $c_data['pcb'] = $pcb_total;
+        $c_data['netpay_total'] = $netpay_total;
+        $c_data['salary_total'] = $salary_total;
+
+        $total_html = $this->load->view('payroll/payroll_report_calculations',$c_data,TRUE);
+
+        $output = array(
+        "draw" => $_POST['draw'],
+        "recordsTotal" => $this->payroll->count_all(),
+        "recordsFiltered" => $this->payroll->count_filtered(),
+        "data" => $data,
+        "total_html" => $total_html
         );	
 echo json_encode($output);		
 				
@@ -1333,6 +1459,16 @@ public function get_selected_employee_details(){
     $data['employee_details'] = $this->employee->employee_details($staff);
     $output['status'] = '200';
     $output['html'] = $this->load->view('payroll/selected_staff_details',$data,TRUE);
+    echo json_encode($output);	
+}
+
+public function get_selected_employee_details_from_settings(){
+
+    $staff = $this->input->post('employee_id', true);
+    $employee_details = $this->employee->employee_details($staff);
+    $output['status'] = '200';
+    $output['bank_name'] = $employee_details['bank_name'];
+    $output['bank_account_number'] = $employee_details['bank_account_number'];
     echo json_encode($output);	
 }
 
@@ -1417,7 +1553,7 @@ public function bulk_payslip_generation(){
 	    //ORGANIZATION DETAILS
     $orgId = $_SESSION['loggedin'];
     $organization =$this->payroll->getOrganizationDetails($orgId);
-    $address = "<p style='font-size:10px;width:196px;position:relative;float: left;margin: 0;'>".$organization->address."<br>".$organization->city."<br>".$organization->region."<br>".$organization->country."<br>".$organization->postbox."</p>";
+    $address = "<p style='font-size:12px;width:196px;position:relative;float: left;margin: 0;'>".$organization->address."<br>".$organization->city."<br>".$organization->region."<br>".$organization->country."<br>".$organization->postbox."</p>";
 
 	
     $payroll = $this->payroll->getSettings($staffId);
@@ -1425,9 +1561,10 @@ public function bulk_payslip_generation(){
     $nasionalityCheck = $payroll->nationality;
 		    if(isset($nasionalityCheck))
 			{
-    if ($nasionalityCheck==1) {
+    if ($nasionalityCheck==134) {
       $nasionality = "Malaysian";
-    }elseif ($nasionalityCheck==2) {
+    // }elseif ($nasionalityCheck==2) {
+    }else {    
       $nasionality = "Foreigner";
     }
 			}
@@ -1472,7 +1609,7 @@ public function bulk_payslip_generation(){
 	if(isset($payroll->nationality))
 	  {
     $totalDeductionCalc='';
-  if ($nasionalityCheck==1) {
+  if ($nasionalityCheck==134) {
       $console = "<script>console.log('nasionality=0')</script>";
       $totalDeductionCalc = $this->payroll->checknum($socsoEmp) + $this->payroll->checknum($pcbCalc)+$this->payroll->checknum($eis)+$this->payroll->checknum($epfEmp)+ $this->payroll->checknum($deduction);
       $epfRight=number_format($epfEmp,2,".","");
@@ -1486,7 +1623,8 @@ public function bulk_payslip_generation(){
       $eisLeft=number_format($eis,2,".","");
 
 
-    }elseif($nasionalityCheck==2){
+    // }elseif($nasionalityCheck==2){
+    }else{
       $console = "<script>console.log('nasionality=1')</script>";
       $totalDeductionCalc = $this->payroll->checknum($pcbCalc) + $this->payroll->checknum($epfEmp)+ $this->payroll->checknum($deduction);
 
@@ -1502,8 +1640,8 @@ public function bulk_payslip_generation(){
     }
 	  }
 	
-    $totalDeduction = number_format($totalDeductionCalc,2,".","");
-    $netPayCalc = $totalEarning - $totalDeductionCalc;
+    $totalDeduction = number_format(floatval($totalDeductionCalc),2,".","");
+    $netPayCalc = $totalEarning - floatval($totalDeductionCalc);
 
     $netPay = number_format($netPayCalc,2,".","");
 
@@ -1690,10 +1828,10 @@ if(!is_dir($payslipDirectory)) //create the folder if it's not exists
      $password = $smtpresult['password'];
      $mailfrom = $smtpresult['sender'];
      $mailfromtilte = $this->config->item('ctitle');
-     if(!empty($mailto))
-     {
-        $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
-     }
+    //  if(!empty($mailto))
+    //  {
+    //     $this->ultimatemailer->load_no_response($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
+    //  }
      
     if(!$feedback){
 
@@ -1765,7 +1903,8 @@ public function ImportPaySlipSave(){
     // }
 
     
-	$employees = $this->payroll->getSettingsEmployee();
+	// $employees = $this->payroll->getSettingsEmployee();
+    $employees = $this->employee->list_employee();
     $employee_ids = array_column($employees,"id");
     $path = "../userfiles/";
     $json = [];
@@ -1800,11 +1939,11 @@ public function ImportPaySlipSave(){
                     // Use the date function to get the month name
                     $monthName = '';
 
-                    if(in_array($val[3],$employee_ids))
+                    if(in_array($val[0],$employee_ids))
                     {
 
-                        if (isset($val[0])) {
-                            $timestamp = mktime(0, 0, 0, $val[0], 1, 2000);
+                        if (isset($val[2])) {
+                            $timestamp = mktime(0, 0, 0, $val[2], 1, 2000);
                             $monthName = date('F', $timestamp);
                             // Rest of your code
                         } else {
@@ -1812,11 +1951,11 @@ public function ImportPaySlipSave(){
                         }
                 
                     $list[] = [
-                        'month' => $val[0],
-                        'year' => $val[1],
-                        'datePayment' => date('Y-m-d',strtotime($val[2])),
-                        'staffId' => $val[3],
-                        'staffName' => $val[4],
+                        'staffId' => $val[0],
+                        'staffName' => $val[1],
+                        'month' => $val[2],
+                        'year' => $val[3],
+                        'datePayment' => date('Y-m-d',strtotime($val[4])),                        
                         'designation' => $val[5],
                         'department' => $val[6],
                         'salaryMonth' => $val[7],
@@ -1824,27 +1963,28 @@ public function ImportPaySlipSave(){
                         'epfPerc' => $val[9],
                         'socso' => $val[10],
                         'pcb' => $val[11],
-                        'allowance' => $val[12],
-                        'claims' => $val[13],
-                        'commissions' => $val[14],
-                        'ot' => $val[15],
-                        'bonus' => $val[16],
-                        'totalEarning' => $val[17],
-                        'totalDeduction' => $val[18],                        
-                        'netpay' => $val[19],
-                        'bankName' => $val[20],
-                        'bankAcc' => $val[21],
+                        'eis' => $val[12],
+                        'allowance' => $val[13],
+                        'claims' => $val[14],
+                        'commissions' => $val[15],
+                        'ot' => $val[16],
+                        'bonus' => $val[17],
+                        'totalEarning' => $val[18],
+                        'totalDeduction' => $val[19],                        
+                        'netPay' => $val[20],
+                        'bankName' => $val[21],
+                        'bankAcc' => $val[22],
                         'monthText' => $monthName,
-                        'employeeId' => $val[3],
+                        'employeeId' => $val[0],
 
                     ];
                     }else{
                         $unregistered_list[] = [
-                            'month' => $val[0],
-                            'year' => $val[1],
-                            'datePayment' => $val[2],
-                            'staffId' => $val[3],
-                            'staffName' => $val[4],
+                            'staffId' => $val[0],
+                            'staffName' => $val[1],
+                            'month' => $val[2],
+                            'year' => $val[3],
+                            'datePayment' => date('Y-m-d',strtotime($val[4])),                          
                             'designation' => $val[5],
                             'department' => $val[6],
                             'salaryMonth' => $val[7],
@@ -1852,16 +1992,17 @@ public function ImportPaySlipSave(){
                             'epfPerc' => $val[9],
                             'socso' => $val[10],
                             'pcb' => $val[11],
-                            'allowance' => $val[12],
-                            'claims' => $val[13],
-                            'commissions' => $val[14],
-                            'ot' => $val[15],
-                            'bonus' => $val[16],
-                            'totalEarning' => $val[17],
-                            'totalDeduction' => $val[18],                        
-                            'netpay' => $val[19],
-                            'bankName' => $val[20],
-                            'bankAcc' => $val[21]
+                            'eis' => $val[12],
+                            'allowance' => $val[13],
+                            'claims' => $val[14],
+                            'commissions' => $val[15],
+                            'ot' => $val[16],
+                            'bonus' => $val[17],
+                            'totalEarning' => $val[18],
+                            'totalDeduction' => $val[19],                        
+                            'netPay' => $val[20],
+                            'bankName' => $val[21],
+                            'bankAcc' => $val[22]
     
                         ];
                     }
@@ -1873,6 +2014,10 @@ public function ImportPaySlipSave(){
         // echo "<pre>"; print_r($unregistered_list); echo "</pre>";
         // exit;
         
+        $orgId = $_SESSION['loggedin'];
+        $organization =$this->payroll->getOrganizationDetails($orgId);
+        $imageurl = base_url('userfiles/company/') . $organization->logo;
+
         if (file_exists($file_name)) {
             unlink($file_name);
         }
@@ -1881,7 +2026,85 @@ public function ImportPaySlipSave(){
             //$result = $this->employee->add_batch($list, $list1);
             //print_r($result);
                         
-            if ($this->db->insert_batch('gtg_payslip',$list)) {
+            //if ($this->db->insert_batch('gtg_payslip',$list)) {
+
+                foreach ($list as $data) {
+                    // Check if the row already exists in the database
+                    $existing_row = $this->db->get_where('gtg_payslip', array(
+                        'staffId' => $data['staffId'],
+                        'month' => $data['month'],
+                        'year' => $data['year']
+                    ))->row();
+                
+                    if ($existing_row) {
+
+                        $n_data = $data;
+                        $n_data['socsoEmp'] = $data['socso'];                        
+                        $n_data['datePayment'] = date('d/m/Y',strtotime($data['datePayment']));
+                        $n_data['epfEmp'] = $data['epf'];
+                        $n_data['epfEmpyr'] = $data['epfPerc'];
+                        $n_data['nasionalityCheck'] = 0;
+                        $n_data['logoimage'] = $imageurl;
+                        $payslipPDF = $this->payroll->generatePayslipPDFNew($n_data);
+
+                        $payslipDirectory="./payslip";
+
+                        $check=$this->db->insert_id();
+                        if(empty($check)){
+                        if(!is_dir($payslipDirectory)) //create the folder if it's not exists
+                         {
+                           mkdir($payslipDirectory,0755,TRUE);
+                         } 
+                        }
+
+                        
+                        $payslipName = "P".rand(1000000,9999999).".pdf";
+                        $payslipPDF->output($payslipDirectory."/".$payslipName,'F');
+  
+
+                        $data['payslip'] = $payslipName;
+
+                        // Row exists, update the existing row
+                        $this->db->where('id', $existing_row->id);
+                        $this->db->update('gtg_payslip', $data);
+
+
+
+                      
+                        
+                    } else {
+                        // Row doesn't exist, insert new row
+                        $n_data = $data;
+                        $n_data['socsoEmp'] = $data['socso'];
+                        $n_data['datePayment'] = date('d/m/Y',strtotime($data['datePayment']));
+                        $n_data['epfEmp'] = $data['epf'];
+                        $n_data['epfEmpyr'] = $data['epfPerc'];
+                        $n_data['nasionalityCheck'] = 0;
+                        $n_data['logoimage'] = $imageurl;
+                        $payslipPDF = $this->payroll->generatePayslipPDFNew($n_data);
+
+                        $payslipDirectory="./payslip";
+
+                        $check=$this->db->insert_id();
+                        if(empty($check)){
+                        if(!is_dir($payslipDirectory)) //create the folder if it's not exists
+                         {
+                           mkdir($payslipDirectory,0755,TRUE);
+                         } 
+                        }
+
+                        
+                        $payslipName = "P".rand(1000000,9999999).".pdf";
+                        $payslipPDF->output($payslipDirectory."/".$payslipName,'F');
+  
+
+                        $data['payslip'] = $payslipName;
+                        $this->db->insert('gtg_payslip', $data);
+
+                        
+                    }
+                }
+
                 if(empty($unregistered_list))
                 {
                     $data['status'] = '200';
@@ -1891,6 +2114,7 @@ public function ImportPaySlipSave(){
                     $unassociatedEmployees = array_column($unregistered_list, 'staffName');
                     $result_message = '';
                     $result_message = 'Employees not associated with the system:';
+                    //$result_message = 'Employees not Registered in Payroll Settings:';
                     $result_message .= '<ul>';
                     foreach ($unassociatedEmployees as $un_employee) {
                         $result_message .= '<li>' . $un_employee . '</li>';
@@ -1934,11 +2158,11 @@ public function ImportPaySlipSave(){
                 }
                 
 
-            } else {
+            // } else {
 
-                $data['status'] = '500';
-                $data['message'] = "The List Not updated Successfully!..";
-            }
+            //     $data['status'] = '500';
+            //     $data['message'] = "The List Not updated Successfully!..";
+            // }
 
         } else {
 
@@ -1985,7 +2209,7 @@ public function verify_payslip(){
     if($result > 0)
     {
         $response['status'] = '500';
-        $response['message'] = 'payslip Already Existed';
+        $response['message'] = 'Payslip Already Exist';
     }else{
         $response['status'] = '200';
         $response['message'] = 'No Payslip Found';
@@ -1997,19 +2221,106 @@ public function verify_payslip(){
 
     public function downloadPaySlipTemplate()
     {
+
+        $employee_list = $this->employee->list_employee_with_payroll_details();
+
+        // echo "<pre>"; print_r($employee_list); echo "</pre>";
+        // exit;
         // Define the server path to the file
+        // $filePath = FCPATH . 'userfiles/company/Payslip-Management-Template.xlsx';
+
+        // // Check if the file exists
+        // if (file_exists($filePath)) {
+        //     // Load the download helper
+        //     $this->load->helper('download');
+
+        //     // Force download the file
+        //     force_download('Payslip-Management-Template.xlsx', file_get_contents($filePath));
+        // } else {
+        //     redirect('payroll/ImportPayslip');
+        // }
+
+        // Load PHPExcel library
+
+        // require 'vendor/autoload.php';
+
+        // use PhpOffice\PhpSpreadsheet\IOFactory;
+
+        // Load the existing Excel file
         $filePath = FCPATH . 'userfiles/company/Payslip-Management-Template.xlsx';
+        $spreadsheet = IOFactory::load($filePath);
 
-        // Check if the file exists
-        if (file_exists($filePath)) {
-            // Load the download helper
-            $this->load->helper('download');
+        // Get the active sheet
+        $sheet = $spreadsheet->getActiveSheet();
 
-            // Force download the file
-            force_download('Payslip-Management-Template.xlsx', file_get_contents($filePath));
-        } else {
-            redirect('payroll/ImportPayslip');
+        $lastDataRow = $sheet->getHighestDataRow();
+
+        // Check if there is existing data (if the last data row is greater than the second row)
+        // if ($lastDataRow > 2) {
+        //     // Clear all rows from the 3rd row onwards up to the last data row
+        //     for ($row = 3; $row <= $lastDataRow; $row++) {
+        //         $sheet->fromArray(['', ''], null, 'A' . $row); // Clear the values in each row
+        //     }
+        // }
+
+        // foreach ($lastDataRow > 2) {
+        //     // Write data to each column in the current row
+        //     for ($row = 3; $row <= $lastDataRow; $row++) {
+        //         $sheet->setCellValueByColumnAndRow($colIndex + 1, $startRow, $value); // Add 1 to $colIndex because columns are 1-based
+        //     }
+            
+        // }
+        for ($row = 3; $row <= $lastDataRow; $row++) {
+            $sheet->setCellValue('A' . $row, ''); // Clear the value of cell A$row
+            $sheet->setCellValue('B' . $row, ''); // Clear the value of cell B$row
         }
+
+        // Example data (replace this with your actual data)
+        // $data = array(
+        //     array('John', 'Doe', 'john@example.com'),
+        //     array('Jane', 'Smith', 'jane@example.com'),
+        //     // Add more rows as needed
+        // );
+
+        if (!empty($employee_list)) { //$i=1;
+            $data = array(); // Initialize the $data array
+            
+            foreach ($employee_list as $emp_list) {
+                // Create a new array for each employee and add it to the $data array
+                //if(!empty(dept))
+                $data[] = array($emp_list['employee_id'], $emp_list['name'],'','','',$emp_list['role_name'],$emp_list['val1'],$emp_list['salary'],$emp_list['epf_employee'],$emp_list['epf_employer'],$emp_list['sosco_employee'],$emp_list['pcb'],$emp_list['eis'],'','','','','','','','',$emp_list['bank_name'],$emp_list['bank_account_number']); // Add more columns as needed
+                // if($i == 3)
+                // {
+                //     break;
+                // }
+                // $i++;
+            }
+            
+        }
+        
+
+        // Start row index for writing data
+        $startRow = 3; // Assuming you want to start writing from the 2nd row
+
+        // Loop through the data and write it to the Excel file
+        foreach ($data as $rowData) {
+            // Write data to each column in the current row
+            foreach ($rowData as $colIndex => $value) {
+                $sheet->setCellValueByColumnAndRow($colIndex + 1, $startRow, $value); // Add 1 to $colIndex because columns are 1-based
+            }
+            $startRow++; // Move to the next row
+        }
+
+        // Save the modified Excel file
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePath);
+
+        // Force download the updated file
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+
     }
 
     public function payroll_report_new(){

@@ -36,8 +36,12 @@ function selectContractCustomer(cid, cname, cadd1, cadd2, ph, email, discount = 
 
   
     $('#contract_customer_id').val(cid);
-    $("#customer-box-contract").val(cname);
+    $("#customer-box-contract").val(company);
     $("#customer-box-contract").val();
+
+    
+    $("#person_in_charge").val(cname);
+    $("#person_in_charge").val();
 
     $("#customer-box-contract-email").val(email);
     $("#customer-box-contract-email").val();
@@ -387,6 +391,23 @@ if (userfileElement) {
     if (allowedExtensions.indexOf(selectedExtension) === -1) {
       event.target.value = ""; // Clear the file input
       alert("Invalid file format. Please select a file with one of the allowed extensions: docx, doc, txt, pdf, xls, png, jpg, gif");
+    }
+  });
+}
+
+
+
+var userfileElement = document.getElementById("ds_doc_userfile");
+
+if (userfileElement) {
+  userfileElement.addEventListener("change", function(event) {
+    var allowedExtensions = ["pdf"];
+    var selectedFile = event.target.files[0];
+    var selectedExtension = selectedFile.name.split('.').pop().toLowerCase();
+  
+    if (allowedExtensions.indexOf(selectedExtension) === -1) {
+      event.target.value = ""; // Clear the file input
+      alert("Invalid file format. Please select a pdf file");
     }
   });
 }
@@ -1131,7 +1152,7 @@ function searchCS(actionurl) {
                     $('#customer_address1').html('<strong>' + $('#mcustomer_address1').val() + '<br>' + $('#mcustomer_city').val() + ',' + $('#mcustomer_country').val() + '</strong>');
                     $('#customer_phone').html('Phone: <strong>' + $('#mcustomer_phone').val() + '</strong><br>Email: <strong>' + $('#mcustomer_email').val() + '</strong>');
                     $('#customer_pass').html('Login Password ' + data.pass);
-                     $('#custom_discount').val(data.discount);
+                    $('#custom_discount').val(data.discount);
                     $("#customer-box").val();
                     $("#customer-box-result").hide();
                     $("#customer").show();

@@ -102,7 +102,10 @@ async function exportAndUploadPDF() {
 		})
 		.then(data => {
 			//console.log('Server response:', data); // Log the response for debugging
-			alert(data.message); // Display entire response data
+			//alert(data.message); // Display entire response data
+      swal(data.Message, {
+        icon: "success",
+      });
 			location.reload();
 			window.close();
 		})

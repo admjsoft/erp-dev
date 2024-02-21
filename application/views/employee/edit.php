@@ -91,6 +91,7 @@
                 </div>
                 <?php echo form_open_multipart('employee/user_signature_upload', array('id' => 'myThreadForm')); ?>
                 <input type="hidden" id="signature_image" name="signature_image" value="">
+                <input type="hidden" id="redirect_url" name="redirect_url" value="<?php echo 'employee/update?id='.$eid; ?>">
                 <input type="hidden" id="id" name="id" value="<?php echo $eid; ?>">
                 </form>
             </div>
@@ -104,11 +105,20 @@
                 <form method="post" id="product_action" class="form-horizontal">
                     <div class="grid_3 grid_4">
 
-                        <h5><?php echo $this->lang->line('Update Your Details') ?> (<?php echo $user['username'] ?>
-                            )</h5>
-                        <hr>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5><?php echo $this->lang->line('Update Your Details') ?> (<?php echo $user['username'] ?>)</h5>
+                            </div>
+                            <div class="col-md-6 text-md-right">
+                                <a href="<?php echo base_url('employee'); ?>">
+                                    <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?></button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-
+                       <hr>
                         <div class="form-group row">
 
                             <label class="col-sm-2 col-form-label"
@@ -120,6 +130,35 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label"
+                            for="phone"><?php echo $this->lang->line('IC Number') ?></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" placeholder="<?php echo $this->lang->line('IC Number') ?>" class="form-control margin-bottom"
+                                name="ic_number" value="<?php echo $user['ic_number'] ?>">
+                        </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Employee Type') ?>
+                            </label>
+
+                            <div class="col-sm-10">
+                                <span class="role_error"></span>
+
+                                <select name="employee_type" id="employee_type" class="form-control margin-bottom">
+                                    <option value="">--<?php echo $this->lang->line('Employee Type') ?>--</option>
+                                    
+                                    <option value="" <?php if($user['employee_type'] == ''){ echo "selected"; } ?>>
+                                        Domestic</option>
+                                    <option value="foreign" <?php if($user['employee_type'] == 'foreign'){ echo "selected"; } ?>>Foreign
+                                    </option>
+
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
 
@@ -197,7 +236,7 @@
 
                             <div class="col-sm-10">
                                 <input type="text" placeholder="email" class="form-control margin-bottom" name="email"
-                                    value="<?php echo $user['email'] ?>" disabled>
+                                    value="<?php echo $user['email'] ?>" >
                             </div>
                         </div>
                         <div class="form-group row">
@@ -378,6 +417,28 @@
                             </div>
 
 
+                        </div>
+
+                        <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label"
+                            for="phone"><?php echo $this->lang->line('Bank Name') ?></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" placeholder="<?php echo $this->lang->line('Bank Name') ?>" class="form-control margin-bottom"
+                                name="bank_name" value="<?php echo $user['bank_name'] ?>">
+                        </div>
+                        </div>
+
+                        <div class="form-group row">
+
+                        <label class="col-sm-2 col-form-label"
+                            for="phone"><?php echo $this->lang->line('Bank Account Number') ?></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" placeholder="<?php echo $this->lang->line('Bank Account Number') ?>" class="form-control margin-bottom"
+                                name="bank_account_number" value="<?php echo $user['bank_account_number'] ?>">
+                        </div>
                         </div>
                         <input type="hidden" name="eid" value="<?php echo $user['id'] ?>">
 

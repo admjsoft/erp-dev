@@ -1,20 +1,5 @@
 <?php
-/**
- * Geo POS -  Accounting,  Invoicing  and CRM Software
- * Copyright (c) Rajesh Dukiya. All Rights Reserved
- * ***********************************************************************
- *
- *  Email: support@ultimatekode.com
- *  Website: https://www.ultimatekode.com
- *
- *  ************************************************************************
- *  * This software is furnished under a license and may be used and copied
- *  * only  in  accordance  with  the  terms  of such  license and with the
- *  * inclusion of the above copyright notice.
- *  * If you Purchased from Codecanyon, Please read the full License from
- *  * here- http://codecanyon.net/licenses/standard/
- * ***********************************************************************
- */
+
 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 use PHPMailer\PHPMailer\PHPMailer;
@@ -31,11 +16,9 @@ class Ultimatemailer
 
     function load($host, $port, $auth,$auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotilte, $subject, $message, $attachmenttrue, $attachment)
     {
-
-      //  include_once APPPATH . '/libraries/PHPMailer/vendor/autoload.php';
         include_once APPPATH . '/libraries/PHPMailer/vendor/autoload.php';
         //Create a new PHPMailer instance
-        $mail = new PHPMailer(true);
+        $mail = new PHPMailer;
         $mail->CharSet = "UTF-8";
 
         $mail->isSMTP();
@@ -78,10 +61,73 @@ class Ultimatemailer
 
 //send the message, check for errors
         if (!$mail->send()) {
-            echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+              //  commented for mdec meeting
+           // echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+           return json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
         } else {
-           echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
-           return json_encode(array('status' => 'success', 'message' => 'Email Sent Successfully!'));
+                //  commented for mdec meeting
+            echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+            return json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+        }
+
+
+    }
+
+
+    function load_no_response($host, $port, $auth,$auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotilte, $subject, $message, $attachmenttrue, $attachment)
+    {
+        include_once APPPATH . '/libraries/PHPMailer/vendor/autoload.php';
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        $mail->CharSet = "UTF-8";
+
+        $mail->isSMTP();
+//Enable SMTP debugging
+// 0 = off (for production use)
+// 1 = client messages
+// 2 = client and server messages
+        $mail->SMTPDebug = 0;
+//Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+
+        $mail->Host = $host;
+
+        $mail->Port = $port;
+
+        $mail->SMTPAuth = $auth;
+
+        if($auth_type!='none') { $mail->SMTPSecure = $auth_type; }
+
+        $mail->Username = $username;
+//Password to use for SMTP authentication
+        $mail->Password = $password;
+//Set who the message is to be sent from
+        $mail->setFrom($mailfrom, $mailfromtilte);
+//Set an alternative reply-to address
+//$mail->addReplyTo('replyto@example.com', 'First Last');
+//Set who the message is to be sent to
+        $mail->addAddress($mailto, $mailtotilte);
+//Set the subject line
+        $mail->Subject = $subject;
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+        $mail->msgHTML($message);
+//Replace the plain text body with one created manually
+        $mail->AltBody = 'This is a html email';
+//Attach an image file
+        if ($attachmenttrue == true) {
+            $mail->addAttachment($attachment);
+        }
+
+//send the message, check for errors
+        if (!$mail->send()) {
+              //  commented for mdec meeting
+           // echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+           return json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
+        } else {
+                //  commented for mdec meeting
+            //echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+            return json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
         }
 
 
@@ -141,12 +187,13 @@ class Ultimatemailer
 
     }
 
-    function group_load($host, $port, $auth,$auth_type, $username, $password, $mailfrom, $mailfromtilte, $recipients, $subject, $message, $attachmenttrue, $attachment)
+    function group_load($host, $port, $auth,$auth_type, $username, $password, $mailfrom, $mailfromtilte, $recipients, $subject, $message, $attachmenttrue, $attachment,$flag=true)
     {
         include_once APPPATH . '/libraries/PHPMailer/vendor/autoload.php';
 
         $mail = new PHPMailer;
         $mail->CharSet = "UTF-8";
+        $id=true;
 
         $mail->isSMTP();
 //Enable SMTP debugging
@@ -174,6 +221,8 @@ class Ultimatemailer
         foreach ($recipients as $row) {
 
             $mail->AddCC($row['email'], $row['name']);
+            $id=$row['id'];
+
         }
 
         $mail->Subject = $subject;
@@ -187,10 +236,13 @@ class Ultimatemailer
         }
 
 
-        if (!$mail->send()) {
+        if (!$mail->send() AND $flag ) {
             echo json_encode(array('status' => 'Error', 'message' => $mail->ErrorInfo));
-        } else {
+        } else if($flag) {
             echo json_encode(array('status' => 'Success', 'message' => 'Email Sent Successfully!'));
+        } else {
+           return $id;
+
         }
 
 

@@ -25,7 +25,7 @@ class Settings_model extends CI_Model
         return $query->result_array()[0]['email'];
     }
 
-    public function update_company($id, $name, $phone, $email, $address, $city, $region, $country, $postbox, $taxid, $data_share, $foundation)
+    public function update_company($id, $name, $phone, $email, $address, $city, $region, $country, $postbox, $taxid, $data_share, $foundation, $android_app_link, $version)
     {
         $data = array(
             'cname' => $name,
@@ -37,7 +37,9 @@ class Settings_model extends CI_Model
             'country' => $country,
             'postbox' => $postbox,
             'taxid' => $taxid,
-            'foundation' => $foundation
+            'foundation' => $foundation,
+            'android_app_link' => $android_app_link,
+            'version' => $version
         );
         $this->db->set($data);
         $this->db->where('id', $id);

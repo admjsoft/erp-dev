@@ -394,4 +394,53 @@ class Contract extends CI_Controller
         echo json_encode($response);
 
     }
+
+    function employee_share()
+    {
+        $cid = $this->input->post('employee_id');
+        $ds_id = $this->input->post('c_ds_id');
+        //$ds_details = $this->db->get('gtg_digital_signatures')->where('id',$ds_id)->get()->result_array();
+        $ds_signings = $this->db->select('*')->from('gtg_contract_signings')->where('contract_id',$ds_id)->limit(1)->order_by('id','DESC')->get()->result_array();
+        
+        $data = array('title' => $ds_signings[0]['file_name'], 'filename' => $ds_signings[0]['file_path'], 'cdate' => date('Y-m-d'), 'cid' => $cid, 'fid' => $cid, 'rid' => 0, 'emp_doc' => 1);
+        if($this->db->insert('gtg_documents', $data))
+        {
+            $response['status'] = 200;
+            $response['message'] = "Contract Document Shared Successfully";
+            $this->session->set_flashdata('SuccessMsg', 'Contract Document Shared Successfully!..');
+         
+        }else{
+            $response['status'] = 500;
+            $response['message'] = "Contract Document Sharing Failed";
+            $this->session->set_flashdata('SuccessMsg', 'Contract Document Sharing Failed!..');
+
+        }
+        redirect('contract');
+    }
+
+    function customer_share()
+    {
+        // echo "<pre>"; print_r($_POST); echo "</pre>";
+        // exit;
+        $cid = $this->input->post('customer_id');
+        $ds_id = $this->input->post('cc_ds_id');
+        //$ds_details = $this->db->get('gtg_digital_signatures')->where('id',$ds_id)->get()->result_array();
+        $ds_signings = $this->db->select('*')->from('gtg_contract_signings ')->where('contract_id',$ds_id)->limit(1)->order_by('id','DESC')->get()->result_array();
+        
+        $data = array('title' => $ds_signings[0]['file_name'], 'filename' => $ds_signings[0]['file_path'], 'cdate' => date('Y-m-d'), 'cid' => $cid, 'fid' => $cid, 'rid' => 1, 'emp_doc' => 0);
+        if($this->db->insert('gtg_documents', $data))
+        {
+            $response['status'] = 200;
+            $response['message'] = "Contract Document Shared Successfully";
+            $this->session->set_flashdata('SuccessMsg', 'Contract Document Shared Successfully!..');
+         
+        }else{
+            $response['status'] = 500;
+            $response['message'] = "Contract Document Sharing Failed";
+            $this->session->set_flashdata('SuccessMsg', 'Contract Document Sharing Failed!..');
+
+        }
+        redirect('contract');
+    }
+
 }

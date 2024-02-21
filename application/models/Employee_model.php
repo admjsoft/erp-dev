@@ -40,7 +40,8 @@ class Employee_model extends CI_Model
         }
         $this->db->where('gtg_employees.delete_status', 0);
         //$this->db->where('gtg_employees.employee_type!=', "foreign");
-        $this->db->order_by('gtg_users.roleid', 'DESC');
+        // $this->db->order_by('gtg_users.roleid', 'DESC');
+        $this->db->order_by('gtg_employees.id', 'DESC');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -154,7 +155,7 @@ class Employee_model extends CI_Model
         return $query->result_array();
     }
 
-    public function update_employee($id, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary = 0, $department = -1, $commission = 0, $roleid = false, $gender, $kwsp_number, $socso_number, $pcb_number, $join_date, $employee_job_type)
+    public function update_employee($id, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary = 0, $department = -1, $commission = 0, $roleid = false, $gender, $kwsp_number, $socso_number, $pcb_number, $join_date, $employee_job_type, $ic_number, $bank_name, $bank_account_number, $employee_type, $email)
     {
         $this->db->select('salary');
         $this->db->from('gtg_employees');
@@ -179,8 +180,18 @@ class Employee_model extends CI_Model
             'salary' => $salary,
             'c_rate' => $commission,
             'join_date' => $join_date,            
-            'employee_job_type' => $employee_job_type
+            'employee_job_type' => $employee_job_type,
+            'ic_number' => $ic_number,            
+            'bank_name' => $bank_name,
+            'bank_account_number' => $bank_account_number,
+            'employee_type' => $employee_type,
+            'email' => $email
+
         );
+
+        
+        // echo "<pre>";  print_r($data); echo "</pre>";
+        // exit;
 
         if(!empty($gender)) { $data['gender'] = $gender; }
         if(!empty($socso_number)) { $data['socso_number'] = $socso_number; }
@@ -202,7 +213,12 @@ class Employee_model extends CI_Model
                 'dept' => $department,
                 'c_rate' => $commission,
                 'join_date' => $join_date,
-                'employee_job_type' => $employee_job_type
+                'employee_job_type' => $employee_job_type,    
+                'ic_number' => $ic_number,   
+                'bank_name' => $bank_name,
+                'bank_account_number' => $bank_account_number,
+                'employee_type' => $employee_type,
+                'email' => $email
             );
 
             if(!empty($gender)) { $data['gender'] = $gender; }
@@ -220,6 +236,7 @@ class Employee_model extends CI_Model
                 if ($roleid && $role['roleid'] != 5) {
                     $this->db->set('loc', $location);
                     $this->db->set('roleid', $roleid);
+                    $this->db->set('email', $email);
                     $this->db->where('id', $id);
                     $this->db->update('gtg_users');
                 }
@@ -445,7 +462,7 @@ class Employee_model extends CI_Model
         $this->db->where('eid', $this->eid);
         return $this->db->count_all_results();
     }
-    public function add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $user_role, $join_date, $employee_job_type)
+    public function add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $user_role, $join_date, $employee_job_type, $ic_number, $bank_name, $bank_account_number)
     {
         $data = array(
             'id' => $d_user_id,
@@ -461,7 +478,10 @@ class Employee_model extends CI_Model
             'degis' => $user_role,
             'c_rate' => $commission,
             'joindate' => $join_date,
-            'employee_job_type' => $employee_job_type
+            'employee_job_type' => $employee_job_type,
+            'ic_number' => $ic_number,
+            'bank_name' => $bank_name,
+            'bank_account_number' => $bank_account_number
         );
 
         if ($this->db->insert('gtg_employees', $data)) {
@@ -475,7 +495,7 @@ class Employee_model extends CI_Model
     }
 
     public function add_employee($id, $username, $name, $roleid, $phone, $address, $city, $region,
-        $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $email, $password, $user_role,$gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type) {
+        $country, $postbox, $location, $salary = 0, $commission = 0, $department = 0, $email, $password, $user_role,$gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type, $ic_number, $bank_name, $bank_account_number) {
         $data = array(
             'id' => $id,
             'username' => $username,
@@ -495,7 +515,10 @@ class Employee_model extends CI_Model
             'pcb_number' => $pcb_number,
             'c_rate' => $commission,
             'joindate' => $join_date,
-            'employee_job_type' => $employee_job_type
+            'employee_job_type' => $employee_job_type,
+            'ic_number' => $ic_number,
+            'bank_name' => $bank_name,
+            'bank_account_number' => $bank_account_number
         );
 
         
@@ -1242,7 +1265,7 @@ class Employee_model extends CI_Model
     public function addInternational_new($d_user_id,
         $emp_name, $roleid, $passport, $permit,
         $country, $company, $type, $passport_expiry, $permit_expiry,
-        $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $emp_job_type) {
+        $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $emp_job_type, $bank_name, $bank_account_number) {
 
         $data = array(
             'id' => $d_user_id,
@@ -1262,7 +1285,9 @@ class Employee_model extends CI_Model
             'kwsp_number' => $kwsp_number,
             'pcb_number' => $pcb_number,
             'join_date' => $join_date,
-            'employee_job_type' => $emp_job_type
+            'employee_job_type' => $emp_job_type,
+            'bank_name' => $bank_name,
+            'bank_account_number' => $bank_account_number
 
         );
 
@@ -1283,7 +1308,7 @@ class Employee_model extends CI_Model
     }
 
     public function addInternational($id, $username, $emp_name, $email, $roleid, $passport, $permit,
-        $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $emp_job_type) {
+        $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $emp_job_type, $bank_name, $bank_account_number) {
         $data = array(
             'id' => $id,
             'username' => $emp_name,
@@ -1304,7 +1329,10 @@ class Employee_model extends CI_Model
             'kwsp_number' => $kwsp_number,
             'pcb_number' => $pcb_number,
             'join_date' => $join_date,
-            'employee_job_type' => $emp_job_type
+            'employee_job_type' => $emp_job_type,            
+            'bank_name' => $bank_name,
+            'bank_account_number' => $bank_account_number
+
 
         );
 
@@ -1321,7 +1349,7 @@ class Employee_model extends CI_Model
 
     }
 
-    public function updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type)
+    public function updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type, $bank_name, $bank_account_number, $employee_type)
     {
         $type = "foreign";
         $data = array(
@@ -1340,7 +1368,10 @@ class Employee_model extends CI_Model
             'kwsp_number' => $kwsp_number,
             'pcb_number' => $pcb_number,
             'join_date' => $join_date,            
-            'employee_job_type' => $employee_job_type
+            'employee_job_type' => $employee_job_type,
+            'bank_name' => $bank_name,
+            'bank_account_number' => $bank_account_number,
+            'employee_type' => $employee_type
         );
 
         if(!empty($passport_filename))
@@ -2323,5 +2354,18 @@ class Employee_model extends CI_Model
         
     }
 
+    public function list_employee_with_payroll_details()
+    {
+        $this->db->select('gtg_employees.*,gtg_payroll_settings.*,gtg_hrm.*,gtg_role.role_name,gtg_employees.id as employee_id');
+        $this->db->from('gtg_employees');
+        $this->db->join('gtg_role', 'gtg_role.id = gtg_employees.degis', 'left');
+        $this->db->join('gtg_payroll_settings', 'gtg_employees.id = gtg_payroll_settings.staff_id', 'left');
+        $this->db->join('gtg_users', 'gtg_employees.id = gtg_users.id', 'left');
+        $this->db->join('gtg_hrm', 'gtg_employees.dept = gtg_hrm.id', 'left');
+        $this->db->where('gtg_employees.delete_status', 0);
+        $this->db->order_by('gtg_employees.id', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     // SELECT `gtg_attendance`.*, `gtg_employees`.`name`, `gtg_countries`.`country_name`, `gtg_hrm`.`val1` as `department_name` FROM `gtg_attendance` LEFT JOIN `gtg_employees` ON `gtg_employees`.`id` = `gtg_attendance`.`emp` LEFT JOIN `gtg_countries` ON `gtg_countries`.`id` = `gtg_employees`.`country` LEFT JOIN `gtg_hrm` ON `gtg_employees`.`dept` = `gtg_hrm`.`id` WHERE `gtg_attendance`.`emp` IN('3') AND `gtg_attendance`.`adate` >= '2024-01-24' AND `gtg_attendance`.`adate` <= '2024-01-30' ORDER BY CAST(gtg_attendance.adate AS DATE) DESC; 
 }

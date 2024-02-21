@@ -34,29 +34,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $i = 1;
-                    foreach ($time_list as $row) {
-                        $aid = $row['id'];
-                        $time = $row['btime'];
-                        $name = $row['name'];
-                        echo "<tr>
-                    <td>" . $i . "</td>
-                    <td>" .  $name . "</td>
-                    <td>" .  $time . "</td>
-                    <td><a href='#' data-object-id='$aid' data-object-name='$name' data-object-time='$time'  class='btn btn-blue  btn-sm editbreak'><i class='fa fa-pencil'></i> " . $this->lang->line('Edit') . "</a> </td></tr>";
-                    //<a href='#' data-object-id='$aid' class='btn btn-danger btn-sm delete-object  btn-sm'><span class='fa fa-trash'></span></a>
-                        $i++;
-                    }
-                    ?>
+                        <?php  
+                            $edit_option = false;   
+                          if (!$this->aauth->premission(209)) { 
+                            $edit_option = true;
+                            }
+                        $i = 1; if($time_list) { foreach ($time_list as $row) { ?>
+                            <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row['btime']; ?></td>
+                            <td><?php echo $row['name']; ?></td>
+                            <td><?php if($edit_option) { ?><a href='#' data-object-id='<?php echo $row['id']; ?>' data-object-name='<?php echo $row['name']; ?>' data-object-time='<?php echo $row['name']; ?>'  class='btn btn-blue  btn-sm editbreak'><i class='fa fa-pencil'></i><?php echo $this->lang->line('Edit'); ?></a><?php } ?></td>
+                        </tr>
+                        <?php }}?>    
+                        
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th><?php echo $this->lang->line('Name') ?></th>
-                        <th><?php echo $this->lang->line('Time') ?></th>
-                        <th><?php echo $this->lang->line('Actions') ?></th>
-                    </tr>
-                    </tfoot>
+                    
                 </table>
             </div>
         </div>

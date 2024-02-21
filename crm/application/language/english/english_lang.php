@@ -1744,6 +1744,7 @@ $lang['Product Code'] = "Product Code";
 $lang['Ship To'] = "Ship To";
 $lang['From Supplier'] = "From Supplier";
 $lang['Expiry Based Product Code'] = "Expiry Based Product Code";
+$lang['Fwms Report'] = "Fwms Report";
 
 
 

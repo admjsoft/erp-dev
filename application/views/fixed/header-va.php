@@ -2,13 +2,12 @@
 $this->db->select('*');
 $this->db->from('gtg_referral');
 $this->db->where('status', 2);
-
 $query = $this->db->get();
-
 $result = $query->num_rows();
 
-// echo $c_module;
-// exit;
+
+$organization = $this->aauth->getOrganizationDetails();
+$resultSet = $this->aauth->get_role_based_sidebar();
 
 ?>
 <link rel="stylesheet" type="text/css"
@@ -746,7 +745,7 @@ if ($this->aauth->auto_attend()) {?>
                                     <?php echo $this->lang->line('Logout') ?></a>
                                 <?php } else {?>
                                 <a class="dropdown-item" href="<?php echo base_url('user/logout'); ?>"><i
-                                        class="ft-power"></i> <?php echo $this->lang->line('Logout') ?></a>
+                                        class="ft-power"></i> <?php echo $this->lang->line('Logout') ?> [<?php echo $organization->version; ?>]</a>
                                 <?php }?>
 
                             </div>
@@ -2225,7 +2224,7 @@ if ($this->aauth->subscribe(38)) {
 
 // $this->load->model('Modules_Model');
 // $resultSet = $this->Modules_model->get_role_based_sidebar();
-$resultSet = $this->aauth->get_role_based_sidebar();
+// $resultSet = $this->aauth->get_role_based_sidebar();
 // Function to generate the sidebar recursively
 // function generateSidebar($items, $parentId = null, $firstItem = true)
 // {
@@ -2273,6 +2272,9 @@ $resultSet = $this->aauth->get_role_based_sidebar();
 // generateSidebar($resultSet);
 
 // Function to generate the sidebar recursively
+
+
+
 function generateSidebar($items, $parentId = null, $firstItem = true,$c_module,$lang)
 {
     foreach ($items as $item) {
@@ -2344,6 +2346,11 @@ generateSidebar($resultSet,'','',$c_module,$this->lang);
     <i class="icon-key"></i><span><?=$this->lang->line('Knowledge Base')?></span></a>
 </li>
 
+<?php if(!empty($organization->android_app_link)) { ?>
+    <li class="nav-item "><a target="_blank" href="<?php echo $organization->android_app_link; ?>">
+    <i class="fa fa-android"></i><span><?=$this->lang->line('Android App')?></span></a>
+</li>
+<?php } ?>
             </ul>
 
 

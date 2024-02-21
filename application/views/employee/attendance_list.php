@@ -2,9 +2,12 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Attendance') ?> <a href="<?php echo base_url('employee/attendance') ?>"
-                                                                 class="btn btn-primary btn-sm rounded ml-2">
-                    <?php echo $this->lang->line('Add new') ?></a></h5>
+            <h5><?php echo $this->lang->line('Attendance') ?> 
+            <?php  if (!$this->aauth->premission(208)) { ?>
+            <a href="<?php echo base_url('employee/attendance') ?>" class="btn btn-primary btn-sm rounded ml-2">
+            <?php echo $this->lang->line('Add new') ?></a>
+            <?php } ?>
+            </h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">

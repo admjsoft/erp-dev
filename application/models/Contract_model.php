@@ -56,18 +56,45 @@ class Contract_model extends CI_Model
     // ");
     
 
+    // $query = $this->db->query("SELECT
+    // gc.*,
+    // COUNT(gcs.id) AS signings_count
+    // FROM
+    //     gtg_contract gc
+    // LEFT JOIN
+    //     gtg_contract_signings gcs ON gc.id = CAST(gcs.contract_id AS SIGNED)
+    // GROUP BY
+    //     gc.id
+    // ORDER BY
+    // gc.cr_date DESC;");
+
     $query = $this->db->query("SELECT
-    gc.*,
-    COUNT(gcs.id) AS signings_count
-FROM
-    gtg_contract gc
-LEFT JOIN
-    gtg_contract_signings gcs ON gc.id = CAST(gcs.contract_id AS SIGNED)
-GROUP BY
-    gc.id");
+                                gc.*,
+                                gcs.file_path AS latest_file_path,
+                                COUNT(gcs.id) AS signings_count
+                            FROM
+                                gtg_contract gc
+                            LEFT JOIN (
+                                SELECT
+                                    contract_id,
+                                    file_path,
+                                    id
+                                FROM
+                                    gtg_contract_signings
+                                WHERE
+                                    contract_id IS NOT NULL
+                                ORDER BY
+                                    signed_date DESC
+                                LIMIT 1
+                            ) gcs ON gc.id = CAST(gcs.contract_id AS SIGNED)
+                            LEFT JOIN
+                                gtg_contract_signings gcs_all ON gc.id = CAST(gcs_all.contract_id AS SIGNED)
+                            GROUP BY
+                                gc.id
+                            ORDER BY
+                                gc.cr_date DESC;");
     
-        
-        return $query->result_array();
+    return $query->result_array();
 
     }
 

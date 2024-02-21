@@ -133,6 +133,29 @@
                             </div>
                             <div class="form-group row">
 
+                            <label class="col-sm-2 col-form-label"
+                                for="email"><?php echo $this->lang->line('Version') ?></label>
+
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="<?php echo $this->lang->line('Version') ?>"
+                                    class="form-control margin-bottom" name="version"
+                                    value="<?php echo $company['version'] ?>">
+                            </div>
+                            </div>
+                            <div class="form-group row">
+
+                                <label class="col-sm-2 col-form-label"
+                                       for="email"><?php echo $this->lang->line('Android App Link') ?></label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" placeholder="<?php echo $this->lang->line('Android App Link') ?>"
+                                           class="form-control margin-bottom" name="android_app_link"
+                                           value="<?php echo $company['android_app_link'] ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+
 
                                 <div class="col-sm-12"><label class=" col-form-label"
                                                               for="data_share">Product Data Sharing with Other

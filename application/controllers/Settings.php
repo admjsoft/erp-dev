@@ -41,7 +41,9 @@ class Settings extends CI_Controller
             $taxid = $this->input->post('taxid', true);
             $data_share = $this->input->post('data_share', true);
             $foundation = datefordatabase($this->input->post('foundation', true));
-            $this->settings->update_company(1, $name, $phone, $email, $address, $city, $region, $country, $postbox, $taxid, $data_share, $foundation);
+            $android_app_link = $this->input->post('android_app_link', true);
+            $version = $this->input->post('version', true);
+            $this->settings->update_company(1, $name, $phone, $email, $address, $city, $region, $country, $postbox, $taxid, $data_share, $foundation, $android_app_link, $version);
         } else {
 
             $head['usernm'] = $this->aauth->get_user()->username;

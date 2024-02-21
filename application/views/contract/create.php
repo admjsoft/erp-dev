@@ -70,13 +70,13 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Person In Charge'); ?></label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control margin-bottom" name="person_in_charge"
+                    <input type="text" class="form-control margin-bottom" id="person_in_charge" name="person_in_charge"
                         placeholder="<?php echo $this->lang->line('Person In Charge'); ?>">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('No Of People To Share'); ?></label>
+                <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('No Of People To Sign'); ?></label>
                 <div class="col-sm-6">
                     <select class="form-control margin-bottom" id="sharing_count" name="sharing_count"
                         placeholder="<?php echo $this->lang->line('No Of People To Share'); ?>">
@@ -128,7 +128,7 @@
                 <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Document Upload'); ?></label>
                 <div class="col-sm-6">
                     <input type="file" class="form-control-file margin-bottom" id="userfile" name="contract_files[]"
-                        accept=".pdf, .jpg, .jpeg, .png" multiple required>
+                        accept=".pdf" multiple required>
                 </div>
             </div>
 

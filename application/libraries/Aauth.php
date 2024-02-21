@@ -991,7 +991,16 @@ class Aauth
         $query = $this->aauth_db->query($sql);
         return $query->result_array();
     }
+    public function getOrganizationDetails()
+    {
+        $id = $_SESSION['loggedin'];
+        $this->aauth_db->select('*');
+        $this->aauth_db->from('gtg_system');
+        $this->aauth_db->where('id', $id);
+        $query = $this->aauth_db->get();
+        return $query->row();
 
+    }
  public function subscribe($module_id)
     {
        // $role = $this->CI->session->userdata('s_role');

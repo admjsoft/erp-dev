@@ -212,7 +212,16 @@ class Tickets extends CI_Controller
         $head['user_data']=$data['user_data'];
         $this->load->view('includes/header',$head);
 
+        
+       
+        // /$data['filename'] = array();
+        
         if ($this->input->post('content')) {
+
+            // echo "<pre>"; print_r($_POST); echo "</pre>";
+            // echo "<pre>"; print_r($_FILES); echo "</pre>";
+            //exit;
+
             if ($this->captcha) {
                 $this->load->helper('recaptchalib_helper');
                 $reCaptcha = new ReCaptcha($this->general->public_key()->recaptcha_s);
@@ -225,17 +234,21 @@ class Tickets extends CI_Controller
                 }
             }
 
+
+
             if ($flag) {
 
                 $title = $this->input->post('title');
                 $message = $this->input->post('content');
                 $attach = $_FILES['userfile'];
 
+                //echo "fff";
+                
 
                 if ($attach) {
 
-                    $data = array();
-
+                    $data['filenames'] = array();
+                    if (!empty($_FILES['userfile']['name'][0])) {
                     $countfiles = count($_FILES['userfile']['name']);
 
 
@@ -270,18 +283,29 @@ class Tickets extends CI_Controller
                             } else {
                                 $data['response'] = 0;
                                 $data['responsetext'] = 'File Upload Error';
+                                $data['filenames'] = array();
                             }
                         }
                     }
-                      $this->ticket->addticket($title, $message,$data['filenames']);
+                    }
+
+                    //$data['filename'] = array();
+                    // echo "<pre>"; print_r($data); echo "</pre>";
+                    // exit;
+
+                    $this->ticket->addticket($title, $message,$data['filenames']);
+                    
                     $data['response'] = 1;
                     $data['responsetext'] = 'Ticket Submitted Successfully.';
-                }
- else {
+                }else {
+
+                //echo "nf";    
                     $this->ticket->addticket($title, $message, '');
                     $data['response'] = 1;
                     $data['responsetext'] = 'Ticket Submitted Successfully.';
                 }
+
+
             } else {
 
                 $data['response'] = 0;

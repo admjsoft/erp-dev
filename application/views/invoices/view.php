@@ -156,14 +156,14 @@
                                     class="fa fa-minus-circle"> </i> <?php echo $this->lang->line('Cancel') ?>
                             </a>
 
-                            <?php /* if ($this->aauth->premission(9)) { ?>
+                            <?php /* if ($this->aauth->premission(9)) {  */ ?>
                             <div class="btn-group ">
                                 <button type="button" class="btn btn-success mb-1 btn-min-width dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
                                         class="fa fa-print"></i> Share in Peppol
                                 </button>
                                 <div class="dropdown-menu">
-                                    <?php /* ?>
+                                    <?php  ?>
                                     <a class="dropdown-item"
                                         href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=self">Share
                                         to self(sprasad96@gmail.com)</a>
@@ -171,15 +171,13 @@
                                         href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=reciever">Share
                                         to mr.s.sprasad96@gmail.com</a>
                                     <div class="dropdown-divider"></div>
-                                    <?php */ ?>
-                                    <?php /* ?>
+                                    <?php ?>
                                     <a class="dropdown-item"
                                         href="<?= base_url('billing/sharepeppolinvoice?id=' . $invoice['iid'] . '&token=' . $validtoken); ?>&type=customer">Send
                                         to Peppol Customer EmailId ( <?php echo $invoice['email'] ?> )</a>
 
                                 </div>
                             </div>
-                            <?php } */ ?>
                             <?php if($invoice['status'] == 'paid'){ ?>
                             <a id="open_supplier_modal" href="#" inv_d_id="<?php echo $invoice['tid']; ?>" inv_id="<?php echo $invoice['iid']; ?>"
                                 class="btn btn-large btn-blue-grey mb-1" title="Convert to Purchase"><span

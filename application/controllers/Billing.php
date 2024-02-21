@@ -2273,7 +2273,7 @@ class Billing extends CI_Controller
             // curl_close($curl1);
 
             $curl = curl_init();
-            $ccc_url = "https://api.storecove.com/api/v2/document_submissions/325c39cc-197c-430e-98e0-f2ab7bd604ae/evidence";
+            $ccc_url = "https://api.storecove.com/api/v2/document_submissions/94b5655e-26e1-4347-926b-4404a9fbbc0b/evidence";
             //$ccc1_url = '"https://api.storecove.com/api/v2/document_submissions/"'.$guid.'"/evidence"';
 
             //    echo $ccc_url."<br>";

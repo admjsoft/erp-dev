@@ -8,9 +8,9 @@
 <div class="content-body">
     <div id="c_body"></div>
     <div class="card">
-        <div class="card-header">
-            <h5><?php echo $this->lang->line('Payroll Report') ?></h5>
-            <hr>
+        <div class="card-header" style="background-color : #4DD5E7;">
+            <h5><Strong><?php echo $this->lang->line('Payroll Report') ?></Strong></h5>
+            <!-- <hr> -->
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -40,14 +40,15 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <form method="post" action="<?php echo site_url('payroll/payrollReportGenerate')?>" id="data_form"
                     class="form-horizontal" enctype="multipart/form-data">
                     <div id="paymentSalarySection">
-                        <hr>
-                        <div class="form-group row">
+                        <!-- <hr> -->
+                        <div class="form-group row mb-1">
 
-                            <label class="col-sm-1 col-form-label"
+                           
+
+                            <div class="col-md-6">
+                            <label class="col-form-label"
                                 for="pay_cat"><?php echo $this->lang->line('Staff') ?> <span
                                     style="color:red">*</span></label>
-
-                            <div class="col-sm-5">
                                 <select name="orgStaffId" class="form-control" id="orgStaffId">
                                     <option value=''>--<?php echo $this->lang->line('Select Staff'); ?>--</option>
                                     <option value="0">All</option>
@@ -66,7 +67,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-8">
+                            <div class="col-md-6 mb-1">
                                 <label>Report Format <span style="color:red">*</span></label>
                                 <select class="form-control" onchange="changeInputType()" name="timeCategory"
                                     id="timeCategory">
@@ -76,7 +77,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div id="inputMonth">
                                     <label id="label"><?php echo $this->lang->line('By Month'); ?> <span style="color:red">*</span></label>
                                     <!-- <input id="inputMonthForm" class="form-control" type="month" name="dateMonth"

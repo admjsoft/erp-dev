@@ -66,21 +66,32 @@
     /* Adjust the height as needed */
 }
 
-.share_links .
- {
+.share_links . {
     color: #fff;
     background: #4390a4 !important;
-    border-radius:50px;
+    border-radius: 50px;
 
 }
 
-.share__link--whatsapp{
+.share__link--whatsapp {
     color: #fff;
     background: #25D366 !important;
-    border-radius:50px;
+    border-radius: 50px;
 }
 </style>
 <div class="content-body">
+
+<?php if ($this->session->flashdata("SuccessMsg")) {?>
+            <div class="alert alert-success notify-alert">
+                <?php echo $this->session->flashdata("SuccessMsg") ?>
+            </div>
+            <?php }?>
+            <?php if ($this->session->flashdata("ErrorMsg")) {?>
+            <div class="alert alert-danger notify-alert">
+                <?php echo $this->session->flashdata("ErrorMsg") ?>
+            </div>
+            <?php }?>
+
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Digital Signature') ?> <a href="#" data-target="#signature_popup"
@@ -105,6 +116,7 @@
             </div>
             <div class="card-body">
 
+           
 
                 <div class="table-responsive">
                     <table id="acctable" class="table table-striped table-bordered zero-configuration" cellspacing="0"
@@ -131,8 +143,7 @@
                                 <td><?php echo ($row['sharing_count'] - $row['signings_count']); ?></td>
                                 <td>
                                     <a href='<?php if($row['status'] != 'COMPLETED'){  echo $share_link; }else{ echo "javascript:void(0)";} ?>'
-                                        contract_client_name=' '
-                                        contract_title ='<?php echo $row['name']; ?>'
+                                        contract_client_name=' ' contract_title='<?php echo $row['name']; ?>'
                                         contract_pic='<?php echo $row['pic']; ?>'
                                         contract_email_id='<?php echo $row['email']; ?>'
                                         contract_id='<?php echo $row['id']; ?>'
@@ -152,6 +163,23 @@
                                         class='btn btn-warning btn-sm'><i class='fa fa-pencil'></i>
                                         <?php echo $this->lang->line('Edit'); ?></a>
                                     <?php // } ?>
+                                    <?php  if($row['status'] == 'COMPLETED'){ ?>
+                                    &nbsp;
+                                    <a href='<?php echo $row['file_path']; ?>' download class='btn btn-danger btn-sm'
+                                        title='Download'><i class='fa fa-download'></i></a>
+
+                                    &nbsp;
+                                    <a href='javascript:void(0);' ds_id="<?php echo $row['id']; ?>"
+                                        class='btn btn-info btn-sm employee_share' title='Employees'><i
+                                            class='fa fa-share'>Emplyees</i></a>
+
+                                    &nbsp;
+                                    <a href='javascript:void(0);' ds_id="<?php echo $row['id']; ?>"
+                                        class='btn btn-primary btn-sm customer_share' title='Customers'><i
+                                            class='fa fa-share'>Customers</i></a>
+
+
+                                    <?php  } ?>
                                     &nbsp;<a href='#' data-object-id="<?php echo $contract_id; ?>"
                                         class='btn btn-danger btn-sm delete-object' title='Delete'><i
                                             class='fa fa-trash'></i></a>
@@ -186,8 +214,8 @@
                             <!-- <li class="bg_fb"><a href="#" class="share_icon" rel="tooltip" title="Facebook"><i class="fa fa-facebook"></i></a></li>
             <li class="bg_insta"><a href="#" class="share_icon" rel="tooltip" title="Instagram"><i class="fa fa-instagram"></i></a></li> -->
                             <li class="bg_email"><a href="#" class="share_icon 
-                            " data-target="#sendEmail"
-                                    data-toggle="modal" rel="tooltip" title="Email"><i class="fa fa-envelope"></i></a>
+                            " data-target="#sendEmail" data-toggle="modal" rel="tooltip" title="Email"><i
+                                        class="fa fa-envelope"></i></a>
                             </li>
                             <!-- <li class="bg_email"><a href="#" class="share_icon share__link  share__link--mail"
                                     rel="tooltip" title="Email"><i class="fa fa-envelope"></i></a></li> -->
@@ -205,14 +233,14 @@
     <div id="delete_model" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background-color : #4DD5E7;">
 
-                    <h4 class="modal-title"><?php echo $this->lang->line('Delete Digital Signature') ?></h4>
+                    <h4 class="modal-title"><?php echo $this->lang->line('Delete Document') ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <p><?php echo $this->lang->line('Delete Digital Signature') ?></p>
+                    <p><?php echo $this->lang->line('Delete Digital Signature Document') ?></p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="object-id" value="">
@@ -321,7 +349,8 @@
                                     data-action="singleMode" onclick="selectOption('singleMode', this)">
                                     <img src="<?php echo base_url('userfiles/company/'); ?>single.svg" class="img-fluid"
                                         alt="Single Signing">
-                                    <button class="btn btn-primary mt-2"><?php echo $this->lang->line('Only me') ?></button>
+                                    <button
+                                        class="btn btn-primary mt-2"><?php echo $this->lang->line('Only me') ?></button>
                                     <small class="d-block"><?php echo $this->lang->line('Sign this document') ?></small>
                                 </div>
                             </div>
@@ -332,8 +361,10 @@
                                     data-action="multiMode" onclick="selectOption('multiMode', this)">
                                     <img src="<?php echo base_url('userfiles/company/'); ?>multiple.svg"
                                         class="img-fluid" alt="Multiple Signings">
-                                    <button class="btn btn-success mt-2"><?php echo $this->lang->line('Several people') ?></button>
-                                    <small class="d-block"><?php echo $this->lang->line('Invite others to sign') ?></small>
+                                    <button
+                                        class="btn btn-success mt-2"><?php echo $this->lang->line('Several people') ?></button>
+                                    <small
+                                        class="d-block"><?php echo $this->lang->line('Invite others to sign') ?></small>
                                 </div>
                             </div>
                         </div>
@@ -341,20 +372,30 @@
                         <!-- Uploaded Documents -->
                         <div class="text-center mt-3">
                             <!-- Input type file -->
-                            <div class="mb-3">
-                                <label for="fileInput" class="form-label"><?php echo $this->lang->line('Upload Document') ?> :</label>
-                                <input type="file" name="userfile" class="form-control" id="userfile" required>
+                            <div class=" sharing_count" style="display:none;">
+                                <label for="fileInput"
+                                    class="form-label  "><?php echo $this->lang->line('No Of Signatures') ?> :</label>
+                                <input type="number" name="sharing_count" class="form-control " id="sharing_count"
+                                    required value="">
                             </div>
-                            <input type="hidden" name="sharing_count" class="form-control" id="sharing_count" required
-                                value="1">
+
+                            <div class="mb-3">
+                                <label for="fileInput"
+                                    class="form-label"><?php echo $this->lang->line('Upload Document') ?> :</label>
+                                <input type="file" name="userfile" class="form-control" id="ds_doc_userfile" required>
+                            </div>
+                            <!-- <input type="hidden" name="sharing_count" class="form-control" id="sharing_count" required
+                                value="1"> -->
+
 
                             <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary"><?php echo $this->lang->line('Submit') ?></button>
+                            <button type="submit"
+                                class="btn btn-primary"><?php echo $this->lang->line('Submit') ?></button>
                         </div>
                     </form>
                 </div>
 
- 
+
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal"
                         class="btn"><?php echo $this->lang->line('Cancel') ?></button>
@@ -362,6 +403,64 @@
             </div>
         </div>
     </div>
+    <?php echo form_open('digitalsignature/employee_share'); ?>
+    <div id="multiple_assign_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Multiple Task <?php echo $this->lang->line('Assign') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p><?php echo $this->lang->line('Employee') ?></p>
+                    <select name="employee_id" class="form-control employee emp-list">
+                        <option>-- <?php echo $this->lang->line('Select Employee') ?> --</option>
+                    </select>
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="c_ds_id" class="jobid" name="c_ds_id" value="">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $this->lang->line('Send') ?>" />
+                    <button type="button" data-dismiss="modal"
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <?php echo form_open('digitalsignature/customer_share'); ?>
+    <div id="cust_multiple_assign_model" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Multiple Task <?php echo $this->lang->line('Assign') ?></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p><?php echo $this->lang->line('Customers') ?></p>
+                    <select name="customer_id" class="form-control customer_id cust-list">
+                        <option>-- <?php echo $this->lang->line('Select Customer') ?> --</option>
+                    </select>
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="cc_ds_id" class="jobid" name="cc_ds_id" value="">
+                    <input type="submit" class="btn btn-primary" value="<?php echo $this->lang->line('Send') ?>" />
+                    <button type="button" data-dismiss="modal"
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
 
     <input type="hidden" id="contract_share_url" name="contract_share_url"
         value="<?php // echo base_url('contract/sales/1/2345654345'); ?>">
@@ -382,7 +481,7 @@
 
     //datatables
     $('.share-object').click(function() {
-        
+
         var c_url = $(this).attr("href");
         var contract_id = $(this).attr("contract_id");
         var contract_client_name = $(this).attr("contract_client_name");
@@ -560,8 +659,10 @@
         var c_ele_id = element.id; // Use id directly, no need for .attr()
         if (c_ele_id == 'singleMode') {
             $('#sharing_count').val('1');
+            $('.sharing_count').hide();
         } else {
             $('#sharing_count').val('4');
+            $('.sharing_count').show();
         }
 
         // Handle your logic here based on the selected option (optionId)
@@ -577,7 +678,7 @@
             var formData = new FormData(this);
 
             // Check if at least one file is selected
-            var fileInput = document.getElementById('userfile');
+            var fileInput = document.getElementById('ds_doc_userfile');
             if (fileInput.files.length === 0) {
                 $('#validation_errors').html('Please select at least one file.').show();
                 return;
@@ -606,4 +707,51 @@
             // });
         });
     });
+
+    $(document).ready(function() {
+        $.ajax({
+
+            url: "<?php echo site_url('employee/employee_list') ?>",
+            type: 'POST',
+            success: function(data) {
+                $('.emp-list').append(data);
+            },
+            error: function(data) {
+                //console.log(data);
+                console.log("Error not get employee list")
+            }
+
+        });
+
+        $.ajax({
+
+            url: "<?php echo site_url('customers/get_all_customers') ?>",
+            type: 'POST',
+            success: function(data) {
+                $('.cust-list').append(data);
+            },
+            error: function(data) {
+                //console.log(data);
+                console.log("Error not get customer list")
+            }
+
+            });
+
+    });
+    
+$(document).on('click', '.employee_share', function() {
+    var ds_id = $(this).attr('ds_id');
+    $('#c_ds_id').val(ds_id);
+    $('#multiple_assign_model').modal('show');
+
+    });
+
+    $(document).on('click', '.customer_share', function() {
+
+    var ds_id = $(this).attr('ds_id');
+    $('#cc_ds_id').val(ds_id);
+    $('#cust_multiple_assign_model').modal('show');
+
+    });
+    
     </script>

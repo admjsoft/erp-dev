@@ -78,6 +78,8 @@
         <?php echo $this->session->flashdata("messagePr") ?>
     </div>
     <?php } ?>
+
+    <p id="statusMsg"></p>
     <div class="card card-block">
         <?php if ($response == 1) {
             echo '<div id="notify" class="alert alert-success">
@@ -985,6 +987,7 @@ $(document).ready(function() {
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<?php if(empty($thread_info['signature'])){ ?>
 <script>
 /*!
  * Modified
@@ -1441,6 +1444,7 @@ clearButton.addEventListener('click', function(event) {
 //     showPointsToggle.classList.toggle('toggle');
 // });
 </script>
+<?php } ?>
 <!-- <script>
 document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('video');
@@ -1691,7 +1695,7 @@ uploadButton.addEventListener('click', () => {
                             // location.reload();
                             var im_status = 1;
                             //alert('DO Captured Details Updated Successfully');
-                            location.reload();
+                            //location.reload();
 
                         } else {
                             // Display validation errors
@@ -1748,7 +1752,7 @@ uploadButton.addEventListener('click', () => {
                         var a_status = 1;
 
                         alert('Attachment Details has been Updated');
-                        location.reload();
+                        //location.reload();
                     } else {
                         // Display validation errors
                         var a_status = 0;
@@ -1820,18 +1824,21 @@ uploadButton.addEventListener('click', () => {
         var s_status = 1;
     }
 
-    var mm_status = 1;
-    //const attachmentInput = document.getElementById('userfile_attachment');
+    
     const contentTextarea = document.getElementById('message_content');
-    var job_id = $('#c_job_id').val();
-    const formData = new FormData();
-    //formData.append('userfile', attachmentInput.files[0]);
-    formData.append('content', contentTextarea.value);
-    formData.append('job_id', job_id);
 
-    // Add any additional data you need
 
     if (contentTextarea.value.trim() != '') {
+
+        var mm_status = 1;
+        //const attachmentInput = document.getElementById('userfile_attachment');
+        var job_id = $('#c_job_id').val();
+        const formData = new FormData();
+        //formData.append('userfile', attachmentInput.files[0]);
+        formData.append('content', contentTextarea.value);
+        formData.append('job_id', job_id);
+
+        // Add any additional data you need
         // alert('holy');
         const from_url = "<?php echo base_url('jobsheets/conversation_attachment_upload'); ?>";
 
@@ -1871,7 +1878,9 @@ uploadButton.addEventListener('click', () => {
     // console.log(a_status);
     // console.log(im_status);
     if (mm_status == 1 && s_status == 1 && a_status == 1 && im_status == 1) {
+        setTimeout(() => {
         location.reload();
+    }, 1000);
     }
 
 

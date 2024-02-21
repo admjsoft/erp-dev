@@ -41,7 +41,7 @@
                 <div id="pspdfkit" style="width: 100%; height: 100vh"></div>
 
                 <div class="text-right mt-3">
-                    <input id="exportButton" type="button" class="btn btn-success" value="<?php echo $this->lang->line('Submit') ?>">
+                    <input id="exportButton" type="button" class="btn btn-success" value="<?php echo $this->lang->line('Save') ?>">
                 </div>
             </div>
 

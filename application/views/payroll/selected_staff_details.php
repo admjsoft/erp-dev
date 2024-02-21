@@ -7,7 +7,7 @@
 </div>
 
 <div class="form-group">
-    <label for="passportIC"><?php echo $this->lang->line('Passport'); ?> / <?php echo $this->lang->line('IC Number'); ?> : <?php if(!empty($employee_details['passport'])) { echo $employee_details['passport']; }else{ echo "---"; }?></label>
+    <label for="passportIC"><?php echo $this->lang->line('Passport'); ?> / <?php echo $this->lang->line('IC Number'); ?> : <?php if(!empty($employee_details['passport'])) { echo $employee_details['passport']; }else{ echo "---"; }?> / <?php if(!empty($employee_details['ic_number'])) { echo $employee_details['ic_number']; }else{ echo "---"; }?></label>
 </div>
 
 <div class="form-group">

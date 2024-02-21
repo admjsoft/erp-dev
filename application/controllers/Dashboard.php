@@ -43,14 +43,15 @@ class Dashboard extends CI_Controller
 
         }
 
-        // $data['totalt'] = $this->jobsheet->jobsheet_count_filtered('');
-        //  $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
-        //  $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
+        $data['assign'] = $this->jobsheet->jobsheet_count_filtered('assign');
+        $data['totalt'] = $this->jobsheet->jobsheet_count_filtered('');
+         $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
+         $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
         $head['title'] = 'Jobsheet';
 
         // print_r($data);
         $this->load->view('fixed/header', $head);
-        $this->load->view('jobs', $data);
+        $this->load->view('jobsheet/jobs', $data);
         $this->load->view('fixed/footer');
 
     }

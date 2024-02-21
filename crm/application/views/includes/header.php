@@ -234,11 +234,11 @@ $(document).ready(function() {
                 <a href="<?php echo base_url("payments"); ?>"><i class="icon-cash"></i>
                     <span><?php echo $this->lang->line('Payment History'); ?></span></a>
             </li>
-            <?php /* temprary hide
+            
             <li class="nav-item <?php if($this->uri->segment(1) == "tickets") echo "active"; ?>">
                 <a href="<?php echo base_url("tickets"); ?>"><i class="icon-ticket"></i>
                     <span><?php echo $this->lang->line('Support Tickets') ?></span></a>
-            </li> */ ?>
+            </li>
             <?php /* temprary hide
             <li class="nav-item <?php if($this->uri->segment(1) == "projects") echo "active"; ?>">
                 <a href="<?php echo base_url("projects"); ?>"><i class="icon-stack"></i>

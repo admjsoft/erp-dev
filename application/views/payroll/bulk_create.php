@@ -5,9 +5,9 @@
 <div class="content-body">
     <div id="c_body"></div>
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" style="background-color : #4DD5E7;">
             <h5><?php echo $this->lang->line('Bulk Payroll') ?></h5>
-            <hr>
+            <!-- <hr> -->
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -21,7 +21,7 @@
 
             <div class="row mr-2">
 
-                <div class="col-12 text-right ">
+                <div class="col-12 text-right mt-2">
                     <!-- Small Button -->
                     <a href="<?php echo base_url('payroll/viewpaySlip'); ?>"> <button type="button"
                             class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
@@ -91,7 +91,7 @@
 
                     </div>
 
-                    <h1><?php echo $this->lang->line('Select Employees'); ?></h1>
+                    <p>( <?php echo $this->lang->line('List Of Employees From Payroll Settings'); ?> )</p>
 
                     <form>
                         <select multiple="multiple" name="favorite_fruits" id="fruit_select">
@@ -148,8 +148,76 @@ multi(select, {
 <script>
 $(document).ready(function() {
     $('#fetchButton').on('click', function() {
-        // Fetch all data-value attributes from <a> tags with class "item selected"
-        var dataValues = $('.selected-wrapper .item.selected').map(function() {
+
+    // var current_month = document.getElementById("current_month").value;
+    // var current_year = document.getElementById("current_year").value;
+    var month = document.getElementById("monthSlip").value;
+    var yearSlip = document.getElementById("yearSlip").value;
+    var currentDate = new Date(); 
+    var currentDay = currentDate.getDate(); 
+    var current_month = currentDate.getMonth() + 1; // Get current month (Note: January is 0, so add 1)
+    var current_year = currentDate.getFullYear();
+
+    if (month >= parseInt(current_month) && yearSlip >= current_year) {
+        //$("#proceedPayroll").prop('disabled', true);
+            if((month - parseInt(current_month)) <= 1)
+            {
+                var month_checking = true;
+            }else{
+                var month_checking = false;
+            }
+        
+    } else {
+        var month_checking = false;
+        //$("#proceedPayroll").prop('disabled', false);
+
+    }
+
+
+    if(month_checking)
+    {
+
+        if (currentDay < 20) {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You wan't to create payslip for future month?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, proceed!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                generate_bulk_payslips();
+            }
+        })
+
+    }else{
+            //month_checking = false;
+            generate_bulk_payslips();
+        }
+
+    }else{
+        Swal.fire({
+                        title: "",
+                        text: "Selected Month Not Allowed, Please Select Current Month or Next Month",
+                        // icon: "error",
+                    });
+        
+    }
+    
+
+
+     
+
+    });
+});
+
+function generate_bulk_payslips(){
+
+       // Fetch all data-value attributes from <a> tags with class "item selected"
+       var dataValues = $('.selected-wrapper .item.selected').map(function() {
             return $(this).data('value');
         }).get();
 
@@ -195,9 +263,9 @@ $(document).ready(function() {
 
                         Swal.close();
                         Swal.fire({
-                            title: "Danger",
+                            title: "",
                             text: data.message,
-                            icon: "error",
+                            // icon: "error",
                         });
 
                     }
@@ -212,9 +280,7 @@ $(document).ready(function() {
             });
 
         }
-
-    });
-});
+}
 </script>
 <script>
 // Add your custom function here
@@ -246,9 +312,9 @@ function customFunction(selectedId) {
 
                 
                 Swal.fire({
-                    title: "Danger",
+                    title: "",
                     text: data.message,
-                    icon: "error",
+                    // icon: "error",
                 });
 
                 resolve(false);

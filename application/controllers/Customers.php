@@ -1124,7 +1124,16 @@ public function deleteFwmsClient()
             $row[] = $document->title;
             $row[] = dateformat($document->cdate);
 
-            $row[] = '<a href="' . base_url('userfiles/documents/' . $document->filename) . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
+            //$row[] = '<a href="' . base_url('userfiles/documents/' . $document->filename) . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
+            if (filter_var($document->filename, FILTER_VALIDATE_URL)) {
+                // If it's a valid URL, use it directly
+                $url = $document->filename;
+            } else {
+                // If it's not a valid URL, construct the URL using base_url
+                $url = base_url('userfiles/documents/' . $document->filename);
+            }
+            $row[] = '<a href="' . $url . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
+
 
 
             $data[] = $row;
@@ -1154,14 +1163,16 @@ public function deleteFwmsClient()
             $title = $this->input->post('title', true);
             $cid = $this->input->post('id');
             $config['upload_path'] = './userfiles/documents';
-            $config['allowed_types'] = 'docx|docs|txt|pdf|xls';
+            $config['allowed_types'] = 'docx|docs|txt|pdf|xls|xlsx';
             $config['encrypt_name'] = TRUE;
-            $config['max_size'] = 3000;
+            // $config['max_size'] = 3000;
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload('userfile')) {
+                $error = $this->upload->display_errors();
+                
                 $data['response'] = 0;
-                $data['responsetext'] = 'File Upload Error';
+                $data['responsetext'] = $error;
 
             } else {
                 $data['response'] = 1;
@@ -1303,5 +1314,13 @@ public function downloadCustomerTemplate()
 
 }
 
-
+public function get_all_customers(){
+   
+    $list = $this->customers->get_all_customers();
+    $html = '';
+    foreach ($list as $item) {
+        $html .= '<option value="' . $item->id . '" >' . $item->name . '</option>';
+    }
+    echo $html;
+}
 }

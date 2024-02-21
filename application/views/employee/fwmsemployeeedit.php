@@ -34,9 +34,9 @@ select#status,
     margin-left: 10px;
 }
 </style>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 <?php
 
 
@@ -78,6 +78,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         value="<?php echo $employee->name;?>" name="emp_name" id="emp_name" required>
                 </div>
             </div>
+            
             <div class="form-group row">
 
                 <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('UserName') ?></label>
@@ -106,7 +107,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('UserRole') ?> <span
                         style="color:red">*</span></label>
 
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <span class="role_error"></span>
 
                     <select name="roleid" class="form-control margin-bottom" id="roleid">
@@ -124,6 +125,27 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
 
             <?php } ?>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Employee Type') ?>
+                </label>
+
+                <div class="col-sm-8">
+                    <span class="role_error"></span>
+
+                    <select name="employee_type" id="employee_type" class="form-control margin-bottom">
+                        <option value="">--<?php echo $this->lang->line('Employee Type') ?>--</option>
+                        
+                        <option value="" <?php if($employee->employee_type  == ''){ echo "selected"; } ?>>
+                            Domestic</option>
+                        <option value="foreign" <?php if($employee->employee_type == 'foreign'){ echo "selected"; } ?>>Foreign
+                        </option>
+
+                    </select>
+                </div>
+            </div>
+
+            
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="name"><?php echo $this->lang->line('Gender') ?>
                 </label>
@@ -251,7 +273,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <label class="col-sm-2 col-form-label"
                     for="phone"><?php echo $this->lang->line('Socso Number') ?></label>
 
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <input type="text" placeholder="Socso Number" class="form-control margin-bottom" name="socso_number"
                         value="<?php echo $employee->socso_number; ?>">
                 </div>
@@ -262,7 +284,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <label class="col-sm-2 col-form-label"
                     for="phone"><?php echo $this->lang->line('KWSP Number') ?></label>
 
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <input type="text" placeholder="KWSP Number" class="form-control margin-bottom" name="kwsp_number"
                         value="<?php echo $employee->kwsp_number; ?>">
                 </div>
@@ -273,11 +295,35 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                 <label class="col-sm-2 col-form-label" for="phone"><?php echo $this->lang->line('PCB Number') ?></label>
 
-                <div class="col-sm-5">
+                <div class="col-sm-8">
                     <input type="text" placeholder="PCB Number" class="form-control margin-bottom" name="pcb_number"
                         value="<?php echo $employee->pcb_number; ?>">
                 </div>
             </div>
+
+            <div class="form-group row">
+
+            <label class="col-sm-2 col-form-label"
+                for="phone"><?php echo $this->lang->line('Bank Name') ?></label>
+
+            <div class="col-sm-8">
+                <input type="text" placeholder="<?php echo $this->lang->line('Bank Name') ?>" class="form-control margin-bottom" name="bank_name"
+                    value="<?php echo $employee->bank_name; ?>">
+            </div>
+            </div>
+
+            <div class="form-group row">
+
+            <label class="col-sm-2 col-form-label"
+                for="phone"><?php echo $this->lang->line('Bank Account Number') ?></label>
+
+            <div class="col-sm-8">
+                <input type="text" placeholder="<?php echo $this->lang->line('Bank Account Number') ?>" class="form-control margin-bottom" name="bank_account_number"
+                    value="<?php echo $employee->bank_account_number; ?>">
+            </div>
+            </div>
+
+
             <div class="form-group row">
 
                 <label class="col-sm-2 col-form-label"

@@ -66,7 +66,8 @@ class Quote extends CI_Controller
         $this->load->model('plugins_model', 'plugins');
         $data['exchange'] = $this->plugins->universal_api(5);
         $this->load->library("Common");
-        $data['taxlist'] = $this->common->taxlist_edit($data['invoice']['taxstatus']);
+        //$data['taxlist'] = $this->common->taxlist_edit($data['invoice']['taxstatus']);
+        $data['taxlist'] = $this->common->taxlist($this->config->item('tax'));
         $this->load->view('fixed/header', $head);
         $this->load->view('quotes/edit', $data);
         $this->load->view('fixed/footer');

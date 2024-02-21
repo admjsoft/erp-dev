@@ -59,7 +59,7 @@
     <div class="form-group row">
         <label class="col-sm-2 col-form-label"><?php echo $this->lang->line('Person In Charge'); ?></label>
         <div class="col-sm-6">
-            <input type="text" class="form-control margin-bottom" name="person_in_charge"
+            <input type="text" class="form-control margin-bottom" id="person_in_charge" name="person_in_charge"
                 placeholder="<?php echo $this->lang->line('Person In Charge'); ?>"
                 value="<?php echo $contract['pic']; ?>">
         </div>

@@ -9,6 +9,12 @@ class Payroll_model extends CI_Model
     public $order = array('id' => 'desc');
     public $opt = '';
 
+
+    // public $s_column_order = array('id', 'staffName', 'salaryMonth', 'netPay', 'monthText', 'year');
+    // public $s_column_search = array('id', 'staffName', 'salaryMonth', 'netPay', 'monthText', 'year');
+    // public $s_order = array('gtg_payroll_settings' => 'desc');
+    // public $s_opt = '';
+
     private function _get_datatables_query()
     {
         $user_role = $this->aauth->get_user()->roleid;
@@ -78,6 +84,54 @@ class Payroll_model extends CI_Model
         }
     }
 
+
+    private function _get_settings_datatables_query()
+    {
+        // $user_role = $this->aauth->get_user()->roleid;
+        // $role_details = $this->db->where('id',$user_role)->get('gtg_role')->result_array();
+        // $all_data_previleges = $role_details[0]['all_data_previleges'];
+
+
+        $this->db->select('gtg_payroll_settings.*,gtg_employees.name as employee_name, gtg_countries.country_name as country_name');
+        $this->db->from('gtg_payroll_settings');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_payroll_settings.staff_id', 'left');
+        $this->db->join('gtg_countries', 'gtg_countries.id = gtg_payroll_settings.nationality', 'left');
+         
+        $i = 0;
+
+        foreach ($this->column_search as $item) // loop column
+        {
+            if ($this->input->post('search')['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+
+                if (count($this->column_search) - 1 == $i) //last loop
+                {
+                    $this->db->group_end();
+                }
+                //close bracket
+            }
+            $i++;
+        }
+
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+
     public $rcolumn_order = array('gtg_payslip.id', 'gtg_payslip.staffName', 'gtg_payslip.salaryMonth', 'gtg_payslip.netPay');
     public $rcolumn_search = array('gtg_payslip.id', 'gtg_payslip.staffName', 'gtg_payslip.salaryMonth', 'gtg_payslip.netPay');
     public $rorder = array('gtg_payslip.id' => 'desc');
@@ -134,6 +188,19 @@ class Payroll_model extends CI_Model
         $this->db->from('gtg_payslip');
         $query = $this->db->get();
         return $query->num_rows();
+    }
+
+    public function settings_count_filtered()
+    {
+        $this->db->from('gtg_payroll_settings');
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    
+    public function settings_count_all()
+    {
+        $this->db->from('gtg_payroll_settings');
+        return $this->db->count_all_results();
     }
     // expense count function
     public function count_all()
@@ -249,6 +316,26 @@ class Payroll_model extends CI_Model
         //echo $this->db->last_query();
         return $query->row();
 
+    }
+
+
+    public function get_settings_datatables($opt = 'all')
+    {
+        // $this->opt = $opt;
+        // $this->_get_settings_datatables_query();
+        // if ($_POST['length'] != -1) {
+        //     $this->db->limit($_POST['length'], $_POST['start']);
+        // }
+
+        $this->db->select('gtg_payroll_settings.*,gtg_employees.name as employee_name, gtg_countries.country_name as country_name');
+        $this->db->from('gtg_payroll_settings');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_payroll_settings.staff_id', 'left');
+        $this->db->join('gtg_countries', 'gtg_countries.id = gtg_payroll_settings.nationality', 'left');
+         
+      
+        $query = $this->db->get();
+        //print_r($this->db->last_query());
+        return $query->result();
     }
 
     public function get_datatables($opt = 'all')
@@ -401,7 +488,7 @@ class Payroll_model extends CI_Model
         Remarks:<br>&nbsp;&nbsp;&nbsp;&nbsp;" . $being . "<br><br><br>
       </td>
       <td style='width:33.33%;border-left:1px solid black;text-align:left;" . $mainFont . ";'>
-        Payee:<br>&nbsp;&nbsp;&nbsp;&nbsp;" . $payee . "<br><br><br>
+       
       </td>
     </tr>
   </table>
@@ -836,8 +923,8 @@ class Payroll_model extends CI_Model
             $slip .= "<p>Designation: " . $designation . "</p>";}
         if (isset($department) && !empty($department)) {
             $slip .= "<p>Department: " . $department . "</p>";}
-        $slip .= "<p>Salary Month: RM " . $this->pointNumber($totalEarning) . "</p>";
-        //$slip.="<p>Salary Month: ".$monthText." ".$year."</p>";
+        // $slip .= "<p>Salary Month: RM " . $this->pointNumber($totalEarning) . "</p>";
+        $slip.="<p>Salary Month: ".$monthText." ".$year."</p>";
         $slip .= "</td>
         </tr>
     </table>
@@ -969,6 +1056,12 @@ class Payroll_model extends CI_Model
     public function deletePayslip($id)
     {
         $this->db->delete('gtg_payslip', array('id' => $id));
+        return array('status' => 'Success', 'message' => $this->lang->line('DELETED'));
+    }
+
+    public function deletePayrollSettings($id)
+    {
+        $this->db->delete('gtg_payroll_settings', array('id' => $id));
         return array('status' => 'Success', 'message' => $this->lang->line('DELETED'));
     }
 
@@ -1146,8 +1239,8 @@ class Payroll_model extends CI_Model
             $slip .= "<p>Designation: " . $designation . "</p>";}
         if (isset($department) && !empty($department)) {
             $slip .= "<p>Department: " . $department . "</p>";}
-        $slip .= "<p>Salary Month: RM " . $this->pointNumber($totalEarning) . "</p>";
-        //$slip.="<p>Salary Month: ".$monthText." ".$year."</p>";
+        // $slip .= "<p>Salary Month: RM " . $this->pointNumber($totalEarning) . "</p>";
+        $slip.="<p>Salary Month: ".$monthText." ".$year."</p>";
         $slip .= "</td>
         </tr>
     </table>

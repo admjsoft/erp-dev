@@ -18,8 +18,8 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div class="content-body">
 <div id="c_body"></div>
     <div class="card">
-        <div class="card-header">
-            <h5><?php echo $this->lang->line('Pay Slips') ?></h5>
+        <div class="card-header" style="background-color : #4DD5E7;">
+            <h5><Strong><?php echo $this->lang->line('Pay Slips') ?></Strong></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -32,9 +32,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
         <div class="card-body">
         <div class="row ">
                     
-                    <div class="col-12 text-right ">
+                    <div class="col-12 text-right mt-2">
                         <!-- Small Button -->
                         <a href="<?php echo base_url('payroll/payroll'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('Generate Pay slip'); ?> </button></a>
+                        <a href="<?php echo base_url('payroll/ImportPaySlip'); ?>"> <button type="button" class="btn btn-sm btn-primary"><?php echo $this->lang->line('Import Pay slip'); ?> </button></a>
                     </div>
                 </div>
             <div id="notify" class="alert alert-success" style="display:none;">
@@ -44,7 +45,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
             </div>
 
 
-            <hr>
+            <!-- <hr> -->
             <table id="trans_table" class="table table-striped table-bordered zero-configuration" cellspacing="0"
                    width="100%">
                 <thead>
@@ -52,9 +53,9 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                         <th><?php echo $this->lang->line('No') ?></th>
                         <th><?php echo $this->lang->line('Staff Name') ?></th>
 						<th><?php echo $this->lang->line('Salary') ?></th>
-                        <th><?php echo $this->lang->line('Net Pay') ?></th>
 					     <th><?php echo $this->lang->line('Total Earnings') ?></th>
-					   <th><?php echo $this->lang->line('Total Deductions') ?></th>
+					   <th><?php echo $this->lang->line('Total Deductions') ?></th>                        
+                       <th><?php echo $this->lang->line('Net Pay') ?></th>
                         <th><?php echo $this->lang->line('Type') ?></th>
 						<th><?php echo $this->lang->line('Month') ?></th>
                         <th><?php echo $this->lang->line('Year') ?></th>
@@ -88,7 +89,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 <div id="delete_model" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color : #4DD5E7;">
 
                 <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span

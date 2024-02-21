@@ -27,11 +27,12 @@
 <div class="content-body">
     <div id="c_body"></div>
     <div class="card">
-        <div class="card-header">
-            <h5 id="payroll_header"><?php echo $this->lang->line('Payroll') ?></h5>
-            <h5 id="payment_voucher_header" style="display:none;"><?php echo $this->lang->line('Payment Voucher') ?>
+        <div class="card-header" style="background-color : #4DD5E7;">
+            <h5 id="payroll_header"><Strong><?php echo $this->lang->line('Generate Pay slip') ?></Strong></h5>
+            <h5 id="payment_voucher_header" style="display:none;">
+                <Strong><?php echo $this->lang->line('Payment Voucher') ?></Strong>
             </h5>
-            <hr>
+
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -41,10 +42,11 @@
                 </ul>
             </div>
         </div>
+        <!-- <hr> -->
         <div class="card-content">
             <div class="row mr-2">
 
-                <div class="col-12 text-right mb-2">
+                <div class="col-12 text-right mt-2 ">
                     <!-- Small Button -->
                     <a href="<?php echo base_url('payroll/viewpaySlip'); ?>"> <button type="button"
                             class="btn btn-sm btn-primary"><?php echo $this->lang->line('List'); ?> </button></a>
@@ -79,11 +81,11 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 value="<?php echo date('m'); ?>">
                             <input type="hidden" name="current_year" id="current_year" value="<?php echo date('Y'); ?>">
 
-                            <label class="col-sm-1 col-form-label"
+                            <label class="col-sm-2 col-form-label "
                                 for="pay_cat"><?php echo $this->lang->line('Staff') ?> <span
                                     style="color:red">*</span></label>
 
-                            <div class="col-sm-5">
+                            <div class="col-sm-4 ">
                                 <select name="staff" class="form-control" onchange="showStaffInfo()" id="orgStaffId">
                                     <option value=''><?php echo $this->lang->line('Select Staff'); ?></option>
                                     <?php
@@ -95,21 +97,20 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 }
                                 ?>
                                 </select>
+                                <p class="mt-1">( <?php echo $this->lang->line('Default Employee List from Payroll Settings Configuration'); ?> )</p>
+                             </div>
+                            <!-- <div class="col-sm-5 p-2 " style="display:none; border:1px solid #4DD5E7;"
+                                id="selected_staff_details">
 
-                            </div>
-                            <div class="col-sm-5" id="selected_staff_details">
-
-                            </div>
+                            </div> -->
                         </div>
-                        <span style="color:red">*</span><b>(<?php echo $this->lang->line('Those Who Are Entered in the Settings will Appear On The Staff List Here'); ?>)</b>
-                        </br></br>
 
                         <div class="form-group row">
                             <!-- MONTH -->
-                            <label class="col-sm-1 col-form-label"
+                            <label class="col-sm-2 col-form-label "
                                 for="pay_cat"><?php echo $this->lang->line('Month') ?></label>
-                            <div class="col-sm-5">
-                                <select class="form-control" id="monthSlip" onchange="checkmonthYear();">
+                            <div class="col-sm-4">
+                                <select class="form-control" id="monthSlip">
                                     <?php
                             // Get the current month (numeric format)
                             $currentMonth = date("n");
@@ -123,14 +124,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <select>
                                         <input type="hidden" name="current_month" value="<?php echo date('m');?>">
                                         <div class="invalid-feedback">
-                                        <?php echo $this->lang->line('Please choose month'); ?>
+                                            <?php echo $this->lang->line('Please choose month'); ?>
                                         </div>
                             </div>
 
                             <!-- YEAR -->
-                            <label class="col-sm-1 col-form-label"
+                            <label class="col-sm-2 col-form-label "
                                 for="pay_cat"><?php echo $this->lang->line('Year') ?></label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-4">
                                 <select class="form-control" id="yearSlip" name="yearSlip" onchange="checkmonthYear();">
                                     <?php
                             // Get the current year
@@ -144,7 +145,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             ?>
                                 </select>
                                 <div class="invalid-feedback">
-                                <?php echo $this->lang->line('Please choose year'); ?>
+                                    <?php echo $this->lang->line('Please choose year'); ?>
                                 </div>
                             </div>
 
@@ -157,37 +158,37 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 
                         <div class="form-group row advanceshow">
                             <label for="allowance"
-                                class="col-sm-1 col-form-label"><?php echo $this->lang->line('Allowance') ?></label>
-                            <div class="col-sm-5">
+                                class="col-sm-2 col-form-label "><?php echo $this->lang->line('Allowance') ?></label>
+                            <div class="col-sm-4">
                                 <input type="text" id="allowance" name="allowance" min="0" class="form-control">
                             </div>
                             <label for="claims"
-                                class="col-sm-1 col-form-label"><?php echo $this->lang->line('Claims') ?></label>
-                            <div class="col-sm-5">
+                                class="col-sm-2 col-form-label "><?php echo $this->lang->line('Claims') ?></label>
+                            <div class="col-sm-4">
                                 <input type="text" id="claims" name="claims" min="0" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row advanceshow">
                             <label for="commissions"
-                                class="col-sm-1 col-form-label"><?php echo $this->lang->line('Commissions') ?></label>
-                            <div class="col-sm-5">
+                                class="col-sm-2 col-form-label "><?php echo $this->lang->line('Commissions') ?></label>
+                            <div class="col-sm-4 ">
                                 <input type="text" id="commissions" name="commissions" min="0" class="form-control">
                             </div>
                             <label for="ot"
-                                class="col-sm-1 col-form-label"><?php echo $this->lang->line('OT') ?></label>
-                            <div class="col-sm-5">
+                                class="col-sm-2 col-form-label "><?php echo $this->lang->line('OT') ?></label>
+                            <div class="col-sm-4 text-left">
                                 <input type="text" id="ot" name="ot" min="0" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row advanceshow">
                             <label for="bonus"
-                                class="col-sm-1 col-form-label"><?php echo $this->lang->line('Bonus') ?></label>
-                            <div class="col-sm-5">
+                                class="col-sm-2 col-form-label "><?php echo $this->lang->line('Bonus') ?></label>
+                            <div class="col-sm-4">
                                 <input type="text" id="bonus" name="bonus" min="0" class="form-control">
                             </div>
                             <label for="deduction"
-                                class="col-sm-1 col-form-label"><?php echo $this->lang->line('Deduction') ?></label>
-                            <div class="col-sm-5">
+                                class="col-sm-2 col-form-label "><?php echo $this->lang->line('Deduction') ?></label>
+                            <div class="col-sm-4">
                                 <input type="text" id="deduction" name="deduction" min="0" class="form-control">
                             </div>
 
@@ -207,9 +208,10 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <input oninput="showStaffInfo()"
                                     onclick="document.getElementById('payeeMessage').style.display = 'block'" id="payee"
                                     class="form-control" type="text" name="payee">
-                                <small id="payeeMessage" style="display:none;">(<?php echo $this->lang->line('person to whom money is to be paid'); ?>)</small>
+                                <small id="payeeMessage"
+                                    style="display:none;">(<?php echo $this->lang->line('person to whom money is to be paid'); ?>)</small>
                                 <div class="invalid-feedback">
-                                <?php echo $this->lang->line('Please enter payee name'); ?>
+                                    <?php echo $this->lang->line('Please enter payee name'); ?>
                                 </div>
                             </div>
                         </div>
@@ -223,7 +225,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <input oninput="showStaffInfo()" id="datePaymentVoucher" class="form-control"
                                     type="date">
                                 <div class="invalid-feedback">
-                                <?php echo $this->lang->line('Please choose payment date'); ?>
+                                    <?php echo $this->lang->line('Please choose payment date'); ?>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +239,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <input oninput="showStaffInfo()" onchange="checkValue(this)" id="amountPaymentVoucher"
                                     class="form-control" type="number" min="0.01" step="0.01">
                                 <div class="invalid-feedback">
-                                <?php echo $this->lang->line('Please choose payment amount'); ?>
+                                    <?php echo $this->lang->line('Please choose payment amount'); ?>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +256,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                     <option value="2"><?php echo $this->lang->line('Fund Transfer'); ?></option>
                                     <select>
                                         <div class="invalid-feedback">
-                                        <?php echo $this->lang->line('Please choose payment method'); ?>
+                                            <?php echo $this->lang->line('Please choose payment method'); ?>
                                         </div>
                             </div>
                         </div>
@@ -268,7 +270,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <input oninput="showStaffInfo()" id="theSumOf" class="form-control" type="text"
                                     name="theSumOf">
                                 <div class="invalid-feedback">
-                                <?php echo $this->lang->line('Please enter The Sum of'); ?>
+                                    <?php echo $this->lang->line('Please enter The Sum of'); ?>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +284,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                                 <input oninput="showStaffInfo()" id="being" class="form-control" type="text"
                                     name="being">
                                 <div class="invalid-feedback">
-                                <?php echo $this->lang->line('Please enter remarks'); ?>
+                                    <?php echo $this->lang->line('Please enter remarks'); ?>
                                 </div>
                             </div>
 
@@ -297,14 +299,14 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <input oninput="showStaffInfo()" class="form-control" type="date" id="datePayment"
                                 name="datePayment" value="<?php echo date("Y-m-d") ?>" required>
                             <div class="invalid-feedback">
-                            <?php echo $this->lang->line('Please select date'); ?>
+                                <?php echo $this->lang->line('Please select date'); ?>
                             </div>
                         </div>
                     </div>
                     <!-- PROCEED -->
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <button id="proceedPayroll" onclick="proceedTab()" name='proceedPayroll'
+                            <button id="proceedPayroll" onclick="checkmonthYear();" name='proceedPayroll'
                                 class="btn btn-primary btn-lg btn-block" type='button'
                                 disabled><?php echo $this->lang->line('Proceed') ?></button>
                         </div>
@@ -317,7 +319,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                 <div class="form-group row">
                     <div class="col-sm-12">
                         <button id="editPayroll" onclick="editTab()" name='editPayroll'
-                            class="btn btn-primary btn-lg btn-block"
+                            class="btn btn-primary btn-lg btn-block mt-2"
                             type='button'><?php echo $this->lang->line('Back To Edit') ?></button>
                     </div>
                 </div>
@@ -370,18 +372,108 @@ unset($_SESSION['status']);unset($_SESSION['message']);
 </div>
 <script>
 function checkmonthYear() {
-    var current_month = document.getElementById("current_month").value;
-    var current_year = document.getElementById("current_year").value;
-    var month = document.getElementById("monthSlip").value;
-    var yearSlip = document.getElementById("yearSlip").value;
 
-    if (month > parseInt(current_month) && yearSlip >= current_year) {
-        $("#proceedPayroll").prop('disabled', true);
+    if ($('#paymentVoucherCheck').is(':checked')) {
+
+        var current_month = document.getElementById("current_month").value;
+        var current_year = document.getElementById("current_year").value;
+        var datePaymentVoucher = document.getElementById("datePaymentVoucher").value;
+        // alert(datePaymentVoucher);
+        // Create a Date object from the dateString
+        var date = new Date(datePaymentVoucher);
+
+        // Get the month and year from the Date object
+        var month = date.getMonth() + 1; // Adding 1 because getMonth() returns values from 0 to 11 (January is 0)
+        var yearSlip = date.getFullYear();
+
+        var currentDate = new Date();
+        var currentDay = currentDate.getDate();
+        //alert((month - parseInt(current_month)));
+
+        if (month >= parseInt(current_month) && yearSlip >= current_year) {
+            //$("#proceedPayroll").prop('disabled', true);
+            if ((month - parseInt(current_month)) <= 1) {
+                var month_checking = true;
+            } else {
+                var month_checking = false;
+            }
+
+        } else {
+            var month_checking = false;
+            //$("#proceedPayroll").prop('disabled', false);
+
+        }
+
+
     } else {
+        // Checkbox is not checked
+        // Your code here if the checkbox is not checked
+        //console.log("Checkbox is not checked");
 
-        $("#proceedPayroll").prop('disabled', false);
+        var current_month = document.getElementById("current_month").value;
+        var current_year = document.getElementById("current_year").value;
+        var month = document.getElementById("monthSlip").value;
+        var yearSlip = document.getElementById("yearSlip").value;
+        var currentDate = new Date();
+        var currentDay = currentDate.getDate();
+        //alert((month - parseInt(current_month)));
+
+        if (month >= parseInt(current_month) && yearSlip >= current_year) {
+            //$("#proceedPayroll").prop('disabled', true);
+            if ((month - parseInt(current_month)) <= 1) {
+                var month_checking = true;
+            } else {
+                var month_checking = false;
+            }
+
+        } else {
+            var month_checking = false;
+            //$("#proceedPayroll").prop('disabled', false);
+
+        }
+
 
     }
+
+    // if (currentDay < 20) {
+    //         // Your code here
+    //         var month_checking = true;
+    //     }else{
+    //         month_checking = false;
+    //     }
+
+
+    if (month_checking) {
+
+        if (currentDay < 20) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You wan't to create payslip for future month?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, proceed!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    proceedTab();
+                }
+            })
+        } else {
+            //month_checking = false;
+            proceedTab();
+        }
+
+    } else {
+        //proceedTab();
+        Swal.fire({
+            title: "",
+            text: "Selected Month Not Allowed, Please Select Current Month or Next Month",
+            // icon: "error",
+        });
+    }
+
+
 
 
 }
@@ -427,6 +519,22 @@ function proceedTab() {
     if (!check) {
         var staffId = document.getElementById("orgStaffId").value;
     }
+
+    // Swal.fire({
+    //     title: 'Are you sure?',
+    //     text: "You won't be able to revert this!",
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Yes, proceed!'
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+
+    //     }
+    // })
+
+
     var month = document.getElementById("monthSlip").value;
     var yearSlip = document.getElementById("yearSlip").value;
 
@@ -531,9 +639,9 @@ function proceedTab() {
                 } else {
 
                     Swal.fire({
-                        title: "Danger",
+                        title: "",
                         text: data.message,
-                        icon: "error",
+                        // icon: "error",
                     });
                 }
 
@@ -541,7 +649,7 @@ function proceedTab() {
             }
         });
     }
-    document.getElementById("form-tab").style.display = "none";
+    // document.getElementById("form-tab").style.display = "none";
     document.getElementById("form-preview").style.display = "block";
 }
 
@@ -550,6 +658,7 @@ function editTab() {
     document.getElementById("card-body").style.display = "block";
     document.getElementById("form-preview").style.display = "none";
     document.getElementById("form-pVoucher").style.display = "none";
+    document.getElementById("proceedPayroll").disabled = false;
     $('#payroll_header').show();
     $('#payment_voucher_header').hide();
 }
@@ -591,39 +700,39 @@ function checkValue(id) {
 }
 
 
-$(document).on('change', '#orgStaffId', function() {
-    var employee_id = $('#orgStaffId').val();
+// $(document).on('change', '#orgStaffId', function() {
+//     var employee_id = $('#orgStaffId').val();
 
-    if (employee_id != '') {
+//     if (employee_id != '') {
 
-        // $('#products_invoices').DataTable().destroy();
-        //draw_products_data(start_date, end_date);
-        $.ajax({
+//         // $('#products_invoices').DataTable().destroy();
+//         //draw_products_data(start_date, end_date);
+//         $.ajax({
 
-            url: "<?php echo site_url('payroll/get_selected_employee_details') ?>",
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                employee_id: employee_id
-            },
-            success: function(resp) {
-                if (resp.status == '200') {
-                    $('#selected_staff_details').html('');
-                    $('#selected_staff_details').html(resp.html);
-                    $('#selected_staff_details').show();
-                }
+//             url: "<?php // echo site_url('payroll/get_selected_employee_details') ?>",
+//             type: 'POST',
+//             dataType: 'json',
+//             data: {
+//                 employee_id: employee_id
+//             },
+//             success: function(resp) {
+//                 if (resp.status == '200') {
+//                     $('#selected_staff_details').html('');
+//                     $('#selected_staff_details').html(resp.html);
+//                     $('#selected_staff_details').show();
+//                 }
 
-            },
-            error: function(resp) {
-                //console.log(data);
-                console.log("Error not get emp list")
-            }
+//             },
+//             error: function(resp) {
+//                 //console.log(data);
+//                 console.log("Error not get emp list")
+//             }
 
 
-        });
+//         });
 
-    } else {
-        alert("Date range is Required");
-    }
-});
+//     } else {
+//         alert("Date range is Required");
+//     }
+// });
 </script>

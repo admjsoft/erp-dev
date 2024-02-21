@@ -137,6 +137,10 @@ class Employee extends CI_Controller
         $join_date = $this->input->post('joined_date', true);
         $employee_job_type = $this->input->post('employee_job_type', true);
 
+        $ic_number = $this->input->post('ic_number', true);
+        $bank_name = $this->input->post('bank_name', true);
+        $bank_account_number = $this->input->post('bank_account_number', true);
+
         if (!empty($email) && !empty($password) && !empty($username)) {
             $a = $this->aauth->create_user($email, $password, $username);
 
@@ -146,7 +150,7 @@ class Employee extends CI_Controller
 
                     if ($nuid > 0) {
                         $this->employee->add_employee($nuid, (string) $this->aauth->get_user($a)->username, $name, $roleid, $phone, $address, $city,
-                            $region, $country, $postbox, $location, $salary, $commission, $department, $email, $password, $user_role, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type);
+                            $region, $country, $postbox, $location, $salary, $commission, $department, $email, $password, $user_role, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type, $ic_number, $bank_name, $bank_account_number);
                     }
                 } else {
                     echo json_encode(array('status' => 'Error', 'message' =>
@@ -158,7 +162,7 @@ class Employee extends CI_Controller
         } else {
 
             $d_user_id = $this->aauth->create_dummy_user();
-            $this->employee->add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department, $user_role, $join_date,  $employee_job_type);
+            $this->employee->add_employee_new($d_user_id, $name, $roleid, $phone, $address, $city, $region, $country, $postbox, $location, $salary, $commission, $department, $user_role, $join_date,  $employee_job_type, $ic_number, $bank_name, $bank_account_number);
 
         }
 
@@ -296,7 +300,7 @@ class Employee extends CI_Controller
                     } else {
 
 
-                        $roleNameToFind = $val[14];
+                        $roleNameToFind = $val[15];
 
                         // Initialize variable to store the found role ID
                         $foundRoleId = null;
@@ -323,7 +327,7 @@ class Employee extends CI_Controller
                         }
 
 
-                        $countryNameToFind = $val[6];
+                        $countryNameToFind = $val[7];
 
                         $foundCountryId = null;
 
@@ -348,7 +352,7 @@ class Employee extends CI_Controller
                             $country = 134;
                         }
 
-                        if ($val[8] !== 'foreign') {
+                        if ($val[7] !== 'foreign') {
                             $employee_type = 'foreign';
                         } else {
                             $employee_type = '';
@@ -359,18 +363,21 @@ class Employee extends CI_Controller
                             'username' => $val[0],
                             'email' => $val[1],
                             'name' => $val[2],
-                            'address' => $val[3],
-                            'city' => $val[4],
-                            'region' => $val[5],
+                            'ic_number' => $val[3],
+                            'address' => $val[4],
+                            'city' => $val[5],
+                            'region' => $val[6],
                             'country' => $country,
-                            'phone' => $val[7],
+                            'phone' => $val[8],
                             'employee_type' => $employee_type,
-                            'gender' => strtolower($val[9]),
-                            'socso_number' => $val[10],
-                            'kwsp_number' => $val[11],
-                            'pcb_number' => $val[12],
-                            'joindate' => $val[13],
+                            'gender' => strtolower($val[10]),
+                            'socso_number' => $val[11],
+                            'kwsp_number' => $val[12],
+                            'pcb_number' => $val[13],
+                            'joindate' => $val[14],
                             'degis' => $role,
+                            'bank_name' => $val[16],
+                            'bank_account_number' => $val[17],
 
                         ];
                         $list1[] = [
@@ -1474,8 +1481,14 @@ JSOFT SOLUTION SDN BHD,</p>
             $pcb_number = $this->input->post('pcb_number', true);
             $join_date = $this->input->post('joined_date', true);
             $employee_job_type = $this->input->post('employee_job_type', true);
+            $ic_number = $this->input->post('ic_number', true);
+            $bank_name = $this->input->post('bank_name', true);
+            $bank_account_number = $this->input->post('bank_account_number', true);
+            $employee_type = $this->input->post('employee_type', true);
+            $email = $this->input->post('email', true);
             
-            $this->employee->update_employee($eid, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary, $department, $commission, $roleid, $gender, $kwsp_number, $socso_number, $pcb_number, $join_date, $employee_job_type);
+            
+            $this->employee->update_employee($eid, $name, $phone, $phonealt, $address, $city, $region, $country, $postbox, $location, $salary, $department, $commission, $roleid, $gender, $kwsp_number, $socso_number, $pcb_number, $join_date, $employee_job_type, $ic_number, $bank_name, $bank_account_number, $employee_type,$email);
         } else {
             //$head['usernm'] = $this->aauth->get_user($id)->username;
             // $head['title'] = $head['usernm'] . ' Profile';
@@ -1531,6 +1544,7 @@ JSOFT SOLUTION SDN BHD,</p>
         // echo "<pre>"; print_r($_POST); echo "</pre>";
         // exit;
         $id = $this->input->post('id');
+        $redirect_url = $this->input->post('redirect_url');
         $imageData = $this->input->post('signature_image');
         $decodedImageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
         $imageName = uniqid('image_') . '.png';
@@ -1543,7 +1557,7 @@ JSOFT SOLUTION SDN BHD,</p>
         // echo $imageName;
         // exit;
         $this->employee->editsign($id,$imageName);
-        redirect('employee/update?id='.$id);
+        redirect($redirect_url);
     }
 
     public function updatepassword()
@@ -3430,6 +3444,9 @@ JSOFT SOLUTION SDN BHD,</p>
         $pcb_number = $this->input->post('pcb_number');
         $join_date = $this->input->post('f_joined_date');
         $employee_job_type = $this->input->post('f_employee_job_type');
+        $ic_number = $this->input->post('ic_number');
+        $bank_name = $this->input->post('bank_name');
+        $bank_account_number = $this->input->post('bank_account_number');
 
         $passport_expiry = date_create_from_format("d-m-Y", $this->input->post('passport_expiry'))->format("Y-m-d");
         $permit_expiry = date_create_from_format("d-m-Y", $this->input->post('permit_expiry'))->format("Y-m-d");
@@ -3548,7 +3565,7 @@ JSOFT SOLUTION SDN BHD,</p>
                             (string) $this->aauth->get_user($a)->username,
                             $emp_name, $email, $roleid, $passport, $permit,
                             $country, $company, $type, $passport_expiry, $permit_expiry,
-                            $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number,$join_date, $employee_job_type);
+                            $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number,$join_date, $employee_job_type, $bank_name, $bank_account_number);
 
                     }
                 } else {
@@ -3562,7 +3579,7 @@ JSOFT SOLUTION SDN BHD,</p>
                 $insert = $this->employee->addInternational_new($d_user_id,
                     $emp_name, $roleid, $passport, $permit,
                     $country, $company, $type, $passport_expiry, $permit_expiry,
-                    $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type);
+                    $passport_filename, $visa_filename, $role_id, $gender, $socso_number, $kwsp_number, $pcb_number, $join_date, $employee_job_type, $bank_name, $bank_account_number);
 
             }
 
@@ -3706,6 +3723,9 @@ JSOFT SOLUTION SDN BHD,</p>
         $pcb_number = $this->input->post('pcb_number');
         $join_date = $this->input->post('f_joined_date');
         $employee_job_type = $this->input->post('f_employee_job_type');
+        $bank_name = $this->input->post('bank_name');
+        $bank_account_number = $this->input->post('bank_account_number');
+        $employee_type = $this->input->post('employee_type');
         // $passport_expiry = $this->input->post('passport_expiry');
         // $permit_expiry = $this->input->post('permit_expiry');
         $passport_expiry = date_create_from_format("d-m-Y", $this->input->post('passport_expiry'))->format("Y-m-d");
@@ -3816,7 +3836,7 @@ JSOFT SOLUTION SDN BHD,</p>
                     $visa_filename = '';
                 }
 
-                $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $gender, $socso_number, $kwsp_number, $pcb_number,$join_date, $employee_job_type);
+                $update = $this->employee->updateInternational($id, $emp_name, $email, $passport, $permit, $country, $company, $type, $passport_expiry, $permit_expiry, $passport_filename, $visa_filename, $gender, $socso_number, $kwsp_number, $pcb_number,$join_date, $employee_job_type, $bank_name, $bank_account_number, $employee_type);
                 //print_r($insert);
                 //die;
 
@@ -4065,7 +4085,22 @@ JSOFT SOLUTION SDN BHD,</p>
         // echo $this->db->last_query();
         // echo "<pre>"; print_r($list); echo "</pre>";
         // exit;
+        $view_option = false;
+        $delete_option = false;
+
+        if (!$this->aauth->premission(212)) { 
+            $view_option = true;
+        }
+
+        
+        if (!$this->aauth->premission(210)) { 
+            $delete_option = true;
+        }
+
         foreach ($list as $obj) {
+
+            $view_row = '';
+            $delete_row = '';
             if(!empty($obj->tto))
             {
                 //$temptime = strtotime($obj->tto) - strtotime($obj->tfrom);
@@ -4095,7 +4130,19 @@ JSOFT SOLUTION SDN BHD,</p>
                 $row[] = '---';
             }
 
-            $row[] = '<a href="#" data-object-id="' . $obj->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>&nbsp;<a href="' . base_url('employee/attendview') . '?id=' . $obj->emp . '"  class="btn btn-cyan btn-sm"><span class="fa fa-eye"></span></a>';
+            if($view_option)
+            {
+                $view_row .= '<a href="' . base_url('employee/attendview') . '?id=' . $obj->emp . '"  class="btn btn-cyan btn-sm"><span class="fa fa-eye"></span></a>';
+
+            }
+
+            
+            if($delete_option)
+            {
+                $delete_row .= '<a href="#" data-object-id="' . $obj->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+
+            }
+            $row[] = $view_row."".$delete_row;
             $data[] = $row;
         }
 
@@ -4203,6 +4250,10 @@ JSOFT SOLUTION SDN BHD,</p>
             $i = 1;
             $attend = '';
             $temp = '';
+            $view_option = false;
+            if (!$this->aauth->premission(212)) { 
+                $view_option = true;
+            }
             foreach ($employee as $row) {
                 $aid = $row['id'];
                 $username = $row['username'];
@@ -4250,7 +4301,13 @@ JSOFT SOLUTION SDN BHD,</p>
         <td>$status</td>";
                 $attend .= "<td>$clock</td>";
                 $attend .= "<td>$state</td>";
-                $attend .= "<td><a href='" . base_url("employee/attendview?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;' class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a></td></tr>";
+                $attend .= "<td>";
+                if($view_option){
+                    
+                    $attend .= "<a href='" . base_url("employee/attendview?id=$aid") . "' style='display: inline-block; padding: 6px; margin-left: 1px;' class='btn btn-success btn-xs'><i class='fa fa-eye'></i> " . $this->lang->line('View') . "</a>";
+                
+                }
+                $attend .= "</td></tr>";
                 $i++;
             }
 
@@ -4571,7 +4628,14 @@ JSOFT SOLUTION SDN BHD,</p>
             $row[] = $document->title;
             $row[] = dateformat($document->cdate);
 
-            $row[] = '<a href="' . base_url('userfiles/documents/' . $document->filename) . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
+            if (filter_var($document->filename, FILTER_VALIDATE_URL)) {
+                // If it's a valid URL, use it directly
+                $url = $document->filename;
+            } else {
+                // If it's not a valid URL, construct the URL using base_url
+                $url = base_url('userfiles/documents/' . $document->filename);
+            }
+            $row[] = '<a href="' . $url . '" target="_blank" class="btn btn-success btn-xs"><i class="fa fa-file-text"></i> ' . $this->lang->line('View') . '</a> <a class="btn btn-danger btn-xs delete-object" href="#" data-object-id="' . $document->id . '"> <i class="fa fa-trash"></i> </a>';
 
 
             $data[] = $row;
@@ -4604,14 +4668,15 @@ JSOFT SOLUTION SDN BHD,</p>
             $title = $this->input->post('title', true);
             $cid = $this->input->post('id');
             $config['upload_path'] = './userfiles/documents';
-            $config['allowed_types'] = 'docx|docs|txt|pdf|xls';
+            $config['allowed_types'] = 'docx|docs|txt|pdf|xls|xlsx';
             $config['encrypt_name'] = TRUE;
             //$config['max_size'] = 3000;
             $this->load->library('upload', $config);
 
             if (!$this->upload->do_upload('userfile')) {
+                $error = $this->upload->display_errors();
                 $data['response'] = 0;
-                $data['responsetext'] = 'File Upload Error';
+                $data['responsetext'] = $error;
                 // $error = $this->upload->display_errors();
                 // echo $error;
             } else {
