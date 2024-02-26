@@ -400,6 +400,20 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         return $result;
     }
 
+
+    public function distance($lat1, $lon1, $lat2, $lon2) {
+        $earth_radius = 6371; // Radius of the earth in kilometers
+        $delta_lat = deg2rad($lat2 - $lat1);
+        $delta_lon = deg2rad($lon2 - $lon1);
+        
+        $a = sin($delta_lat / 2) * sin($delta_lat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($delta_lon / 2) * sin($delta_lon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $distance = $earth_radius * $c; // Distance in kilometers
+        
+        return $distance;
+    }
+
+    
     public function clockin($id,$clok_in_data)
     {
         $this->db->select('clock');
@@ -407,6 +421,25 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         $this->db->from('gtg_employees');
         $query = $this->db->get();
         $emp = $query->row_array();
+
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+       
+        $ofc_lat = $att_settings['latitude'];
+        $ofc_long = $att_settings['longitude'];
+        $distance_radius = $att_settings['office_login_radius'];
+        $clk_lat = $clok_in_data['clock_in_latitude'];
+        $clk_long = $clok_in_data['clock_in_longitude'];
+
+        $distance = $this->distance($ofc_lat, $ofc_long, $clk_lat, $clk_long);
+
+        // Check if the distance is within the radius
+        if ($distance <= $distance_radius) {
+            $within_radius = true;
+        } else {
+            $within_radius = false;
+        }
+
+
         $today=date('Y-m-d');
         $time=date('H:i:s');
        // print_r($emp);
@@ -419,7 +452,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                 'clock_in_photo' => $clok_in_data['clock_in_photo'],
                 'clock_in_latitude' => $clok_in_data['clock_in_latitude'],
                 'clock_in_longitude' => $clok_in_data['clock_in_longitude'],
-                'clock_in_location' => $clok_in_data['clock_in_location'],
+                'clock_in_location' => $clok_in_data['clock_in_location']
             );
            // $this->db->set($data);
             $this->db->where('id', $id);
@@ -439,6 +472,8 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                 'clock_in_latitude' => $clok_in_data['clock_in_latitude'],
                 'clock_in_longitude' => $clok_in_data['clock_in_longitude'],
                 'clock_in_location' => $clok_in_data['clock_in_location'],
+                'clock_in_distance' => $distance,
+                'clock_in_radius' => $within_radius
             );
 
 
@@ -457,9 +492,28 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
         $query = $this->db->get();
         $emp = $query->row_array();
 
+        if(!empty($emp))
+        {
         // echo "<pre>"; print_r($emp); echo "</pre>";
         // exit;
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+       
+        $ofc_lat = $att_settings['latitude'];
+        $ofc_long = $att_settings['longitude'];
+        $distance_radius = $att_settings['office_login_radius'];
+        $clk_lat = $clock_out_data['clock_out_latitude'];
+        $clk_long = $clock_out_data['clock_out_longitude'];
 
+        $distance = $this->distance($ofc_lat, $ofc_long, $clk_lat, $clk_long);
+
+        // Check if the distance is within the radius
+        if ($distance <= $distance_radius) {
+            $within_radius = true;
+        } else {
+            $within_radius = false;
+        }
+
+        
         $time=date('H:i:s');
         if ($emp['clock']) {
 
@@ -575,6 +629,8 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                     'clock_out_latitude' => $emp['clock_out_latitude'],
                     'clock_out_longitude' => $emp['clock_out_longitude'],
                     'clock_out_location' => $emp['clock_out_location'],
+                    'clock_out_distance' => $distance,
+                    'clock_out_radius' => $within_radius
                 );
 
                 $this->db->where('id', $edate['id']);
@@ -596,6 +652,8 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
                     'clock_out_latitude' => $emp['clock_out_latitude'],
                     'clock_out_longitude' => $emp['clock_out_longitude'],
                     'clock_out_location' => $emp['clock_out_location'],
+                    'clock_out_distance' => $distance,
+                    'clock_out_radius' => $within_radius
                 );
 
 
@@ -605,6 +663,7 @@ FROM gtg_invoices AS i LEFT JOIN gtg_customers AS c ON i.csd=c.id $whr ORDER BY 
             // echo "<pre>"; print_r($data); echo "</pre>";
             // exit;
         }
+    }
 
     //    echo $this->db->last_query();
     //    exit;

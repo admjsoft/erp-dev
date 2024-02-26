@@ -76,6 +76,26 @@ if (isset($_SESSION['status'])) {
 
                         </div>
                         <div class="row mb-1 ml-1">
+                            <label for="cst"
+                                class="col-md-3"><?php echo $this->lang->line('Select Schedule Time') ?><span
+                                    style="color:red">*</span></label>
+                            <div class="col-md-3" >
+
+                            <select id="hourSelect" name="hours">
+                                <?php for ($hour = 0; $hour < 24; $hour++) { ?>
+                                    <option value="<?php echo sprintf("%02d", $hour); ?>" <?php if($schedule->hours == $hour){ echo "selected"; } ?>><?php echo sprintf("%02d", $hour); ?></option>
+                                <?php } ?>
+                            </select>
+
+                            <select id="minuteSelect" name="minutes">
+                                <?php for ($minute = 0; $minute < 60; $minute += 30) { ?>
+                                    <option value="<?php echo sprintf("%02d", $minute); ?>" <?php if($schedule->minutes == $minute){ echo "selected"; } ?>><?php echo sprintf("%02d", $minute); ?></option>
+                                <?php } ?>
+                            </select>
+                            </div>
+
+                        </div>
+                        <div class="row mb-1 ml-1">
                             <label for="cst" class="col-md-3"><?php echo $this->lang->line('Module') ?><span
                                     style="color:red">*</span></label>
                             <div class="col-md-3">

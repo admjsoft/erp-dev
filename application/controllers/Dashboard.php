@@ -122,15 +122,31 @@ class Dashboard extends CI_Controller
             // exit;
 
             $out = $query->row_array();
-            $url = $out['url'];
-
-            $this->session->set_flashdata('messagePr', $this->session->flashdata("messagePr"));
-
-            
-            if(!empty($url))
+            if(!empty($out))
             {
-                redirect($url);
+                $url = $out['url'];
+
+                $this->session->set_flashdata('messagePr', $this->session->flashdata("messagePr"));
+                if(!empty($url))
+                {
+                    redirect($url);
+                }else{
+
+                    $this->db->select('*');
+                    $this->db->where($role,1);
+                    $this->db->where('module_type', 'Page Display');
+                    $this->db->order_by('id', 'ASC');
+                    $this->db->limit(1);
+                    $query = $this->db->get('sidebaritems');
+                    $out = $query->row_array();
+                    $url = $out['url'];
+                    redirect($url);
+                }
+
             }
+            
+            
+            
         }
 
         //     $this->load->model('projects_model', 'projects');

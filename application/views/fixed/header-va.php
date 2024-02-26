@@ -191,7 +191,8 @@ echo $loc['cname'];?></span>
                             data-target="#addReferral">
                             <?php echo $this->lang->line('Referral') ?></a>
                     </li><?php }?>
-                    <ul class="nav navbar-nav float-right"><?php if ($this->aauth->get_user()->roleid == 5) {?>
+                    <ul class="nav navbar-nav float-right">
+                        <?php if ($this->aauth->premission(213)) {?>
                         <li class="dropdown nav-item mega-dropdown"><a class="dropdown-toggle nav-link " href="#"
                                 data-toggle="dropdown"><?php echo $this->lang->line('business_settings') ?></a>
                             <ul class="mega-dropdown-menu dropdown-menu row">

@@ -36,7 +36,7 @@
                     <tbody>
                         <?php  
                             $edit_option = false;   
-                          if (!$this->aauth->premission(209)) { 
+                          if ($this->aauth->premission(209)) { 
                             $edit_option = true;
                             }
                         $i = 1; if($time_list) { foreach ($time_list as $row) { ?>

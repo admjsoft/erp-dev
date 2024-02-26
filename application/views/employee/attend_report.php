@@ -31,6 +31,12 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Employee') ?></label>
+                                <input type="text" class="form-control" name="cst" id="employee-box-kpi"
+                                        placeholder="Enter Employee Name"
+                                        autocomplete="off" value="<?php if(!empty($employee_name)){ echo $employee_name; } ?>"/>
+
+                                <div id="employee-box-kpi-result"></div>
+                                <?php /* ?>
                                 <input type="text" name="employee_list" id="employee_list"
                                     class="form-control employee emp-list"
                                     placeholder="<?php echo $this->lang->line('Enter Employee Name') ?>"
@@ -43,6 +49,7 @@
                                         <?php }} ?>
                                         <!-- Add more options as needed -->
                                 </datalist>
+                                <?php */ ?>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -92,12 +99,12 @@
                     <div class="row mb-2">
                         <?php if(!empty($from_date)) { ?>
                         <div class="col-md-4">
-                            <h3>From : <?php  echo $from_date; ?></h3>
+                            <h3>From : <?php  echo date('d-m-Y',strtotime($from_date)); ?></h3>
                         </div>
                         <?php } ?>
                         <?php if(!empty($to_date)) { ?>
                         <div class="col-md-4">
-                            <h3>To : <?php echo $to_date; ?></h3>
+                            <h3>To : <?php echo date('d-m-Y',strtotime($to_date)); ?></h3>
                         </div>
                         <?php } ?>
                     </div>

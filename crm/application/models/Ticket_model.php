@@ -148,7 +148,7 @@ class Ticket_model extends CI_Model
         $mailfrom = $smtpresult['sender'];
         $mailfromtilte = $this->config->item('ctitle');
 
-        $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
+        $this->ultimatemailer->load_no_response($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
     }
 
     function deleteticket($id)

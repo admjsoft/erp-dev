@@ -989,6 +989,7 @@ $(document).ready(function() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <?php if(empty($thread_info['signature'])){ ?>
 <script>
+
 /*!
  * Modified
  * Signature Pad v1.5.3
@@ -1661,6 +1662,12 @@ retakeButton.addEventListener('click', () => {
     locationElement.style.display = 'none';
 });
 
+
+var mm_status = 1;
+var s_status  = 1;
+var a_status = 1;
+var im_status = 1;
+
 uploadButton.addEventListener('click', () => {
 
     if ($("#captureImageDetailsCheckbox").is(":checked")) {
@@ -1693,14 +1700,14 @@ uploadButton.addEventListener('click', () => {
                             // Redirect to the success page
                             // window.location.href = data.redirect_url;
                             // location.reload();
-                            var im_status = 1;
-                            //alert('DO Captured Details Updated Successfully');
+                             im_status = 1;
+                            alert('DO Captured Details Updated Successfully');
                             //location.reload();
 
                         } else {
                             // Display validation errors
                             // $('#validation_errors').html(data.validation_errors).show();
-                            var im_status = 0;
+                             im_status = 0;
                         }
                     })
                     .catch(error => {
@@ -1721,8 +1728,10 @@ uploadButton.addEventListener('click', () => {
 
 
     } else {
-        var im_status = 1;
+         im_status = 1;
     }
+
+    //alert(im_status);
 
     if ($("#captureAttachmentDetailsCheckbox").is(":checked")) {
 
@@ -1749,13 +1758,13 @@ uploadButton.addEventListener('click', () => {
                         // Redirect to the success page
                         // window.location.href = data.redirect_url;
                         // location.reload();
-                        var a_status = 1;
+                         a_status = 1;
 
                         alert('Attachment Details has been Updated');
                         //location.reload();
                     } else {
                         // Display validation errors
-                        var a_status = 0;
+                         a_status = 0;
                         // $('#validation_errors').html(data.validation_errors).show();
                     }
                 })
@@ -1768,7 +1777,7 @@ uploadButton.addEventListener('click', () => {
         }
 
     } else {
-        var a_status = 1;
+         a_status = 1;
     }
 
     if ($("#captureSignatureDetailsCheckbox").is(":checked")) {
@@ -1798,13 +1807,13 @@ uploadButton.addEventListener('click', () => {
                         // Redirect to the success page
                         // window.location.href = data.redirect_url;
                         // location.reload();
-                        var s_status = 1;
-
+                         s_status = 1;
+                        
                         alert('Signature Details has been Updated');
                         //location.reload();
                     } else {
                         // Display validation errors
-                        var s_status = 0;
+                         s_status = 0;
                         // $('#validation_errors').html(data.validation_errors).show();
                     }
                 })
@@ -1821,16 +1830,17 @@ uploadButton.addEventListener('click', () => {
 
 
     } else {
-        var s_status = 1;
+         s_status = 1;
     }
 
+    
     
     const contentTextarea = document.getElementById('message_content');
 
 
     if (contentTextarea.value.trim() != '') {
 
-        var mm_status = 1;
+         mm_status = 1;
         //const attachmentInput = document.getElementById('userfile_attachment');
         var job_id = $('#c_job_id').val();
         const formData = new FormData();
@@ -1852,11 +1862,11 @@ uploadButton.addEventListener('click', () => {
                     // Redirect to the success page
                     // window.location.href = data.redirect_url;
                     // location.reload();
-                    var mm_status = 1;
+                     mm_status = 1;
                     alert('Conversation Details has been Updated');
                     //location.reload();
                 } else {
-                    var mm_status = 0;
+                     mm_status = 0;
                     // Display validation errors
                     // $('#validation_errors').html(data.validation_errors).show();
                 }
@@ -1867,11 +1877,11 @@ uploadButton.addEventListener('click', () => {
     } else {
         // alert('Please Capture Photo, Select Attachment, or Enter Message');
         // Handle validation or prompt the user
-        var mm_status = 1;
+         mm_status = 1;
         // alert('fuck');
     }
 
-    // alert(mm_status);
+    //alert(mm_status);
 
     // console.log(mm_status);
     // console.log(s_status);

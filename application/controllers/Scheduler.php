@@ -88,7 +88,7 @@ class Scheduler extends CI_Controller
         }
         $emailvalues = implode(',', $emailelements);
 
-        $insert = $this->scheduler_model->update($option, $days, $module, $implodevalues, $emailvalues, $schedule_id);
+        $insert = $this->scheduler_model->update($option, $days, $module, $implodevalues, $emailvalues, $schedule_id, $hours, $minutes);
         if (!$insert) {
             $data['status'] = 'danger';
             $data['message'] = $this->lang->line('Schedule Add error');
@@ -124,15 +124,19 @@ class Scheduler extends CI_Controller
                 $sccheduleron = "Passport";
             } else if ($prd->scheduler_on == 2)  {
                 $sccheduleron = "Permit";
-            }else{
+            }else if ($prd->scheduler_on == 3) {
                 $sccheduleron = "Contract";
+            }else{
+                $sccheduleron = "Attendance";
             }
 
             $row = array();
             $pid = $prd->id;
+            $row[] = $no;
             $row[] = $prd->name;
             $row[] = $sccheduleron;
             $row[] = $prd->days;
+            $row[] = $prd->hours.":".$prd->minutes;
             $row[] = $prd->created_at;
             $row[] = '<a href="' . base_url('scheduler/edit/?id=' . $pid) . '" style="display: inline-block; padding: 6px; margin-left: 1px;" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> ' . $this->lang->line('Edit') . '</a><a href="#" style="display: inline-block; padding: 6px; margin-left: 1px;" schedular_id="' . $pid . '" class="btn btn-danger btn-xs delete_schedular "><span class="fa fa-trash"></span> ' . $this->lang->line('Delete') . '</a>';
             $data[] = $row;
@@ -177,7 +181,7 @@ class Scheduler extends CI_Controller
         }
         $emailvalues = implode(',', $emailelements);
 
-        $insert = $this->scheduler_model->insert($option, $days, $module, $implodevalues, $emailvalues);
+        $insert = $this->scheduler_model->insert($option, $days, $module, $implodevalues, $emailvalues, $minutes, $hours);
         if (!$insert) {
             $data['status'] = 'danger';
             $data['message'] = $this->lang->line('Schedule Add error');

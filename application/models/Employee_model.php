@@ -2122,7 +2122,7 @@ class Employee_model extends CI_Model
         $count = $count1 - $count2;
 
         for ($i = 0; $i < count($data1); $i++) {
-            $a = $this->aauth->create_user($data1[$i]['email'], $data1[$i]['pass'], $data1[$i]['name']);
+            $a = $this->aauth->create_user($data1[$i]['email'], $data1[$i]['pass'], $data1[$i]['username']);
             //$this->db->insert_batch('gtg_users', $data1);
             $data2 = array(
                 'roleid' => $data1[$i]['roleid'],
@@ -2346,6 +2346,45 @@ class Employee_model extends CI_Model
         
             $query = $this->db->get();
             return $query->result_array();
+
+            // $this->db->select('gtg_attendance.*, 
+            // gtg_employees.name,
+            // gtg_employees.employee_type,
+            // gtg_employees.employee_job_type, 
+            // gtg_countries.country_name, 
+            // gtg_hrm.val1 as department_name,
+            // COUNT(DISTINCT gtg_attendance.adate) AS total_days',
+            // '(SELECT SEC_TO_TIME(MIN(TIME_TO_SEC(tfrom))) FROM gtg_attendance g2 WHERE g2.adate = gtg_attendance.adate) AS first_tfrom',
+            // '(CASE WHEN MIN(tto) IS NOT NULL AND MAX(tto) IS NOT NULL THEN SEC_TO_TIME(MAX(TIME_TO_SEC(tto))) ELSE "" END) AS last_tto',
+            // 'SUM(TIME_TO_SEC(gab.duration)) AS break_duration',
+            // 'SEC_TO_TIME(SUM(TIME_TO_SEC(gab.duration))) AS formatted_break_duration', FALSE);
+
+            // $this->db->from('gtg_attendance');
+            // $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'left');
+            // $this->db->join('gtg_countries', 'gtg_countries.id = gtg_employees.country', 'left');
+            // $this->db->join('gtg_hrm', 'gtg_employees.dept = gtg_hrm.id', 'left');
+            // $this->db->join('(SELECT emp, bdate, break, SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) AS duration 
+            //         FROM gtg_attend_break 
+            //         GROUP BY emp, bdate, break) gab', 'gtg_attendance.emp = gab.emp AND DATE(gtg_attendance.adate) = DATE(gab.bdate)', 'left');
+            // $this->db->where_in('gtg_attendance.emp', $employee_list);
+
+            // if (!empty($from_date) && !empty($to_date)) {
+            // $this->db->where('gtg_attendance.adate >=', $from_date);
+            // $this->db->where('gtg_attendance.adate <=', $to_date);
+            // } elseif (!empty($from_date)) {
+            // $this->db->where('gtg_attendance.adate >=', $from_date);
+            // } elseif (!empty($to_date)) {
+            // $this->db->where('gtg_attendance.adate <=', $to_date);
+            // }
+
+            // $this->db->group_by('gtg_attendance.emp, gtg_attendance.adate');
+            // $this->db->order_by("CAST(gtg_attendance.adate AS DATE)", "DESC");
+            // $this->db->order_by('gtg_attendance.created', 'ASC');
+
+            // $query = $this->db->get();
+            // return $query->result_array();
+
+
         }
         
         

@@ -128,33 +128,61 @@ class Cronjob extends CI_Controller
         // exit;
         if (!empty($schedulers)) {
             foreach ($schedulers as $schedular) {
-                $schedular_sub_modules = explode(',', $schedular['sub_module_names']);
 
-                if (!empty($schedular_sub_modules)) {
-                    foreach ($schedular_sub_modules as $schedular_sub_module) {
-                        if ($schedular_sub_module == 'permit') {
-                            $data = $this->check_permit_expiry($schedular);
+                $this->load->helper('date');
+                $hours = $schedular['hours'];
+                $minutes = $schedular['minutes'];
+                $current_date = date('Y-m-d');
+                $currentTimeAfterAddition = "$current_date $hours:$minutes:00";
+                $currentDateTime = date('Y-m-d H:i').":00";
+                
+                //echo "<br>".$currentTimeAfterAddition."<br>".$currentDateTime;
+                
+                if ($currentDateTime === $currentTimeAfterAddition) {
+                    $schedular_status = true;
+                } else {
+                    $schedular_status = false; 
+                }
 
-                            echo "<pre>";
-                            print_r($data);
-                            echo "</pre>";
+                if($schedular_status){
 
-                        } else if ($schedular_sub_module == 'passport') {
+                    //echo $schedular['id']."<br>";
 
-                            $data = $this->check_passport_expiry($schedular);
+                // $schedular_sub_modules = explode(',', $schedular['sub_module_names']);
 
-                            echo "<pre>";
-                            print_r($data);
-                            echo "</pre>";
-                        } else if ($schedular_sub_module == 'contract_reminder') {
+                // if (!empty($schedular_sub_modules)) {
+                //     foreach ($schedular_sub_modules as $schedular_sub_module) {
+                //         if ($schedular_sub_module == 'permit') {
+                //             $data = $this->check_permit_expiry($schedular);
 
-                            $data = $this->check_contract_expiry($schedular);
+                //             echo "<pre>";
+                //             print_r($data);
+                //             echo "</pre>";
 
-                            echo "<pre>";
-                            print_r($data);
-                            echo "</pre>";
-                        }
-                    }
+                //         } else if ($schedular_sub_module == 'passport') {
+
+                //             $data = $this->check_passport_expiry($schedular);
+
+                //             echo "<pre>";
+                //             print_r($data);
+                //             echo "</pre>";
+                //         } else if ($schedular_sub_module == 'contract_reminder') {
+
+                //             $data = $this->check_contract_expiry($schedular);
+
+                //             echo "<pre>";
+                //             print_r($data);
+                //             echo "</pre>";
+                //         } else if ($schedular_sub_module == 'late_attendance_list') {
+
+                //             $data = $this->check_late_attendance($schedular);
+
+                //             echo "<pre>";
+                //             print_r($data);
+                //             echo "</pre>";
+                //         }
+                //     }
+                // }
                 }
             }
         }
@@ -942,6 +970,181 @@ class Cronjob extends CI_Controller
             } 
             }          
 
+        }
+    }
+
+    public function check_late_attendance($schedular)
+    {
+        $this->db->select('gtg_attendance.*, gtg_employees.name');
+        $this->db->from('gtg_attendance');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'left');
+        $this->db->where('adate', date('Y-m-d'));
+        $this->db->group_by('gtg_attendance.emp');
+        $this->db->order_by('gtg_attendance.id', 'ASC'); // Assuming id is the primary key column
+        $attendance_list = $this->db->get()->result_array();
+       // $result = $this->db->result_array();
+
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+       
+        if(!empty($att_settings))
+        {
+            $clock_in_grace_period = $att_settings['clock_in_grace_period'];
+            $clock_in_time = $att_settings['clock_in_time'];
+            
+           
+        }else{
+            
+            $clock_in_grace_period = 0;
+            $clock_in_time = '00:00:00';
+        }
+
+        // echo "<pre>"; print_r($attendance_list); echo "</pre>";
+        //exit;
+
+        
+        if(!empty($attendance_list))
+        {
+
+            foreach($attendance_list as $att_result)
+            {
+
+                $data1 = array();
+                $data2 = array();
+                $data['clock_in'] = $att_result['tfrom'];
+                $data['ofc_clock_in'] = date('H:i:s', strtotime($clock_in_time));
+
+                $clockInTime = strtotime($data['clock_in']);
+                $ofcClockInTime = strtotime($data['ofc_clock_in']);
+                $ofcClockInTimeGrace = strtotime("+$clock_in_grace_period minutes", $ofcClockInTime);
+
+                // Check if clock_in is less than ofc_clock_in
+                if ($clockInTime > $ofcClockInTimeGrace) {
+                   
+                    $diffInSeconds = $clockInTime - $ofcClockInTimeGrace;
+
+                    // Calculate the difference in hours and minutes
+                    $diffInHours = floor($diffInSeconds / 3600);
+                    $diffInMinutes = floor(($diffInSeconds % 3600) / 60);
+
+                    // Convert to hours and minutes format if the difference is greater than 60 minutes
+                    if ($diffInHours > 0) {
+                        $diffFormatted = $diffInHours . ' hours ' . $diffInMinutes . ' minutes';
+                    } else {
+                        $diffFormatted = $diffInMinutes . ' minutes';
+                    }
+                    
+                    $data1['date'] = date('d-m-Y');
+                    $data1['name'] = $att_result['name'];
+                    $data1['late_by_minutes'] = $diffFormatted;
+                    $n_data[] = $data1;
+
+                }
+
+
+                if(!$att_result['clock_in_radius'])
+                {
+                    $data2['date'] = date('d-m-Y');
+                    $data2['name'] = $att_result['name'];
+                    $data2['distance'] = intval($att_result['clock_in_distance']);
+                    $n_data2[] = $data2;
+                }
+
+                
+            }
+        
+            // echo "<pre>"; print_r($n_data); echo "</pre>";
+            // exit;
+
+            $email_authors = explode(",", $schedular['email_to']);
+            
+            if(!empty($email_authors))
+            {
+                $organization = $this->employee->getOrganizationDetails();
+
+                if (in_array("1", $email_authors)) {
+
+                    $adminemail = $organization->email;
+                    $mailto = $adminemail;
+                    $elements = array();
+                    $content = '';
+                    $subject = "The Late Commerce on " . date('d-m-Y') . ". Please refer the List Below.";
+                    $mailtotitle = "";
+                    $table = '<table border=1><tr><th>Date</th><th>Employee Name</th><th>Late By Minutes</th></tr>';
+                    if(!empty($n_data)){  foreach($n_data as $nd) { 
+                    $table .= '<tr><td>' . $nd['date'] . '</td><td>' . $nd['name'] . '</td><td>' . $nd['late_by_minutes'] . '</td></tr>';
+                   
+                    } } 
+                   
+                    $table .= "</table>";
+
+                    $table2 = '<table border=1><tr><th>Date</th><th>Employee Name</th><th>Late By Minutes</th></tr>';
+                    if(!empty($n_data2)){  foreach($n_data2 as $nd2) { 
+                    $table2 .= '<tr><td>' . $nd2['date'] . '</td><td>' . $nd2['name'] . '</td><td>' . $nd2['distance'] . '</td></tr>';
+                   
+                    } } 
+                   
+                    $table2 .= "</table>";
+
+                    $message = '<!DOCTYPE html>
+                    <html>
+                    <head>
+                    </head>
+                    <body>
+                        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                            <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                <h1 style="color: #fff; font-size: 28px;">Employee Late Attendance Details</h1>
+                            </div>
+                            <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
+                            </div>
+                            <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is The Employee Late Attendance By Date List Details:</p>
+                                '.$table.'
+                                <br><br><p style="font-size: 16px; color: #555; line-height: 1.5;">Here is The Employee Login Out Of The Office Zone By Date List Details:</p>
+                                '.$table2.'
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>';
+
+                    // echo $message;
+                    // exit;
+
+                    $attachmenttrue = "true";
+                    $this->load->library('ultimatemailer');
+                    $this->db->select('host,port,auth,auth_type,username,password,sender');
+                    $this->db->from('gtg_smtp');
+                    $query = $this->db->get();
+                    $smtpresult = $query->row_array();
+                    $host = $smtpresult['host'];
+                    $port = $smtpresult['port'];
+                    $auth = $smtpresult['auth'];
+                    $auth_type = $smtpresult['auth_type'];
+                    $username = $smtpresult['username'];
+                    $password = $smtpresult['password'];
+                    $mailfrom = $smtpresult['sender'];
+                    $mailfromtilte = $this->config->item('ctitle');
+                    $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                        $mailtotitle, $subject, $message, $attachmenttrue, '');
+                    if ($mailer) {
+                        // foreach ($exppassportlist as $exppassport) {
+                        //     $data = array(
+                        //         'passport_email_sent' => 1,
+                        //     );
+                        //     $this->db->set($data);
+                        //     $this->db->where('id', $exppassport['id']);
+                        //     $this->db->update('gtg_employees');
+                        // }
+                    }
+                }
+    
+              
+               
+            } 
+          
         }
     }
     public function reminder()

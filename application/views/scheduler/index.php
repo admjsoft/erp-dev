@@ -48,9 +48,11 @@ select#status,
                 width="100%">
                 <thead>
                     <tr>
+                        <th><?php echo $this->lang->line('S.No') ?></th>
                         <th><?php echo $this->lang->line('Module') ?></th>
                         <th><?php echo $this->lang->line('Scheduler For') ?></th>
                         <th><?php echo $this->lang->line('Days') ?></th>
+                        <th><?php echo $this->lang->line('Time') ?></th>
                         <th><?php echo $this->lang->line('Created At') ?></th>
                         <th><?php echo $this->lang->line('Actions') ?></th>
                     </tr>

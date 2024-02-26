@@ -35,6 +35,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Employee') ?></label>
+                                <input type="text" class="form-control" name="cst" id="employee-box-kpi"
+                                        placeholder="Enter Employee Name"
+                                        autocomplete="off" value="<?php if(!empty($employee_name)){ echo $employee_name; } ?>"/>
+
+                                <div id="employee-box-kpi-result"></div>
+                                <?php /* ?>
                                 <input type="text" name="employee_list" id="employee_list"
                                     class="form-control employee emp-list"
                                     placeholder="<?php echo $this->lang->line('Enter Employee Name') ?>"
@@ -47,6 +53,7 @@
                                         <?php }} ?>
                                         <!-- Add more options as needed -->
                                 </datalist>
+                                <?php */ ?>
                             </div>
                         </div>
 
@@ -101,6 +108,8 @@
                             <th><?php echo $this->lang->line('Staff Name') ?></th>
                             <th><?php echo $this->lang->line('Department') ?></th>
                             <th><?php echo $this->lang->line('Employee Type') ?></th>
+                            <th><?php echo $this->lang->line('From Date') ?></th>
+                            <th><?php echo $this->lang->line('To Date') ?></th>
                             <th><?php echo $this->lang->line('Total Attendance') ?></th>
                             <th><?php echo $this->lang->line('Total MC') ?></th>
                             <th><?php echo $this->lang->line('Total late Attendance') ?></th>
@@ -117,6 +126,8 @@
                                     <td><?php echo $att_data['emp_name']; ?></td>
                                     <td><?php echo $att_data['department_name']; ?></td>
                                     <td><?php echo $att_data['employee_type']; ?></td>
+                                    <td><?php echo $att_data['from_date']; ?></td>
+                                    <td><?php echo $att_data['to_date']; ?></td>
                                     <td><?php echo $att_data['total_attendance']; ?></td>
                                     <td><?php echo $att_data['total_mc']; ?></td>
                                     <td><?php echo $att_data['late_attendances']; ?></td>

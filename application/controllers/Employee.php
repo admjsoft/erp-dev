@@ -253,19 +253,21 @@ class Employee extends CI_Controller
         $this->load->view('fixed/footer');
     }
 
+   
+    
     public function import()
     {
 
-        if ($_FILES['file']['name'] != "Employee-Management-Template.xlsx") {
-            $data['status'] = 'danger';
-            $data['message'] = $this->lang->line('Employee Template Error Use Jsuite Downloaded Template');
-            $_SESSION['status'] = $data['status'];
-            $_SESSION['message'] = $data['message'];
-            $this->session->mark_as_flash('status');
-            $this->session->mark_as_flash('message');
-            redirect('employee/addExcel', 'refresh');
+        // if ($_FILES['file']['name'] != "Employee-Management-Template.xlsx") {
+        //     $data['status'] = 'danger';
+        //     $data['message'] = $this->lang->line('Employee Template Error Use Jsuite Downloaded Template');
+        //     $_SESSION['status'] = $data['status'];
+        //     $_SESSION['message'] = $data['message'];
+        //     $this->session->mark_as_flash('status');
+        //     $this->session->mark_as_flash('message');
+        //     redirect('employee/addExcel', 'refresh');
 
-        }
+        // }
         $path = "../userfiles/";
         $json = [];
         $this->upload_config($path);
@@ -293,13 +295,16 @@ class Employee extends CI_Controller
 
             foreach ($sheet_data as $key => $val) {
 
+                // if(!empty($val[0]) && !empty($val[1]))
+                // {
                 if ($key > 1) {
                     $result = '';
 
                     if ($result) {
                     } else {
 
-
+                        if(!empty($val[0]) && !empty($val[1]))
+                        {
                         $roleNameToFind = $val[15];
 
                         // Initialize variable to store the found role ID
@@ -352,7 +357,7 @@ class Employee extends CI_Controller
                             $country = 134;
                         }
 
-                        if ($val[7] !== 'foreign') {
+                        if ($val[7] == 'foreign') {
                             $employee_type = 'foreign';
                         } else {
                             $employee_type = '';
@@ -381,7 +386,7 @@ class Employee extends CI_Controller
 
                         ];
                         $list1[] = [
-                            'name' => $val[2],
+                            'username' => $val[0],
                             'email' => $val[1],
                             'pass' => '123456',
                             'roleid' => $role,
@@ -389,6 +394,7 @@ class Employee extends CI_Controller
                         ];
                     }
                 }
+            }
             }
 
 
@@ -403,7 +409,7 @@ class Employee extends CI_Controller
             if (count($list) > 0) {
                 $result = $this->employee->add_batch($list, $list1);
                 //print_r($result);
-
+                
                 if ($result > 0 && $result != 0) {
                     $data['status'] = 'danger';
                     $data['message'] = $result . " Rows Are Duplicate";
@@ -418,6 +424,7 @@ class Employee extends CI_Controller
 
             }
         }
+        //exit;
         $_SESSION['status'] = $data['status'];
         $_SESSION['message'] = $data['message'];
         $this->session->mark_as_flash('status');
@@ -1418,9 +1425,11 @@ JSOFT SOLUTION SDN BHD,</p>
                 'You can not delete yourself!'));
         } else {
 
-            $this->db->delete('gtg_employees', array('id' => $uid));
+            // $this->db->delete('gtg_employees', array('id' => $uid));
 
-            $this->db->delete('gtg_users', array('id' => $uid));
+            // $this->db->delete('gtg_users', array('id' => $uid));
+            $d_data['delete_status'] = 1;
+            $this->db->where('id',$uid)->update('gtg_employee',$d_data);
 
             echo json_encode(array('status' => 'Success', 'message' =>
                 'User Profile deleted successfully! Please refresh the page!'));
@@ -4021,6 +4030,11 @@ JSOFT SOLUTION SDN BHD,</p>
             $data['ot_allowance_per_hour'] = $this->input->post('ot_allowance_per_hour');
             $data['clock_in_grace_period'] = $this->input->post('clock_in_grace_period');
             $data['clock_in_checking_hours'] = $this->input->post('clock_in_checking_hours');
+            $data['address'] = $this->input->post('address');
+            $data['latitude'] = $this->input->post('latitude');
+            $data['longitude'] = $this->input->post('longitude');
+            $data['office_login_radius'] = $this->input->post('office_login_radius');
+
             $att_sett_id = $this->input->post('att_sett_id');
 
             if ($this->employee->addattendance_settings($data,$att_sett_id)) {
@@ -4088,12 +4102,12 @@ JSOFT SOLUTION SDN BHD,</p>
         $view_option = false;
         $delete_option = false;
 
-        if (!$this->aauth->premission(212)) { 
+        if ($this->aauth->premission(212)) { 
             $view_option = true;
         }
 
         
-        if (!$this->aauth->premission(210)) { 
+        if ($this->aauth->premission(210)) { 
             $delete_option = true;
         }
 
@@ -4139,10 +4153,12 @@ JSOFT SOLUTION SDN BHD,</p>
             
             if($delete_option)
             {
-                $delete_row .= '<a href="#" data-object-id="' . $obj->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
+                $delete_row .= ' &nbsp;<a href="#" data-object-id="' . $obj->id . '" class="btn btn-danger btn-sm delete-object"><span class="fa fa-trash"></span></a>';
 
             }
             $row[] = $view_row."".$delete_row;
+            $row[] = $obj->clock_in_radius;
+            $row[] = $obj->clock_out_radius;
             $data[] = $row;
         }
 
@@ -4251,7 +4267,7 @@ JSOFT SOLUTION SDN BHD,</p>
             $attend = '';
             $temp = '';
             $view_option = false;
-            if (!$this->aauth->premission(212)) { 
+            if ($this->aauth->premission(212)) { 
                 $view_option = true;
             }
             foreach ($employee as $row) {
@@ -4385,7 +4401,8 @@ JSOFT SOLUTION SDN BHD,</p>
             $ot = (int)$duration - (int)$work_hours;
             if ($ot > 0){  $ot = $ot; $ot_allowance = $ot * $ot_allowance_amount; }else{ $ot = 0; $ot_allowance = 0; }
            
-
+            if($obj->clock_in_radius){ $clk_in_background_color = '#ccffcc'; }else{ $clk_in_background_color = '#ffcccc'; }
+            if($obj->clock_out_radius){ $clk_out_background_color = '#ccffcc'; }else{ $clk_out_background_color = '#ffcccc'; }
             $no++;
             $row = array();
             $table .= '<tr><td>' . $no . '</td>';
@@ -4398,7 +4415,7 @@ JSOFT SOLUTION SDN BHD,</p>
             $table .= '<td>' . date("h:i A", strtotime($obj->tfrom)) . '</td>';
 
             $table .= '<td><img height="50" width="50" src="' . base_url('userfiles/clock_in_photos/'.$obj->clock_in_photo) . '"/></td>';
-            $table .= '<td>' . $obj->clock_in_location. '</td>';
+            $table .= '<td style="background-color:'.$clk_in_background_color.'">' . $obj->clock_in_location. '</td>';
             // $table .= '<td>' . date("h:i A", strtotime($obj->tto)) . '</td>';
             if(!empty($obj->tto))
             {
@@ -4418,7 +4435,7 @@ JSOFT SOLUTION SDN BHD,</p>
 
             if(!empty($obj->clock_out_location))
             {
-                $table .= '<td>' . $obj->clock_out_location . '</td>';
+                $table .= '<td style="background-color:'.$clk_out_background_color.'">' . $obj->clock_out_location . '</td>';
                 
             }else{
                 $table .= '<td>---</td>';
@@ -4765,7 +4782,8 @@ JSOFT SOLUTION SDN BHD,</p>
         $data['emp_details'] = $this->employee->employee_details($cid);
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;
-        // print_r($list);
+        // echo "<pre>"; print_r($list); echo "</pre>";
+        // exit;
         $att_settings = $this->employee->get_attendance_settings();
 
         $categorizedResult = array();
@@ -4904,6 +4922,8 @@ JSOFT SOLUTION SDN BHD,</p>
             $data['total_mc'] = 'NA';
             $data['total_annual_leaves'] = 'NA';
             $data['kpi_indication'] = $kpi_indication;
+            $data['from_date'] = date('d-m-Y',strtotime($from_date));
+            $data['to_date'] = date('d-m-Y',strtotime($to_date));
             $n_data[] = $data;
 
 

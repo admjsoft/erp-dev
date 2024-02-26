@@ -43,6 +43,7 @@ unset($_SESSION['status']);unset($_SESSION['message']);
                             <option value="Work In Progress">Work In Progress</option>
                             <option value="Completed">Completed</option>
                             <option value="unassigned">UnAssigned</option>
+                            <option value="Closed">Closed</option>
                         </select>
                     </div>
                 </div>

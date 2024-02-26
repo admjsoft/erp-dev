@@ -2,8 +2,8 @@
 <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Attendance') ?> 
-            <?php  if (!$this->aauth->premission(208)) { ?>
+            <h5><?php echo $this->lang->line('Manage Clock in / Clock out') ?> 
+            <?php  if ($this->aauth->premission(208)) { ?>
             <a href="<?php echo base_url('employee/attendance') ?>" class="btn btn-primary btn-sm rounded ml-2">
             <?php echo $this->lang->line('Add new') ?></a>
             <?php } ?>
@@ -108,12 +108,26 @@
                         '<?=$this->security->get_csrf_token_name()?>': crsf_hash
                     }
                 },
+                // 'columnDefs': [
+                //     {
+                //     "targets": [0],
+                //     "orderable": true,
+                //     },
+                // ], 
                 'columnDefs': [
                     {
-                    "targets": [0],
-                    "orderable": true,
-                    },
-                ], dom: 'Blfrtip',
+                        "targets": [7,8], // Target the last two columns
+                        "visible": false // Hide the last two columns
+                    }
+                ],  
+                'createdRow': function (row, data, dataIndex) {
+                    // Assuming clock_in_radius and clock_out_radius are the 2nd and 3rd columns respectively
+                    // If the value is true, apply green background color to the cell; otherwise, apply red background color
+                    $(row).children('td:eq(4)').css('background-color', data[7] === '1' ? '#ccffcc' : '#ffcccc');
+                    $(row).children('td:eq(5)').css('background-color', data[8] === '1' ? '#ccffcc' : '#ffcccc');
+       
+                },
+                dom: 'Blfrtip',
                 buttons: [
                     {
                         extend: 'excelHtml5',

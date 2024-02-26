@@ -386,7 +386,7 @@ class Jobsheet_model extends CI_Model
         $mailfrom = $smtpresult['sender'];
         $mailfromtilte = $this->config->item('ctitle');
 
-        $this->ultimatemailer->bin_send($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
+        $this->ultimatemailer->load_no_response($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto, $mailtotitle, $subject, $message, $attachmenttrue, $attachment);
     }
 
 
@@ -448,7 +448,7 @@ class Jobsheet_model extends CI_Model
                     $email = $employee_details['email'];
                     $name = $employee_details['name'];
                     $message = "Task has been Assigned";
-                    $this->send_email($email, $name, '[Task Assigned] ', $message, $attachmenttrue = false, $attachment = '');
+                    //$this->send_email($email, $name, '[Task Assigned] ', $message, $attachmenttrue = false, $attachment = '');
                     
                 }else{
                     $this->db->delete('gtg_jobtransaction', array('jobid' => $jobid));

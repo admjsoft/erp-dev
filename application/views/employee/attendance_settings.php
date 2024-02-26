@@ -83,6 +83,54 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+
+                    <label class="col-sm-4 control-label"
+                        for="from"><?php echo $this->lang->line('Office Location') ?> <span
+                            style="color:red">*</span></label>
+
+                    <div class="col-sm-4">
+                        <input type="text" id="autocomplete" class="form-control required"
+                            placeholder="<?php echo $this->lang->line('Office Location') ?>" name="address" value="<?php if(!empty($settings['address'])){ echo $settings['address']; } ?>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <label class="col-sm-4 control-label"
+                        for="from"><?php echo $this->lang->line('Office Latitude') ?> <span
+                            style="color:red">*</span></label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required"
+                            placeholder="<?php echo $this->lang->line('Office Latitude') ?>" id="latitude" name="latitude" value="<?php if(!empty($settings['latitude'])){ echo $settings['latitude']; } ?>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <label class="col-sm-4 control-label"
+                        for="from"><?php echo $this->lang->line('Office Longitude') ?> <span
+                            style="color:red">*</span></label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control required"
+                            placeholder="<?php echo $this->lang->line('Office Longitude') ?>" id="longitude" name="longitude" value="<?php if(!empty($settings['longitude'])){ echo $settings['longitude']; } ?>">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <label class="col-sm-4 control-label"
+                        for="from"><?php echo $this->lang->line('Office Within Radius') ?> <span
+                            style="color:red">*</span></label>
+
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control required"
+                            placeholder="<?php echo $this->lang->line('Office Within Radius') ?>" name="office_login_radius" value="<?php if(!empty($settings['office_login_radius'])){ echo $settings['clock_in_checking_hours']; } ?>">
+                    </div>
+                </div>
+
 
 
                 <div class="form-group row">
@@ -103,3 +151,26 @@
         </div>
     </div>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMWSr2YSC6925JdAvbRyfjaiRsF8rPxA4&libraries=places"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var input = document.getElementById('autocomplete');
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    // Place details not found for the input.
+                    return;
+                }
+                var location = place.geometry.location;
+                var latitude = location.lat();
+                var longitude = location.lng();
+
+                $('#latitude').val(latitude);
+                $('#longitude').val(longitude);
+                //alert('Latitude: ' + latitude + '\nLongitude: ' + longitude);
+            });
+        });
+    </script>

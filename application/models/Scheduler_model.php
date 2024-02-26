@@ -13,7 +13,7 @@ class Scheduler_model extends CI_Model
     private function _get_datatables_query()
     {
 $this->db->select('scheduler.id,scheduler.run_scheduler_expiry_date,scheduler.module,scheduler.scheduler_on,
-scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_new.name as name');
+scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_new.name as name,scheduler.hours,scheduler.minutes');
         $this->db->from('scheduler');
         //$this->db->where('eid', $this->eid);
         $this->db->join('modules_new', 'modules_new.id=scheduler.module');
@@ -92,7 +92,7 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
  }
  
  
- public function insert($option,$days,$module,$implodevalues,$email_to)
+ public function insert($option,$days,$module,$implodevalues,$email_to,$minutes,$hours)
  {
 	 
 	 $create_at=date("Y-m-d");
@@ -100,8 +100,7 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
 	// if($option=="yes")
 	// {
 	 $data = array('run_scheduler_expiry_date' =>$option, 'days' => $days, 'module' => $module,'scheduler_on' => $implodevalues,'email_to'=>$email_to,
-	 
-	 'created_at'=>$create_at);
+	 'minutes' => $minutes,'hours' => $hours,'created_at'=>$create_at);
 	// }
 	// else
 	// {
@@ -113,7 +112,7 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
  }	 
  
  
- public function update($option,$days,$module,$implodevalues,$email_to, $schedule_id)
+ public function update($option,$days,$module,$implodevalues,$email_to, $schedule_id, $hours, $minutes)
  {
 	 
 	 $create_at=date("Y-m-d");
@@ -121,7 +120,8 @@ scheduler.days,scheduler.email_to,scheduler.status,scheduler.created_at,modules_
 	// if($option=="yes")
 	// {
 	 $data = array('run_scheduler_expiry_date' =>$option, 'days' => $days, 'module' => $module,'scheduler_on' => $implodevalues,'email_to'=>$email_to,
-	 
+	 'minutes' => $minutes,
+	 'hours' => $hours,
 	 'created_at'=>$create_at);
 	// }
 	// else
