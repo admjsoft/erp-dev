@@ -19,6 +19,10 @@ class Import extends CI_Controller
             exit;
         }
 
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
+        }
+
         if ($this->aauth->get_user()->roleid < 5) {
 
             exit('Not Allowed!');

@@ -17,8 +17,12 @@ class Deliveryorder extends CI_Controller
         $this->load->library('pdf');
         $this->load->library("Aauth");        
         $this->load->library("Custom");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         if (($this->aauth->get_user()->roleid == 5) || ($this->aauth->get_user()->roleid == 4)) {
             $this->limited = '';

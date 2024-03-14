@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-header">
             <h5 class="title">
-                <?php echo $this->lang->line('Attandance') ?>
+                <?php echo $this->lang->line('Employee Break Time Settings') ?>
                 </a>
             </h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>

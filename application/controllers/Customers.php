@@ -13,9 +13,14 @@ class Customers extends CI_Controller
         parent::__construct();
         $this->load->model('customers_model', 'customers');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
         }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
+        }
+
      
         $this->load->library("Custom");
         $this->li_a = 'crm';
@@ -1322,5 +1327,74 @@ public function get_all_customers(){
         $html .= '<option value="' . $item->id . '" >' . $item->name . '</option>';
     }
     echo $html;
+}
+
+
+
+
+public function getFileManagement(){
+
+    $customer_id = intval($this->input->get('id'));
+    // $customer_id = 253;
+    $parent_entity_id = '';
+    //$parent_entity_id = $this->input->get('parent_entity_id'); // Assuming you are getting the parent_entity_id from the GET request
+
+    $this->db->select('
+        fme.entity_id,
+        fme.parent_entity_id,
+        fme.entity_name,
+        fme.entity_type,
+        fme.entity_path,
+        fme.created_at,
+        fme.updated_at,
+        fme.delete_status,
+        IF(fl.lock_id IS NOT NULL, "locked", "unlocked") AS file_lock_status,
+        fl.global_lock
+    ');
+    $this->db->from('filemanagemententities fme');
+    $this->db->join('user_folder_access ufa', 'fme.entity_id = ufa.folder_id', 'left');
+    $this->db->join('file_locks fl', 'fme.entity_id = fl.file_id AND fl.user_type = "customer" AND fl.user_id = ' . $customer_id, 'left');
+    $this->db->where('ufa.type', 'customer');
+    $this->db->where('ufa.user_id', $customer_id);
+    $this->db->where('(fme.parent_entity_id IS NULL OR EXISTS (SELECT 1 FROM filemanagemententities fmeparent WHERE fmeparent.entity_id = fme.parent_entity_id))');
+
+    // Additional condition based on parent_entity_id
+    if ($parent_entity_id) {
+        $this->db->where('fme.parent_entity_id', $parent_entity_id);
+    }
+
+    $this->db->order_by('fme.parent_entity_id, fme.entity_name','ASC');
+    $query = $this->db->get();
+    $items = $query->result_array();
+
+    $result = array();
+
+    $grouped_items = array();
+
+    foreach ($items as $item) {
+        $parent_id = $item['parent_entity_id'] ?? null;
+        $grouped_items[$parent_id][] = $item;
+    }
+    
+    $contents = reset($grouped_items);
+   
+    $data = array(
+        'folder' => array(),
+        'contents' => $contents,
+        'breadcrumbs' => array()
+    );
+    $data['parent_id'] = '';
+    $data['employees'] = array();
+    $data['customers'] = array();
+
+      // echo "<pre>";print_r($data);echo "</pre>";
+        // exit;   
+        
+    $head['usernm'] = $this->aauth->get_user()->username;
+    $head['title'] = 'File / Folders List';
+
+    $this->load->view('fixed/header', $head);
+    $this->load->view('customers/file_management_entities_list', $data);
+    $this->load->view('fixed/footer');
 }
 }

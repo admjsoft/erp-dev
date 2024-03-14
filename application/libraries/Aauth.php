@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
@@ -306,6 +302,33 @@ class Aauth
                 );
                 $this->CI->input->set_cookie($cookie);
             }
+
+                        // Set the username cookie
+            $username_cookie = array(
+                'name'   => 'username_cookie',
+                'value'  => $identifier, // Replace 'user123' with the actual username
+                'expire' => 0, // Cookie expiration time in seconds (e.g., 1 hour)
+                'path'   => '/', // Cookie path (optional, defaults to '/')
+                'domain' => $_SERVER['HTTP_HOST'], // Set to localhost
+                'secure' => FALSE, // Set to FALSE for localhost
+                'httponly' => TRUE // Indicates if the cookie should only be accessible via HTTP protocol (optional, defaults to FALSE)
+            );
+
+            $this->CI->input->set_cookie($username_cookie);
+
+            // Set the password cookie
+            $password_cookie = array(
+                'name'   => 'password_cookie',
+                'value'  => $pass, // Replace 'password123' with the actual password
+                'expire' => 0, // Cookie expiration time in seconds (e.g., 1 hour)
+                'path'   => '/', // Cookie path (optional, defaults to '/')
+                'domain' => $_SERVER['HTTP_HOST'], // Set to localhost
+                'secure' => FALSE, // Set to FALSE for localhost
+                'httponly' => TRUE // Indicat   es if the cookie should only be accessible via HTTP protocol (optional, defaults to FALSE)
+            );
+
+            $this->CI->input->set_cookie($password_cookie);
+
 
             // update last login
             $this->update_last_login($row->id);
@@ -955,9 +978,59 @@ class Aauth
             $this->error($this->CI->lang->line('aauth_error_no_user'));
             return FALSE;
         }
+        // echo $this->aauth_db->last_query();
+
         $this->CI->config->set_item('currency',  currency($query->row()->loc));
         return $query->row();
     }
+
+    public function get_employee($user_id = FALSE)
+    {
+
+        $att_settings = $this->aauth_db->get('gtg_attendance_settings')->row_array();
+
+        
+
+        $clockOutTime = strtotime($att_settings['clock_out_time']);
+
+        // Get current time
+        $currentTimestamp = time();
+
+        // echo $clockOutTime."<br>";
+        // echo $currentTimestamp."<br>";
+        // // print_r($att_settings);
+        // exit;
+
+
+        // Compare current time with clock_out_time
+        if ($currentTimestamp > $clockOutTime) {
+           
+            // echo "fd";
+            // exit;
+             return true;
+        } else {
+
+            
+            $user_id = $this->CI->session->userdata('id');
+            $this->aauth_db->select('clock');
+            $this->aauth_db->where('id', $user_id);
+            $query = $this->aauth_db->get('gtg_employees');
+            $result = $query->row();
+
+            if(!empty($result))
+            {
+                return $result->clock;
+            }else{
+                return true;
+            }
+            
+        }
+
+        
+        
+
+    }
+
 
     public function premission($module_id)
     {
@@ -976,6 +1049,16 @@ class Aauth
         $query = $this->aauth_db->get('sidebaritems');
         $out = $query->row_array();
         return $out[$role];
+    }
+
+    public function personalized_premission($module_id)
+    {
+        $user_id = $this->CI->session->userdata('id');
+        $this->aauth_db->where('user_id', $user_id);
+        $this->aauth_db->where('module_id', $module_id);
+        $query = $this->aauth_db->get('gtg_employee_modules_personalization');
+        return  $query->num_rows();
+        
     }
 
     public function get_role_based_sidebar()

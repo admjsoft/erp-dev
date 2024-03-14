@@ -1746,6 +1746,10 @@ $lang['From Supplier'] = "From Supplier";
 $lang['Expiry Based Product Code'] = "Expiry Based Product Code";
 $lang['Fwms Report'] = "Fwms Report";
 
+$lang['File Management System'] = "File Management System";
+$lang['File Manager'] = "File Manager";
+$lang['FileManager New'] = "FileManager New";
+
 
 
 

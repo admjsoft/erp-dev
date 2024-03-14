@@ -5,7 +5,7 @@
     <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
-            <h5><?php echo $this->lang->line('Attendance Report') ?></h5>
+            <h5><?php echo $this->lang->line('Attendance KPI Report') ?></h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
                 <ul class="list-inline mb-0">

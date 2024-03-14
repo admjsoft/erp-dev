@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -147,17 +148,20 @@ color:#fff !important;
                                     <?php
                                     $attributes = array('class' => 'form-horizontal form-simple mt-5 mb-2', 'id' => 'login_form');
                                     echo form_open('user/checklogin', $attributes);
+                                    $username_cookie = $this->input->cookie('username_cookie');
+                                    $password_cookie = $this->input->cookie('password_cookie');
+
                                     ?>
                                     <fieldset class="form-group position-relative has-icon-left">
                                     <small class="tcolor"><strong><?php echo $this->lang->line('Email') ?></strong></small>
                                         <input type="text" class="form-control" id="user-name" name="username"
-                                               placeholder="<?php echo $this->lang->line('Your Email') ?>" required>
+                                               placeholder="<?php echo $this->lang->line('Your Email') ?>" value="<?php echo $username_cookie; ?>" required>
 
                                     </fieldset>
                                     <fieldset class="form-group position-relative has-icon-left">
                                     <small class="tcolor"><strong><?php echo $this->lang->line('Password') ?></strong></small>
                                         <input type="password" class="form-control" id="user-password" name="password"
-                                               placeholder="<?php echo $this->lang->line('Your Password') ?>" required>
+                                               placeholder="<?php echo $this->lang->line('Your Password') ?>" value="<?php echo $password_cookie; ?>"  required>
 
                                     </fieldset>
                                     <?php if ($response) {

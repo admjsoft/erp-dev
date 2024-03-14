@@ -124,8 +124,15 @@ class Ticket_model extends CI_Model
 
         if ($filt == 'unsolved') {
             $this->db->where('gtg_tickets.status!=', 'Solved');
+        }else if ($filt == 'waiting') {
+            $this->db->where('gtg_tickets.status', 'Waiting');
+        }else if ($filt == 'solved') {
+            $this->db->where('gtg_tickets.status', 'Solved');
+        }else if ($filt == 'processing') {
+            $this->db->where('gtg_tickets.status', 'Processing');
         }
 
+        
         $i = 0;
 
         foreach ($this->doccolumn_search as $item) // loop column

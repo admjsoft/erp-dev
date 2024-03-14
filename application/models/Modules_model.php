@@ -147,6 +147,27 @@ class Modules_model extends CI_Model
 
     }
 
-    
+    public function get_role_personalization_modules($role){
+
+        $this->db->select('id');
+        $this->db->from('sidebaritems');
+        $this->db->where($role, 1);
+        $this->db->where('module_personalization', 1);
+        $query = $this->db->get();
+        return $query->result_array();
+
+    }
+
+    public function get_modules_personalization_hierarchy($role) {
+        $query = $this->db->query("
+            SELECT si.id, si.title, si.type,si.subscription_status,si.module_personalization,sh.parent_id
+            FROM sidebaritems si
+            LEFT JOIN sidebarhierarchy sh ON si.id = sh.child_id
+            WHERE si.module_personalization = 1
+            AND si.$role = 1
+            ORDER BY si.id, si.display_order
+        ");
+        return $query->result();
+    }
 	        
 }

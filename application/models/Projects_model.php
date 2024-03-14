@@ -63,7 +63,7 @@ class Projects_model extends CI_Model
         return $query->row_array();
     }
 
-    private function _project_datatables_query($cday = '', $eid = '')
+    private function _project_datatables_query($cday = '', $eid = '', $filt = '')
     {
         $this->db->select("gtg_projects.*,gtg_customers.name AS customer");
         $this->db->from('gtg_projects');
@@ -76,6 +76,14 @@ class Projects_model extends CI_Model
         }
         if ($cday) {
             $this->db->where('DATE(gtg_projects.edate)=', $cday);
+        }
+
+        if ($filt == 'waiting') {
+            $this->db->where('gtg_projects.status', 'Waiting');
+        }else if ($filt == 'progress') {
+            $this->db->where('gtg_projects.status', 'Progress');
+        }else if ($filt == 'finished') {
+            $this->db->where('gtg_projects.status', 'Finished');
         }
 
 
@@ -109,11 +117,11 @@ class Projects_model extends CI_Model
         }
     }
 
-    function project_datatables($cday = '', $eid = '')
+    function project_datatables($cday = '', $eid = '', $filt='')
     {
 
 
-        $this->_project_datatables_query($cday, $eid);
+        $this->_project_datatables_query($cday, $eid, $filt);
 
         if ($this->input->post('length') != -1)
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
@@ -681,5 +689,17 @@ class Projects_model extends CI_Model
             $this->aauth->applog("[Employee ClockOut]  Project ID $id", $this->aauth->get_user()->username);
         }
         return true;
+    }
+
+    public function dashboard_projects_list(){
+
+        $this->db->select('gtg_projects.*,gtg_customers.name AS customer,gtg_customers.email');
+        $this->db->from('gtg_projects');
+        $this->db->join('gtg_customers', 'gtg_projects.cid = gtg_customers.id', 'left');
+        //$this->db->where('gtg_projects.status','Finished');
+        $this->db->order_by('gtg_projects.id','DESC');
+        $this->db->limit(5);
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }

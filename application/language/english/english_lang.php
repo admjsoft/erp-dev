@@ -2642,16 +2642,36 @@ $lang['Office Within Radius'] = "Office Within Radius";
 $lang['Manage Clock in / Clock out'] = "Manage Clock in / Clock out";
 $lang['Break'] = "Break";
 $lang['Select Schedule Time'] = "Select Schedule Time";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
-$lang[''] = "";
+$lang['Employee Break Time Settings'] = "Employee Break Time Settings";
+$lang['Attendance KPI Report'] = "Attendance KPI Report";
+$lang['Employee current login status'] = "Employee current login status";
+$lang['File Management System'] = "File Management System";
+$lang['File Manager'] = "File Manager";
+$lang['FileManager New'] = "FileManager New";
+$lang['Jsoft ChatGPT'] = "Jsoft ChatGPT";
+$lang['ChatGPT'] = "ChatGPT";
+$lang['Module Personalization Access'] = "Module Personalization Access";
+$lang['Recent Projects'] = "Recent Projects";
+$lang['Total Customers'] = "Total Customers";
+$lang['New Customers'] = "New Customers";
+$lang['Existing Customers'] = "Existing Customers";
+$lang['Daily Attendance List'] = "Daily Attendance List";
+$lang['Early / Late In Minutes'] = "Early / Late In Minutes";
+$lang['Date & ClockOut'] = "Date & ClockOut";
+$lang['Date & ClockIn'] = "Date & ClockIn";
+$lang['Daily Attendance'] = "Daily Attendance";
+$lang['Pdf Download'] = "Pdf Download";
+$lang['Excel Download'] = "Excel Download";
+$lang['Total Absent Employees'] = "Total Absent Employees";
+$lang['Clock In&Out at Office'] = "Clock In&Out at Office";
+$lang["ClockIn Early, ClockOut Late"] = "ClockIn Early, ClockOut Late";
+$lang['Clock In Early Employees'] = "Clock In Early Employees";
+$lang['Clock In Locations in MAP'] = "Clock In Locations in MAP";
+$lang['Select Date'] = "Select Date";
+$lang['Clock Out Grace Period in Minutes'] = "Clock Out Grace Period in Minutes";
+$lang['Auto Logout Minutes After ClockOut'] = "Auto Logout Minutes After ClockOut";
+$lang['Auto LoggedOut'] = "Auto LoggedOut";
+
 
 
  

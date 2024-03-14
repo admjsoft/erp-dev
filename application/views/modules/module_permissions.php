@@ -231,8 +231,7 @@
 
             // Event delegation for dynamically loaded labels
             $(document).on('click', 'label', function(e) {
-                e
-                    .preventDefault(); // Prevent the default behavior of the label (clicking affects associated checkbox)
+                e.preventDefault(); // Prevent the default behavior of the label (clicking affects associated checkbox)
 
                 // Toggle visibility of child <ul> elements (submenus)
                 const childUl = $(this).prevAll('input[type="checkbox"]').siblings('ul');

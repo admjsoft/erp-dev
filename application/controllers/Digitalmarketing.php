@@ -9,8 +9,12 @@ class Digitalmarketing extends CI_Controller
         $this->load->model('customers_model', 'customers');
         $this->load->model('digitalmarketing_model', 'digitalmarketing');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         if (!$this->aauth->premission(15)&&!$this->aauth->premission(16)&&!$this->aauth->premission(17)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');

@@ -14,6 +14,10 @@ class Knowledgebase extends CI_Controller
             exit;
         }
 
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
+        }
+
       
         $c_module = 'knowledgebase';
         $this->load->vars('c_module', $c_module);

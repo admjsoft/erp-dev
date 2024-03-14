@@ -17,6 +17,7 @@ class User extends CI_Controller
         $this->load->library("form_validation");
         $this->load->model('employee_model', 'user_employee');
 	    $this->load->model('user_model', 'user');
+        $this->load->model('Modules_model','modules');
         $this->captcha = $this->captcha_u->public_key()->captcha;
         $c_module = 'dashboard';
         // Make the variable available to all views
@@ -88,10 +89,73 @@ class User extends CI_Controller
         $query = $this->db->get();
 		return $query->row_array();
     }
+
+    public function update_user_personalized_module(){
+
+
+        $user_id = $this->aauth->get_user()->id;
+
+        $role = $_SESSION['s_role'];
+        $role_permissions = $this->modules->get_role_personalization_modules($role);
+
+        $selected_modules = $this->input->post('selected_modules');
+        $selected_modules = explode(',',$selected_modules);
+        //echo "<pre>"; print_r($_POST); echo "</pre>";
+        // echo "<pre>"; print_r($role_permissions); echo "</pre>";
+        // echo "<pre>"; print_r($selected_modules); echo "</pre>";
+        // exit;
+
+        $resultArray = array();
+
+        foreach ($role_permissions as $item) {
+            if (!in_array($item['id'], $selected_modules)) {
+                $resultArray[] = $item['id'];
+            }
+        }
+
+        $n_data = array();
+        if(!empty($resultArray))
+        {
+            foreach($resultArray as $sm){
+                $data['module_id'] = $sm;
+                $data['user_id'] = $user_id;
+                $n_data[] = $data;
+            }
+        }
+        $this->db->where('user_id',$user_id)->delete('gtg_employee_modules_personalization');
+        $this->db->insert_batch('gtg_employee_modules_personalization',$n_data);
+        echo json_encode(array('status' => 'Success', 'message' =>
+            $this->lang->line('UPDATED')));
+    }
     public function profile()
     {
-        if (!$this->aauth->is_loggedin()) {
+
+        // echo "<pre>"; print_r($_SESSION); echo "</pre>";
+        // exit;
+        $user_id = $this->aauth->get_user()->id;
+        $role = $_SESSION['s_role'];
+        $data['role_permissions'] = $this->modules->get_role_personalization_modules($role);
+        $data['sidebar_hierarchy'] = $this->modules->get_modules_personalization_hierarchy($role);
+        $data['disabled_modules'] = $this->db->select('module_id')->where('user_id',$user_id)->get('gtg_employee_modules_personalization')->result_array();
+        
+        $moduleIds = array_map(function($item) {
+            return $item['module_id'];
+        }, $data['disabled_modules']);
+        
+        // Remove elements from role_permissions array if id exists in moduleIds
+        $data['role_permissions'] = array_filter($data['role_permissions'], function($item) use ($moduleIds) {
+            return !in_array($item['id'], $moduleIds);
+        });
+
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
+        
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $head['usernm'] = $this->aauth->get_user()->username;
@@ -109,8 +173,12 @@ class User extends CI_Controller
 
     public function attendance()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
 
@@ -125,8 +193,12 @@ class User extends CI_Controller
 
     public function holidays()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $head['usernm'] = $this->aauth->get_user()->username;
         $head['title'] = $head['usernm'] . $this->lang->line('attendance');
@@ -138,8 +210,12 @@ class User extends CI_Controller
 
     public function getAttendance()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->load->model('employee_model', 'employee');
         $id = $this->aauth->get_user()->id;
@@ -152,8 +228,12 @@ class User extends CI_Controller
 
     public function getHolidays()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->load->model('employee_model', 'employee');
         $id = $this->aauth->get_user()->loc;
@@ -166,8 +246,12 @@ class User extends CI_Controller
 
     public function update()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
 
@@ -205,8 +289,12 @@ class User extends CI_Controller
     public function displaypic()
     {
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $this->load->model('employee_model', 'employee');
@@ -222,8 +310,12 @@ class User extends CI_Controller
 
     public function user_sign()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
 
@@ -242,8 +334,12 @@ class User extends CI_Controller
     public function updatepassword()
     {
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $id = $this->aauth->get_user()->id;
@@ -393,8 +489,12 @@ class User extends CI_Controller
 
     public function salary()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $id = $this->aauth->get_user()->id;
         $head['usernm'] = $this->aauth->get_user()->username;

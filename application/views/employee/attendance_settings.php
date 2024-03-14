@@ -67,7 +67,18 @@
 
                     <div class="col-sm-4">
                         <input type="number" class="form-control required"
-                            placeholder="<?php echo $this->lang->line('Clock In Grace Period in Minutes') ?>" name="clock_in_grace_period" value="<?php if(!empty($settings['clock_in_grace_period'])){ echo $settings['clock_in_grace_period']; } ?>">
+                            placeholder="<?php echo $this->lang->line('Clock In Grace Period in Minutes') ?>" name="clock_in_grace_period" value="<?php echo $settings['clock_in_grace_period']; ?>">
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <label class="col-sm-4 control-label"
+                        for="from"><?php echo $this->lang->line('Clock Out Grace Period in Minutes') ?> <span
+                            style="color:red">*</span></label>
+
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control required"
+                            placeholder="<?php echo $this->lang->line('Clock Out Grace Period in Minutes') ?>" name="clock_out_grace_period" value="<?php  echo $settings['clock_out_grace_period'];  ?>">
                     </div>
                 </div>
 
@@ -79,7 +90,20 @@
 
                     <div class="col-sm-4">
                         <input type="number" class="form-control required"
-                            placeholder="<?php echo $this->lang->line('Clock In Checking Hours') ?>" name="clock_in_checking_hours" value="<?php if(!empty($settings['clock_in_checking_hours'])){ echo $settings['clock_in_checking_hours']; } ?>">
+                            placeholder="<?php echo $this->lang->line('Clock In Checking Hours') ?>" name="clock_in_checking_hours" value="<?php echo $settings['clock_in_checking_hours'];  ?>">
+                    </div>
+                </div>
+
+                
+                <div class="form-group row">
+
+                    <label class="col-sm-4 control-label"
+                        for="from"><?php echo $this->lang->line('Auto Logout Minutes After ClockOut') ?> <span
+                            style="color:red">*</span></label>
+
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control required"
+                            placeholder="<?php echo $this->lang->line('Auto Logout Minutes After ClockOut') ?>" name="auto_clock_out_minutes" value="<?php  echo $settings['auto_clock_out_minutes']; ?>">
                     </div>
                 </div>
 
@@ -127,7 +151,7 @@
 
                     <div class="col-sm-4">
                         <input type="number" class="form-control required"
-                            placeholder="<?php echo $this->lang->line('Office Within Radius') ?>" name="office_login_radius" value="<?php if(!empty($settings['office_login_radius'])){ echo $settings['clock_in_checking_hours']; } ?>">
+                            placeholder="<?php echo $this->lang->line('Office Within Radius') ?>" name="office_login_radius" value="<?php echo $settings['clock_in_checking_hours'];  ?>">
                     </div>
                 </div>
 

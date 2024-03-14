@@ -192,7 +192,7 @@ h2 {
             <div class="title-address">
                 <h1><?php echo $system_data['cname']; ?></h1>
                 <p><?php echo $system_data['address'].",".$system_data['city'].",".$system_data['region'].",".$system_data['country']; ?></p>
-                <p>Phone : +<?php echo $system_data['country']; ?>, Email : <?php echo $system_data['email']; ?></p>
+                <p>Phone : +<?php echo $system_data['phone']; ?>, Email : <?php echo $system_data['email']; ?></p>
                 <!-- <p>Email : <?php // echo $system_data['email']; ?></p> -->
                 <!-- Add address and location details here -->
             </div>

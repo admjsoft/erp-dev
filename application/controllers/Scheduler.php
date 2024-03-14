@@ -8,8 +8,12 @@ class Scheduler extends CI_Controller
         $this->load->model('Scheduler_model', 'scheduler_model');
 
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(9)) {
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');

@@ -19,8 +19,12 @@ class Cronjob extends CI_Controller
 
     public function index()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         if ($this->aauth->get_user()->roleid < 5) {
 

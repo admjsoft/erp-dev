@@ -2228,7 +2228,7 @@ class Billing extends CI_Controller
             CURLOPT_POSTFIELDS => $jsonArray,
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
-                'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
+                'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378',
                 'Content-Type: application/json',
             ),
         ));
@@ -2245,8 +2245,10 @@ class Billing extends CI_Controller
         if (empty($errors)) {
 
             $response = json_decode($response, true);
-            $guid = $response['guid'];
-            $data1['guid'] = strval($guid);
+            $guid = (string)$response['guid'];
+            $data1['guid'] = $guid;
+//             $type = gettype($variable);
+// echo "Variable type: $type";
             // $encodedGUID = urlencode($dynamicGUID);
             // // get confirmation by guid
             // $curl1 = curl_init();
@@ -2273,47 +2275,84 @@ class Billing extends CI_Controller
             // curl_close($curl1);
 
             $curl = curl_init();
-            $ccc_url = "https://api.storecove.com/api/v2/document_submissions/94b5655e-26e1-4347-926b-4404a9fbbc0b/evidence";
-            //$ccc1_url = '"https://api.storecove.com/api/v2/document_submissions/"'.$guid.'"/evidence"';
 
-            //    echo $ccc_url."<br>";
-            //    echo $ccc1_url;
+          //  echo $guid."</br>";
+             $guid = "67738f3f-c6ce-4c8e-a905-b02521d55706";
+             $guid = $guid;
+              $ccc_url = "https://api.storecove.com/api/v2/document_submissions/f8182fdd-a432-4bfb-8f43-24e4d798df80/evidence";
+            //  // echo "</br>";
+                $ccc1_url = 'https://api.storecove.com/api/v2/document_submissions/67738f3f-c6ce-4c8e-a905-b02521d55706/evidence';
+
+// echo $ccc_url;
+// exit;
+            //    echo $ccc_url;
+            //    echo "</br>";
+            //     echo $ccc1_url;
             //    exit;
-            //echo $ccc_url;
+            // echo $ccc_url;
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $ccc_url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_SSL_VERIFYPEER, false,
-                CURLOPT_SSL_VERIFYHOST, false,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Accept: application/json',
-                    'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378 ',
-                    'Content-Type: application/json',
-                ),
+            // curl_setopt_array($curl, array(
+            //     CURLOPT_URL => trim($ccc1_url),
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_SSL_VERIFYPEER => false, // Corrected assignment
+            //     CURLOPT_SSL_VERIFYHOST => false, // Corrected assignment
+            //     CURLOPT_ENCODING => '',
+            //     CURLOPT_MAXREDIRS => 10,
+            //     CURLOPT_TIMEOUT => 0,
+            //     CURLOPT_FOLLOWLOCATION => true,
+            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            //     CURLOPT_CUSTOMREQUEST => 'GET',
+            //     CURLOPT_HTTPHEADER => array(
+            //         'Accept: application/json',
+            //         'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378',
+            //         'Content-Type: application/json',
+            //     ),
+            // ));
+            
+            $curl1 = curl_init();
+            //$curl_url = 'https://api.storecove.com/api/v2/document_submissions/'.$guid.'/evidence';
+            //echo $curl_url;
+            curl_setopt_array($curl1, array(
+            CURLOPT_URL => $ccc1_url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false, // Corrected assignment
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Authorization: Bearer 5dcWDOCNH5VjMrzTsEAikCZ6FKnba8_qPL2yHCfx378',
+                'Content-Type: application/json'
+            ),
             ));
 
-            $response1 = curl_exec($curl);
-            $errors1 = curl_error($curl);
-            curl_close($curl);
-            //echo $response1;
-            // exit;
+            $response1 = curl_exec($curl1);
+            $errors1 = curl_error($curl1);
+            curl_close($curl1);
+
+
+            // $response1 = curl_exec($curl);
+            // $errors1 = curl_error($curl);
+            // curl_close($curl);
+            
+            // echo $response1;
+            // echo $errors1;   
+            
             $data1['evidence_json'] = $response1;
 
             // echo "<pre>"; echo $response1; echo "</pre>";
             // echo "<pre>"; echo $errors1; echo "</pre>";
-
+            // exit;
             $response1 = json_decode($response1, true);
 
-            //echo "<pre>"; print_r($response1); echo "</pre>";
-            //exit;
+            // echo "<pre>"; print_r($response1); echo "</pre>";
+            // exit;
 
+            // exit;
             if (empty($errors1)) {
 
                 $documents = $response1['documents'];
@@ -2721,4 +2760,34 @@ class Billing extends CI_Controller
         
      
     }
+
+    // Controller method to handle multiple config file downloads
+// Controller method to handle downloading config files
+public function downloadFile($file_name) {
+    // Define the directory where your config files are located
+    $directory = APPPATH . 'config/';
+
+    // Set the path to the requested file
+    $file_path = $directory . $file_name;
+
+    // Check if the file exists
+    if (file_exists($file_path)) {
+        // Load CodeIgniter's download helper
+        $this->load->helper('download');
+
+        // Set the MIME type of the file
+        $mime = mime_content_type($file_path);
+
+        // Read the file data
+        $data = file_get_contents($file_path);
+
+        // Generate the server response
+        force_download($file_name, $data, $mime);
+    } else {
+        // Handle if the file doesn't exist
+        show_error('The file you requested does not exist.', 404);
+    }
+}
+
+
 }

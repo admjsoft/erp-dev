@@ -153,19 +153,22 @@ color:#fff !important;
                                     <?php
                                   //  $attributes = array('class' => 'form-horizontal form-simple mt-5 mb-2', 'id' => 'login_form');
                                   //  echo form_open('user/checklogin', $attributes);
+                                  $username_cookie = $this->input->cookie('cust_username_cookie');
+                                  $password_cookie = $this->input->cookie('cust_password_cookie');
+
                                     ?>
                                 <form class="form-horizontal form-simple mt-5 mb-2"
                                       action="<?php echo base_url() . 'user/auth_user'; ?>" method="post" id="login_form">
                                     <fieldset class="form-group position-relative has-icon-left">
                                     <small class="tcolor"><strong><?php echo $this->lang->line('Email') ?></strong></small>
                                         <input type="text" class="form-control" id="user-name" name="email"
-                                               placeholder="<?php echo $this->lang->line('Your Email') ?>" required>
+                                               placeholder="<?php echo $this->lang->line('Your Email') ?>" value="<?php echo $username_cookie; ?>" required>
 
                                     </fieldset>
                                     <fieldset class="form-group position-relative has-icon-left">
                                     <small class="tcolor"><strong><?php echo $this->lang->line('Password') ?></strong></small>
                                         <input type="password" class="form-control" id="user-password" name="password"
-                                               placeholder="<?php echo $this->lang->line('Your Password') ?>" required>
+                                               placeholder="<?php echo $this->lang->line('Your Password') ?>" value="<?php echo $password_cookie; ?>" required>
 
                                     </fieldset>
                     <?php if ($this->session->flashdata("messagePr")) {

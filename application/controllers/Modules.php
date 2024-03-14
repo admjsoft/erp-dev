@@ -9,8 +9,12 @@ class Modules extends CI_Controller {
         $this->load->model('Modules_model','modules');
         $this->load->model('SidebarItemModel');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->li_a = 'modules';
         $c_module = 'modules';
@@ -65,6 +69,7 @@ class Modules extends CI_Controller {
             $data['status'] = $this->input->post('module_status', true);
             $data['display_order'] = $this->input->post('module_position', true);
             $data['icon'] = $this->input->post('module_icon', true);
+            $data['module_personalization'] = $this->input->post('module_personalization', true);
             $data['r_5'] = 1;
 
             if ($data) {

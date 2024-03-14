@@ -11,12 +11,17 @@ class Employee extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('employee_model', 'employee');
+        $this->load->model('employee_model', 'employee');        
+        $this->load->model('filemanager_model', 'FileModel'); 
         $this->load->library("Aauth");
         $this->load->library('pdf');
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(9) && !$this->aauth->premission(25)) {
 
@@ -1429,7 +1434,7 @@ JSOFT SOLUTION SDN BHD,</p>
 
             // $this->db->delete('gtg_users', array('id' => $uid));
             $d_data['delete_status'] = 1;
-            $this->db->where('id',$uid)->update('gtg_employee',$d_data);
+            $this->db->where('id',$uid)->update('gtg_employees',$d_data);
 
             echo json_encode(array('status' => 'Success', 'message' =>
                 'User Profile deleted successfully! Please refresh the page!'));
@@ -1462,8 +1467,12 @@ JSOFT SOLUTION SDN BHD,</p>
 
     public function update()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $id = $this->input->get('id');
@@ -1516,8 +1525,12 @@ JSOFT SOLUTION SDN BHD,</p>
     public function displaypic()
     {
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $this->load->model('employee_model', 'employee');
@@ -1533,8 +1546,12 @@ JSOFT SOLUTION SDN BHD,</p>
 
     public function user_sign()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $this->load->model('employee_model', 'employee');
@@ -1572,8 +1589,12 @@ JSOFT SOLUTION SDN BHD,</p>
     public function updatepassword()
     {
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->load->library("form_validation");
 
@@ -3997,6 +4018,32 @@ JSOFT SOLUTION SDN BHD,</p>
         $this->load->view('fixed/footer');
     }
 
+    
+
+    public function daily_attendances()
+    {
+       
+       $data = $this->employee->daily_attendance_list();      
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'Daily Attendance';
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/daily_attendance_list',$data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function ajax_daily_attendances()
+    {
+       $att_date = $this->input->post('att_date');
+       $data = $this->employee->daily_attendance_list($att_date);
+       $response['status'] = '200';
+       $response['html'] = $this->load->view('employee/daily_attendance_list_table',$data,TRUE);
+       $response['ab_html'] = $this->load->view('employee/daily_attendance_list_absent_table',$data,TRUE);
+
+       echo json_encode($response);
+
+    }
     public function attendance()
     {
         if ($this->input->post()) {
@@ -4034,7 +4081,9 @@ JSOFT SOLUTION SDN BHD,</p>
             $data['latitude'] = $this->input->post('latitude');
             $data['longitude'] = $this->input->post('longitude');
             $data['office_login_radius'] = $this->input->post('office_login_radius');
-
+            $data['clock_out_grace_period'] = $this->input->post('clock_out_grace_period');
+            $data['auto_clock_out_minutes'] = $this->input->post('auto_clock_out_minutes');
+            
             $att_sett_id = $this->input->post('att_sett_id');
 
             if ($this->employee->addattendance_settings($data,$att_sett_id)) {
@@ -4193,6 +4242,9 @@ JSOFT SOLUTION SDN BHD,</p>
         echo $html;
     }
 
+
+    
+
     public function attendview()
     {
         if ($this->input->get()) {
@@ -4237,7 +4289,7 @@ JSOFT SOLUTION SDN BHD,</p>
             $data['attend'] = $attend;
             $data['bt'] = $this->employee->break_time_list();
             $head['usernm'] = $this->aauth->get_user()->username;
-            $head['title'] = 'Attendance Status';
+            $head['title'] = 'Employee current login status';
 
             // Extract the values of the specified key for sorting
             if (!empty($nn_data)) {
@@ -4957,7 +5009,140 @@ JSOFT SOLUTION SDN BHD,</p>
         $this->load->view('fixed/footer');
 
         }
-               
+    
+    }
+
+    
+
+    public function getFileManagement(){
+
+        //$employee_id = $this->aauth->get_user()->id;
+        $employee_id = intval($this->input->get('id'));
+        //$employee_id = 253;
+        $parent_entity_id = '';
+        //$parent_entity_id = $this->input->get('parent_entity_id'); // Assuming you are getting the parent_entity_id from the GET request
+
+        
+
+        $this->db->select('
+            fme.entity_id,
+            fme.parent_entity_id,
+            fme.entity_name,
+            fme.entity_type,
+            fme.entity_path,
+            fme.created_at,
+            fme.updated_at,
+            fme.delete_status,
+            IF(fl.lock_id IS NOT NULL, "locked", "unlocked") AS file_lock_status,
+            fl.global_lock
+        ');
+        $this->db->from('filemanagemententities fme');
+        $this->db->join('user_folder_access ufa', 'fme.entity_id = ufa.folder_id', 'left');
+        $this->db->join('file_locks fl', 'fme.entity_id = fl.file_id AND fl.user_type = "employee" AND fl.user_id = ' . $employee_id, 'left');
+        $this->db->where('ufa.type', 'employee');
+        $this->db->where('ufa.user_id', $employee_id);
+        $this->db->where('(fme.parent_entity_id IS NULL OR EXISTS (SELECT 1 FROM filemanagemententities fmeparent WHERE fmeparent.entity_id = fme.parent_entity_id))');
+
+        // Additional condition based on parent_entity_id
+        if ($parent_entity_id) {
+            $this->db->where('fme.parent_entity_id', $parent_entity_id);
+        }
+
+        $this->db->order_by('fme.parent_entity_id, fme.entity_name','ASC');
+        $query = $this->db->get();
+        $items = $query->result_array();
+
+        $result = array();
+
+        $grouped_items = array();
+    
+        foreach ($items as $item) {
+            $parent_id = $item['parent_entity_id'] ?? null;
+            $grouped_items[$parent_id][] = $item;
+        }
+        
+        $contents = reset($grouped_items);
+       
+        $data = array(
+            'folder' => array(),
+            'contents' => $contents,
+            'breadcrumbs' => array()
+        );
+
+        //$data['folders'] = $this->FileModel->getRootFoldersHeirarichy();
+
+        $data['parent_id'] = '';
+        $data['employees'] = array();
+        $data['customers'] = array();
+
+        // echo "<pre>";print_r($data);echo "</pre>";
+        // exit;   
+
+        $head['usernm'] = $this->aauth->get_user()->username;
+        $head['title'] = 'File / Folders List';
+
+        $this->load->view('fixed/header', $head);
+        $this->load->view('employee/file_management_entities_list', $data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function export_daily_attendance_report(){
+
+
+        $att_date = $this->input->post('att_date');
+        $data = $this->employee->daily_attendance_list($att_date);
+
+        $html = $this->load->view('employee/daily_attendance_list_download', $data, true);
+
+        // echo $html;
+        // exit;
+        $this->load->library('pdf');
+
+       // Create an instance of Mpdf
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A3']);
+
+        // Add a new page
+        $mpdf->AddPage();
+
+        // Write HTML content to the page
+        $mpdf->WriteHTML($html);
+
+        // If you want to force a download
+        $mpdf->Output('daily_attendance_list.pdf', 'D');
+
+
+        // If you want to display in the browser
+        // $mpdf->Output('employee_profile.pdf', 'I');
 
     }
+
+    public function employee_clock_in_locations(){
+
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+               
+        $this->db->select('gtg_employees.name, gtg_attendance.clock_in_latitude,gtg_attendance.clock_in_longitude');
+        $this->db->from('gtg_attendance');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'inner');
+        $this->db->where('gtg_attendance.adate', date('Y-m-d'));
+        $this->db->order_by('gtg_attendance.id', 'ASC');
+        $this->db->group_by('gtg_employees.id');
+        $today_attendances = $this->db->get()->result_array();
+        $final_attendance = array();
+        if(!empty($today_attendances)){ foreach($today_attendances as $attendance){ 
+       
+            $f_attendance['name'] = $attendance['name'];
+            $f_attendance['lat'] = floatval($attendance['clock_in_latitude']);
+            $f_attendance['lng'] = floatval($attendance['clock_in_longitude']);
+            $final_attendance[] = $f_attendance;
+        }}
+
+    
+        $f_data['all_employees'] = $final_attendance;
+        $f_data['att_settings'] = $att_settings;
+        
+        echo json_encode($f_data);
+        //return $f_data;
+
+    }
+
 }

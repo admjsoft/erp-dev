@@ -317,23 +317,23 @@ text-transform: capitalize;
     border-radius: 11px;
     font-size: 10px;
 }
-.project_Progress
+.project_Progress,.st-progress
 {
  background-color: #4979d0;
 }
-.project_Finished
+.project_Finished,.st-finished
 {
  background-color: #5ed45e;
 }
-.project_Waiting
+.project_Waiting,.st-waiting
 {
  background-color: #d45e7f;
 }
-.project_Pending
+.project_Pending,.st-pending
 {
  background-color: #49d0b7;
 }
-.project_Terminated
+.project_Terminated,.st-terminated
 {
  background-color: #848030;
 }

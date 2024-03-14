@@ -159,6 +159,23 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+
+                    <label class="col-sm-2 col-form-label"
+                        for="product_cat"><?php echo $this->lang->line('Module Personalization Access') ?></label>
+
+                    <div class="col-sm-6">
+                        <select name="module_personalization" id="module_personalization" class="form-control required"
+                            required>
+                            <option value="1" <?php if($module_details[0]['module_personalization'] == 1) { echo "selected"; } ?>><?php echo $this->lang->line('Yes'); ?></option>
+                            <option value="0" <?php if($module_details[0]['module_personalization'] == 0) { echo "selected"; } ?>><?php echo $this->lang->line('No'); ?></option>
+                        </select>
+
+
+
+                    </div>
+                </div>
+
                 <input type="hidden" value="<?php echo $module_details[0]['id'];?>" name="module_id" id="module_id">
                 <div class="form-group row">
 

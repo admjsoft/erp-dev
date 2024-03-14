@@ -19,8 +19,12 @@ class Cronjob extends CI_Controller
 
     public function index()
     {
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         if ($this->aauth->get_user()->roleid < 5) {
 
@@ -148,41 +152,48 @@ class Cronjob extends CI_Controller
 
                     //echo $schedular['id']."<br>";
 
-                // $schedular_sub_modules = explode(',', $schedular['sub_module_names']);
+                $schedular_sub_modules = explode(',', $schedular['sub_module_names']);
 
-                // if (!empty($schedular_sub_modules)) {
-                //     foreach ($schedular_sub_modules as $schedular_sub_module) {
-                //         if ($schedular_sub_module == 'permit') {
-                //             $data = $this->check_permit_expiry($schedular);
+                if (!empty($schedular_sub_modules)) {
+                    foreach ($schedular_sub_modules as $schedular_sub_module) {
+                        if ($schedular_sub_module == 'permit') {
+                            $data = $this->check_permit_expiry($schedular);
 
-                //             echo "<pre>";
-                //             print_r($data);
-                //             echo "</pre>";
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
 
-                //         } else if ($schedular_sub_module == 'passport') {
+                        } else if ($schedular_sub_module == 'passport') {
 
-                //             $data = $this->check_passport_expiry($schedular);
+                            $data = $this->check_passport_expiry($schedular);
 
-                //             echo "<pre>";
-                //             print_r($data);
-                //             echo "</pre>";
-                //         } else if ($schedular_sub_module == 'contract_reminder') {
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
+                        } else if ($schedular_sub_module == 'contract_reminder') {
 
-                //             $data = $this->check_contract_expiry($schedular);
+                            $data = $this->check_contract_expiry($schedular);
 
-                //             echo "<pre>";
-                //             print_r($data);
-                //             echo "</pre>";
-                //         } else if ($schedular_sub_module == 'late_attendance_list') {
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
+                        } else if ($schedular_sub_module == 'late_attendance_list') {
 
-                //             $data = $this->check_late_attendance($schedular);
+                            $data = $this->check_late_attendance($schedular);
 
-                //             echo "<pre>";
-                //             print_r($data);
-                //             echo "</pre>";
-                //         }
-                //     }
-                // }
+                            echo "<pre>";
+                            print_r($data);
+                            echo "</pre>";
+                        } else if ($schedular_sub_module == 'attendance_auto_log_out') {
+
+                        $data = $this->attendance_auto_log_out($schedular);
+
+                        echo "<pre>";
+                        print_r($data);
+                        echo "</pre>";
+                    }
+                    }
+                }
                 }
             }
         }
@@ -1077,7 +1088,7 @@ class Cronjob extends CI_Controller
                    
                     $table .= "</table>";
 
-                    $table2 = '<table border=1><tr><th>Date</th><th>Employee Name</th><th>Late By Minutes</th></tr>';
+                    $table2 = '<table border=1><tr><th>Date</th><th>Employee Name</th><th>Login By Distance (km)</th></tr>';
                     if(!empty($n_data2)){  foreach($n_data2 as $nd2) { 
                     $table2 .= '<tr><td>' . $nd2['date'] . '</td><td>' . $nd2['name'] . '</td><td>' . $nd2['distance'] . '</td></tr>';
                    
@@ -1147,6 +1158,251 @@ class Cronjob extends CI_Controller
           
         }
     }
+
+
+
+    public function attendance_auto_log_out($schedular = '')
+    {
+        $this->db->select('gtg_attendance.*, gtg_employees.name');
+        $this->db->from('gtg_attendance');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'left');
+        //$this->db->where('adate','2024-03-12');
+        $this->db->where('adate', date('Y-m-d'));
+        $this->db->where('tto','');
+        $this->db->group_by('gtg_attendance.emp');
+        $this->db->order_by('gtg_attendance.id', 'ASC'); // Assuming id is the primary key column
+        $attendance_list = $this->db->get()->result_array();
+       // $result = $this->db->result_array();
+
+
+       // echo "<pre>"; print_r($attendance_list); echo "</pre>";
+    //    exit;
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+        $minutes_to_add = $att_settings['auto_clock_out_minutes'];
+        $clock_out_time = $att_settings['clock_out_time'];
+        //$auto_clock_out_time = date('Y-m-d H:i:s',strtotime('Y-m-d '.$att_settings['clock_out_time']));
+        $auto_clock_out_time = date('Y-m-d', strtotime('today')) . ' ' . $clock_out_time.":00";
+        $auto_clock_out_time = date('Y-m-d H:i:s',strtotime($auto_clock_out_time));
+        // $auto_clock_out_time = date('Y-m-d H:i:s', strtotime($auto_clock_out_time . ' + ' . $clock_out_time . ' minutes'));
+
+        //$auto_clock_out_time = date('Y-m-d H:i:s', strtotime($timestamp . ' +' . $auto_clock_out_minutes . ' minutes'));
+        // $auto_clock_out_time = date('Y-m-d H:i:s', strtotime($auto_clock_out_time . ' + ' . $minutes_to_add . ' minutes'));
+        //$minutes_to_add = 30; // Number of minutes to add
+
+        // Add dynamic minutes
+        $auto_clock_out_time = date('Y-m-d H:i:s', strtotime($auto_clock_out_time . ' + ' . $minutes_to_add . ' minutes'));
+        
+        // echo $auto_clock_out_time;
+        // exit; 
+        if(!empty($attendance_list))
+        {
+
+            foreach($attendance_list as $att_result)
+            {
+
+                $logout_attendance[] = $att_result['name'];
+                $id = $att_result['emp'];
+
+                $current_time = strtotime(date('Y-m-d H:i:s'));
+                // $auto_clock_out_time
+                // Check if clock_in is less than ofc_clock_in
+                if (strtotime($auto_clock_out_time) > strtotime($current_time)) {
+                    //echo "s";
+                   
+                //    $data['tto']
+                //    $data['clock_out_date'];
+
+                   $this->db->select('clock,clockin,clock_in_photo,clock_in_latitude,clock_in_longitude,clock_in_location,clock_out_photo,clock_out_latitude,clock_out_longitude,clock_out_location');
+                   $this->db->where('id', $id);
+                   $this->db->from('gtg_employees');
+                   $query = $this->db->get();
+                   $emp = $query->row_array();
+
+                 
+           
+                   if(!empty($emp))
+                   {
+                   
+                   
+                   $time=date('H:i:s');
+                   if ($emp['clock']) {
+           
+           
+                       // ending all breaks
+                       $today = date('Y-m-d');
+                       $this->db->select('*');
+                       $this->db->where('emp', $id );
+                       $this->db->where('status',1);
+                       $this->db->where('bdate', $today);
+                       $this->db->order_by("clockin","desc");
+                       $this->db->from('gtg_attend_break');
+                       $query = $this->db->get();
+                       $emp_breaks_list = $query->result_array();
+           
+                       if(!empty($emp_breaks_list)){
+                           foreach($emp_breaks_list as $emp_b_list){
+                               $time=date('H:i:s');
+                               // $total_time = time() - $emp['clockin'];
+                               $total_time = strtotime($time) - strtotime($emp_b_list['clockin']);
+                               if ((isset($emp_b_list['status']) && ($emp_b_list['status']))) {
+                                       $emp_b_list_data = array(
+                                       'status' => 0,
+                                       'clockout' => $time,
+                                       'duration'=>date('H:i:s',$total_time)
+                                   );
+                       
+                                   $this->db->set($emp_b_list_data);
+                                   $this->db->where('id', $emp_b_list['id']);
+                       
+                                   $this->db->update('gtg_attend_break');
+                                   $this->aauth->applog("[Employee ".$emp_b_list['break']." End By System Due to ClockOut]  ID $id", $this->aauth->get_user()->username);
+                               }
+                           }
+                       }
+           
+                       
+                           
+           
+                       
+                       $total_time = strtotime($time) - $emp['clockin'];
+                       $total_clockin_time = strtotime('00:00:00') + $total_time;
+                       
+                       $today = date('Y-m-d');
+           
+                       $this->db->select('id,adate');
+                       $this->db->where('emp', $id);
+                       $this->db->where('DATE(adate)', date('Y-m-d'));
+                       $this->db->from('gtg_attendance');
+                       $this->db->order_by('id','DESC');
+                       $query = $this->db->get();
+                       $edate = $query->row_array();
+           
+                      
+           
+                       $this->db->select('clock,clockin,clock_in_photo,clock_in_latitude,clock_in_longitude,clock_in_location,clock_out_photo,clock_out_latitude,clock_out_longitude,clock_out_location');
+                       $this->db->where('id', $id);
+                       $this->db->from('gtg_employees');
+                       $query = $this->db->get();
+                       $emp = $query->row_array();
+                       
+           
+                        $data = array(
+                            'emp' => $id,
+                            'adate' => date('Y-m-d'),
+                            'tfrom' => date("H:i:s",$emp['clockin']),
+                            'tto' => date('H:i:s',strtotime($auto_clock_out_time)),
+                            'note' => 'Auto Logout Attendance',
+                            'actual_hours' => $total_clockin_time,
+                            'clock_out_distance' => 0,
+                            'clock_out_radius' => 1,
+                            'clock_out_date' => date('Y-m-d'),
+                            'auto_logout' => 1
+                            
+                        );
+
+                        // echo "<pre>"; print_r($data); echo "</pre>";
+                        // exit;
+        
+                        $this->db->where('id', $edate['id']);
+                        $this->db->update('gtg_attendance', $data);
+           
+
+
+                }
+
+
+                
+            }
+        
+            // echo "<pre>"; print_r($n_data); echo "</pre>";
+             exit;
+
+            $email_authors = explode(",", $schedular['email_to']);
+            
+            if(!empty($email_authors))
+            {
+                $organization = $this->employee->getOrganizationDetails();
+
+                if (in_array("1", $email_authors)) {
+
+                    $adminemail = $organization->email;
+                    $mailto = $adminemail;
+                    $elements = array();
+                    $content = '';
+                    $subject = "The Auto Logged Out Attendance " . date('d-m-Y') . ". Please refer the List Below.";
+                    $mailtotitle = "";
+                    $table = '<table border=1><tr><th>Date</th><th>Employee Name</th></tr>';
+                    if(!empty($logout_attendance)){  foreach($logout_attendance as $log_a) { 
+                    $table .= '<tr><td>' . date('d-m-Y') . '</td><td>' . $log_a . '</td></tr>';
+                   
+                    } } 
+                   
+                    $table .= "</table>";
+
+
+                    $message = '<!DOCTYPE html>
+                    <html>
+                    <head>
+                    </head>
+                    <body>
+                        <div class="container" style="max-width: 600px; margin: 0 auto; background-color: #f5f5f5;">
+                            <div class="header" style="background-color: #0073e6; padding: 20px; text-align: center;">
+                                <h1 style="color: #fff; font-size: 28px;">Employee Late Attendance Details</h1>
+                            </div>
+                            <div class="subheading" style="background-color: #f2f2f2; padding: 10px; text-align: center;">
+                                <h2 style="color: #333; font-size: 22px; margin: 0;">'.$subject.'</h2>
+                            </div>
+                            <div class="content" style="padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Dear Admin,</p>
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">Here is The Employee Auto Logged Out By Date List Details:</p>
+                                '.$table.'
+                                <p style="font-size: 16px; color: #555; line-height: 1.5;">If you have any questions or need further assistance, please feel free to contact us.</p>
+                                <p class="signature" style="font-size: 14px; color: #777; margin-top: 20px;">Best regards,</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>';
+
+                    // echo $message;
+                    // exit;
+
+                    $attachmenttrue = "true";
+                    $this->load->library('ultimatemailer');
+                    $this->db->select('host,port,auth,auth_type,username,password,sender');
+                    $this->db->from('gtg_smtp');
+                    $query = $this->db->get();
+                    $smtpresult = $query->row_array();
+                    $host = $smtpresult['host'];
+                    $port = $smtpresult['port'];
+                    $auth = $smtpresult['auth'];
+                    $auth_type = $smtpresult['auth_type'];
+                    $username = $smtpresult['username'];
+                    $password = $smtpresult['password'];
+                    $mailfrom = $smtpresult['sender'];
+                    $mailfromtilte = $this->config->item('ctitle');
+                    $mailer = $this->ultimatemailer->load($host, $port, $auth, $auth_type, $username, $password, $mailfrom, $mailfromtilte, $mailto,
+                        $mailtotitle, $subject, $message, $attachmenttrue, '');
+                    if ($mailer) {
+                        // foreach ($exppassportlist as $exppassport) {
+                        //     $data = array(
+                        //         'passport_email_sent' => 1,
+                        //     );
+                        //     $this->db->set($data);
+                        //     $this->db->where('id', $exppassport['id']);
+                        //     $this->db->update('gtg_employees');
+                        // }
+                    }
+                }
+    
+              
+               
+            } 
+          
+        }
+    }
+}
+    }
+
     public function reminder()
     {
 

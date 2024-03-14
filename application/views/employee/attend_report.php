@@ -167,6 +167,7 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $('#htable').DataTable({
+            'pageLength': 100,
             'responsive': true,
             <?php datatable_lang();?> 'order': [],
             'columnDefs': [{

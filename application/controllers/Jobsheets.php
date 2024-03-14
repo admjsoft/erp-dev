@@ -19,8 +19,12 @@ class Jobsheets extends CI_Controller
         $this->load->model('deliveryorder_model', 'deliveryorder');
 
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(15)&&!$this->aauth->premission(16)&&!$this->aauth->premission(17)) {
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
@@ -336,8 +340,16 @@ class Jobsheets extends CI_Controller
             $no++;
             $row[] = '<input class="form-check" type="checkbox" name="messaging_team_id_selection"  MessagingType="team" fetchUrl="" fetchId="' . $jobsheet->id . '">';;
             $row[] = $no;
-            $row[] = '<a href="javascript:void(0);" class="job_sheet_details" job_id="'. $jobsheet->id .'">' . $jobsheet->job_name . '</a>';
-            //$row[] = $jobsheet->job_name;
+            if($jobsheet->document_count > 0)
+            {
+
+                $row[] = '<a href="javascript:void(0);" class="job_sheet_details" job_id="'. $jobsheet->id .'">' . $jobsheet->job_name . ' <i class="fa fa-paperclip"></i></a>';
+
+            }else{
+
+                $row[] = '<a href="javascript:void(0);" class="job_sheet_details" job_id="'. $jobsheet->id .'">' . $jobsheet->job_name . '</a>';
+
+            }            //$row[] = $jobsheet->job_name;
             $row[] = dateformat_time($jobsheet->created_at);
             $row[] = $jobsheet->job_priority;
             

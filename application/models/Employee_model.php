@@ -1160,7 +1160,7 @@ class Employee_model extends CI_Model
         //     $order = $this->acolumn_order;
         //     $this->db->order_by(key($order), $order[key($order)]);
         }else{
-            $this->db->order_by("CAST(gtg_attendance.adate AS DATE)", "DESC");
+            $this->db->order_by("CAST(gtg_attendance.adate AS DATE),gtg_attendance.id", "DESC");
         }
     }
 
@@ -2407,4 +2407,276 @@ class Employee_model extends CI_Model
         return $query->result_array();
     }
     // SELECT `gtg_attendance`.*, `gtg_employees`.`name`, `gtg_countries`.`country_name`, `gtg_hrm`.`val1` as `department_name` FROM `gtg_attendance` LEFT JOIN `gtg_employees` ON `gtg_employees`.`id` = `gtg_attendance`.`emp` LEFT JOIN `gtg_countries` ON `gtg_countries`.`id` = `gtg_employees`.`country` LEFT JOIN `gtg_hrm` ON `gtg_employees`.`dept` = `gtg_hrm`.`id` WHERE `gtg_attendance`.`emp` IN('3') AND `gtg_attendance`.`adate` >= '2024-01-24' AND `gtg_attendance`.`adate` <= '2024-01-30' ORDER BY CAST(gtg_attendance.adate AS DATE) DESC; 
+    public function getEmployeeNames($employeeIds) {
+        $this->db->select('name');
+        $this->db->from('gtg_employees');
+        $this->db->where_in('id', $employeeIds);
+        $query = $this->db->get();
+
+        $names = array();
+        foreach ($query->result() as $row) {
+            $names[] = $row->name;
+        }
+
+        return implode(',', $names);
+    }
+
+
+    public function daily_attendance_list($att_date=''){
+
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+               
+        $this->db->select('gtg_employees.id, gtg_employees.name, 
+        MIN(CONCAT(gtg_attendance.clock_in_date, " ", gtg_attendance.tfrom)) AS lowest_clock_in_time,
+        MAX(CONCAT(gtg_attendance.clock_out_date, " ", gtg_attendance.tto)) AS highest_clock_out_time,
+        MAX(gtg_attendance.tto) as tto, gtg_attendance.auto_logout');
+        $this->db->from('gtg_attendance');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'inner');
+        
+        if(!empty($att_date))
+        {
+            $this->db->where('gtg_attendance.adate', $att_date);
+        }else{
+            $this->db->where('gtg_attendance.adate', date('Y-m-d'));
+        }
+
+        $this->db->group_by('gtg_employees.id');
+
+        $today_attendances = $this->db->get()->result_array();
+        $missing_emp_ids = array_column($today_attendances, 'id');
+        // echo "<pre>"; print_r($today_attendances1); echo "</pre>";
+        // echo $this->db->last_query();
+        // exit;
+        $clock_in_grace_period = $att_settings['clock_in_grace_period'];
+        $clock_out_grace_period = $att_settings['clock_out_grace_period'];
+        if(!empty($today_attendances)){ foreach($today_attendances as $attendance){ 
+           
+            $u_clock_in_ng = date('Y-m-d H:i:s',strtotime(date('Y-m-d')." ".$att_settings['clock_in_time'].":00"));
+            $u_clock_out_ng = date('Y-m-d H:i:s',strtotime(date('Y-m-d')." ".$att_settings['clock_out_time'].":00"));
+
+            $u_clock_in = date('Y-m-d H:i:s', strtotime($u_clock_in_ng . " + $clock_in_grace_period minutes"));
+            $u_clock_out = date('Y-m-d H:i:s', strtotime($u_clock_out_ng . " - $clock_in_grace_period minutes"));
+
+            $clockInDiff = strtotime($attendance['lowest_clock_in_time']) - strtotime($u_clock_in);
+            $clockInDiffNg = strtotime($attendance['lowest_clock_in_time']) - strtotime($u_clock_in_ng);
+
+            if ($clockInDiff < 0) {
+                
+                
+                $check_in_minutes = floor(($clockInDiffNg % 3600) / 60);
+
+                if($check_in_minutes < 0)
+                {
+                    if(!empty($this->formatTimeDifference(abs($clockInDiffNg))))
+                    {
+                        $f_attendance['clockin_difference'] = "Early by ".$this->formatTimeDifference(abs($clockInDiffNg));
+
+                    }else{
+                        $f_attendance['clockin_difference'] = "";
+
+                    }
+                    
+                    
+
+                }else{
+                    $f_attendance['clockin_difference'] = "";
+                }
+
+                $f_attendance['clockin_late_mark'] = 0;
+                
+                
+            } else {
+
+                $f_attendance['clockin_difference'] = "Late by ".$this->formatTimeDifference(abs($clockInDiffNg));
+                $f_attendance['clockin_late_mark'] = 1;
+            }
+
+            if (!empty($attendance['tto'])) {
+
+                $clockOutDiff = strtotime($attendance['highest_clock_out_time']) - strtotime($u_clock_out);
+                $clockOutDiffNg = strtotime($attendance['highest_clock_out_time']) - strtotime($u_clock_out_ng);
+
+                $check_out_minutes = floor(($clockOutDiffNg % 3600) / 60);
+
+                // echo $check_out_minutes."<br>";
+                
+                if($check_out_minutes < 0)
+                {
+                    
+                    if (!empty($this->formatTimeDifference(abs($clockOutDiff)))) {
+                    
+                        $f_attendance['clockout_difference'] = "Early by ".$this->formatTimeDifference(abs($clockOutDiff));
+                        $f_attendance['clockout_early_mark'] = 1;
+                    } else {
+                    
+                        $f_attendance['clockout_difference'] = "Late by ".$this->formatTimeDifference(abs($clockOutDiff));
+                        $f_attendance['clockout_early_mark'] = 0;
+                    }
+
+                    
+
+                }else{
+
+                    $f_attendance['clockout_difference'] = "Late by ".$this->formatTimeDifference(abs($clockOutDiffNg));
+                    $f_attendance['clockout_early_mark'] = 0;
+                }
+                
+            }else{
+
+                    $f_attendance['clockout_difference'] = '';
+                    $f_attendance['clockout_early_mark'] = 0;
+            }
+
+
+            $f_attendance['lowest_clock_in_time'] = date('d-m-Y H:i:s',strtotime($attendance['lowest_clock_in_time']));
+            if (!empty($attendance['tto'])) {
+            $f_attendance['highest_clock_out_time'] = date('d-m-Y H:i:s',strtotime($attendance['highest_clock_out_time']));
+            }else{
+            $f_attendance['highest_clock_out_time'] = '---';
+            }
+            $f_attendance['name'] = $attendance['name'];
+            $f_attendance['system_clock_in_time'] = $u_clock_in;
+            $f_attendance['system_clock_out_time'] = $u_clock_out;
+            
+            if($auto_logout){
+                $f_attendance['auto_logout'] = 'auto logout';
+            }else{
+                $f_attendance['auto_logout'] = '---';
+            }
+            
+            $final_attendance[] = $f_attendance;
+
+        }}
+
+        $absent_employees = array();
+
+        $this->db->select('name');
+        $this->db->from('gtg_employees');
+        if(!empty($missing_emp_ids))
+        {            
+            $this->db->where_not_in('id ', $missing_emp_ids);
+        }
+        $absent_employees = $this->db->get()->result_array();
+                
+        $data['absent_emp_names'] = $absent_employees;
+        $data['attendance_list'] = $final_attendance;
+        $data['attendance_settings'] = $att_settings;
+
+        return $data;
+
+    }
+    
+    function formatTimeDifference($seconds) {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        
+        $formattedTime = "";
+        if ($hours > 0) {
+            $formattedTime .= $hours . " hr ";
+        }
+        if ($minutes > 0) {
+            $formattedTime .= $minutes . " min";
+        }
+        
+        return $formattedTime;
+    }
+
+    
+    public function daily_attendance_analytics(){
+
+        $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+               
+        $this->db->select('gtg_employees.id, 
+        gtg_employees.name, 
+        MIN(CONCAT(gtg_attendance.clock_in_date, " ", gtg_attendance.tfrom)) AS lowest_clock_in_time,
+        MAX(CONCAT(gtg_attendance.clock_out_date, " ", gtg_attendance.tto)) AS highest_clock_out_time,
+        (SELECT gtg_attendance.clock_in_radius FROM gtg_attendance WHERE gtg_attendance.emp = gtg_employees.id AND gtg_attendance.adate = "'.date('Y-m-d').'" ORDER BY id ASC LIMIT 1) AS first_clock_in_radius,
+        (SELECT gtg_attendance.clock_out_radius FROM gtg_attendance WHERE gtg_attendance.emp = gtg_employees.id AND gtg_attendance.adate = "'.date('Y-m-d').'" ORDER BY id DESC LIMIT 1) AS last_clock_out_radius,
+        MAX(gtg_attendance.tto) as tto');
+        $this->db->from('gtg_attendance');
+        $this->db->join('gtg_employees', 'gtg_employees.id = gtg_attendance.emp', 'inner');
+        $this->db->where('gtg_attendance.adate', date('Y-m-d'));
+        $this->db->group_by('gtg_employees.id');
+        $today_attendances = $this->db->get()->result_array();
+        $ofc_attended_employees = count($today_attendances);
+
+        
+        $missing_emp_ids = array_column($today_attendances, 'id');
+        //echo "<pre>"; print_r($today_attendances); echo "</pre>";
+        $check_in_counter = 0;
+        $clock_in_and_out_emp = 0;
+        $clock_in_and_out_within_ofc = 0;
+        if(!empty($today_attendances)){ foreach($today_attendances as $attendance){ 
+           
+            $u_clock_in = date('Y-m-d H:i:s',strtotime(date('Y-m-d')." ".$att_settings['clock_in_time'].":00"));
+            $u_clock_out = date('Y-m-d H:i:s',strtotime(date('Y-m-d')." ".$att_settings['clock_out_time'].":00"));
+            $clockInDiff = strtotime($attendance['lowest_clock_in_time']) - strtotime($u_clock_in);
+
+
+            if ($clockInDiff < 0) {
+                
+                $check_in_counter++;
+                //$f_attendance['clockin_difference'] = "Early by ".$this->formatTimeDifference(abs($clockInDiff));
+                $f_attendance['clockin_late_mark'] = 0;
+            } else {
+                
+                //$f_attendance['clockin_difference'] = "Late by ".$this->formatTimeDifference(abs($clockInDiff));
+                $f_attendance['clockin_late_mark'] = 1;
+            }
+            
+
+            // Check clock out
+            if (!empty($attendance['tto'])) {
+
+                $clockOutDiff = strtotime($attendance['highest_clock_out_time']) - strtotime($u_clock_out);
+
+                
+                if ($clockOutDiff < 0) {
+                    
+                    //$f_attendance['clockout_difference'] = "Early by ".$this->formatTimeDifference(abs($clockOutDiff));
+                    $f_attendance['clockout_early_mark'] = 1;
+                } else {
+                    
+                    //$f_attendance['clockout_difference'] = "Late by ".$this->formatTimeDifference(abs($clockOutDiff));
+                    $f_attendance['clockout_early_mark'] = 0;
+                }
+            }else{
+                    //$f_attendance['clockout_difference'] = '---';
+                    $f_attendance['clockout_early_mark'] = 0;
+            }
+            
+          
+            if($f_attendance['clockin_late_mark'] == 0 && $f_attendance['clockout_early_mark'] == 0){
+                $clock_in_and_out_emp++;
+            }
+
+            if($attendance['first_clock_in_radius'] == 1 && $attendance['last_clock_out_radius'] == 1){
+                $clock_in_and_out_within_ofc++;
+            }
+
+        }}
+
+        
+        //$absent_employees = array();
+        $this->db->select('name');
+        $this->db->from('gtg_employees');
+        if(!empty($missing_emp_ids))
+        {
+            $this->db->where_not_in('id', $missing_emp_ids);
+        } 
+        $absent_employees = $this->db->get()->num_rows();
+
+
+        $f_data['absent_employees'] = $absent_employees;
+        $f_data['check_in_counter'] = $check_in_counter;
+        $f_data['clock_in_and_out_emp'] = $clock_in_and_out_emp;
+        $f_data['clock_in_and_out_within_ofc'] = $clock_in_and_out_within_ofc;
+        $f_data['ofc_attended_employees'] = $ofc_attended_employees;
+        // $f_data['system_clock_in_time'] = $u_clock_in;
+        // $f_data['system_clock_out_time'] = $u_clock_out;
+        //echo "<pre>"; print_r($f_data); echo "</pre>";
+        
+        return $f_data;
+
+    }
 }

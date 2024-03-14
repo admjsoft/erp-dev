@@ -48,4 +48,30 @@ class Test extends CI_Controller {
         // If you want to save the PDF to a file instead, use:
         // $mpdf->Output('path/to/save/xml_to_pdf_output.pdf', 'F');
     }
+
+    public function one(){
+        $mobile = '9182288185';
+        $otp = '1234';
+        $reciepts_array = array( array("mobiles" => "91".$mobile,"otp" => $otp) );
+        $post_fields = json_encode(array('flow_id' => '6047098578a9a87f63337cfd','recipients' => $reciepts_array,'sender' => 'DEEASE'),JSON_UNESCAPED_SLASHES);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.msg91.com/api/v5/flow",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST, false,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>  $post_fields,
+            CURLOPT_HTTPHEADER => array( "authkey: 229148AeEOf2XBU1sv5b605b34","content-type: application/json"),
+        ));
+        curl_exec($curl);
+        $err = curl_error($curl);
+        echo $err;
+        curl_close($curl);
+        return ( $err )?false:true;
+    }
 }

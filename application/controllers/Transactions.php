@@ -10,8 +10,12 @@ class Transactions extends CI_Controller
         $this->load->library("Aauth");
         $this->load->model('invoices_model');
         $this->load->model('transactions_model', 'transactions');
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->load->library("Custom");
         $this->li_a = 'accounts';

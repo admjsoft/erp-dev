@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-header">
             <h5 class="title">
-                <?php echo $this->lang->line('Employee') ?>
+                <?php echo $this->lang->line('Employee current login status') ?>
 
             </h5>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>

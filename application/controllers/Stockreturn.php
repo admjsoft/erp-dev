@@ -11,8 +11,12 @@ class Stockreturn extends CI_Controller
         $this->load->model('Stockreturn_model', 'stockreturn');
         $this->load->library("Aauth");
         $this->load->library("Custom");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->li_a = 'supplier';
         $c_module = 'supplier';

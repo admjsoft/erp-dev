@@ -9,8 +9,12 @@ class Tools extends CI_Controller
     {
         parent::__construct();
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
 
         $this->load->model('tools_model', 'tools');

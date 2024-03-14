@@ -63,6 +63,7 @@ if (isset($_SESSION['status'])) {
 
                                 <select name="days" id="days" class="form-control" style="width:200px;">
                                     <option value="">Select Period</option>
+                                    <option value="0" <?php if($schedule->days == "0"){ echo "selected"; } ?>><?php echo $this->lang->line("Same Day"); ?>
                                     <option value="30" <?php if($schedule->days == "30"){ echo "selected"; } ?>>30 <?php echo $this->lang->line("Days"); ?>
                                     </option>
                                     <option value="60" <?php if($schedule->days == "60"){ echo "selected"; } ?>>60 <?php echo $this->lang->line("Days"); ?>

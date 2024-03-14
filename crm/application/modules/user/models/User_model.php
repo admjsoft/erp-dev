@@ -17,11 +17,45 @@ class User_model extends CI_Model
         $password = $this->input->post('password');
         $this->db->where("is_deleted='0' AND (email='$email')");
         $result = $this->db->get('users')->result();
+
+        // echo $this->db->last_query();
+        
+
+        // print_r($result);
+        // exit;
         if (!empty($result)) {
             if (password_verify($password, $result[0]->password)) {
                 if ($result[0]->status != 'active') {
                     return 'not_varified';
                 }
+
+                                        // Set the username cookie
+                    $username_cookie = array(
+                        'name'   => 'cust_username_cookie',
+                        'value'  => $email, // Replace 'user123' with the actual username
+                        'expire' => 0, // Cookie expiration time in seconds (e.g., 1 hour)
+                        'path'   => '/', // Cookie path (optional, defaults to '/')
+                        'domain' => $_SERVER['HTTP_HOST'], // Set to localhost
+                        'secure' => FALSE, // Set to FALSE for localhost
+                        'httponly' => TRUE // Indicates if the cookie should only be accessible via HTTP protocol (optional, defaults to FALSE)
+                    );
+
+                    $this->input->set_cookie($username_cookie);
+
+                    // Set the password cookie
+                    $password_cookie = array(
+                        'name'   => 'cust_password_cookie',
+                        'value'  => $password, // Replace 'password123' with the actual password
+                        'expire' => 0, // Cookie expiration time in seconds (e.g., 1 hour)
+                        'path'   => '/', // Cookie path (optional, defaults to '/')
+                        'domain' => $_SERVER['HTTP_HOST'], // Set to localhost
+                        'secure' => FALSE, // Set to FALSE for localhost
+                        'httponly' => TRUE // Indicat   es if the cookie should only be accessible via HTTP protocol (optional, defaults to FALSE)
+                    );
+
+                    $this->input->set_cookie($password_cookie);
+
+
                 return $result;
             } else {
                 return false;

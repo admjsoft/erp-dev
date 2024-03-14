@@ -11,8 +11,12 @@ class Clientgroup extends CI_Controller
         $this->load->model('clientgroup_model', 'clientgroup');
         $this->load->model('customers_model', 'customers');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(3)) {
 

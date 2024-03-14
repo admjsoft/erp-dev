@@ -10,8 +10,12 @@ class Tickets extends CI_Controller
         parent::__construct();
         $this->load->model('ticket_model', 'ticket');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(3)) {
 
@@ -41,6 +45,8 @@ class Tickets extends CI_Controller
     public function tickets_load_list()
     {
         $filt = $this->input->get('stat');
+        // echo $filt;
+        // exit;
         $list = $this->ticket->ticket_datatables($filt);
         $data = array();
         $no = $this->input->post('start');

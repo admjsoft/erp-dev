@@ -10,8 +10,12 @@ class Productcategory extends CI_Controller
         parent::__construct();
         $this->load->model('categories_model', 'products_cat');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(2)) {
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');

@@ -15,8 +15,12 @@ class Payroll extends CI_Controller
         $this->load->model('payroll_model', 'payroll');
         $this->load->model('employee_model', 'employee');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         ///if (!$this->aauth->premission(9)) {
 

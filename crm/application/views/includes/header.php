@@ -239,6 +239,10 @@ $(document).ready(function() {
                 <a href="<?php echo base_url("tickets"); ?>"><i class="icon-ticket"></i>
                     <span><?php echo $this->lang->line('Support Tickets') ?></span></a>
             </li>
+            <li class="nav-item <?php if($this->uri->segment(1) == "filemanager") echo "active"; ?>">
+                <a href="<?php echo base_url("filemanager"); ?>"><i class="icon-folder"></i>
+                    <span><?php echo $this->lang->line('File Manager') ?></span></a>
+            </li>
             <?php /* temprary hide
             <li class="nav-item <?php if($this->uri->segment(1) == "projects") echo "active"; ?>">
                 <a href="<?php echo base_url("projects"); ?>"><i class="icon-stack"></i>
@@ -247,13 +251,13 @@ $(document).ready(function() {
  */ ?>
     <li class="nav-item <?php if ($this->uri->segment(2) == "fwms") {
                 echo 'active';
-            } ?>" style=" border: 0px;border-top: 1px solid #fff;">
+            } ?>" >
                 <a href="<?php echo base_url(); ?>employee/fwmsemployees"> <i class="icon-user1"></i><span class="menu-title"> 
 				<?php echo $this->lang->line('Fwms Employees') ?> </span></a>
             </li>
 			   <li class="nav-item <?php if ($this->uri->segment(2) == "fwms") {
                 echo 'active';
-            } ?>" style=" border: 0px;border-top: 1px solid #fff;">
+            } ?>" >
                 <a href="<?php echo base_url(); ?>employee/fwmsreport"> <i class="icon-user1"></i><span class="menu-title"> 
 				<?php echo $this->lang->line('Fwms Report') ?> </span></a>
             </li>
@@ -263,7 +267,7 @@ $(document).ready(function() {
 			
             <li class="nav-item <?php if ($this->uri->segment(2) == "profile") {
                 echo 'active';
-            } ?>" style=" border: 0px;border-top: 1px solid #fff;">
+            } ?>" >
                 <a href="<?php echo base_url(); ?>user/profile"> <i class="icon-user1"></i><span class="menu-title"> <?php echo $this->lang->line('Profile') ?> </span></a>
             </li>
             <li class="nav-item <?php if ($this->uri->segment(1) == "address") {

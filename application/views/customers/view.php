@@ -78,6 +78,11 @@
                                             class="icon-folder"></i> <?php echo $this->lang->line('Documents') ?>
                                 </a>
 
+                                <a href="<?php echo base_url('customers/getFileManagement?id=' . $details['id']) ?>"
+                                   class="btn btn-blue-grey btn-md mr-1 mb-1 btn-block btn-lighten-1"><i
+                                            class="icon-folder"></i> <?php echo $this->lang->line('File Manager') ?>
+                                </a>
+
                             </div>
                         </div>
 

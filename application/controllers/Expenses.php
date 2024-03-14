@@ -9,8 +9,12 @@ class Expenses extends CI_Controller
         parent::__construct();
         $this->load->library("Aauth");
         $this->load->model('expenses_model', 'expenses');
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->load->library("Custom");
         $this->li_a = 'expenses';

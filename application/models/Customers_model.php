@@ -1342,6 +1342,36 @@ public function list_customers()
     
 }
 
-	
+public function getCustomerNames($customerIds) {
+    $this->db->select('name');
+    $this->db->from('gtg_customers');
+    $this->db->where_in('id', $customerIds);
+    $query = $this->db->get();
+
+    $names = array();
+    foreach ($query->result() as $row) {
+        $names[] = $row->name;
+    }
+
+    return implode(',', $names);
+}
+
+public function crm_dashboard_counts(){
+    $this->db->select('
+    COUNT(*) as total_count,
+    SUM(CASE WHEN reg_date < LAST_DAY(NOW() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) as existing_customers,
+    SUM(CASE WHEN YEAR(reg_date) = YEAR(NOW()) AND MONTH(reg_date) = MONTH(NOW()) THEN 1 ELSE 0 END) as new_customers
+    ');
+    $this->db->from('gtg_customers');
+    $query = $this->db->get();
+    $result = $query->row_array();
+
+    return $result;
+    // $total_count = $result['total_count'];
+    // $existing_customers = $result['existing_customers'];
+    // $new_customers = $result['new_customers'];
+
+}
+
 }
 

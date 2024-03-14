@@ -40,7 +40,7 @@
                             ?>
                             <tr>
                                 <td><?php echo $ii; ?></td>
-                                <td><?php echo $row['form_name']; ?></td>                                
+                                <td><?php echo $row['form_name']; ?></td>
                                 <td>
                                     <a href="<?php echo base_url("officeforms/view/".$row['id']); ?>"
                                         class='btn btn-success btn-sm'><i class='fa fa-eye'></i>
@@ -49,14 +49,14 @@
                                     <a href="<?php echo base_url("officeforms/edit/".$row['id']); ?>"
                                         class='btn btn-warning btn-sm'><i class='fa fa-pencil'></i>
                                         <?php echo $this->lang->line('Edit'); ?></a>
-                                    
+                                    <?php */ ?>
                                     <a href="<?php echo base_url("officeforms/download_office_form/".$row['id']); ?>"
                                         class='btn btn-info btn-sm'><i class='fa fa-download'></i>
                                         <?php echo $this->lang->line('Download'); ?></a>
-                                    <?php */ ?>
+
                                     <a href='#' data-object-id="<?php echo $row['id']; ?>"
                                         class='btn btn-danger btn-sm delete-object' title='Delete'><i
-                                            class='fa fa-trash'></i></a>
+                                            class='fa fa-trash'></i> <?php echo $this->lang->line('Delete'); ?></a>
 
 
                                 </td>
@@ -88,8 +88,8 @@
                             <!-- <li class="bg_fb"><a href="#" class="share_icon" rel="tooltip" title="Facebook"><i class="fa fa-facebook"></i></a></li>
             <li class="bg_insta"><a href="#" class="share_icon" rel="tooltip" title="Instagram"><i class="fa fa-instagram"></i></a></li> -->
                             <li class="bg_email"><a href="#" class="share_icon 
-                            " data-target="#sendEmail"
-                                    data-toggle="modal" rel="tooltip" title="Email"><i class="fa fa-envelope"></i></a>
+                            " data-target="#sendEmail" data-toggle="modal" rel="tooltip" title="Email"><i
+                                        class="fa fa-envelope"></i></a>
                             </li>
                             <!-- <li class="bg_email"><a href="#" class="share_icon share__link  share__link--mail"
                                     rel="tooltip" title="Email"><i class="fa fa-envelope"></i></a></li> -->
@@ -205,6 +205,8 @@
     <div id="office_form_popup" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
+            <form id="ds_form" action="<?php echo base_url('officeforms/create'); ?>" method="post"
+                        enctype="multipart/form-data">
                 <div class="modal-header">
 
                     <h4 class="modal-title"><?php echo $this->lang->line('Add A Office Form') ?></h4>
@@ -215,17 +217,17 @@
                 <!-- ... -->
 
                 <div class="modal-body">
-                    <form id="ds_form" action="officeforms/create" method="post" enctype="multipart/form-data">
-                        
+                    
+
 
                         <!-- Uploaded Documents -->
-                        <div class=" mt-3">
+                        <div class=" mt-2">
                             <!-- Input type file -->
-                            <div class="mb-3">
+                            <div class="mb-1">
                                 <label for="fileInput" class="form-label">From Name:</label>
                                 <input type="name" name="form_name" class="form-control" id="form_name" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-1">
                                 <label for="fileInput" class="form-label">Upload Document ( Pdf ):</label>
                                 <input type="file" name="userfile" class="form-control" id="userfile" required>
                             </div>
@@ -233,16 +235,18 @@
                                 value="1">
 
                             <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary">Submit</button>
+
                         </div>
-                    </form>
+                    
                 </div>
 
 
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal"
                         class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -262,10 +266,8 @@
         });
 
     });
-
-
     </script>
-   
+
 
     <script>
     $(document).ready(function() {

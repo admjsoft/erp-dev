@@ -19,6 +19,85 @@ var dataVisits2 = [
     background-image: linear-gradient(to right, #c2185b 0%, #4DCBCD 100%) !important;
 }
 </style>
+<style>
+.dashb_pr_wrapper {
+    text-transform: uppercase;
+    position: relative;
+}
+
+.dashb_pr_wrapper .dashb_pr_tooltip {
+    background: #1496bb;
+    bottom: 100%;
+    color: #fff;
+    display: block;
+    left: -20px;
+    margin-bottom: 15px;
+    opacity: 0;
+    padding: 20px;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    -o-transform: translateY(10px);
+    transform: translateY(10px);
+    -webkit-transition: all .25s ease-out;
+    -moz-transition: all .25s ease-out;
+    -ms-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    -webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -ms-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -o-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+}
+
+/* This bridges the gap so you can mouse into the dashb_pr_tooltip without it disappearing */
+.dashb_pr_wrapper .dashb_pr_tooltip:before {
+    bottom: -20px;
+    content: " ";
+    display: block;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+/* CSS Triangles - see Trevor's post */
+.dashb_pr_wrapper .dashb_pr_tooltip:after {
+    border-left: solid transparent 10px;
+    border-right: solid transparent 10px;
+    border-top: solid #1496bb 10px;
+    bottom: -10px;
+    content: " ";
+    height: 0;
+    left: 50%;
+    margin-left: -13px;
+    position: absolute;
+    width: 0;
+}
+
+.dashb_pr_wrapper:hover .dashb_pr_tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -o-transform: translateY(0px);
+    transform: translateY(0px);
+}
+
+/* IE can just show/hide with no transition */
+.lte8 .dashb_pr_wrapper .dashb_pr_tooltip {
+    display: none;
+}
+
+.lte8 .dashb_pr_wrapper:hover .dashb_pr_tooltip {
+    display: block;
+}
+</style>
 <?php if(ENVIRONMENT == 'development') { ?>
 <div class="alert alert-primary alert-danger" style="">
     <a href="#" class="close" data-dismiss="alert">×</a>
@@ -32,10 +111,13 @@ var dataVisits2 = [
     <?php echo $this->session->flashdata("messagePr") ?>
 </div>
 <?php } ?>
-
-<?php if ($this->aauth->premission(160))
+<input type="hidden" id="dashurl" value="tickets/ticket_stats">
+<input type="hidden" id="pdashurl" value="projects/projects_stats">
+<input type="hidden" id="att_map_url" value="employee/employee_clock_in_locations">
+<?php if ($this->aauth->premission(229) && $this->aauth->personalized_premission(229) == 0)
 {
 ?>
+<h3><?php echo $this->lang->line('Sales') ?></h3>
 <div class="row">
     <div class="col-xl-3 col-lg-6 col-12">
         <div class="card">
@@ -116,9 +198,12 @@ var dataVisits2 = [
 <?php 
 }
 ?>
-<?php if ($this->aauth->premission(161))
+
+
+<?php if ($this->aauth->premission(161) && $this->aauth->personalized_premission(161) == 0)
 {
 	?>
+<h3><?php echo $this->lang->line('FWMS') ?></h3>
 <div class="row">
     <div class="col-xl-3 col-lg-6 col-12">
         <div class="card">
@@ -238,7 +323,120 @@ var dataVisits2 = [
 </div>
 
 <?php }?>
-<?php if ($this->aauth->premission(163))
+
+
+<?php if ($this->aauth->premission(222) && $this->aauth->personalized_premission(222) == 0)
+{
+?>
+<h3><?php echo $this->lang->line('Attendance') ?></h3>
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-primary bg-darken-2">
+                        <i class="fa fa-file-text-o text-bold-200  font-large-2 white"></i>
+                    </div>
+                    <div class="p-1 bg-gradient-x-primary white media-body">
+                        <a href="<?php echo base_url('employee/daily_attendances'); ?>" style="color:#fff">
+
+                            <h5><?php echo $this->lang->line('Clock In Early Employees') ?></h5>
+                            <h5 class="text-bold-400 mb-0"><i class="ft-plus"></i>
+                                <?= $attendance_analytics['check_in_counter'] ?> /
+                                <?= $attendance_analytics['ofc_attended_employees'] ?></h5>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-danger bg-darken-2">
+                        <i class="icon-notebook font-large-2 white"></i>
+                    </div>
+                    <div class="p-1 bg-gradient-x-danger white media-body">
+                        <a href="<?php echo base_url('employee/daily_attendances'); ?>" style="color:#fff">
+
+                            <h5><?= $this->lang->line("ClockIn Early, ClockOut Late") ?></h5>
+                            <h5 class="text-bold-400 mb-0"><i
+                                    class="ft-arrow-up"></i><?= $attendance_analytics['clock_in_and_out_emp'] ?> /
+                                <?= $attendance_analytics['ofc_attended_employees'] ?></h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-warning bg-darken-2">
+                        <i class="icon-basket-loaded font-large-2 white"></i>
+                    </div>
+                    <div class="p-1 bg-gradient-x-warning white media-body">
+                        <a href="<?php echo base_url('employee/daily_attendances'); ?>" style="color:#fff">
+                            <h5><?= $this->lang->line('Clock In&Out at Office') ?></h5>
+                            <h5 class="text-bold-400 mb-0"><i
+                                    class="ft-arrow-up"></i><?= $attendance_analytics['clock_in_and_out_within_ofc'] ?>
+                                / <?= $attendance_analytics['ofc_attended_employees'] ?>
+                            </h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-success bg-darken-2">
+                        <i class="icon-wallet font-large-2 white"></i>
+                    </div>
+                    <div class="p-1 bg-gradient-x-success white media-body">
+                        <a href="<?php echo base_url('employee/daily_attendances'); ?>" style="color:#fff">
+                            <h5><?php echo $this->lang->line('Total Absent Employees') ?></h5>
+                            <h5 class="text-bold-400 mb-0"><i class="ft-arrow-up"></i>
+                                <?= $attendance_analytics['absent_employees'] ?>
+                            </h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<?php if ($this->aauth->premission(223) && $this->aauth->personalized_premission(223) == 0)
+{
+?>
+
+<h3><?php echo $this->lang->line('Clock In Locations in MAP') ?></h3>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card status_block" status="Assign">
+            <div class="card-body">
+                <div class="card-block">
+                    <!-- Bootstrap row div for responsiveness -->
+                    <div id="map" style="height: 400px; width: 100%;"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<?php 
+}
+?>
+<?php if ($this->aauth->premission(163) && $this->aauth->personalized_premission(163) == 0)
 {
 	?>
 <h3><?php echo $this->lang->line('Job Sheet') ?></h3>
@@ -329,10 +527,163 @@ var dataVisits2 = [
 </div>
 <?php }?>
 
-<?php if ($this->aauth->premission(160))
+<?php if ($this->aauth->premission(218) && $this->aauth->personalized_premission(218) == 0)
 {
 ?>
+<h3><?php echo $this->lang->line('Support Tickets') ?></h3>
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('tickets/?filter=waiting'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="pink" id="dash_0"></h3>
+                                <span><?php echo $this->lang->line('Waiting') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-clock-o pink font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('tickets/?filter=processing'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="blue" id="dash_1"></h3>
+                                <span><?php echo $this->lang->line('Processing') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-refresh blue font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('tickets/?filter=solved'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="success" id="dash_2"></h3>
+                                <span><?php echo $this->lang->line('Solved') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-check-circle success font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('tickets/?filter=total'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="cyan"><?php echo $total_tickets; ?></h3>
+                                <span><?php echo $this->lang->line('Total') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-pie-chart cyan font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<?php } ?>
+<?php if ($this->aauth->premission(220) && $this->aauth->personalized_premission(220) == 0)
+{
+?>
+<h3><?php echo $this->lang->line('CRM') ?></h3>
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('customers'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="pink" id="dash_0"><?php echo $customer_counts['existing_customers']; ?></h3>
+                                <span><?php echo $this->lang->line('Existing Customers') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-clock-o pink font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('customers'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="blue" id=""><?php echo $customer_counts['new_customers']; ?></h3>
+                                <span><?php echo $this->lang->line('New Customers') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-refresh blue font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="col-xl-3 col-lg-6 col-xs-6">
+        <a href="<?php echo base_url('customers'); ?>">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="media">
+                            <div class="media-body text-xs-left">
+                                <h3 class="cyan"><?php echo $customer_counts['total_count']; ?></h3>
+                                <span><?php echo $this->lang->line('Total Customers') ?></span>
+                            </div>
+                            <div class="media-right media-middle">
+                                <i class="fa fa-pie-chart cyan font-large-2 float-xs-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+<?php } ?>
+
+
 <div class="row match-height">
+<?php if ($this->aauth->premission(230) && $this->aauth->personalized_premission(230) == 0){ ?>
     <div class="col-xl-8 col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -434,6 +785,8 @@ var dataVisits2 = [
 </div>
 </div>
 </div>
+<?php } ?>
+<?php if ($this->aauth->premission(227) && $this->aauth->personalized_premission(227) == 0){ ?>
 <div class="col-xl-4 col-lg-12">
     <div class="card">
         <div class="card-header">
@@ -477,11 +830,11 @@ var dataVisits2 = [
         </div>
     </div>
 </div>
-</div><?php }?>
-<?php if ($this->aauth->premission(160))
-{
-?>
+<?php }?>
+
+</div>
 <div class="row match-height">
+    <?php if ($this->aauth->premission(226) && $this->aauth->personalized_premission(226) == 0){ ?>
     <div class="col-xl-8 col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -541,6 +894,8 @@ var dataVisits2 = [
             </div>
         </div>
     </div>
+    <?php } ?>
+    <?php if ($this->aauth->premission(225) && $this->aauth->personalized_premission(225) == 0){ ?>
     <div class="col-xl-4 col-lg-12">
         <div class="card">
 
@@ -560,8 +915,9 @@ var dataVisits2 = [
             </div>
         </div>
     </div>
-</div><?php }?>
-<?php if ($this->aauth->premission(160))
+    <?php } ?>
+</div>
+<?php if ($this->aauth->premission(228) && $this->aauth->personalized_premission(228) == 0)
 {
 ?>
 <div class="row">
@@ -665,10 +1021,12 @@ var dataVisits2 = [
 </div>
 </div>
 </div><?php }?>
-<?php if ($this->aauth->premission(160))
+
+<div class="row match-height">
+
+    <?php if ($this->aauth->premission(224) && $this->aauth->personalized_premission(224) == 0)
 {
 ?>
-<div class="row match-height">
     <div class="col-xl-7 col-lg-12">
         <div class="card" id="transactions">
 
@@ -700,8 +1058,9 @@ var dataVisits2 = [
         </div>
 
     </div>
-    <?php ?>
-    <?php if ($this->aauth->premission(162))
+
+    <?php } ?>
+    <?php if ($this->aauth->premission(162) && $this->aauth->personalized_premission(162) == 0)
 {
 ?>
     <div class="col-xl-5 col-lg-12">
@@ -736,8 +1095,8 @@ var dataVisits2 = [
     <?php }?>
 
 
-</div><?php }?>
-<?php if ($this->aauth->premission(160))
+</div>
+<?php if ($this->aauth->premission(160) && $this->aauth->personalized_premission(160) == 0)
 {
 ?>
 <div class="row match-height">
@@ -816,7 +1175,147 @@ var dataVisits2 = [
 </div>
 */ ?>
 </div><?php }?>
-<?php if ($this->aauth->premission(160))
+<?php if ($this->aauth->premission(217) && $this->aauth->personalized_premission(217) == 0)
+{
+?>
+<h3><?php echo $this->lang->line('Projects') ?></h3>
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-12">
+        <a href="<?php echo base_url('projects/?filter=waiting'); ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="fa fa-clock-o primary font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h3 class="pink" id="pdash_0"></h3>
+                                <span><?php echo $this->lang->line('Waiting') ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <a href="<?php echo base_url('projects/?filter=progress'); ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="fa fa-exchange warning font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h3 class="indigo" id="pdash_1"></h3>
+                                <span><?php echo $this->lang->line('Progress') ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <a href="<?php echo base_url('projects/?filter=finished'); ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="fa fa-flag-checkered success font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h3 class="green" id="pdash_2"></h3>
+                                <span><?php echo $this->lang->line('Finished') ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <a href="<?php echo base_url('projects'); ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="media d-flex">
+                            <div class="align-self-center">
+                                <i class="fa fa-dot-circle-o danger font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-right">
+                                <h3 class="deep-cyan" id="pdash_6"><?php echo $total_projects ?></h3>
+                                <span><?php echo $this->lang->line('Total') ?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><?php echo $this->lang->line('Recent Projects') ?></h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content px-1">
+                <div id="recent-projects" class="media-list height-450  mt-1 mb-1 position-relative">
+                    <?php
+                    if (!empty($projects_list)) {
+
+                        foreach ($projects_list as $project_l) { ?>
+
+                    <a class="media border-0 dashb_pr_wrapper mb-1" style="border:1px solid #EDEFF5 !important;">
+                        <div class="media-left pr-1">
+                            <span class="avatar avatar-md avatar-online"><img class="media-object rounded-circle"
+                                    src="<?php echo base_url('userfiles/customers/thumbnail/example.png'); ?>">
+                                <i></i>
+                            </span>
+                        </div>
+                        <div class="media-body w-100">
+                            <h6 class="list-group-item-heading"><?php echo $project_l['name']; ?> <span
+                                    class="font-medium-4 float-right pt-1"><?php // echo $project_l['name']; ?> </span>
+                            </h6>
+                            <p class="list-group-item-text mb-0"><span
+                                    class="badge  st-<?php echo strtolower($project_l['status']); ?>"><?php echo $this->lang->line(ucwords($project_l['status'])); ?></span>
+                            </p>
+                        </div>
+                        <div class="dashb_pr_tooltip m-2">
+                            Name : <?php echo $project_l['name']; ?> <br>
+                            Start Date : <?php echo date('d-m-Y',strtotime($project_l['sdate'])); ?> <br>
+                            End Date : <?php echo date('d-m-Y',strtotime($project_l['edate'])); ?> <br>
+                            Priority : <?php echo $project_l['priority']; ?> <br>
+                            Status : <?php echo $project_l['status']; ?> <br>
+                            Worth : <?php echo $project_l['worth']; ?> <br>
+                        </div>
+                    </a>
+                    <?php 
+
+                        }
+                    } 
+
+                    ?>
+
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+<?php if ($this->aauth->premission(160) && $this->aauth->personalized_premission(160) == 0)
 {
 ?>
 <script type="text/javascript">
@@ -1055,4 +1554,163 @@ $(document).ready(function() {
     }
 
 });
+
+$(document).ready(function() {
+    var actionurl = $('#dashurl').val();
+    var d_csrf = crsf_token + '=' + crsf_hash;
+    $.ajax({
+        url: baseurl + actionurl,
+        type: 'POST',
+        dataType: 'json',
+        data: d_csrf,
+        success: function(data) {
+            var i = 0;
+            //  var obj = jQuery.parseJSON(data);
+            $.each(data, function(key, value) {
+                for (ind in value) {
+                    $('#dash_' + i).text(value[ind]);
+                    i++;
+                }
+            });
+        }
+    });
+
+});
+
+$(document).ready(function() {
+    var actionurl = $('#pdashurl').val();
+    var d_csrf = crsf_token + '=' + crsf_hash;
+    $.ajax({
+        url: baseurl + actionurl,
+        type: 'POST',
+        dataType: 'json',
+        data: d_csrf,
+        success: function(data) {
+            var i = 0;
+            //  var obj = jQuery.parseJSON(data);
+            $.each(data, function(key, value) {
+                for (ind in value) {
+                    $('#pdash_' + i).text(value[ind]);
+                    i++;
+                }
+            });
+        }
+    });
+
+});
 </script>
+<?php if ($this->aauth->premission(223) && $this->aauth->personalized_premission(223) == 0)
+{
+?>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMWSr2YSC6925JdAvbRyfjaiRsF8rPxA4&callback=initMap" async
+    defer></script>
+
+<script>
+// Initialize and add the map
+function initMap() {
+    var d_csrf = true;
+    var actionurl = $('#att_map_url').val();
+    $.ajax({
+        url: baseurl + actionurl,
+        type: 'POST',
+        dataType: 'json',
+        data: d_csrf,
+        success: function(data) {
+
+            // alert(data.att_settings.latitude);
+            // alert(data.att_settings.longitude);
+            // Map center coordinates
+            var mapCenter = {
+                lat: parseFloat(data.att_settings.latitude),
+                lng: parseFloat(data.att_settings.longitude)
+            }; // Default center
+
+            // Office location coordinates
+            var officeLocation = {
+                lat: parseFloat(data.att_settings.latitude),
+                lng: parseFloat(data.att_settings.longitude)
+            }; // Example office location
+
+            // Array of employee locations with names
+            // var employeeLocations = [
+            //     {lat: 40.7128, lng: -74.0060, name: "Employee 1"}, // Example employee location 1
+            //     {lat: 34.0522, lng: -118.2437, name: "Employee 2"}, // Example employee location 2
+            //     // Add more employee locations with names as needed
+            // ];
+            // alert(data.all_employees);
+            var employeeLocations = data.all_employees;
+            // Create a new map centered at a location
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10, // Adjust zoom level as needed
+                center: mapCenter
+            });
+
+            // Add office marker with tooltip
+            // Add office marker with automatic tooltip
+            var officeMarker = new google.maps.Marker({
+                position: officeLocation,
+                map: map,
+                title: "Office Location" // Tooltip text
+            });
+
+            // Create an info window for the office marker
+            var officeInfoWindow = new google.maps.InfoWindow({
+                content: "Office Location" // Content of the info window
+            });
+
+            // Add a listener to open the info window when the office marker is clicked
+            officeMarker.addListener('click', function() {
+                officeInfoWindow.open(map, officeMarker);
+            });
+
+            // Automatically open the info window for the office marker when it's added to the map
+            officeInfoWindow.open(map, officeMarker);
+
+
+            // Add geofence around office marker
+            var geofenceCircle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                center: officeLocation, // Geofence center
+                radius: (parseInt(data.att_settings.office_login_radius) * 1000) // 5km in meters
+            });
+
+            // Add employee markers to the map with tooltips
+            // for (var i = 0; i < employeeLocations.length; i++) {
+            //     var marker = new google.maps.Marker({
+            //         position: employeeLocations[i],
+            //         map: map,
+            //         title: employeeLocations[i].name // Tooltip text
+            //     });
+            // }
+            for (var i = 0; i < employeeLocations.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: employeeLocations[i],
+                    map: map,
+                    title: employeeLocations[i].name // Tooltip text
+                });
+
+                // Create an info window with the employee's name
+                var infoWindow = new google.maps.InfoWindow({
+                    content: employeeLocations[i].name // Content of the info window
+                });
+
+                // Add a listener to open the info window when the marker is clicked
+                marker.addListener('click', function() {
+                    infoWindow.open(map, marker);
+                });
+
+                // Automatically open the info window when the marker is added to the map
+                infoWindow.open(map, marker);
+            }
+
+        }
+    });
+
+}
+</script>
+<?php } ?>

@@ -16,6 +16,10 @@ class Messages extends CI_Controller
             exit;
         }
 
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
+        }
+
 
         $this->load->model('dashboard_model');
         $this->load->model('tools_model');

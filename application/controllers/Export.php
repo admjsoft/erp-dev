@@ -24,10 +24,10 @@ class Export extends CI_Controller
             exit;
         }
 
-        if ($this->aauth->get_user()->roleid < 5) {
+        // if ($this->aauth->get_user()->roleid < 5) {
 
-            exit('Not Allowed!');
-        }
+        //     exit('Not Allowed!');
+        // }
         $this->date = 'backup_' . date('Y_m_d_H_i_s');
         $this->li_a = 'export';
     }
@@ -2186,5 +2186,151 @@ class Export extends CI_Controller
             $writer->save('php://output');
     
             }
+
+
+
+            public function export_daily_attendance_list() {
+
+                // Create a PhpSpreadsheet object
+                $data = array();
+                $filename = 'attendance_details_list_'.date('d-m-Y');
+                $spreadsheet = new Spreadsheet();
+                $sheet = $spreadsheet->getActiveSheet();
+
+                $att_date = $this->input->post('att_date');
+        
+                $ndata = $this->employee->daily_attendance_list($att_date);      
+
+                
+                 // $ndata = $this->employee->daily_attendance_list();   
+                // echo "<pre>"; print_r($job_data); echo "</pre>";
+                // exit;
+                
+                // Merge cells for the first row
+                $sheet->mergeCells('A1:G1');
+            
+                // Center align the merged cells
+                $sheet->getStyle('A1')->getAlignment()->setHorizontal('center');
+            
+                // Add the header in the merged cells
+                $header_str = "Daily Attendance Details ".date('d-m-Y');
+                $sheet->setCellValue('A1', $header_str);
+            
+                // Add titles in the second row
+                $sheet->setCellValue('A2', 'S.No');
+                $sheet->setCellValue('B2', 'Employee Name');
+                $sheet->setCellValue('C2', 'Date & ClockIn');
+                $sheet->setCellValue('D2', 'Early / Late In Minutes');
+                $sheet->setCellValue('E2', 'Date & ClockOut');
+                $sheet->setCellValue('F2', 'Early / Late In Minutes');
+                $sheet->setCellValue('G2', 'Auto LoggedOut');
+            
+                $defaultWidth = 25; // Set your desired default width
+
+                // Loop through each column and set the default width
+                for ($col = 'A'; $col <= 'Z'; $col++) {
+                    $sheet->getColumnDimension($col)->setWidth($defaultWidth);
+                }
+        
+          
+                $data = [];
+                if(!empty($ndata['attendance_list'])){
+                    $j=1;
+
+                foreach ($ndata['attendance_list'] as $attendance) {
+        
+                    $j_data['S.No'] = $j;
+                    $j_data['name'] = $attendance['name'];
+                    $j_data['lowest_clock_in_time'] = $attendance['lowest_clock_in_time'];
+                    $j_data['clockin_difference'] = $attendance['clockin_difference'];
+                    $j_data['highest_clock_out_time'] = $attendance['highest_clock_out_time'];
+                    $j_data['clockout_difference'] = $attendance['clockout_difference'];
+                    $j_data['auto_logout'] = $attendance['auto_logout'];
+        
+                    $data[] = $j_data;
+                    $j++;
+                }
+                }
+            
+                // Custom filename
+                $customFilename = 'attendance_details_' . $this->date . '.xlsx';
+            
+                // Add the data from the third row (after titles)
+                $row = 3;
+                foreach ($data as $row_data) {
+                    $column = 'A';
+                    foreach ($row_data as $value) {
+                        $sheet->setCellValue($column . $row, $value);
+                        $column++;
+                    }
+                    $row++;
+                }
+
+                $row += 2; // Move to the next row after the previous data
+
+                
+                $localheaderColumn = "A".$row;
+                $sheet->mergeCells("A$row:B$row");
+                // // echo $localheaderColumn;
+                // // exit;
+                $sheet->getStyle("A".$row)->getAlignment()->setHorizontal('center');
+                $sheet->setCellValue("A".$row, "ClockIn Time : ".date('h:i A',strtotime($ndata['attendance_settings']['clock_in_time'])));
+                // // Set header for Absent Employees section
+                $row += 1; 
+                $localheaderColumn = "A".$row;
+                $sheet->mergeCells("A$row:B$row");
+                // // echo $localheaderColumn;
+                // // exit;
+                $sheet->getStyle("A".$row)->getAlignment()->setHorizontal('center');
+                $sheet->setCellValue("A".$row, "ClockOut Time : ".date('h:i A',strtotime($ndata['attendance_settings']['clock_out_time'])));
+               
+                $row += 2;
+                
+                $localheaderColumn = "A".$row;
+                $sheet->mergeCells("A$row:B$row");
+                // // echo $localheaderColumn;
+                // // exit;
+                $sheet->getStyle("A".$row)->getAlignment()->setHorizontal('center');
+                $sheet->setCellValue("A".$row, 'Absent Employees');
+
+                
+                $row += 1;
+                $sheet->setCellValue("A".$row, 'S.No');
+                $sheet->setCellValue("B".$row, 'Employee Name');
+                $row += 1;
+                // Write Absent Employees header
+                
+                // Write data for Absent Employees section
+                $data1 = [];
+                if (!empty($ndata['absent_emp_names'])) {
+                    $aj = 1;
+                    foreach ($ndata['absent_emp_names'] as $absent_emp_names) {
+                        $aj_data['S.No'] = $aj;
+                        $aj_data['name'] = $absent_emp_names['name'];
+                        $data1[] = $aj_data;
+                        $aj++;
+                    }
+                }
+                
+                
+                foreach ($data1 as $row_data1) {
+                    $column = 'A';
+                    foreach ($row_data1 as $value1) {
+                        $sheet->setCellValue($column . $row, $value1);
+                        $column++;
+                    }
+                    $row++;
+                }
+                
+                // Create a writer and output the spreadsheet to the browser
+                $writer = new Xlsx($spreadsheet);
+            
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="' . $filename . '"');
+                header('Cache-Control: max-age=0');
+            
+                $writer->save('php://output');
+            }
+            
           
 }

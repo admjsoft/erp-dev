@@ -13,7 +13,10 @@ class Dashboard extends CI_Controller
             redirect('/user/', 'refresh');
             exit;
         }
-
+        
+        $this->load->model('ticket_model', 'ticket');
+        $this->load->model('projects_model', 'projects');
+        $this->load->model('customers_model', 'customers');
         $this->load->model('dashboard_model');
         $this->load->model('tools_model');
         $this->load->model('employee_model');
@@ -45,8 +48,8 @@ class Dashboard extends CI_Controller
 
         $data['assign'] = $this->jobsheet->jobsheet_count_filtered('assign');
         $data['totalt'] = $this->jobsheet->jobsheet_count_filtered('');
-         $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
-         $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
+        $data['pending']= $this->jobsheet->jobsheet_count_filtered('Pending');
+        $data['completed']= $this->jobsheet->jobsheet_count_filtered('Completed');
         $head['title'] = 'Jobsheet';
 
         // print_r($data);
@@ -57,6 +60,13 @@ class Dashboard extends CI_Controller
     }
     public function index()
     {
+
+        // echo "<pre>"; print_r($_SESSION); echo "</pre>";
+        // exit;
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
+        }
+
         $today = date("Y-m-d");
         $month = date("m");
         $year = date("Y");
@@ -103,6 +113,11 @@ class Dashboard extends CI_Controller
             // $data['closeList'] = $this->dashboard_model->jobsheet_Close();
             //$data['completedList'] = $this->dashboard_model->jobsheet_Completed();
             //$data['inprogressList'] = $this->dashboard_model->jobsheet_Inprogress();
+            $data['total_tickets'] = $this->ticket->ticket_count_all('');
+            $data['total_projects'] = $this->projects->project_count_all();
+            $data['projects_list'] = $this->projects->dashboard_projects_list();
+            $data['customer_counts'] = $this->customers->crm_dashboard_counts();
+            $data['attendance_analytics'] = $this->employee_model->daily_attendance_analytics();
 
             $head['title'] = 'Dashboard';
             $this->load->view('fixed/header', $head);
@@ -203,6 +218,7 @@ class Dashboard extends CI_Controller
     }
     public function clock_in()
     {
+        
         if(!empty($_POST)){
 
 
@@ -218,6 +234,7 @@ class Dashboard extends CI_Controller
               $data['clock_in_latitude'] = $this->input->post('latitude_details');
               $data['clock_in_longitude'] = $this->input->post('longitude_details');
               $data['clock_in_location'] = $this->input->post('Location_details');
+              $data['clock_in_date'] = date('Y-m-d');
             
             //   echo "<pre>"; print_r($data); echo "</pre>";
             //   exit;
@@ -276,7 +293,7 @@ class Dashboard extends CI_Controller
         $data['clock_out_latitude'] = $this->input->post('latitude_details');
         $data['clock_out_longitude'] = $this->input->post('longitude_details');
         $data['clock_out_location'] = $this->input->post('Location_details');
-      
+        $data['clock_out_date'] = date('Y-m-d');
      
 
         if ($this->aauth->auto_attend()) {

@@ -44,8 +44,10 @@
                         <select name="module_activity_type" id="module_activity_type" class="form-control required"
                             required>
                             <option value=""><?php echo $this->lang->line('Select Activity Type'); ?></option>
-                            <option value="Page Display" selected><?php echo $this->lang->line('Page Display'); ?></option>
-                            <option value="Authorized Action"><?php echo $this->lang->line('Action Authorization'); ?></option>
+                            <option value="Page Display" selected><?php echo $this->lang->line('Page Display'); ?>
+                            </option>
+                            <option value="Authorized Action"><?php echo $this->lang->line('Action Authorization'); ?>
+                            </option>
                             <option value="Landing Page"><?php echo $this->lang->line('Landing Page'); ?></option>
                         </select>
 
@@ -143,6 +145,23 @@
                             } 
                             ?>
                         </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <label class="col-sm-2 col-form-label"
+                        for="product_cat"><?php echo $this->lang->line('Module Personalization Access') ?></label>
+
+                    <div class="col-sm-6">
+                        <select name="module_personalization" id="module_personalization" class="form-control required"
+                            required>
+                            <option value="1"><?php echo $this->lang->line('Yes'); ?></option>
+                            <option value="0" Selected><?php echo $this->lang->line('No'); ?></option>
+                        </select>
+
+
+
                     </div>
                 </div>
 

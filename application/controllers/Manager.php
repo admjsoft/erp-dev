@@ -10,8 +10,12 @@ class Manager extends CI_Controller
         $this->load->model('manager_model', 'manager');
         //$this->load->model('projects_model', 'projects');
         $this->load->library("Aauth");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         $this->li_a = 'manager';
     }

@@ -1,5 +1,5 @@
 <div class="content-body">
-<div id="c_body"></div>
+    <div id="c_body"></div>
     <div class="card">
         <div class="card-header">
             <h5><?php echo $this->lang->line('Employee Details') ?></h5>
@@ -25,7 +25,7 @@
                     <div class="col-md-4 border-right">
 
                         <img alt="image" class="img-responsive col"
-                             src="<?php echo base_url('userfiles/employee/' . $employee['picture']); ?>">
+                            src="<?php echo base_url('userfiles/employee/' . $employee['picture']); ?>">
 
                         <hr>
 
@@ -70,7 +70,8 @@
                         <hr>
                         <div class="row m-t-lg">
                             <div class="col-md-12">
-                                <strong><?php echo $this->lang->line('Phone') ?></strong> <?php echo $employee['phone']; ?>
+                                <strong><?php echo $this->lang->line('Phone') ?></strong>
+                                <?php echo $employee['phone']; ?>
                             </div>
 
                         </div>
@@ -104,8 +105,9 @@
                                             </div>
                                             <div class="options">
                                                 <a href="<?php echo base_url('employee/invoices?id=' . $eid) ?>"
-                                                   class="btn btn-primary btn-block"><i
-                                                            class="icon-eye"></i> <?php echo $this->lang->line('Invoices') ?> <?php echo $this->lang->line('View') ?>
+                                                    class="btn btn-primary btn-block"><i class="icon-eye"></i>
+                                                    <?php echo $this->lang->line('Invoices') ?>
+                                                    <?php echo $this->lang->line('View') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -121,8 +123,9 @@
                                             </div>
                                             <div class="options">
                                                 <a href="<?php echo base_url('employee/transactions?id=' . $eid) ?>"
-                                                   class="btn btn-purple btn-block"><i
-                                                            class="icon-eye"></i> <?php echo $this->lang->line('Transactions') ?> <?php echo $this->lang->line('View') ?>
+                                                    class="btn btn-purple btn-block"><i class="icon-eye"></i>
+                                                    <?php echo $this->lang->line('Transactions') ?>
+                                                    <?php echo $this->lang->line('View') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -142,8 +145,9 @@
                                             </div>
                                             <div class="options">
                                                 <a href="<?php echo base_url('quote?eid=' . $eid) ?>"
-                                                   class="btn btn-pink btn-block"><i
-                                                            class="icon-eye"></i> <?php echo $this->lang->line('Quotes') ?> <?php echo $this->lang->line('View') ?>
+                                                    class="btn btn-pink btn-block"><i class="icon-eye"></i>
+                                                    <?php echo $this->lang->line('Quotes') ?>
+                                                    <?php echo $this->lang->line('View') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -159,8 +163,9 @@
                                             </div>
                                             <div class="options">
                                                 <a href="<?php echo base_url('projects?eid=' . $eid) ?>"
-                                                   class="btn btn-success btn-block"><i
-                                                            class="icon-eye"></i> <?php echo $this->lang->line('Projects') ?> <?php echo $this->lang->line('View') ?>
+                                                    class="btn btn-success btn-block"><i class="icon-eye"></i>
+                                                    <?php echo $this->lang->line('Projects') ?>
+                                                    <?php echo $this->lang->line('View') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -180,8 +185,9 @@
                                             </div>
                                             <div class="options">
                                                 <a href="#pop_model" data-toggle="modal" data-remote="false"
-                                                   class="btn btn-purple btn-block"><i
-                                                            class="icon-eye"></i> <?php echo $this->lang->line('Sales') ?> <?php echo $this->lang->line('View') ?>
+                                                    class="btn btn-purple btn-block"><i class="icon-eye"></i>
+                                                    <?php echo $this->lang->line('Sales') ?>
+                                                    <?php echo $this->lang->line('View') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -197,8 +203,9 @@
                                             </div>
                                             <div class="options">
                                                 <a href="#pop_model2" data-toggle="modal" data-remote="false"
-                                                   class="btn btn-blue btn-block"><i
-                                                            class="icon-eye"></i> <?php echo $this->lang->line('Total Income') ?> <?php echo $this->lang->line('View') ?>
+                                                    class="btn btn-blue btn-block"><i class="icon-eye"></i>
+                                                    <?php echo $this->lang->line('Total Income') ?>
+                                                    <?php echo $this->lang->line('View') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -214,8 +221,9 @@
 
                                             <div class="options">
                                                 <a href="<?php echo base_url('employee/update?id=' . $eid) ?>"
-                                                   class="btn btn-info btn-block"><i
-                                                            class="fa fa-user"></i> <?php echo $this->lang->line('Edit') ?> <?php echo $this->lang->line('Account') ?>
+                                                    class="btn btn-info btn-block"><i class="fa fa-user"></i>
+                                                    <?php echo $this->lang->line('Edit') ?>
+                                                    <?php echo $this->lang->line('Account') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -226,14 +234,14 @@
 
                                             <div class="options">
                                                 <a href="<?php echo base_url('employee/updatepassword?id=' . $eid) ?>"
-                                                   class="btn btn-primary btn-block"><i
-                                                            class="fa fa-key"></i> <?php echo $this->lang->line('Change Password') ?>
+                                                    class="btn btn-primary btn-block"><i class="fa fa-key"></i>
+                                                    <?php echo $this->lang->line('Change Password') ?>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    </div>
-                                    <div class="row mb-2">
+                                </div>
+                                <div class="row mb-2">
 
                                     <div class="col-sm-6">
                                         <div class="hero-widget well well-sm">
@@ -241,8 +249,8 @@
 
                                             <div class="options">
                                                 <a href="<?php echo base_url('employee/documents?id=' . $eid) ?>"
-                                                   class="btn btn-pink btn-block"><i
-                                                            class="fa fa-files-o"></i> <?php echo $this->lang->line('Documents') ?>
+                                                    class="btn btn-pink btn-block"><i class="fa fa-files-o"></i>
+                                                    <?php echo $this->lang->line('Documents') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -250,12 +258,24 @@
 
                                     <div class="col-sm-6">
                                         <div class="hero-widget well well-sm">
+                                            <div class="options">
+                                                <a href="<?php echo base_url('employee/profile_download?id=' . $eid) ?>"
+                                                    class="btn btn-purple btn-block"><i class="fa fa-address-book"></i>
+                                                    <?php echo $this->lang->line('Profile Download') ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-6">
+                                        <div class="hero-widget well well-sm">
 
 
                                             <div class="options">
-                                                <a href="<?php echo base_url('employee/profile_download?id=' . $eid) ?>"
-                                                   class="btn btn-purple btn-block"><i
-                                                            class="fa fa-address-book"></i> <?php echo $this->lang->line('Profile Download') ?>
+                                                <a href="<?php echo base_url('employee/getFileManagement?id=' . $eid) ?>"
+                                                    class="btn btn-primary btn-block"><i class="fa fa-folder"></i>
+                                                    <?php echo $this->lang->line('File Manager') ?>
                                                 </a>
                                             </div>
                                         </div>
@@ -285,20 +305,20 @@
 
                         <div class="row">
                             <div class="col mb-1"><label
-                                        for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
+                                    for="pmethod"><?php echo $this->lang->line('Mark As') ?></label>
                                 <?php echo $this->lang->line('Do you want mark') ?>
 
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <input type="hidden" class="form-control required"
-                                   name="eid" id="invoiceid" value="<?php echo $eid ?>">
+                            <input type="hidden" class="form-control required" name="eid" id="invoiceid"
+                                value="<?php echo $eid ?>">
                             <button type="button" class="btn btn-default"
-                                    data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
+                                data-dismiss="modal"><?php echo $this->lang->line('Close') ?></button>
                             <input type="hidden" id="action-url" value="employee/calc_sales">
                             <button type="button" class="btn btn-primary"
-                                    id="submit_model"><?php echo $this->lang->line('Yes') ?></button>
+                                id="submit_model"><?php echo $this->lang->line('Yes') ?></button>
                         </div>
                     </form>
                 </div>
@@ -319,17 +339,20 @@
 
 
                         <div class="row">
-                            <div class="col mb-1"><label for="pmethod"><?php echo $this->lang->line('Mark As'); ?></label>
-                            <?php echo $this->lang->line('Do you want to calculate total income expenses of this employee ?');?>
+                            <div class="col mb-1"><label
+                                    for="pmethod"><?php echo $this->lang->line('Mark As'); ?></label>
+                                <?php echo $this->lang->line('Do you want to calculate total income expenses of this employee ?');?>
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <input type="hidden" class="form-control required"
-                                   name="eid" id="invoiceid" value="<?php echo $eid ?>">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
+                            <input type="hidden" class="form-control required" name="eid" id="invoiceid"
+                                value="<?php echo $eid ?>">
+                            <button type="button" class="btn btn-default"
+                                data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
                             <input type="hidden" id="action-url" value="employee/calc_income">
-                            <button type="button" class="btn btn-primary" id="submit_model2"><?php echo $this->lang->line('Yes'); ?></button>
+                            <button type="button" class="btn btn-primary"
+                                id="submit_model2"><?php echo $this->lang->line('Yes'); ?></button>
                         </div>
                     </form>
                 </div>

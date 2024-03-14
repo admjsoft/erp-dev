@@ -12,8 +12,12 @@ class Projects extends CI_Controller
         $this->load->model('projects_model', 'projects');
         $this->load->model('tools_model', 'tools');
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         /*if (!$this->aauth->premission(4)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');
@@ -361,7 +365,9 @@ class Projects extends CI_Controller
         if ($this->aauth->premission(9)) {
             $eid = $this->input->post('eid');
         }
-        $list = $this->projects->project_datatables($cday, $eid);
+        $filt = $this->input->get('stat');
+
+        $list = $this->projects->project_datatables($cday, $eid, $filt);
         $data = array();
         $no = $this->input->post('start');
         foreach ($list as $project) {
@@ -555,4 +561,5 @@ class Projects extends CI_Controller
     }
 
 
+   
 }

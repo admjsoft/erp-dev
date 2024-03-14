@@ -32,8 +32,12 @@ class Pos_invoices extends CI_Controller
         $this->load->library("Registerlog");
         $this->load->library("Common");
 
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         if (!$this->aauth->premission(157)) {
             exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');

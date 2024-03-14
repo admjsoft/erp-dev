@@ -126,10 +126,11 @@ class Jobsheet_model extends CI_Model
 
         // echo $filt;
         // exit;
-        $this->db->select('gtg_job.*,gtg_employees.name as assigned_name');
+        $this->db->select('gtg_job.*,gtg_employees.name as assigned_name,COUNT(gtg_documents.complaintid) as document_count');
         $this->db->from('gtg_job');
         $this->db->join('gtg_employees','gtg_job.userid = gtg_employees.id', 'left');
-       
+        $this->db->join('gtg_documents', 'gtg_job.id = gtg_documents.complaintid', 'left');
+        
         $status_array = ['1','2','3','4','6'];
         $this->db->where_in('status', $status_array);
 
@@ -230,7 +231,8 @@ class Jobsheet_model extends CI_Model
         // if ($search) {
         //     $this->db->order_by($this->doccolumn_order[$search['0']['column']], $search['0']['dir']);
         // } 
-        
+        $this->db->group_by('gtg_job.id');
+
         if (isset($this->order)) {
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);

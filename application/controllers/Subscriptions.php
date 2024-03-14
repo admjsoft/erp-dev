@@ -14,8 +14,12 @@ class Subscriptions extends CI_Controller
         $this->load->model('subscriptions_model', 'invocies');
         $this->load->library("Aauth");
         $this->load->library("Custom");
-        if (!$this->aauth->is_loggedin()) {
+       if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
+        }
+
+        if(!$this->aauth->get_employee()){
+            redirect('dashboard/clock_in');
         }
         // if (!$this->aauth->premission(1)) {
         //     exit('<h3>Sorry! You have insufficient permissions to access this section</h3>');

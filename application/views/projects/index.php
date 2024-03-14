@@ -1,80 +1,88 @@
 <div class="content-body">
-<div id="c_body"></div>
+    <div id="c_body"></div>
     <div class="row">
         <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="fa fa-clock-o primary font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3 class="pink" id="dash_0"></h3>
-                                <span><?php echo $this->lang->line('Waiting') ?></span>
+            <a href="<?php echo base_url('projects/?filter=waiting'); ?>">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-clock-o primary font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h3 class="pink" id="dash_0"></h3>
+                                    <span><?php echo $this->lang->line('Waiting') ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="fa fa-exchange warning font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3 class="indigo" id="dash_1"></h3>
-                                <span><?php echo $this->lang->line('Progress') ?></span>
+            <a href="<?php echo base_url('projects/?filter=progress'); ?>">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-exchange warning font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h3 class="indigo" id="dash_1"></h3>
+                                    <span><?php echo $this->lang->line('Progress') ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="fa fa-flag-checkered success font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3 class="green" id="dash_2"></h3>
-                                <span><?php echo $this->lang->line('Finished') ?></span>
+            <a href="<?php echo base_url('projects/?filter=finished'); ?>">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-flag-checkered success font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h3 class="green" id="dash_2"></h3>
+                                    <span><?php echo $this->lang->line('Finished') ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="fa fa-dot-circle-o danger font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3 class="deep-cyan" id="dash_6"><?php echo $totalt ?></h3>
-                                <span><?php echo $this->lang->line('Total') ?></span>
+            <a href="<?php echo base_url('projects'); ?>">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-dot-circle-o danger font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h3 class="deep-cyan" id="dash_6"><?php echo $totalt ?></h3>
+                                    <span><?php echo $this->lang->line('Total') ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
             <h3 class="title">
                 <?php echo $this->lang->line('Projects') ?> <a href="<?php echo base_url('projects/addproject') ?>"
-                                                               class="btn btn-primary btn-sm rounded">
+                    class="btn btn-primary btn-sm rounded">
                     <?php echo $this->lang->line('Add new') ?>
                 </a>
             </h3>
@@ -96,19 +104,19 @@
             <div class="card-body">
 
                 <table id="ptable" class="table table-striped table-bordered zero-configuration" cellspacing="0"
-                       width="100%">
+                    width="100%">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th><?php echo $this->lang->line('Project') ?></th>
-                        <th><?php echo $this->lang->line('Due Date') ?></th>
-                        <th><?php echo $this->lang->line('Customer') ?></th>
-                        <th><?php echo $this->lang->line('Status') ?></th>
+                        <tr>
+                            <th>#</th>
+                            <th><?php echo $this->lang->line('Project') ?></th>
+                            <th><?php echo $this->lang->line('Due Date') ?></th>
+                            <th><?php echo $this->lang->line('Customer') ?></th>
+                            <th><?php echo $this->lang->line('Status') ?></th>
 
-                        <th><?php echo $this->lang->line('Actions') ?></th>
+                            <th><?php echo $this->lang->line('Actions') ?></th>
 
 
-                    </tr>
+                        </tr>
                     </thead>
                     <tbody>
 
@@ -125,7 +133,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"><?php echo $this->lang->line('Delete') ?></h4>
                 </div>
                 <div class="modal-body">
@@ -135,9 +143,9 @@
                     <input type="hidden" id="object-id" value="">
                     <input type="hidden" id="action-url" value="projects/delete_i">
                     <button type="button" data-dismiss="modal" class="btn btn-primary"
-                            id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
+                        id="delete-confirm"><?php echo $this->lang->line('Delete') ?></button>
                     <button type="button" data-dismiss="modal"
-                            class="btn"><?php echo $this->lang->line('Cancel') ?></button>
+                        class="btn"><?php echo $this->lang->line('Cancel') ?></button>
                 </div>
             </div>
         </div>
@@ -156,7 +164,7 @@
 
                         <div class="row">
                             <div class="col-xs-12 mb-1"><label
-                                        for="status"><?php echo $this->lang->line('Change Status') ?></label>
+                                    for="status"><?php echo $this->lang->line('Change Status') ?></label>
                                 <select name="stat" class="form-control mb-1">
                                     <option value="Due">Due</option>
                                     <option value="Progress">Progress</option>
@@ -167,13 +175,12 @@
                         </div>
 
                         <div class="modal-footer">
-                            <input type="hidden" class="form-control"
-                                   name="tid" id="taskid" value="">
+                            <input type="hidden" class="form-control" name="tid" id="taskid" value="">
                             <button type="button" class="btn btn-default"
-                                    data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
+                                data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
                             <input type="hidden" id="action-url" value="tools/set_task">
                             <button type="button" class="btn btn-primary"
-                                    id="submit_model"><?php echo $this->lang->line('Change Status'); ?></button>
+                                id="submit_model"><?php echo $this->lang->line('Change Status'); ?></button>
                         </div>
                     </form>
                 </div>
@@ -200,28 +207,27 @@
                         <hr>
                         <div class="row">
                             <div class="col-xs-12 mb-1"><?php echo $this->lang->line('Priority') ?> <strong><span
-                                            id="priority"></span></strong>
+                                        id="priority"></span></strong>
 
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 mb-1"><?php echo $this->lang->line('Assigned to') ?> <strong><span
-                                            id="employee"></span></strong>
+                                        id="employee"></span></strong>
 
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 mb-1"><?php echo $this->lang->line('Assigned by') ?> <strong><span
-                                            id="assign"></span></strong>
+                                        id="assign"></span></strong>
 
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <input type="hidden" class="form-control required"
-                                   name="tid" id="taskid" value="">
+                            <input type="hidden" class="form-control required" name="tid" id="taskid" value="">
                             <button type="button" class="btn btn-default"
-                                    data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
+                                data-dismiss="modal"><?php echo $this->lang->line('Close'); ?></button>
 
                         </div>
                     </form>
@@ -230,77 +236,91 @@
         </div>
     </div>
     <script type="text/javascript">
+    $(document).ready(function() {
 
-        $(document).ready(function () {
+        $('#ptable').DataTable({
 
-            $('#ptable').DataTable({
-
-                "processing": true,
-                "serverSide": true,
-                "stateSave": true,
-                responsive: true,
-                <?php datatable_lang();?>
-                "order": [[2, "asc"]],
-                "ajax": {
-                    "url": "<?php echo site_url('projects/project_load_list')?>",
-                    "type": "POST",
-                    'data': {'<?=$this->security->get_csrf_token_name()?>': crsf_hash, 'eid':<?=$eid ?>}
-                },
-                "columnDefs": [
-                    {
-                        "targets": [0],
-                        "orderable": true,
-                    },
-                ], dom: 'Blfrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        footer: true,
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
-                        }
-                    }
-                ],
-
-            });
-
-            $(document).on('click', ".set-task", function (e) {
-                e.preventDefault();
-                $('#taskid').val($(this).attr('data-id'));
-                $('#pop_model').modal({backdrop: 'static', keyboard: false});
-
-            });
+            "processing": true,
+            "serverSide": true,
+            "stateSave": true,
+            responsive: true,
+            <?php datatable_lang();?> "order": [
+                [2, "asc"]
+            ],
+            "ajax": {
+                //"url": "<?php //echo site_url('projects/project_load_list')?>",
+                "url": "<?php  if (isset($_GET['filter'])) {
+                    $filter = $_GET['filter'];
+                    } else {
+                        $filter = '';
+                    }    echo site_url('projects/project_load_list?stat=' . $filter)?>",
+                "type": "POST",
+                'data': {
+                    '<?=$this->security->get_csrf_token_name()?>': crsf_hash,
+                    'eid': <?=$eid ?>
+                }
 
 
-            $(document).on('click', ".view_task", function (e) {
-                e.preventDefault();
-
-                var actionurl = 'projects/view_project';
-                var id = $(this).attr('data-id');
-                $('#task_model').modal({backdrop: 'static', keyboard: false});
-
-
-                $.ajax({
-
-                    url: baseurl + actionurl,
-                    type: 'POST',
-                    data: {'tid': id},
-                    dataType: 'json',
-                    success: function (data) {
-
-                        $('#description').html(data.description);
-                        $('#task_title').html(data.name);
-                        $('#employee').html(data.employee);
-                        $('#assign').html(data.assign);
-                        $('#priority').html(data.priority);
-                    }
-
-                });
-
-            });
-            miniDash();
-
+            },
+            "columnDefs": [{
+                "targets": [0],
+                "orderable": true,
+            }, ],
+            dom: 'Blfrtip',
+            buttons: [{
+                extend: 'excelHtml5',
+                footer: true,
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
+                }
+            }],
 
         });
 
+        $(document).on('click', ".set-task", function(e) {
+            e.preventDefault();
+            $('#taskid').val($(this).attr('data-id'));
+            $('#pop_model').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+        });
+
+
+        $(document).on('click', ".view_task", function(e) {
+            e.preventDefault();
+
+            var actionurl = 'projects/view_project';
+            var id = $(this).attr('data-id');
+            $('#task_model').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+
+            $.ajax({
+
+                url: baseurl + actionurl,
+                type: 'POST',
+                data: {
+                    'tid': id
+                },
+                dataType: 'json',
+                success: function(data) {
+
+                    $('#description').html(data.description);
+                    $('#task_title').html(data.name);
+                    $('#employee').html(data.employee);
+                    $('#assign').html(data.assign);
+                    $('#priority').html(data.priority);
+                }
+
+            });
+
+        });
+        miniDash();
+
+
+    });
     </script>
