@@ -608,6 +608,7 @@ $totalDeductionCalc='';
 
 	$_SESSION['eisLeft']=$eisLeft;
 	$_SESSION['eisRight']=$eisRight;
+    
 
 
     $style="style='margin-bottom:2px'";	
@@ -714,7 +715,7 @@ $totalDeductionCalc='';
 </div>
 
     <div class="row pb-0 pr-3 pl-3">
-        <div class="p-2" style="border:1px solid black;border-top:0px;width:50%">
+        <div class="pl-2" style="border:1px solid black;border-top:0px;width:50%">
         <p>Basic Salary</p>
         <p>EPF(%)</p>
         <p>SOCSO</p>

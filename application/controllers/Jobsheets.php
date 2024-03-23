@@ -978,6 +978,8 @@ class Jobsheets extends CI_Controller
     
     public function conversation_attachment_upload(){
 
+        // echo "<pre>"; print_r($_POST); echo "</pre>";
+        // exit;
             $message = $this->input->post('content');
             $thread_id = $this->input->post('job_id');
             if(!empty($_FILES['userfile']['name']))
@@ -1458,4 +1460,41 @@ class Jobsheets extends CI_Controller
         }
                 
     }
+
+    public function view_file($job_id) {
+        // Load the model
+       
+        // Get the file details
+        //$files = $this->filemanager->getFileById($job_id);
+
+        $files = $this->jobsheet->thread_doc_info($job_id);
+            //  echo "<pre>"; print_r($files); echo "</pre>";
+            //  exit;
+
+        $file_path = base_url('userfiles/documents/').$files['filename'];
+        $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
+// echo $file_path;
+// echo $file_extension;
+// exit;
+        // Check if file extension corresponds to PDF or image types
+        $is_pdf_or_image = in_array($file_extension, array('pdf', 'jpg', 'jpeg', 'png', 'gif', 'bmp'));
+
+      
+
+        if ($is_pdf_or_image) {
+            // If PDF or image, redirect user to view in browser
+            redirect($file_path);
+        } else {
+            // If any other type, force download
+            $this->load->helper('download');
+    
+            $parsedUrl = parse_url($file_path);
+            $relativeUrl = $parsedUrl['path'];
+    
+            
+            force_download(FCPATH.$relativeUrl, null);
+    
+        }
+    }
+    
 }

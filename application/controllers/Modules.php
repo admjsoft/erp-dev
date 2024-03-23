@@ -7,6 +7,7 @@ class Modules extends CI_Controller {
         parent::__construct();        
         $this->load->model('employee_model', 'employee');
         $this->load->model('Modules_model','modules');
+        $this->load->model('customers_model', 'customers');
         $this->load->model('SidebarItemModel');
         $this->load->library("Aauth");
        if (!$this->aauth->is_loggedin()) {
@@ -217,4 +218,172 @@ class Modules extends CI_Controller {
             $this->lang->line('UPDATED')));
     }
 
+    
+
+    public function customer_modules_list(){
+        $data['modules'] = $this->modules->get_customer_modules_list();
+        $head['title'] = "Modules List";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('modules/customer_modules_list', $data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function customer_module_delete()
+    {
+        $id = intval($this->input->post('deleteid'));
+        if ($id) {
+
+            if($this->db->where('id',$id)->delete('customer_sidebaritems'))
+            {
+                //$this->db->where('child_id',$id)->or_where('parent_id',$id)->delete('sidebarhierarchy');
+                
+                echo json_encode(array('status' => 'Success', 'message' => $this->lang->line('Module Deleted Successfully')));        
+                
+            }else{
+                echo json_encode(array('status' => 'Failure', 'message' => $this->lang->line('Module Deleted Failed')));
+            }
+            
+        } else {
+            echo json_encode(array('status' => 'Error', 'message' => $this->lang->line('ERROR')));
+        }
+        
+    }
+
+    public function customer_module_add() {
+        
+        if(!empty($_POST))
+        {
+            $data['title'] = $this->input->post('module_name', true);
+            $data['url'] = $this->input->post('module_url', true);
+            // $data['parent_id'] = $this->input->post('module_parent', true);
+            // $data['type'] = $this->input->post('module_type', true);
+            // $data['module_type'] = $this->input->post('module_activity_type', true);
+            $data['status'] = $this->input->post('module_status', true);
+            $data['display_order'] = $this->input->post('module_position', true);
+            $data['icon'] = $this->input->post('module_icon', true);
+            // $data['module_personalization'] = $this->input->post('module_personalization', true);
+            // $data['r_5'] = 1;
+
+            if ($data) {
+                $response = $this->modules->customer_add_module($data);
+                echo json_encode($response,true);
+            }
+
+        }else{
+            $data['side_bars'] = $this->modules->get_customer_sidebars();
+            $head['title'] = "Add Module";
+            $this->load->view('fixed/header', $head);
+            $this->load->view('modules/customer_add_module', $data);
+            $this->load->view('fixed/footer');
+    
+        }
+       
+    }
+
+    public function customer_module_edit() {
+        
+        $id = $this->input->get('id');
+        if(!empty($id))
+        {
+            $data['module_details'] = $this->modules->get_customer_module_details($id);
+            $data['side_bars'] = $this->modules->get_customer_sidebars();
+            $head['title'] = "Edit Module";
+            $this->load->view('fixed/header', $head);
+            $this->load->view('modules/customer_edit_module', $data);
+            $this->load->view('fixed/footer');
+
+        }else{
+
+            $data['side_bars'] = $this->modules->get_customer_sidebars();
+            $head['title'] = "Module List";
+            $this->load->view('fixed/header', $head);
+            $this->load->view('modules/list', $data);
+            $this->load->view('fixed/footer');
+    
+        }
+       
+    }
+
+    public function customer_module_update() {
+        
+        if(!empty($_POST))
+        {
+            $data['title'] = $this->input->post('module_name', true);
+            $data['url'] = $this->input->post('module_url', true);           
+            $data['status'] = $this->input->post('module_status', true);
+            $data['icon'] = $this->input->post('module_icon', true);
+            $data['display_order'] = $this->input->post('module_position', true);
+            $module_id = $this->input->post('module_id', true);
+
+            if ($data) {
+                $response = $this->modules->customer_update_module($data, $module_id);
+                echo json_encode($response,true);
+            }
+
+        }else{
+            $data['side_bars'] = $this->modules->get_customer_sidebars();
+            $head['title'] = "Add Module";
+            $this->load->view('fixed/header', $head);
+            $this->load->view('modules/modules', $data);
+            $this->load->view('fixed/footer');
+    
+        }
+       
+    }
+
+    public function customer_module_permissions() {
+
+        $data['customers'] = $this->customers->get_all_customers();
+        $data['sidebar_hierarchy'] = $this->modules->get_customer_sidebars();
+        $head['title'] = "Customer Module Permissions";
+        $this->load->view('fixed/header', $head);
+        $this->load->view('modules/customer_module_permissions', $data);
+        $this->load->view('fixed/footer');
+    }
+
+    public function get_customer_module_permissions(){
+
+        $customer_id = $this->input->post('customer_id');
+        $data['sidebar_hierarchy'] = $this->modules->get_customer_sidebars();
+        $data['sidebar_permissions'] = $this->modules->get_customer_module_permissions($customer_id);
+        $data['customer_sidebar_permissions'] = $this->modules->get_customer_module_permissions($customer_id);
+        echo $this->load->view('modules/customer_individual_module_permissions',$data,TRUE);
+    }
+
+    public function update_customer_role_permissions(){
+        
+        
+        $customer_id = $this->input->post('role');
+        $selected_modules = $this->input->post('selected_modules');
+        $selected_modules = explode(',',$selected_modules);
+        $sidebar_items = $this->modules->get_customer_sidebars();
+
+        $resultArray = array();
+
+        foreach ($sidebar_items as $item) {
+            if (!in_array($item['id'], $selected_modules)) {
+                $resultArray[] = $item['id'];
+            }
+        }
+
+        // echo "<pre>"; print_r($resultArray); echo "</pre>";
+        // exit;
+        
+        $n_data = array();
+        if(!empty($resultArray))
+        {
+            foreach($resultArray as $sm){
+                $data['module_id'] = $sm;
+                $data['customer_id'] = $customer_id;
+                $n_data[] = $data;
+            }
+        }
+        $this->db->where('customer_id',$customer_id)->delete('customer_sidebaritems_permissions');
+        if(!empty($n_data)){
+        $this->db->insert_batch('customer_sidebaritems_permissions',$n_data);
+        }
+
+        echo json_encode(array('status' => 'Success', 'message' =>
+            $this->lang->line('UPDATED')));
+    }
 }

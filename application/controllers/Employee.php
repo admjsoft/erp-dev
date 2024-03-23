@@ -4416,12 +4416,53 @@ JSOFT SOLUTION SDN BHD,</p>
         $list = $this->employee->attendance_datatables_by_dates($cid, $from_date, $to_date);
         $data['emp_list'] = $this->employee->list_employee();
         $data['emp_details'] = $this->employee->employee_details($cid);
-        // echo "<pre>"; print_r($data['emp_details']); echo "</pre>";
+        //echo "<pre>"; print_r($list); echo "</pre>";
         // exit;
+        $a_dates = array_column($list, 'adate');
+        $data['total_attendance'] = count(array_unique($a_dates));
+        $data['total_absence'] = 0; 
         $data['from_date'] = $from_date;
         $data['to_date'] = $to_date;
+
+
+        $least_date = null;
+        $highest_date = null;
+        if(empty($from_date) && empty($to_date))
+        {
+        // Iterate over the array to find the least and highest dates
+        foreach ($list as $item) {
+            $adate = $item->adate;
+            if ($least_date === null || $adate < $least_date) {
+                $least_date = $adate;
+            }
+            if ($highest_date === null || $adate > $highest_date) {
+                $highest_date = $adate;
+            }
+            
+        }
+
+        // Convert dates to DateTime objects for easier manipulation
+        $least_date_obj = new DateTime($least_date);
+        $highest_date_obj = new DateTime($highest_date);
+
+        // Calculate the difference between the dates in terms of days
+        $days_difference = $least_date_obj->diff($highest_date_obj)->days;
         // print_r($list);
+        $total_absence = $days_difference - count(array_unique($a_dates)); 
+        if ($total_absence < 0) {
+            $total_absence = 0;
+        }
+        
+        // Assign the total absence value to $data['total_absence']
+        $data['total_absence'] = $total_absence;
+        $data['from_date'] = $least_date_obj->format('d-m-Y');
+        $data['to_date'] = $highest_date_obj->format('d-m-Y');
+
+        }
         $att_settings = $this->employee->get_attendance_settings();
+
+        // echo "<pre>"; print_r($data); echo "</pre>";
+        // exit;
 
         if(!empty($att_settings))
         {
@@ -4737,7 +4778,7 @@ JSOFT SOLUTION SDN BHD,</p>
             $title = $this->input->post('title', true);
             $cid = $this->input->post('id');
             $config['upload_path'] = './userfiles/documents';
-            $config['allowed_types'] = 'docx|docs|txt|pdf|xls|xlsx';
+            $config['allowed_types'] = 'docx|docs|txt|pdf|xls|xlsx|pptx';
             $config['encrypt_name'] = TRUE;
             //$config['max_size'] = 3000;
             $this->load->library('upload', $config);

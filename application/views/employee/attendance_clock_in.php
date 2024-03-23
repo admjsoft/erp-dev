@@ -260,7 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Redirect to the success page
                             window.location.href = data.redirect_url;
                         } else {
+                            // alert(data.message);
                             // Display validation errors
+                            window.location.href = data.redirect_url;
                             $('#validation_errors').html(data.validation_errors).show();
                         }
                     })

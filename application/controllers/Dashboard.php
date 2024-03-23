@@ -221,6 +221,22 @@ class Dashboard extends CI_Controller
         
         if(!empty($_POST)){
 
+            $att_settings = $this->db->get('gtg_attendance_settings')->row_array();
+            $AttclockOutTime = strtotime($att_settings['clock_out_time']);
+
+            $currentTimestamp = time();
+
+        
+        // Compare current time with clock_out_time
+        if($currentTimestamp > $AttclockOutTime) {
+            
+            $response['success'] = false;
+            $response['redirect_url'] = site_url('dashboard');
+            $response['message'] = 'Clock In Not Allowed, After Office Timings';
+            $this->session->set_flashdata('messageEr', 'Clock In Not Allowed, After Office Timings');
+            echo json_encode($response);
+
+        }else{
 
               // Handle the uploaded image
               $imageData = $this->input->post('image');
@@ -259,7 +275,10 @@ class Dashboard extends CI_Controller
             $response['redirect_url'] = site_url('dashboard');
             $this->session->set_flashdata('messagePr', 'Clock In Details Updated Successfully!..');
             echo json_encode($response);
-            
+
+
+        }
+                        
         }else{
             
             $head['title'] = 'Attendance Clock In';
@@ -306,12 +325,31 @@ class Dashboard extends CI_Controller
         echo json_encode($response);
 
     }else{
+
+
+        $id = $this->aauth->get_user()->id;
+        $this->db->select('clock,clockin,clock_in_photo,clock_in_latitude,clock_in_longitude,clock_in_location,clock_out_photo,clock_out_latitude,clock_out_longitude,clock_out_location');
+        $this->db->where('id', $id);
+        $this->db->from('gtg_employees');
+        $query = $this->db->get();
+        $emp = $query->row_array();
+
+        if ($emp['clock']) {
+
+            $head['title'] = 'Attendance Clock Out';
+            $this->load->view('fixed/header', $head);
+            $this->load->view('employee/attendance_clock_out');
+            $this->load->view('fixed/footer');
+
+
+        }else{
             
-        $head['title'] = 'Attendance Clock Out';
-        $this->load->view('fixed/header', $head);
-        $this->load->view('employee/attendance_clock_out');
-        $this->load->view('fixed/footer');
-    }
+            
+            $this->session->set_flashdata('messageEr', 'Clock In Not Registered, Clock Out Not Allowed');
+            redirect('dashboard');
+        }
+        
+            }
     }
     public function break_in()
     {

@@ -280,8 +280,8 @@ if(isset($_SESSION['status'])){
                                                 name="userfile"
                                                 accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
                                             <?php */ ?>
-                                            <input type="file" name="userfile" id="userfile"
-                                                accept=".docx, .docs, .txt, .pdf, .xls, .xlsx, .png, .jpg, .jpeg, .gif" />
+                                            <input type="file" name="userfile" id="userfileJob" onchange="checkFileSize(this)"
+                                       accept=".docx, .docs, .txt, .pdf, .xls, .xlsx, .png, .jpg, .jpeg, .gif" />
 
                                             (docx, docs, txt, pdf, xls, png, jpg, gif)
                                         </div>
@@ -695,3 +695,37 @@ document.getElementById('toggleCheckbox').addEventListener('change', function() 
     }
 });
 </script>
+<script>
+    
+function checkFileSize(input) {
+
+if (input.files && input.files[0]) {
+    var file = input.files[0];
+    var fileSize = file.size; // in bytes
+    var maxSize = 5 * 1024 * 1024; // 2 MB
+    // var allowedExtension = 'zip';
+    // var fileExtension = file.name.split('.').pop().toLowerCase();
+    // Check file size
+    if (fileSize > maxSize) {
+        //alert("File size exceeds 2 MB. Please upload the file in ZIP format.");
+        Swal.fire({
+            icon: "error",
+            title: "File size exceeds 5 MB. Please upload the file less than 5 MB.",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        input.value = ''; // Clear the file input
+        return;
+    }
+
+    // Check file extension
+    // var fileExtension = file.name.split('.').pop().toLowerCase();
+    // if (fileExtension !== allowedExtension) {
+    //     alert("Invalid file format. Please upload a ZIP file.");
+    //     input.value = ''; // Clear the file input
+    //     return;
+    // }
+}
+
+}
+</script>    

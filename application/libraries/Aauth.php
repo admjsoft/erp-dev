@@ -988,9 +988,6 @@ class Aauth
     {
 
         $att_settings = $this->aauth_db->get('gtg_attendance_settings')->row_array();
-
-        
-
         $clockOutTime = strtotime($att_settings['clock_out_time']);
 
         // Get current time

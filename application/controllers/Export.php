@@ -2203,7 +2203,7 @@ class Export extends CI_Controller
 
                 
                  // $ndata = $this->employee->daily_attendance_list();   
-                // echo "<pre>"; print_r($job_data); echo "</pre>";
+                // echo "<pre>"; print_r($ndata); echo "</pre>";
                 // exit;
                 
                 // Merge cells for the first row
@@ -2242,9 +2242,11 @@ class Export extends CI_Controller
                     $j_data['S.No'] = $j;
                     $j_data['name'] = $attendance['name'];
                     $j_data['lowest_clock_in_time'] = $attendance['lowest_clock_in_time'];
-                    $j_data['clockin_difference'] = $attendance['clockin_difference'];
+                    $j_data['clockin_difference'] = $attendance['clockin_difference_time'];
                     $j_data['highest_clock_out_time'] = $attendance['highest_clock_out_time'];
-                    $j_data['clockout_difference'] = $attendance['clockout_difference'];
+                    $j_data['clockout_difference'] = $attendance['clockout_difference_time'];
+                    // $j_data['clockin_difference_time'] = $attendance['clockin_difference_time'];
+                    // $j_data['clockout_difference_time'] = $attendance['clockout_difference_time'];
                     $j_data['auto_logout'] = $attendance['auto_logout'];
         
                     $data[] = $j_data;
@@ -2260,7 +2262,16 @@ class Export extends CI_Controller
                 foreach ($data as $row_data) {
                     $column = 'A';
                     foreach ($row_data as $value) {
-                        $sheet->setCellValue($column . $row, $value);
+                        
+                        if($column == 'D' || $column == 'F')
+                        {
+                        $excelTime = $this->convertToExcelTime($value);
+                        $spreadsheet->getActiveSheet()->setCellValue($column . $row, $excelTime);                        
+                        $spreadsheet->getActiveSheet()->getStyle($column . $row)->getNumberFormat()->setFormatCode('[h] "h" mm "m"');
+
+                        }else{
+                            $sheet->setCellValue($column . $row, $value);
+                        }
                         $column++;
                     }
                     $row++;
@@ -2331,6 +2342,52 @@ class Export extends CI_Controller
             
                 $writer->save('php://output');
             }
+        
+            //public function test_download_av() {
+
+                public function test_download_av() {
+                    // Sample time data
+                    $timeDataArray = ['03:21:21', '08:45:15', '12:30:00']; // Example time data in h:m:s format
             
-          
-}
+                    // Load PhpSpreadsheet library
+                    // /$this->load->library('PhpSpreadsheet');
+            
+                    // Create new Spreadsheet object
+                    $spreadsheet = new Spreadsheet();
+            
+                    // Add data to the cells
+                    foreach ($timeDataArray as $index => $timeData) {
+                        $excelTime = $this->convertToExcelTime($timeData);
+                        $cell = 'A' . ($index + 1); // Increment index to start from row 1
+                        $spreadsheet->getActiveSheet()->setCellValue($cell, $excelTime);
+                    }
+            
+                    // Apply custom format to the column
+                    $lastIndex = count($timeDataArray);
+                    $columnRange = 'A1:A' . $lastIndex;
+                    $spreadsheet->getActiveSheet()->getStyle($columnRange)->getNumberFormat()->setFormatCode('[h] "h" mm "m"');
+            
+                    // Set headers for download
+                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    header('Content-Disposition: attachment;filename="time_data.xlsx"');
+                    header('Cache-Control: max-age=0');
+            
+                    // Output the generated spreadsheet
+                    $writer = new Xlsx($spreadsheet);
+                    $writer->save('php://output');
+                }
+            
+    public function convertToExcelTime($timeData)
+    {
+        $timeComponents = explode(':', $timeData);
+        $hours = $timeComponents[0];
+        $minutes = $timeComponents[1];
+        $seconds = $timeComponents[2];
+    
+        // Calculate total seconds
+        $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+    
+        // Convert to Excel serial number
+        return $totalSeconds / (24 * 60 * 60); // Convert seconds to fraction of a day
+    }
+            }

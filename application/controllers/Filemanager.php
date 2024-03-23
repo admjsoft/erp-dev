@@ -214,8 +214,9 @@ class Filemanager extends CI_Controller
         
     
         // Get the file details
-        $file = $this->filemanager->getFileById($file_id);
-    
+        //$file = $this->filemanager->getFileById($file_id);
+        $docs=$this->jobsheet->thread_doc_info($thread_id);
+        $file = '';
         // Check if file exists
         if ($file) {
             // Check if file exists on server

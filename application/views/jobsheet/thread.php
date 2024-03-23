@@ -240,7 +240,7 @@
                 <div class="col">
                     <div class="card-bordered shadow p-1">
                         <?php
-                            if ($doc['filename']) echo '<br><br><strong>Attachment: </strong><a href="' . base_url('userfiles/documents/' . $doc['filename']) . '" target="_blank">' . $doc['filename'] . '</a>';
+                            if ($doc['filename']) echo '<br><br><strong>Attachment: </strong><a href="' . base_url('jobsheets/view_file/' . $thread_info['id']) . '" target="_blank">' . $doc['filename'] . '</a>';
                             ?></div>
                 </div>
             </div>

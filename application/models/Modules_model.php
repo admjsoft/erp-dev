@@ -113,6 +113,8 @@ class Modules_model extends CI_Model
         return $query->result_array();
     }
 
+    
+    
     public function get_modules_hierarchy() {
         $query = $this->db->query("
             SELECT si.id, si.title, si.type,si.subscription_status, sh.parent_id
@@ -169,5 +171,74 @@ class Modules_model extends CI_Model
         ");
         return $query->result();
     }
-	        
+	   
+    
+
+    public function get_customer_modules_list()
+    {
+        $sql = "SELECT * FROM customer_sidebaritems order by display_order ASC";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function customer_add_module($data)
+    {
+        if($this->db->insert('customer_sidebaritems',$data))
+        {
+            $id = $this->db->insert_id();
+            
+            $resp['status'] = 'Success';
+            $resp['message'] = 'Module Added Successfully'; 
+            
+
+        }else{
+            $resp['status'] = 'Failure';
+            $resp['message'] = 'Unable To Add The Module! Please Try Again';
+        }
+        return $resp;
+    }
+    
+    public function get_customer_sidebars()
+    {
+        $this->db->select();
+        $this->db->from('customer_sidebaritems');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function get_customer_module_details($id)
+    {
+        $sql = "SELECT * FROM customer_sidebaritems WHERE id = {$id}";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }	
+
+    public function customer_update_module($data,$module_id)
+    {
+        if($this->db->where('id',$module_id)->update('customer_sidebaritems',$data))
+        {
+            $id = $module_id;
+            
+            $resp['status'] = 'Success';
+            $resp['message'] = 'Module Updated Successfully'; 
+                       
+
+        }else{
+            $resp['status'] = 'Failure';
+            $resp['message'] = 'Unable To Update The Module! Please Try Again';
+        }
+        return $resp;
+    }
+
+    public function get_customer_module_permissions($customer_id){
+
+        $this->db->select('module_id');
+        $this->db->from('customer_sidebaritems_permissions');
+        $this->db->where('customer_id',$customer_id);
+        $query = $this->db->get();
+        $modules = $query->result_array();
+        return $modules;
+
+    }
+
+    
 }

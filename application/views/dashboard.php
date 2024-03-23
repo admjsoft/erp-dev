@@ -111,6 +111,13 @@ var dataVisits2 = [
     <?php echo $this->session->flashdata("messagePr") ?>
 </div>
 <?php } ?>
+
+<?php if ($this->session->flashdata("messageEr")) { ?>
+<div class="alert alert-danger">
+    <?php echo $this->session->flashdata("messageEr") ?>
+</div>
+<?php } ?>
+
 <input type="hidden" id="dashurl" value="tickets/ticket_stats">
 <input type="hidden" id="pdashurl" value="projects/projects_stats">
 <input type="hidden" id="att_map_url" value="employee/employee_clock_in_locations">

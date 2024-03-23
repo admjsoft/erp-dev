@@ -2671,6 +2671,8 @@ $lang['Select Date'] = "Select Date";
 $lang['Clock Out Grace Period in Minutes'] = "Clock Out Grace Period in Minutes";
 $lang['Auto Logout Minutes After ClockOut'] = "Auto Logout Minutes After ClockOut";
 $lang['Auto LoggedOut'] = "Auto LoggedOut";
+$lang['Customer Modules'] = "Customer Modules";
+$lang['Customer Modules Permissions'] = "Customer Modules Permissions";
 
 
 

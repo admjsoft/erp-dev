@@ -184,28 +184,28 @@
     });
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var employeeInput = document.querySelector('#employee_list');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     var employeeInput = document.querySelector('#employee_list');
 
-        // Add an event listener for input change
-        employeeInput.addEventListener('input', function() {
-            // Retrieve the selected option
-            var selectedOption = document.querySelector('#datalistOptions option[value="' +
-                employeeInput.value + '"]');
+    //     // Add an event listener for input change
+    //     employeeInput.addEventListener('input', function() {
+    //         // Retrieve the selected option
+    //         var selectedOption = document.querySelector('#datalistOptions option[value="' +
+    //             employeeInput.value + '"]');
 
-            // Check if an option is selected
-            if (selectedOption) {
-                // alert(selectedOption);
-                // Get the emp_id attribute value
-                var empId = selectedOption.getAttribute('emp_id');
-                $('#employee_selected_id').val(empId);
-                $('#download_employee_selected_id').val(empId);
-                // Display emp_id using alert
-                //alert('Selected Employee ID: ' + empId);
+    //         // Check if an option is selected
+    //         if (selectedOption) {
+    //             // alert(selectedOption);
+    //             // Get the emp_id attribute value
+    //             var empId = selectedOption.getAttribute('emp_id');
+    //             $('#employee_selected_id').val(empId);
+    //             $('#download_employee_selected_id').val(empId);
+    //             // Display emp_id using alert
+    //             //alert('Selected Employee ID: ' + empId);
 
-            }
-        });
-    });
+    //         }
+    //     });
+    // });
     </script>
     <script type="text/javascript">
    $(function() {
@@ -256,3 +256,26 @@
         });
 
     </script>
+    <script>
+        $(document).ready(function() {
+    // Select all <li> elements with data-dtr-index attribute
+    $('li[data-dtr-index]').each(function() {
+        // Get the text content of the span with class dtr-data
+        var text = $(this).find('.dtr-data').text().trim();
+        alert(text);
+        // Check if the text content is 'red'
+        if (text === 'red') {
+            // Apply the inline style to the <li> element
+            $(this).css('background-color', 'red');
+        }
+        if (text === 'yellow') {
+            // Apply the inline style to the <li> element
+            $(this).css('background-color', 'red');
+        }
+        if (text === 'green') {
+            // Apply the inline style to the <li> element
+            $(this).css('background-color', 'green');
+        }
+    });
+});
+</script>

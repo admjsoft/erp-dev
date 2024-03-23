@@ -293,6 +293,19 @@
                 </div>
             </div>
             <?php */ ?>
+
+            <?php
+            if(!empty($doc)&&is_array($doc)){ ?>
+            <div class="form-group row">
+                <div class="col">
+                    <div class="card-bordered shadow p-1">
+                        <?php
+                            if ($doc['filename']) echo '<br><br><strong>Attachment: </strong><a href="' . base_url('jobsheets/view_file/' . $thread_info['id']) . '" target="_blank">' . $doc['filename'] . '</a>';
+                            ?></div>
+                </div>
+            </div>
+            <?php } ?>
+            <?php /* ?>
             <div class="form-group row">
                 <div class="col">
                     <div class="card-bordered shadow p-1">
@@ -317,7 +330,7 @@
                     </div>
                 </div>
             </div>
-
+            <?php */ ?>
             <?php } ?>
 
             <?php foreach ($thread_list as $row) { ?>

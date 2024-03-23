@@ -2459,6 +2459,8 @@ class Employee_model extends CI_Model
 
             $clockInDiff = strtotime($attendance['lowest_clock_in_time']) - strtotime($u_clock_in);
             $clockInDiffNg = strtotime($attendance['lowest_clock_in_time']) - strtotime($u_clock_in_ng);
+            $f_attendance['clockin_difference_time'] = '';
+            $f_attendance['clockout_difference_time'] = '';
 
             if ($clockInDiff < 0) {
                 
@@ -2470,6 +2472,7 @@ class Employee_model extends CI_Model
                     if(!empty($this->formatTimeDifference(abs($clockInDiffNg))))
                     {
                         $f_attendance['clockin_difference'] = "Early by ".$this->formatTimeDifference(abs($clockInDiffNg));
+                        $f_attendance['clockin_difference_time'] = $this->secondsToHMS(abs($clockInDiffNg));
 
                     }else{
                         $f_attendance['clockin_difference'] = "";
@@ -2489,6 +2492,7 @@ class Employee_model extends CI_Model
 
                 $f_attendance['clockin_difference'] = "Late by ".$this->formatTimeDifference(abs($clockInDiffNg));
                 $f_attendance['clockin_late_mark'] = 1;
+                $f_attendance['clockin_difference_time'] = $this->secondsToHMS(abs($clockInDiffNg));
             }
 
             if (!empty($attendance['tto'])) {
@@ -2507,8 +2511,10 @@ class Employee_model extends CI_Model
                     
                         $f_attendance['clockout_difference'] = "Early by ".$this->formatTimeDifference(abs($clockOutDiff));
                         $f_attendance['clockout_early_mark'] = 1;
+                        $f_attendance['clockout_difference_time'] = $this->secondsToHMS(abs($clockOutDiff));
+
                     } else {
-                    
+                        $f_attendance['clockout_difference_time'] = $this->secondsToHMS(abs($clockOutDiff));
                         $f_attendance['clockout_difference'] = "Late by ".$this->formatTimeDifference(abs($clockOutDiff));
                         $f_attendance['clockout_early_mark'] = 0;
                     }
@@ -2516,7 +2522,7 @@ class Employee_model extends CI_Model
                     
 
                 }else{
-
+                    $f_attendance['clockout_difference_time'] = $this->secondsToHMS(abs($clockOutDiffNg));
                     $f_attendance['clockout_difference'] = "Late by ".$this->formatTimeDifference(abs($clockOutDiffNg));
                     $f_attendance['clockout_early_mark'] = 0;
                 }
@@ -2572,15 +2578,29 @@ class Employee_model extends CI_Model
         
         $formattedTime = "";
         if ($hours > 0) {
-            $formattedTime .= $hours . " hr ";
+            $formattedTime .= $hours . " h ";
+        }else{
+            $formattedTime .= "0 h ";
         }
         if ($minutes > 0) {
-            $formattedTime .= $minutes . " min";
+            $formattedTime .= $minutes . " m";
+        }else{
+            $formattedTime .= "0 m";
         }
         
         return $formattedTime;
     }
 
+    function secondsToHMS($seconds) {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $seconds = $seconds % 60;
+
+        // Format the time as h:m:s
+        $formattedTime = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
+
+        return $formattedTime;
+    }
     
     public function daily_attendance_analytics(){
 

@@ -11,7 +11,8 @@ class Customers extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('customers_model', 'customers');
+        $this->load->model('customers_model', 'customers');        
+        $this->load->model('Modules_model','modules');
         $this->load->library("Aauth");
        if (!$this->aauth->is_loggedin()) {
             redirect('/user/', 'refresh');
@@ -1397,4 +1398,5 @@ public function getFileManagement(){
     $this->load->view('customers/file_management_entities_list', $data);
     $this->load->view('fixed/footer');
 }
+
 }

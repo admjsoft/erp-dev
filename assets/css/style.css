@@ -654,4 +654,19 @@ text-transform: capitalize;
     background-color: #007bff;
     color: #fff;
   }
+
+  span.dtr-data[data-color="red"] {
+    color: red;
+}
+
+/* Define styles for 'green' text */
+span.dtr-data[data-color="green"] {
+    color: green;
+}
+
+/* Define styles for 'yellow' text */
+span.dtr-data[data-color="yellow"] {
+    color: yellow;
+}
+
   

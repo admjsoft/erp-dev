@@ -32,8 +32,8 @@
                             <div class="form-group">
                                 <label for="employee"><?php echo $this->lang->line('Select Employee') ?></label>
                                 <input type="text" class="form-control" name="cst" id="employee-box-kpi"
-                                        placeholder="Enter Employee Name"
-                                        autocomplete="off" value="<?php if(!empty($employee_name)){ echo $employee_name; } ?>"/>
+                                    placeholder="Enter Employee Name" autocomplete="off"
+                                    value="<?php if(!empty($employee_name)){ echo $employee_name; } ?>" />
 
                                 <div id="employee-box-kpi-result"></div>
                                 <?php /* ?>
@@ -67,7 +67,7 @@
                             <?php */ ?>
                             <label for="employee"><?php echo $this->lang->line('Date From') ?></label>
                             <input type="date" name="from_date" id="from_date" class="form-control"
-                                placeholder="Date From" />
+                                placeholder="Date From" value="<?php echo date('Y-m-d',strtotime($from_date)); ?>" />
 
                         </div>
                         <div class="col-md-3">
@@ -83,7 +83,7 @@
                             </select>
                             <?php */ ?>
                             <label for="employee"><?php echo $this->lang->line('Date To') ?></label>
-                            <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Date To" />
+                            <input type="date" name="to_date" id="to_date" class="form-control" placeholder="Date To" value="<?php echo date('Y-m-d',strtotime($to_date)); ?>"/>
                         </div>
                         <input type="hidden" id="employee_selected_id" name="employee" value="" />
                         <div class="col-md-3 ">
@@ -95,6 +95,7 @@
                     </div>
                 </form>
                 <?php if(!empty($emp_details) || !empty($from_date) || !empty($from_date)) { ?>
+                <?php /* ?>
                 <div class="container mb-3">
                     <div class="row mb-2">
                         <?php if(!empty($from_date)) { ?>
@@ -122,6 +123,48 @@
                     </div>
                     <?php } ?>
                 </div>
+                <?php */ ?>
+                <div class="container mb-3">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <?php if(!empty($emp_details)) { ?>
+                                <td colspan="2">
+                                    Employee Name : <?php echo $emp_details['username']; ?>
+                                </td>
+                                <?php } ?>
+
+                                <?php if(!empty($from_date)) { ?>
+                                <td colspan="2">
+                                    Start Date : <?php echo date('d-m-Y', strtotime($from_date)); ?>
+                                </td>
+                                <?php } ?>
+                                <?php if(!empty($to_date)) { ?>
+                                <td colspan="2">
+                                    End Date : <?php echo date('d-m-Y', strtotime($to_date)); ?>
+                                </td>
+                                <?php } ?>
+                            </tr>
+                            <?php if(!empty($emp_details)) { ?>
+                            <tr>
+                                
+                                <td colspan="2">
+                                    Employee ID : <?php echo $emp_details['id']; ?>
+                                </td>
+                                
+                                <td colspan="2">
+                                    Position : <?php echo $emp_details['department_name']; ?>
+                                </td>
+                                <td colspan="2">
+                                    Total Attendance : <?php echo $total_attendance; ?> |
+                                    Total Absence : <?php echo $total_absence; ?>
+                                </td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+
                 <?php } ?>
                 <table id="htable" class="table table-striped table-bordered zero-configuration" cellspacing="0"
                     width="100%">
@@ -179,21 +222,22 @@
                     extend: 'excelHtml5',
                     footer: true,
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                     }
                 },
                 {
                     extend: 'print',
                     footer: true,
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5,6, 7, 8, 9, 10, 11, 12]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     footer: true,
-                    customize: function (doc) {
-                        doc.defaultStyle.orientation = 'landscape'; // Set the orientation to landscape
+                    customize: function(doc) {
+                        doc.defaultStyle.orientation =
+                        'landscape'; // Set the orientation to landscape
                     },
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -238,3 +282,4 @@
         });
     });
     </script>
+    
